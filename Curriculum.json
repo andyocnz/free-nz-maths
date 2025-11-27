@@ -1,0 +1,991 @@
+{
+  "years": [
+    {
+      "year": 6,
+      "skills": [
+        {
+          "id": "Y6.N.PLACE_VALUE",
+          "strand": "Number & Algebra",
+          "name": "Place value, naming and rounding whole numbers",
+          "description": "Place value to millions, compare, order, word names, Roman numerals and rounding; includes even/odd rules.",
+          "ixl_refs": ["A"],
+          "templates": [
+            {
+              "id": "Y6.N.PLACE_VALUE.T1",
+              "stem": "Write the number {n} in words.",
+              "params": { "n": ["int", 1, 1000000] },
+              "answer": "number_to_words(n)"
+            },
+            {
+              "id": "Y6.N.PLACE_VALUE.T2",
+              "stem": "Round {n} to the nearest thousand.",
+              "params": { "n": ["int", 1, 999999] },
+              "answer": "round(n, -3)"
+            }
+          ]
+        },
+        {
+          "id": "Y6.N.WHOLE_OPERATIONS",
+          "strand": "Number & Algebra",
+          "name": "Whole number operations and estimation",
+          "description": "Add, subtract, multiply and divide whole numbers; properties, missing digits, inequalities, mixed operations and estimation.",
+          "ixl_refs": ["B", "C", "D", "E", "F", "G", "J", "K"],
+          "templates": [
+            {
+              "id": "Y6.N.WHOLE_OPERATIONS.T1",
+              "stem": "Calculate: {a} + {b} - {c}",
+              "params": { "a": ["int", 10, 999999], "b": ["int", 10, 999999], "c": ["int", 1, 9999] },
+              "answer": "a + b - c"
+            },
+            {
+              "id": "Y6.N.WHOLE_OPERATIONS.T2",
+              "stem": "Estimate: {a} × {b} by rounding each number to the nearest ten.",
+              "params": { "a": ["int", 10, 999], "b": ["int", 10, 999] },
+              "answer": "round(a, -1) * round(b, -1)"
+            }
+          ]
+        },
+        {
+          "id": "Y6.N.EXPONENTS_NUMBER_THEORY",
+          "strand": "Number & Algebra",
+          "name": "Exponents and number theory",
+          "description": "Basic exponents, powers, factors, primes, divisibility, prime factorisation, HCF and LCM.",
+          "ixl_refs": ["H", "I"],
+          "templates": [
+            {
+              "id": "Y6.N.EXPONENTS_NUMBER_THEORY.T1",
+              "stem": "Evaluate: {a}^{p}.",
+              "params": { "a": ["int", 2, 10], "p": ["int", 2, 4] },
+              "answer": "a ** p"
+            },
+            {
+              "id": "Y6.N.EXPONENTS_NUMBER_THEORY.T2",
+              "stem": "What is the highest common factor (HCF) of {a} and {b}?",
+              "params": { "a": ["int", 10, 100], "b": ["int", 10, 100] },
+              "answer": "hcf(a, b)"
+            }
+          ]
+        },
+        {
+          "id": "Y6.N.FRACTIONS",
+          "strand": "Number & Algebra",
+          "name": "Fractions and mixed numbers",
+          "description": "Understand, compare and create equivalent fractions and mixed numbers; convert, round and find fractions of wholes and groups.",
+          "ixl_refs": ["L", "M", "N"],
+          "templates": [
+            {
+              "id": "Y6.N.FRACTIONS.T1",
+              "stem": "Simplify the fraction {num}/{den}.",
+              "params": { "num": ["int", 1, 40], "den": ["int", 2, 40] },
+              "answer": "simplify(num, den)"
+            },
+            {
+              "id": "Y6.N.FRACTIONS.T2",
+              "stem": "A group has {total} students. {num}/{den} of them like football. How many students is that?",
+              "params": { "total": ["int", 10, 60], "num": ["int", 1, 5], "den": ["int", 2, 6] },
+              "answer": "total * num / den"
+            }
+          ]
+        },
+        {
+          "id": "Y6.N.FRACTION_OPERATIONS",
+          "strand": "Number & Algebra",
+          "name": "Add and subtract fractions and mixed numbers",
+          "description": "Add and subtract fractions and mixed numbers with like and related denominators, estimate and use inequalities.",
+          "ixl_refs": ["O"],
+          "templates": [
+            {
+              "id": "Y6.N.FRACTION_OPERATIONS.T1",
+              "stem": "Calculate: {a}/{b} + {c}/{b}.",
+              "params": { "a": ["int", 1, 9], "b": ["int", 2, 12], "c": ["int", 1, 9] },
+              "answer": "simplify(a + c, b)"
+            },
+            {
+              "id": "Y6.N.FRACTION_OPERATIONS.T2",
+              "stem": "Calculate: {w1} {a}/{b} − {w2} {c}/{b}.",
+              "params": {
+                "w1": ["int", 1, 10],
+                "w2": ["int", 0, 9],
+                "a": ["int", 1, 9],
+                "b": ["int", 2, 12],
+                "c": ["int", 1, 9]
+              },
+              "answer": "mixed_subtract(w1,a,b,w2,c,b)"
+            }
+          ]
+        },
+        {
+          "id": "Y6.N.DECIMALS",
+          "strand": "Number & Algebra",
+          "name": "Decimals and decimal operations",
+          "description": "Understand, compare and convert decimals and fractions; add, subtract, multiply and divide decimals; estimate and compare.",
+          "ixl_refs": ["P", "Q", "R", "S", "T", "U", "V"],
+          "templates": [
+            {
+              "id": "Y6.N.DECIMALS.T1",
+              "stem": "Calculate: {x} + {y}.",
+              "params": { "x": ["decimal", 0, 100, 2], "y": ["decimal", 0, 100, 2] },
+              "answer": "x + y"
+            },
+            {
+              "id": "Y6.N.DECIMALS.T2",
+              "stem": "Convert the decimal {x} to a fraction in simplest form.",
+              "params": { "x": ["decimal", 0, 10, 3] },
+              "answer": "decimal_to_fraction_simplified(x)"
+            }
+          ]
+        },
+        {
+          "id": "Y6.N.PERCENTS",
+          "strand": "Number & Algebra",
+          "name": "Percents basics",
+          "description": "Understand percents, convert between percents and fractions, and find percent of a number.",
+          "ixl_refs": ["W"],
+          "templates": [
+            {
+              "id": "Y6.N.PERCENTS.T1",
+              "stem": "What is {p}% of {n}?",
+              "params": { "p": ["int", 5, 90], "n": ["int", 20, 500] },
+              "answer": "n * (p / 100)"
+            },
+            {
+              "id": "Y6.N.PERCENTS.T2",
+              "stem": "Write {p}% as a fraction in simplest form.",
+              "params": { "p": ["int", 1, 100] },
+              "answer": "simplify(p, 100)"
+            }
+          ]
+        },
+        {
+          "id": "Y6.N.MONEY_FINLIT",
+          "strand": "Number & Algebra",
+          "name": "Money and financial literacy",
+          "description": "Work with money amounts, unit prices, change, and simple budgets and records.",
+          "ixl_refs": ["Y", "Z"],
+          "templates": [
+            {
+              "id": "Y6.N.MONEY_FINLIT.T1",
+              "stem": "An item costs ${price} and you pay with ${paid}. How much change should you receive?",
+              "params": { "price": ["decimal", 1, 100, 2], "paid": ["decimal", 1, 200, 2] },
+              "answer": "paid - price"
+            },
+            {
+              "id": "Y6.N.MONEY_FINLIT.T2",
+              "stem": "You earn ${income} and spend ${spend}. What is your balance?",
+              "params": { "income": ["decimal", 10, 500, 2], "spend": ["decimal", 0, 400, 2] },
+              "answer": "income - spend"
+            }
+          ]
+        },
+        {
+          "id": "Y6.N.SEQUENCES_ALGEBRA",
+          "strand": "Number & Algebra",
+          "name": "Number sequences and simple equations",
+          "description": "Complete arithmetic and geometric sequences and solve one-step equations; use simple two-variable tables and graphs.",
+          "ixl_refs": ["AA", "BB"],
+          "templates": [
+            {
+              "id": "Y6.N.SEQUENCES_ALGEBRA.T1",
+              "stem": "The sequence increases by {step} each time. The first term is {first}. What is the 5th term?",
+              "params": { "step": ["int", 1, 10], "first": ["int", 0, 50] },
+              "answer": "first + 4 * step"
+            },
+            {
+              "id": "Y6.N.SEQUENCES_ALGEBRA.T2",
+              "stem": "Solve the equation: x + {a} = {b}.",
+              "params": { "a": ["int", 1, 50], "b": ["int", 10, 100] },
+              "answer": "b - a"
+            }
+          ]
+        },
+        {
+          "id": "Y6.M.TIME",
+          "strand": "Geometry & Measurement",
+          "name": "Time, schedules and elapsed time",
+          "description": "Convert time units, find elapsed time, and interpret schedules and timelines.",
+          "ixl_refs": ["FF"],
+          "templates": [
+            {
+              "id": "Y6.M.TIME.T1",
+              "stem": "A movie starts at {start} and ends at {end}. How many minutes long is it?",
+              "params": { "start": ["time"], "end": ["time"] },
+              "answer": "elapsed_minutes(start, end)"
+            }
+          ]
+        },
+        {
+          "id": "Y6.M.MEASUREMENT",
+          "strand": "Geometry & Measurement",
+          "name": "Metric measurement and temperature",
+          "description": "Choose appropriate metric units and convert between length, mass and volume units; reason about temperature.",
+          "ixl_refs": ["GG"],
+          "templates": [
+            {
+              "id": "Y6.M.MEASUREMENT.T1",
+              "stem": "Convert {cm} centimetres to metres.",
+              "params": { "cm": ["decimal", 0, 10000, 2] },
+              "answer": "cm / 100"
+            }
+          ]
+        },
+        {
+          "id": "Y6.G.GEOMETRY",
+          "strand": "Geometry & Measurement",
+          "name": "2D and 3D shapes, symmetry and measurement",
+          "description": "Identify polygons and 3D shapes, work with angles, symmetry, perimeter, area and volume of cubes and rectangular prisms.",
+          "ixl_refs": ["HH", "II", "JJ", "KK"],
+          "templates": [
+            {
+              "id": "Y6.G.GEOMETRY.T1",
+              "stem": "Find the area of a rectangle with length {l} cm and width {w} cm.",
+              "params": { "l": ["int", 1, 50], "w": ["int", 1, 50] },
+              "answer": "l * w"
+            },
+            {
+              "id": "Y6.G.GEOMETRY.T2",
+              "stem": "A rectangular prism has length {l} cm, width {w} cm and height {h} cm. What is its volume?",
+              "params": { "l": ["int", 1, 20], "w": ["int", 1, 20], "h": ["int", 1, 20] },
+              "answer": "l * w * h"
+            }
+          ]
+        },
+        {
+          "id": "Y6.S.DATA_STATS_PROB",
+          "strand": "Statistics & Probability",
+          "name": "Data, graphs, statistics and probability",
+          "description": "Read and create common graphs, calculate mean/median/mode, and work with simple probability and combinations.",
+          "ixl_refs": ["CC", "DD", "EE"],
+          "templates": [
+            {
+              "id": "Y6.S.DATA_STATS_PROB.T1",
+              "stem": "A bag has {r} red and {b} blue counters. What is the probability of picking a red counter?",
+              "params": { "r": ["int", 1, 10], "b": ["int", 1, 10] },
+              "answer": "r / (r + b)"
+            },
+            {
+              "id": "Y6.S.DATA_STATS_PROB.T2",
+              "stem": "What is the mean of {a}, {b}, and {c}?",
+              "params": { "a": ["int", 0, 50], "b": ["int", 0, 50], "c": ["int", 0, 50] },
+              "answer": "(a + b + c) / 3"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "year": 7,
+      "skills": [
+        {
+          "id": "Y7.N.WHOLE_NUMBER_SENSE",
+          "strand": "Number & Algebra",
+          "name": "Whole numbers, place value and properties",
+          "description": "Place value, naming, Roman numerals, properties of addition and multiplication, estimation and mixed operations with whole numbers.",
+          "ixl_refs": ["A", "B", "C", "D", "O"],
+          "templates": [
+            {
+              "id": "Y7.N.WHOLE_NUMBER_SENSE.T1",
+              "stem": "Estimate: {a} + {b} by rounding each number to the nearest hundred.",
+              "params": { "a": ["int", 100, 9999], "b": ["int", 100, 9999] },
+              "answer": "round(a, -2) + round(b, -2)"
+            },
+            {
+              "id": "Y7.N.WHOLE_NUMBER_SENSE.T2",
+              "stem": "Calculate: {a} × {b} ÷ {c}.",
+              "params": { "a": ["int", 2, 500], "b": ["int", 2, 30], "c": ["int", 2, 30] },
+              "answer": "a * b / c"
+            }
+          ]
+        },
+        {
+          "id": "Y7.N.EXPONENTS_NUMBER_THEORY",
+          "strand": "Number & Algebra",
+          "name": "Powers of ten, exponents and number theory",
+          "description": "Understanding and evaluating powers of ten and other exponents; square roots; factors, primes, HCF, LCM and multiplicative inverses.",
+          "ixl_refs": ["E", "F"],
+          "templates": [
+            {
+              "id": "Y7.N.EXPONENTS_NUMBER_THEORY.T1",
+              "stem": "Write {a} × {a} × {a} using an exponent.",
+              "params": { "a": ["int", 2, 10] },
+              "answer": "a + '^3'"
+            },
+            {
+              "id": "Y7.N.EXPONENTS_NUMBER_THEORY.T2",
+              "stem": "Estimate the square root of {n}.",
+              "params": { "n": ["int", 1, 200] },
+              "answer": "estimate_sqrt(n)"
+            }
+          ]
+        },
+        {
+          "id": "Y7.N.DECIMALS",
+          "strand": "Number & Algebra",
+          "name": "Decimals and decimal operations",
+          "description": "Decimal place value, ordering, rounding, number lines, and operations with decimals including estimation and maps.",
+          "ixl_refs": ["G", "H", "I"],
+          "templates": [
+            {
+              "id": "Y7.N.DECIMALS.T1",
+              "stem": "Put these decimals in order from least to greatest: {x}, {y}, {z}.",
+              "params": {
+                "x": ["decimal", 0, 20, 3],
+                "y": ["decimal", 0, 20, 3],
+                "z": ["decimal", 0, 20, 3]
+              },
+              "answer": "sort([x,y,z])"
+            },
+            {
+              "id": "Y7.N.DECIMALS.T2",
+              "stem": "Calculate: {x} × {y}.",
+              "params": { "x": ["decimal", 0, 50, 2], "y": ["int", 1, 20] },
+              "answer": "x * y"
+            }
+          ]
+        },
+        {
+          "id": "Y7.N.FRACTIONS_RATIONAL",
+          "strand": "Number & Algebra",
+          "name": "Fractions, mixed numbers and rational numbers",
+          "description": "Review and compare fractions and mixed numbers, convert between forms, add and subtract fractions and mixed numbers, and work with rational numbers.",
+          "ixl_refs": ["J", "K", "L", "P"],
+          "templates": [
+            {
+              "id": "Y7.N.FRACTIONS_RATIONAL.T1",
+              "stem": "Convert the improper fraction {num}/{den} to a mixed number.",
+              "params": { "num": ["int", 2, 40], "den": ["int", 2, 12] },
+              "answer": "improper_to_mixed(num, den)"
+            },
+            {
+              "id": "Y7.N.FRACTIONS_RATIONAL.T2",
+              "stem": "Calculate: {a}/{b} + {c}/{d}.",
+              "params": { "a": ["int", 1, 9], "b": ["int", 2, 12], "c": ["int", 1, 9], "d": ["int", 2, 12] },
+              "answer": "simplify(a*d + c*b, b*d)"
+            }
+          ]
+        },
+        {
+          "id": "Y7.N.INTEGERS",
+          "strand": "Number & Algebra",
+          "name": "Integers and integer operations",
+          "description": "Understanding, representing, comparing and ordering integers; adding and subtracting integers using rules and representations.",
+          "ixl_refs": ["M", "N"],
+          "templates": [
+            {
+              "id": "Y7.N.INTEGERS.T1",
+              "stem": "Calculate: {a} + {b}.",
+              "params": { "a": ["int", -30, 30], "b": ["int", -30, 30] },
+              "answer": "a + b"
+            },
+            {
+              "id": "Y7.N.INTEGERS.T2",
+              "stem": "Order these integers from least to greatest: {a}, {b}, {c}.",
+              "params": { "a": ["int", -20, 20], "b": ["int", -20, 20], "c": ["int", -20, 20] },
+              "answer": "sort([a,b,c])"
+            }
+          ]
+        },
+        {
+          "id": "Y7.N.RATIOS_PERCENTS",
+          "strand": "Number & Algebra",
+          "name": "Ratios, rates, proportions and percents",
+          "description": "Ratios, equivalent ratios, unit rates, proportions, scale drawings, percents and percent applications including GST, discounts and interest.",
+          "ixl_refs": ["R", "S", "V"],
+          "templates": [
+            {
+              "id": "Y7.N.RATIOS_PERCENTS.T1",
+              "stem": "Write a ratio of {a} to {b} in simplest form.",
+              "params": { "a": ["int", 1, 50], "b": ["int", 1, 50] },
+              "answer": "simplify_ratio(a, b)"
+            },
+            {
+              "id": "Y7.N.RATIOS_PERCENTS.T2",
+              "stem": "An item costs ${price} and is discounted by {p}%. What is the sale price?",
+              "params": { "price": ["decimal", 5, 200, 2], "p": ["int", 5, 50] },
+              "answer": "price * (1 - p/100)"
+            }
+          ]
+        },
+        {
+          "id": "Y7.N.PROBLEM_SOLVING",
+          "strand": "Number & Algebra",
+          "name": "Problem solving and estimation",
+          "description": "Use estimation, multi-step reasoning, logical strategies and spatial reasoning to solve word problems.",
+          "ixl_refs": ["Q"],
+          "templates": [
+            {
+              "id": "Y7.N.PROBLEM_SOLVING.T1",
+              "stem": "Jamal estimates {a} + {b} by rounding each number to the nearest ten. What estimate does he get?",
+              "params": { "a": ["int", 10, 999], "b": ["int", 10, 999] },
+              "answer": "round(a, -1) + round(b, -1)"
+            }
+          ]
+        },
+        {
+          "id": "Y7.A.EXPRESSIONS_EQUATIONS",
+          "strand": "Number & Algebra",
+          "name": "Expressions, equations and two-variable relationships",
+          "description": "Write and evaluate variable expressions, use properties, solve one-step equations, and work with two-variable equations and graphs.",
+          "ixl_refs": ["Y", "Z", "AA", "BB"],
+          "templates": [
+            {
+              "id": "Y7.A.EXPRESSIONS_EQUATIONS.T1",
+              "stem": "Evaluate 2x + 3y when x = {x} and y = {y}.",
+              "params": { "x": ["int", -10, 10], "y": ["int", -10, 10] },
+              "answer": "2 * x + 3 * y"
+            },
+            {
+              "id": "Y7.A.EXPRESSIONS_EQUATIONS.T2",
+              "stem": "Solve: x - {a} = {b}.",
+              "params": { "a": ["int", 1, 20], "b": ["int", -20, 20] },
+              "answer": "b + a"
+            }
+          ]
+        },
+        {
+          "id": "Y7.G.GEOMETRY_2D_3D",
+          "strand": "Geometry & Measurement",
+          "name": "2D and 3D geometry, symmetry and transformations",
+          "description": "Work with polygons, triangles, quadrilaterals, circles, angle relationships, symmetry, transformations, congruent and similar figures, nets and views of 3D shapes, and perimeter, area, and volume.",
+          "ixl_refs": ["CC", "DD", "EE", "FF", "X"],
+          "templates": [
+            {
+              "id": "Y7.G.GEOMETRY_2D_3D.T1",
+              "stem": "Find the area of a triangle with base {b} cm and height {h} cm.",
+              "params": { "b": ["int", 2, 20], "h": ["int", 2, 20] },
+              "answer": "(b * h) / 2"
+            },
+            {
+              "id": "Y7.G.GEOMETRY_2D_3D.T2",
+              "stem": "A cube has side length {s} cm. What is its volume?",
+              "params": { "s": ["int", 1, 20] },
+              "answer": "s ** 3"
+            }
+          ]
+        },
+        {
+          "id": "Y7.M.MEASUREMENT_TIME_MONEY",
+          "strand": "Geometry & Measurement",
+          "name": "Units, time, money and consumer maths",
+          "description": "Estimate and convert metric units, work with temperature, money operations, sale prices, GST and interest, and solve time and schedule problems.",
+          "ixl_refs": ["T", "U", "V", "W"],
+          "templates": [
+            {
+              "id": "Y7.M.MEASUREMENT_TIME_MONEY.T1",
+              "stem": "Convert {km} kilometres to metres.",
+              "params": { "km": ["decimal", 0, 100, 2] },
+              "answer": "km * 1000"
+            }
+          ]
+        },
+        {
+          "id": "Y7.S.DATA_STATS_PROB",
+          "strand": "Statistics & Probability",
+          "name": "Data, graphs, statistics and probability",
+          "description": "Create and interpret a wide range of graphs and tables, calculate measures of centre and spread, and work with simple and compound probability.",
+          "ixl_refs": ["GG", "HH", "II"],
+          "templates": [
+            {
+              "id": "Y7.S.DATA_STATS_PROB.T1",
+              "stem": "A data set has values {a}, {b}, {c}, {d}. What is the median?",
+              "params": { "a": ["int", 0, 50], "b": ["int", 0, 50], "c": ["int", 0, 50], "d": ["int", 0, 50] },
+              "answer": "median([a,b,c,d])"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "year": 8,
+      "skills": [
+        {
+          "id": "Y8.N.NUMBER_THEORY",
+          "strand": "Number & Algebra",
+          "name": "Number classification, factors and multiples",
+          "description": "Prime/composite, prime factorisation, divisibility, HCF, LCM, multiplicative inverses and classifying numbers.",
+          "ixl_refs": ["A"],
+          "templates": [
+            {
+              "id": "Y8.N.NUMBER_THEORY.T1",
+              "stem": "Write {n} as a product of prime factors.",
+              "params": { "n": ["int", 20, 200] },
+              "answer": "prime_factorisation(n)"
+            }
+          ]
+        },
+        {
+          "id": "Y8.N.INTEGERS",
+          "strand": "Number & Algebra",
+          "name": "Integers and integer operations",
+          "description": "Represent, compare and order integers; work with absolute value and perform all four operations with integers in expressions and word problems.",
+          "ixl_refs": ["C", "D"],
+          "templates": [
+            {
+              "id": "Y8.N.INTEGERS.T1",
+              "stem": "Calculate: {a} - {b}.",
+              "params": { "a": ["int", -50, 50], "b": ["int", -50, 50] },
+              "answer": "a - b"
+            }
+          ]
+        },
+        {
+          "id": "Y8.N.DECIMALS",
+          "strand": "Number & Algebra",
+          "name": "Decimals and decimal operations",
+          "description": "Review, compare and order decimals; perform all four operations with decimals including estimation, expressions, inequalities and map distances.",
+          "ixl_refs": ["E", "F"],
+          "templates": [
+            {
+              "id": "Y8.N.DECIMALS.T1",
+              "stem": "Evaluate: {x} + {y} × {z}.",
+              "params": { "x": ["decimal", -50, 50, 2], "y": ["decimal", -10, 10, 2], "z": ["decimal", -10, 10, 2] },
+              "answer": "x + y * z"
+            }
+          ]
+        },
+        {
+          "id": "Y8.N.FRACTIONS_RATIONAL",
+          "strand": "Number & Algebra",
+          "name": "Fractions, mixed numbers and rational numbers",
+          "description": "Compare, convert and operate with fractions and mixed numbers and extend these ideas to rational numbers, including absolute value and ordering.",
+          "ixl_refs": ["G", "H", "I"],
+          "templates": [
+            {
+              "id": "Y8.N.FRACTIONS_RATIONAL.T1",
+              "stem": "Calculate: {a}/{b} × {c}/{d}.",
+              "params": { "a": ["int", 1, 9], "b": ["int", 2, 12], "c": ["int", 1, 9], "d": ["int", 2, 12] },
+              "answer": "simplify(a * c, b * d)"
+            }
+          ]
+        },
+        {
+          "id": "Y8.N.EXPONENTS_ROOTS",
+          "strand": "Number & Algebra",
+          "name": "Exponents, standard form and roots",
+          "description": "Work with powers and exponents, including variable and fractional bases, standard form, square and cube roots, and estimation.",
+          "ixl_refs": ["J"],
+          "templates": [
+            {
+              "id": "Y8.N.EXPONENTS_ROOTS.T1",
+              "stem": "Evaluate: ({a})^{p}.",
+              "params": { "a": ["decimal", -5, 5, 1], "p": ["int", 2, 4] },
+              "answer": "a ** p"
+            }
+          ]
+        },
+        {
+          "id": "Y8.N.RATIOS_PROPORTIONS",
+          "strand": "Number & Algebra",
+          "name": "Ratios, rates, proportions and proportional reasoning",
+          "description": "Work with ratios, unit rates, proportions, scale drawings, population estimates and rate of change including speed and time problems.",
+          "ixl_refs": ["K", "L"],
+          "templates": [
+            {
+              "id": "Y8.N.RATIOS_PROPORTIONS.T1",
+              "stem": "A recipe uses {a} cups of sugar for {b} servings. How much sugar is needed for {c} servings if the relationship is proportional?",
+              "params": { "a": ["decimal", 0.5, 5, 1], "b": ["int", 2, 20], "c": ["int", 2, 40] },
+              "answer": "a * c / b"
+            }
+          ]
+        },
+        {
+          "id": "Y8.N.PERCENTS_CONSUMER",
+          "strand": "Number & Algebra",
+          "name": "Percents and consumer maths",
+          "description": "Represent and compute percents of quantities, reverse percent problems, and apply percents to real-life contexts such as GST, discounts, mark-ups, interest and budgeting.",
+          "ixl_refs": ["M", "N"],
+          "templates": [
+            {
+              "id": "Y8.N.PERCENTS_CONSUMER.T1",
+              "stem": "An item costing ${price} is discounted by {p}%. What is the sale price?",
+              "params": { "price": ["decimal", 10, 300, 2], "p": ["int", 5, 70] },
+              "answer": "price * (1 - p / 100)"
+            }
+          ]
+        },
+        {
+          "id": "Y8.N.PROBLEM_SOLVING_ESTIMATION",
+          "strand": "Number & Algebra",
+          "name": "Problem solving, estimation and time",
+          "description": "Use estimation strategies and structured methods such as guess-and-check, Venn diagrams and schedule interpretation to solve complex word problems.",
+          "ixl_refs": ["O"],
+          "templates": [
+            {
+              "id": "Y8.N.PROBLEM_SOLVING_ESTIMATION.T1",
+              "stem": "Estimate the result of {a} × {b} by rounding both numbers to one significant figure.",
+              "params": { "a": ["decimal", 1, 999, 1], "b": ["decimal", 1, 999, 1] },
+              "answer": "round_to_sigfig(a,1) * round_to_sigfig(b,1)"
+            }
+          ]
+        },
+        {
+          "id": "Y8.M.MEASUREMENT",
+          "strand": "Geometry & Measurement",
+          "name": "Metric units and precision",
+          "description": "Select appropriate metric units, convert and compare units including area and volume, and understand precision.",
+          "ixl_refs": ["P"],
+          "templates": [
+            {
+              "id": "Y8.M.MEASUREMENT.T1",
+              "stem": "Convert {m2} square metres to hectares.",
+              "params": { "m2": ["decimal", 0, 50000, 1] },
+              "answer": "m2 / 10000"
+            }
+          ]
+        },
+        {
+          "id": "Y8.G.COORDINATE_PLANE",
+          "strand": "Geometry & Measurement",
+          "name": "Coordinate plane and distance",
+          "description": "Work with all four quadrants of the coordinate plane, follow directions and find distance between points.",
+          "ixl_refs": ["Q"],
+          "templates": [
+            {
+              "id": "Y8.G.COORDINATE_PLANE.T1",
+              "stem": "Find the distance between the points ({x1}, {y1}) and ({x2}, {y2}) on a horizontal or vertical line.",
+              "params": { "x1": ["int", -10, 10], "y1": ["int", -10, 10], "x2": ["int", -10, 10], "y2": ["int", -10, 10] },
+              "answer": "abs(x1 - x2) + abs(y1 - y2) == 0 ? 0 : (x1 == x2 ? abs(y1 - y2) : abs(x1 - x2))"
+            }
+          ]
+        },
+        {
+          "id": "Y8.A.SEQUENCES",
+          "strand": "Number & Algebra",
+          "name": "Sequences and patterns",
+          "description": "Identify, extend and represent arithmetic and geometric sequences, and connect them to variable expressions.",
+          "ixl_refs": ["R"],
+          "templates": [
+            {
+              "id": "Y8.A.SEQUENCES.T1",
+              "stem": "The arithmetic sequence starts at {first} and increases by {step}. What is the 10th term?",
+              "params": { "first": ["int", -20, 20], "step": ["int", -10, 10] },
+              "answer": "first + 9 * step"
+            }
+          ]
+        },
+        {
+          "id": "Y8.A.EXPRESSIONS_EQUATIONS",
+          "strand": "Number & Algebra",
+          "name": "Expressions, properties and equations",
+          "description": "Write and evaluate expressions, use properties and like terms, and solve one- and two-step equations and related word problems.",
+          "ixl_refs": ["S", "T"],
+          "templates": [
+            {
+              "id": "Y8.A.EXPRESSIONS_EQUATIONS.T1",
+              "stem": "Simplify: {a}x + {b}x.",
+              "params": { "a": ["int", -10, 10], "b": ["int", -10, 10] },
+              "answer": "(a + b) + 'x'"
+            }
+          ]
+        },
+        {
+          "id": "Y8.A.TWO_VARIABLE",
+          "strand": "Number & Algebra",
+          "name": "Two-variable equations and graphs",
+          "description": "Interpret, represent and graph two-variable linear relationships using equations, tables and graphs.",
+          "ixl_refs": ["U"],
+          "templates": [
+            {
+              "id": "Y8.A.TWO_VARIABLE.T1",
+              "stem": "The equation is y = {m}x + {c}. What is y when x = {x}?",
+              "params": { "m": ["int", -5, 5], "c": ["int", -10, 10], "x": ["int", -10, 10] },
+              "answer": "m * x + c"
+            }
+          ]
+        },
+        {
+          "id": "Y8.G.GEOMETRY",
+          "strand": "Geometry & Measurement",
+          "name": "2D figures, lines and transformations",
+          "description": "Classify polygons and angles, work with angle relationships and polygon sums, lines and transversals, and perform transformations, congruence and similarity.",
+          "ixl_refs": ["V", "W", "X", "Y"],
+          "templates": [
+            {
+              "id": "Y8.G.GEOMETRY.T1",
+              "stem": "Find the missing angle in a triangle with angles {a}° and {b}°.",
+              "params": { "a": ["int", 20, 130], "b": ["int", 20, 130] },
+              "answer": "180 - a - b"
+            }
+          ]
+        },
+        {
+          "id": "Y8.G.GEOMETRIC_MEASUREMENT",
+          "strand": "Geometry & Measurement",
+          "name": "Perimeter, area and volume",
+          "description": "Calculate perimeter and area of rectangles, parallelograms and triangles, and volume of cubes, prisms and cylinders, including compound figures.",
+          "ixl_refs": ["Z"],
+          "templates": [
+            {
+              "id": "Y8.G.GEOMETRIC_MEASUREMENT.T1",
+              "stem": "Find the volume of a cylinder with radius {r} cm and height {h} cm. Use π ≈ 3.14.",
+              "params": { "r": ["decimal", 1, 10, 1], "h": ["decimal", 1, 20, 1] },
+              "answer": "3.14 * r * r * h"
+            }
+          ]
+        },
+        {
+          "id": "Y8.S.DATA_STATS_PROB",
+          "strand": "Statistics & Probability",
+          "name": "Data, graphs, statistics and probability",
+          "description": "Create and interpret many graph types, work with box plots and scatter plots, identify statistical questions, analyse samples, and calculate and interpret probabilities.",
+          "ixl_refs": ["AA", "BB", "CC"],
+          "templates": [
+            {
+              "id": "Y8.S.DATA_STATS_PROB.T1",
+              "stem": "A data set has values {a}, {b}, {c}, {d}, {e}. What is the range?",
+              "params": { "a": ["int", 0, 50], "b": ["int", 0, 50], "c": ["int", 0, 50], "d": ["int", 0, 50], "e": ["int", 0, 50] },
+              "answer": "max([a,b,c,d,e]) - min([a,b,c,d,e])"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "year": 9,
+      "skills": [
+        {
+          "id": "Y9.N.NUMBER_THEORY",
+          "strand": "Number & Algebra",
+          "name": "Number theory and classification",
+          "description": "Factors, divisibility, primes, HCF, LCM and classification of numbers including rational and irrational.",
+          "ixl_refs": ["A", "D"],
+          "templates": [
+            {
+              "id": "Y9.N.NUMBER_THEORY.T1",
+              "stem": "Is √{n} rational or irrational?",
+              "params": { "n": ["int", 2, 200] },
+              "answer": "is_perfect_square(n) ? 'rational' : 'irrational'"
+            }
+          ]
+        },
+        {
+          "id": "Y9.N.INTEGERS_RATIONAL",
+          "strand": "Number & Algebra",
+          "name": "Integers and rational number operations",
+          "description": "Work with integers on number lines and absolute value, and perform all operations on rational numbers in context and in expressions.",
+          "ixl_refs": ["B", "C", "E"],
+          "templates": [
+            {
+              "id": "Y9.N.INTEGERS_RATIONAL.T1",
+              "stem": "Evaluate: {a} - ({b}).",
+              "params": { "a": ["int", -50, 50], "b": ["int", -50, 50] },
+              "answer": "a - b"
+            }
+          ]
+        },
+        {
+          "id": "Y9.N.EXPONENTS_ROOTS_STANDARD",
+          "strand": "Number & Algebra",
+          "name": "Exponents, roots and standard form",
+          "description": "Evaluate and simplify expressions with integer exponents, including negative exponents and exponent rules; work with square and cube roots and convert between ordinary numbers and standard form.",
+          "ixl_refs": ["F", "G"],
+          "templates": [
+            {
+              "id": "Y9.N.EXPONENTS_ROOTS_STANDARD.T1",
+              "stem": "Simplify: {a}^{p} × {a}^{q}.",
+              "params": { "a": ["int", 2, 10], "p": ["int", -3, 5], "q": ["int", -3, 5] },
+              "answer": "a + '^' + (p+q)"
+            }
+          ]
+        },
+        {
+          "id": "Y9.N.RATIOS_PROPORTIONS",
+          "strand": "Number & Algebra",
+          "name": "Ratios, rates and proportional relationships",
+          "description": "Use ratios, rates and proportions, including population estimates and scale, and connect them to proportional relationships and graphs.",
+          "ixl_refs": ["H", "I"],
+          "templates": [
+            {
+              "id": "Y9.N.RATIOS_PROPORTIONS.T1",
+              "stem": "The graph of a proportional relationship has constant of proportionality {k}. What is y when x = {x}?",
+              "params": { "k": ["decimal", -5, 5, 2], "x": ["decimal", -10, 10, 2] },
+              "answer": "k * x"
+            }
+          ]
+        },
+        {
+          "id": "Y9.N.PERCENTS_CONSUMER",
+          "strand": "Number & Algebra",
+          "name": "Percents, percent change and consumer maths",
+          "description": "Convert and compare percents, compute and interpret percents and percent change, and apply them to GST, discounts, mark-up, and interest.",
+          "ixl_refs": ["J", "K"],
+          "templates": [
+            {
+              "id": "Y9.N.PERCENTS_CONSUMER.T1",
+              "stem": "The price increases from ${old} to ${new}. What is the percent change?",
+              "params": { "old": ["decimal", 1, 500, 2], "new": ["decimal", 1, 500, 2] },
+              "answer": "((new - old) / old) * 100"
+            }
+          ]
+        },
+        {
+          "id": "Y9.M.MEASUREMENT",
+          "strand": "Geometry & Measurement",
+          "name": "Metric units, rates and precision",
+          "description": "Convert rates and measurements including area and volume, and reason about precision and appropriate units.",
+          "ixl_refs": ["L"],
+          "templates": [
+            {
+              "id": "Y9.M.MEASUREMENT.T1",
+              "stem": "Convert {m3} cubic metres to litres.",
+              "params": { "m3": ["decimal", 0, 100, 2] },
+              "answer": "m3 * 1000"
+            }
+          ]
+        },
+        {
+          "id": "Y9.N.PROBLEM_SOLVING",
+          "strand": "Number & Algebra",
+          "name": "Problem solving with word problems and time",
+          "description": "Solve multi-step and structured word problems, including Venn diagrams and elapsed time problems.",
+          "ixl_refs": ["M"],
+          "templates": [
+            {
+              "id": "Y9.N.PROBLEM_SOLVING.T1",
+              "stem": "A journey starts at {start} and ends at {end}. How many minutes long is the journey?",
+              "params": { "start": ["time"], "end": ["time"] },
+              "answer": "elapsed_minutes(start, end)"
+            }
+          ]
+        },
+        {
+          "id": "Y9.G.COORDINATE_PLANE",
+          "strand": "Geometry & Measurement",
+          "name": "Coordinate plane and distance",
+          "description": "Review and use the coordinate plane in all quadrants and find distances between points.",
+          "ixl_refs": ["N"],
+          "templates": [
+            {
+              "id": "Y9.G.COORDINATE_PLANE.T1",
+              "stem": "Find the distance between ({x1}, {y1}) and ({x2}, {y2}).",
+              "params": { "x1": ["int", -20, 20], "y1": ["int", -20, 20], "x2": ["int", -20, 20], "y2": ["int", -20, 20] },
+              "answer": "sqrt((x1-x2)**2 + (y1-y2)**2)"
+            }
+          ]
+        },
+        {
+          "id": "Y9.G.GEOMETRY",
+          "strand": "Geometry & Measurement",
+          "name": "2D geometry, angle relationships and circles",
+          "description": "Classify polygons and quadrilaterals, use angle relationships, work with transversals and circle parts.",
+          "ixl_refs": ["O"],
+          "templates": [
+            {
+              "id": "Y9.G.GEOMETRY.T1",
+              "stem": "Find the missing angle formed by complementary angles if one is {a}°.",
+              "params": { "a": ["int", 10, 80] },
+              "answer": "90 - a"
+            }
+          ]
+        },
+        {
+          "id": "Y9.G.TRANSFORMATIONS",
+          "strand": "Geometry & Measurement",
+          "name": "Transformations, congruence and similarity",
+          "description": "Perform and describe reflections, rotations, translations and dilations, and reason with congruent and similar figures.",
+          "ixl_refs": ["P", "Q"],
+          "templates": [
+            {
+              "id": "Y9.G.TRANSFORMATIONS.T1",
+              "stem": "A dilation with scale factor {k} is applied to a segment of length {len}. What is the new length?",
+              "params": { "k": ["decimal", 0.5, 3, 2], "len": ["decimal", 1, 20, 2] },
+              "answer": "k * len"
+            }
+          ]
+        },
+        {
+          "id": "Y9.G.PYTHAGORAS_SOLIDS",
+          "strand": "Geometry & Measurement",
+          "name": "Pythagoras' theorem, area, surface area and volume",
+          "description": "Apply Pythagoras' theorem and its converse and compute perimeter, area, surface area and volume for a range of 2D and 3D shapes including spheres and similar solids.",
+          "ixl_refs": ["R", "S", "T"],
+          "templates": [
+            {
+              "id": "Y9.G.PYTHAGORAS_SOLIDS.T1",
+              "stem": "In a right triangle, the legs are {a} cm and {b} cm. Find the hypotenuse, to one decimal place.",
+              "params": { "a": ["decimal", 1, 50, 1], "b": ["decimal", 1, 50, 1] },
+              "answer": "round(sqrt(a*a + b*b), 1)"
+            }
+          ]
+        },
+        {
+          "id": "Y9.A.SEQUENCES",
+          "strand": "Number & Algebra",
+          "name": "Sequences and series",
+          "description": "Identify and represent arithmetic and geometric sequences, including writing expressions for terms.",
+          "ixl_refs": ["U"],
+          "templates": [
+            {
+              "id": "Y9.A.SEQUENCES.T1",
+              "stem": "An arithmetic sequence has first term {a1} and common difference {d}. What is the nth term?",
+              "params": { "a1": ["int", -10, 10], "d": ["int", -10, 10] },
+              "answer": "a1 + (n-1)*d"
+            }
+          ]
+        },
+        {
+          "id": "Y9.A.EXPRESSIONS_POLYNOMIALS",
+          "strand": "Number & Algebra",
+          "name": "Expressions, polynomials and properties",
+          "description": "Write and evaluate expressions, work with radicals and rationals, simplify linear expressions using properties and like terms, and add, subtract and multiply polynomials.",
+          "ixl_refs": ["V", "AA"],
+          "templates": [
+            {
+              "id": "Y9.A.EXPRESSIONS_POLYNOMIALS.T1",
+              "stem": "Simplify: ({a}x + {b}) + ({c}x + {d}).",
+              "params": { "a": ["int", -10, 10], "b": ["int", -10, 10], "c": ["int", -10, 10], "d": ["int", -10, 10] },
+              "answer": "(a + c) + 'x + ' + (b + d)"
+            }
+          ]
+        },
+        {
+          "id": "Y9.A.EQUATIONS_INEQUALITIES",
+          "strand": "Number & Algebra",
+          "name": "Equations and inequalities",
+          "description": "Solve one-step to multi-step linear equations and inequalities, including equations with like terms and word problems.",
+          "ixl_refs": ["W", "X"],
+          "templates": [
+            {
+              "id": "Y9.A.EQUATIONS_INEQUALITIES.T1",
+              "stem": "Solve: {a}x + {b} = {c}.",
+              "params": { "a": ["int", -10, -1], "b": ["int", -20, 20], "c": ["int", -20, 20] },
+              "answer": "(c - b) / a"
+            }
+          ]
+        },
+        {
+          "id": "Y9.A.FUNCTIONS",
+          "strand": "Number & Algebra",
+          "name": "Linear and nonlinear functions",
+          "description": "Work with linear functions including gradient and graphing, compare linear models, and recognise and evaluate nonlinear functions.",
+          "ixl_refs": ["Y", "Z"],
+          "templates": [
+            {
+              "id": "Y9.A.FUNCTIONS.T1",
+              "stem": "A line has gradient {m} and passes through (0, {c}). What is its equation in the form y = mx + c?",
+              "params": { "m": ["decimal", -5, 5, 2], "c": ["decimal", -10, 10, 2] },
+              "answer": "'y = ' + m + 'x + ' + c"
+            }
+          ]
+        },
+        {
+          "id": "Y9.S.DATA_STATS_PROB",
+          "strand": "Statistics & Probability",
+          "name": "Data, graphs, statistics and probability",
+          "description": "Interpret and create a variety of graphs, calculate and interpret measures of centre and spread, work with box plots and scatter plots, and calculate probabilities including independent and dependent events.",
+          "ixl_refs": ["BB", "CC", "DD"],
+          "templates": [
+            {
+              "id": "Y9.S.DATA_STATS_PROB.T1",
+              "stem": "A spinner has {a} red, {b} blue and {c} green sectors of equal size. What is the probability of spinning blue or green?",
+              "params": { "a": ["int", 1, 5], "b": ["int", 1, 5], "c": ["int", 1, 5] },
+              "answer": "(b + c) / (a + b + c)"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

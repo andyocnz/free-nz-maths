@@ -1,0 +1,39 @@
+Strand,Topic,Skill,QuestionType,Template
+Number,Number Structure,Powers of ten,evaluate_power,Evaluate: {base}^{exponent}
+Number,Number Structure,Factors and HCF,find_hcf,Find the HCF of {num1} and {num2}
+Number,Number Structure,LCM,find_lcm,Find the LCM of {num1} and {num2}
+Number,Number Structure,Square roots,square_root,What is the square root of {num}?
+Number,Operations,Rounding whole numbers,round_whole,Round {num} to the nearest {place}
+Number,Operations,Rounding decimals,round_decimal,Round {num} to {places} decimal places
+Number,Operations,Multiplication,multiply,{num1} × {num2} =
+Number,Operations,Division,divide,{num1} ÷ {num2} =
+Number,Operations,Order of operations,order_ops,{expression} =
+Number,Operations,Integer operations,add_integers,{num1} + {num2} =
+Number,Rational Numbers,Fraction addition,add_fractions,{num1}/{den1} + {num2}/{den2} =
+Number,Rational Numbers,Fraction comparison,compare_fractions,Which is larger: {num1}/{den1} or {num2}/{den2}?
+Number,Rational Numbers,Decimal to fraction,decimal_to_fraction,Convert {decimal} to a fraction
+Number,Rational Numbers,Fraction to percentage,fraction_to_percent,Convert {num}/{den} to a percentage
+Number,Rational Numbers,Percentage of number,percent_of,{percent}% of {num} =
+Number,Rational Numbers,Multiply fractions,multiply_fractions,{num1}/{den1} × {whole} =
+Number,Rational Numbers,Decimal addition,add_decimals,{num1} + {num2} =
+Number,Financial Mathematics,Calculate change,calculate_change,You pay ${paid} for items costing ${cost}. What is your change?
+Number,Financial Mathematics,Percentage discount,percent_discount,A ${price} item has a {percent}% discount. What is the sale price?
+Algebra,Equations,Solve one-step equations,solve_equation,Solve: {coef}x = {result}
+Algebra,Equations,Evaluate expressions,evaluate_expression,If x = {value}, what is {expression}?
+Algebra,Patterns,Number sequences,number_sequence,What is the next number in the sequence: {seq}?
+Measurement,Measuring,Convert metric units,convert_metric,Convert {value} {from_unit} to {to_unit}
+Measurement,Measuring,Calculate speed,calculate_speed,A car travels {distance} km in {time} hours. What is its speed?
+Measurement,Measuring,Time duration,time_duration,A train leaves at {start_time} and arrives at {end_time}. How long is the journey?
+Measurement,Area and Perimeter,Rectangle area,rectangle_area,Area of rectangle {length} cm × {width} cm =
+Measurement,Area and Perimeter,Triangle area,triangle_area,Area of triangle with base {base} cm and height {height} cm =
+Measurement,Area and Perimeter,Perimeter,perimeter,Perimeter of a rectangle {length} cm × {width} cm =
+Geometry,Shapes,Classify triangles,classify_triangle,What type of triangle has sides {side1} cm, {side2} cm, and {side3} cm?
+Geometry,Angles,Angles on a line,angles_line,Two angles on a straight line: one is {angle1}°. What is the other angle?
+Geometry,Angles,Vertically opposite angles,vertical_angles,If one angle is {angle}°, what is the vertically opposite angle?
+Geometry,Coordinates,Plot coordinates,plot_point,What are the coordinates of point at x={x}, y={y}?
+Statistics,Data Analysis,Calculate mean,calculate_mean,Find the mean of: {numbers}
+Statistics,Data Analysis,Calculate median,calculate_median,Find the median of: {numbers}
+Statistics,Data Analysis,Calculate mode,calculate_mode,Find the mode of: {numbers}
+Statistics,Data Analysis,Calculate range,calculate_range,Find the range of: {numbers}
+Probability,Probability,Simple probability,simple_probability,What is the probability of {event}?
+Probability,Probability,List outcomes,list_outcomes,List all possible outcomes when {scenario}

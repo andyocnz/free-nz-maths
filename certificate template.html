@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certificate of Achievement</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Dancing+Script:wght@700&family=Cormorant+Garamond:wght@400;600&display=swap');
+
+    body { background: #faf8f5; padding: 2rem; display: flex; flex-direction: column; align-items: center; }
+
+    #certificate {
+      width: 297mm;
+      height: 210mm;
+      background: white;
+      border: 2px solid #D4AF37;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      position: relative;
+      font-family: 'Cormorant Garamond', serif;
+      color: #222;
+      overflow: hidden;
+    }
+
+    /* Subtle math symbols scattered around – only a few, 50% transparent */
+    #certificate::after {
+      content: "π ∑ ∫ ∞ ∂ √ ∝ ∇ λ";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      font-size: 140px;
+      opacity: 0.05;
+      color: #D4AF37;
+      pointer-events: none;
+      z-index: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 8%;
+      letter-spacing: 180px;
+    }
+
+    .content { position: relative; z-index: 1; padding: 50px 90px 40px; height: 100%; display: flex; flex-direction: column; justify-content: space-between; }
+
+    .title { font-family: 'Playfair Display', serif; font-size: 64px; text-align: center; margin: 0; color: #222; }
+    .subtitle { font-family: 'Playfair Display', serif; font-size: 40px; text-align: center; color: #C5A66B; margin: 5px 0 25px; }
+    .presented { text-align: center; font-size: 16px; color: #555; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 3px; }
+    .name { font-family: 'Dancing Script', cursive; font-size: 72px; text-align: center; color: #3C5B6F; margin: 15px 0; }
+    .name-line { height: 3px; background: #C5A66B; width: 450px; margin: 15px auto; }
+    .description { text-align: center; font-size: 20px; line-height: 1.6; max-width: 900px; margin: 0 auto; }
+    .highlight { color: #C5A66B; font-weight: bold; }
+    .topic { color: #3C5B6F; font-weight: bold; }
+    .date { text-align: center; margin-top: 25px; font-size: 18px; font-weight: 600; }
+
+    @media print {
+      body { padding: 0; background: white; }
+      #saveBtn { display: none; }
+      #certificate { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <button id="saveBtn" class="mb-8 px-10 py-4 bg-[#3C5B6F] text-white text-lg font-semibold rounded-lg shadow hover:bg-[#2c4a5c]">
+    Save as PDF
+  </button>
+
+  <div id="certificate">
+    <div class="content">
+      <div>
+        <h1 class="title">CERTIFICATE</h1>
+        <p class="subtitle">of Achievement</p>
+        <p class="presented">is proudly presented to</p>
+
+        <div class="name">Marceline Anderson</div>
+        <div class="name-line"></div>
+
+        <p class="description">
+          For successfully achieving a score of <span class="highlight">98%</span> in the
+          <span class="topic">Advanced Calculus Mastery</span> topic at Mathx.nz,<br>
+          demonstrating exemplary competence and unwavering commitment to educational progression.
+        </p>
+
+        <p class="date">Awarded on November 26, 2025</p>
+      </div>
+
+      <!-- New footer with your requested seal + signature -->
+      <div class="flex flex-col items-center" style="margin-top: 30px;">
+        <!-- Gold Seal -->
+        <div class="w-16 h-16 mb-3">
+          <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full drop-shadow-lg">
+            <defs>
+              <radialGradient id="goldSealGradient" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" style="stop-color:#FFD700" />
+                <stop offset="60%" style="stop-color:#DAA520" />
+                <stop offset="100%" style="stop-color:#B8860B" />
+              </radialGradient>
+            </defs>
+            <circle cx="50" cy="50" r="48" fill="url(#goldSealGradient)" stroke="#B8860B" stroke-width="1"/>
+            <circle cx="50" cy="50" r="40" fill="none" stroke="#FFF" stroke-width="1" stroke-dasharray="2 2"/>
+            <path d="M50 15 L60 40 L85 40 L65 55 L75 80 L50 65 L25 80 L35 55 L15 40 L40 40 Z" fill="#FFF" opacity="0.9"/>
+            <text x="50" y="58" text-anchor="middle" font-size="10" fill="#DAA520" font-weight="bold">HONOR</text>
+          </svg>
+        </div>
+
+        <!-- Signature -->
+        <div class="text-center">
+          <svg viewBox="0 0 160 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-12 w-auto mx-auto mb-1">
+            <path d="M 20 40 C 40 20, 60 20, 70 40 C 80 55, 90 50, 100 35 C 110 20, 130 20, 150 40 C 160 50, 170 40, 165 35"
+                  stroke="#000000" stroke-width="4" stroke-linecap="round" fill="none"/>
+            <text x="15" y="55" font-family="'Dancing Script', cursive" font-size="45" font-weight="700" fill="#000000">Mathx</text>
+          </svg>
+          <div class="h-px bg-black w-48 mx-auto"></div>
+          <p class="text-xs uppercase tracking-widest mt-1 font-semibold text-gray-800">
+            Certification Authority
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('saveBtn').addEventListener('click', () => {
+      const { jsPDF } = window.jspdf;
+      html2canvas(document.getElementById('certificate'), { scale: 3, useCORS: true }).then(canvas => {
+        const imgData = canvas.toDataURL('image/png');
+        const pdf = new jsPDF('l', 'mm', 'a4');
+        pdf.addImage(imgData, 'PNG', 0, 0, 297, 210);
+        pdf.save('Certificate_Marceline_Anderson.pdf');
+      });
+    });
+  </script>
+</body>
+</html>

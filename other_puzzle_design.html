@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Year 7 Math Mastery Platform</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for a polished look */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f7fafc; 
+        }
+        .text-gradient {
+            background-image: linear-gradient(to right, #03A9F4, #4CAF50);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .card-shadow {
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); 
+        }
+
+        /* Hero Background and Canvas Container Styling */
+        .hero-bg {
+            background-color: #0d1a2b; 
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* The Math Visual Container */
+        #math-visual-wrapper {
+            background-color: white; 
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        #math-visual-container {
+            position: relative; 
+            width: 100%;
+            aspect-ratio: 1 / 1; /* Keep it square */
+            margin: 0 auto;
+            overflow: hidden;
+            background-color: #f8fafc; 
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        #math-visual-canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        /* Interactive Button Styles */
+        .action-button {
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 9999px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .check-button {
+            background-color: #0d1a2b;
+            color: white;
+        }
+        .check-button:hover {
+            background-color: #1f2937;
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+        .explain-button {
+            background-color: #e5e7eb;
+            color: #1f2937;
+        }
+        .explain-button:hover {
+            background-color: #d1d5db;
+        }
+        .new-puzzle-button {
+            background-color: #4CAF50;
+            color: white;
+            box-shadow: 0 4px 6px rgba(76, 175, 80, 0.4);
+        }
+        .new-puzzle-button:hover {
+            background-color: #43a047;
+        }
+
+
+        /* Style for the Curriculum Topic Tags */
+        .topic-tag {
+            background-color: #e0f2fe;
+            color: #0c4a6e;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            cursor: default;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+    <!-- Navigation Bar -->
+    <header class="bg-white card-shadow sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <!-- Logo/Branding -->
+            <a href="#" class="text-2xl font-extrabold text-gradient">
+                MathMastery
+            </a>
+            <!-- Sign Up Button -->
+            <button onclick="showLoginMessage()" 
+                    class="bg-[#4CAF50] hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300 shadow-md">
+                Login / Sign Up
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Hero Section -->
+    <section class="pt-16 pb-20 md:pt-24 md:pb-32 hero-bg relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-12 relative z-10">
+            
+            <!-- Left Content: Headline and Call-to-Action -->
+            <div class="lg:w-1/2 text-center lg:text-left">
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-4 text-white">
+                    Master Your <span class="text-gradient">Year 7 Maths</span> Skills
+                </h1>
+                <p class="text-xl text-gray-300 mb-8 max-w-xl mx-auto lg:mx-0">
+                    Interactive, curriculum-aligned practice built for confidence and mastery. Stop struggling, start succeeding!
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <!-- CTA updated to focus on personalized, self-paced learning -->
+                    <button onclick="showLoginMessage()" 
+                            class="bg-[#03A9F4] hover:bg-sky-500 text-white font-bold py-3 px-8 rounded-xl transition duration-300 shadow-lg transform hover:scale-[1.02] active:scale-[0.98]">
+                        Start Your Personalized Learning Path →
+                    </button>
+                    <button onclick="scrollToCurriculum()"
+                            class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-3 px-8 rounded-xl transition duration-300 transform hover:scale-[1.02] active:scale-[0.98]">
+                        View Curriculum Map
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Content: Interactive Math Visual -->
+            <div class="lg:w-1/2">
+                <div id="math-visual-wrapper" class="text-center">
+                    <h3 id="puzzle-title" class="text-xl font-bold mb-4 text-gray-800">
+                        Fraction Puzzle: Click to shade 0/0
+                    </h3>
+
+                    <div id="math-visual-container">
+                        <canvas id="math-visual-canvas"></canvas>
+                    </div>
+
+                    <div class="mt-6 flex flex-wrap justify-center gap-3">
+                        <button id="check-btn" class="action-button check-button">
+                            Check
+                        </button>
+                        <button id="new-puzzle-btn" class="action-button new-puzzle-button">
+                            New Puzzle
+                        </button>
+                        <button onclick="showExplanation()" class="action-button explain-button">
+                            Show Explanation
+                        </button>
+                    </div>
+                    <div id="fraction-output" class="text-2xl font-bold mt-4 text-[#03A9F4]">
+                        Shaded: 0/0
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="flex-grow">
+        <!-- Curriculum Map Preview Section -->
+        <section id="curriculum-map" class="py-16 bg-[#f7fafc]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-gray-800">
+                    Your Complete Year 7 Maths Roadmap
+                </h2>
+                <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
+                    We cover every topic, allowing you to jump straight into the areas you need to practice most.
+                </p>
+
+                <div class="flex flex-wrap justify-center gap-3">
+                    <span class="topic-tag">Rational Numbers (Fractions, Decimals)</span>
+                    <span class="topic-tag">Algebraic Techniques (Expressions)</span>
+                    <span class="topic-tag">Linear Equations</span>
+                    <span class="topic-tag">Measurement (Perimeter, Area)</span>
+                    <span class="topic-tag">Angles and Geometry</span>
+                    <span class="topic-tag">Data Representation & Analysis</span>
+                    <span class="topic-tag">Percentages & Ratios</span>
+                    <span class="topic-tag">Integers (Negative Numbers)</span>
+                    <span class="topic-tag">Probability Basics</span>
+                    <span class="topic-tag">Indices and Powers</span>
+                </div>
+
+                <button onclick="showLoginMessage()" 
+                        class="mt-10 bg-gray-700 hover:bg-gray-900 text-white font-semibold py-3 px-6 rounded-xl transition duration-300 shadow-lg">
+                    See All Sub-Topics & Start a Lesson
+                </button>
+            </div>
+        </section>
+
+
+        <!-- Features Section -->
+        <section class="py-16 bg-[#f0f9ff]">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h2 class="text-3xl sm:text-4xl font-bold text-center mb-12 text-gray-800">
+                    How We Guarantee <span class="text-gradient">Student Success</span>
+                </h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Feature 1: Curriculum Alignment -->
+                    <div class="bg-white p-6 rounded-xl card-shadow text-center transition duration-300 feature-card">
+                        <div class="text-5xl text-[#4CAF50] mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-10 w-10 mx-auto"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">School-Aligned Content</h3>
+                        <p class="text-sm text-gray-600">Every single question follows the official Year 7 syllabus, ensuring maximum relevance.</p>
+                    </div>
+
+                    <!-- Feature 2: Instant Feedback -->
+                    <div class="bg-white p-6 rounded-xl card-shadow text-center transition duration-300 feature-card">
+                        <div class="text-5xl text-[#FFC107] mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-10 w-10 mx-auto"><path d="M12 2L4 12h7l-3 10 11-7H13l3-4z"/></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">Guided Discovery</h3>
+                        <p class="text-sm text-gray-600">Get immediate, targeted feedback and hints—we teach you the 'why,' not just the answer.</p>
+                    </div>
+
+                    <!-- Feature 3: Self-Paced Study -->
+                    <div class="bg-white p-6 rounded-xl card-shadow text-center transition duration-300 feature-card">
+                        <div class="text-5xl text-[#E91E63] mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-10 w-10 mx-auto"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">Study At Your Pace</h3>
+                        <p class="text-sm text-gray-600">No pressure, no deadlines. Spend extra time on difficult topics until you achieve mastery.</p>
+                    </div>
+
+                    <!-- Feature 4: Progress Tracking -->
+                    <div class="bg-white p-6 rounded-xl card-shadow text-center transition duration-300 feature-card">
+                        <div class="text-5xl text-[#03A9F4] mb-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-10 w-10 mx-auto"><path d="M18 22V5.5c0-.83-.67-1.5-1.5-1.5H7.5C6.67 4 6 4.67 6 5.5V22"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47 1-1 1H7c-.55 0-1-.45-1-1v-2.34c0-.20.08-.39.22-.53l2.8-2.8c.2-.2.53-.2.73 0l2.8 2.8c.14.14.22.33.22.53z"/></svg>
+                        </div>
+                        <h3 class="text-lg font-semibold mb-2">Track Mastery Level</h3>
+                        <p class="text-sm text-gray-600">Visual reports show your mastery level for every skill, celebrating every win.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
+            &copy; 2025 MathMastery Platform. Built for Year 7 Success.
+        </div>
+    </footer>
+
+    <!-- Simple Modal/Message Box (Replaces alert()) -->
+    <div id="message-modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-75 flex items-center justify-center z-[100]">
+        <div class="bg-white p-6 rounded-xl shadow-2xl max-w-sm w-full">
+            <h3 id="modal-title" class="text-xl font-bold mb-3 text-gray-800"></h3>
+            <p id="modal-text" class="text-gray-600 mb-6"></p>
+            <button onclick="hideMessage()" class="w-full bg-[#03A9F4] hover:bg-sky-500 text-white font-semibold py-2 rounded-lg transition duration-300">
+                Got It!
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // --- Modal Control Functions ---
+        const modal = document.getElementById('message-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalText = document.getElementById('modal-text');
+
+        function showMessage(title, text) {
+            modalTitle.textContent = title;
+            modalText.textContent = text;
+            modal.classList.remove('hidden');
+        }
+
+        function hideMessage() {
+            modal.classList.add('hidden');
+        }
+
+        // --- Demo Button Actions ---
+        function showLoginMessage() {
+            showMessage(
+                "Demo Feature", 
+                "In the final application, this button will initiate the secure sign-up process, leading directly into your personalized dashboard."
+            );
+        }
+
+        let dynamicShowExplanation = () => {
+             showMessage("Explanation", "No puzzle loaded yet.");
+        };
+
+        // Global function updated to use the dynamic explanation from the current puzzle
+        function showExplanation() {
+            dynamicShowExplanation();
+        }
+
+        // --- Interactive Fraction Puzzle Manager ---
+        window.onload = function () {
+            const canvas = document.getElementById('math-visual-canvas');
+            const ctx = canvas.getContext('2d');
+            const checkBtn = document.getElementById('check-btn');
+            const newPuzzleBtn = document.getElementById('new-puzzle-btn');
+            const fractionOutput = document.getElementById('fraction-output');
+            const puzzleTitle = document.getElementById('puzzle-title');
+            let width, height;
+            
+            const SHADED_COLOR = '#FFC107'; // Bright yellow for shading
+            const HOVER_COLOR = '#4CAF50'; // Green for hover
+            const BASE_COLOR = 'white';
+
+            let currentPuzzle = null;
+            let targetShadedCount = 0;
+            let hoveredIndex = -1;
+
+            // Utility for converting degrees to radians
+            const TAU = 2 * Math.PI;
+
+            // --- Utility Functions ---
+
+            function drawShape(points, fillColor, strokeColor = '#0d1a2b') {
+                if (points.length < 3) return;
+                ctx.beginPath();
+                ctx.moveTo(points[0].x, points[0].y);
+                for (let i = 1; i < points.length; i++) {
+                    ctx.lineTo(points[i].x, points[i].y);
+                }
+                ctx.closePath();
+                ctx.fillStyle = fillColor;
+                ctx.fill();
+                ctx.strokeStyle = strokeColor;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            }
+
+            function isPointInTriangle(px, py, t) {
+                const p1 = {x: t.points[0].x, y: t.points[0].y};
+                const p2 = {x: t.points[1].x, y: t.points[1].y};
+                const p3 = {x: t.points[2].x, y: t.points[2].y};
+                
+                function sign(x1, y1, x2, y2, x3, y3) {
+                    return (x1 - x3) * (y2 - y3) - (x2 - x3) * (y1 - y3);
+                }
+
+                const d1 = sign(px, py, p1.x, p1.y, p2.x, p2.y);
+                const d2 = sign(px, py, p2.x, p2.y, p3.x, p3.y);
+                const d3 = sign(px, py, p3.x, p3.y, p1.x, p1.y);
+
+                const has_neg = (d1 < 0) || (d2 < 0) || (d3 < 0);
+                const has_pos = (d1 > 0) || (d2 > 0) || (d3 > 0);
+
+                return !(has_neg && has_pos);
+            }
+            
+            function isPointInRect(px, py, t) {
+                const x = t.points[0].x;
+                const y = t.points[0].y;
+                const w = t.width;
+                const h = t.height;
+                return px >= x && px <= x + w && py >= y && py <= y + h;
+            }
+
+            function isPointInCircleSector(px, py, sector) {
+                const dx = px - sector.center.x;
+                const dy = py - sector.center.y;
+                const distSq = dx * dx + dy * dy;
+
+                // 1. Check if point is inside the radius
+                if (distSq > sector.radius * sector.radius) {
+                    return false;
+                }
+
+                // 2. Check the angle
+                let angle = Math.atan2(dy, dx); 
+                // Normalize angle to 0 to 2*PI (or 0 to TAU)
+                if (angle < 0) angle += TAU;
+
+                let start = sector.startAngle;
+                let end = sector.endAngle;
+
+                // Handle sectors that cross the 0/2*PI boundary
+                if (start > end) {
+                    // e.g., 3*PI/2 to PI/2 (270deg to 90deg)
+                    return angle >= start || angle <= end;
+                }
+
+                return angle >= start && angle <= end;
+            }
+
+
+            function getMousePos(event) {
+                const rect = canvas.getBoundingClientRect();
+                return {
+                    x: event.clientX - rect.left,
+                    y: event.clientY - rect.top
+                };
+            }
+
+            function getShadedCount() {
+                // Check if currentPuzzle is initialized before trying to access properties
+                return currentPuzzle ? currentPuzzle.parts.filter(p => p.isShaded).length : 0;
+            }
+
+            // --- Puzzle Definitions ---
+
+            const TrianglePuzzle = {
+                name: 'Sierpinski Fraction',
+                totalParts: 4,
+                parts: [],
+                initialize: () => {
+                    TrianglePuzzle.parts = [];
+                    const padding = 10;
+                    const side = Math.min(width, height) - 2 * padding;
+                    const h = side * (Math.sqrt(3) / 2);
+                    
+                    const P_T = { x: width / 2, y: padding };
+                    const P_BR = { x: P_T.x + side / 2, y: padding + h };
+                    const P_BL = { x: P_T.x - side / 2, y: padding + h };
+                    
+                    const M_TR = { x: (P_T.x + P_BR.x) / 2, y: (P_T.y + P_BR.y) / 2 };
+                    const M_TL = { x: (P_T.x + P_BL.x) / 2, y: (P_T.y + P_BL.y) / 2 };
+                    const M_B = { x: (P_BL.x + P_BR.x) / 2, y: P_BL.y };
+
+                    // Define the 4 equal parts
+                    TrianglePuzzle.parts.push({ points: [P_T, M_TR, M_TL], isShaded: false, checkHit: isPointInTriangle });
+                    TrianglePuzzle.parts.push({ points: [M_TR, P_BR, M_B], isShaded: false, checkHit: isPointInTriangle });
+                    TrianglePuzzle.parts.push({ points: [M_TL, M_B, P_BL], isShaded: false, checkHit: isPointInTriangle });
+                    TrianglePuzzle.parts.push({ points: [M_TL, M_TR, M_B], isShaded: false, checkHit: isPointInTriangle });
+
+                    // Set target: Randomly choose 1 to 3 parts to be the answer.
+                    targetShadedCount = Math.floor(Math.random() * (TrianglePuzzle.totalParts - 1)) + 1; 
+
+                    // Start unshaded
+                    TrianglePuzzle.parts.forEach(p => p.isShaded = false); 
+
+                    // Set the dynamic explanation for the current puzzle
+                    dynamicShowExplanation = () => {
+                        showMessage(
+                            "Explanation/Hint",
+                            `The large triangle is divided into ${TrianglePuzzle.totalParts} equal parts. Click on the parts until you shade ${targetShadedCount}/${TrianglePuzzle.totalParts}.`
+                        );
+                    };
+                },
+                draw: () => {
+                    const P_T = TrianglePuzzle.parts[0].points[0];
+                    const P_BR = TrianglePuzzle.parts[1].points[1];
+                    const P_BL = TrianglePuzzle.parts[2].points[2];
+                    
+                    // Draw bounding triangle background
+                    drawShape([P_T, P_BR, P_BL], '#e0f2fe', '#0d1a2b'); 
+
+                    TrianglePuzzle.parts.forEach((p, index) => {
+                        let fillColor = p.isShaded ? SHADED_COLOR : BASE_COLOR;
+                        if (index === hoveredIndex) {
+                            fillColor = p.isShaded ? HOVER_COLOR : '#f0f9ff'; 
+                        }
+                        drawShape(p.points, fillColor);
+                    });
+                }
+            };
+
+            const SquarePuzzle = {
+                name: 'Grid Fraction',
+                totalParts: 9,
+                parts: [],
+                initialize: () => {
+                    SquarePuzzle.parts = [];
+                    const padding = 10;
+                    const size = Math.min(width, height) - 2 * padding;
+                    const cellSize = size / 3;
+                    const startX = (width - size) / 2;
+                    const startY = (height - size) / 2;
+
+                    for (let row = 0; row < 3; row++) {
+                        for (let col = 0; col < 3; col++) {
+                            const x = startX + col * cellSize;
+                            const y = startY + row * cellSize;
+                            SquarePuzzle.parts.push({
+                                points: [{ x: x, y: y }], // Use as top-left corner
+                                width: cellSize,
+                                height: cellSize,
+                                isShaded: false,
+                                checkHit: isPointInRect
+                            });
+                        }
+                    }
+
+                    // Set target: Randomly choose 3 to 6 parts to be the answer.
+                    const minShaded = 3;
+                    const maxShaded = 6;
+                    targetShadedCount = Math.floor(Math.random() * (maxShaded - minShaded + 1)) + minShaded;
+                    
+                    // Start unshaded
+                    SquarePuzzle.parts.forEach(p => p.isShaded = false); 
+
+                    // Set the dynamic explanation for the current puzzle
+                    dynamicShowExplanation = () => {
+                        showMessage(
+                            "Explanation/Hint",
+                            `This 3x3 grid has ${SquarePuzzle.totalParts} equal parts. Click on the grid cells until you shade ${targetShadedCount}/${SquarePuzzle.totalParts}.`
+                        );
+                    };
+                },
+                draw: () => {
+                    const padding = 10;
+                    const size = Math.min(width, height) - 2 * padding;
+                    const startX = (width - size) / 2;
+                    const startY = (height - size) / 2;
+
+                    // Draw bounding square background
+                    drawShape([
+                        {x: startX, y: startY}, 
+                        {x: startX + size, y: startY}, 
+                        {x: startX + size, y: startY + size}, 
+                        {x: startX, y: startY + size}
+                    ], '#e0f2fe', '#0d1a2b'); 
+
+                    SquarePuzzle.parts.forEach((p, index) => {
+                        let fillColor = p.isShaded ? SHADED_COLOR : BASE_COLOR;
+                        if (index === hoveredIndex) {
+                            fillColor = p.isShaded ? HOVER_COLOR : '#f0f9ff'; 
+                        }
+                        
+                        ctx.beginPath();
+                        ctx.rect(p.points[0].x, p.points[0].y, p.width, p.height);
+                        ctx.fillStyle = fillColor;
+                        ctx.fill();
+                        ctx.strokeStyle = '#0d1a2b';
+                        ctx.lineWidth = 2;
+                        ctx.stroke();
+                    });
+                }
+            };
+
+            const CirclePuzzle = {
+                name: 'Pie Chart Fraction',
+                totalParts: 0,
+                parts: [],
+                center: { x: 0, y: 0 },
+                radius: 0,
+                initialize: () => {
+                    CirclePuzzle.parts = [];
+                    const padding = 10;
+                    CirclePuzzle.radius = (Math.min(width, height) / 2) - padding;
+                    CirclePuzzle.center = { x: width / 2, y: height / 2 };
+
+                    // Randomly choose total parts: 6, 8, or 10
+                    const possibleParts = [6, 8, 10];
+                    CirclePuzzle.totalParts = possibleParts[Math.floor(Math.random() * possibleParts.length)];
+                    const angleStep = TAU / CirclePuzzle.totalParts;
+                    
+                    let currentAngle = 0;
+
+                    for (let i = 0; i < CirclePuzzle.totalParts; i++) {
+                        const startAngle = currentAngle;
+                        const endAngle = currentAngle + angleStep;
+                        
+                        CirclePuzzle.parts.push({
+                            center: CirclePuzzle.center,
+                            radius: CirclePuzzle.radius,
+                            startAngle: startAngle,
+                            endAngle: endAngle,
+                            isShaded: false,
+                            checkHit: isPointInCircleSector
+                        });
+
+                        currentAngle = endAngle;
+                    }
+
+                    // Set target: Randomly choose 1 to totalParts - 1
+                    targetShadedCount = Math.floor(Math.random() * (CirclePuzzle.totalParts - 1)) + 1;
+                    
+                    // Start unshaded
+                    CirclePuzzle.parts.forEach(p => p.isShaded = false); 
+
+                    // Set the dynamic explanation for the current puzzle
+                    dynamicShowExplanation = () => {
+                        showMessage(
+                            "Explanation/Hint",
+                            `The circle is divided into ${CirclePuzzle.totalParts} equal sectors. Click on the sectors until you shade ${targetShadedCount}/${CirclePuzzle.totalParts}.`
+                        );
+                    };
+                },
+                draw: () => {
+                    const center = CirclePuzzle.center;
+                    const radius = CirclePuzzle.radius;
+
+                    // Draw the entire circle boundary
+                    ctx.beginPath();
+                    ctx.arc(center.x, center.y, radius, 0, TAU);
+                    ctx.fillStyle = '#e0f2fe';
+                    ctx.fill();
+                    ctx.strokeStyle = '#0d1a2b';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+
+                    // Draw individual sectors
+                    CirclePuzzle.parts.forEach((sector, index) => {
+                        let fillColor = sector.isShaded ? SHADED_COLOR : BASE_COLOR;
+                        if (index === hoveredIndex) {
+                            fillColor = sector.isShaded ? HOVER_COLOR : '#f0f9ff'; 
+                        }
+
+                        ctx.beginPath();
+                        ctx.moveTo(center.x, center.y);
+                        ctx.arc(center.x, center.y, radius, sector.startAngle, sector.endAngle);
+                        ctx.closePath();
+                        ctx.fillStyle = fillColor;
+                        ctx.fill();
+                        ctx.strokeStyle = '#0d1a2b';
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    });
+                }
+            };
+            
+            // Add the new puzzle to the array
+            const allPuzzles = [TrianglePuzzle, SquarePuzzle, CirclePuzzle];
+
+            // --- Manager Functions ---
+
+            function generateNewPuzzle() {
+                const randomIndex = Math.floor(Math.random() * allPuzzles.length);
+                currentPuzzle = allPuzzles[randomIndex];
+
+                // 1. Initialize the chosen puzzle geometry and target
+                currentPuzzle.initialize(); 
+
+                // 2. Update UI text to show the goal
+                puzzleTitle.textContent = `${currentPuzzle.name}: Click to shade ${targetShadedCount}/${currentPuzzle.totalParts}`;
+
+                // 3. Force initial draw
+                draw();
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, width, height);
+                if (currentPuzzle) {
+                    currentPuzzle.draw();
+                }
+                // Safely update fraction output using null checks
+                fractionOutput.textContent = `Shaded: ${getShadedCount()}/${currentPuzzle ? currentPuzzle.totalParts : 0}`;
+            }
+            
+            function resizeCanvas() {
+                const container = document.getElementById('math-visual-container');
+                width = container.clientWidth;
+                height = container.clientHeight;
+                canvas.width = width;
+                canvas.height = height;
+
+                if (currentPuzzle) {
+                    // Re-initialize geometry on resize
+                    currentPuzzle.initialize(); 
+                }
+                draw();
+            }
+
+            // --- Event Listeners ---
+            
+            canvas.addEventListener('mousemove', function(event) {
+                if (!currentPuzzle) return;
+                const pos = getMousePos(event);
+                let newHoverIndex = -1;
+
+                for (let i = 0; i < currentPuzzle.parts.length; i++) {
+                    // Check hit for the specific part's type (Triangle, Rect, or Sector)
+                    if (currentPuzzle.parts[i].checkHit(pos.x, pos.y, currentPuzzle.parts[i])) {
+                        newHoverIndex = i;
+                        break;
+                    }
+                }
+
+                if (newHoverIndex !== hoveredIndex) {
+                    hoveredIndex = newHoverIndex;
+                    draw(); 
+                }
+            });
+
+            canvas.addEventListener('click', function(event) {
+                if (!currentPuzzle) return;
+
+                if (hoveredIndex !== -1) {
+                    const t = currentPuzzle.parts[hoveredIndex];
+                    
+                    // Toggle shading
+                    t.isShaded = !t.isShaded;
+                    
+                    // Recalculate hover state and redraw
+                    hoveredIndex = -1; 
+                    draw(); 
+                }
+            });
+
+            checkBtn.addEventListener('click', function() {
+                if (!currentPuzzle) return;
+                const shaded = getShadedCount();
+                const total = currentPuzzle.totalParts;
+
+                if (shaded === targetShadedCount) {
+                    showMessage(
+                        "Correct! 🎉",
+                        `You have successfully shaded ${shaded}/${total}. Click 'New Puzzle' to try a different fraction challenge!`
+                    );
+                } else {
+                    showMessage(
+                        "Try Again 🤔",
+                        `You have shaded ${shaded}/${total}. Remember, the challenge is to shade ${targetShadedCount}/${total}. Check the hint if you need it!`
+                    );
+                }
+            });
+
+            newPuzzleBtn.addEventListener('click', generateNewPuzzle);
+            window.addEventListener('resize', resizeCanvas);
+
+            // Initial setup and draw
+            resizeCanvas();
+            generateNewPuzzle();
+        }
+    </script>
+</body>
+</html>

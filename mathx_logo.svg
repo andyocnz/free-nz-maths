@@ -1,0 +1,40 @@
+<svg width="200" height="50" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+      .font-main { font-family: 'Montserrat', sans-serif; font-weight: 500;} /* Changed to 500 for less bold */
+      .font-light { font-weight: 400; } /* Ensured .nz is lighter */
+    </style>
+  </defs>
+  <g id="Sigma" transform="translate(0, 5)">
+    <path 
+      d="M 35 7.5 L 5 7.5 L 20 25 L 5 42.5 L 35 42.5 M 30 12.5 L 10 12.5 M 10 37.5 L 30 37.5"
+      stroke="#1f2937"
+      stroke-width="2.5"
+      stroke-linecap="butt"
+      stroke-linejoin="round"
+    />
+  </g>
+  <g id="Text" transform="translate(38, 0)">
+    <!-- Mathx --><text 
+      x="0" 
+      y="40" 
+      font-size="40" 
+      fill="#1f2937" 
+      class="font-main" 
+      letter-spacing="-1"
+    >
+      Mathx
+    </text>
+
+    <!-- .nz - Adjusted x position to prevent squishing and ensure proper spacing --><text 
+      x="122" /* Adjusted from 120 to 122 to give it more space */
+      y="40" 
+      font-size="20" 
+      fill="#4b5563" 
+      class="font-main font-light" /* Applied font-light for less bold */
+    >
+      .nz
+    </text>
+  </g>
+</svg>

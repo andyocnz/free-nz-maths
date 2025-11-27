@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">Mathx.nz</title>
+    <!-- ADDED: Favicon link for local SVG -->
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap');
+
+        :root {
+            --brand-blue: #0077B6;
+            --brand-sky: #00BFFF;
+            --brand-green: #4CAF50;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc; /* Fallback color */
+            
+            /* UPDATED: Softer, lighter gray grid lines (#f3f4f6) */
+            background-image: 
+                repeating-linear-gradient(0deg, #f3f4f6, #f3f4f6 1px, transparent 1px, transparent 20px),
+                repeating-linear-gradient(90deg, #f3f4f6, #f3f4f6 1px, transparent 1px, transparent 20px);
+            background-size: 20px 20px;
+            /* END UPDATED */
+
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+            color: #1e293b;
+        }
+
+        /* --- CANVAS BACKGROUND --- */
+        #canvas-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Behind everything */
+            pointer-events: auto; /* Allow mouse interaction */
+        }
+
+        /* --- UI STYLING (Glassmorphism) --- */
+        
+        .text-gradient {
+            background-image: linear-gradient(to right, #0077B6, #00BFFF);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Glass Cards */
+        .card-shadow {
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        /* Hover effects */
+        .year-card, .topic-card {
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+        .year-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 119, 182, 0.15);
+            border-color: #0077B6;
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        /* Buttons */
+        .action-button {
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            border-radius: 9999px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Header Glass */
+        #app-header {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.5);
+        }
+
+        /* Sidebar Glass */
+        #question-sidebar {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(10px);
+            border-right: 1px solid rgba(255,255,255,0.6);
+        }
+
+        /* Input typography */
+        input {
+            font-family: 'JetBrains Mono', monospace; 
+        }
+
+        /* Selection styles */
+        .sidebar-active {
+            font-weight: 700;
+            color: #0077B6;
+            background-color: rgba(0, 119, 182, 0.1);
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: default;
+            border-left: 3px solid #0077B6;
+        }
+        .sidebar-item {
+            padding: 4px 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-left: 3px solid transparent;
+        }
+        .sidebar-item:hover {
+            background-color: rgba(0,0,0,0.03);
+        }
+
+        /* Feedback States */
+        .puzzle-feedback.correct {
+            background-color: rgba(230, 255, 237, 0.8);
+            border-color: #4CAF50;
+            color: #1a472a;
+        }
+        .puzzle-feedback.incorrect {
+            background-color: rgba(255, 234, 234, 0.8);
+            border-color: #F44336;
+            color: #4d0000;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- CANVAS BACKGROUND -->
+    <canvas id="canvas-bg"></canvas>
+
+    <!-- Navigation Bar -->
+    <header id="app-header" class="sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <!-- Logo - Updated to use SVG with text fallback -->
+            <div class="flex items-center space-x-4">
+                <button onclick="renderPage('LANDING')" title="Go to Main Landing Page" class="flex items-center focus:outline-none transition hover:opacity-80">
+                    <div class="text-2xl font-extrabold text-gradient flex items-center">
+                        
+                        <!-- Logo Image Attempt (mathx_logo.svg) -->
+                        <img src="mathx_logo.svg" alt="Mathx.nz Logo" 
+                             id="logo-image" 
+                             class="h-8 w-auto mr-2" 
+                             onerror="document.getElementById('logo-text-fallback').classList.remove('hidden'); this.style.display='none';" 
+                             onload="document.getElementById('logo-text-fallback').classList.add('hidden'); this.style.display='inline';"
+                             style="display:none;"> <!-- Initially hidden -->
+
+                        <!-- Text Fallback (Visible by default until image loads) -->
+                        <span id="logo-text-fallback" class="flex items-center">
+                            <!-- Original icon and text -->
+                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l-2-2m-8 2v10a1 1 0 001 1h3M13 10l-2 2m-8 2h8m-8 0a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            Mathx.nz
+                        </span>
+                    </div>
+                </button>
+            </div>
+            <!-- Dynamic Right Button -->
+            <div id="header-right-button"></div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <div id="app-content" class="flex-grow w-full z-10 relative">
+
+        <!-- 1. MAIN LANDING VIEW -->
+        <main id="main-landing-view" class="w-full flex-grow hidden">
+
+            <!-- SECTION 1: HERO / LANDING PAGE -->
+            <section id="hero-section" class="pt-20 pb-20 mb-8">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+
+                    <!-- Text Content -->
+                    <div class="text-left animate-fade-in-up">
+                        <div class="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider text-blue-600 uppercase bg-blue-100/80 rounded-full backdrop-blur-sm">
+                            Next Gen Learning
+                        </div>
+                        <h1 class="text-6xl md:text-7xl font-extrabold text-slate-800 mb-6 leading-tight">
+                            Master Your <br><span class="text-gradient">Math Curriculum</span>
+                        </h1>
+                        <p class="text-xl md:text-2xl text-slate-600 mb-8 font-light leading-relaxed">
+                            An adaptive platform that visualizes your progress and connects concepts dynamically.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <a href="#year-selection-section" class="action-button bg-[#0077B6] hover:bg-sky-700 text-white text-lg text-center shadow-lg shadow-blue-500/30 transition transform hover:-translate-y-1">
+                                Start Learning
+                            </a>
+                            <a href="#topics-overview-section" class="action-button bg-white/60 hover:bg-white text-gray-800 text-lg text-center border border-white backdrop-blur-md">
+                                Explore Map
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Puzzle -->
+                    <div class="flex justify-center items-center p-4">
+                        <div id="interactive-puzzle-card" class="bg-white/70 backdrop-blur-xl p-8 rounded-2xl shadow-xl card-shadow border border-white/50 max-w-sm w-full mx-auto transform transition duration-500 hover:scale-[1.01]">
+                            <h3 class="text-2xl font-bold text-[#0077B6] mb-4 flex items-center">
+                                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                Daily Challenge
+                            </h3>
+                            <p class="text-lg font-medium text-slate-700 mb-4" id="puzzle-prompt">Loading...</p>
+                            <p class="text-3xl font-extrabold text-slate-800 mb-6 bg-slate-50/50 border border-slate-200/50 p-3 rounded-lg text-center font-mono tracking-widest" id="puzzle-sequence"></p>
+                            
+                            <div class="flex gap-3 mb-4">
+                                <input type="number" id="puzzle-input" placeholder="?" class="flex-grow p-3 border-2 border-gray-200 bg-white/60 rounded-lg focus:border-[#0077B6] outline-none text-lg font-mono text-center">
+                                <button id="puzzle-check-btn" onclick="checkPuzzleAnswer()" class="action-button bg-[#4CAF50] hover:bg-green-600 text-white flex-shrink-0 shadow-lg shadow-green-500/30">Check</button>
+                            </div>
+                            <div id="puzzle-feedback" class="hidden p-3 rounded-lg border-l-4 text-sm"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: YEAR SELECTION -->
+            <div id="year-selection-section" class="bg-blue-50/50 py-16 mb-8 backdrop-blur-sm border-t border-b border-blue-100/50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-slate-800 mb-4">2. Choose Your Level</h2>
+                    <p class="text-lg md:text-xl text-slate-500 mb-12">Select the year that corresponds to your current curriculum.</p>
+
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <a href="index.html?year=6" class="year-card bg-white/80 p-8 rounded-2xl border-2 border-[#0077B6] card-shadow block">
+                            <div class="text-6xl font-bold text-[#0077B6] mb-4 font-mono">6</div>
+                            <h3 class="text-xl font-semibold text-gray-800">Year 6</h3>
+                            <p class="text-sm text-gray-500 mt-1">Foundation</p>
+                        </a>
+                        <a href="index.html?year=7" class="year-card bg-white/80 p-8 rounded-2xl border-2 border-[#0077B6] card-shadow block">
+                            <div class="text-6xl font-bold text-[#0077B6] mb-4 font-mono">7</div>
+                            <h3 class="text-xl font-semibold text-gray-800">Year 7</h3>
+                            <p class="text-sm text-gray-500 mt-1">Foundation</p>
+                        </a>
+                        <a href="index.html?year=8" class="year-card bg-white/60 p-8 rounded-2xl border border-white card-shadow block">
+                            <div class="text-6xl font-bold text-gray-600 mb-4 font-mono">8</div>
+                            <h3 class="text-xl font-semibold text-gray-800">Year 8</h3>
+                            <p class="text-sm text-gray-500 mt-1">Intermediate</p>
+                        </a>
+                        <a href="index.html?year=9" class="year-card bg-white/60 p-8 rounded-2xl border border-white card-shadow block">
+                            <div class="text-6xl font-bold text-gray-400 mb-4 font-mono">9</div>
+                            <h3 class="text-xl font-semibold text-gray-800">Year 9</h3>
+                            <p class="text-sm text-gray-500 mt-1">Advanced</p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: CURRICULUM OVERVIEW -->
+            <div class="py-16 bg-slate-100/40 backdrop-blur-sm">
+                <section id="topics-overview-section" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-left p-8 bg-white/80 rounded-2xl card-shadow border border-white/50 pt-10">
+                        <h2 class="text-4xl md:text-5xl font-extrabold text-slate-800 mb-8 text-center">3. Curriculum Map</h2>
+                        <p class="text-lg md:text-xl text-slate-500 mb-10 text-center">Explore all topics across all years - click any skill to start practicing!</p>
+
+                        <!-- Dynamic curriculum content will be loaded here -->
+                        <div id="curriculum-content" class="space-y-12">
+                            <p class="text-center text-gray-500">Loading curriculum...</p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </main>
+
+
+        <!-- 2. CURRICULUM MAP VIEW -->
+        <main id="curriculum-view" class="w-full flex-grow py-8 md:py-16 hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <h1 id="curriculum-title" class="text-4xl font-extrabold text-gray-800 mb-2">Learning Path</h1>
+                <p class="text-xl text-gray-500 mb-10">Your personalized roadmap.</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                    <!-- Cards with improved glassmorphism -->
+                    <button onclick="renderPage('QUESTION', globalState.currentYear, 'Ratio & Proportion')" class="topic-card bg-white/80 p-6 rounded-xl card-shadow block text-left">
+                        <div class="flex justify-between items-start mb-2">
+                             <h2 class="text-xl font-bold text-gray-800">Ratio & Proportion</h2>
+                             <span class="bg-green-100/80 text-green-800 text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">DONE</span>
+                        </div>
+                        <p class="text-gray-500 mb-4 text-sm">Simplifying ratios, unit rates.</p>
+                        <div class="h-1.5 bg-gray-200 rounded-full mb-4"><div class="h-full bg-[#4CAF50] rounded-full" style="width: 92%;"></div></div>
+                        <div class="w-full border border-[#4CAF50] text-[#4CAF50] font-semibold py-2 rounded-lg text-center text-sm hover:bg-green-50 transition">Review</div>
+                    </button>
+
+                    <button onclick="renderPage('QUESTION', globalState.currentYear, 'Indices & Roots')" class="topic-card bg-white/90 p-6 rounded-xl border-2 border-[#0077B6] card-shadow block text-left transform scale-105 shadow-xl">
+                         <div class="flex justify-between items-start mb-2">
+                             <h2 class="text-xl font-bold text-gray-800">Indices & Roots</h2>
+                             <span class="bg-blue-100/80 text-blue-800 text-xs font-bold px-2 py-1 rounded backdrop-blur-sm">ACTIVE</span>
+                        </div>
+                        <p class="text-gray-500 mb-4 text-sm">Laws of exponents.</p>
+                        <div class="h-1.5 bg-gray-200 rounded-full mb-4"><div class="h-full bg-[#0077B6] rounded-full" style="width: 45%;"></div></div>
+                        <div class="w-full bg-[#0077B6] text-white font-semibold py-2 rounded-lg text-center text-sm shadow-md hover:bg-[#006090] transition">Continue</div>
+                    </button>
+
+                     <button onclick="renderPage('QUESTION', globalState.currentYear, 'Linear Graphs')" class="topic-card bg-white/60 p-6 rounded-xl card-shadow block text-left">
+                        <h2 class="text-xl font-bold text-gray-800 mb-2">Linear Graphs</h2>
+                        <p class="text-gray-500 mb-4 text-sm">Plotting points, gradients.</p>
+                         <div class="h-1.5 bg-gray-200 rounded-full mb-4"><div class="h-full bg-gray-400" style="width: 0%;"></div></div>
+                        <div class="w-full bg-gray-200 text-gray-600 font-semibold py-2 rounded-lg text-center text-sm hover:bg-gray-300 transition">Start</div>
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- 3. QUESTION PAGE VIEW -->
+        <main id="question-view-container" class="w-full flex-grow hidden">
+            <div class="max-w-7xl mx-auto w-full flex">
+                <aside id="question-sidebar" class="w-64 p-6 sticky top-24 h-[calc(100vh-100px)] overflow-y-auto hidden lg:block rounded-xl mr-6 card-shadow">
+                    <h3 id="sidebar-title" class="text-lg font-bold text-gray-800 mb-4 border-b pb-2"></h3>
+                    <div id="sidebar-topics" class="space-y-1"></div>
+                </aside>
+
+                <div class="flex-grow py-8 px-4 sm:px-6 w-full">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="mb-6 bg-white/60 p-4 rounded-xl backdrop-blur-md card-shadow">
+                            <div class="flex justify-between items-end mb-2">
+                                 <h3 id="question-topic-title" class="text-lg font-bold text-slate-800"></h3>
+                                 <span class="text-sm font-mono text-[#0077B6]">33%</span>
+                            </div>
+                            <div class="h-2 bg-gray-200/50 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-[#0077B6] to-[#00BFFF]" style="width: 33%;"></div></div>
+                        </div>
+
+                        <div class="bg-white/90 p-6 sm:p-8 rounded-2xl card-shadow border border-white/50 backdrop-blur-xl">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 border-b border-gray-100 pb-4">
+                                <span id="topic-tag-display" class="text-xs font-bold tracking-wide bg-blue-50 text-[#0077B6] px-3 py-1 rounded-full uppercase"></span>
+                                <span class="text-xl font-extrabold text-gray-800 font-mono">Q.004</span>
+                            </div>
+
+                            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
+                                <div class="lg:col-span-2">
+                                    <p class="text-2xl font-medium text-gray-800 leading-relaxed">
+                                        Evaluate <span class="font-mono bg-blue-50/50 px-2 py-1 rounded border border-blue-100 text-[#0077B6]">$3(x - 4) + x^2$</span> <br>
+                                        if <span class="font-mono">$x = 5$</span>.
+                                    </p>
+                                    <div class="mt-6 p-4 bg-amber-50/60 rounded-lg border border-amber-200/50 text-amber-900 text-sm flex items-start backdrop-blur-sm">
+                                        <svg class="w-5 h-5 mr-2 flex-shrink-0 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <span><strong>Hint:</strong> Remember order of operations (PEMDAS).</span>
+                                    </div>
+                                </div>
+                                <div class="lg:col-span-1 p-4 bg-slate-50/50 rounded-xl flex items-center justify-center border-2 border-dashed border-slate-200 min-h-[150px]">
+                                    <p class="text-slate-400 italic text-center text-sm">Interactive Workspace</p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col md:flex-row gap-4 items-center border-t border-gray-100 pt-6">
+                                <label class="font-semibold text-gray-700">Result:</label>
+                                <input type="number" id="answer-input" placeholder="..." class="flex-grow w-full md:w-auto p-3 border-2 border-gray-200 rounded-lg focus:border-[#0077B6] text-xl font-mono bg-white/80">
+                                <button id="check-btn" onclick="checkAnswer()" class="action-button check-button w-full md:w-auto bg-[#0077B6] text-white hover:bg-[#005a9e] shadow-lg shadow-blue-500/30">Check Answer</button>
+                            </div>
+                            <div id="feedback-box" class="hidden mt-6 p-4 rounded-xl border-l-4" role="alert"></div>
+                        </div>
+
+                        <div class="mt-8 flex justify-center gap-4">
+                            <button onclick="showModal('Hint', 'Substitute x=5 first: 3(5-4) + 5^2')" class="action-button bg-amber-400 hover:bg-amber-500 text-white shadow-lg shadow-amber-400/30">💡 Hint</button>
+                            <button onclick="showModal('Skip', 'Moving to next question...')" class="action-button bg-white hover:bg-gray-50 text-gray-600 border border-gray-200">Skip →</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal -->
+    <div id="message-modal" class="hidden fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-[100]">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-sm w-full transform transition-all scale-100">
+            <h3 id="modal-title" class="text-2xl font-bold mb-3 text-gray-800"></h3>
+            <p id="modal-text" class="text-gray-600 mb-8"></p>
+            <button onclick="document.getElementById('message-modal').classList.add('hidden')" class="w-full bg-[#0077B6] text-white font-bold py-3 rounded-xl shadow-lg">Got it</button>
+        </div>
+    </div>
+
+    <!-- SCRIPT: UI & CANVAS LOGIC -->
+    <script>
+        // --- 1. UI LOGIC (Mathx App) ---
+        const VIEWS = { LANDING: 'LANDING', CURRICULUM: 'CURRICULUM', QUESTION: 'QUESTION' };
+        let globalState = { currentPage: VIEWS.LANDING, currentYear: 7, currentTopic: 'Evaluating Expressions', currentPuzzle: null };
+
+        const mathPuzzles = [
+            { prompt: "Next term?", sequence: "1, 4, 9, 16, 25, ?", answer: 36, explanation: "Square numbers ($n^2$)" },
+            { prompt: "Next number?", sequence: "3, 6, 12, 24, ?", answer: 48, explanation: "Multiply by 2" },
+            { prompt: "Pattern?", sequence: "1, 1, 2, 3, 5, 8, ?", answer: 13, explanation: "Fibonacci Sequence" }
+        ];
+
+        function getDynamicPuzzle() {
+            const p = mathPuzzles[Math.floor(Math.random() * mathPuzzles.length)];
+            globalState.currentPuzzle = p;
+            document.getElementById('puzzle-prompt').textContent = p.prompt;
+            document.getElementById('puzzle-sequence').innerHTML = p.sequence.replace('?', '<span class="text-red-500">?</span>');
+            document.getElementById('puzzle-input').value = '';
+            document.getElementById('puzzle-feedback').classList.add('hidden');
+        }
+
+        function checkPuzzleAnswer() {
+            const val = parseInt(document.getElementById('puzzle-input').value);
+            const box = document.getElementById('puzzle-feedback');
+            box.classList.remove('hidden', 'correct', 'incorrect');
+            if (val === globalState.currentPuzzle.answer) {
+                box.classList.add('correct');
+                box.innerHTML = `<strong>Correct!</strong> ${globalState.currentPuzzle.explanation}`;
+            } else {
+                box.classList.add('incorrect');
+                box.innerHTML = '<strong>Try again.</strong>';
+            }
+        }
+
+        function renderPage(page, year = 7, topic = '') {
+            globalState.currentPage = page;
+            globalState.currentYear = year;
+            globalState.currentTopic = topic;
+            
+            ['main-landing-view', 'curriculum-view', 'question-view-container'].forEach(id => document.getElementById(id).classList.add('hidden'));
+            const headerBtn = document.getElementById('header-right-button');
+            headerBtn.innerHTML = '';
+
+            if (page === VIEWS.LANDING) {
+                document.getElementById('main-landing-view').classList.remove('hidden');
+                headerBtn.innerHTML = '<button onclick="showModal(\'Login\', \'Educator portal coming soon.\')" class="bg-[#4CAF50] text-white py-2 px-4 rounded-full hover:bg-green-600 shadow-md">Hi, Guest</button>';
+                getDynamicPuzzle();
+            } else if (page === VIEWS.CURRICULUM) {
+                document.getElementById('curriculum-view').classList.remove('hidden');
+                document.getElementById('curriculum-title').textContent = `Year ${year} Map`;
+                headerBtn.innerHTML = '<button onclick="renderPage(\'LANDING\')" class="text-gray-500 hover:text-[#0077B6]">← Home</button>';
+            } else if (page === VIEWS.QUESTION) {
+                document.getElementById('question-view-container').classList.remove('hidden');
+                document.getElementById('question-topic-title').textContent = topic;
+                document.getElementById('topic-tag-display').textContent = topic;
+                headerBtn.innerHTML = `<button onclick="renderPage('CURRICULUM', ${year})" class="text-gray-500 hover:text-[#0077B6]">← Map</button>`;
+                
+                // Sidebar
+                const sb = document.getElementById('sidebar-topics');
+                sb.innerHTML = '';
+                // Placeholder list of topics
+                ['Ratio', 'Indices', 'Linear Graphs', 'Algebra'].forEach((t, i) => {
+                    const div = document.createElement('div');
+                    div.textContent = `${i+1}. ${t}`;
+                    // Highlight the current topic
+                    div.className = t === topic || (topic.includes(t)) ? 'sidebar-active' : 'sidebar-item text-gray-600';
+                    div.onclick = () => renderPage('QUESTION', year, t);
+                    sb.appendChild(div);
+                });
+            }
+            window.scrollTo(0,0);
+        }
+
+        function checkAnswer() {
+            // Hardcoded answer check for the placeholder question: 3(5-4) + 5^2 = 3(1) + 25 = 3 + 25 = 28
+            const val = parseInt(document.getElementById('answer-input').value);
+            const fb = document.getElementById('feedback-box');
+            fb.classList.remove('hidden', 'bg-green-50', 'border-green-500', 'text-green-800', 'bg-red-50', 'border-red-500', 'text-red-800');
+            if(val === 28) {
+                fb.classList.add('bg-green-50', 'border-green-500', 'text-green-800');
+                fb.innerHTML = '<strong>Correct!</strong> Well done.';
+            } else {
+                fb.classList.add('bg-red-50', 'border-red-500', 'text-red-800');
+                fb.innerHTML = '<strong>Incorrect.</strong> Check your calculation.';
+            }
+        }
+
+        function showModal(title, text) {
+            document.getElementById('modal-title').textContent = title;
+            document.getElementById('modal-text').textContent = text;
+            document.getElementById('message-modal').classList.remove('hidden');
+        }
+
+        // --- 2. CANVAS BACKGROUND ANIMATION ---
+        const canvas = document.getElementById('canvas-bg');
+        const ctx = canvas.getContext('2d');
+        let width, height;
+        let particles = [];
+        let mathSymbols = [];
+        
+        // Configuration
+        const config = {
+            particleCount: 60,
+            symbolCount: 15,
+            connectionDistance: 150,
+            mouseDistance: 200,
+            color: 'rgba(0, 119, 182, 0.5)', // Brand Blue
+            lineColor: 'rgba(0, 119, 182, 0.15)'
+        };
+
+        let mouse = { x: null, y: null };
+
+        // Math Symbols
+        const symbols = ['π', '∑', '∫', '∞', '√', 'x', '÷', '+', '≠', '≈', 'α', 'β', 'γ', 'Δ', 'θ'];
+
+        class Particle {
+            constructor(isSymbol = false) {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 3 + 1;
+                this.isSymbol = isSymbol;
+                
+                if (this.isSymbol) {
+                    this.text = symbols[Math.floor(Math.random() * symbols.length)];
+                    this.vx *= 1.5; // Symbols move slightly faster
+                    this.vy *= 1.5;
+                    this.size = Math.random() * 14 + 10; // Font size
+                }
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                // Wall bounce
+                if (this.x < 0 || this.x > width) this.vx *= -1;
+                if (this.y < 0 || this.y > height) this.vy *= -1;
+
+                // Mouse interaction
+                if (mouse.x != null) {
+                    let dx = mouse.x - this.x;
+                    let dy = mouse.y - this.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+                    
+                    if (distance < config.mouseDistance) {
+                        const forceDirectionX = dx / distance;
+                        const forceDirectionY = dy / distance;
+                        const force = (config.mouseDistance - distance) / config.mouseDistance;
+                        // Gently push away
+                        const directionX = forceDirectionX * force * (this.isSymbol ? 2 : 1);
+                        const directionY = forceDirectionY * force * (this.isSymbol ? 2 : 1);
+                        this.vx -= directionX * 0.05;
+                        this.vy -= directionY * 0.05;
+                    }
+                }
+            }
+
+            draw() {
+                if (this.isSymbol) {
+                    ctx.font = `${this.size}px 'JetBrains Mono'`;
+                    ctx.fillStyle = 'rgba(0, 119, 182, 0.3)';
+                    ctx.fillText(this.text, this.x, this.y);
+                } else {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                    ctx.fillStyle = config.color;
+                    ctx.fill();
+                }
+            }
+        }
+
+        function initCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            particles = [];
+            mathSymbols = [];
+
+            // Create geometric nodes
+            for (let i = 0; i < config.particleCount; i++) {
+                particles.push(new Particle(false));
+            }
+            // Create math symbols
+            for (let i = 0; i < config.symbolCount; i++) {
+                mathSymbols.push(new Particle(true));
+            }
+        }
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, width, height);
+            
+            // 1. Draw Geometric Mesh (Nodes & Edges)
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update();
+                particles[i].draw();
+
+                // Draw connections
+                for (let j = i; j < particles.length; j++) {
+                    let dx = particles[i].x - particles[j].x;
+                    let dy = particles[i].y - particles[j].y;
+                    let distance = Math.sqrt(dx*dx + dy*dy);
+
+                    if (distance < config.connectionDistance) {
+                        ctx.beginPath();
+                        // Fading lines based on distance
+                        let opacity = 1 - (distance / config.connectionDistance);
+                        ctx.strokeStyle = `rgba(0, 119, 182, ${opacity * 0.15})`;
+                        ctx.lineWidth = 1;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                        // Close is not needed for lines, but the loop continues
+                    }
+                }
+            }
+            
+            // 2. Update and Draw Symbols
+            for(let i = 0; i < mathSymbols.length; i++) {
+                mathSymbols[i].update();
+                mathSymbols[i].draw();
+            }
+
+            requestAnimationFrame(animateCanvas);
+        }
+
+        // --- Event Listeners and Setup ---
+        
+        // Handle window resize
+        window.addEventListener('resize', initCanvas);
+
+        // Handle mouse movement for interaction
+        canvas.addEventListener('mousemove', (event) => {
+            mouse.x = event.x;
+            mouse.y = event.y;
+        });
+
+        // Clear mouse position when it leaves the canvas area
+        canvas.addEventListener('mouseleave', () => {
+            mouse.x = null;
+            mouse.y = null;
+        });
+
+        // Start the UI and animation loop on load
+        window.onload = function() {
+            renderPage(VIEWS.LANDING);
+            initCanvas();
+            animateCanvas();
+            
+            // Check image status immediately in case it's cached
+            const logoImage = document.getElementById('logo-image');
+            if (logoImage.complete) {
+                 if (logoImage.naturalWidth === 0) {
+                    // Image failed to load or is not present
+                    document.getElementById('logo-text-fallback').classList.remove('hidden'); 
+                    logoImage.style.display = 'none';
+                 } else {
+                    // Image loaded successfully
+                    document.getElementById('logo-text-fallback').classList.add('hidden');
+                    logoImage.style.display = 'inline';
+                 }
+            }
+        }
+
+        // Load and render curriculum data
+        async function loadCurriculum() {
+            try {
+                const response = await fetch('/src/curriculumDataFull.json')
+                const curriculumData = await response.json()
+                renderCurriculum(curriculumData)
+            } catch (error) {
+                console.error('Error loading curriculum:', error)
+                document.getElementById('curriculum-content').innerHTML = '<p class="text-center text-red-500">Error loading curriculum data</p>'
+            }
+        }
+
+        function renderCurriculum(data) {
+            const container = document.getElementById('curriculum-content')
+            let html = ''
+
+            data.years.forEach((yearData, yearIdx) => {
+                const yearColors = ['#0077B6', '#00BFFF', '#4CAF50', '#FF9800']
+                const color = yearColors[yearIdx % yearColors.length]
+
+                html += `<div class="year-section" data-year="${yearData.year}" id="year-${yearData.year}-section">`
+                html += `<h3 class="text-3xl font-bold mb-6" style="color: ${color};">Year ${yearData.year}</h3>`
+
+                // Group skills by strand
+                const strands = {}
+                yearData.skills.forEach(skill => {
+                    if (!strands[skill.strand]) {
+                        strands[skill.strand] = []
+                    }
+                    strands[skill.strand].push(skill)
+                })
+
+                // Render each strand
+                Object.entries(strands).forEach(([strandName, skills]) => {
+                    html += `<div class="mb-8">`
+                    html += `<h4 class="text-xl font-semibold text-gray-700 mb-4">${strandName}</h4>`
+                    html += `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">`
+
+                    skills.forEach(skill => {
+                        html += `
+                            <a href="index.html?year=${yearData.year}&skill=${skill.id}"
+                               class="block p-4 bg-white border-2 border-gray-200 rounded-lg hover:border-[${color}] hover:shadow-lg transition-all duration-200 group">
+                                <div class="font-semibold text-gray-800 group-hover:text-[${color}] transition-colors mb-1">${skill.name}</div>
+                                <div class="text-sm text-gray-500">${skill.description || 'Click to practice'}</div>
+                            </a>
+                        `
+                    })
+
+                    html += `</div></div>`
+                })
+
+                html += `</div>`
+            })
+
+            container.innerHTML = html
+        }
+
+        // Make year buttons scroll to that year's section
+        function scrollToYear(year) {
+            const section = document.getElementById(`year-${year}-section`)
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }
+        }
+
+        // Update year buttons to scroll instead of navigate
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCurriculum()
+
+            // Add click handlers to year buttons for scrolling to section 3
+            const yearButtons = document.querySelectorAll('a[href^="index.html?year="]')
+            yearButtons.forEach(button => {
+                button.addEventListener('click', (e) => {
+                    const year = button.href.match(/year=(\d+)/)?.[1]
+                    if (year && !e.ctrlKey && !e.metaKey) {
+                        e.preventDefault()
+                        scrollToYear(year)
+                    }
+                })
+            })
+        })
+
+    </script>
+</body>
+</html>
