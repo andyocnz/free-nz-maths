@@ -1,6 +1,37 @@
 ﻿import { useEffect, useRef } from 'react'
 import { elapsed_minutes } from './mathHelpers.js'
 
+// Helper: compute midpoint angle of an arc drawn from start to end
+function arcMidAngle(start, end, anticlockwise) {
+  const twoPi = Math.PI * 2
+  let s = start % twoPi; if (s < 0) s += twoPi
+  let e = end % twoPi; if (e < 0) e += twoPi
+  if (anticlockwise) {
+    if (e <= s) e += twoPi
+    const mid = s + (e - s) / 2
+    return (mid + twoPi) % twoPi
+  } else {
+    if (s <= e) s += twoPi
+    const mid = s - (s - e) / 2
+    return (mid + twoPi) % twoPi
+  }
+}
+
+// Helper: compute interior bisector angle between two ray angles (radians)
+function bisectorFromAngles(a1, a2) {
+  // unit vectors for directions
+  const ux = Math.cos(a1), uy = Math.sin(a1)
+  const vx = Math.cos(a2), vy = Math.sin(a2)
+  const sx = ux + vx, sy = uy + vy
+  const len = Math.hypot(sx, sy)
+  if (len < 1e-6) {
+    // nearly opposite directions - return a perpendicular to a1
+    // rotate (ux,uy) by +90deg -> (-uy, ux)
+    return Math.atan2(ux, -uy)
+  }
+  return Math.atan2(sy, sx)
+}
+
 export default function QuestionVisualizer({ question, visualData }) {
   const canvasRef = useRef(null)
 
@@ -139,20 +170,68 @@ function drawAnglesOnLine(ctx, data) {
   ctx.strokeStyle = '#4CAF50'
   ctx.lineWidth = 2
 
-  // Left angle
-  ctx.beginPath()
-  ctx.arc(divX, divY, 40, Math.PI, angle1Rad, true)
-  ctx.stroke()
-  ctx.fillStyle = '#4CAF50'
-  ctx.fillText(`${angle1}Â°`, divX - 60, divY - 10)
+  // Left and right arcs (we'll compute sizes and place labels so the known
+  // smaller angle is on the smaller arc and the unknown on the larger arc)
+  const leftStart = Math.PI
+  const leftEnd = angle1Rad
+  const rightStart = 0
+  const rightEnd = angle1Rad
 
-  // Right angle (with "?°")
-  ctx.strokeStyle = '#FF5722'
+  // helper: compute positive arc size (radians) following drawing direction
+  const arcSize = (start, end, anticlockwise) => {
+    const twoPi = Math.PI * 2
+    let s = start % twoPi; if (s < 0) s += twoPi
+    let e = end % twoPi; if (e < 0) e += twoPi
+    if (anticlockwise) {
+      let delta = e - s
+      if (delta <= 0) delta += twoPi
+      return delta
+    } else {
+      let delta = s - e
+      if (delta <= 0) delta += twoPi
+      return delta
+    }
+  }
+
+  const leftSize = arcSize(leftStart, leftEnd, true)
+  const rightSize = arcSize(rightStart, rightEnd, false)
+
+  // Draw arcs
   ctx.beginPath()
-  ctx.arc(divX, divY, 40, 0, angle1Rad, false)
+  ctx.arc(divX, divY, 40, leftStart, leftEnd, true)
+  ctx.strokeStyle = '#4CAF50'
   ctx.stroke()
-  ctx.fillStyle = '#FF5722'
-  ctx.fillText(`?°°`, divX + 50, divY - 10)
+
+  ctx.beginPath()
+  ctx.arc(divX, divY, 40, rightStart, rightEnd, false)
+  ctx.strokeStyle = '#FF5722'
+  ctx.stroke()
+
+  // place labels: known angle on smaller arc; unknown on larger arc
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  const smallIsLeft = leftSize <= rightSize
+  if (smallIsLeft) {
+    // known on left
+    const mid = arcMidAngle(leftStart, leftEnd, true)
+    const labelR = 40 + 36
+    ctx.fillStyle = '#4CAF50'
+    ctx.fillText(`${angle1}°`, divX + Math.cos(mid) * labelR, divY + Math.sin(mid) * labelR)
+
+    const mid2 = arcMidAngle(rightStart, rightEnd, false)
+    ctx.fillStyle = '#FF5722'
+    ctx.fillText(`?°`, divX + Math.cos(mid2) * (40 + 36), divY + Math.sin(mid2) * (40 + 36))
+  } else {
+    // known on right
+    const mid = arcMidAngle(rightStart, rightEnd, false)
+    const labelR = 40 + 36
+    ctx.fillStyle = '#4CAF50'
+    ctx.fillText(`${angle1}°`, divX + Math.cos(mid) * labelR, divY + Math.sin(mid) * labelR)
+
+    const mid2 = arcMidAngle(leftStart, leftEnd, true)
+    ctx.fillStyle = '#FF5722'
+    ctx.fillText(`?°`, divX + Math.cos(mid2) * (40 + 36), divY + Math.sin(mid2) * (40 + 36))
+  }
 
   // Add point marker
   ctx.fillStyle = '#333'
@@ -183,10 +262,32 @@ function drawVerticalAngles(ctx, data) {
 
   // Label angles
   ctx.fillStyle = '#4CAF50'
-  ctx.fillText(`${angle}Â°`, centerX + 30, centerY - 30)
+  // place the known angle label inside the top-right angle (bisector of the X)
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  {
+     // compute the two ray angles for the top-right angle and use bisector
+     const r = 40
+     const rayA = Math.atan2(-lineLen, lineLen) // top-right direction
+     const rayB = Math.atan2(-lineLen, -lineLen) // top-left direction
+     const mid = bisectorFromAngles(rayA, rayB)
+     const lx = centerX + Math.cos(mid) * (r + 30)
+     const ly = centerY + Math.sin(mid) * (r + 30)
+     ctx.fillText(`${angle}°`, lx, ly)
+  }
 
   ctx.fillStyle = '#FF5722'
-  ctx.fillText(`?°°`, centerX - 40, centerY + 40)
+  // place unknown label opposite the known one
+  {
+     const r = 40
+     // opposite rays (bottom-left)
+     const rayA = Math.atan2(lineLen, -lineLen) // bottom-left direction
+     const rayB = Math.atan2(lineLen, lineLen) // bottom-right direction
+     const mid = bisectorFromAngles(rayA, rayB)
+     const lx = centerX + Math.cos(mid) * (r + 30)
+     const ly = centerY + Math.sin(mid) * (r + 30)
+     ctx.fillText(`?°`, lx, ly)
+  }
 
   // Center point
   ctx.fillStyle = '#333'
@@ -656,7 +757,7 @@ function drawTriangularPrism(ctx, data) {
   // Label base area
   ctx.fillStyle = '#1565C0'
   ctx.font = 'bold 14px Arial'
-  ctx.fillText(`Base area = ${baseArea} cmÂ²`, x1 - 10, y1 + 30)
+  ctx.fillText(`Base area = ${baseArea} cm²`, x1 - 10, y1 + 30)
 
   // Draw height arrow along prism length
   ctx.strokeStyle = '#FF5722'
@@ -795,8 +896,8 @@ function drawCompositeRectTriangle(ctx, data) {
   ctx.fillStyle = '#0b1220'
   ctx.font = '12px Arial'
   ctx.fillText('Composite shape', legendX + 10, legendY + 16)
-  ctx.fillText('â€¢ Rectangle part', legendX + 10, legendY + 32)
-  ctx.fillText('â€¢ Triangle part', legendX + 10, legendY + 48)
+    ctx.fillText('• Rectangle part', legendX + 10, legendY + 32)
+    ctx.fillText('• Triangle part', legendX + 10, legendY + 48)
 }
 
 // Phase 5: Draw time line visualization
@@ -847,6 +948,12 @@ function drawTimeLine(ctx, v) {
   ctx.font = '14px Arial'
   ctx.fillText('Elapsed time', 160, 140)
 }
+
+
+
+
+
+
 
 
 
