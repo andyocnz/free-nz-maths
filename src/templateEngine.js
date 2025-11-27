@@ -408,16 +408,16 @@ function generateVisualData(template, params, skill) {
 
     // Rectangle/area questions
     if (stem.includes('rectangle') && (stem.includes('area') || stem.includes('perimeter'))) {
-    if (params.l && params.w) {
-      return {
-        type: 'rectangle',
-        length: params.l,
-        width: params.w,
-        width: 400,
-        height: 300
+      if (params.l && params.w) {
+        return {
+          type: 'rectangle',
+          length: params.l,
+          width: params.w,
+          canvasWidth: 400,
+          canvasHeight: 300
+        }
       }
     }
-  }
 
     // Triangular prism volume – show base triangle area and prism height
     if (stem.includes('triangular prism') && params.a && params.h) {
@@ -430,18 +430,18 @@ function generateVisualData(template, params, skill) {
       }
     }
 
-    // Composite shapes (Phase 2 addition)
-  if (templateId.includes('COMPOSITE_SHAPES')) {
-    if (params.l && params.w && params.b && params.h) {
+    // Composite shapes (rectangle + triangle)
+    if (templateId.includes('COMPOSITE_SHAPES') && params.l && params.w && params.b && params.h) {
       return {
-        type: 'rectangle',
-        length: params.l + params.b / 2,
-        width: Math.max(params.w, params.h),
-        width: 400,
-        height: 300
+        type: 'composite_rect_tri',
+        rectL: params.l,
+        rectW: params.w,
+        triB: params.b,
+        triH: params.h,
+        canvasWidth: 400,
+        canvasHeight: 300
       }
     }
-  }
 
   // Circle questions
   if (stem.includes('circle') && (params.r || params.d)) {

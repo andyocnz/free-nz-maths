@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+﻿import { useEffect, useRef } from 'react'
 import { elapsed_minutes } from './mathHelpers.js'
 
 export default function QuestionVisualizer({ question, visualData }) {
@@ -51,6 +51,9 @@ export default function QuestionVisualizer({ question, visualData }) {
       case 'triangular_prism':
         drawTriangularPrism(ctx, visualData)
         break
+      case 'composite_rect_tri':
+        drawCompositeRectTriangle(ctx, visualData)
+        break
       default:
         break
     }
@@ -62,8 +65,8 @@ export default function QuestionVisualizer({ question, visualData }) {
     <div style={{ margin: '20px 0' }}>
       <canvas
         ref={canvasRef}
-        width={visualData.width || 400}
-        height={visualData.height || 300}
+        width={visualData.canvasWidth || visualData.width || 400}
+        height={visualData.canvasHeight || visualData.height || 300}
         style={{ border: '1px solid #ddd', borderRadius: '8px', backgroundColor: 'white' }}
       />
     </div>
@@ -141,15 +144,15 @@ function drawAnglesOnLine(ctx, data) {
   ctx.arc(divX, divY, 40, Math.PI, angle1Rad, true)
   ctx.stroke()
   ctx.fillStyle = '#4CAF50'
-  ctx.fillText(`${angle1}°`, divX - 60, divY - 10)
+  ctx.fillText(`${angle1}Â°`, divX - 60, divY - 10)
 
-  // Right angle (with "?")
+  // Right angle (with "?°")
   ctx.strokeStyle = '#FF5722'
   ctx.beginPath()
   ctx.arc(divX, divY, 40, 0, angle1Rad, false)
   ctx.stroke()
   ctx.fillStyle = '#FF5722'
-  ctx.fillText(`?`, divX + 50, divY - 10)
+  ctx.fillText(`?°°`, divX + 50, divY - 10)
 
   // Add point marker
   ctx.fillStyle = '#333'
@@ -180,10 +183,10 @@ function drawVerticalAngles(ctx, data) {
 
   // Label angles
   ctx.fillStyle = '#4CAF50'
-  ctx.fillText(`${angle}°`, centerX + 30, centerY - 30)
+  ctx.fillText(`${angle}Â°`, centerX + 30, centerY - 30)
 
   ctx.fillStyle = '#FF5722'
-  ctx.fillText(`?`, centerX - 40, centerY + 40)
+  ctx.fillText(`?°°`, centerX - 40, centerY + 40)
 
   // Center point
   ctx.fillStyle = '#333'
@@ -192,7 +195,7 @@ function drawVerticalAngles(ctx, data) {
   ctx.fill()
 }
 
-// Draw coordinate grid
+// Draw coordinate grid (auto-scaled so all points fit)
 function drawCoordinateGrid(ctx, data) {
   const { x, y, showPoint, points, showLine } = data
 
@@ -203,20 +206,42 @@ function drawCoordinateGrid(ctx, data) {
 
   const centerX = 200
   const centerY = 150
-  const scale = 20
+
+  // Determine max coordinate we need to show
+  let maxCoord = 5
+  if (points && points.length === 2) {
+    const flat = points.flat()
+    maxCoord = Math.max(
+      ...flat.map(v => Math.abs(v)),
+      5
+    )
+  } else if (showPoint && x !== undefined && y !== undefined) {
+    maxCoord = Math.max(Math.abs(x), Math.abs(y), 5)
+  }
+
+  const tickRange = Math.ceil(maxCoord)
+  const maxTicks = Math.max(tickRange, 5)
+
+  // Compute scale so ±maxTicks fits inside the drawing area
+  const usableWidth = 300  // roughly 50..350
+  const usableHeight = 200 // roughly 50..250
+  const scale = Math.min(
+    usableWidth / (2 * maxTicks),
+    usableHeight / (2 * maxTicks)
+  )
 
   // Draw grid
-  for (let i = -10; i <= 10; i++) {
+  for (let i = -maxTicks; i <= maxTicks; i++) {
     // Vertical lines
     ctx.beginPath()
-    ctx.moveTo(centerX + i * scale, 50)
-    ctx.lineTo(centerX + i * scale, 250)
+    ctx.moveTo(centerX + i * scale, centerY - maxTicks * scale)
+    ctx.lineTo(centerX + i * scale, centerY + maxTicks * scale)
     ctx.stroke()
 
     // Horizontal lines
     ctx.beginPath()
-    ctx.moveTo(50, centerY + i * scale)
-    ctx.lineTo(350, centerY + i * scale)
+    ctx.moveTo(centerX - maxTicks * scale, centerY + i * scale)
+    ctx.lineTo(centerX + maxTicks * scale, centerY + i * scale)
     ctx.stroke()
   }
 
@@ -226,23 +251,23 @@ function drawCoordinateGrid(ctx, data) {
 
   // X-axis
   ctx.beginPath()
-  ctx.moveTo(50, centerY)
-  ctx.lineTo(350, centerY)
+  ctx.moveTo(centerX - maxTicks * scale, centerY)
+  ctx.lineTo(centerX + maxTicks * scale, centerY)
   ctx.stroke()
 
   // Y-axis
   ctx.beginPath()
-  ctx.moveTo(centerX, 50)
-  ctx.lineTo(centerX, 250)
+  ctx.moveTo(centerX, centerY - maxTicks * scale)
+  ctx.lineTo(centerX, centerY + maxTicks * scale)
   ctx.stroke()
 
   // Label axes
   ctx.fillStyle = '#333'
   ctx.font = 'bold 14px Arial'
-  ctx.fillText('x', 360, centerY + 5)
-  ctx.fillText('y', centerX + 5, 40)
+  ctx.fillText('x', centerX + maxTicks * scale + 10, centerY + 5)
+  ctx.fillText('y', centerX + 5, centerY - maxTicks * scale - 10)
 
-  // Phase 5: Draw line between two points if specified
+  // Draw line and points if specified
   if (showLine && points && points.length === 2) {
     const [p1, p2] = points
     const x1 = centerX + p1[0] * scale
@@ -267,10 +292,10 @@ function drawCoordinateGrid(ctx, data) {
     // Label points
     ctx.fillStyle = '#FF5722'
     ctx.font = 'bold 14px Arial'
-    ctx.fillText(`(${p1[0]}, ${p1[1]})`, x1 + 10, y1 - 10)
-    ctx.fillText(`(${p2[0]}, ${p2[1]})`, x2 + 10, y2 - 10)
+    ctx.fillText(`(${p1[0]}, ${p1[1]})`, x1 + 8, y1 - 8)
+    ctx.fillText(`(${p2[0]}, ${p2[1]})`, x2 + 8, y2 - 8)
   }
-  // Draw single point if specified
+  // Single point
   else if (showPoint && x !== undefined && y !== undefined) {
     const pointX = centerX + x * scale
     const pointY = centerY - y * scale
@@ -282,17 +307,8 @@ function drawCoordinateGrid(ctx, data) {
 
     ctx.fillStyle = '#FF5722'
     ctx.font = 'bold 14px Arial'
-    ctx.fillText(`(${x}, ${y})`, pointX + 10, pointY - 10)
+    ctx.fillText(`(${x}, ${y})`, pointX + 8, pointY - 8)
   }
-
-  // Draw scale numbers
-  ctx.fillStyle = '#666'
-  ctx.font = '10px Arial'
-  ctx.fillText('0', centerX + 5, centerY + 15)
-  ctx.fillText('5', centerX + 5 * scale + 2, centerY + 15)
-  ctx.fillText('-5', centerX - 5 * scale - 8, centerY + 15)
-  ctx.fillText('5', centerX + 5, centerY - 5 * scale + 3)
-  ctx.fillText('-5', centerX + 5, centerY + 5 * scale + 3)
 }
 
 // Draw bar chart for statistics
@@ -571,8 +587,8 @@ function drawRectangularPrism(ctx, data) {
   ctx.fillStyle = '#FF5722'
   const hx1 = x + frontWidth
   const hy1 = y
-  const hx2 = hx1 + dx
-  const hy2 = hy1 - dy
+  const hx2 = bx + frontWidth
+  const hy2 = by
 
   ctx.beginPath()
   ctx.moveTo(hx1, hy1)
@@ -587,7 +603,10 @@ function drawRectangularPrism(ctx, data) {
   ctx.closePath()
   ctx.fill()
 
-  ctx.fillText(`height = ${h} cm`, hx2 + 8, hy2)
+  // Place label near the middle of the depth arrow
+  const midX = (hx1 + hx2) / 2
+  const midY = (hy1 + hy2) / 2
+  ctx.fillText(`height = ${h} cm`, midX + 10, midY - 5)
 }
 
 // Draw a triangular prism using its base area and height
@@ -637,7 +656,7 @@ function drawTriangularPrism(ctx, data) {
   // Label base area
   ctx.fillStyle = '#1565C0'
   ctx.font = 'bold 14px Arial'
-  ctx.fillText(`Base area = ${baseArea} cm²`, x1 - 10, y1 + 30)
+  ctx.fillText(`Base area = ${baseArea} cmÂ²`, x1 - 10, y1 + 30)
 
   // Draw height arrow along prism length
   ctx.strokeStyle = '#FF5722'
@@ -662,6 +681,122 @@ function drawTriangularPrism(ctx, data) {
 
   ctx.font = 'bold 14px Arial'
   ctx.fillText(`height = ${height} cm`, hx2 + 8, hy2 + 5)
+}
+
+// Draw composite shape: rectangle + triangle on top
+function drawCompositeRectTriangle(ctx, data) {
+  const { rectL, rectW, triB, triH } = data
+
+  ctx.clearRect(0, 0, 400, 300)
+  ctx.lineWidth = 2
+  ctx.font = 'bold 14px Arial'
+
+  // Scale so the full composite shape fits nicely
+  const maxWidth = Math.max(rectL, triB)
+  const maxHeight = rectW + triH
+  const scale = Math.min(260 / maxWidth, 180 / maxHeight)
+
+  const rectWidthPx = rectL * scale
+  const rectHeightPx = rectW * scale
+  const triBasePx = triB * scale
+  const triHeightPx = triH * scale
+
+  // Position rectangle near bottom centre
+  const rectX = (400 - rectWidthPx) / 2
+  const rectY = 260 - rectHeightPx
+  const rectBottom = rectY + rectHeightPx
+  const rectTop = rectY
+
+  // Draw rectangle
+  ctx.fillStyle = 'rgba(251, 191, 36, 0.25)'
+  ctx.strokeStyle = '#f59e0b'
+  ctx.beginPath()
+  ctx.rect(rectX, rectY, rectWidthPx, rectHeightPx)
+  ctx.fill()
+  ctx.stroke()
+
+  // Triangle on top, centred
+  const baseStart = rectX + (rectWidthPx - triBasePx) / 2
+  const baseEnd = baseStart + triBasePx
+  const apexX = baseStart + triBasePx / 2
+  const apexY = rectTop - triHeightPx
+
+  ctx.fillStyle = 'rgba(248, 113, 113, 0.25)'
+  ctx.strokeStyle = '#e11d48'
+  ctx.beginPath()
+  ctx.moveTo(baseStart, rectTop)
+  ctx.lineTo(baseEnd, rectTop)
+  ctx.lineTo(apexX, apexY)
+  ctx.closePath()
+  ctx.fill()
+  ctx.stroke()
+
+  // Dimension styling
+  ctx.strokeStyle = '#05668d'
+  ctx.fillStyle = '#05668d'
+  ctx.lineWidth = 1.5
+
+  // Rectangle length (bottom)
+  const yDimBottom = rectBottom + 18
+  ctx.beginPath()
+  ctx.moveTo(rectX, yDimBottom)
+  ctx.lineTo(rectX + rectWidthPx, yDimBottom)
+  ctx.stroke()
+  ctx.fillText(`${rectL} cm`, rectX + rectWidthPx / 2 - 18, yDimBottom + 14)
+
+  // Rectangle width (left side)
+  const xDimLeft = rectX - 18
+  ctx.beginPath()
+  ctx.moveTo(xDimLeft, rectTop)
+  ctx.lineTo(xDimLeft, rectBottom)
+  ctx.stroke()
+  ctx.save()
+  ctx.translate(xDimLeft - 8, (rectTop + rectBottom) / 2 + 10)
+  ctx.rotate(-Math.PI / 2)
+  ctx.fillText(`${rectW} cm`, 0, 0)
+  ctx.restore()
+
+  // Triangle base (top)
+  const yDimTriBase = rectTop - 10
+  ctx.beginPath()
+  ctx.moveTo(baseStart, yDimTriBase)
+  ctx.lineTo(baseEnd, yDimTriBase)
+  ctx.stroke()
+  ctx.fillText(`${triB} cm`, baseStart + triBasePx / 2 - 20, yDimTriBase - 4)
+
+  // Triangle height (vertical from apex)
+  const baseMidX = apexX
+  ctx.beginPath()
+  ctx.moveTo(baseMidX, apexY)
+  ctx.lineTo(baseMidX, rectTop)
+  ctx.stroke()
+  ctx.fillText(`${triH} cm`, baseMidX + 6, apexY + (rectTop - apexY) / 2)
+
+  // Labels for shapes (no area values)
+  ctx.fillStyle = '#0b1220'
+  ctx.font = '12px Arial'
+  ctx.fillText('Rectangle', rectX + 8, rectBottom - 10)
+  ctx.fillText('Triangle', apexX + 8, apexY + 4)
+
+  // Simple legend box naming parts (no calculations)
+  const legendX = 260
+  const legendY = 40
+  const legendW = 120
+  const legendH = 56
+
+  ctx.fillStyle = '#ffffff'
+  ctx.strokeStyle = '#e5e7eb'
+  ctx.lineWidth = 1
+  ctx.beginPath()
+  ctx.rect(legendX, legendY, legendW, legendH)
+  ctx.fill()
+  ctx.stroke()
+
+  ctx.fillStyle = '#0b1220'
+  ctx.font = '12px Arial'
+  ctx.fillText('Composite shape', legendX + 10, legendY + 16)
+  ctx.fillText('â€¢ Rectangle part', legendX + 10, legendY + 32)
+  ctx.fillText('â€¢ Triangle part', legendX + 10, legendY + 48)
 }
 
 // Phase 5: Draw time line visualization
@@ -704,10 +839,28 @@ function drawTimeLine(ctx, v) {
   // Label duration
   ctx.fillStyle = '#4CAF50'
   ctx.font = 'bold 24px Arial'
-  ctx.fillText(`${duration} min`, 160, 50)
+  // Show placeholder instead of actual duration so the visualizer doesn't reveal the answer
+  ctx.fillText(`?° min`, 160, 50)
 
   // Add description
   ctx.fillStyle = '#666'
   ctx.font = '14px Arial'
   ctx.fillText('Elapsed time', 160, 140)
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
