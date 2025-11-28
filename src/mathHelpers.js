@@ -118,6 +118,14 @@ export function primeFactors(n) {
   return factors
 }
 
+// Prime factorisation formatted as a product of primes (e.g., "2 × 5 × 7")
+export function prime_factorisation(n) {
+  const cleanN = Math.abs(Math.floor(n))
+  if (cleanN < 2) return cleanN.toString()
+  const factors = primeFactors(cleanN)
+  return factors.join(' × ')
+}
+
 export function mean(arr) {
   return arr.reduce((sum, val) => sum + val, 0) / arr.length
 }
