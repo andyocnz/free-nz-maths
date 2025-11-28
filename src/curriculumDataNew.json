@@ -1,0 +1,621 @@
+{
+  "years": [
+    {
+      "year": 6,
+      "skills": [
+        
+        {
+          "id": "Y6.G.ROTATIONAL_SYMMETRY",
+          "strand": "Geometry & Measurement",
+          "name": "Rotational symmetry",
+          "description": "Identify the order of rotational symmetry for regular shapes.",
+          "templates": [
+            {
+              "id": "Y6.G.ROTATIONAL_SYMMETRY.T1",
+              "stem": "What is the order of rotational symmetry of a square?",
+              "params": {},
+              "answer": "4",
+              "difficulty": 4
+            },
+            {
+              "id": "Y6.G.ROTATIONAL_SYMMETRY.T2",
+              "stem": "What is the order of rotational symmetry of a regular {n}-sided polygon (a {shape})?",
+              "params": { "n": ["choice", 5, 6, 8], "shape": ["choice", "pentagon", "hexagon", "octagon"] },
+              "answer": "n",
+              "difficulty": 4
+            }
+          ]
+        },
+        {
+          "id": "Y6.S.STEM_AND_LEAF",
+          "strand": "Statistics & Probability",
+          "name": "Stem-and-leaf plots",
+          "description": "Read and interpret stem-and-leaf plots to find frequencies and statistics.",
+          "templates": [
+            {
+              "id": "Y6.S.STEM_AND_LEAF.T1",
+              "stem": "The stem-and-leaf plot shows test scores. How many students scored in the 80s?",
+              "params": {},
+              "answer": "3",
+              "difficulty": 2,
+              "visualData": { "type": "stem_and_leaf", "stems": [6, 7, 8, 9], "leaves": {"6": [5, 8], "7": [2, 6, 9], "8": [0, 4, 4], "9": [1]}, "key": "8 | 0 = 80" }
+            },
+            {
+              "id": "Y6.S.STEM_AND_LEAF.T2",
+              "stem": "From the stem-and-leaf plot of ages, what is the age of the oldest person?",
+              "params": {},
+              "answer": "52",
+              "difficulty": 3,
+              "visualData": { "type": "stem_and_leaf", "stems": [2, 3, 4, 5], "leaves": {"2": [2, 5], "3": [0, 8, 9], "4": [1], "5": [2]}, "key": "5 | 2 = 52" }
+            }
+          ]
+        },
+        {
+          "id": "Y6.S.HISTOGRAMS",
+          "strand": "Statistics & Probability",
+          "name": "Histograms",
+          "description": "Interpret histograms and read bin counts from bar heights.",
+          "templates": [
+            {
+              "id": "Y6.S.HISTOGRAMS.T1",
+              "stem": "The histogram shows the heights of students. How many students are in the {targetBinLabel} cm bin?",
+              "params": {
+                "v1": ["int", 2, 8],
+                "v2": ["int", 2, 10],
+                "v3": ["int", 2, 12],
+                "v4": ["int", 1, 6],
+                "targetBinLabel": ["choice", "130-140", "140-150", "150-160", "160-170"]
+              },
+              "answer": "({\"130-140\": v1, \"140-150\": v2, \"150-160\": v3, \"160-170\": v4})[targetBinLabel]",
+              "difficulty": 2,
+              "visualData": { "type": "histogram", "bins": ["130-140", "140-150", "150-160", "160-170"], "values": ["v1", "v2", "v3", "v4"] }
+            }
+          ]
+        },
+        {
+          "id": "Y6.S.PROBABILITY_REPLACEMENT",
+          "strand": "Statistics & Probability",
+          "name": "Probability with replacement",
+          "description": "Compute probabilities for sequential events when outcomes are replaced.",
+          "templates": [
+            {
+              "id": "Y6.S.PROBABILITY_REPLACEMENT.T1",
+              "stem": "A bag has {r} red and {b} blue marbles. You pick one, put it back, then pick another. What is P(red, then red)?",
+              "params": { "r": ["int", 2, 8], "b": ["int", 2, 8] },
+              "answer": "round((r / (r+b)) * (r / (r+b)), 3)",
+              "difficulty": 4
+            }
+          ]
+        },
+        {
+          "id": "Y6.G.NETS",
+          "strand": "Geometry & Measurement",
+          "name": "3D Nets",
+          "description": "Recognise nets and identify the 3D solid formed when folded.",
+          "templates": [
+            {
+              "id": "Y6.G.NETS.T1",
+              "stem": "Which 3D shape can be formed from the net shown?",
+              "params": {},
+              "answer": "'Cube'",
+              "difficulty": 3,
+              "visualData": {"type": "net", "shape_type": "cube"}
+            }
+            ,
+            {
+              "id": "Y6.G.NETS.T2",
+              "stem": "The net below folds to form which 3D shape?",
+              "params": {},
+              "answer": "'Cube'",
+              "difficulty": 3,
+              "visualData": {"type": "net", "shape_type": "cube"}
+            },
+            {
+              "id": "Y6.G.NETS.T3",
+              "stem": "Identify the 3D solid that this net makes.",
+              "params": {},
+              "answer": "'Cube'",
+              "difficulty": 3,
+              "visualData": {"type": "net", "shape_type": "cube"}
+            }
+            ,
+            {
+              "id": "Y6.G.NETS.T4",
+              "stem": "Which 3D shape can be formed from the net shown?",
+              "params": {},
+              "answer": "'Rectangular prism'",
+              "difficulty": 3,
+              "visualData": {"type": "net", "shape_type": "rectangular_prism"}
+            },
+            {
+              "id": "Y6.G.NETS.T5",
+              "stem": "The net below folds to form which 3D solid?",
+              "params": {},
+              "answer": "'Triangular prism'",
+              "difficulty": 3,
+              "visualData": {"type": "net", "shape_type": "triangular_prism"}
+            },
+            {
+              "id": "Y6.G.NETS.T6",
+              "stem": "Which solid is made from the net shown?",
+              "params": {},
+              "answer": "'Square pyramid'",
+              "difficulty": 3,
+              "visualData": {"type": "net", "shape_type": "square_pyramid"}
+            },
+            {
+              "id": "Y6.G.NETS.T7",
+              "stem": "Identify the 3D shape that the net folds into.",
+              "params": {},
+              "answer": "'Tetrahedron'",
+              "difficulty": 3,
+              "visualData": {"type": "net", "shape_type": "tetrahedron"}
+            }
+          ]
+        },
+        {
+          "id": "Y6.S.VENN_DIAGRAMS",
+          "strand": "Statistics & Probability",
+          "name": "Venn Diagrams",
+          "description": "Use two-set Venn diagrams to calculate overlaps and exclusive counts.",
+          "templates": [
+            {
+              "id": "Y6.S.VENN_DIAGRAMS.T1",
+              "stem": "In a class of 30, {s} students play Sport, {m} play Music, and {b} play both. How many students play Sport only?",
+              "params": { "s": [15], "m": [12], "b": [5] },
+              "answer": "s - b",
+              "difficulty": 4,
+              "visualData": { "type": "venn_diagram_two", "labelA": "Sport", "labelB": "Music", "valA": 10, "valB": 7, "valOverlap": 5}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 7,
+      "skills": [
+        {
+          "id": "Y7.N.FRACTIONS_RATIONAL_OPS",
+          "strand": "Number & Algebra",
+          "name": "Rational number operations",
+          "description": "Multiply, divide and simplify operations involving rational numbers.",
+          "templates": [
+            {
+              "id": "Y7.N.FRACTIONS_RATIONAL_OPS.T1",
+              "stem": "Calculate: {a}/{b} × {c}/{d}. Give the answer in simplest form.",
+              "params": { "a": ["int", 1, 9], "b": ["int", 2, 10], "c": ["int", 1, 9], "d": ["int", 2, 10] },
+              "answer": "simplify(a*c, b*d)",
+              "difficulty": 5
+            },
+            {
+              "id": "Y7.N.FRACTIONS_RATIONAL_OPS.T2",
+              "stem": "Calculate: ({a}/{b}) ÷ ({c}/{d}). Give the answer in simplest form.",
+              "params": { "a": ["int", 1, 9], "b": ["int", 2, 10], "c": ["int", 1, 9], "d": ["int", 2, 10] },
+              "answer": "simplify(a*d, b*c)",
+              "difficulty": 6
+            }
+          ]
+        },
+        {
+          "id": "Y7.N.EXPONENTS_NEGATIVE",
+          "strand": "Number & Algebra",
+          "name": "Negative exponents",
+          "description": "Understand negative exponents as reciprocals and evaluate them.",
+          "templates": [
+            {
+              "id": "Y7.N.EXPONENTS_NEGATIVE.T1",
+              "stem": "Evaluate {b}^-{p}. Write your answer as a fraction.",
+              "params": { "b": ["int", 2, 5], "p": ["int", 2, 3] },
+              "answer": "'1/' + (b**p)",
+              "difficulty": 5
+            }
+          ]
+        },
+        {
+          "id": "Y7.N.EXPONENTS_FRACTIONAL",
+          "strand": "Number & Algebra",
+          "name": "Fractional exponents",
+          "description": "Evaluate simple fractional (root) exponents such as square roots.",
+          "templates": [
+            {
+              "id": "Y7.N.EXPONENTS_FRACTIONAL.T1",
+              "stem": "Evaluate {n}^(1/2).",
+              "params": { "n": ["choice", 4, 9, 16, 25, 36, 49, 64, 81, 100] },
+              "answer": "Math.sqrt(n)",
+              "difficulty": 6
+            }
+          ]
+        },
+        {
+          "id": "Y7.G.CIRCLES",
+          "strand": "Geometry & Measurement",
+          "name": "Circle Area and Circumference",
+          "description": "Calculate circumference and area of circles using π ≈ 3.14.",
+          "templates": [
+            {
+              "id": "Y7.G.CIRCLES.T1",
+              "stem": "Find the circumference of a circle with radius {r} cm. Use π ≈ 3.14.",
+              "params": { "r": ["int", 2, 20] },
+              "answer": "round(2 * 3.14 * r, 2)",
+              "difficulty": 5
+            },
+            {
+              "id": "Y7.G.CIRCLES.T2",
+              "stem": "Find the area of a circle with radius {r} cm. Use π ≈ 3.14.",
+              "params": { "r": ["int", 2, 20] },
+              "answer": "round(3.14 * r * r, 2)",
+              "difficulty": 6
+            }
+          ]
+        },
+        {
+          "id": "Y7.N.RATES",
+          "strand": "Number & Algebra",
+          "name": "Rate word problems",
+          "description": "Solve problems linking distance, time and speed (rates).",
+          "templates": [
+            {
+              "id": "Y7.N.RATES.T1",
+              "stem": "A car travels {d} km in {t} hours. What is its average speed in km/h? (Round your answer to 2 decimal places)",
+              "params": { "d": ["int", 100, 500], "t": ["int", 2, 5] },
+              "answer": "round(d / t, 2)",
+              "visualData": { "type": "car_on_road", "speed": "round(d / t, 2)", "showSpeed": false },
+              "difficulty": 5
+            }
+          ]
+        },
+        {
+          "id": "Y7.S.COMPOUND_PROBABILITY",
+          "strand": "Statistics & Probability",
+          "name": "Compound probability with replacement",
+          "description": "Compute compound probabilities for independent events with replacement.",
+          "templates": [
+            {
+              "id": "Y7.S.COMPOUND_PROBABILITY.T1",
+              "stem": "A coin is flipped and a 6-sided die is rolled. What is P(heads and a {n})?",
+              "params": { "n": ["int", 1, 6] },
+              "answer": "'1/12'",
+              "difficulty": 6
+            }
+          ]
+        }
+        ,
+        {
+          "id": "Y7.M.MEASUREMENT_TIME_MONEY",
+          "strand": "Measurement",
+          "name": "Time & Money",
+          "description": "Convert and calculate using units of time and money.",
+          "templates": [
+            {
+              "id": "Y7.M.MEASUREMENT_TIME_MONEY.T1",
+              "stem": "Convert {h} hour(s) to minutes.",
+              "params": { "h": ["int", 1, 10] },
+              "answer": "h * 60",
+              "difficulty": 2
+            },
+            {
+              "id": "Y7.M.MEASUREMENT_TIME_MONEY.T2",
+              "stem": "How many cents are in ${dollars}?",
+              "params": { "dollars": ["decimal", 1, 200, 2] },
+              "answer": "dollars * 100",
+              "difficulty": 2
+            },
+            {
+              "id": "Y7.M.MEASUREMENT_TIME_MONEY.T3",
+              "stem": "Convert {ml} millilitres to litres.",
+              "params": { "ml": ["int", 100, 5000] },
+              "answer": "ml / 1000",
+              "difficulty": 2
+            },
+            {
+              "id": "Y7.M.MEASUREMENT_TIME_MONEY.T4",
+              "stem": "How many minutes is {hours} hours and {mins} minutes?",
+              "params": { "hours": ["int", 1, 5], "mins": ["int", 0, 59] },
+              "answer": "hours * 60 + mins",
+              "difficulty": 3
+            },
+            {
+              "id": "Y7.M.MEASUREMENT_TIME_MONEY.T5",
+              "stem": "An item costs ${p} dollars. You pay with ${paid} dollars. How much change should you get?",
+              "params": { "p": ["choice", 2, 5, 7, 9], "paid": ["choice", 10, 20, 50] },
+              "answer": "paid - p",
+              "difficulty": 3
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 8,
+      "skills": [
+        {
+          "id": "Y8.A.MULTI_STEP_EQUATIONS",
+          "strand": "Number & Algebra",
+          "name": "Multi-step linear equations",
+          "description": "Solve linear equations requiring multiple algebraic steps.",
+          "templates": [
+            {
+              "id": "Y8.A.MULTI_STEP_EQUATIONS.T1",
+              "stem": "Solve for x: {a}(x + {b}) = {c}",
+              "params": { "a": ["int", 2, 5], "b": ["int", 1, 10], "c": ["int", 20, 100] },
+              "answer": "(c/a) - b",
+              "difficulty": 7
+            },
+            {
+              "id": "Y8.A.MULTI_STEP_EQUATIONS.T2",
+              "stem": "Solve for x: {a}x + {b} = {c}x + {d}",
+              "params": { "a": ["int", 5, 10], "b": ["int", 1, 20], "c": ["int", 1, 4], "d": ["int", 21, 50] },
+              "answer": "(d - b) / (a - c)",
+              "difficulty": 8
+            }
+          ]
+        },
+        {
+          "id": "Y8.G.TRANSVERSALS",
+          "strand": "Geometry & Measurement",
+          "name": "Transversals and parallel lines",
+          "description": "Use angle relationships to find missing angles in transversal diagrams.",
+          "templates": [
+            {
+              "id": "Y8.G.TRANSVERSALS.T1",
+              "stem": "Two parallel lines are cut by a transversal. If an alternate interior angle is {a}°, what is its corresponding angle?",
+              "params": { "a": ["int", 30, 150] },
+              "answer": "a",
+              "visualData": { "type": "parallel_transversal", "angle": "a", "relation": "alternate_interior" },
+              "difficulty": 6
+            }
+            ,
+            {
+              "id": "Y8.G.TRANSVERSALS.T2",
+              "stem": "Two parallel lines are cut by a transversal. If a corresponding angle is {a}°, what is its matching angle?",
+              "params": { "a": ["int", 30, 150] },
+              "answer": "a",
+              "visualData": { "type": "parallel_transversal", "angle": "a", "relation": "corresponding" },
+              "difficulty": 6
+            },
+            {
+              "id": "Y8.G.TRANSVERSALS.T3",
+              "stem": "Two parallel lines are cut by a transversal. If an alternate exterior angle is {a}°, what is its equal angle?",
+              "params": { "a": ["int", 30, 150] },
+              "answer": "a",
+              "visualData": { "type": "parallel_transversal", "angle": "a", "relation": "alternate_exterior" },
+              "difficulty": 6
+            },
+            {
+              "id": "Y8.G.TRANSVERSALS.T4",
+              "stem": "Two parallel lines are cut by a transversal. If one same-side interior (consecutive interior) angle is {a}°, what is the measure of its supplementary partner?",
+              "params": { "a": ["int", 30, 150] },
+              "answer": "180 - a",
+              "visualData": { "type": "parallel_transversal", "angle": "a", "relation": "consecutive_interior" },
+              "difficulty": 6
+            },
+            {
+              "id": "Y8.G.TRANSVERSALS.T5",
+              "stem": "At the intersection of two lines, one angle measures {a}°. What is the measure of the vertically opposite angle?",
+              "params": { "a": ["int", 30, 150] },
+              "answer": "a",
+              "visualData": { "type": "parallel_transversal", "angle": "a", "relation": "vertical" },
+              "difficulty": 6
+            }
+          ]
+        },
+        {
+          "id": "Y8.G.TRANSFORMATIONS_COORDINATE",
+          "strand": "Geometry & Measurement",
+          "name": "Transformations on the coordinate plane",
+          "description": "Perform reflections and rotations of points on the coordinate plane.",
+          "templates": [
+            {
+              "id": "Y8.G.TRANSFORMATIONS_COORDINATE.T1",
+              "stem": "Reflect the point ({x},{y}) across the y-axis.",
+              "params": { "x": ["int", 1, 10], "y": ["int", 1, 10] },
+              "answer": "`(${-x},${y})`",
+              "difficulty": 6,
+              "visualData": { "type": "coordinate_grid", "points": [["x","y"]], "showPoint": true }
+            },
+            {
+              "id": "Y8.G.TRANSFORMATIONS_COORDINATE.T2",
+              "stem": "Rotate the point ({x},{y}) 90° clockwise around the origin (0,0).",
+              "params": { "x": ["int", 1, 10], "y": ["int", 1, 10] },
+              "answer": "`(${y},${-x})`",
+              "difficulty": 7,
+              "visualData": { "type": "coordinate_grid", "points": [["x","y"], ["y", "-x"]], "showLine": true }
+            }
+          ]
+        },
+        {
+          "id": "Y8.G.SURFACE_AREA",
+          "strand": "Geometry & Measurement",
+          "name": "Surface area of prisms and cylinders",
+          "description": "Calculate surface area of prisms and cylinders using standard formulas.",
+          "templates": [
+            {
+              "id": "Y8.G.SURFACE_AREA.T1",
+              "stem": "Find the surface area of a rectangular prism with length {l} cm, width {w} cm, and height {h} cm.",
+              "params": { "l": ["int", 2, 10], "w": ["int", 2, 10], "h": ["int", 2, 10] },
+              "answer": "surface_area_rectangular_prism(l,w,h)",
+              "difficulty": 7
+            },
+            {
+              "id": "Y8.G.SURFACE_AREA.T2",
+              "stem": "Find the surface area of a cylinder with radius {r} cm and height {h} cm. Use π ≈ 3.14.",
+              "params": { "r": ["int", 2, 10], "h": ["int", 5, 20] },
+              "answer": "round(surface_area_cylinder(r,h), 2)",
+              "difficulty": 8
+            }
+          ]
+        },
+        {
+          "id": "Y8.S.SCATTER_PLOTS",
+          "strand": "Statistics & Probability",
+          "name": "Scatter plots and correlation",
+          "description": "Interpret scatter plots and describe correlation and trends.",
+          "templates": [
+            {
+              "id": "Y8.S.SCATTER_PLOTS.T1",
+              "stem": "A scatter plot shows hours studied vs. test scores. The points trend upwards from left to right. What type of correlation is this?",
+              "params": {},
+              "answer": "'Positive'",
+              "difficulty": 6,
+              "visualData": {"type": "scatter_plot", "points": [[1,40],[2,45],[3,50],[4,60],[5,70]], "trend": true }
+            }
+          ]
+        },
+        {
+          "id": "Y8.N.STANDARD_FORM_OPS",
+          "strand": "Number & Algebra",
+          "name": "Standard form operations",
+          "description": "Multiply and divide numbers written in standard (scientific) form.",
+          "templates": [
+            {
+              "id": "Y8.N.STANDARD_FORM_OPS.T1",
+              "stem": "Calculate ({m1} x 10^{e1}) × ({m2} x 10^{e2}). Write in standard form.",
+              "params": { "m1": ["int", 2, 9], "e1": ["int", 3, 5], "m2": ["int", 2, 9], "e2": ["int", 2, 4] },
+              "answer": "`${m1*m2} x 10^${e1+e2}`",
+              "difficulty": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 9,
+      "skills": [
+        {
+          "id": "Y9.A.INEQUALITIES",
+          "strand": "Number & Algebra",
+          "name": "One-variable inequalities",
+          "description": "Solve linear inequalities and express solution ranges using inequality notation.",
+          "templates": [
+            {
+              "id": "Y9.A.INEQUALITIES.T1",
+              "stem": "Solve for x: {a}x + {b} < {c}",
+              "params": { "a": ["int", 2, 5], "b": ["int", 1, 20], "c": ["int", 21, 50] },
+              "answer": "`x < ${(c - b) / a}`",
+              "difficulty": 8
+            },
+            {
+              "id": "Y9.A.INEQUALITIES.T2",
+              "stem": "Solve for x: {b} - {a}x ≥ {c}",
+              "params": { "a": ["int", 2, 5], "b": ["int", 21, 50], "c": ["int", 1, 20] },
+              "answer": "`x ≤ ${(b - c) / a}`",
+              "difficulty": 9
+            }
+          ]
+        },
+        {
+          "id": "Y9.A.NONLINEAR_FUNCTIONS",
+          "strand": "Number & Algebra",
+          "name": "Nonlinear functions",
+          "description": "Evaluate and work with nonlinear functions such as quadratics.",
+          "templates": [
+            {
+              "id": "Y9.A.NONLINEAR_FUNCTIONS.T1",
+              "stem": "If f(x) = x² + {a}, find f({v}).",
+              "params": { "a": ["int", 1, 10], "v": ["int", 2, 8] },
+              "answer": "v*v + a",
+              "difficulty": 8
+            },
+            {
+              "id": "Y9.A.NONLINEAR_FUNCTIONS.T2",
+              "stem": "If f(x) = {b} * {a}^x, find f({v}).",
+              "params": { "b": ["int", 2, 4], "a": ["int", 2, 3], "v": ["int", 2, 4] },
+              "answer": "b * (a**v)",
+              "difficulty": 9
+            }
+          ]
+        },
+        {
+          "id": "Y9.A.POLYNOMIAL_OPS",
+          "strand": "Number & Algebra",
+          "name": "Multiply and divide polynomials",
+          "description": "Expand, multiply and divide polynomial expressions and simplify.",
+          "templates": [
+            {
+              "id": "Y9.A.POLYNOMIAL_OPS.T1",
+              "stem": "Expand and simplify: {a}x( {b}x + {c} ).",
+              "params": { "a": ["int", 2, 5], "b": ["int", 2, 5], "c": ["int", -5, 5, 1] },
+              "answer": "`${a*b}x² + ${a*c}x`",
+              "difficulty": 8
+            }
+          ]
+        },
+        {
+          "id": "Y9.S.COUNTING_PRINCIPLE",
+          "strand": "Statistics & Probability",
+          "name": "Compound probability (counting principle)",
+          "description": "Use counting principles to compute probabilities for combined events.",
+          "templates": [
+            {
+              "id": "Y9.S.COUNTING_PRINCIPLE.T1",
+              "stem": "A restaurant offers {m} main courses and {d} desserts. How many different two-course meals are possible?",
+              "params": { "m": ["int", 3, 6], "d": ["int", 2, 4] },
+              "answer": "m * d",
+              "difficulty": 8
+            }
+          ]
+        },
+        {
+          "id": "Y9.G.CONES_SPHERES",
+          "strand": "Geometry & Measurement",
+          "name": "Volume and surface area of cones and spheres",
+          "description": "Apply formulas to find volume and surface area of cones and spheres.",
+          "templates": [
+            {
+              "id": "Y9.G.CONES_SPHERES.T1",
+              "stem": "Find the volume of a sphere with radius {r} cm. Use π ≈ 3.14.",
+              "params": { "r": ["int", 2, 10] },
+              "answer": "round(volume_sphere(r), 2)",
+              "difficulty": 9
+            },
+            {
+              "id": "Y9.G.CONES_SPHERES.T2",
+              "stem": "Find the surface area of a sphere with radius {r} cm. Use π ≈ 3.14.",
+              "params": { "r": ["int", 2, 10] },
+              "answer": "round(surface_area_sphere(r), 2)",
+              "difficulty": 9
+            },
+            {
+              "id": "Y9.G.CONES_SPHERES.T3",
+              "stem": "Find the volume of a cone with radius {r} cm and height {h} cm. Use π ≈ 3.14.",
+              "params": { "r": ["int", 3, 10], "h": ["int", 5, 15] },
+              "answer": "round(volume_cone(r,h), 2)",
+              "difficulty": 9
+            }
+          ]
+        },
+        {
+          "id": "Y9.S.BOX_PLOTS",
+          "strand": "Statistics & Probability",
+          "name": "Box plots and quartiles",
+          "description": "Read box plots and calculate quartiles, medians and interquartile range.",
+          "templates": [
+            {
+              "id": "Y9.S.BOX_PLOTS.T1",
+              "stem": "For the data set shown in the box plot, what is the interquartile range (IQR)?",
+              "params": { "q1": [20], "q3": [45] },
+              "answer": "q3 - q1",
+              "difficulty": 8,
+              "visualData": {"type": "box_plot", "min": 10, "q1": 20, "median": 35, "q3": 45, "max": 50, "label": "Test Scores"}
+            }
+          ]
+        },
+        {
+          "id": "Y9.A.GEOMETRIC_SEQUENCES",
+          "strand": "Number & Algebra",
+          "name": "Geometric sequences",
+          "description": "Recognise geometric sequences and find common ratio and nth term.",
+          "templates": [
+            {
+              "id": "Y9.A.GEOMETRIC_SEQUENCES.T1",
+              "stem": "A geometric sequence starts with {a} and has a common ratio of {r}. What is the 4th term?",
+              "params": { "a": ["int", 2, 5], "r": ["int", 2, 3] },
+              "answer": "geometric_sequence_nth_term(a, r, 4)",
+              "difficulty": 8
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

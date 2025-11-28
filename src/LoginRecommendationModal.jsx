@@ -55,7 +55,7 @@ export default function LoginRecommendationModal({ onLogin, onSkip }) {
               type="submit"
               className="w-full bg-[#0077B6] hover:bg-sky-700 text-white font-bold py-3 rounded-lg shadow-lg transition-colors"
             >
-              Save Progress
+              Login & Save Progress
             </button>
 
             <button

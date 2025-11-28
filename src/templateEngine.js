@@ -78,6 +78,13 @@ function randTime() {
 
 // Parse parameter specification and generate random value
 function generateParamValue(spec, year, difficulty) {
+  // Allow simple constant specs like [15] or numeric literal params
+  if (!Array.isArray(spec)) {
+    if (typeof spec === 'number') return spec
+  } else if (spec.length === 1 && typeof spec[0] === 'number') {
+    return spec[0]
+  }
+
   const [type, ...args] = spec
 
   switch (type) {
@@ -337,6 +344,18 @@ function generateVisualData(template, params, skill) {
     }
   }
 
+  // Parallel lines + transversal -> alternate interior visual
+  if ((stem.includes('transversal') || stem.includes('alternate interior') || (stem.includes('parallel') && stem.includes('transversal'))) ) {
+    // angle param may be named a, angle, or provided in params
+    const angleVal = params.a || params.angle || params.a1 || null
+    return {
+      type: 'parallel_transversal',
+      angle: angleVal || 60,
+      width: 400,
+      height: 300
+    }
+  }
+
   // Coordinate plane questions (single point or basic graph)
   if (stem.includes('coordinate') || stem.includes('point') || stem.includes('graph')) {
     if (params.x !== undefined && params.y !== undefined) {
@@ -491,11 +510,89 @@ export function generateQuestionFromTemplate(template, skill, year) {
   const params = generateParams(template.params, year, templateDifficulty)
   const question = substituteStem(template.stem, params)
   const answer = evaluateAnswer(template.answer, params)
-  const visualData = generateVisualData(template, params, skill)
+
+  // Attempt to create a formatted answer for common probability patterns
+  // e.g., single draw: r/(r+b)  or two draws with replacement: (r/(r+b))*(r/(r+b))
+  let formattedAnswer = null
+  try {
+    const ansExpr = String(template.answer || '')
+    // match pattern like 'x/(x+y)'
+    const fracMatch = ansExpr.match(/([a-zA-Z_]\w*)\s*\/\s*\(\s*\1\s*\+\s*([a-zA-Z_]\w*)\s*\)/)
+    if (fracMatch) {
+      const aVar = fracMatch[1]
+      const bVar = fracMatch[2]
+      const aVal = parseInt(params[aVar], 10)
+      const bVal = parseInt(params[bVar], 10)
+      if (!Number.isNaN(aVal) && !Number.isNaN(bVal)) {
+        const singleNum = aVal
+        const singleDen = aVal + bVal
+        // check if expression repeats (two draws / squared)
+        const repeats = (ansExpr.split(fracMatch[0]).length - 1)
+        if (repeats >= 2 || /\*\s*\(?.*\)\s*\^?\s*2/.test(ansExpr)) {
+          const num = singleNum * singleNum
+          const den = singleDen * singleDen
+          formattedAnswer = mathHelpers.simplify(num, den) + ' ≈ ' + (parseFloat((num / den).toFixed(6)))
+        } else {
+          formattedAnswer = mathHelpers.simplify(singleNum, singleDen) + ' ≈ ' + (parseFloat((singleNum / singleDen).toFixed(6)))
+        }
+      }
+    }
+  } catch (e) {
+    // ignore formatting errors
+  }
+
+  // Prefer explicit visualData provided in the template (so authored visuals show correctly).
+  // If present, deep-clone it and replace any string tokens that refer to parameter names
+  // with the generated parameter values (e.g., point coordinates like "x" -> params.x).
+  let visualData = null
+  if (template.visualData) {
+    visualData = JSON.parse(JSON.stringify(template.visualData))
+
+    // Recursive replacer: if a string equals a param name, replace with the param value
+    const replaceParams = (obj) => {
+      if (obj === null || obj === undefined) return obj
+      if (Array.isArray(obj)) {
+        return obj.map(v => replaceParams(v))
+      }
+      if (typeof obj === 'object') {
+        Object.keys(obj).forEach(k => {
+          obj[k] = replaceParams(obj[k])
+        })
+        return obj
+      }
+      if (typeof obj === 'string') {
+        // If string looks like a numeric range label (e.g. "130-140"), keep as-is
+        const rangeLabel = /^\s*\d+\s*-\s*\d+\s*$/
+        if (rangeLabel.test(obj)) return obj
+        // Exact match to a param name
+        if (params.hasOwnProperty(obj)) return params[obj]
+        // Also allow simple numeric strings
+        const num = Number(obj)
+        if (!isNaN(num)) return num
+        // Try to evaluate simple expressions using params as variables
+        try {
+          const keys = Object.keys(params)
+          const values = Object.values(params)
+          const fn = new Function(...keys, `return (${obj})`)
+          const evaluated = fn(...values)
+          if (evaluated !== undefined) return evaluated
+        } catch (e) {
+          // ignore and fall back to returning the raw string
+        }
+        return obj
+      }
+      return obj
+    }
+
+    visualData = replaceParams(visualData)
+  } else {
+    visualData = generateVisualData(template, params, skill)
+  }
 
   return {
     question: question,
     answer: answer,
+    formattedAnswer: formattedAnswer,
     templateId: template.id,
     skill: skill,
     params: params,
@@ -545,7 +642,9 @@ export function getSkillsForYear(curriculum, year) {
     name: skill.name,
     strand: skill.strand,
     description: skill.description,
-    ixl_refs: skill.ixl_refs || []
+    ixl_refs: skill.ixl_refs || [],
+    // Preserve the isNew marker so outside callers can filter new skills
+    isNew: !!skill.isNew
   }))
 }
 

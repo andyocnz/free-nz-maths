@@ -1,0 +1,41 @@
+Year	Skill ID	Skill Name	TemplateCount
+6	Y6.M.TIME	Time, schedules and elapsed time	1
+6	Y6.M.MEASUREMENT	Metric measurement and temperature	1
+6	Y6.G.COMPOSITE_SHAPES	Area & perimeter of composite shapes	1
+6	Y6.G.VOLUME_PRISMS	Volume of prisms	1
+7	Y7.N.PROBLEM_SOLVING	Problem solving and estimation	1
+7	Y7.M.MEASUREMENT_TIME_MONEY	Units, time, money and consumer maths	1
+7	Y7.S.DATA_STATS_PROB	Data, graphs, statistics and probability	1
+7	Y7.S.PROBABILITY	Two-step probability	1
+8	Y8.N.NUMBER_THEORY	Number classification, factors and multiples	1
+8	Y8.N.INTEGERS	Integers and integer operations	1
+8	Y8.N.DECIMALS	Decimals and decimal operations	1
+8	Y8.N.FRACTIONS_RATIONAL	Fractions, mixed numbers and rational numbers	1
+8	Y8.N.EXPONENTS_ROOTS	Exponents, standard form and roots	1
+8	Y8.N.RATIOS_PROPORTIONS	Ratios, rates, proportions and proportional reasoning	1
+8	Y8.N.PERCENTS_CONSUMER	Percents and consumer maths	1
+8	Y8.N.PROBLEM_SOLVING_ESTIMATION	Problem solving, estimation and time	1
+8	Y8.M.MEASUREMENT	Metric units and precision	1
+8	Y8.G.COORDINATE_PLANE	Coordinate plane and distance	1
+8	Y8.A.SEQUENCES	Sequences and patterns	1
+8	Y8.A.EXPRESSIONS_EQUATIONS	Expressions, properties and equations	1
+8	Y8.A.TWO_VARIABLE	Two-variable equations and graphs	1
+8	Y8.G.GEOMETRY	2D figures, lines and transformations	1
+8	Y8.G.GEOMETRIC_MEASUREMENT	Perimeter, area and volume	1
+8	Y8.S.DATA_STATS_PROB	Data, graphs, statistics and probability	1
+9	Y9.N.NUMBER_THEORY	Number theory and classification	1
+9	Y9.N.INTEGERS_RATIONAL	Integers and rational number operations	1
+9	Y9.N.EXPONENTS_ROOTS_STANDARD	Exponents, roots and standard form	1
+9	Y9.N.RATIOS_PROPORTIONS	Ratios, rates and proportional relationships	1
+9	Y9.N.PERCENTS_CONSUMER	Percents, percent change and consumer maths	1
+9	Y9.M.MEASUREMENT	Metric units, rates and precision	1
+9	Y9.N.PROBLEM_SOLVING	Problem solving with word problems and time	1
+9	Y9.G.COORDINATE_PLANE	Coordinate plane and distance	1
+9	Y9.G.GEOMETRY	2D geometry, angle relationships and circles	1
+9	Y9.G.TRANSFORMATIONS	Transformations, congruence and similarity	1
+9	Y9.G.PYTHAGORAS_SOLIDS	Pythagoras' theorem, area, surface area and volume	1
+9	Y9.A.SEQUENCES	Sequences and series	1
+9	Y9.A.EXPRESSIONS_POLYNOMIALS	Expressions, polynomials and properties	1
+9	Y9.A.EQUATIONS_INEQUALITIES	Equations and inequalities	1
+9	Y9.A.FUNCTIONS	Linear and nonlinear functions	1
+9	Y9.S.DATA_STATS_PROB	Data, graphs, statistics and probability	1

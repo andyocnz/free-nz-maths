@@ -210,3 +210,34 @@ export function elapsed_minutes(start, end) {
   if (mins2 < mins1) mins2 += 1440 // Handle crossing midnight
   return mins2 - mins1
 }
+
+// --- Phase 7: New helper functions ---
+
+export function surface_area_cylinder(r, h) {
+  return 2 * Math.PI * r * h + 2 * Math.PI * r * r;
+}
+
+export function surface_area_rectangular_prism(l, w, h) {
+  return 2 * (l * w + l * h + w * h);
+}
+
+export function geometric_sequence_nth_term(a, r, n) {
+  return a * (r ** (n - 1));
+}
+
+export function volume_cone(r, h) {
+  return (1/3) * Math.PI * r * r * h;
+}
+
+export function surface_area_cone(r, h) {
+  const slantHeight = Math.sqrt(h*h + r*r);
+  return Math.PI * r * (r + slantHeight);
+}
+
+export function volume_sphere(r) {
+  return (4/3) * Math.PI * r**3;
+}
+
+export function surface_area_sphere(r) {
+  return 4 * Math.PI * r**2;
+}

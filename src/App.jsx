@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { generateQuestionForSkill, getStrandsForYear, getAvailableYears } from './templateEngine.js'
-import curriculumData from './curriculumDataFull.json'
+import curriculumData from './curriculumDataMerged.js'
 import { generateTest, calculateTestResults } from './testGenerator.js'
 import QuestionVisualizer from './QuestionVisualizer.jsx'
 import TestResults from './TestResults.jsx'
@@ -45,6 +45,7 @@ export default function App() {
   const urlParams = new URLSearchParams(window.location.search)
   const yearFromUrl = urlParams.get('year')
   const skillFromUrl = urlParams.get('skill')
+  const isDevMode = urlParams.has('dev') || urlParams.get('dev') === 'true'
 
   const [mode, setMode] = useState(
     skillFromUrl ? 'practice' : yearFromUrl ? 'menu' : 'landing'
@@ -57,6 +58,9 @@ export default function App() {
   const [currentIndex, setCurrentIndex] = useState(-1)
   const [answer, setAnswer] = useState('')
   const [feedback, setFeedback] = useState('')
+  const [testScopeAllYears, setTestScopeAllYears] = useState(false)
+  const [onlyNewInTest, setOnlyNewInTest] = useState(false)
+  const [auditOnePerTemplate, setAuditOnePerTemplate] = useState(false)
   const [score, setScore] = useState(0)
   const [isTestMode, setIsTestMode] = useState(false)
   const [testResults, setTestResults] = useState(null)
@@ -113,7 +117,8 @@ export default function App() {
           if (action.type === 'practice') {
             startPracticeInternal(action.skillId)
           } else if (action.type === 'test') {
-            startTestInternal()
+            // pass through any options supplied when the action was queued
+            startTestInternal(action.options || {})
           }
         }, 100)
         return
@@ -144,7 +149,7 @@ export default function App() {
       if (action.type === 'practice') {
         startPracticeInternal(action.skillId)
       } else if (action.type === 'test') {
-        startTestInternal()
+        startTestInternal(action.options || {})
       }
     }
   }
@@ -212,35 +217,46 @@ export default function App() {
         cleanQuestion = cleanQuestion.replace(/\\approx/g, '≈')
         cleanQuestion = cleanQuestion.replace(/\\sqrt/g, '√')
 
-        // Replace exponents with superscript Unicode characters (including negative)
-        cleanQuestion = cleanQuestion.replace(/\^-(\d)/g, (match, digit) => {
-          const superscripts = { '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' }
-          return '⁻' + superscripts[digit]
+        // Handle exponents and fractions for display
+        const superscripts = { '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹' }
+
+        // Buffer exponent fractions like ^(1/2) so they are rendered inline (not stacked)
+        const expPlaceholders = []
+        cleanQuestion = cleanQuestion.replace(/\^\(([^)]+)\)/g, (m, inner) => {
+          const s = inner.trim()
+          if (/^-?\d+$/.test(s)) {
+            // integer exponent -> convert each digit to superscript (preserve minus)
+            return Array.from(s).map(ch => ch === '-' ? '⁻' : superscripts[ch] || ch).join('')
+          }
+          if (/^-?\d+\s*\/\s*\d+$/.test(s)) {
+            // fractional exponent -> keep as inline superscript but avoid stacked fraction conversion
+            const idx = expPlaceholders.length
+            expPlaceholders.push(`<sup>${s.replace(/\s+/g, '')}</sup>`)
+            return `__EXP_FRAC_${idx}__`
+          }
+          // general fallback: wrap in <sup>
+          return `<sup>${s}</sup>`
         })
-        cleanQuestion = cleanQuestion.replace(/\^0/g, '⁰')
-        cleanQuestion = cleanQuestion.replace(/\^1/g, '¹')
-        cleanQuestion = cleanQuestion.replace(/\^2/g, '²')
-        cleanQuestion = cleanQuestion.replace(/\^3/g, '³')
-        cleanQuestion = cleanQuestion.replace(/\^4/g, '⁴')
-        cleanQuestion = cleanQuestion.replace(/\^5/g, '⁵')
-        cleanQuestion = cleanQuestion.replace(/\^6/g, '⁶')
-        cleanQuestion = cleanQuestion.replace(/\^7/g, '⁷')
-        cleanQuestion = cleanQuestion.replace(/\^8/g, '⁸')
-        cleanQuestion = cleanQuestion.replace(/\^9/g, '⁹')
+
+        // Replace simple caret exponents like ^2 or ^-3
+        cleanQuestion = cleanQuestion.replace(/\^-(\d)/g, (m, d) => '⁻' + (superscripts[d] || d))
+        cleanQuestion = cleanQuestion.replace(/\^(\d)/g, (m, d) => superscripts[d] || d)
 
         // Format mixed numbers: "4 2/10" → display with proper spacing
-        // This regex finds patterns like "digit space digit/digit"
         cleanQuestion = cleanQuestion.replace(/(\d+)\s+(\d+)\/(\d+)/g, '$1 \u00A0$2/$3')
 
         // Replace other common patterns
         cleanQuestion = cleanQuestion.replace(/\*/g, '×')
-        cleanQuestion = cleanQuestion.replace(/x /g, '× ')
+        // NOTE: avoid replacing the variable 'x' (common in algebra). Do not convert 'x' to multiplication symbol.
 
         // Clean up any remaining LaTeX backslashes
         cleanQuestion = cleanQuestion.replace(/\\/g, '')
 
-        // Use HTML for better fraction display
-        elem.innerHTML = cleanQuestion.replace(/(\d+)\/(\d+)/g, '<span style="display:inline-block;text-align:center;vertical-align:middle;"><span style="display:block;font-size:0.8em;border-bottom:1px solid currentColor;padding:0 3px;">$1</span><span style="display:block;font-size:0.8em;padding:0 3px;">$2</span></span>')
+        // Use HTML for better fraction display, but do not convert exponent placeholders
+        const fractionHtml = '<span style="display:inline-block;text-align:center;vertical-align:middle;"><span style="display:block;font-size:0.8em;border-bottom:1px solid currentColor;padding:0 3px;">$1</span><span style="display:block;font-size:0.8em;padding:0 3px;">$2</span></span>'
+        let html = cleanQuestion.replace(/(\d+)\/(\d+)/g, fractionHtml)
+        html = html.replace(/__EXP_FRAC_(\d+)__/g, (m, idx) => expPlaceholders[parseInt(idx, 10)] || '')
+        elem.innerHTML = html
       }
       setAnswer(question.userAnswer || '')
       setFeedback(question.userFeedback || '')
@@ -339,8 +355,15 @@ export default function App() {
   }
 
   // Internal function that actually starts test (called after login decision)
-  const startTestInternal = () => {
-    const testQuestions = generateTest(selectedYear, 60)  // Generate exactly 60 questions
+  // Accepts optional overrides: { onlyNew, allYears, onePerTemplate, totalQuestions }
+  const startTestInternal = (opts = {}) => {
+    const options = {
+      onlyNew: typeof opts.onlyNew !== 'undefined' ? opts.onlyNew : onlyNewInTest,
+      allYears: typeof opts.allYears !== 'undefined' ? opts.allYears : testScopeAllYears,
+      onePerTemplate: typeof opts.onePerTemplate !== 'undefined' ? opts.onePerTemplate : auditOnePerTemplate
+    }
+    const totalQ = typeof opts.totalQuestions !== 'undefined' ? opts.totalQuestions : 60
+    const testQuestions = generateTest(selectedYear, totalQ, options)  // Generate requested number of questions
     setHistory(testQuestions)
     setCurrentIndex(0)
     setScore(0)
@@ -369,6 +392,19 @@ export default function App() {
 
     // User is logged in, start test directly
     startTestInternal()
+  }
+
+  // Start an all-years test (non-audit) — public API that respects login flow
+  const startAllYearsTest = () => {
+    const opts = { allYears: true, onlyNew: false, onePerTemplate: false, totalQuestions: 100 }
+    if (!currentUser) {
+      setPendingAction({ type: 'test', options: opts })
+      initialized.current = true
+      setMode('test')
+      setShowLoginRecommendation(true)
+      return
+    }
+    startTestInternal(opts)
   }
 
   const finishTest = () => {
@@ -542,13 +578,25 @@ export default function App() {
           isCorrect = true
         }
       } else {
-        // Numeric/fraction comparison with tolerance
-        const userAnswer = normalizeFraction(answer.trim())
-        const correctAnswer = normalizeFraction(question.answer)
+        // Try numeric/fraction comparison first
+        const userAnswerNum = normalizeFraction(answer.trim())
+        const correctAnswerNum = normalizeFraction(question.answer)
 
-        if (Math.abs(userAnswer - correctAnswer) < 0.01) {
-          newFeedback = 'Correct! ✅'
-          isCorrect = true
+        if (!Number.isNaN(userAnswerNum) && !Number.isNaN(correctAnswerNum)) {
+          if (Math.abs(userAnswerNum - correctAnswerNum) < 0.01) {
+            newFeedback = 'Correct! ✅'
+            isCorrect = true
+          }
+        } else {
+          // Fallback: text comparison for word answers (e.g., 'Cube')
+          const ua = String(answer).trim().toLowerCase().replace(/["'\s]+/g, ' ')
+          const ca = String(question.answer).trim().toLowerCase().replace(/["'\s]+/g, ' ')
+          // Accept some simple synonyms and normalize plurals
+          const normalizeText = s => s.replace(/\b(a |an |the )\b/g, '').replace(/\bsquares?\b/g, 'square').trim()
+          if (normalizeText(ua) === normalizeText(ca)) {
+            newFeedback = 'Correct! ✅'
+            isCorrect = true
+          }
         }
       }
 
@@ -566,12 +614,13 @@ export default function App() {
         const newAttempts = attempts + 1
         setAttempts(newAttempts)
 
+        const displayAnswer = question.formattedAnswer || question.answer
         if (isTestMode) {
-          newFeedback = `Wrong ❌ Answer: ${question.answer}`
+          newFeedback = `Wrong ❌ Answer: ${displayAnswer}`
         } else {
           if (newAttempts >= 2) {
             setShowCorrectAnswer(true)
-            newFeedback = `Wrong ❌ The correct answer is: ${question.answer}`
+            newFeedback = `Wrong ❌ The correct answer is: ${displayAnswer}`
           } else {
             newFeedback = `Wrong ❌ Try again! (Attempt ${newAttempts} of 2)`
           }
@@ -658,6 +707,9 @@ export default function App() {
             // Finish practice and show results
             finishPractice()
           }
+          // Unlock Next button after navigation/finish
+          nextLockedRef.current = false
+          setNextLocked(false)
         }, 1500)
       } else {
         // Already answered or no answer, just move to next
@@ -669,6 +721,9 @@ export default function App() {
           // Finish practice and show results
           finishPractice()
         }
+        // Unlock Next button after navigation/finish
+        nextLockedRef.current = false
+        setNextLocked(false)
       }
     }
 
@@ -691,6 +746,20 @@ export default function App() {
       hint += 'Strategy for Perimeter:\n1. Perimeter is the total distance around the outside of a shape.\n2. Add up the lengths of all the sides.\n3. For a circle, this is called the circumference (2 × π × radius).';
     } else if (skillName.includes('volume')) {
       hint += 'Strategy for Volume:\n1. Volume measures 3D space inside a shape.\n2. Common formulas:\n   - Rectangular prism: length × width × height\n   - Triangular prism: (base area) × height\n   - Cylinder: π × radius² × height\n3. Volume is always in cubic units (cm³, m³, etc.).';
+    } else if (skillName.includes('transversal') || skillName.includes('transversals') || id && id.includes('TRANSVERSALS')) {
+      hint += 'Transversals & Angle Relationships:\n';
+      hint += '\n- Alternate interior angles: equal (e.g. the two interior angles on opposite sides of the transversal are equal).';
+      hint += '\n- Corresponding angles: equal (same relative corner position at each intersection).';
+      hint += '\n- Alternate exterior angles: equal (outside the parallel lines, opposite sides of the transversal).';
+      hint += '\n- Same-side interior (consecutive interior) angles: supplementary (add to 180°).';
+      hint += '\n- Same-side exterior (consecutive exterior) angles: supplementary (add to 180°).';
+      hint += '\n- Vertical (opposite) angles at an intersection: equal.';
+      hint += '\n\nTip: Find the given angle position first (interior/exterior, left/right, above/below). Then use the relationship above to find the target angle.';
+      hint += '\n\nLegend (visual colours may vary in diagrams):\n- Given angle = green\n- Angle to find = red\n\nExamples:';
+      hint += '\n• Given alternate interior 76° → corresponding alternate interior = 76° (equal)';
+      hint += '\n• Given same-side interior 76° → partner = 180 − 76 = 104° (supplementary)';
+      hint += '\n• Given vertical 76° → vertically opposite = 76° (equal)';
+      hint += '\n\nIf the diagram uses numbered angles (1..8), locate the angle number with the given measure and use the relation to pick the matching number.';
     } else if (skillName.includes('angle')) {
       hint += 'Strategy for Angles:\n1. Remember: angles on a straight line = 180°\n2. Angles in a triangle = 180°\n3. Vertically opposite angles are equal\n4. Complementary angles add to 90°\n5. Supplementary angles add to 180°';
     } else if (skillName.includes('sequence') || skillName.includes('pattern')) {
@@ -715,6 +784,14 @@ export default function App() {
       hint += 'Strategy for money problems:\n1. Read carefully to see if you are earning, spending, saving, or calculating a discount.\n2. Use addition for earnings/income and subtraction for spending.\n3. For discounts, calculate the discount amount (e.g., 10% of $50) and subtract it from the original price.';
     } else if (skillName.includes('data') || skillName.includes('stat')) {
         hint += 'Strategy for data questions:\n1. Mean: Add all values, then divide by the number of values.\n2. Median: Order values from smallest to largest and find the middle one.\n3. Mode: Find the value that appears most often.\n4. Range: Subtract the smallest value from the largest value.';
+    } else if (skillName.includes('stem') || skillName.includes('stem-and-leaf') || skillName.includes('stem and leaf')) {
+      hint += 'Stem-and-Leaf Tip:\n1. A stem-and-leaf plot shows distribution: stems are leading digits, leaves are trailing digits.\n2. Read each row as numbers built from stem + leaf (e.g., stem 12 leaf 3 -> 123).\n3. Use it to spot clusters, modes, and median.\n4. Preserve the order of leaves to show exact values where needed.';
+    } else if (skillName.includes('histogram')) {
+      hint += 'Histogram Tip:\n1. A histogram groups continuous data into bins (ranges) on the x-axis and shows counts on the y-axis.\n2. Taller bars mean more values fall into that bin.\n3. Check bin widths and make sure you read counts, not bar heights alone.\n4. Use the histogram to estimate mean, spread, and skew.';
+    } else if (skillName.includes('venn')) {
+      hint += 'Venn Diagram Tip (Two Sets):\n1. A Venn diagram with two overlapping circles shows the counts in each region: left-only, right-only, and overlap.\n2. The overlap is the intersection (items in both sets).\n3. Use union = left + right - intersection if asked for total in either set.\n4. When given counts, fill every region carefully and double-check totals.';
+    } else if (skillName.includes('box') || skillName.includes('box plot') || skillName.includes('box-plot')) {
+      hint += 'Box Plot Tip:\n1. A box plot shows median (middle line), lower and upper quartiles (box edges), and whiskers (range excluding outliers).\n2. The box contains the middle 50% of the data (Q1 to Q3).\n3. Median tells you the central tendency; whisker length indicates spread and skew.\n4. Outliers are points beyond whiskers; check definitions if asked.';
     } else if (skillName.includes('quadratic') || skillName.includes('polynomial')) {
       hint += 'Strategy for quadratics:\n1. Standard form: ax² + bx + c\n2. To expand (x+a)(x+b): use FOIL or multiply each term\n3. To factorize: find two numbers that multiply to c and add to b\n4. Look for common factors first.';
     } else {
@@ -835,12 +912,53 @@ export default function App() {
     }
 
     if (skillMeta) {
-        hint = buildSkillSpecificHint(skillMeta, qText);
+      hint = buildSkillSpecificHint(skillMeta, qText);
     }
 
     // 2. If no skill-specific hint, fall back to text-based hint
     if (!hint) {
         hint = buildQuestionTextHint(qText);
+    }
+
+    // Special: if this is a transversal skill, show a small illustrative SVG in the hint modal
+    const skillIdLower = (skillId || '').toLowerCase()
+    if (skillIdLower.includes('transversal') || skillIdLower.includes('transversals') || (skillMeta && (skillMeta.name || '').toLowerCase().includes('transversal'))) {
+        // inline SVG illustrating relationships (compact, uses colours matching visual)
+        const svg = `
+          <div style="font-family: Arial, sans-serif; color:#222;">
+            <div style="display:flex;gap:12px;align-items:center">
+              <svg width="260" height="120" viewBox="0 0 260 120" xmlns="http://www.w3.org/2000/svg">
+                <!-- two parallel lines and one transversal, show alternate interior (red) and corresponding (pink) -->
+                <line x1="10" y1="20" x2="250" y2="20" stroke="#111" stroke-width="3" />
+                <line x1="10" y1="80" x2="250" y2="80" stroke="#111" stroke-width="3" />
+                <line x1="40" y1="-10" x2="200" y2="130" stroke="#111" stroke-width="3" />
+
+                <!-- alternate interior (red) -->
+                <path d="M120 64 A28 28 0 0 1 140 44" fill="none" stroke="#e53935" stroke-width="6" stroke-linecap="round" />
+                <text x="142" y="46" font-size="12" fill="#e53935">Alt int</text>
+
+                <!-- corresponding (pink) -->
+                <path d="M80 34 A24 24 0 0 1 100 14" fill="none" stroke="#f06292" stroke-width="6" stroke-linecap="round" />
+                <text x="102" y="16" font-size="12" fill="#f06292">Corr</text>
+
+                <!-- same-side interior (purple) -->
+                <path d="M160 64 A22 22 0 0 1 180 44" fill="none" stroke="#8e24aa" stroke-width="6" stroke-linecap="round" />
+                <text x="182" y="46" font-size="12" fill="#8e24aa">Same-side</text>
+              </svg>
+              <div style="font-size:13px;line-height:1.3;max-width:360px">
+                <b>Angle relationships (quick guide)</b><br/>
+                <span style="color:#e53935"><b>Alternate interior</b></span>: equal.<br/>
+                <span style="color:#f06292"><b>Corresponding</b></span>: equal.<br/>
+                <span style="color:#8e24aa"><b>Same-side interior</b></span>: supplementary (add to 180°).<br/>
+                <span style="color:#2e7d32"><b>Given</b></span> = green, <span style="color:#c62828"><b>Find</b></span> = red in diagrams.<br/>
+                Use the diagram to locate the given angle (interior/exterior, left/right), then apply the rule above.
+              </div>
+            </div>
+          </div>
+        `
+
+        setHintModal({ isOpen: true, title: 'Angle relationships', message: null, htmlContent: svg })
+        return
     }
 
     // 3. If still no hint, use a generic fallback
@@ -1081,12 +1199,45 @@ export default function App() {
                         <h3 className="text-2xl font-bold text-red-600 mb-2">Take Full Assessment</h3>
                         <p className="text-gray-700 mb-1">Comprehensive test covering all curriculum areas for Year {selectedYear || 6}</p>
                         <p className="text-sm text-gray-500 mb-4">~60 questions • 45-60 minutes • Get detailed feedback</p>
-                        <button
-                          onClick={startTest}
-                          className="px-6 py-3 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105"
-                        >
-                          Start Test for Year {selectedYear || 6} Now →
-                        </button>
+                        
+
+                        <div className="flex gap-3 items-center">
+                          <button
+                            onClick={startTest}
+                            className="px-6 py-3 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105"
+                          >
+                            Start Test for Year {selectedYear || 6} Now →
+                          </button>
+
+                          <button
+                            onClick={startAllYearsTest}
+                            className="px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105"
+                          >
+                            Start All-Years Test →
+                          </button>
+
+                          {isDevMode && (
+                            <button
+                              onClick={() => {
+                                // Generate every new question across all years for audit
+                                const opts = { onlyNew: true, allYears: true, onePerTemplate: true }
+                                const questions = generateTest(selectedYear, 100000, opts)
+                                setHistory(questions)
+                                setCurrentIndex(0)
+                                setScore(0)
+                                setIsTestMode(true)
+                                setSelectedSkill(null)
+                                setAnswer('')
+                                setFeedback('')
+                                initialized.current = true
+                                setMode('test')
+                              }}
+                              className="px-4 py-2 mt-2 bg-yellow-500 hover:bg-yellow-600 text-white font-semibold rounded-lg shadow-sm"
+                            >
+                              Generate All New Questions (Audit all)
+                            </button>
+                          )}
+                        </div>
                       </div>
                       <div className="hidden md:block">
                         <svg className="w-20 h-20 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1115,7 +1266,7 @@ export default function App() {
                             className="block p-4 bg-white border-2 border-gray-200 rounded-lg hover:border-blue-500 hover:shadow-lg transition-all duration-200 group cursor-pointer"
                           >
                             <div className="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors mb-1">{skill.name}</div>
-                            <div className="text-sm text-gray-500">{skill.description || 'Click to practice'}</div>
+                            <div className="text-sm text-gray-500">{(skill.description && skill.description.trim()) ? skill.description : `Practice ${skill.name}`}</div>
                           </div>
                         ))}
                       </div>
@@ -1465,6 +1616,16 @@ export default function App() {
                   💡 Hint
                 </button>
                 <button className="btn-success" onClick={checkAnswer}>Check Answer</button>
+                <button
+                  className="btn-secondary"
+                  onClick={() => {
+                    setShowCorrectAnswer(true)
+                    setFeedback(`Answer: ${question?.answer || 'N/A'}`)
+                  }}
+                  style={{marginLeft: '8px'}}
+                >
+                  Reveal Answer
+                </button>
                 {isTestMode ? (
                   currentIndex < history.length - 1 ? (
                     <button className="btn-primary" onClick={goForward}>Next →</button>
@@ -1474,7 +1635,18 @@ export default function App() {
                     </button>
                   )
                 ) : (
-                  <button className="btn-primary" onClick={handleNext}>Next →</button>
+                  <button
+                    className="btn-primary"
+                    onClick={handleNext}
+                    disabled={nextLocked}
+                    aria-disabled={nextLocked}
+                    style={{
+                      opacity: nextLocked ? 0.6 : 1,
+                      cursor: nextLocked ? 'not-allowed' : 'pointer'
+                    }}
+                  >
+                    Next →
+                  </button>
                 )}
               </div>
 
@@ -1489,6 +1661,20 @@ export default function App() {
                   fontWeight:'600'
                 }}>
                   {feedback}
+                </div>
+              )}
+
+              {showCorrectAnswer && question && (
+                <div style={{
+                  marginTop: '12px',
+                  padding: '14px',
+                  borderRadius: '10px',
+                  backgroundColor: '#f3f4f6',
+                  color: '#111827',
+                  fontSize: '1.05em',
+                  fontWeight: '600'
+                }}>
+                  Correct answer: <span style={{color: '#0b6'}}>{question.answer}</span>
                 </div>
               )}
             </>
@@ -1528,6 +1714,7 @@ export default function App() {
           onClose={() => setHintModal({ ...hintModal, isOpen: false })}
           title={hintModal.title}
           message={hintModal.message}
+          htmlContent={hintModal.htmlContent}
         />
       </>
     )

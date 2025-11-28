@@ -1,5 +1,5 @@
-import { generateQuestionForSkill } from './templateEngine.js'
-import curriculumData from './curriculumDataFull.json'
+import { generateQuestionForSkill, getSkillsForYear } from './templateEngine.js'
+import curriculumData from './curriculumDataMerged.js'
 
 function rand(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min
@@ -14,39 +14,34 @@ function shuffle(array) {
   return arr
 }
 
-export function generateTest(year = 7, totalQuestions = 60) {
-  const yearData = curriculumData.years.find(y => y.year === year)
-  if (!yearData || !yearData.skills || yearData.skills.length === 0) return []
-
-  const skills = yearData.skills
-
-  const DIFFICULTY_RANGES = {
-    6: [1, 4],
-    7: [3, 6],
-    8: [5, 8],
-    9: [7, 10]
-  }
-
-  const [minDiff, maxDiff] = DIFFICULTY_RANGES[year] || [1, 10]
-
-  const validSkills = skills.filter(skill =>
-    Array.isArray(skill.templates) &&
-    skill.templates.some(t => {
-      const d = typeof t.difficulty === 'number' ? t.difficulty : 5
-      return d >= minDiff && d <= maxDiff
-    })
-  )
-
-  const pool = validSkills.length > 0 ? validSkills : skills
-
+export function generateTest(year = 7, totalQuestions = 60, options = {}) {
+  const { onlyNew = false, allYears = false, onePerTemplate = false } = options
   const testQuestions = []
 
-  // PHASE 1: Guarantee EVERY skill appears at least once
-  const shuffledSkills = shuffle([...pool])
-  for (const skill of shuffledSkills) {
-    if (testQuestions.length >= totalQuestions) break
-    const q = generateQuestionForSkill(curriculumData, skill.id)
-    if (q) {
+  // Collect skills either for a single year or across all years
+  let skills = []
+  if (allYears) {
+    curriculumData.years.forEach(y => {
+      const s = getSkillsForYear(curriculumData, y.year)
+      skills = skills.concat(s)
+    })
+  } else {
+    skills = getSkillsForYear(curriculumData, year)
+  }
+
+  // Filter to only new skills if requested
+  if (onlyNew) {
+    skills = skills.filter(s => s && s.isNew)
+  }
+
+  if (!skills || skills.length === 0) return []
+
+  // Audit mode: one question per template/skill
+  if (onePerTemplate) {
+    for (const skill of skills) {
+      if (!skill) continue
+      const q = generateQuestionForSkill(curriculumData, skill.id)
+      if (!q) continue
       testQuestions.push({
         ...q,
         userAnswer: '',
@@ -54,35 +49,34 @@ export function generateTest(year = 7, totalQuestions = 60) {
         isCorrect: false,
         answered: false
       })
+      if (testQuestions.length >= totalQuestions) break
     }
+    return testQuestions.slice(0, totalQuestions)
   }
 
-  // PHASE 2: Fill remaining questions fairly across all skills
-  const remaining = totalQuestions - testQuestions.length
-  if (remaining > 0) {
-    const baseExtras = Math.floor(remaining / pool.length)
-    const bonusSkills = remaining % pool.length
+  // Otherwise distribute questions across skills as before
+  const questionsPerSkill = Math.ceil(totalQuestions / skills.length)
 
-    pool.forEach((skill, index) => {
-      const extras = baseExtras + (index < bonusSkills ? 1 : 0)
-      for (let i = 0; i < extras; i++) {
-        if (testQuestions.length >= totalQuestions) return
-        const q = generateQuestionForSkill(curriculumData, skill.id)
-        if (q) {
-          testQuestions.push({
-            ...q,
-            userAnswer: '',
-            userFeedback: '',
-            isCorrect: false,
-            answered: false
-          })
-        }
-      }
-    })
+  for (const skill of skills) {
+    const numQuestions = Math.max(1, questionsPerSkill)
+    for (let i = 0; i < numQuestions; i++) {
+      if (testQuestions.length >= totalQuestions) break
+      const question = generateQuestionForSkill(curriculumData, skill.id)
+      if (!question) continue
+      testQuestions.push({
+        ...question,
+        userAnswer: '',
+        userFeedback: '',
+        isCorrect: false,
+        answered: false
+      })
+    }
+    if (testQuestions.length >= totalQuestions) break
   }
 
-  // Final shuffle and return exact number
-  return shuffle(testQuestions).slice(0, totalQuestions)
+  // Shuffle questions so they're not in order
+  const shuffled = shuffle(testQuestions)
+  return shuffled.slice(0, totalQuestions)
 }
 
 export function calculateTestResults(questions) {
@@ -149,11 +143,11 @@ export function calculateTestResults(questions) {
     }
   })
 
-  // Correct Australian school scoring: unanswered = 0 marks
-  results.percentageScore = Math.round((results.correctAnswers / results.totalQuestions) * 100)
-
-  // Optional: Add a "completed %" if you want to show engagement
-  results.completionRate = Math.round(((results.correctAnswers + results.incorrectAnswers) / results.totalQuestions) * 100)
+  // Calculate percentage
+  const answered = results.correctAnswers + results.incorrectAnswers
+  if (answered > 0) {
+    results.percentageScore = Math.round((results.correctAnswers / answered) * 100)
+  }
 
   // Assign grade
   if (results.percentageScore >= 90) results.grade = 'A+'
