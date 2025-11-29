@@ -84,6 +84,16 @@ export default function App() {
   const [nextLocked, setNextLocked] = useState(false)
   const [devTemplateSamples, setDevTemplateSamples] = useState([])
 
+  // Normalize number words for PLACE_VALUE "write in words" questions
+  function normalizeNumberWords(str) {
+    if (!str) return ''
+    return String(str)
+      .toLowerCase()
+      .replace(/-/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+  }
+
   const openKnowledgeModal = () => {
     if (!question) return
     const skillId = question.skillId || selectedSkill
@@ -1815,20 +1825,18 @@ export default function App() {
                   >
                     Remind me the knowledge
                   </button>
+                  <button className="btn-success" onClick={checkAnswer}>Check Answer</button>
                   {isDevMode && (
-                    <>
-                      <button className="btn-success" onClick={checkAnswer}>Check Answer</button>
-                      <button
-                        className="btn-secondary"
-                        onClick={() => {
-                          setShowCorrectAnswer(true)
-                          setFeedback(`Answer: ${question?.answer || 'N/A'}`)
-                        }}
-                        style={{marginLeft: '8px'}}
-                      >
-                        Reveal Answer
-                      </button>
-                    </>
+                    <button
+                      className="btn-secondary"
+                      onClick={() => {
+                        setShowCorrectAnswer(true)
+                        setFeedback(`Answer: ${question?.answer || 'N/A'}`)
+                      }}
+                      style={{marginLeft: '8px'}}
+                    >
+                      Reveal Answer
+                    </button>
                   )}
                 {isTestMode ? (
                   currentIndex < history.length - 1 ? (
