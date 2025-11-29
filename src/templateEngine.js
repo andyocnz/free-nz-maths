@@ -513,8 +513,21 @@ export function generateQuestionFromTemplate(template, skill, year) {
   }
 
   const params = generateParams(template.params, year, templateDifficulty)
+  
+    // Ensure Y9 systems of linear equations have a unique solution (avoid parallel/identical lines)
+    if ((template.id || '') === 'Y9.A.SYSTEMS_LINEAR.T1') {
+      if (typeof params.m === 'number' && typeof params.m2 === 'number' && params.m === params.m2) {
+        let newM2 = params.m2
+        let guard = 0
+        while (newM2 === params.m && guard < 20) {
+          newM2 = generateParamValue(['int', -5, 5, 1], year, templateDifficulty)
+          guard++
+        }
+        params.m2 = newM2
+      }
+    }
 
-  // Ensure Y9 quadratics factorisation questions always have integer roots.
+    // Ensure Y9 quadratics factorisation questions always have integer roots.
   // For QUADRATICS.T2, regenerate a and b from integer factors p, q so that
   // x^2 + ax + b = (x + p)(x + q) with small non-zero integer p, q.
   if ((template.id || '') === 'Y9.A.QUADRATICS.T2') {

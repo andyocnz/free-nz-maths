@@ -622,6 +622,41 @@
           ]
         },
         {
+          "id": "Y8.N.INTEGERS",
+          "strand": "Number & Algebra",
+          "templates": [
+            {
+              "id": "Y8.N.INTEGERS.T2",
+              "stem": "Calculate: {a} + {b}.",
+              "params": {
+                "a": ["int", -80, 80],
+                "b": ["int", -80, 80]
+              },
+              "answer": "a + b",
+              "difficulty": 6
+            },
+            {
+              "id": "Y8.N.INTEGERS.T3",
+              "stem": "Order these integers from least to greatest: {a}, {b}, {c}.",
+              "params": {
+                "a": ["int", -40, 40],
+                "b": ["int", -40, 40],
+                "c": ["int", -40, 40]
+              },
+              "answer": "sort([a,b,c])",
+              "difficulty": 6
+            },
+            {
+              "id": "Y8.N.INTEGERS.T4",
+              "stem": "A submarine descends {a} metres every minute for {b} minutes. What is its change in elevation?",
+              "params": { "a": ["int", 5, 50], "b": ["int", 2, 10] },
+              "answer": "-(a * b)",
+              "difficulty": 6,
+              "phase": 8
+            }
+          ]
+        },
+        {
           "id": "Y8.N.DECIMALS",
           "strand": "Number & Algebra",
           "templates": [
@@ -658,33 +693,6 @@
           ]
         },
         {
-          "id": "Y8.N.INTEGERS",
-          "strand": "Number & Algebra",
-          "templates": [
-            {
-              "id": "Y8.N.INTEGERS.T2",
-              "stem": "Calculate: {a} + {b}.",
-              "params": {
-                "a": ["int", -80, 80],
-                "b": ["int", -80, 80]
-              },
-              "answer": "a + b",
-              "difficulty": 6
-            },
-            {
-              "id": "Y8.N.INTEGERS.T3",
-              "stem": "Order these integers from least to greatest: {a}, {b}, {c}.",
-              "params": {
-                "a": ["int", -40, 40],
-                "b": ["int", -40, 40],
-                "c": ["int", -40, 40]
-              },
-              "answer": "sort([a,b,c])",
-              "difficulty": 6
-            }
-          ]
-        },
-        {
           "id": "Y8.N.FRACTIONS_RATIONAL",
           "strand": "Number & Algebra",
           "templates": [
@@ -711,12 +719,168 @@
               "difficulty": 7
             }
           ]
+        },
+        {
+          "id": "Y8.N.EXPONENTS_ROOTS",
+          "strand": "Number & Algebra",
+          "name": "Exponents and roots",
+          "description": "Work with integer, fractional and negative exponents.",
+          "templates": [
+            {
+              "id": "Y8.N.EXPONENTS_ROOTS.T2",
+              "stem": "Evaluate ({a}/{b})^-2.",
+              "params": { "a": ["int", 1, 5], "b": ["int", 2, 6] },
+              "answer": "(b*b) / (a*a)",
+              "difficulty": 7,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y8.G.PYTHAGORAS",
+          "strand": "Geometry & Measurement",
+          "name": "Pythagoras' theorem",
+          "description": "Use Pythagoras' theorem to find unknown side lengths in right-angled triangles.",
+          "templates": [
+            {
+              "id": "Y8.G.PYTHAGORAS.T1",
+              "stem": "A right-angled triangle has two shorter sides of length {a} cm and {b} cm. What is the length of the hypotenuse, rounded to one decimal place?",
+              "params": { "a": ["int", 3, 20], "b": ["int", 3, 20] },
+              "answer": "round(sqrt(a*a + b*b), 1)",
+              "difficulty": 7,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y8.A.INEQUALITIES",
+          "strand": "Number & Algebra",
+          "name": "Multi-step inequalities",
+          "description": "Solve one- and two-step linear inequalities.",
+          "templates": [
+            {
+              "id": "Y8.A.INEQUALITIES.T1",
+              "stem": "Solve for x: {a}x + {b} > {c}",
+              "params": { "a": ["int", 2, 5], "b": ["int", 1, 10], "c": ["int", 11, 40] },
+              "answer": "'x > ' + ((c - b) / a)",
+              "difficulty": 7,
+              "phase": 8
+            }
+          ]
         }
       ]
     },
     {
       "year": 9,
       "skills": [
+        {
+          "id": "Y9.A.SYSTEMS_LINEAR",
+          "strand": "Number & Algebra",
+          "name": "Systems of linear equations",
+          "description": "Solve systems of two linear equations in two variables.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y9.A.SYSTEMS_LINEAR.T1",
+                "stem": "Solve the following system of equations for x and y: y = {m}x + {c} and y = {m2}x + {c2}. Give your answer in the form x,y rounded to 2 decimal places if needed.",
+              "params": {
+                "m": ["int", -5, 5, 1],
+                "c": ["int", -10, 10],
+                "m2": ["int", -5, 5, 1],
+                "c2": ["int", -10, 10]
+              },
+              "answer": "solve_linear_system(m, c, m2, c2)",
+              "difficulty": 8,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y9.N.RADICALS",
+          "strand": "Number & Algebra",
+          "name": "Radical expressions",
+          "description": "Simplify square roots into surd form.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y9.N.RADICALS.T1",
+              "stem": "Simplify the following radical expression: √{n}.",
+              "params": { "n": ["int", 12, 150] },
+              "answer": "simplify_radical(n)",
+              "difficulty": 8,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y9.A.GRAPH_INEQUALITIES",
+          "strand": "Number & Algebra",
+          "name": "Graphing linear inequalities",
+          "description": "Identify the correct graphical representation of a linear inequality.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y9.A.GRAPH_INEQUALITIES.T1",
+              "stem": "Is the solution region for the inequality y < {m}x + {c} above or below the line? Answer \"above\" or \"below\".",
+              "params": {
+                "m": ["int", -3, 3, 1],
+                "c": ["int", -5, 5]
+              },
+              "answer": "'below'",
+              "visualData": {
+                "type": "graph_inequality",
+                "m": "m",
+                "c": "c",
+                "inequality": "<"
+              },
+              "difficulty": 8,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y9.G.MIDPOINT",
+          "strand": "Geometry & Measurement",
+          "name": "Midpoint formula",
+          "description": "Find the midpoint of a line segment given two endpoints.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y9.G.MIDPOINT.T1",
+              "stem": "Find the midpoint of the line segment with endpoints ({x1}, {y1}) and ({x2}, {y2}).",
+              "params": {
+                "x1": ["int", -10, 10],
+                "y1": ["int", -10, 10],
+                "x2": ["int", -10, 10],
+                "y2": ["int", -10, 10]
+              },
+              "answer": "'(' + ((x1 + x2) / 2) + ', ' + ((y1 + y2) / 2) + ')'",
+              "difficulty": 7,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y9.G.COMPOSITE_SOLIDS",
+          "strand": "Geometry & Measurement",
+          "name": "Composite 3D solids",
+          "description": "Find the volume of composite solids built from basic shapes.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y9.G.COMPOSITE_SOLIDS.T1",
+              "stem": "A solid is formed by placing a cone with radius {r} cm and height {h_cone} cm on top of a cylinder with the same radius and height {h_cyl} cm. What is the total volume of the solid? Use π ≈ 3.14.",
+              "params": {
+                "r": ["int", 3, 10],
+                "h_cone": ["int", 4, 12],
+                "h_cyl": ["int", 5, 15]
+              },
+              "answer": "round(volume_cone(r, h_cone) + volume_cylinder(r, h_cyl), 2)",
+              "difficulty": 8,
+              "phase": 8
+            }
+          ]
+        },
         {
           "id": "Y9.A.INEQUALITIES",
           "strand": "Number & Algebra",
