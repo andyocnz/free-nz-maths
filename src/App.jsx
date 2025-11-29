@@ -6,6 +6,7 @@ import QuestionVisualizer from './QuestionVisualizer.jsx'
 import TestResults from './TestResults.jsx'
 import CurriculumMap, { CurriculumMapToggle } from './CurriculumMap.jsx'
 import HintModal from './HintModal.jsx'
+import KnowledgeModal from './KnowledgeModal.jsx'
 import CanvasBackground from './CanvasBackground.jsx'
 import DailyChallenge from './DailyChallenge.jsx'
 import LoginModal from './LoginModal.jsx'
@@ -15,6 +16,7 @@ import { getCurrentUser, loginUser, logoutUser, saveProgress, saveTestResult, sa
 import { generateReportURL } from './config.js'
 import { normalizeFraction } from './mathHelpers.js'
 import WordDropdown from './WordDropdown.jsx'
+import knowledgeSnippets from './knowledgeSnippets.json'
 
 // Alternating Text Component
 function AlternatingText() {
@@ -68,6 +70,7 @@ export default function App() {
   const [testResults, setTestResults] = useState(null)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true)
   const [hintModal, setHintModal] = useState({ isOpen: false, title: '', message: '' })
+  const [knowledgeModal, setKnowledgeModal] = useState({ isOpen: false, snippet: null })
   const [attempts, setAttempts] = useState(0)
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false)
   const [curriculumMapYear, setCurriculumMapYear] = useState(6) // Year selector for curriculum map
@@ -80,6 +83,39 @@ export default function App() {
   const nextLockedRef = useRef(false)
   const [nextLocked, setNextLocked] = useState(false)
   const [devTemplateSamples, setDevTemplateSamples] = useState([])
+
+  // Normalize number words for PLACE_VALUE "write in words" questions
+  function normalizeNumberWords(str) {
+    if (!str) return ''
+    return String(str)
+      .toLowerCase()
+      .replace(/-/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim()
+  }
+
+  const openKnowledgeModal = () => {
+    if (!question) return
+    const skillId = question.skillId || selectedSkill
+    if (!skillId) return
+
+    const snippet = knowledgeSnippets[skillId] || null
+
+    if (snippet) {
+      setKnowledgeModal({ isOpen: true, snippet })
+    } else {
+      setKnowledgeModal({
+        isOpen: true,
+        snippet: {
+          title: 'Concept reminder',
+          summary: 'No specific concept reminder is available for this skill yet.',
+          key_formulas: [],
+          example: '',
+          common_misconceptions: []
+        }
+      })
+    }
+  }
 
   // Toggle landing-only body background (grid) for main page
   useEffect(() => {
@@ -349,7 +385,9 @@ export default function App() {
     setSidebarCollapsed(false)
     setAttempts(0)
     setShowCorrectAnswer(false)
-    initialized.current = false
+    // Prevent the practice-mode useEffect from auto-advancing to the next question
+    // when we have just seeded a fresh question set here.
+    initialized.current = true
 
     // Generate 20 questions for this skill
     const questions = []
@@ -1695,6 +1733,7 @@ export default function App() {
               {/* Show WordDropdown for "write in words" questions, regular input for others */}
                 {question?.skillId?.includes('PLACE_VALUE') && question?.question?.toLowerCase().includes('in words') ? (
                   <WordDropdown
+                    key={question.templateId || currentIndex}
                     number={question.params?.n || 0}
                     onAnswer={(selectedAnswer) => {
                       setAnswer(selectedAnswer)
@@ -1782,17 +1821,26 @@ export default function App() {
                 >
                   💡 Hint
                 </button>
-                <button className="btn-success" onClick={checkAnswer}>Check Answer</button>
-                <button
-                  className="btn-secondary"
-                  onClick={() => {
-                    setShowCorrectAnswer(true)
-                    setFeedback(`Answer: ${question?.answer || 'N/A'}`)
-                  }}
-                  style={{marginLeft: '8px'}}
-                >
-                  Reveal Answer
-                </button>
+                  <button
+                    type="button"
+                    onClick={openKnowledgeModal}
+                    className="btn-secondary"
+                  >
+                    Remind me the knowledge
+                  </button>
+                  <button className="btn-success" onClick={checkAnswer}>Check Answer</button>
+                  {isDevMode && (
+                    <button
+                      className="btn-secondary"
+                      onClick={() => {
+                        setShowCorrectAnswer(true)
+                        setFeedback(`Answer: ${question?.answer || 'N/A'}`)
+                      }}
+                      style={{marginLeft: '8px'}}
+                    >
+                      Reveal Answer
+                    </button>
+                  )}
                 {isTestMode ? (
                   currentIndex < history.length - 1 ? (
                     <button className="btn-primary" onClick={goForward}>Next →</button>
@@ -1882,6 +1930,11 @@ export default function App() {
           title={hintModal.title}
           message={hintModal.message}
           htmlContent={hintModal.htmlContent}
+        />
+        <KnowledgeModal
+          isOpen={knowledgeModal.isOpen}
+          onClose={() => setKnowledgeModal({ isOpen: false, snippet: null })}
+          snippet={knowledgeModal.snippet}
         />
       </>
     )

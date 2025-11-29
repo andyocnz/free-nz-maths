@@ -471,7 +471,9 @@ export function solve_linear_parabola_system(a, c) {
   const C = Number(c)
   const val = C + A
   if (val < 0) return 'no_real_solution'
-  return Math.sqrt(val)
+  const x = Math.sqrt(val)
+  const rx = Math.round(x * 100) / 100
+  return rx
 }
 
 // Volume of a cylinder (uses same PI approximation as cones/spheres)
