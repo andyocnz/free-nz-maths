@@ -26,6 +26,24 @@ export function simplify(num, den) {
   return `${simplifiedNum}/${simplifiedDen}`
 }
 
+// Convert decimal to fraction in simplest form
+export function decimal_to_fraction_simplified(x) {
+  const value = Number(x)
+  if (!Number.isFinite(value)) return '0'
+
+  // Count decimal places (up to 6 to be safe)
+  const str = value.toString()
+  const dotIndex = str.indexOf('.')
+  if (dotIndex === -1) {
+    return simplify(value, 1)
+  }
+
+  const decimalPlaces = str.length - dotIndex - 1
+  const denominator = 10 ** decimalPlaces
+  const numerator = Math.round(value * denominator)
+  return simplify(numerator, denominator)
+}
+
 export function number_to_words(n) {
   if (n === 0) return 'zero'
 
@@ -126,6 +144,35 @@ export function prime_factorisation(n) {
   return factors.join(' × ')
 }
 
+// Basic square root helper for templates that use sqrt(...)
+export function sqrt(x) {
+  return Math.sqrt(x)
+}
+
+// Estimate the square root of n (to nearest whole number)
+export function estimate_sqrt(n) {
+  const value = Number(n)
+  if (!Number.isFinite(value) || value < 0) return NaN
+  return Math.round(Math.sqrt(value))
+}
+
+// Arithmetic sequence nth-term formula as a string, e.g. "a_n = -5 - (n - 1) * 5"
+export function arithmetic_sequence_nth_term_formula(a1, d) {
+  const first = Number(a1)
+  const diff = Number(d)
+  if (!Number.isFinite(first) || !Number.isFinite(diff)) {
+    return 'a_n = a_1 + (n - 1)d'
+  }
+  if (diff === 0) {
+    return `a_n = ${first}`
+  }
+  const absDiff = Math.abs(diff)
+  if (diff > 0) {
+    return `a_n = ${first} + (n - 1) * ${absDiff}`
+  }
+  return `a_n = ${first} - (n - 1) * ${absDiff}`
+}
+
 export function mean(arr) {
   return arr.reduce((sum, val) => sum + val, 0) / arr.length
 }
@@ -158,6 +205,49 @@ export function mode(arr) {
 
 export function range(arr) {
   return Math.max(...arr) - Math.min(...arr)
+}
+
+// Sort a numeric array ascending
+export function sort(arr) {
+  if (!Array.isArray(arr)) return arr
+  return [...arr].sort((a, b) => a - b)
+}
+
+// Mixed-number subtraction: (w1 a/b) - (w2 c/b)
+export function mixed_subtract(w1, a, b, w2, c, d) {
+  const den1 = b
+  const den2 = d
+  if (den1 !== den2 || den1 === 0) return '0'
+  const improp1 = w1 * den1 + a
+  const improp2 = w2 * den2 + c
+  const num = improp1 - improp2
+  return simplify(num, den1)
+}
+
+// Convert improper fraction to mixed number string
+export function improper_to_mixed(num, den) {
+  if (den === 0) return 'undefined'
+  const whole = Math.trunc(num / den)
+  const remainder = Math.abs(num % den)
+  if (remainder === 0) return whole.toString()
+  return `${whole} ${remainder}/${Math.abs(den)}`
+}
+
+// Simplify ratio a:b
+export function simplify_ratio(a, b) {
+  const g = hcf(a, b)
+  const ra = a / g
+  const rb = b / g
+  return `${ra}:${rb}`
+}
+
+// Round a positive decimal to given significant figures
+export function round_to_sigfig(x, sig) {
+  const value = Number(x)
+  if (!Number.isFinite(value) || value === 0) return 0
+  const power = Math.floor(Math.log10(Math.abs(value))) - (sig - 1)
+  const factor = 10 ** power
+  return Math.round(value / factor) * factor
 }
 
 // Normalize numeric or fraction string to a Number for comparison
@@ -221,8 +311,10 @@ export function elapsed_minutes(start, end) {
 
 // --- Phase 7: New helper functions ---
 
+const PI_APPROX = 3.14
+
 export function surface_area_cylinder(r, h) {
-  return 2 * Math.PI * r * h + 2 * Math.PI * r * r;
+  return 2 * PI_APPROX * r * h + 2 * PI_APPROX * r * r;
 }
 
 export function surface_area_rectangular_prism(l, w, h) {
@@ -234,18 +326,66 @@ export function geometric_sequence_nth_term(a, r, n) {
 }
 
 export function volume_cone(r, h) {
-  return (1/3) * Math.PI * r * r * h;
+  return (1/3) * PI_APPROX * r * r * h;
 }
 
 export function surface_area_cone(r, h) {
   const slantHeight = Math.sqrt(h*h + r*r);
-  return Math.PI * r * (r + slantHeight);
+  return PI_APPROX * r * (r + slantHeight);
 }
 
 export function volume_sphere(r) {
-  return (4/3) * Math.PI * r**3;
+  return (4/3) * PI_APPROX * r**3;
 }
 
 export function surface_area_sphere(r) {
-  return 4 * Math.PI * r**2;
+  return 4 * PI_APPROX * r**2;
+}
+
+// Check if n is a perfect square (for rational/irrational classification)
+export function is_perfect_square(n) {
+  const value = Number(n)
+  if (!Number.isFinite(value) || value < 0) return false
+  const root = Math.round(Math.sqrt(value))
+  return root * root === value
+}
+
+// Helpers matching template expressions max([..]) / min([..])
+export function max(arr) {
+  if (!Array.isArray(arr)) return NaN
+  return Math.max(...arr)
+}
+
+export function min(arr) {
+  if (!Array.isArray(arr)) return NaN
+  return Math.min(...arr)
+}
+
+// Absolute value helper for templates that use abs(...)
+export function abs(x) {
+  return Math.abs(x)
+}
+
+// Factorise monic quadratics x^2 + ax + b with integer roots.
+// Returns a string like "(x + 2)(x - 3)" when possible,
+// otherwise falls back to the unfactored form "x^2 + ax + b".
+export function factor_quadratic_monic(a, b) {
+  const A = Number(a)
+  const B = Number(b)
+  if (!Number.isFinite(A) || !Number.isFinite(B)) {
+    return `x^2 + ${a}x + ${b}`
+  }
+
+  for (let p = -30; p <= 30; p++) {
+    for (let q = -30; q <= 30; q++) {
+      if (p + q === A && p * q === B) {
+        const left = p >= 0 ? `(x + ${p})` : `(x - ${Math.abs(p)})`
+        const right = q >= 0 ? `(x + ${q})` : `(x - ${Math.abs(q)})`
+        return left + right
+      }
+    }
+  }
+
+  // If no integer factors found, return standard form
+  return `x^2 + ${A}x + ${B}`
 }

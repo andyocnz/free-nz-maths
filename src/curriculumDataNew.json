@@ -19,9 +19,18 @@
             },
             {
               "id": "Y6.G.ROTATIONAL_SYMMETRY.T2",
-              "stem": "What is the order of rotational symmetry of a regular {n}-sided polygon (a {shape})?",
-              "params": { "n": ["choice", 5, 6, 8], "shape": ["choice", "pentagon", "hexagon", "octagon"] },
-              "answer": "n",
+              "stem": "What is the order of rotational symmetry of a regular {shape}?",
+              "params": {
+                "shape": [
+                  "choice",
+                  ["pentagon", 5],
+                  ["hexagon", 6],
+                  ["octagon", 8],
+                  ["equilateral triangle", 3],
+                  ["regular heptagon", 7]
+                ]
+              },
+              "answer": "shape[1]",
               "difficulty": 4
             }
           ]
@@ -479,6 +488,233 @@
       ]
     },
     {
+      "year": 7,
+      "skills": [
+        {
+          "id": "Y7.S.DATA_STATS_PROB",
+          "strand": "Statistics & Probability",
+          "templates": [
+            {
+              "id": "Y7.S.DATA_STATS_PROB.T2",
+              "stem": "A bag has {r} red and {b} blue counters. What is the probability of picking a red counter?",
+              "params": {
+                "r": ["int", 2, 20],
+                "b": ["int", 2, 20]
+              },
+              "answer": "r / (r + b)",
+              "difficulty": 5
+            },
+            {
+              "id": "Y7.S.DATA_STATS_PROB.T3",
+              "stem": "What is the mean of {a}, {b}, and {c}?",
+              "params": {
+                "a": ["int", 0, 100],
+                "b": ["int", 0, 100],
+                "c": ["int", 0, 100]
+              },
+              "answer": "(a + b + c) / 3",
+              "difficulty": 5
+            }
+          ]
+        },
+        {
+          "id": "Y7.N.DECIMALS",
+          "strand": "Number & Algebra",
+          "templates": [
+            {
+              "id": "Y7.N.DECIMALS.T3",
+              "stem": "Calculate: {x} + {y}.",
+              "params": {
+                "x": ["decimal", 0, 200, 2],
+                "y": ["decimal", 0, 200, 2]
+              },
+              "answer": "x + y",
+              "difficulty": 5
+            },
+            {
+              "id": "Y7.N.DECIMALS.T4",
+              "stem": "Convert the decimal {x} to a fraction in simplest form.",
+              "params": {
+                "x": ["decimal", 0, 20, 3]
+              },
+              "answer": "decimal_to_fraction_simplified(x)",
+              "difficulty": 6
+            }
+          ]
+        },
+        {
+          "id": "Y7.N.INTEGERS",
+          "strand": "Number & Algebra",
+          "templates": [
+            {
+              "id": "Y7.N.INTEGERS.T3",
+              "stem": "Calculate: {a} - {b}.",
+              "params": {
+                "a": ["int", -40, 40],
+                "b": ["int", -40, 40]
+              },
+              "answer": "a - b",
+              "difficulty": 5
+            }
+          ]
+        },
+        {
+          "id": "Y7.N.FRACTIONS_RATIONAL",
+          "strand": "Number & Algebra",
+          "templates": [
+            {
+              "id": "Y7.N.FRACTIONS_RATIONAL.T3",
+              "stem": "Calculate: {w1} {a}/{b} - {w2} {c}/{b}.",
+              "params": {
+                "w1": ["int", 1, 10],
+                "w2": ["int", 0, 9],
+                "a": ["int", 1, 9],
+                "b": ["int", 2, 12],
+                "c": ["int", 1, 9]
+              },
+              "answer": "mixed_subtract(w1,a,b,w2,c,b)",
+              "difficulty": 6
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 8,
+      "skills": [
+        {
+          "id": "Y8.S.DATA_STATS_PROB",
+          "strand": "Statistics & Probability",
+          "templates": [
+            {
+              "id": "Y8.S.DATA_STATS_PROB.T2",
+              "stem": "A bag has {r} red and {b} blue counters. What is the probability of picking a red counter?",
+              "params": {
+                "r": ["int", 5, 25],
+                "b": ["int", 5, 25]
+              },
+              "answer": "r / (r + b)",
+              "difficulty": 6
+            },
+            {
+              "id": "Y8.S.DATA_STATS_PROB.T3",
+              "stem": "What is the mean of {a}, {b}, and {c}?",
+              "params": {
+                "a": ["int", 0, 200],
+                "b": ["int", 0, 200],
+                "c": ["int", 0, 200]
+              },
+              "answer": "(a + b + c) / 3",
+              "difficulty": 6
+            },
+            {
+              "id": "Y8.S.DATA_STATS_PROB.T2B",
+              "stem": "A data set has values {a}, {b}, {c}, {d}. What is the median?",
+              "params": {
+                "a": ["int", 0, 100],
+                "b": ["int", 0, 100],
+                "c": ["int", 0, 100],
+                "d": ["int", 0, 100]
+              },
+              "answer": "median([a,b,c,d])",
+              "difficulty": 7
+            }
+          ]
+        },
+        {
+          "id": "Y8.N.DECIMALS",
+          "strand": "Number & Algebra",
+          "templates": [
+            {
+              "id": "Y8.N.DECIMALS.T2",
+              "stem": "Put these decimals in order from least to greatest: {x}, {y}, {z}.",
+              "params": {
+                "x": ["decimal", -100, 100, 3],
+                "y": ["decimal", -100, 100, 3],
+                "z": ["decimal", -100, 100, 3]
+              },
+              "answer": "sort([x,y,z])",
+              "difficulty": 6
+            },
+            {
+              "id": "Y8.N.DECIMALS.T3",
+              "stem": "Calculate: {x} + {y}.",
+              "params": {
+                "x": ["decimal", -200, 200, 2],
+                "y": ["decimal", -200, 200, 2]
+              },
+              "answer": "x + y",
+              "difficulty": 6
+            },
+            {
+              "id": "Y8.N.DECIMALS.T4",
+              "stem": "Convert the decimal {x} to a fraction in simplest form.",
+              "params": {
+                "x": ["decimal", 0, 50, 3]
+              },
+              "answer": "decimal_to_fraction_simplified(x)",
+              "difficulty": 7
+            }
+          ]
+        },
+        {
+          "id": "Y8.N.INTEGERS",
+          "strand": "Number & Algebra",
+          "templates": [
+            {
+              "id": "Y8.N.INTEGERS.T2",
+              "stem": "Calculate: {a} + {b}.",
+              "params": {
+                "a": ["int", -80, 80],
+                "b": ["int", -80, 80]
+              },
+              "answer": "a + b",
+              "difficulty": 6
+            },
+            {
+              "id": "Y8.N.INTEGERS.T3",
+              "stem": "Order these integers from least to greatest: {a}, {b}, {c}.",
+              "params": {
+                "a": ["int", -40, 40],
+                "b": ["int", -40, 40],
+                "c": ["int", -40, 40]
+              },
+              "answer": "sort([a,b,c])",
+              "difficulty": 6
+            }
+          ]
+        },
+        {
+          "id": "Y8.N.FRACTIONS_RATIONAL",
+          "strand": "Number & Algebra",
+          "templates": [
+            {
+              "id": "Y8.N.FRACTIONS_RATIONAL.T2",
+              "stem": "Convert the improper fraction {num}/{den} to a mixed number.",
+              "params": {
+                "num": ["int", 5, 60],
+                "den": ["int", 2, 15]
+              },
+              "answer": "improper_to_mixed(num, den)",
+              "difficulty": 7
+            },
+            {
+              "id": "Y8.N.FRACTIONS_RATIONAL.T3",
+              "stem": "Calculate: {a}/{b} + {c}/{d}.",
+              "params": {
+                "a": ["int", 1, 12],
+                "b": ["int", 2, 15],
+                "c": ["int", 1, 12],
+                "d": ["int", 2, 15]
+              },
+              "answer": "simplify(a*d + c*b, b*d)",
+              "difficulty": 7
+            }
+          ]
+        }
+      ]
+    },
+    {
       "year": 9,
       "skills": [
         {
@@ -593,10 +829,79 @@
             {
               "id": "Y9.S.BOX_PLOTS.T1",
               "stem": "For the data set shown in the box plot, what is the interquartile range (IQR)?",
-              "params": { "q1": [20], "q3": [45] },
-              "answer": "q3 - q1",
+              "params": {
+                "five": [
+                  "choice",
+                  [10, 20, 35, 45, 50],
+                  [5, 15, 22, 30, 42],
+                  [12, 18, 25, 37, 48],
+                  [7, 16, 24, 40, 60]
+                ]
+              },
+              "answer": "five[3] - five[1]",
               "difficulty": 8,
-              "visualData": {"type": "box_plot", "min": 10, "q1": 20, "median": 35, "q3": 45, "max": 50, "label": "Test Scores"}
+              "visualData": {
+                "type": "box_plot",
+                "min": "five[0]",
+                "q1": "five[1]",
+                "median": "five[2]",
+                "q3": "five[3]",
+                "max": "five[4]",
+                "label": "Test Scores"
+              }
+            }
+          ]
+        },
+        {
+          "id": "Y9.S.DATA_STATS_PROB",
+          "strand": "Statistics & Probability",
+          "templates": [
+            {
+              "id": "Y9.S.DATA_STATS_PROB.T2",
+              "stem": "A bag has {r} red, {b} blue and {g} green counters. What is the probability of picking a red counter?",
+              "params": {
+                "r": ["int", 5, 30],
+                "b": ["int", 5, 30],
+                "g": ["int", 5, 30]
+              },
+              "answer": "r / (r + b + g)",
+              "difficulty": 7
+            },
+            {
+              "id": "Y9.S.DATA_STATS_PROB.T3",
+              "stem": "What is the mean of {a}, {b}, and {c}?",
+              "params": {
+                "a": ["int", 0, 500],
+                "b": ["int", 0, 500],
+                "c": ["int", 0, 500]
+              },
+              "answer": "(a + b + c) / 3",
+              "difficulty": 7
+            },
+            {
+              "id": "Y9.S.DATA_STATS_PROB.T4",
+              "stem": "A data set has values {a}, {b}, {c}, {d}. What is the median?",
+              "params": {
+                "a": ["int", 0, 200],
+                "b": ["int", 0, 200],
+                "c": ["int", 0, 200],
+                "d": ["int", 0, 200]
+              },
+              "answer": "median([a,b,c,d])",
+              "difficulty": 8
+            },
+            {
+              "id": "Y9.S.DATA_STATS_PROB.T5",
+              "stem": "A data set has values {a}, {b}, {c}, {d}, {e}. What is the range?",
+              "params": {
+                "a": ["int", 0, 200],
+                "b": ["int", 0, 200],
+                "c": ["int", 0, 200],
+                "d": ["int", 0, 200],
+                "e": ["int", 0, 200]
+              },
+              "answer": "max([a,b,c,d,e]) - min([a,b,c,d,e])",
+              "difficulty": 8
             }
           ]
         },

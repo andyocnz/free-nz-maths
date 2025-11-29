@@ -155,8 +155,13 @@ function substituteStem(stem, params) {
   let result = stem
 
   for (const [key, value] of Object.entries(params)) {
+    let displayValue = value
+    // If the param is an array (e.g., ['pentagon', 5]), use the first element for display in the stem.
+    if (Array.isArray(displayValue)) {
+      displayValue = displayValue[0]
+    }
     const regex = new RegExp(`\\{${key}\\}`, 'g')
-    result = result.replace(regex, value)
+    result = result.replace(regex, displayValue)
   }
 
   return result
@@ -508,6 +513,17 @@ export function generateQuestionFromTemplate(template, skill, year) {
   }
 
   const params = generateParams(template.params, year, templateDifficulty)
+
+  // Ensure right-triangle trig questions use consistent side lengths.
+  // For TRIG_RIGHT templates, derive the hypotenuse from opp and adj
+  // so that sin and cos are always in [0,1] and satisfy Pythagoras.
+  if ((template.id || '').includes('TRIG_RIGHT') &&
+      typeof params.opp === 'number' &&
+      typeof params.adj === 'number') {
+    const hyp = Math.sqrt(params.opp * params.opp + params.adj * params.adj)
+    params.hyp = mathHelpers.round(hyp, 1)
+  }
+
   const question = substituteStem(template.stem, params)
   const answer = evaluateAnswer(template.answer, params)
 
@@ -676,7 +692,5 @@ export function getStrandsForYear(curriculum, year) {
 
   return Object.values(strandMap)
 }
-
-
 
 

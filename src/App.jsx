@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { generateQuestionForSkill, getStrandsForYear, getAvailableYears } from './templateEngine.js'
+import { generateQuestionForSkill, getStrandsForYear, getAvailableYears, generateQuestionFromTemplate } from './templateEngine.js'
 import curriculumData from './curriculumDataMerged.js'
 import { generateTest, calculateTestResults } from './testGenerator.js'
 import QuestionVisualizer from './QuestionVisualizer.jsx'
@@ -28,7 +28,7 @@ function AlternatingText() {
   useEffect(() => {
     const interval = setInterval(() => {
       setTextIndex(prev => (prev + 1) % texts.length)
-    }, 5000) // Change every 5 seconds
+    }, 9000) // Change every 9 seconds
 
     return () => clearInterval(interval)
   }, [])
@@ -77,6 +77,7 @@ export default function App() {
   const initialized = useRef(false)
   const nextLockedRef = useRef(false)
   const [nextLocked, setNextLocked] = useState(false)
+  const [devTemplateSamples, setDevTemplateSamples] = useState([])
 
   // Toggle landing-only body background (grid) for main page
   useEffect(() => {
@@ -169,6 +170,48 @@ export default function App() {
 
   const question = history[currentIndex]
   const availableYears = getAvailableYears(curriculumData)
+
+  // Dev-only: generate a sample question/answer for every template in the selected year
+  useEffect(() => {
+    if (!isDevMode) {
+      setDevTemplateSamples([])
+      return
+    }
+
+    const rows = []
+    curriculumData.years.forEach(year => {
+      if (year.year !== curriculumMapYear) return
+      year.skills.forEach(skill => {
+        const templates = skill.templates || []
+        templates.forEach(template => {
+          try {
+            const q = generateQuestionFromTemplate(template, skill.name, year.year)
+            rows.push({
+              templateId: template.id || '',
+              skillId: skill.id,
+              skillName: skill.name,
+              year: year.year,
+              question: q.question,
+              answer: q.formattedAnswer || q.answer,
+              isNew: !!(template.isNew || skill.isNew)
+            })
+          } catch (e) {
+            rows.push({
+              templateId: template.id || '',
+              skillId: skill.id,
+              skillName: skill.name,
+              year: year.year,
+              question: 'Error generating question',
+              answer: '0',
+              isNew: !!(template.isNew || skill.isNew)
+            })
+          }
+        })
+      })
+    })
+
+    setDevTemplateSamples(rows)
+  }, [isDevMode, curriculumMapYear])
 
   useEffect(() => {
     if (!initialized.current && mode === 'practice') {
@@ -1247,6 +1290,61 @@ export default function App() {
                     </div>
                   </div>
                 </div>
+
+                {/* Dev-only: Template sampler table for current year */}
+                {isDevMode && devTemplateSamples.length > 0 && (
+                  <div className="mt-12">
+                    <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2">
+                      <h3 className="text-2xl font-bold text-slate-800">
+                        Template Samples (Year {curriculumMapYear})
+                      </h3>
+                      <span className="text-sm text-slate-500">
+                        Total generated: {devTemplateSamples.length}
+                      </span>
+                    </div>
+                    <p className="text-sm text-slate-500 mb-3">
+                      Dev view: one generated sample question and expected answer per template for the selected year.
+                    </p>
+                    <div className="overflow-x-auto bg-white rounded-xl border border-gray-200 shadow-sm max-h-[500px]">
+                      <table className="min-w-full text-left text-sm">
+                        <thead className="bg-gray-50 sticky top-0 z-10">
+                          <tr>
+                            <th className="px-4 py-2 font-semibold text-gray-700">Template ID</th>
+                            <th className="px-4 py-2 font-semibold text-gray-700">Skill</th>
+                            <th className="px-4 py-2 font-semibold text-gray-700">Sample Question</th>
+                            <th className="px-4 py-2 font-semibold text-gray-700">Expected Answer</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {devTemplateSamples.map(row => (
+                            <tr key={row.templateId || `${row.skillId}-${row.question}`} className="border-t border-gray-100 align-top">
+                              <td className="px-4 py-2 whitespace-nowrap text-xs md:text-sm text-gray-800">
+                                <div className="flex items-center gap-2">
+                                  <span>{row.templateId || '—'}</span>
+                                  {row.isNew && (
+                                    <span className="inline-flex items-center px-2 py-0.5 text-[0.65rem] font-semibold rounded-full bg-emerald-100 text-emerald-700 uppercase tracking-wide">
+                                      New
+                                    </span>
+                                  )}
+                                </div>
+                                <div className="text-[0.7rem] text-gray-500 mt-0.5">{row.skillId}</div>
+                              </td>
+                              <td className="px-4 py-2 text-xs md:text-sm text-gray-700 whitespace-nowrap">
+                                {row.skillName}
+                              </td>
+                              <td className="px-4 py-2 text-xs md:text-sm text-gray-800 max-w-md">
+                                {row.question}
+                              </td>
+                              <td className="px-4 py-2 text-xs md:text-sm text-gray-800 max-w-xs">
+                                {row.answer}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )}
 
                 {/* Curriculum for Selected Year */}
                 <div className="space-y-8">
