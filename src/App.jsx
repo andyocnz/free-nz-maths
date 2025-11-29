@@ -6,6 +6,8 @@ import QuestionVisualizer from './QuestionVisualizer.jsx'
 import TestResults from './TestResults.jsx'
 import CurriculumMap, { CurriculumMapToggle } from './CurriculumMap.jsx'
 import HintModal from './HintModal.jsx'
+import KnowledgeModal from './KnowledgeModal.jsx'
+import PastPapersIndex from './PastPapersIndex.jsx'
 import CanvasBackground from './CanvasBackground.jsx'
 import DailyChallenge from './DailyChallenge.jsx'
 import LoginModal from './LoginModal.jsx'
@@ -1207,6 +1209,36 @@ export default function App() {
             </div>
           </div>
 
+          {/* NCEA Past Papers Section */}
+          <div id="ncea-past-papers" className="py-12 bg-white">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="bg-slate-50/80 border border-slate-200 rounded-2xl p-6 md:p-8 card-shadow flex flex-col md:flex-row items-center gap-6">
+                <div className="flex-1 text-left">
+                  <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-2">
+                    NCEA Past Papers
+                  </h3>
+                  <p className="text-sm md:text-base text-slate-600 mb-3 max-w-xl">
+                    Ready for exam-style questions? Start with real NCEA Level 1 MCAT
+                    papers (Standard 91027) and practice with authentic problems.
+                  </p>
+                  <p className="text-xs md:text-sm text-slate-500">
+                    Early prototype: you can browse past papers and open the official PDFs while
+                    we build fully interactive exam-mode practice.
+                  </p>
+                </div>
+                <div className="flex-shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setMode('ncea-index')}
+                    className="px-6 py-3 rounded-full bg-[#0077B6] hover:bg-sky-700 text-white font-semibold text-sm md:text-base shadow-lg"
+                  >
+                    Browse NCEA Past Papers
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Curriculum Map */}
           <div id="curriculum-map" className="py-16 bg-slate-100/40 backdrop-blur-sm">
             <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1497,6 +1529,18 @@ export default function App() {
     // Redirect to landing page
     setMode('landing')
     return null
+  }
+
+  if (mode === 'ncea-index') {
+    return (
+      <>
+        {showLoginModal && <LoginModal onLogin={handleLogin} />}
+        {showLoginRecommendation && (
+          <LoginRecommendationModal onLogin={handleLogin} onSkip={handleSkipLogin} />
+        )}
+        <PastPapersIndex onBack={() => setMode('landing')} />
+      </>
+    )
   }
 
   if (mode === 'topic-select' && selectedStrand) {
