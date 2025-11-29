@@ -1,37 +1,6 @@
 ﻿import { useEffect, useRef } from 'react'
 import { elapsed_minutes } from './mathHelpers.js'
 
-// Helper: compute midpoint angle of an arc drawn from start to end
-function arcMidAngle(start, end, anticlockwise) {
-  const twoPi = Math.PI * 2
-  let s = start % twoPi; if (s < 0) s += twoPi
-  let e = end % twoPi; if (e < 0) e += twoPi
-  if (anticlockwise) {
-    if (e <= s) e += twoPi
-    const mid = s + (e - s) / 2
-    return (mid + twoPi) % twoPi
-  } else {
-    if (s <= e) s += twoPi
-    const mid = s - (s - e) / 2
-    return (mid + twoPi) % twoPi
-  }
-}
-
-// Helper: compute interior bisector angle between two ray angles (radians)
-function bisectorFromAngles(a1, a2) {
-  // unit vectors for directions
-  const ux = Math.cos(a1), uy = Math.sin(a1)
-  const vx = Math.cos(a2), vy = Math.sin(a2)
-  const sx = ux + vx, sy = uy + vy
-  const len = Math.hypot(sx, sy)
-  if (len < 1e-6) {
-    // nearly opposite directions - return a perpendicular to a1
-    // rotate (ux,uy) by +90deg -> (-uy, ux)
-    return Math.atan2(ux, -uy)
-  }
-  return Math.atan2(sy, sx)
-}
-
 export default function QuestionVisualizer({ question, visualData }) {
   const canvasRef = useRef(null)
 
@@ -84,7 +53,31 @@ export default function QuestionVisualizer({ question, visualData }) {
         break
       case 'composite_rect_tri':
         drawCompositeRectTriangle(ctx, visualData)
-        break
+        break;
+      case 'net':
+        drawNet(ctx, visualData)
+        break;
+      case 'stem_and_leaf':
+        drawStemAndLeaf(ctx, visualData);
+        break;
+      case 'histogram':
+        drawHistogram(ctx, visualData);
+        break;
+      case 'venn_diagram_two':
+        drawVennDiagramTwo(ctx, visualData);
+        break;
+      case 'box_plot':
+        drawBoxPlot(ctx, visualData);
+        break;
+      case 'scatter_plot':
+        drawScatterPlot(ctx, visualData);
+        break;
+      case 'car_on_road':
+        drawCarOnRoad(ctx, visualData);
+        break;
+      case 'parallel_transversal':
+        drawParallelTransversal(ctx, visualData);
+        break;
       default:
         break
     }
@@ -102,6 +95,140 @@ export default function QuestionVisualizer({ question, visualData }) {
       />
     </div>
   )
+}
+
+// Draw a simple scatter plot with optional trend line/arrow
+function drawScatterPlot(ctx, data) {
+  const points = data.points || []
+  const width = data.width || 360
+  const height = data.height || 240
+  const margin = 40
+  const left = 20, top = 20
+  const plotW = width - margin
+  const plotH = height - margin
+
+  ctx.strokeStyle = '#ddd'
+  ctx.lineWidth = 1
+  // axes
+  ctx.beginPath()
+  ctx.moveTo(left + margin, top)
+  ctx.lineTo(left + margin, top + plotH)
+  ctx.lineTo(left + margin + plotW, top + plotH)
+  ctx.stroke()
+
+  // compute ranges
+  const xs = points.map(p => p[0])
+  const ys = points.map(p => p[1])
+  const xmin = Math.min(...xs, 0)
+  const xmax = Math.max(...xs, 10)
+  const ymin = Math.min(...ys, 0)
+  const ymax = Math.max(...ys, 10)
+
+  const scaleX = plotW / Math.max(1, (xmax - xmin))
+  const scaleY = plotH / Math.max(1, (ymax - ymin))
+
+  // draw points
+  ctx.fillStyle = '#FF5722'
+  points.forEach(p => {
+    const x = left + margin + (p[0] - xmin) * scaleX
+    const y = top + plotH - (p[1] - ymin) * scaleY
+    ctx.beginPath()
+    ctx.arc(x, y, 4, 0, 2 * Math.PI)
+    ctx.fill()
+  })
+
+  // optional trend arrow: draw simple line from min to max
+  if (data.trend) {
+    ctx.strokeStyle = '#4CAF50'
+    ctx.lineWidth = 2
+    const x1 = left + margin + (xmin - xmin) * scaleX
+    const y1 = top + plotH - (ymin - ymin) * scaleY
+    const x2 = left + margin + (xmax - xmin) * scaleX
+    const y2 = top + plotH - (ymax - ymin) * scaleY
+    ctx.beginPath()
+    ctx.moveTo(x1, y1)
+    ctx.lineTo(x2, y2)
+    ctx.stroke()
+    // arrowhead
+    const ang = Math.atan2(y2 - y1, x2 - x1)
+    const ah = 8
+    ctx.beginPath()
+    ctx.moveTo(x2, y2)
+    ctx.lineTo(x2 - ah * Math.cos(ang - 0.4), y2 - ah * Math.sin(ang - 0.4))
+    ctx.lineTo(x2 - ah * Math.cos(ang + 0.4), y2 - ah * Math.sin(ang + 0.4))
+    ctx.closePath()
+    ctx.fillStyle = '#4CAF50'
+    ctx.fill()
+  }
+}
+
+// Draw a small car on a road for speed/distance visualizations
+function drawCarOnRoad(ctx, data) {
+  const width = data.width || 360
+  const height = data.height || 200
+
+  // simple sky and ground to make scene feel less flat
+  ctx.fillStyle = '#E3F2FD'
+  ctx.fillRect(0, 0, width, height / 2)
+  ctx.fillStyle = '#C8E6C9'
+  ctx.fillRect(0, height / 2, width, height / 2)
+
+  // road
+  ctx.fillStyle = '#666'
+  ctx.fillRect(20, height / 2 - 20, width - 40, 40)
+  // lane divider
+  ctx.strokeStyle = '#fff'
+  ctx.setLineDash([10, 10])
+  ctx.beginPath()
+  ctx.moveTo(30, height / 2)
+  ctx.lineTo(width - 30, height / 2)
+  ctx.stroke()
+  ctx.setLineDash([])
+
+  // car body base
+  const cx = 80
+  const cy = height / 2 - 16
+  ctx.fillStyle = '#1976D2'
+  ctx.fillRect(cx, cy + 8, 80, 26)
+
+  // car roof / cabin
+  ctx.beginPath()
+  ctx.moveTo(cx + 16, cy + 8)
+  ctx.lineTo(cx + 36, cy - 8)
+  ctx.lineTo(cx + 66, cy - 8)
+  ctx.lineTo(cx + 80, cy + 8)
+  ctx.closePath()
+  ctx.fill()
+
+  // windows
+  ctx.fillStyle = '#BBDEFB'
+  ctx.fillRect(cx + 30, cy, 22, 12)
+  ctx.fillRect(cx + 56, cy, 18, 12)
+
+  // wheels with hubs
+  ctx.fillStyle = '#000'
+  ctx.beginPath(); ctx.arc(cx + 20, cy + 34, 7, 0, 2*Math.PI); ctx.fill();
+  ctx.beginPath(); ctx.arc(cx + 60, cy + 34, 7, 0, 2*Math.PI); ctx.fill();
+  ctx.fillStyle = '#757575'
+  ctx.beginPath(); ctx.arc(cx + 20, cy + 34, 3, 0, 2*Math.PI); ctx.fill();
+  ctx.beginPath(); ctx.arc(cx + 60, cy + 34, 3, 0, 2*Math.PI); ctx.fill();
+
+  // subtle motion lines behind car
+  ctx.strokeStyle = 'rgba(0,0,0,0.25)'
+  ctx.lineWidth = 2
+  ctx.beginPath()
+  ctx.moveTo(cx - 10, cy + 20)
+  ctx.lineTo(cx - 30, cy + 20)
+  ctx.moveTo(cx - 8, cy + 26)
+  ctx.lineTo(cx - 26, cy + 26)
+  ctx.stroke()
+
+  // label speed if provided (only when explicitly allowed)
+  if (data.speed !== undefined && data.showSpeed !== false) {
+    ctx.fillStyle = '#000'
+    ctx.font = 'bold 14px Arial'
+    ctx.fillText(`${data.speed} km/h`, cx + 100, cy + 16)
+  }
 }
 
 // Draw a triangle with labeled sides
@@ -138,6 +265,28 @@ function drawTriangle(ctx, data) {
   ctx.fill()
 }
 
+// Helper: normalize angle to [0, 2PI)
+function normalizeAngle(a) {
+  const twoPi = 2 * Math.PI
+  let v = a % twoPi
+  if (v < 0) v += twoPi
+  return v
+}
+
+// Helper: compute midpoint angle along an arc from start->end respecting direction
+function arcMidpoint(start, end, anticlockwise) {
+  const twoPi = 2 * Math.PI
+  const s = normalizeAngle(start)
+  const e = normalizeAngle(end)
+  if (anticlockwise) {
+    const delta = (e - s + twoPi) % twoPi
+    return normalizeAngle(s + delta / 2)
+  } else {
+    const delta = (s - e + twoPi) % twoPi
+    return normalizeAngle(s - delta / 2)
+  }
+}
+
 // Draw angles on a straight line
 function drawAnglesOnLine(ctx, data) {
   const { angle1, angle2 } = data
@@ -170,68 +319,40 @@ function drawAnglesOnLine(ctx, data) {
   ctx.strokeStyle = '#4CAF50'
   ctx.lineWidth = 2
 
-  // Left and right arcs (we'll compute sizes and place labels so the known
-  // smaller angle is on the smaller arc and the unknown on the larger arc)
-  const leftStart = Math.PI
-  const leftEnd = angle1Rad
-  const rightStart = 0
-  const rightEnd = angle1Rad
-
-  // helper: compute positive arc size (radians) following drawing direction
-  const arcSize = (start, end, anticlockwise) => {
-    const twoPi = Math.PI * 2
-    let s = start % twoPi; if (s < 0) s += twoPi
-    let e = end % twoPi; if (e < 0) e += twoPi
-    if (anticlockwise) {
-      let delta = e - s
-      if (delta <= 0) delta += twoPi
-      return delta
-    } else {
-      let delta = s - e
-      if (delta <= 0) delta += twoPi
-      return delta
-    }
-  }
-
-  const leftSize = arcSize(leftStart, leftEnd, true)
-  const rightSize = arcSize(rightStart, rightEnd, false)
-
-  // Draw arcs
+  // Left angle
   ctx.beginPath()
-  ctx.arc(divX, divY, 40, leftStart, leftEnd, true)
-  ctx.strokeStyle = '#4CAF50'
+  const radius = 40
+  // left arc: start=Math.PI, end=angle1Rad, anticlockwise=true
+  ctx.arc(divX, divY, radius, Math.PI, angle1Rad, true)
   ctx.stroke()
-
-  ctx.beginPath()
-  ctx.arc(divX, divY, 40, rightStart, rightEnd, false)
-  ctx.strokeStyle = '#FF5722'
-  ctx.stroke()
-
-  // place labels: known angle on smaller arc; unknown on larger arc
+  ctx.fillStyle = '#4CAF50'
+  // place label at middle of arc using robust midpoint
+  const leftMid = arcMidpoint(Math.PI, angle1Rad, true)
+  const fontSize = (ctx.font && parseInt(ctx.font, 10)) || 16
+  const offset = radius + Math.max(12, Math.round(fontSize * 0.9))
+  const lx = divX + Math.cos(leftMid) * offset
+  const ly = divY - Math.sin(leftMid) * offset
+  ctx.save()
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
-  const smallIsLeft = leftSize <= rightSize
-  if (smallIsLeft) {
-    // known on left
-    const mid = arcMidAngle(leftStart, leftEnd, true)
-    const labelR = 40 + 36
-    ctx.fillStyle = '#4CAF50'
-    ctx.fillText(`${angle1}°`, divX + Math.cos(mid) * labelR, divY + Math.sin(mid) * labelR)
+  ctx.fillText(`${angle1}°`, lx, ly)
+  ctx.restore()
 
-    const mid2 = arcMidAngle(rightStart, rightEnd, false)
-    ctx.fillStyle = '#FF5722'
-    ctx.fillText(`?°`, divX + Math.cos(mid2) * (40 + 36), divY + Math.sin(mid2) * (40 + 36))
-  } else {
-    // known on right
-    const mid = arcMidAngle(rightStart, rightEnd, false)
-    const labelR = 40 + 36
-    ctx.fillStyle = '#4CAF50'
-    ctx.fillText(`${angle1}°`, divX + Math.cos(mid) * labelR, divY + Math.sin(mid) * labelR)
-
-    const mid2 = arcMidAngle(leftStart, leftEnd, true)
-    ctx.fillStyle = '#FF5722'
-    ctx.fillText(`?°`, divX + Math.cos(mid2) * (40 + 36), divY + Math.sin(mid2) * (40 + 36))
-  }
+  // Right angle (with "?°")
+  ctx.strokeStyle = '#FF5722'
+  ctx.beginPath()
+  ctx.arc(divX, divY, radius, 0, angle1Rad, false)
+  ctx.stroke()
+  ctx.fillStyle = '#FF5722'
+  // place unknown label at middle of right arc using robust midpoint
+  const rightMid = arcMidpoint(0, angle1Rad, false)
+  const rx = divX + Math.cos(rightMid) * offset
+  const ry = divY - Math.sin(rightMid) * offset
+  ctx.save()
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.fillText('?°', rx, ry)
+  ctx.restore()
 
   // Add point marker
   ctx.fillStyle = '#333'
@@ -259,35 +380,42 @@ function drawVerticalAngles(ctx, data) {
   ctx.moveTo(centerX - lineLen, centerY + lineLen)
   ctx.lineTo(centerX + lineLen, centerY - lineLen)
   ctx.stroke()
+  // Label angles using arc bisectors for accurate placement
+  const aTR = normalizeAngle(Math.atan2(centerY - (centerY - lineLen), (centerX + lineLen) - centerX)) // top-right
+  const aTL = normalizeAngle(Math.atan2(centerY - (centerY - lineLen), (centerX - lineLen) - centerX)) // top-left
+  const aBL = normalizeAngle(Math.atan2(centerY - (centerY + lineLen), (centerX - lineLen) - centerX)) // bottom-left
+  const aBR = normalizeAngle(Math.atan2(centerY - (centerY + lineLen), (centerX + lineLen) - centerX)) // bottom-right
 
-  // Label angles
-  ctx.fillStyle = '#4CAF50'
-  // place the known angle label inside the top-right angle (bisector of the X)
+  const radius = 36
+  const fontSize = (ctx.font && parseInt(ctx.font, 10)) || 16
+  const offset = radius + Math.max(12, Math.round(fontSize * 0.9))
+
+  // top, left, bottom, right mid angles (small arcs between the rays)
+  const topMid = arcMidpoint(aTR, aTL, true)
+  const leftMid = arcMidpoint(aTL, aBL, true)
+  const bottomMid = arcMidpoint(aBL, aBR, true)
+  const rightMid = arcMidpoint(aBR, aTR, true)
+
+  // compute positions (note canvas Y axis is downward so use centerY - sin)
+  const topX = centerX + Math.cos(topMid) * offset
+  const topY = centerY - Math.sin(topMid) * offset
+  const leftX = centerX + Math.cos(leftMid) * offset
+  const leftY = centerY - Math.sin(leftMid) * offset
+  const bottomX = centerX + Math.cos(bottomMid) * offset
+  const bottomY = centerY - Math.sin(bottomMid) * offset
+  const rightX = centerX + Math.cos(rightMid) * offset
+  const rightY = centerY - Math.sin(rightMid) * offset
+
+  // place the known angle in the top quadrant and the unknown in the opposite quadrant (bottom)
+  ctx.save()
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
-  {
-     // compute the two ray angles for the top-right angle and use bisector
-     const r = 40
-     const rayA = Math.atan2(-lineLen, lineLen) // top-right direction
-     const rayB = Math.atan2(-lineLen, -lineLen) // top-left direction
-     const mid = bisectorFromAngles(rayA, rayB)
-     const lx = centerX + Math.cos(mid) * (r + 30)
-     const ly = centerY + Math.sin(mid) * (r + 30)
-     ctx.fillText(`${angle}°`, lx, ly)
-  }
-
+  ctx.fillStyle = '#4CAF50'
+  ctx.fillText(`${angle}°`, topX, topY)
   ctx.fillStyle = '#FF5722'
-  // place unknown label opposite the known one
-  {
-     const r = 40
-     // opposite rays (bottom-left)
-     const rayA = Math.atan2(lineLen, -lineLen) // bottom-left direction
-     const rayB = Math.atan2(lineLen, lineLen) // bottom-right direction
-     const mid = bisectorFromAngles(rayA, rayB)
-     const lx = centerX + Math.cos(mid) * (r + 30)
-     const ly = centerY + Math.sin(mid) * (r + 30)
-     ctx.fillText(`?°`, lx, ly)
-  }
+  // opposite of top is bottom
+  ctx.fillText('?°', bottomX, bottomY)
+  ctx.restore()
 
   // Center point
   ctx.fillStyle = '#333'
@@ -409,6 +537,25 @@ function drawCoordinateGrid(ctx, data) {
     ctx.fillStyle = '#FF5722'
     ctx.font = 'bold 14px Arial'
     ctx.fillText(`(${x}, ${y})`, pointX + 8, pointY - 8)
+  }
+  // Single point provided in points array
+  else if (showPoint && points && points.length === 1) {
+    const p = points[0]
+    const px = Number(p[0])
+    const py = Number(p[1])
+    if (!Number.isNaN(px) && !Number.isNaN(py)) {
+      const pointX = centerX + px * scale
+      const pointY = centerY - py * scale
+
+      ctx.fillStyle = '#FF5722'
+      ctx.beginPath()
+      ctx.arc(pointX, pointY, 6, 0, 2 * Math.PI)
+      ctx.fill()
+
+      ctx.fillStyle = '#FF5722'
+      ctx.font = 'bold 14px Arial'
+      ctx.fillText(`(${px}, ${py})`, pointX + 8, pointY - 8)
+    }
   }
 }
 
@@ -757,7 +904,7 @@ function drawTriangularPrism(ctx, data) {
   // Label base area
   ctx.fillStyle = '#1565C0'
   ctx.font = 'bold 14px Arial'
-  ctx.fillText(`Base area = ${baseArea} cm²`, x1 - 10, y1 + 30)
+  ctx.fillText(`Base area = ${baseArea} cmÂ²`, x1 - 10, y1 + 30)
 
   // Draw height arrow along prism length
   ctx.strokeStyle = '#FF5722'
@@ -896,8 +1043,8 @@ function drawCompositeRectTriangle(ctx, data) {
   ctx.fillStyle = '#0b1220'
   ctx.font = '12px Arial'
   ctx.fillText('Composite shape', legendX + 10, legendY + 16)
-    ctx.fillText('• Rectangle part', legendX + 10, legendY + 32)
-    ctx.fillText('• Triangle part', legendX + 10, legendY + 48)
+  ctx.fillText('â€¢ Rectangle part', legendX + 10, legendY + 32)
+  ctx.fillText('â€¢ Triangle part', legendX + 10, legendY + 48)
 }
 
 // Phase 5: Draw time line visualization
@@ -950,6 +1097,461 @@ function drawTimeLine(ctx, v) {
 }
 
 
+
+
+
+
+
+
+
+// --- Phase 7: New drawing functions ---
+function drawStemAndLeaf(ctx, data) {
+  const { stems, leaves, key } = data;
+  ctx.font = 'bold 16px Arial';
+  ctx.fillStyle = '#333';
+  
+  let y = 50;
+  const stemX = 150;
+  const leafX = 180;
+
+  ctx.fillText('Stem', stemX - 50, y);
+  ctx.fillText('Leaf', leafX + 20, y);
+  y += 20;
+  
+  ctx.strokeStyle = '#333';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(stemX + 25, y-10);
+  ctx.lineTo(stemX + 25, y + stems.length * 25);
+  ctx.stroke();
+
+  stems.forEach(stem => {
+    ctx.textAlign = 'right';
+    ctx.fillText(stem, stemX, y + 20);
+    ctx.textAlign = 'left';
+    const leafString = (leaves[stem] || []).join('   ');
+    ctx.fillText(leafString, leafX, y + 20);
+    y += 25;
+  });
+  
+  y += 30;
+  ctx.font = 'italic 14px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText(`Key: ${key}`, 200, y);
+}
+
+function drawHistogram(ctx, data) {
+    const { bins, values } = data;
+    ctx.font = 'bold 12px Arial';
+    const barWidth = 300 / bins.length;
+    const maxVal = Math.max(...values);
+    const scale = maxVal > 0 ? 180 / maxVal : 1;
+    const startX = 50;
+    const baseY = 250;
+
+    bins.forEach((bin, i) => {
+        const barHeight = values[i] * scale;
+        const x = startX + i * barWidth;
+        ctx.fillStyle = '#2196F3';
+        ctx.fillRect(x, baseY - barHeight, barWidth, barHeight);
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x, baseY - barHeight, barWidth, barHeight);
+
+        ctx.fillStyle = '#333';
+        ctx.textAlign = 'center';
+        ctx.fillText(values[i].toString(), x + barWidth / 2, baseY - barHeight - 5);
+        ctx.fillText(bin, x + barWidth / 2, baseY + 15);
+    });
+
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(startX, baseY);
+    ctx.lineTo(startX + 300, baseY);
+    ctx.stroke();
+    ctx.textAlign = 'left';
+    ctx.fillText('Frequency', startX - 45, baseY - 180);
+}
+
+function drawVennDiagramTwo(ctx, data) {
+    const { labelA, labelB, valA, valB, valOverlap } = data;
+    const x1 = 150, y1 = 150, r1 = 80;
+    const x2 = 250, y2 = 150, r2 = 80;
+
+    ctx.globalAlpha = 0.3;
+    ctx.fillStyle = '#2196F3'; // Blue
+    ctx.beginPath();
+    ctx.arc(x1, y1, r1, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    ctx.fillStyle = '#F44336'; // Red
+    ctx.beginPath();
+    ctx.arc(x2, y2, r2, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.globalAlpha = 1.0;
+
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(x1, y1, r1, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(x2, y2, r2, 0, 2 * Math.PI);
+    ctx.stroke();
+
+    ctx.font = 'bold 20px Arial';
+    ctx.fillStyle = '#333';
+    ctx.textAlign = 'center';
+    
+    ctx.fillText(labelA, x1, y1 - r1 - 10);
+    ctx.fillText(labelB, x2, y2 - r2 - 10);
+    
+    ctx.fillText(valA.toString(), x1 - r1/2, y1);
+    ctx.fillText(valB.toString(), x2 + r2/2, y2);
+    ctx.fillText(valOverlap.toString(), (x1+x2)/2, y1);
+}
+
+function drawBoxPlot(ctx, data) {
+    const { min, q1, median, q3, max, label } = data;
+    const y = 150;
+    const totalRange = max - min;
+    const scale = totalRange > 0 ? 300 / totalRange : 1;
+    const startX = 50;
+    
+    const minX = startX;
+    const q1X = startX + (q1 - min) * scale;
+    const medianX = startX + (median - min) * scale;
+    const q3X = startX + (q3 - min) * scale;
+    const maxX = startX + (max - min) * scale;
+    
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 2;
+    
+    // Box
+    ctx.strokeRect(q1X, y - 40, q3X - q1X, 80);
+    
+    // Median line
+    ctx.beginPath();
+    ctx.moveTo(medianX, y - 40);
+    ctx.lineTo(medianX, y + 40);
+    ctx.stroke();
+    
+    // Whiskers
+    ctx.beginPath();
+    ctx.moveTo(minX, y);
+    ctx.lineTo(q1X, y);
+    ctx.moveTo(q3X, y);
+    ctx.lineTo(maxX, y);
+    ctx.stroke();
+
+    // Min/Max lines
+    ctx.beginPath();
+    ctx.moveTo(minX, y - 20);
+    ctx.lineTo(minX, y + 20);
+    ctx.moveTo(maxX, y - 20);
+    ctx.lineTo(maxX, y + 20);
+    ctx.stroke();
+
+    ctx.font = '14px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#333';
+    ctx.fillText(min, minX, y + 60);
+    ctx.fillText(q1, q1X, y + 60);
+    ctx.fillText(median, medianX, y + 60);
+    ctx.fillText(q3, q3X, y + 60);
+    ctx.fillText(max, maxX, y + 60);
+    ctx.fillText(label, 200, 50);
+}
+
+// Draw a simple net visualization (supports cube and other nets)
+function drawNet(ctx, data) {
+  const { shape_type } = data
+  ctx.clearRect(0, 0, 400, 300)
+  ctx.strokeStyle = '#333'
+  ctx.lineWidth = 2
+  ctx.font = '14px Arial'
+
+  if (shape_type === 'cube') {
+    // Draw a common cube net: cross shape (4 in a row + one above)
+    const size = 50
+    const startX = 140
+    const startY = 80
+
+    // center row: four squares
+    for (let i = -1; i <= 2; i++) {
+      const x = startX + i * size
+      const y = startY
+      ctx.strokeRect(x, y, size, size)
+    }
+
+    // square above the second square
+    ctx.strokeRect(startX + size * 0, startY - size, size, size)
+
+  } else {
+    // Additional supported nets
+    if (shape_type === 'rectangular_prism') {
+      // Draw a simple rectangular prism net: three rectangles in a row with one attached above and one below the middle
+      const w = 60, h = 40
+      const startX = 100, startY = 100
+      // center row of three
+      for (let i = 0; i < 3; i++) ctx.strokeRect(startX + i * w, startY, w, h)
+      // top and bottom attached to middle
+      ctx.strokeRect(startX + w, startY - h, w, h)
+      ctx.strokeRect(startX + w, startY + h, w, h)
+    } else if (shape_type === 'triangular_prism') {
+      // Draw triangular prism net: triangle - rectangle - rectangle - triangle
+      const rectW = 70, rectH = 40
+      const startX = 60, startY = 120
+      // left triangle
+      ctx.beginPath()
+      ctx.moveTo(startX, startY)
+      ctx.lineTo(startX + 30, startY - 40)
+      ctx.lineTo(startX + 30, startY + 40)
+      ctx.closePath()
+      ctx.stroke()
+      // three rectangles in a row
+      for (let i = 0; i < 3; i++) ctx.strokeRect(startX + 30 + i * rectW, startY - rectH / 2, rectW, rectH)
+      // right triangle
+      const tx = startX + 30 + 3 * rectW
+      ctx.beginPath()
+      ctx.moveTo(tx + rectW, startY - 40)
+      ctx.lineTo(tx + rectW + 30, startY)
+      ctx.lineTo(tx + rectW, startY + 40)
+      ctx.closePath()
+      ctx.stroke()
+    } else if (shape_type === 'square_pyramid') {
+      // Draw square base with 4 triangular faces around
+      const size = 60
+      const cx = 200, cy = 140
+      // square base
+      ctx.strokeRect(cx - size/2, cy - size/2, size, size)
+      // four triangles
+      // top
+      ctx.beginPath()
+      ctx.moveTo(cx - size/2, cy - size/2)
+      ctx.lineTo(cx + size/2, cy - size/2)
+      ctx.lineTo(cx, cy - size/2 - 50)
+      ctx.closePath()
+      ctx.stroke()
+      // bottom
+      ctx.beginPath()
+      ctx.moveTo(cx - size/2, cy + size/2)
+      ctx.lineTo(cx + size/2, cy + size/2)
+      ctx.lineTo(cx, cy + size/2 + 50)
+      ctx.closePath()
+      ctx.stroke()
+      // left
+      ctx.beginPath()
+      ctx.moveTo(cx - size/2, cy - size/2)
+      ctx.lineTo(cx - size/2, cy + size/2)
+      ctx.lineTo(cx - size/2 - 50, cy)
+      ctx.closePath()
+      ctx.stroke()
+      // right
+      ctx.beginPath()
+      ctx.moveTo(cx + size/2, cy - size/2)
+      ctx.lineTo(cx + size/2, cy + size/2)
+      ctx.lineTo(cx + size/2 + 50, cy)
+      ctx.closePath()
+      ctx.stroke()
+    } else if (shape_type === 'tetrahedron') {
+      // Draw net of a tetrahedron: central triangle with three triangles attached
+      const cx = 200, cy = 140
+      const s = 50
+      // central triangle
+      ctx.beginPath()
+      ctx.moveTo(cx, cy - s)
+      ctx.lineTo(cx - s, cy + s)
+      ctx.lineTo(cx + s, cy + s)
+      ctx.closePath()
+      ctx.stroke()
+      // top attached (upwards)
+      ctx.beginPath()
+      ctx.moveTo(cx, cy - s)
+      ctx.lineTo(cx - s/1.5, cy - s - 40)
+      ctx.lineTo(cx + s/1.5, cy - s - 40)
+      ctx.closePath()
+      ctx.stroke()
+      // left attached
+      ctx.beginPath()
+      ctx.moveTo(cx - s, cy + s)
+      ctx.lineTo(cx - s - 40, cy + s + 30)
+      ctx.lineTo(cx - s + 20, cy + s + 10)
+      ctx.closePath()
+      ctx.stroke()
+      // right attached
+      ctx.beginPath()
+      ctx.moveTo(cx + s, cy + s)
+      ctx.lineTo(cx + s + 40, cy + s + 30)
+      ctx.lineTo(cx + s - 20, cy + s + 10)
+      ctx.closePath()
+      ctx.stroke()
+    } else {
+      ctx.fillText('Net visualization not available', 120, 140)
+    }
+  }
+}
+
+// Draw two parallel horizontal lines cut by a transversal and mark alternate interior angles
+function drawParallelTransversal(ctx, data) {
+  const width = data.width || 360
+  const height = data.height || 300
+
+  ctx.clearRect(0, 0, width, height)
+  ctx.strokeStyle = '#2196F3'
+  ctx.lineWidth = 6
+
+  const left = 40
+  const right = width - 40
+  const topY = 110
+  const bottomY = 190
+
+  // draw two parallel lines
+  ctx.beginPath()
+  ctx.moveTo(left, topY)
+  ctx.lineTo(right, topY)
+  ctx.moveTo(left, bottomY)
+  ctx.lineTo(right, bottomY)
+  ctx.stroke()
+
+  // draw transversal (slanted) passing through both lines
+  const tx1 = left + 40
+  const ty1 = topY - 40
+  const tx2 = right - 40
+  const ty2 = bottomY + 40
+  ctx.strokeStyle = '#333'
+  ctx.lineWidth = 4
+  ctx.beginPath()
+  ctx.moveTo(tx1, ty1)
+  ctx.lineTo(tx2, ty2)
+  ctx.stroke()
+
+  // compute intersections approximate (top intersection near where transversal crosses top line)
+  // For our simple line coords, get intersection points by projecting
+  const topIx = tx1 + (topY - ty1) * (tx2 - tx1) / (ty2 - ty1)
+  const topIy = topY
+  const botIx = tx1 + (bottomY - ty1) * (tx2 - tx1) / (ty2 - ty1)
+  const botIy = bottomY
+
+  // draw small dot at intersections
+  ctx.fillStyle = '#111'
+  ctx.beginPath(); ctx.arc(topIx, topIy, 5, 0, 2*Math.PI); ctx.fill();
+  ctx.beginPath(); ctx.arc(botIx, botIy, 5, 0, 2*Math.PI); ctx.fill();
+
+  // compute transversal direction and place known angle and target properly
+  const ang = Math.atan2(ty2 - ty1, tx2 - tx1) // radians
+  const radius = 28
+
+  // Build unit vectors
+  const tUnit = { x: Math.cos(ang), y: Math.sin(ang) }
+  const pUnit = { x: 1, y: 0 } // parallel lines are horizontal
+  const perpToTrans = { x: -tUnit.y, y: tUnit.x }
+  const centerY = (topY + bottomY) / 2
+  const offsetDist = radius + 18
+
+  function makeSectors(interX, interY) {
+    const combos = [ [1,1], [1,-1], [-1,1], [-1,-1] ]
+    return combos.map(c => {
+      const dx = c[0]*pUnit.x + c[1]*tUnit.x
+      const dy = c[0]*pUnit.y + c[1]*tUnit.y
+      const len = Math.hypot(dx, dy) || 1
+      const dir = { x: dx/len, y: dy/len }
+      const labelX = interX + dir.x * offsetDist
+      const labelY = interY + dir.y * offsetDist
+      const isInterior = (dir.y * (centerY - interY)) > 0 // points toward the strip between lines
+      const side = (dir.x * perpToTrans.x + dir.y * perpToTrans.y) > 0 // left/right relative to transversal
+      return { dir, labelX, labelY, isInterior, side }
+    })
+  }
+
+  const topSectors = makeSectors(topIx, topIy)
+  const botSectors = makeSectors(botIx, botIy)
+
+  // Choose given sector: use provided data.givenIntersection/givenSectorIndex if present, else random
+  const givenIntersectionIndex = typeof data.givenIntersection !== 'undefined' ? (data.givenIntersection === 'top' ? 0 : 1) : (Math.random() < 0.5 ? 0 : 1)
+  const givenSectors = givenIntersectionIndex === 0 ? topSectors : botSectors
+  const givenSectorIndex = typeof data.givenSectorIndex !== 'undefined' ? data.givenSectorIndex : Math.floor(Math.random() * 4)
+  const givenSector = givenSectors[givenSectorIndex]
+  const known = Number.isFinite(Number(data.angle)) ? data.angle : 60
+
+  // Draw given arc at its intersection
+  const givenInterX = givenIntersectionIndex === 0 ? topIx : botIx
+  const givenInterY = givenIntersectionIndex === 0 ? topIy : botIy
+  ctx.strokeStyle = '#2E7D32'
+  ctx.lineWidth = 3
+  const gMid = Math.atan2(givenSector.dir.y, givenSector.dir.x)
+  ctx.beginPath()
+  ctx.arc(givenInterX, givenInterY, radius, gMid - 0.5, gMid + 0.5, false)
+  ctx.stroke()
+  ctx.fillStyle = '#2E7D32'
+  ctx.font = 'bold 16px Arial'
+  ctx.textAlign = 'center'
+  ctx.fillText(`${known}°`, givenSector.labelX, givenSector.labelY)
+
+  // Compute target sector according to relation
+  const relation = (data.relation || data.relationType || 'corresponding')
+  let targetSector = null
+  let targetInterX = topIx, targetInterY = topIy
+
+  function findMatchingSector(sectors, wantInterior, wantSide) {
+    for (const s of sectors) {
+      if (s.isInterior === wantInterior && s.side === wantSide) return s
+    }
+    return sectors.find(s => s.isInterior === wantInterior) || sectors[0]
+  }
+
+  if (relation === 'vertical') {
+    const sectors = givenIntersectionIndex === 0 ? topSectors : botSectors
+    const wantInterior = !givenSector.isInterior
+    const wantSide = !givenSector.side
+    targetSector = findMatchingSector(sectors, wantInterior, wantSide)
+    targetInterX = givenInterX; targetInterY = givenInterY
+  } else {
+    const otherSectors = givenIntersectionIndex === 0 ? botSectors : topSectors
+    if (relation === 'corresponding') {
+      targetSector = findMatchingSector(otherSectors, givenSector.isInterior, givenSector.side)
+    } else if (relation === 'alternate_interior') {
+      targetSector = findMatchingSector(otherSectors, true, !givenSector.side)
+    } else if (relation === 'alternate_exterior') {
+      targetSector = findMatchingSector(otherSectors, false, !givenSector.side)
+    } else if (relation === 'consecutive_interior' || relation === 'same_side_interior') {
+      targetSector = findMatchingSector(otherSectors, true, givenSector.side)
+    } else {
+      targetSector = findMatchingSector(otherSectors, givenSector.isInterior, givenSector.side)
+    }
+    targetInterX = givenIntersectionIndex === 0 ? botIx : topIx
+    targetInterY = givenIntersectionIndex === 0 ? botIy : topIy
+  }
+
+  // Draw target arc and place question mark
+  if (targetSector) {
+    ctx.strokeStyle = '#c62828'
+    ctx.lineWidth = 3
+    const tMid = Math.atan2(targetSector.dir.y, targetSector.dir.x)
+    ctx.beginPath()
+    ctx.arc(targetInterX, targetInterY, radius, tMid - 0.5, tMid + 0.5, false)
+    ctx.stroke()
+    ctx.fillStyle = '#c62828'
+    ctx.fillText('?°', targetSector.labelX, targetSector.labelY)
+  }
+
+  // titles
+  ctx.fillStyle = '#333'
+  ctx.font = '14px Arial'
+  ctx.fillText('Two parallel lines cut by a transversal', width / 2, 40)
+
+  // legend explaining colours for students
+  ctx.font = '12px Arial'
+  ctx.fillStyle = '#2E7D32'
+  ctx.fillRect(width - 140, height - 70, 10, 10)
+  ctx.fillStyle = '#333'
+  ctx.fillText('Given angle', width - 120, height - 61)
+  ctx.fillStyle = '#c62828'
+  ctx.fillRect(width - 140, height - 50, 10, 10)
+  ctx.fillStyle = '#333'
+  ctx.fillText('Find this angle', width - 120, height - 41)
+}
 
 
 

@@ -235,6 +235,7 @@ Use `dev-visual.html` for isolated visual testing:
 1. Open in browser
 2. Test specific visualization components
 3. Useful for debugging canvas rendering issues
+
 ### Browser Console
 Check for:
 - React warnings
@@ -456,4 +457,3 @@ For questions or contributions, ensure you:
 **Last Updated**: Phase 7 preparation (2025)
 **Maintainer**: Andy
 **License**: See LICENSE file
->>>>>>> origin/main

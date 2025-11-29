@@ -1,0 +1,94 @@
+DEVELOPER WORKFLOW: IMPLEMENTING PHASE 7 CURRICULUM EXPANSION
+===============================================================
+
+**Objective:** To safely integrate the new curriculum topics from `phase-7-new-topics-implementation-plan.txt` into the live codebase.
+
+**Prerequisite:** The file `src/phase-7-new-topics-implementation-plan.txt` must be present.
+
+---
+### Step 1: Preparation & Backup
+
+**Action:** Before editing, create a backup of the three files that will be modified. This provides a safe rollback point.
+1. Duplicate `src/mathHelpers.js` and rename it to `src/mathHelpers.js.bak`.
+2. Duplicate `src/QuestionVisualizer.jsx` and rename it to `src/QuestionVisualizer.jsx.bak`.
+3. Duplicate `src/curriculumDataFull.json` and rename it to `src/curriculumDataFull.json.bak`.
+
+---
+### Step 2: Update Math Helper Functions
+
+**Action:** Add the new helper functions to `src/mathHelpers.js`.
+1. Open `src/phase-7-new-topics-implementation-plan.txt`.
+2. Copy the entire block of JavaScript code from "PART 1: NEW HELPER FUNCTIONS".
+3. Open `src/mathHelpers.js`.
+4. Scroll to the very end of the file.
+5. Paste the copied code block.
+
+**Verification:** After saving, briefly inspect the file to ensure no syntax errors were accidentally introduced. Ensure all functions have been exported correctly.
+
+---
+### Step 3: Update the Question Visualizer
+
+**Action:** Add the new drawing logic to `src/QuestionVisualizer.jsx`. This is a two-part process.
+
+**Part A: Add new `case` statements:**
+1. Open `src/phase-7-new-topics-implementation-plan.txt`.
+2. Copy the new `case` statements from "PART 2: NEW VISUALIZER CODE", Step 2.1.
+3. Open `src/QuestionVisualizer.jsx`.
+4. Locate the `switch(visualData.type)` block inside the `useEffect` hook.
+5. Paste the new `case` statements inside the `switch` block, alongside the existing cases.
+
+**Part B: Add new `draw` functions:**
+1. Open `src/phase-7-new-topics-implementation-plan.txt`.
+2. Copy the new drawing functions (`drawStemAndLeaf`, `drawHistogram`, etc.) from "PART 2: NEW VISUALIZER CODE", Step 2.2.
+3. Open `src/QuestionVisualizer.jsx`.
+4. Scroll to the very end of the file.
+5. Paste the copied functions.
+
+**Verification:** After saving, check that the new function names match the names used in the `case` statements. Run a linter if available to check for syntax issues.
+
+---
+### Step 4: Update the Curriculum Data
+
+**Action:** Carefully insert the new skill objects into `src/curriculumDataFull.json`. This must be done for each year.
+
+**General Workflow (repeat for each year):**
+1. Open `src/phase-7-new-topics-implementation-plan.txt`.
+2. Go to "PART 3: NEW SKILL & TEMPLATE JSON" and locate the JSON array for the target year (e.g., "YEAR 6 - JSON").
+3. Copy the entire array of new skill objects, including the opening `[` and closing `]`.
+4. Open `src/curriculumDataFull.json`.
+5. Find the correct year object (e.g., `"year": 6,`).
+6. Inside that object, find the `"skills": [` array.
+7. Go to the end of the skills array, just before the closing `]`.
+8. Add a comma `,` after the last existing skill object (`}`).
+9. Paste the new skill objects (from which you should remove the outer `[` and `]` before pasting) after the comma.
+
+**Detailed Example for Year 6:**
+1. Copy the Year 6 JSON from the plan.
+2. In `curriculumDataFull.json`, find the end of the Year 6 skills array. It currently ends with the `"Y6.G.VOLUME_PRISMS"` object.
+3. Place a comma after the closing brace `}` of that object.
+4. Paste the new skill objects for Year 6.
+5. Repeat this process for the Year 7, 8, and 9 data, adding the new skills to their respective `"skills"` arrays.
+
+**Verification (CRITICAL):**
+*   After adding all new skills, the entire content of `src/curriculumDataFull.json` must be a valid JSON object.
+*   Use a JSON validator or an IDE with JSON linting to ensure there are no syntax errors, especially missing or extra commas. A single mistake here will prevent the application from loading the curriculum.
+
+---
+### Step 5: Final Testing and Verification
+
+**Action:** After all files have been modified and saved, run the application and test the new functionality.
+
+1. **Start the application:** Use the standard command (e.g., `npm run dev` or `npm start`).
+2. **Check for startup errors:** Look at the terminal for any compilation errors. Open the browser's developer console and check for any runtime errors on page load.
+3. **Test new skills:**
+    *   Navigate to the curriculum map for Year 6.
+    *   Find and click on a newly added skill, for example, "Stem-and-leaf plots".
+    *   **Verify:** Does a question load correctly?
+    *   **Verify:** Does the custom "stem_and_leaf" visualization appear?
+    *   **Verify:** Does the answer checking work?
+4. **Spot-check other new skills:**
+    *   Test the "Surface area of prisms and cylinders" skill in Year 8. Verify the calculation is correct.
+    *   Test the "Box plots and quartiles" skill in Year 9. Verify the box plot visualization appears.
+    *   Test one new topic from each of the four years to ensure the integration was successful across the board.
+
+If all tests pass without console errors, the implementation is successful.

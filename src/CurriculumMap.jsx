@@ -1,5 +1,5 @@
 import { getStrandsForYear } from './templateEngine.js'
-import curriculumData from './curriculumDataFull.json'
+import curriculumData from './curriculumDataMerged.js'
 
 export default function CurriculumMap({ currentStrand, currentTopic, currentSkill, onSelectSkill, collapsed = false, year = 7 }) {
   const strands = getStrandsForYear(curriculumData, year)
@@ -80,7 +80,7 @@ export default function CurriculumMap({ currentStrand, currentTopic, currentSkil
                       }
                     }}
                   >
-                    {isCurrentSkill && '→ '}{skill.name}
+                    {isCurrentSkill && '→ '}{skill.name}{skill.isNew && <span style={{marginLeft:8, color:'#ffca28', fontSize:'0.7em', fontWeight:700}}>NEW</span>}
                   </div>
                 )
               })}

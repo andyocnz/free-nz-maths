@@ -1,0 +1,705 @@
+══════════════════════════════════════════════════════════════════════════
+PHASE 7: NEW CURRICULUM TOPICS - IMPLEMENTATION PLAN
+══════════════════════════════════════════════════════════════════════════
+
+This document contains all necessary code and data to add the confirmed missing topics to the Mathx.nz platform.
+
+INSTRUCTIONS FOR DEVELOPER:
+1. Add the new helper functions from Part 1 to the bottom of `src/mathHelpers.js`.
+2. Add the new `case` statements and `draw` functions from Part 2 to `src/QuestionVisualizer.jsx`.
+3. Add the new skill JSON objects from Part 3 into the correct `skills` array for each year in `src/curriculumDataFull.json`.
+
+──────────────────────────────────────────────────────────────────────────
+PART 1: NEW HELPER FUNCTIONS (for src/mathHelpers.js)
+──────────────────────────────────────────────────────────────────────────
+
+export function surface_area_cylinder(r, h) {
+  return 2 * Math.PI * r * h + 2 * Math.PI * r * r;
+}
+
+export function surface_area_rectangular_prism(l, w, h) {
+  return 2 * (l * w + l * h + w * h);
+}
+
+export function geometric_sequence_nth_term(a, r, n) {
+  return a * (r ** (n - 1));
+}
+
+export function volume_cone(r, h) {
+  return (1/3) * Math.PI * r * r * h;
+}
+
+export function surface_area_cone(r, h) {
+  const slantHeight = Math.sqrt(h*h + r*r);
+  return Math.PI * r * (r + slantHeight);
+}
+
+export function volume_sphere(r) {
+  return (4/3) * Math.PI * r**3;
+}
+
+export function surface_area_sphere(r) {
+  return 4 * Math.PI * r**2;
+}
+
+──────────────────────────────────────────────────────────────────────────
+PART 2: NEW VISUALIZER CODE (for src/QuestionVisualizer.jsx)
+──────────────────────────────────────────────────────────────────────────
+
+// STEP 2.1: Add these new cases to the switch() statement in QuestionVisualizer.jsx
+
+      case 'stem_and_leaf':
+        drawStemAndLeaf(ctx, visualData);
+        break;
+      case 'histogram':
+        drawHistogram(ctx, visualData);
+        break;
+      case 'venn_diagram_two':
+        drawVennDiagramTwo(ctx, visualData);
+        break;
+      case 'box_plot':
+        drawBoxPlot(ctx, visualData);
+        break;
+
+
+// STEP 2.2: Add these new drawing functions to the bottom of QuestionVisualizer.jsx
+
+function drawStemAndLeaf(ctx, data) {
+  const { stems, leaves, key } = data;
+  ctx.font = 'bold 16px Arial';
+  ctx.fillStyle = '#333';
+  
+  let y = 50;
+  const stemX = 150;
+  const leafX = 180;
+
+  ctx.fillText('Stem', stemX - 50, y);
+  ctx.fillText('Leaf', leafX + 20, y);
+  y += 20;
+  
+  ctx.strokeStyle = '#333';
+  ctx.lineWidth = 2;
+  ctx.beginPath();
+  ctx.moveTo(stemX + 25, y-10);
+  ctx.lineTo(stemX + 25, y + stems.length * 25);
+  ctx.stroke();
+
+  stems.forEach(stem => {
+    ctx.textAlign = 'right';
+    ctx.fillText(stem, stemX, y + 20);
+    ctx.textAlign = 'left';
+    const leafString = (leaves[stem] || []).join('   ');
+    ctx.fillText(leafString, leafX, y + 20);
+    y += 25;
+  });
+  
+  y += 30;
+  ctx.font = 'italic 14px Arial';
+  ctx.textAlign = 'center';
+  ctx.fillText(`Key: ${key}`, 200, y);
+}
+
+function drawHistogram(ctx, data) {
+    const { bins, values } = data;
+    ctx.font = 'bold 12px Arial';
+    const barWidth = 300 / bins.length;
+    const maxVal = Math.max(...values);
+    const scale = 180 / maxVal;
+    const startX = 50;
+    const baseY = 250;
+
+    bins.forEach((bin, i) => {
+        const barHeight = values[i] * scale;
+        const x = startX + i * barWidth;
+        ctx.fillStyle = '#2196F3';
+        ctx.fillRect(x, baseY - barHeight, barWidth, barHeight);
+        ctx.strokeStyle = 'white';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x, baseY - barHeight, barWidth, barHeight);
+
+        ctx.fillStyle = '#333';
+        ctx.textAlign = 'center';
+        ctx.fillText(values[i].toString(), x + barWidth / 2, baseY - barHeight - 5);
+        ctx.fillText(bin, x + barWidth / 2, baseY + 15);
+    });
+
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(startX, baseY);
+    ctx.lineTo(startX + 300, baseY);
+    ctx.stroke();
+    ctx.textAlign = 'left';
+    ctx.fillText('Frequency', startX - 45, baseY - 180);
+}
+
+function drawVennDiagramTwo(ctx, data) {
+    const { labelA, labelB, valA, valB, valOverlap } = data;
+    const x1 = 150, y1 = 150, r1 = 80;
+    const x2 = 250, y2 = 150, r2 = 80;
+
+    ctx.globalAlpha = 0.3;
+    ctx.fillStyle = '#2196F3'; // Blue
+    ctx.beginPath();
+    ctx.arc(x1, y1, r1, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    ctx.fillStyle = '#F44336'; // Red
+    ctx.beginPath();
+    ctx.arc(x2, y2, r2, 0, 2 * Math.PI);
+    ctx.fill();
+    ctx.globalAlpha = 1.0;
+
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.arc(x1, y1, r1, 0, 2 * Math.PI);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(x2, y2, r2, 0, 2 * Math-PI);
+    ctx.stroke();
+
+    ctx.font = 'bold 20px Arial';
+    ctx.fillStyle = '#333';
+    ctx.textAlign = 'center';
+    
+    ctx.fillText(labelA, x1, y1 - r1 - 10);
+    ctx.fillText(labelB, x2, y2 - r2 - 10);
+    
+    ctx.fillText(valA.toString(), x1 - r1/2, y1);
+    ctx.fillText(valB.toString(), x2 + r2/2, y2);
+    ctx.fillText(valOverlap.toString(), (x1+x2)/2, y1);
+}
+
+function drawBoxPlot(ctx, data) {
+    const { min, q1, median, q3, max, label } = data;
+    const y = 150;
+    const totalRange = max - min;
+    const scale = 300 / totalRange;
+    const startX = 50;
+    
+    const minX = startX;
+    const q1X = startX + (q1 - min) * scale;
+    const medianX = startX + (median - min) * scale;
+    const q3X = startX + (q3 - min) * scale;
+    const maxX = startX + (max - min) * scale;
+    
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 2;
+    
+    // Box
+    ctx.strokeRect(q1X, y - 40, q3X - q1X, 80);
+    
+    // Median line
+    ctx.beginPath();
+    ctx.moveTo(medianX, y - 40);
+    ctx.lineTo(medianX, y + 40);
+    ctx.stroke();
+    
+    // Whiskers
+    ctx.beginPath();
+    ctx.moveTo(minX, y);
+    ctx.lineTo(q1X, y);
+    ctx.moveTo(q3X, y);
+    ctx.lineTo(maxX, y);
+    ctx.stroke();
+
+    // Min/Max lines
+    ctx.beginPath();
+    ctx.moveTo(minX, y - 20);
+    ctx.lineTo(minX, y + 20);
+    ctx.moveTo(maxX, y - 20);
+    ctx.lineTo(maxX, y + 20);
+    ctx.stroke();
+
+    ctx.font = '14px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#333';
+    ctx.fillText(min, minX, y + 60);
+    ctx.fillText(q1, q1X, y + 60);
+    ctx.fillText(median, medianX, y + 60);
+    ctx.fillText(q3, q3X, y + 60);
+    ctx.fillText(max, maxX, y + 60);
+    ctx.fillText(label, 200, 50);
+}
+
+──────────────────────────────────────────────────────────────────────────
+PART 3: NEW SKILL & TEMPLATE JSON (for src/curriculumDataFull.json)
+──────────────────────────────────────────────────────────────────────────
+
+// ============================
+// ====== YEAR 6 - JSON =======
+// ============================
+[
+  {
+    "id": "Y6.G.ANGLES_SUPPLEMENTARY",
+    "strand": "Geometry & Measurement",
+    "name": "Supplementary angles",
+    "templates": [
+      {
+        "id": "Y6.G.ANGLES_SUPPLEMENTARY.T1",
+        "stem": "Find the supplement of {a}°. Two angles are supplementary if they add up to 180°.",
+        "params": { "a": ["int", 10, 170] },
+        "answer": "180 - a",
+        "difficulty": 3
+      }
+    ]
+  },
+  {
+    "id": "Y6.G.ROTATIONAL_SYMMETRY",
+    "strand": "Geometry & Measurement",
+    "name": "Rotational symmetry",
+    "templates": [
+      {
+        "id": "Y6.G.ROTATIONAL_SYMMETRY.T1",
+        "stem": "What is the order of rotational symmetry of a square?",
+        "params": {},
+        "answer": "4",
+        "difficulty": 4
+      },
+      {
+        "id": "Y6.G.ROTATIONAL_SYMMETRY.T2",
+        "stem": "What is the order of rotational symmetry of a regular {n}-sided polygon (a {shape})?",
+        "params": { "n": ["choice", 5, 6, 8], "shape": ["choice", "pentagon", "hexagon", "octagon"] },
+        "answer": "n",
+        "difficulty": 4
+      }
+    ]
+  },
+  {
+    "id": "Y6.S.STEM_AND_LEAF",
+    "strand": "Statistics & Probability",
+    "name": "Stem-and-leaf plots",
+    "templates": [
+      {
+        "id": "Y6.S.STEM_AND_LEAF.T1",
+        "stem": "The stem-and-leaf plot shows test scores. How many students scored in the 80s?",
+        "params": {},
+        "answer": "3",
+        "difficulty": 2,
+        "visualData": { "type": "stem_and_leaf", "stems": [6, 7, 8, 9], "leaves": {"6": [5, 8], "7": [2, 6, 9], "8": [0, 4, 4], "9": [1]}, "key": "8 | 0 = 80" }
+      },
+      {
+        "id": "Y6.S.STEM_AND_LEAF.T2",
+        "stem": "From the stem-and-leaf plot of ages, what is the age of the oldest person?",
+        "params": {},
+        "answer": "52",
+        "difficulty": 3,
+        "visualData": { "type": "stem_and_leaf", "stems": [2, 3, 4, 5], "leaves": {"2": [2, 5], "3": [0, 8, 9], "4": [1], "5": [2]}, "key": "5 | 2 = 52" }
+      }
+    ]
+  },
+  {
+    "id": "Y6.S.HISTOGRAMS",
+    "strand": "Statistics & Probability",
+    "name": "Histograms",
+    "templates": [
+      {
+        "id": "Y6.S.HISTOGRAMS.T1",
+        "stem": "The histogram shows the heights of students. How many students are in the 150-160 cm bin?",
+        "params": {},
+        "answer": "8",
+        "difficulty": 2,
+        "visualData": { "type": "histogram", "bins": ["130-140", "140-150", "150-160", "160-170"], "values": [4, 6, 8, 3]}
+      }
+    ]
+  },
+  {
+    "id": "Y6.S.PROBABILITY_REPLACEMENT",
+    "strand": "Statistics & Probability",
+    "name": "Probability with replacement",
+    "templates": [
+      {
+        "id": "Y6.S.PROBABILITY_REPLACEMENT.T1",
+        "stem": "A bag has {r} red and {b} blue marbles. You pick one, put it back, then pick another. What is P(red, then red)?",
+        "params": { "r": ["int", 2, 8], "b": ["int", 2, 8] },
+        "answer": "round((r / (r+b)) * (r / (r+b)), 3)",
+        "difficulty": 4
+      }
+    ]
+  },
+  {
+    "id": "Y6.G.NETS",
+    "strand": "Geometry & Measurement",
+    "name": "3D Nets",
+    "templates": [
+      {
+        "id": "Y6.G.NETS.T1",
+        "stem": "Which 3D shape can be formed from the net shown?",
+        "params": {},
+        "answer": "'Cube'",
+        "difficulty": 3,
+        "visualData": {"type": "net", "shape_type": "cube"}
+      }
+    ]
+  },
+  {
+    "id": "Y6.S.VENN_DIAGRAMS",
+    "strand": "Statistics & Probability",
+    "name": "Venn Diagrams",
+    "templates": [
+      {
+        "id": "Y6.S.VENN_DIAGRAMS.T1",
+        "stem": "In a class of 30, {s} students play Sport, {m} play Music, and {b} play both. How many students play Sport only?",
+        "params": { "s": [15], "m": [12], "b": [5] },
+        "answer": "s - b",
+        "difficulty": 4,
+        "visualData": { "type": "venn_diagram_two", "labelA": "Sport", "labelB": "Music", "valA": 10, "valB": 7, "valOverlap": 5}
+      }
+    ]
+  }
+]
+
+
+// ============================
+// ====== YEAR 7 - JSON =======
+// ============================
+[
+  {
+    "id": "Y7.N.FRACTIONS_RATIONAL_OPS",
+    "strand": "Number & Algebra",
+    "name": "Rational number operations",
+    "templates": [
+      {
+        "id": "Y7.N.FRACTIONS_RATIONAL_OPS.T1",
+        "stem": "Calculate: {a}/{b} × {c}/{d}. Give the answer in simplest form.",
+        "params": { "a": ["int", 1, 9], "b": ["int", 2, 10], "c": ["int", 1, 9], "d": ["int", 2, 10] },
+        "answer": "simplify(a*c, b*d)",
+        "difficulty": 5
+      },
+      {
+        "id": "Y7.N.FRACTIONS_RATIONAL_OPS.T2",
+        "stem": "Calculate: ({a}/{b}) ÷ ({c}/{d}). Give the answer in simplest form.",
+        "params": { "a": ["int", 1, 9], "b": ["int", 2, 10], "c": ["int", 1, 9], "d": ["int", 2, 10] },
+        "answer": "simplify(a*d, b*c)",
+        "difficulty": 6
+      }
+    ]
+  },
+  {
+    "id": "Y7.N.EXPONENTS_NEGATIVE",
+    "strand": "Number & Algebra",
+    "name": "Negative exponents",
+    "templates": [
+      {
+        "id": "Y7.N.EXPONENTS_NEGATIVE.T1",
+        "stem": "Evaluate {b}^-{p}. Write your answer as a fraction.",
+        "params": { "b": ["int", 2, 5], "p": ["int", 2, 3] },
+        "answer": "'1/' + (b**p)",
+        "difficulty": 5
+      }
+    ]
+  },
+  {
+    "id": "Y7.N.EXPONENTS_FRACTIONAL",
+    "strand": "Number & Algebra",
+    "name": "Fractional exponents",
+    "templates": [
+      {
+        "id": "Y7.N.EXPONENTS_FRACTIONAL.T1",
+        "stem": "Evaluate {n}^(1/2).",
+        "params": { "n": ["choice", 4, 9, 16, 25, 36, 49, 64, 81, 100] },
+        "answer": "Math.sqrt(n)",
+        "difficulty": 6
+      }
+    ]
+  },
+  {
+    "id": "Y7.G.CIRCLES",
+    "strand": "Geometry & Measurement",
+    "name": "Circle Area and Circumference",
+    "templates": [
+      {
+        "id": "Y7.G.CIRCLES.T1",
+        "stem": "Find the circumference of a circle with radius {r} cm. Use π ≈ 3.14.",
+        "params": { "r": ["int", 2, 20] },
+        "answer": "round(2 * 3.14 * r, 2)",
+        "difficulty": 5
+      },
+      {
+        "id": "Y7.G.CIRCLES.T2",
+        "stem": "Find the area of a circle with radius {r} cm. Use π ≈ 3.14.",
+        "params": { "r": ["int", 2, 20] },
+        "answer": "round(3.14 * r * r, 2)",
+        "difficulty": 6
+      }
+    ]
+  },
+  {
+    "id": "Y7.N.RATES",
+    "strand": "Number & Algebra",
+    "name": "Rate word problems",
+    "templates": [
+      {
+        "id": "Y7.N.RATES.T1",
+        "stem": "A car travels {d} km in {t} hours. What is its average speed in km/h?",
+        "params": { "d": ["int", 100, 500], "t": ["int", 2, 5] },
+        "answer": "d / t",
+        "difficulty": 5
+      }
+    ]
+  },
+  {
+    "id": "Y7.S.COMPOUND_PROBABILITY",
+    "strand": "Statistics & Probability",
+    "name": "Compound probability with replacement",
+    "templates": [
+      {
+        "id": "Y7.S.COMPOUND_PROBABILITY.T1",
+        "stem": "A coin is flipped and a 6-sided die is rolled. What is P(heads and a {n})?",
+        "params": { "n": ["int", 1, 6] },
+        "answer": "'1/12'",
+        "difficulty": 6
+      }
+    ]
+  }
+]
+
+
+// ============================
+// ====== YEAR 8 - JSON =======
+// ============================
+[
+  {
+    "id": "Y8.A.MULTI_STEP_EQUATIONS",
+    "strand": "Number & Algebra",
+    "name": "Multi-step linear equations",
+    "templates": [
+      {
+        "id": "Y8.A.MULTI_STEP_EQUATIONS.T1",
+        "stem": "Solve for x: {a}(x + {b}) = {c}",
+        "params": { "a": ["int", 2, 5], "b": ["int", 1, 10], "c": ["int", 20, 100] },
+        "answer": "(c/a) - b",
+        "difficulty": 7
+      },
+      {
+        "id": "Y8.A.MULTI_STEP_EQUATIONS.T2",
+        "stem": "Solve for x: {a}x + {b} = {c}x + {d}",
+        "params": { "a": ["int", 5, 10], "b": ["int", 1, 20], "c": ["int", 1, 4], "d": ["int", 21, 50] },
+        "answer": "(d - b) / (a - c)",
+        "difficulty": 8
+      }
+    ]
+  },
+  {
+    "id": "Y8.G.TRANSVERSALS",
+    "strand": "Geometry & Measurement",
+    "name": "Transversals and parallel lines",
+    "templates": [
+      {
+        "id": "Y8.G.TRANSVERSALS.T1",
+        "stem": "Two parallel lines are cut by a transversal. If an alternate interior angle is {a}°, what is its corresponding angle?",
+        "params": { "a": ["int", 30, 150] },
+        "answer": "a",
+        "difficulty": 6
+      }
+    ]
+  },
+  {
+    "id": "Y8.G.TRANSFORMATIONS_COORDINATE",
+    "strand": "Geometry & Measurement",
+    "name": "Transformations on the coordinate plane",
+    "templates": [
+      {
+        "id": "Y8.G.TRANSFORMATIONS_COORDINATE.T1",
+        "stem": "Reflect the point ({x},{y}) across the y-axis.",
+        "params": { "x": ["int", 1, 10], "y": ["int", 1, 10] },
+        "answer": "`(${-x},${y})`",
+        "difficulty": 6,
+        "visualData": { "type": "coordinate_grid", "points": [["x","y"]], "showPoint": true }
+      },
+      {
+        "id": "Y8.G.TRANSFORMATIONS_COORDINATE.T2",
+        "stem": "Rotate the point ({x},{y}) 90° clockwise around the origin (0,0).",
+        "params": { "x": ["int", 1, 10], "y": ["int", 1, 10] },
+        "answer": "`(${y},${-x})`",
+        "difficulty": 7,
+        "visualData": { "type": "coordinate_grid", "points": [["x","y"], ["y", "-x"]], "showLine": true }
+      }
+    ]
+  },
+  {
+    "id": "Y8.G.SURFACE_AREA",
+    "strand": "Geometry & Measurement",
+    "name": "Surface area of prisms and cylinders",
+    "templates": [
+      {
+        "id": "Y8.G.SURFACE_AREA.T1",
+        "stem": "Find the surface area of a rectangular prism with length {l} cm, width {w} cm, and height {h} cm.",
+        "params": { "l": ["int", 2, 10], "w": ["int", 2, 10], "h": ["int", 2, 10] },
+        "answer": "surface_area_rectangular_prism(l,w,h)",
+        "difficulty": 7
+      },
+      {
+        "id": "Y8.G.SURFACE_AREA.T2",
+        "stem": "Find the surface area of a cylinder with radius {r} cm and height {h} cm. Use π ≈ 3.14.",
+        "params": { "r": ["int", 2, 10], "h": ["int", 5, 20] },
+        "answer": "round(surface_area_cylinder(r,h), 2)",
+        "difficulty": 8
+      }
+    ]
+  },
+  {
+    "id": "Y8.S.SCATTER_PLOTS",
+    "strand": "Statistics & Probability",
+    "name": "Scatter plots and correlation",
+    "templates": [
+      {
+        "id": "Y8.S.SCATTER_PLOTS.T1",
+        "stem": "A scatter plot shows hours studied vs. test scores. The points trend upwards from left to right. What type of correlation is this?",
+        "params": {},
+        "answer": "'Positive'",
+        "difficulty": 6,
+        "visualData": {"type": "scatter_plot", "correlation": "positive"}
+      }
+    ]
+  },
+  {
+    "id": "Y8.N.STANDARD_FORM_OPS",
+    "strand": "Number & Algebra",
+    "name": "Standard form operations",
+    "templates": [
+      {
+        "id": "Y8.N.STANDARD_FORM_OPS.T1",
+        "stem": "Calculate ({m1} x 10^{e1}) × ({m2} x 10^{e2}). Write in standard form.",
+        "params": { "m1": ["int", 2, 9], "e1": ["int", 3, 5], "m2": ["int", 2, 9], "e2": ["int", 2, 4] },
+        "answer": "`${m1*m2} x 10^${e1+e2}`",
+        "difficulty": 7
+      }
+    ]
+  }
+]
+
+
+// ============================
+// ====== YEAR 9 - JSON =======
+// ============================
+[
+  {
+    "id": "Y9.A.INEQUALITIES",
+    "strand": "Number & Algebra",
+    "name": "One-variable inequalities",
+    "templates": [
+      {
+        "id": "Y9.A.INEQUALITIES.T1",
+        "stem": "Solve for x: {a}x + {b} < {c}",
+        "params": { "a": ["int", 2, 5], "b": ["int", 1, 20], "c": ["int", 21, 50] },
+        "answer": "`x < ${(c - b) / a}`",
+        "difficulty": 8
+      },
+      {
+        "id": "Y9.A.INEQUALITIES.T2",
+        "stem": "Solve for x: {b} - {a}x ≥ {c}",
+        "params": { "a": ["int", 2, 5], "b": ["int", 21, 50], "c": ["int", 1, 20] },
+        "answer": "`x ≤ ${(b - c) / a}`",
+        "difficulty": 9
+      }
+    ]
+  },
+  {
+    "id": "Y9.A.NONLINEAR_FUNCTIONS",
+    "strand": "Number & Algebra",
+    "name": "Nonlinear functions",
+    "templates": [
+      {
+        "id": "Y9.A.NONLINEAR_FUNCTIONS.T1",
+        "stem": "If f(x) = x² + {a}, find f({v}).",
+        "params": { "a": ["int", 1, 10], "v": ["int", 2, 8] },
+        "answer": "v*v + a",
+        "difficulty": 8
+      },
+      {
+        "id": "Y9.A.NONLINEAR_FUNCTIONS.T2",
+        "stem": "If f(x) = {b} * {a}^x, find f({v}).",
+        "params": { "b": ["int", 2, 4], "a": ["int", 2, 3], "v": ["int", 2, 4] },
+        "answer": "b * (a**v)",
+        "difficulty": 9
+      }
+    ]
+  },
+  {
+    "id": "Y9.A.POLYNOMIAL_OPS",
+    "strand": "Number & Algebra",
+    "name": "Multiply and divide polynomials",
+    "templates": [
+      {
+        "id": "Y9.A.POLYNOMIAL_OPS.T1",
+        "stem": "Expand and simplify: {a}x( {b}x + {c} ).",
+        "params": { "a": ["int", 2, 5], "b": ["int", 2, 5], "c": ["int", -5, 5, 1] },
+        "answer": "`${a*b}x² + ${a*c}x`",
+        "difficulty": 8
+      }
+    ]
+  },
+  {
+    "id": "Y9.S.COUNTING_PRINCIPLE",
+    "strand": "Statistics & Probability",
+    "name": "Compound probability (counting principle)",
+    "templates": [
+      {
+        "id": "Y9.S.COUNTING_PRINCIPLE.T1",
+        "stem": "A restaurant offers {m} main courses and {d} desserts. How many different two-course meals are possible?",
+        "params": { "m": ["int", 3, 6], "d": ["int", 2, 4] },
+        "answer": "m * d",
+        "difficulty": 8
+      }
+    ]
+  },
+  {
+    "id": "Y9.G.CONES_SPHERES",
+    "strand": "Geometry & Measurement",
+    "name": "Volume and surface area of cones and spheres",
+    "templates": [
+      {
+        "id": "Y9.G.CONES_SPHERES.T1",
+        "stem": "Find the volume of a sphere with radius {r} cm. Use π ≈ 3.14.",
+        "params": { "r": ["int", 2, 10] },
+        "answer": "round(volume_sphere(r), 2)",
+        "difficulty": 9
+      },
+      {
+        "id": "Y9.G.CONES_SPHERES.T2",
+        "stem": "Find the surface area of a sphere with radius {r} cm. Use π ≈ 3.14.",
+        "params": { "r": ["int", 2, 10] },
+        "answer": "round(surface_area_sphere(r), 2)",
+        "difficulty": 9
+      },
+      {
+        "id": "Y9.G.CONES_SPHERES.T3",
+        "stem": "Find the volume of a cone with radius {r} cm and height {h} cm. Use π ≈ 3.14.",
+        "params": { "r": ["int", 3, 10], "h": ["int", 5, 15] },
+        "answer": "round(volume_cone(r,h), 2)",
+        "difficulty": 9
+      }
+    ]
+  },
+  {
+    "id": "Y9.S.BOX_PLOTS",
+    "strand": "Statistics & Probability",
+    "name": "Box plots and quartiles",
+    "templates": [
+      {
+        "id": "Y9.S.BOX_PLOTS.T1",
+        "stem": "For the data set shown in the box plot, what is the interquartile range (IQR)?",
+        "params": { "q1": [20], "q3": [45] },
+        "answer": "q3 - q1",
+        "difficulty": 8,
+        "visualData": {"type": "box_plot", "min": 10, "q1": 20, "median": 35, "q3": 45, "max": 50, "label": "Test Scores"}
+      }
+    ]
+  },
+  {
+    "id": "Y9.A.GEOMETRIC_SEQUENCES",
+    "strand": "Number & Algebra",
+    "name": "Geometric sequences",
+    "templates": [
+      {
+        "id": "Y9.A.GEOMETRIC_SEQUENCES.T1",
+        "stem": "A geometric sequence starts with {a} and has a common ratio of {r}. What is the 4th term?",
+        "params": { "a": ["int", 2, 5], "r": ["int", 2, 3] },
+        "answer": "geometric_sequence_nth_term(a, r, 4)",
+        "difficulty": 8
+      }
+    ]
+  }
+]
