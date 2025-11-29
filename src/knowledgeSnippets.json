@@ -1,0 +1,521 @@
+{
+  "Y6.N.PLACE_VALUE": {
+    "title": "Place Value and Rounding",
+    "summary": "This topic covers understanding that the position of a digit in a number determines its value (e.g., the '2' in 250 is worth 200). It also teaches how to round numbers to a specific place value, like the nearest ten, hundred, or thousand, to make them easier to work with.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Place Value",
+    "key_formulas": [
+      "Rounding Rule: Look at the digit to the right of the place you are rounding to. If it's 5 or more, round up. If it's 4 or less, keep the digit the same."
+    ],
+    "example": "To round 45,780 to the nearest thousand, we look at the hundreds digit (7). Since 7 is '5 or more', we round the thousands digit (5) up to 6. The result is 46,000.",
+    "common_misconceptions": [
+      "Confusing place values, for example, thinking the 'tens' column is the 'hundreds' column.",
+      "When rounding down, changing the digit you are rounding to (e.g., rounding 34 to 20 instead of 30)."
+    ]
+  },
+  "Y6.N.WHOLE_OPERATIONS": {
+    "title": "Whole Number Operations",
+    "summary": "This topic covers the fundamental skills of adding, subtracting, multiplying, and dividing whole numbers. It also includes using estimation by rounding numbers before calculating to get a rough idea of the answer.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Whole Number Operations",
+    "key_formulas": [],
+    "example": "To estimate 192 * 28, you could round each number to the nearest ten: 190 * 30. A quick way to do this is 19*3 = 57, then add the two zeros back, giving 5700.",
+    "common_misconceptions": [
+      "Forgetting to carry over in addition or borrow in subtraction.",
+      "In multi-step problems, not following the correct order of operations (BEDMAS)."
+    ]
+  },
+  "Y6.N.EXPONENTS_NUMBER_THEORY": {
+    "title": "Exponents and Number Theory",
+    "summary": "This covers basic powers (exponents), finding factors of numbers, identifying prime numbers, and calculating the Highest Common Factor (HCF) and Lowest Common Multiple (LCM).",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Number Properties",
+    "key_formulas": [
+      "HCF: The largest number that divides into both numbers.",
+      "LCM: The smallest number that both numbers divide into."
+    ],
+    "example": "The HCF of 12 and 18 is 6. The LCM of 12 and 18 is 36.",
+    "common_misconceptions": [
+      "Mixing up HCF and LCM.",
+      "Thinking that 1 is a prime number (it is not)."
+    ]
+  },
+  "Y6.N.FRACTIONS": {
+    "title": "Fractions and Mixed Numbers",
+    "summary": "This topic covers understanding what fractions represent (parts of a whole), finding equivalent fractions, and converting between mixed numbers (e.g., 1 1/2) and improper fractions (e.g., 3/2).",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Fractions",
+    "key_formulas": [],
+    "example": "To find a fraction of a number, like 2/3 of 18, you divide by the bottom and multiply by the top: (18 / 3) * 2 = 6 * 2 = 12.",
+    "common_misconceptions": [
+      "Thinking that a larger denominator means a larger fraction (e.g., 1/5 > 1/4).",
+      "Adding fractions by adding the numerators and denominators straight across."
+    ]
+  },
+  "Y6.N.FRACTION_OPERATIONS": {
+    "title": "Fraction Operations",
+    "summary": "This topic covers how to add, subtract, multiply, and divide fractions and mixed numbers. It emphasizes finding common denominators for addition/subtraction and simplifying answers to their lowest terms.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Fractions",
+    "key_formulas": [
+      "To add/subtract fractions, find a common denominator.",
+      "To multiply fractions, multiply numerators and denominators.",
+      "To divide fractions, 'flip' the second fraction and multiply."
+    ],
+    "example": "To add 1/2 + 1/3: find a common denominator (6). This becomes 3/6 + 2/6 = 5/6.",
+    "common_misconceptions": [
+      "Forgetting to find a common denominator when adding or subtracting fractions.",
+      "Incorrectly 'cross-multiplying' when adding or subtracting."
+    ]
+  },
+  "Y6.N.DECIMALS": {
+    "title": "Decimals and Decimal Operations",
+    "summary": "This topic involves understanding decimal place value and performing the four basic operations (add, subtract, multiply, divide) with decimal numbers.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Decimals",
+    "key_formulas": [],
+    "example": "When adding or subtracting decimals, always line up the decimal points: 12.5 + 3.45 becomes 12.50 + 3.45 = 15.95.",
+    "common_misconceptions": [
+      "Forgetting to line up decimal points when adding or subtracting.",
+      "Misplacing the decimal point after multiplying two decimal numbers."
+    ]
+  },
+  "Y6.N.PERCENTS": {
+    "title": "Percents Basics",
+    "summary": "Percentages are a way of expressing a part of a whole as a fraction of 100. This topic covers converting between percentages, fractions, and decimals, and finding a percentage of a given number.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Percentages",
+    "key_formulas": [
+      "To convert a percentage to a decimal: divide by 100 (e.g., 25% = 0.25)",
+      "To convert a decimal to a percentage: multiply by 100 (e.g., 0.5 = 50%)"
+    ],
+    "example": "To find 30% of 200: convert 30% to a decimal (0.30) and multiply: 0.30 * 200 = 60.",
+    "common_misconceptions": [
+      "Confusing percentages with fractions or decimals directly without conversion.",
+      "Forgetting that 'percent' means 'out of one hundred'."
+    ]
+  },
+  "Y6.N.MONEY_FINLIT": {
+    "title": "Money and Financial Literacy",
+    "summary": "This topic involves practical calculations with money, such as working out change, understanding unit prices, and managing simple budgets. It applies basic arithmetic skills to everyday financial situations.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Financial Literacy",
+    "key_formulas": [
+      "Change = Amount Paid - Cost of Item",
+      "Balance = Income - Spending"
+    ],
+    "example": "If an item costs $12.50 and you pay with a $20 note, the change you should receive is $20.00 - $12.50 = $7.50.",
+    "common_misconceptions": [
+      "Making mistakes with decimal points in money calculations.",
+      "Not correctly accounting for all income or all expenses in a budget."
+    ]
+  },
+  "Y6.N.SEQUENCES_ALGEBRA": {
+    "title": "Number Sequences and Simple Equations",
+    "summary": "This topic introduces simple number patterns (sequences) and basic algebraic equations. You'll learn to identify the rule for a sequence and solve for an unknown variable (like 'x') in one-step equations.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Patterns and Algebra",
+    "key_formulas": [
+      "Arithmetic sequence: Each term is found by adding a constant difference.",
+      "Equation: Balance scale (whatever you do to one side, you must do to the other)."
+    ],
+    "example": "In the sequence 2, 5, 8, 11..., the rule is 'add 3'. To solve x + 7 = 10, subtract 7 from both sides: x = 3.",
+    "common_misconceptions": [
+      "Confusing arithmetic sequences (adding/subtracting) with geometric sequences (multiplying/dividing).",
+      "Only doing an operation to one side of an equation, instead of both sides."
+    ]
+  },
+  "Y6.M.TIME": {
+    "title": "Time and Elapsed Time",
+    "summary": "This topic involves converting between different units of time (e.g., hours to minutes) and calculating the duration between two given times (elapsed time), often using schedules or timelines.",
+    "where_to_look": "NZ Curriculum > Geometry & Measurement > Measurement",
+    "key_formulas": [
+      "1 hour = 60 minutes",
+      "1 day = 24 hours"
+    ],
+    "example": "If a movie starts at 7:30 PM and ends at 9:15 PM, to find the duration: 7:30 PM to 9:00 PM is 1 hour 30 minutes. 9:00 PM to 9:15 PM is 15 minutes. Total duration = 1 hour 45 minutes.",
+    "common_misconceptions": [
+      "Incorrectly converting between 12-hour and 24-hour time formats.",
+      "Making errors when crossing the hour mark during elapsed time calculations."
+    ]
+  },
+  "Y6.M.MEASUREMENT": {
+    "title": "Metric Measurement",
+    "summary": "This topic focuses on choosing the appropriate metric units for length, mass, and volume, and converting between these units (e.g., centimetres to metres). It also covers understanding temperature in degrees Celsius.",
+    "where_to_look": "NZ Curriculum > Geometry & Measurement > Measurement",
+    "key_formulas": [
+      "1 metre (m) = 100 centimetres (cm) = 1000 millimetres (mm)",
+      "1 kilometre (km) = 1000 metres (m)",
+      "1 kilogram (kg) = 1000 grams (g)"
+    ],
+    "example": "To convert 250 cm to metres, you divide by 100: 250 / 100 = 2.5 metres.",
+    "common_misconceptions": [
+      "Mixing up multiplication and division when converting units.",
+      "Forgetting the standard conversion factors (e.g., 100 cm in a metre)."
+    ]
+  },
+  "Y6.G.GEOMETRY": {
+    "title": "2D and 3D Shapes",
+    "summary": "Identifying different types of polygons (like hexagons, octagons) and 3D shapes (like prisms, pyramids), and calculating their basic properties like area and volume.",
+    "where_to_look": "NZ Curriculum > Geometry & Measurement > Shape",
+    "key_formulas": [
+      "Area of a rectangle = length * width",
+      "Volume of a rectangular prism = length * width * height"
+    ],
+    "example": "A rectangle with sides 5 cm and 4 cm has an area of 5 * 4 = 20 cm^2.",
+    "common_misconceptions": [
+      "Confusing perimeter (the distance around a shape) with area (the space inside it).",
+      "Using the wrong formula for area or volume."
+    ]
+  },
+  "Y6.S.DATA_STATS_PROB": {
+    "title": "Data and Probability",
+    "summary": "This involves reading data from graphs, calculating basic statistics like mean, and understanding simple probability as the chance of an event happening.",
+    "where_to_look": "NZ Curriculum > Statistics & Probability > Statistical Investigation",
+    "key_formulas": [
+      "Mean = Sum of values / Number of values",
+      "Probability = (Number of desired outcomes) / (Total number of possible outcomes)"
+    ],
+    "example": "For the data set {2, 5, 5, 8}, the mean is (2+5+5+8)/4 = 5. The probability of rolling a 4 on a standard 6-sided die is 1/6.",
+    "common_misconceptions": [
+      "Confusing mean (average), median (middle value), and mode (most frequent value).",
+      "Thinking that past events affect future probability (e.g., 'a 6 is due to come up')."
+    ]
+  },
+  "Y6.G.COMPOSITE_SHAPES": {
+    "title": "Area of Composite Shapes",
+    "summary": "Composite shapes are made up of two or more basic shapes (like rectangles and triangles). This topic teaches you how to break down these complex shapes to calculate their total area.",
+    "where_to_look": "NZ Curriculum > Geometry & Measurement > Measurement",
+    "key_formulas": [
+      "Area of rectangle = length * width",
+      "Area of triangle = 0.5 * base * height"
+    ],
+    "example": "A shape made of a 5x4 rectangle and a triangle with base 4 and height 3: Area = (5*4) + (0.5*4*3) = 20 + 6 = 26 units².",
+    "common_misconceptions": [
+      "Forgetting to add the areas of all the component shapes.",
+      "Using the wrong dimensions for the individual shapes when breaking them down."
+    ]
+  },
+  "Y6.G.ANGLES": {
+    "title": "Angles and Angle Relationships",
+    "summary": "This topic covers identifying different types of angles (like acute, obtuse, right) and understanding relationships between angles, such as vertically opposite angles and complementary angles.",
+    "where_to_look": "NZ Curriculum > Geometry & Measurement > Shape",
+    "key_formulas": [
+      "Complementary angles add to 90 degrees.",
+      "Supplementary angles add to 180 degrees.",
+      "Angles on a straight line add to 180 degrees.",
+      "Angles around a point add to 360 degrees.",
+      "Vertically opposite angles are equal."
+    ],
+    "example": "If two angles are complementary and one is 30°, the other is 90° - 30° = 60°.",
+    "common_misconceptions": [
+      "Confusing complementary and supplementary angles.",
+      "Assuming angles are equal without a clear geometric reason (e.g., parallel lines, vertical opposites)."
+    ]
+  },
+  "Y6.G.VOLUME_PRISMS": {
+    "title": "Volume of Prisms",
+    "summary": "Prisms are 3D shapes with two identical ends (bases) and flat sides. This topic focuses on calculating the volume of various prisms, such as rectangular prisms and triangular prisms.",
+    "where_to_look": "NZ Curriculum > Geometry & Measurement > Measurement",
+    "key_formulas": [
+      "Volume of any prism = Area of Base * Height"
+    ],
+    "example": "A triangular prism has a base that is a triangle with area 15 cm² and the prism's height is 10 cm. Its volume is 15 * 10 = 150 cm³.",
+    "common_misconceptions": [
+      "Confusing volume (space inside) with surface area (area of the outside).",
+      "Using the wrong 'height' (e.g., using a slant height instead of perpendicular height)."
+    ]
+  },
+  "Y6.G.ROTATIONAL_SYMMETRY": {
+    "title": "Rotational Symmetry",
+    "summary": "Rotational symmetry describes how many times a shape looks exactly the same as you rotate it around a central point, before it completes a full turn (360 degrees). This is called the 'order' of rotational symmetry.",
+    "where_to_look": "NZ Curriculum > Geometry & Measurement > Transformation",
+    "key_formulas": [],
+    "example": "A square has rotational symmetry of order 4, because it looks the same 4 times as you rotate it 360 degrees.",
+    "common_misconceptions": [
+      "Forgetting to count the original position when determining the order.",
+      "Confusing rotational symmetry with line (reflection) symmetry."
+    ]
+  },
+  "Y6.G.NETS": {
+    "title": "3D Nets",
+    "summary": "A 'net' is a 2D pattern that can be folded to form a 3D shape. This topic is about recognizing which net folds into which 3D solid, such as cubes, prisms, and pyramids.",
+    "where_to_look": "NZ Curriculum > Geometry & Measurement > Shape",
+    "key_formulas": [],
+    "example": "A net with 6 identical squares will fold into a cube.",
+    "common_misconceptions": [
+      "Incorrectly visualizing how the 2D net folds into the 3D shape.",
+      "Confusing similar nets, such as different types of prisms."
+    ]
+  },
+  "Y6.S.STEM_AND_LEAF": {
+    "title": "Stem-and-Leaf Plots",
+    "summary": "A Stem-and-Leaf plot is a simple way to show the distribution of a set of data. The 'stem' shows the first digit(s) and the 'leaf' shows the last digit. It's like a bar graph but it keeps the original data visible.",
+    "where_to_look": "NZ Curriculum > Statistics & Probability > Statistical Investigation",
+    "key_formulas": [],
+    "example": "For the data 23, 25, 31, the plot would be:\n2 | 3 5\n3 | 1\nThis makes it easy to see that there are two numbers in the 20s and one in the 30s.",
+    "common_misconceptions": [
+      "Forgetting to include a key to explain what the stem and leaf represent.",
+      "Not keeping the 'leaf' digits aligned, which can distort the visual shape of the data."
+    ]
+  },
+  "Y6.S.HISTOGRAMS": {
+    "title": "Histograms",
+    "summary": "A histogram is a type of bar chart that shows the frequency of data in specific intervals or 'bins'. Unlike a bar chart, the bars in a histogram are typically touching, representing continuous data.",
+    "where_to_look": "NZ Curriculum > Statistics & Probability > Data Representation",
+    "key_formulas": [],
+    "example": "To read a histogram, find the bar for the interval you are interested in (e.g., '150-160 cm') and read the height of that bar on the vertical axis to find the frequency (how many data points fall in that interval).",
+    "common_misconceptions": [
+      "Confusing a histogram with a bar chart (histograms are for continuous data in intervals, bar charts are for discrete categories).",
+      "Misreading the intervals on the horizontal axis."
+    ]
+  },
+  "Y6.S.PROBABILITY_REPLACEMENT": {
+    "title": "Probability With Replacement",
+    "summary": "This topic covers calculating the probability of multiple events where the conditions reset after each event. This is called 'with replacement' because an item is returned to the pool after being picked. The events are independent.",
+    "where_to_look": "NZ Curriculum > Statistics & Probability > Probability",
+    "key_formulas": [
+      "P(A and B) = P(A) * P(B)"
+    ],
+    "example": "A bag has 3 red and 2 blue marbles. The probability of picking a red is 3/5. If you put it back, the probability of picking a red again is still 3/5. The probability of picking red, then red is (3/5) * (3/5) = 9/25.",
+    "common_misconceptions": [
+      "Confusing 'with replacement' (independent events) with 'without replacement' (dependent events).",
+      "Adding probabilities instead of multiplying for 'AND' events."
+    ]
+  },
+  "Y6.S.VENN_DIAGRAMS": {
+    "title": "Venn Diagrams",
+    "summary": "Venn diagrams use overlapping circles to show the relationships between two or more sets of data. The overlapping part shows what the sets have in common. This topic involves reading and interpreting these diagrams to find counts.",
+    "where_to_look": "NZ Curriculum > Statistics & Probability > Data Representation",
+    "key_formulas": [],
+    "example": "If a Venn diagram has 'Sport' and 'Music', the number in the overlapping section is the number of people who do both. The number in the 'Sport' circle but outside the overlap is the number who do Sport ONLY.",
+    "common_misconceptions": [
+      "Confusing the number in the overlap with the total for a category.",
+      "Forgetting to account for the 'outside' region (people who do neither activity)."
+    ]
+  },
+  "Y7.N.WHOLE_NUMBER_SENSE": {
+    "title": "Whole Numbers and Place Value",
+    "summary": "This topic revisits properties of whole numbers, including place value for very large numbers, and extends to properties of addition and multiplication (like commutative and associative properties). It also covers estimation in multi-operation problems.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Number Properties",
+    "key_formulas": [
+      "Commutative Property: a + b = b + a",
+      "Associative Property: (a + b) + c = a + (b + c)"
+    ],
+    "example": "Estimate 498 + 703: Round to 500 + 700 = 1200.",
+    "common_misconceptions": [
+      "Assuming commutative or associative properties apply to subtraction or division (they don't).",
+      "Rounding too early in multi-step estimation problems."
+    ]
+  },
+  "Y7.N.EXPONENTS_NUMBER_THEORY": {
+    "title": "Powers, Exponents and Number Theory",
+    "summary": "This builds on basic exponents, focusing on powers of ten and understanding square roots. It also covers prime factorization (breaking a number down into its prime components) and calculating HCF and LCM.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Number Properties",
+    "key_formulas": [
+      "Exponent: b^p means b multiplied by itself p times (e.g., 5^3 = 5*5*5)",
+      "Prime factorization: Breaking a number into a product of prime numbers (e.g., 12 = 2*2*3)"
+    ],
+    "example": "The prime factorization of 60 is 2*2*3*5. Estimate sqrt(50): Since 7*7=49, sqrt(50) is just over 7.",
+    "common_misconceptions": [
+      "Confusing exponents with multiplication (e.g., 5^3 is not 5*3).",
+      "Forgetting to include all prime factors when doing prime factorization."
+    ]
+  },
+  "Y7.N.DECIMALS": {
+    "title": "Decimals and Decimal Operations",
+    "summary": "This topic deepens the understanding of decimals, including ordering, comparing, and rounding them. It covers all four operations (addition, subtraction, multiplication, division) with decimals, and converting between decimals and fractions.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Decimals",
+    "key_formulas": [
+      "To convert a decimal to a fraction: place the decimal number over a power of 10 and simplify (e.g., 0.25 = 25/100 = 1/4)."
+    ],
+    "example": "To multiply 2.5 * 1.2: Multiply 25 * 12 = 300. Since there are two decimal places in total (one in 2.5, one in 1.2), the answer is 3.00 or 3.",
+    "common_misconceptions": [
+      "Errors in placing the decimal point after multiplication or division.",
+      "Difficulty with converting repeating decimals to fractions."
+    ]
+  },
+  "Y7.N.FRACTIONS_RATIONAL": {
+    "title": "Fractions, Mixed Numbers, and Rational Numbers",
+    "summary": "This topic reviews fractions and mixed numbers, converting between improper fractions and mixed numbers. It also covers adding and subtracting fractions, especially with different denominators, and introduces rational numbers as any number that can be written as a fraction.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Fractions and Rational Numbers",
+    "key_formulas": [
+      "To add/subtract fractions, you must have a common denominator."
+    ],
+    "example": "To convert 7/3 to a mixed number: 7 divided by 3 is 2 with a remainder of 1. So it's 2 and 1/3.",
+    "common_misconceptions": [
+      "Forgetting to simplify fractions to their lowest terms.",
+      "Errors when finding the least common multiple for denominators."
+    ]
+  },
+  "Y7.N.PROBLEM_SOLVING": {
+    "title": "Problem Solving and Estimation",
+    "summary": "This topic focuses on strategies to solve multi-step word problems, often involving estimation to check if answers are reasonable. It encourages logical reasoning and breaking down complex problems into smaller, manageable parts.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Problem Solving",
+    "key_formulas": [],
+    "example": "If a shirt costs $18.99 and you buy 3, you can estimate the total cost by rounding $18.99 to $20. Then $20 * 3 = $60.",
+    "common_misconceptions": [
+      "Not reading the problem carefully and missing key information.",
+      "Calculating an exact answer before estimating, defeating the purpose of estimation."
+    ]
+  },
+  "Y7.A.EXPRESSIONS_EQUATIONS": {
+    "title": "Expressions and Equations",
+    "summary": "This topic introduces variable expressions (like '2x + 3y') and basic equations. You'll learn to evaluate expressions by substituting values for variables and solve one-step linear equations (like 'x + 5 = 12').",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Algebra",
+    "key_formulas": [
+      "Equation: Whatever you do to one side, you must do to the other to keep it balanced."
+    ],
+    "example": "To evaluate 3x + 2 when x = 4: substitute 4 for x, so 3*4 + 2 = 12 + 2 = 14. To solve x - 5 = 7, add 5 to both sides: x = 12.",
+    "common_misconceptions": [
+      "Confusing expressions (no equals sign) with equations (has an equals sign).",
+      "Incorrectly applying order of operations when evaluating expressions."
+    ]
+  },
+  "Y7.G.GEOMETRY_2D_3D": {
+    "title": "2D and 3D Geometry",
+    "summary": "This topic covers identifying and working with various 2D shapes (polygons, circles) and 3D shapes (prisms, cylinders). It includes understanding basic angle relationships, symmetry, transformations, and calculating perimeter, area, and volume.",
+    "where_to_look": "NZ Curriculum > Geometry & Measurement > Shape and Measurement",
+    "key_formulas": [
+      "Area of a triangle = 0.5 * base * height",
+      "Volume of a cube = side³",
+      "Perimeter of a square = 4 * side"
+    ],
+    "example": "A triangle with base 10 cm and height 5 cm has an area of 0.5 * 10 * 5 = 25 cm².",
+    "common_misconceptions": [
+      "Confusing area with perimeter, or surface area with volume.",
+      "Using the wrong dimensions (e.g., slant height instead of perpendicular height)."
+    ]
+  },
+  "Y7.M.MEASUREMENT_TIME_MONEY": {
+    "title": "Units, Time, and Money",
+    "summary": "This topic integrates various measurement concepts, including converting metric units (length, mass, volume), working with time (elapsed time, schedules), and performing calculations related to money (sale prices, change, GST).",
+    "where_to_look": "NZ Curriculum > Geometry & Measurement > Measurement",
+    "key_formulas": [
+      "1 km = 1000 m",
+      "1 litre = 1000 ml",
+      "GST (15% in NZ) = Price * 0.15"
+    ],
+    "example": "To convert 3.5 km to metres, multiply by 1000: 3.5 * 1000 = 3500 m. To add 15% GST to a $100 item, the GST is $15, so the total is $115.",
+    "common_misconceptions": [
+      "Incorrectly applying conversion factors (multiplying instead of dividing, or vice-versa).",
+      "Errors in multi-step money problems, especially with percentages."
+    ]
+  },
+  "Y7.S.DATA_STATS_PROB": {
+    "title": "Data, Graphs, and Statistics",
+    "summary": "This topic focuses on interpreting and creating various types of graphs (like bar graphs, pictograms), and calculating measures of center (mean, median, mode) and spread (range) for a given data set.",
+    "where_to_look": "NZ Curriculum > Statistics & Probability > Statistical Investigation",
+    "key_formulas": [
+      "Mean = Sum of all values / Number of values",
+      "Median = The middle value when data is ordered",
+      "Mode = The most frequent value",
+      "Range = Maximum value - Minimum value"
+    ],
+    "example": "For the data set {1, 2, 3, 4, 5}, the mean is 3, the median is 3, there is no mode, and the range is 4.",
+    "common_misconceptions": [
+      "Forgetting to order the data before finding the median.",
+      "Confusing the definitions of mean, median, and mode."
+    ]
+  },
+  "Y7.A.LINEAR_RELATIONS": {
+    "title": "Linear Relationships and Graphing",
+    "summary": "This topic explores linear relationships where the variables change at a constant rate, forming a straight line when graphed. It covers using equations of the form y = mx + c to represent these relationships.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Algebra",
+    "key_formulas": [
+      "y = mx + c (m = gradient/slope, c = y-intercept)"
+    ],
+    "example": "For the line y = 3x - 2, the gradient is 3 and the y-intercept is -2. To find a point, choose an x-value: if x=2, then y = 3(2) - 2 = 4. So (2, 4) is on the line.",
+    "common_misconceptions": [
+      "Confusing the gradient with the y-intercept.",
+      "Making sign errors when reading the y-intercept from an equation."
+    ]
+  },
+  "Y7.S.PROBABILITY": {
+    "title": "Probability",
+    "summary": "Probability is the chance of something happening. This topic covers calculating simple probabilities for single events and for two-step events, including those 'without replacement' where the first event affects the second.",
+    "where_to_look": "NZ Curriculum > Statistics & Probability > Probability",
+    "key_formulas": [
+      "Probability = (Number of favorable outcomes) / (Total number of possible outcomes)"
+    ],
+    "example": "In a bag with 3 red and 2 blue marbles, the probability of picking a red marble is 3/5. If you pick a red and don't put it back, the probability of picking another red is 2/4 (or 1/2).",
+    "common_misconceptions": [
+      "Incorrectly counting the total number of outcomes or the number of favorable outcomes.",
+      "Forgetting to adjust the total number of items when sampling 'without replacement'."
+    ]
+  },
+  "Y7.N.FRACTIONS_RATIONAL_OPS": {
+    "title": "Rational Number Operations",
+    "summary": "This topic extends operations to include multiplication and division of rational numbers (which includes fractions and decimals). It focuses on simplifying the results to their simplest form.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Fractions and Rational Numbers",
+    "key_formulas": [
+      "To multiply fractions: (a/b) * (c/d) = (a*c) / (b*d)",
+      "To divide fractions: (a/b) / (c/d) = (a/b) * (d/c)"
+    ],
+    "example": "To calculate (2/3) * (1/4): (2*1) / (3*4) = 2/12, which simplifies to 1/6.",
+    "common_misconceptions": [
+      "Forgetting to simplify the final answer.",
+      "Incorrectly inverting the second fraction when dividing."
+    ]
+  },
+  "Y7.N.EXPONENTS_NEGATIVE": {
+    "title": "Negative Exponents",
+    "summary": "This topic introduces negative exponents, which represent the reciprocal of the base raised to the positive exponent. It's a way to express very small numbers.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Exponents",
+    "key_formulas": [
+      "b^-p = 1 / b^p"
+    ],
+    "example": "2^-3 = 1 / 2^3 = 1 / 8.",
+    "common_misconceptions": [
+      "Thinking a negative exponent makes the number negative (it makes it a fraction).",
+      "Making errors when calculating the positive power in the denominator."
+    ]
+  },
+  "Y7.N.EXPONENTS_FRACTIONAL": {
+    "title": "Fractional Exponents (Roots)",
+    "summary": "Fractional exponents, especially those with 1 in the numerator (e.g., 1/2, 1/3), represent roots. For example, x^(1/2) is the square root of x.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Exponents and Roots",
+    "key_formulas": [
+      "x^(1/2) = sqrt(x)",
+      "x^(1/p) = p-th root of x"
+    ],
+    "example": "9^(1/2) = sqrt(9) = 3.  |  8^(1/3) = cubic_root(8) = 2.",
+    "common_misconceptions": [
+      "Confusing fractional exponents with regular fractions.",
+      "Errors in calculating the root of the number."
+    ]
+  },
+  "Y7.G.CIRCLES": {
+    "title": "Circle Area and Circumference",
+    "summary": "This topic covers how to calculate two key measurements of a circle: its circumference (the distance around the edge) and its area (the space it covers), using the constant pi (π).",
+    "where_to_look": "NZ Curriculum > Geometry & Measurement > Measurement",
+    "key_formulas": [
+      "Circumference (C) = 2 * π * radius (r)  OR  C = π * diameter (d)",
+      "Area (A) = π * radius (r)²"
+    ],
+    "example": "A circle with a radius of 5 cm has a circumference of 2 * π * 5 = 10π cm (or approx 31.4 cm). Its area is π * 5² = 25π cm² (or approx 78.5 cm²).",
+    "common_misconceptions": [
+      "Confusing the formulas for area and circumference.",
+      "Using the diameter when the formula requires the radius (or vice-versa)."
+    ]
+  },
+  "Y7.N.RATES": {
+    "title": "Rate Word Problems",
+    "summary": "Rate problems link different quantities, most commonly distance, time, and speed. This topic involves solving problems like finding average speed given distance and time, or calculating distance given speed and time.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Ratios and Rates",
+    "key_formulas": [
+      "Speed = Distance / Time",
+      "Distance = Speed * Time",
+      "Time = Distance / Speed"
+    ],
+    "example": "A car travels 300 km in 4 hours. Its average speed is 300 / 4 = 75 km/h.",
+    "common_misconceptions": [
+      "Mixing up the units (e.g., using minutes when hours are required).",
+      "Incorrectly applying the formulas (e.g., multiplying distance by time for speed)."
+    ]
+  },
+  "Y7.S.COMPOUND_PROBABILITY": {
+    "title": "Compound Probability (with Replacement)",
+    "summary": "Compound probability deals with the chance of two or more events happening. 'With replacement' means that after the first event, the conditions return to their original state for the second event (e.g., drawing a card and putting it back). The events are independent.",
+    "where_to_look": "NZ Curriculum > Statistics & Probability > Probability",
+    "key_formulas": [
+      "P(A and B) = P(A) * P(B)"
+    ],
+    "example": "If you flip a coin (P(Heads)=1/2) and roll a 6-sided die (P(4)=1/6), the probability of getting Heads AND a 4 is (1/2) * (1/6) = 1/12.",
+    "common_misconceptions": [
+      "Confusing 'with replacement' (independent events) with 'without replacement' (dependent events).",
+      "Adding probabilities instead of multiplying for 'AND' events."
+    ]
+  }
+}

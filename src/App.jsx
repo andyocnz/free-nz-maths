@@ -6,6 +6,7 @@ import QuestionVisualizer from './QuestionVisualizer.jsx'
 import TestResults from './TestResults.jsx'
 import CurriculumMap, { CurriculumMapToggle } from './CurriculumMap.jsx'
 import HintModal from './HintModal.jsx'
+import KnowledgeModal from './KnowledgeModal.jsx'
 import CanvasBackground from './CanvasBackground.jsx'
 import DailyChallenge from './DailyChallenge.jsx'
 import LoginModal from './LoginModal.jsx'
@@ -15,6 +16,7 @@ import { getCurrentUser, loginUser, logoutUser, saveProgress, saveTestResult, sa
 import { generateReportURL } from './config.js'
 import { normalizeFraction } from './mathHelpers.js'
 import WordDropdown from './WordDropdown.jsx'
+import knowledgeSnippets from './knowledgeSnippets.json'
 
 // Alternating Text Component
 function AlternatingText() {
@@ -68,6 +70,7 @@ export default function App() {
   const [testResults, setTestResults] = useState(null)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(true)
   const [hintModal, setHintModal] = useState({ isOpen: false, title: '', message: '' })
+  const [knowledgeModal, setKnowledgeModal] = useState({ isOpen: false, snippet: null })
   const [attempts, setAttempts] = useState(0)
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false)
   const [curriculumMapYear, setCurriculumMapYear] = useState(6) // Year selector for curriculum map
@@ -80,6 +83,29 @@ export default function App() {
   const nextLockedRef = useRef(false)
   const [nextLocked, setNextLocked] = useState(false)
   const [devTemplateSamples, setDevTemplateSamples] = useState([])
+
+  const openKnowledgeModal = () => {
+    if (!question) return
+    const skillId = question.skillId || selectedSkill
+    if (!skillId) return
+
+    const snippet = knowledgeSnippets[skillId] || null
+
+    if (snippet) {
+      setKnowledgeModal({ isOpen: true, snippet })
+    } else {
+      setKnowledgeModal({
+        isOpen: true,
+        snippet: {
+          title: 'Concept reminder',
+          summary: 'No specific concept reminder is available for this skill yet.',
+          key_formulas: [],
+          example: '',
+          common_misconceptions: []
+        }
+      })
+    }
+  }
 
   // Toggle landing-only body background (grid) for main page
   useEffect(() => {
@@ -1782,7 +1808,14 @@ export default function App() {
                 >
                   💡 Hint
                 </button>
-                <button className="btn-success" onClick={checkAnswer}>Check Answer</button>
+                  <button
+                    type="button"
+                    onClick={openKnowledgeModal}
+                    className="btn-secondary"
+                  >
+                    Remind me the knowledge
+                  </button>
+                  <button className="btn-success" onClick={checkAnswer}>Check Answer</button>
                 <button
                   className="btn-secondary"
                   onClick={() => {
@@ -1882,6 +1915,11 @@ export default function App() {
           title={hintModal.title}
           message={hintModal.message}
           htmlContent={hintModal.htmlContent}
+        />
+        <KnowledgeModal
+          isOpen={knowledgeModal.isOpen}
+          onClose={() => setKnowledgeModal({ isOpen: false, snippet: null })}
+          snippet={knowledgeModal.snippet}
         />
       </>
     )
