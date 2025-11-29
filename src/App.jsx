@@ -385,7 +385,9 @@ export default function App() {
     setSidebarCollapsed(false)
     setAttempts(0)
     setShowCorrectAnswer(false)
-    initialized.current = false
+    // Prevent the practice-mode useEffect from auto-advancing to the next question
+    // when we have just seeded a fresh question set here.
+    initialized.current = true
 
     // Generate 20 questions for this skill
     const questions = []
