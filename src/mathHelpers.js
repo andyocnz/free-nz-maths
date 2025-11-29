@@ -389,3 +389,92 @@ export function factor_quadratic_monic(a, b) {
   // If no integer factors found, return standard form
   return `x^2 + ${A}x + ${B}`
 }
+
+// --- Phase 8: New helper functions ---
+
+// Solve a system of two linear equations:
+//   y = m1*x + c1
+//   y = m2*x + c2
+// Returns a string "x,y" with numeric values rounded to 2 dp.
+export function solve_linear_system(m1, c1, m2, c2) {
+  const denom = (m1 - m2)
+  if (denom === 0) {
+    return 'no_solution'
+  }
+  const x = (c2 - c1) / denom
+  const y = m1 * x + c1
+  const rx = Math.round(x * 100) / 100
+  const ry = Math.round(y * 100) / 100
+  return `${rx},${ry}`
+}
+
+// Simplify sqrt(n) into the form a√b as a string.
+// E.g., n=50 -> "5√2", n=12 -> "2√3", n=16 -> "4"
+export function simplify_radical(n) {
+  const value = Number(n)
+  if (!Number.isFinite(value) || value < 0) return '0'
+
+  let a = 1
+  let b = value
+  for (let i = Math.floor(Math.sqrt(value)); i >= 2; i--) {
+    const square = i * i
+    if (value % square === 0) {
+      a = i
+      b = value / square
+      break
+    }
+  }
+
+  if (b === 1) {
+    return `${a}`
+  }
+  if (a === 1) {
+    return `√${b}`
+  }
+  return `${a}√${b}`
+}
+
+// Quadratic formula for ax^2 + bx + c = 0.
+// Returns a string like "x1,x2" with roots rounded to 2 dp.
+export function solve_quadratic_formula(a, b, c) {
+  const A = Number(a)
+  const B = Number(b)
+  const C = Number(c)
+  if (!Number.isFinite(A) || A === 0) return 'no_solution'
+  const disc = B * B - 4 * A * C
+  if (disc < 0) return 'no_real_solutions'
+  const sqrtDisc = Math.sqrt(disc)
+  const x1 = (-B + sqrtDisc) / (2 * A)
+  const x2 = (-B - sqrtDisc) / (2 * A)
+  // Round to 2 decimal places to match stems
+  const r1 = Math.round(x1 * 100) / 100
+  const r2 = Math.round(x2 * 100) / 100
+  return `${r1},${r2}`
+}
+
+// Cosine rule: given sides a, b and included angle C (in degrees),
+// find the opposite side c.
+export function cosine_rule_side(a, b, Cdeg) {
+  const A = Number(a)
+  const B = Number(b)
+  const C = Number(Cdeg)
+  const rad = (Math.PI / 180) * C
+  const c2 = A * A + B * B - 2 * A * B * Math.cos(rad)
+  if (c2 < 0) return 0
+  return Math.sqrt(c2)
+}
+
+// Optional helper for advanced systems (line vs parabola): y = c and y = x^2 - a
+// Returns positive x-coordinate sqrt(c + a)
+export function solve_linear_parabola_system(a, c) {
+  const A = Number(a)
+  const C = Number(c)
+  const val = C + A
+  if (val < 0) return 'no_real_solution'
+  return Math.sqrt(val)
+}
+
+// Volume of a cylinder (uses same PI approximation as cones/spheres)
+export function volume_cylinder(r, h) {
+  return PI_APPROX * r * r * h
+}

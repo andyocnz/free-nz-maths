@@ -46,6 +46,8 @@ export default function App() {
   const yearFromUrl = urlParams.get('year')
   const skillFromUrl = urlParams.get('skill')
   const isDevMode = urlParams.has('dev') || urlParams.get('dev') === 'true'
+  const phaseFromUrl = urlParams.get('phase')
+  const phaseFilter = phaseFromUrl ? parseInt(phaseFromUrl, 10) : null
 
   const [mode, setMode] = useState(
     skillFromUrl ? 'practice' : yearFromUrl ? 'menu' : 'landing'
@@ -184,6 +186,12 @@ export default function App() {
       year.skills.forEach(skill => {
         const templates = skill.templates || []
         templates.forEach(template => {
+          // Optional phase filter for dev mode (e.g., ?dev=true&phase=8)
+          const tmplPhase = typeof template.phase === 'number' ? template.phase : null
+          const skillPhase = typeof skill.phase === 'number' ? skill.phase : null
+          if (phaseFilter && tmplPhase !== phaseFilter && skillPhase !== phaseFilter) {
+            return
+          }
           try {
             const q = generateQuestionFromTemplate(template, skill.name, year.year)
             rows.push({
@@ -1319,15 +1327,35 @@ export default function App() {
                           {devTemplateSamples.map(row => (
                             <tr key={row.templateId || `${row.skillId}-${row.question}`} className="border-t border-gray-100 align-top">
                               <td className="px-4 py-2 whitespace-nowrap text-xs md:text-sm text-gray-800">
-                                <div className="flex items-center gap-2">
-                                  <span>{row.templateId || '—'}</span>
-                                  {row.isNew && (
-                                    <span className="inline-flex items-center px-2 py-0.5 text-[0.65rem] font-semibold rounded-full bg-emerald-100 text-emerald-700 uppercase tracking-wide">
-                                      New
-                                    </span>
-                                  )}
-                                </div>
-                                <div className="text-[0.7rem] text-gray-500 mt-0.5">{row.skillId}</div>
+
+
+                                <div className="flex items-center gap-2">                                                                                                                                       
+    {row.skillId ? (                                                                                                                                                              
+      <button                                                                                                                                                                     
+        type="button"
+        onClick={() => {                                                                                                                                                          
+          setSelectedYear(row.year)                                                                                                                                               
+          setMode('practice')                                                                                                                                                     
+          startPractice(row.skillId)                                                                                                                                              
+        }}                                                                                                                                                                        
+        className="text-blue-600 hover:text-blue-800 hover:underline"                                                                                                             
+      >                                                                                                                                                                           
+        {row.templateId || '—'}                                                                                                                                                   
+      </button>                                                                                                                                                                   
+    ) : (                                                                                                                                                                         
+      <span>{row.templateId || '—'}</span>                                                                                                                                        
+    )}                                                                                                                                                                            
+    {row.isNew && (                                                                                                                                                               
+      <span className="inline-flex items-center px-2 py-0.5 text-[0.65rem] font-semibold rounded-full bg-emerald-100 text-emerald-700 uppercase tracking-wide">                   
+        New
+      </span>                                                                                                                                                                     
+    )}                                                                                                                                                                            
+  </div>                                                                                                                                                                          
+  <div className="text-[0.7rem] text-gray-500 mt-0.5">{row.skillId}</div>         
+
+
+
+
                               </td>
                               <td className="px-4 py-2 text-xs md:text-sm text-gray-700 whitespace-nowrap">
                                 {row.skillName}

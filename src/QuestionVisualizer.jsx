@@ -78,6 +78,15 @@ export default function QuestionVisualizer({ question, visualData }) {
       case 'parallel_transversal':
         drawParallelTransversal(ctx, visualData);
         break;
+      case 'graph_inequality':
+        drawGraphInequality(ctx, visualData);
+        break;
+      case 'graph_parabola':
+        drawGraphParabola(ctx, visualData);
+        break;
+      case 'circle_theorem_angle_center':
+        drawCircleTheoremAngleCenter(ctx, visualData);
+        break;
       default:
         break
     }
@@ -1553,23 +1562,196 @@ function drawParallelTransversal(ctx, data) {
   ctx.fillText('Find this angle', width - 120, height - 41)
 }
 
+// --- Phase 8 visuals ---
 
+function drawGraphInequality(ctx, data) {
+  const width = data.width || 400
+  const height = data.height || 300
+  const margin = 40
+  const left = margin
+  const bottom = height - margin
 
+  const m = Number(data.m) || 1
+  const c = Number(data.c) || 0
+  const inequality = data.inequality || '<'
 
+  // Draw axes
+  ctx.strokeStyle = '#333'
+  ctx.lineWidth = 1.5
+  ctx.beginPath()
+  ctx.moveTo(left, margin / 2)
+  ctx.lineTo(left, bottom)
+  ctx.lineTo(width - margin / 2, bottom)
+  ctx.stroke()
 
+  // Simple coordinate range
+  const xMin = -10, xMax = 10
+  const yMin = -10, yMax = 10
 
+  const plotW = width - 2 * margin
+  const plotH = height - 2 * margin
 
+  const toX = x => left + ((x - xMin) / (xMax - xMin)) * plotW
+  const toY = y => bottom - ((y - yMin) / (yMax - yMin)) * plotH
 
+  // Compute two points on the line y = mx + c
+  const x1 = xMin
+  const y1 = m * x1 + c
+  const x2 = xMax
+  const y2 = m * x2 + c
 
+  // Draw shaded region (simple approach: half-plane)
+  ctx.save()
+  ctx.beginPath()
+  ctx.moveTo(toX(xMin), toY(yMin))
+  ctx.lineTo(toX(xMax), toY(yMin))
+  ctx.lineTo(toX(xMax), toY(yMax))
+  ctx.lineTo(toX(xMin), toY(yMax))
+  ctx.closePath()
+  ctx.clip()
 
+  ctx.fillStyle = 'rgba(33, 150, 243, 0.12)'
+  ctx.fillRect(0, 0, width, height)
+  ctx.restore()
 
+  // Draw line (dashed for strict, solid for inclusive)
+  const isStrict = inequality === '<' || inequality === '>'
+  if (isStrict) {
+    ctx.setLineDash([6, 6])
+  } else {
+    ctx.setLineDash([])
+  }
+  ctx.strokeStyle = '#1976D2'
+  ctx.lineWidth = 2
+  ctx.beginPath()
+  ctx.moveTo(toX(x1), toY(y1))
+  ctx.lineTo(toX(x2), toY(y2))
+  ctx.stroke()
+  ctx.setLineDash([])
 
+  // Label
+  ctx.fillStyle = '#333'
+  ctx.font = '14px Arial'
+  ctx.textAlign = 'left'
+  ctx.fillText(`y ${inequality} ${m}x + ${c}`, left + 4, margin)
+}
 
+function drawGraphParabola(ctx, data) {
+  const width = data.width || 400
+  const height = data.height || 300
+  const margin = 40
+  const left = margin
+  const bottom = height - margin
 
+  const a = Number(data.a ?? 1)
+  const b = Number(data.b ?? 0)
+  const c = Number(data.c ?? 0)
 
+  // Axes
+  ctx.strokeStyle = '#333'
+  ctx.lineWidth = 1.5
+  ctx.beginPath()
+  ctx.moveTo(left, margin / 2)
+  ctx.lineTo(left, bottom)
+  ctx.lineTo(width - margin / 2, bottom)
+  ctx.stroke()
 
+  const xMin = -10, xMax = 10
+  const yMin = -10, yMax = 10
+  const plotW = width - 2 * margin
+  const plotH = height - 2 * margin
 
+  const toX = x => left + ((x - xMin) / (xMax - xMin)) * plotW
+  const toY = y => bottom - ((y - yMin) / (yMax - yMin)) * plotH
 
+  // Draw parabola by sampling points
+  ctx.strokeStyle = '#1976D2'
+  ctx.lineWidth = 2
+  ctx.beginPath()
+  let first = true
+  for (let x = xMin; x <= xMax; x += 0.1) {
+    const y = a * x * x + b * x + c
+    const px = toX(x)
+    const py = toY(y)
+    if (first) {
+      ctx.moveTo(px, py)
+      first = false
+    } else {
+      ctx.lineTo(px, py)
+    }
+  }
+  ctx.stroke()
 
+  // Mark vertex if within range
+  const vx = -b / (2 * (a || 1))
+  const vy = a * vx * vx + b * vx + c
+  if (vx >= xMin && vx <= xMax && vy >= yMin && vy <= yMax) {
+    ctx.fillStyle = '#d32f2f'
+    ctx.beginPath()
+    ctx.arc(toX(vx), toY(vy), 4, 0, Math.PI * 2)
+    ctx.fill()
+  }
+}
 
+function drawCircleTheoremAngleCenter(ctx, data) {
+  const width = data.width || 400
+  const height = data.height || 300
+  const cx = width / 2
+  const cy = height / 2 + 20
+  const radius = Math.min(width, height) / 3
 
+  const angle = Number(data.angle) || 40
+  const centreAngle = angle * 2
+
+  ctx.strokeStyle = '#1976D2'
+  ctx.lineWidth = 2
+
+  // Circle
+  ctx.beginPath()
+  ctx.arc(cx, cy, radius, 0, Math.PI * 2)
+  ctx.stroke()
+
+  // Define arc endpoints on circle
+  const startAngle = -Math.PI / 4
+  const endAngle = startAngle + (Math.PI / 2)
+
+  const x1 = cx + radius * Math.cos(startAngle)
+  const y1 = cy + radius * Math.sin(startAngle)
+  const x2 = cx + radius * Math.cos(endAngle)
+  const y2 = cy + radius * Math.sin(endAngle)
+
+  // Draw chord
+  ctx.beginPath()
+  ctx.moveTo(x1, y1)
+  ctx.lineTo(x2, y2)
+  ctx.stroke()
+
+  // Centre angle
+  ctx.beginPath()
+  ctx.moveTo(cx, cy)
+  ctx.lineTo(x1, y1)
+  ctx.moveTo(cx, cy)
+  ctx.lineTo(x2, y2)
+  ctx.stroke()
+
+  // Circumference point for angle at circumference
+  const midAngle = (startAngle + endAngle) / 2
+  const px = cx + radius * Math.cos(midAngle)
+  const py = cy + radius * Math.sin(midAngle)
+
+  ctx.beginPath()
+  ctx.moveTo(px, py)
+  ctx.lineTo(x1, y1)
+  ctx.moveTo(px, py)
+  ctx.lineTo(x2, y2)
+  ctx.stroke()
+
+  // Label angles
+  ctx.fillStyle = '#d32f2f'
+  ctx.font = '14px Arial'
+  ctx.textAlign = 'center'
+  ctx.fillText(`${centreAngle}°`, cx, cy - 10)
+
+  ctx.fillStyle = '#388E3C'
+  ctx.fillText(`${angle}°`, px, py - 10)
+}
