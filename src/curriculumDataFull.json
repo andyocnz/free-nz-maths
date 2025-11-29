@@ -369,12 +369,12 @@
                                                                                         ],
                                                                               "paid":  [
                                                                                            "decimal",
-                                                                                           20,
+                                                                                           100,
                                                                                            200,
                                                                                            2
                                                                                        ]
                                                                           },
-                                                               "answer":  "paid >= price ? paid - price : 0"
+                                                               "answer":  "paid - price"
                                                            },
                                                            {
                                                                "id":  "Y6.N.MONEY_FINLIT.T2",
@@ -1543,7 +1543,7 @@
                                          "templates":  [
                                                            {
                                                                "id":  "Y8.G.COORDINATE_PLANE.T1",
-                                                               "stem":  "Find the distance between the points ({x1}, {y1}) and ({x2}, {y2}) on a horizontal or vertical line.",
+                                                               "stem":  "Find the distance between the points ({x1}, {y1}) and ({x2}, {y2}).",
                                                                "params":  {
                                                                               "x1":  [
                                                                                          "int",
@@ -1566,7 +1566,7 @@
                                                                                          10
                                                                                      ]
                                                                           },
-                                                               "answer":  "abs(x1 - x2) + abs(y1 - y2) == 0 ? 0 : (x1 == x2 ? abs(y1 - y2) : abs(x1 - x2))"
+                                                               "answer":  "sqrt((x2 - x1)**2 + (y2 - y1)**2)"
                                                            }
                                                        ]
                                      },
@@ -2385,7 +2385,7 @@
                                                                                         30
                                                                                     ]
                                                                           },
-                                                               "answer":  "b\u003e=0 ? `(x + ${a\u003e0?\u0027\u0027:a})(x + ${b})` : `(x + ${Math.abs(a)})(x - ${Math.abs(b)})`"
+                                                               "answer":  "factor_quadratic_monic(a, b)"
                                                            }
                                                        ]
                                      }

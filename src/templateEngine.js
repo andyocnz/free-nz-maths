@@ -514,6 +514,21 @@ export function generateQuestionFromTemplate(template, skill, year) {
 
   const params = generateParams(template.params, year, templateDifficulty)
 
+  // Ensure Y9 quadratics factorisation questions always have integer roots.
+  // For QUADRATICS.T2, regenerate a and b from integer factors p, q so that
+  // x^2 + ax + b = (x + p)(x + q) with small non-zero integer p, q.
+  if ((template.id || '') === 'Y9.A.QUADRATICS.T2') {
+    let p = 0
+    let q = 0
+    // Avoid any root equal to 0 so we don't generate x(x + k) formats
+    while (p === 0 || q === 0) {
+      p = randInt(-5, 5)
+      q = randInt(-5, 5)
+    }
+    params.a = p + q
+    params.b = p * q
+  }
+
   // Ensure right-triangle trig questions use consistent side lengths.
   // For TRIG_RIGHT templates, derive the hypotenuse from opp and adj
   // so that sin and cos are always in [0,1] and satisfy Pythagoras.
@@ -692,5 +707,3 @@ export function getStrandsForYear(curriculum, year) {
 
   return Object.values(strandMap)
 }
-
-

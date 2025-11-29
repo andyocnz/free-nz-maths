@@ -166,6 +166,13 @@ function drawScatterPlot(ctx, data) {
 function drawCarOnRoad(ctx, data) {
   const width = data.width || 360
   const height = data.height || 200
+
+  // simple sky and ground to make scene feel less flat
+  ctx.fillStyle = '#E3F2FD'
+  ctx.fillRect(0, 0, width, height / 2)
+  ctx.fillStyle = '#C8E6C9'
+  ctx.fillRect(0, height / 2, width, height / 2)
+
   // road
   ctx.fillStyle = '#666'
   ctx.fillRect(20, height / 2 - 20, width - 40, 40)
@@ -178,17 +185,44 @@ function drawCarOnRoad(ctx, data) {
   ctx.stroke()
   ctx.setLineDash([])
 
-  // car body
+  // car body base
   const cx = 80
-  const cy = height / 2 - 12
+  const cy = height / 2 - 16
   ctx.fillStyle = '#1976D2'
-  ctx.fillRect(cx, cy, 80, 28)
-  // wheels
-  ctx.fillStyle = '#000'
-  ctx.beginPath(); ctx.arc(cx + 18, cy + 28, 6, 0, 2*Math.PI); ctx.fill();
-  ctx.beginPath(); ctx.arc(cx + 62, cy + 28, 6, 0, 2*Math.PI); ctx.fill();
+  ctx.fillRect(cx, cy + 8, 80, 26)
 
-  // label speed if provided
+  // car roof / cabin
+  ctx.beginPath()
+  ctx.moveTo(cx + 16, cy + 8)
+  ctx.lineTo(cx + 36, cy - 8)
+  ctx.lineTo(cx + 66, cy - 8)
+  ctx.lineTo(cx + 80, cy + 8)
+  ctx.closePath()
+  ctx.fill()
+
+  // windows
+  ctx.fillStyle = '#BBDEFB'
+  ctx.fillRect(cx + 30, cy, 22, 12)
+  ctx.fillRect(cx + 56, cy, 18, 12)
+
+  // wheels with hubs
+  ctx.fillStyle = '#000'
+  ctx.beginPath(); ctx.arc(cx + 20, cy + 34, 7, 0, 2*Math.PI); ctx.fill();
+  ctx.beginPath(); ctx.arc(cx + 60, cy + 34, 7, 0, 2*Math.PI); ctx.fill();
+  ctx.fillStyle = '#757575'
+  ctx.beginPath(); ctx.arc(cx + 20, cy + 34, 3, 0, 2*Math.PI); ctx.fill();
+  ctx.beginPath(); ctx.arc(cx + 60, cy + 34, 3, 0, 2*Math.PI); ctx.fill();
+
+  // subtle motion lines behind car
+  ctx.strokeStyle = 'rgba(0,0,0,0.25)'
+  ctx.lineWidth = 2
+  ctx.beginPath()
+  ctx.moveTo(cx - 10, cy + 20)
+  ctx.lineTo(cx - 30, cy + 20)
+  ctx.moveTo(cx - 8, cy + 26)
+  ctx.lineTo(cx - 26, cy + 26)
+  ctx.stroke()
+
   // label speed if provided (only when explicitly allowed)
   if (data.speed !== undefined && data.showSpeed !== false) {
     ctx.fillStyle = '#000'
@@ -1230,7 +1264,7 @@ function drawBoxPlot(ctx, data) {
     ctx.fillText(label, 200, 50);
 }
 
-// Draw a simple net visualization (supports cube nets)
+// Draw a simple net visualization (supports cube and other nets)
 function drawNet(ctx, data) {
   const { shape_type } = data
   ctx.clearRect(0, 0, 400, 300)
@@ -1254,9 +1288,6 @@ function drawNet(ctx, data) {
     // square above the second square
     ctx.strokeRect(startX + size * 0, startY - size, size, size)
 
-    // small labels
-    ctx.fillStyle = '#1565C0'
-    ctx.fillText('Net of a cube', startX - 40, startY - 60)
   } else {
     // Additional supported nets
     if (shape_type === 'rectangular_prism') {
@@ -1268,8 +1299,6 @@ function drawNet(ctx, data) {
       // top and bottom attached to middle
       ctx.strokeRect(startX + w, startY - h, w, h)
       ctx.strokeRect(startX + w, startY + h, w, h)
-      ctx.fillStyle = '#1565C0'
-      ctx.fillText('Net of a rectangular prism', startX - 20, startY - 60)
     } else if (shape_type === 'triangular_prism') {
       // Draw triangular prism net: triangle - rectangle - rectangle - triangle
       const rectW = 70, rectH = 40
@@ -1291,8 +1320,6 @@ function drawNet(ctx, data) {
       ctx.lineTo(tx + rectW, startY + 40)
       ctx.closePath()
       ctx.stroke()
-      ctx.fillStyle = '#1565C0'
-      ctx.fillText('Net of a triangular prism', startX + 20, startY - 80)
     } else if (shape_type === 'square_pyramid') {
       // Draw square base with 4 triangular faces around
       const size = 60
@@ -1328,8 +1355,6 @@ function drawNet(ctx, data) {
       ctx.lineTo(cx + size/2 + 50, cy)
       ctx.closePath()
       ctx.stroke()
-      ctx.fillStyle = '#1565C0'
-      ctx.fillText('Net of a square pyramid', cx - 40, cy - 90)
     } else if (shape_type === 'tetrahedron') {
       // Draw net of a tetrahedron: central triangle with three triangles attached
       const cx = 200, cy = 140
@@ -1362,8 +1387,6 @@ function drawNet(ctx, data) {
       ctx.lineTo(cx + s - 20, cy + s + 10)
       ctx.closePath()
       ctx.stroke()
-      ctx.fillStyle = '#1565C0'
-      ctx.fillText('Net of a tetrahedron', cx - 40, cy - 90)
     } else {
       ctx.fillText('Net visualization not available', 120, 140)
     }
@@ -1529,8 +1552,6 @@ function drawParallelTransversal(ctx, data) {
   ctx.fillStyle = '#333'
   ctx.fillText('Find this angle', width - 120, height - 41)
 }
-
-
 
 
 
