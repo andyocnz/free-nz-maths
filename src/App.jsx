@@ -1815,17 +1815,21 @@ export default function App() {
                   >
                     Remind me the knowledge
                   </button>
-                  <button className="btn-success" onClick={checkAnswer}>Check Answer</button>
-                <button
-                  className="btn-secondary"
-                  onClick={() => {
-                    setShowCorrectAnswer(true)
-                    setFeedback(`Answer: ${question?.answer || 'N/A'}`)
-                  }}
-                  style={{marginLeft: '8px'}}
-                >
-                  Reveal Answer
-                </button>
+                  {isDevMode && (
+                    <>
+                      <button className="btn-success" onClick={checkAnswer}>Check Answer</button>
+                      <button
+                        className="btn-secondary"
+                        onClick={() => {
+                          setShowCorrectAnswer(true)
+                          setFeedback(`Answer: ${question?.answer || 'N/A'}`)
+                        }}
+                        style={{marginLeft: '8px'}}
+                      >
+                        Reveal Answer
+                      </button>
+                    </>
+                  )}
                 {isTestMode ? (
                   currentIndex < history.length - 1 ? (
                     <button className="btn-primary" onClick={goForward}>Next →</button>
