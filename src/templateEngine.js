@@ -529,6 +529,31 @@ export function generateQuestionFromTemplate(template, skill, year) {
     params.b = p * q
   }
 
+  // Ensure triangle angle sum is valid for Y8.G.GEOMETRY.T1
+  // Generate angles so that the missing angle is at least 20°.
+  if ((template.id || '') === 'Y8.G.GEOMETRY.T1') {
+    let a = 0
+    let b = 0
+    // require a, b in [20, 130] and a + b <= 160
+    let tries = 0
+    while (tries < 100) {
+      a = randInt(20, 130)
+      b = randInt(20, 130)
+      if (a + b <= 160) break
+      tries++
+    }
+    params.a = a
+    params.b = b
+  }
+
+  // Ensure proper-fraction group questions for Y6.N.FRACTIONS.T2
+  // Force num < den so the fraction of students is realistic.
+  if ((template.id || '') === 'Y6.N.FRACTIONS.T2' &&
+      typeof params.den === 'number' &&
+      params.den > 1) {
+    params.num = randInt(1, params.den - 1)
+  }
+
   // Ensure right-triangle trig questions use consistent side lengths.
   // For TRIG_RIGHT templates, derive the hypotenuse from opp and adj
   // so that sin and cos are always in [0,1] and satisfy Pythagoras.
