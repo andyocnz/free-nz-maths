@@ -1693,22 +1693,63 @@ export default function App() {
               <div id="math-question" style={{fontSize:'1.8em', margin: '30px 0', minHeight:'50px'}}></div>
 
               {/* Show WordDropdown for "write in words" questions, regular input for others */}
-              {question?.skillId?.includes('PLACE_VALUE') && question?.question?.toLowerCase().includes('in words') ? (
-                <WordDropdown
-                  number={question.params?.n || 0}
-                  onAnswer={(selectedAnswer) => {
-                    setAnswer(selectedAnswer)
-                  }}
-                />
-              ) : (
-                <input
-                  className="input-primary"
-                  value={answer}
-                  onChange={e=>setAnswer(e.target.value)}
-                  onKeyPress={e => e.key === 'Enter' && checkAnswer()}
-                  placeholder="Your answer"
-                />
-              )}
+                {question?.skillId?.includes('PLACE_VALUE') && question?.question?.toLowerCase().includes('in words') ? (
+                  <WordDropdown
+                    number={question.params?.n || 0}
+                    onAnswer={(selectedAnswer) => {
+                      setAnswer(selectedAnswer)
+                    }}
+                  />
+                ) : (
+                  <>
+                    <input
+                      className="input-primary"
+                      value={answer}
+                      onChange={e=>setAnswer(e.target.value)}
+                      onKeyPress={e => e.key === 'Enter' && checkAnswer()}
+                      placeholder="Your answer"
+                    />
+                    <div className="flex flex-wrap gap-2 justify-center mt-3 text-xs">
+                      {/* Common math syntax helpers */}
+                      <span className="text-gray-500 mr-2">Common symbols:</span>
+                      <button
+                        type="button"
+                        className="px-2 py-1 rounded border border-gray-300 bg-gray-50 hover:bg-gray-100"
+                        onClick={() => setAnswer(prev => prev + '×')}
+                      >
+                        ×
+                      </button>
+                      <button
+                        type="button"
+                        className="px-2 py-1 rounded border border-gray-300 bg-gray-50 hover:bg-gray-100"
+                        onClick={() => setAnswer(prev => prev + '÷')}
+                      >
+                        ÷
+                      </button>
+                      <button
+                        type="button"
+                        className="px-2 py-1 rounded border border-gray-300 bg-gray-50 hover:bg-gray-100"
+                        onClick={() => setAnswer(prev => prev + '√')}
+                      >
+                        √
+                      </button>
+                      <button
+                        type="button"
+                        className="px-2 py-1 rounded border border-gray-300 bg-gray-50 hover:bg-gray-100"
+                        onClick={() => setAnswer(prev => prev + '^2')}
+                      >
+                        x²
+                      </button>
+                      <button
+                        type="button"
+                        className="px-2 py-1 rounded border border-gray-300 bg-gray-50 hover:bg-gray-100"
+                        onClick={() => setAnswer(prev => prev + '^')}
+                      >
+                        ^
+                      </button>
+                    </div>
+                  </>
+                )}
 
               <div style={{display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap', marginTop:'30px'}}>
                 <button
