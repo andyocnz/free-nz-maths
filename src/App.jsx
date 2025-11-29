@@ -1731,6 +1731,7 @@ export default function App() {
               {/* Show WordDropdown for "write in words" questions, regular input for others */}
                 {question?.skillId?.includes('PLACE_VALUE') && question?.question?.toLowerCase().includes('in words') ? (
                   <WordDropdown
+                    key={question.templateId || currentIndex}
                     number={question.params?.n || 0}
                     onAnswer={(selectedAnswer) => {
                       setAnswer(selectedAnswer)
