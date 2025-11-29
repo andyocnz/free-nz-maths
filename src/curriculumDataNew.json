@@ -1085,6 +1085,217 @@
           ]
         }
       ]
+    },
+    {
+      "year": 10,
+      "skills": [
+        {
+          "id": "Y10.A.QUADRATIC_FORMULA",
+          "strand": "Number & Algebra",
+          "name": "Quadratic formula",
+          "description": "Solve quadratic equations that cannot be factored using the quadratic formula.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.A.QUADRATIC_FORMULA.T1",
+              "stem": "Use the quadratic formula to solve {a}xA� + {b}x + {c} = 0. Give your answers to two decimal places.",
+              "params": { "a": ["int", 2, 5], "b": ["int", -10, 10], "c": ["int", -10, 5] },
+              "answer": "solve_quadratic_formula(a, b, c)",
+              "difficulty": 9,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y10.A.GRAPH_QUADRATIC",
+          "strand": "Number & Algebra",
+          "name": "Graphing quadratics",
+          "description": "Identify key features of quadratic graphs such as the vertex.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.A.GRAPH_QUADRATIC.T1",
+              "stem": "What are the coordinates of the vertex of the parabola y = xA� + {b}x + {c}?",
+              "params": { "b": ["int", -10, 10, 2], "c": ["int", -10, 10] },
+              "answer": "'(' + (-b/2) + ', ' + ((-b/2)*(-b/2) + b*(-b/2) + c) + ')'",
+              "visualData": { "type": "graph_parabola", "a": 1, "b": "b", "c": "c" },
+              "difficulty": 8,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y10.G.TRIG_RULES",
+          "strand": "Geometry & Measurement",
+          "name": "Sine and cosine rules",
+          "description": "Use the Sine and Cosine Rules to solve non-right-angled triangles.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.G.TRIG_RULES.T1",
+              "stem": "In a triangle, side a = {a}, side b = {b}, and the angle between them is C = {C}A�. Find the length of side c using the Cosine Rule. Give your answer to 1 decimal place.",
+              "params": { "a": ["int", 5, 20], "b": ["int", 5, 20], "C": ["int", 20, 160] },
+              "answer": "round(cosine_rule_side(a, b, C), 1)",
+              "difficulty": 9,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y10.A.ALGEBRAIC_FRACTIONS",
+          "strand": "Number & Algebra",
+          "name": "Algebraic fractions",
+          "description": "Simplify algebraic fractions using factorisation and cancellation.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.A.ALGEBRAIC_FRACTIONS.T1",
+              "stem": "Simplify the expression: (xA� - {a*a}) / (x - {a}).",
+              "params": { "a": ["int", 1, 10, 1] },
+              "answer": "'x + ' + a",
+              "difficulty": 8,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y10.G.CIRCLE_THEOREMS",
+          "strand": "Geometry & Measurement",
+          "name": "Circle theorems",
+          "description": "Apply circle theorems for angles at the centre and circumference.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.G.CIRCLE_THEOREMS.T1",
+              "stem": "An angle at the circumference subtended by an arc is {a}A�. What is the angle at the centre subtended by the same arc?",
+              "params": { "a": ["int", 20, 80] },
+              "answer": "2 * a",
+              "visualData": { "type": "circle_theorem_angle_center", "angle": "a" },
+              "difficulty": 8,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y10.S.PROB_ADVANCED",
+          "strand": "Statistics & Probability",
+          "name": "Conditional probability and tree diagrams",
+          "description": "Solve conditional probability problems using fractions and tree diagrams.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.S.PROB_ADVANCED.T1",
+              "stem": "A bag contains {r} red and {b} blue marbles. Two marbles are drawn without replacement. What is the probability that both are red? Give your answer in simplest form.",
+              "params": { "r": ["int", 3, 10], "b": ["int", 3, 10] },
+              "answer": "simplify(r*(r-1), (r+b)*(r+b-1))",
+              "difficulty": 9,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y10.A.SYSTEMS_ADVANCED",
+          "strand": "Number & Algebra",
+          "name": "Systems of equations (advanced)",
+          "description": "Solve systems that include both linear and quadratic equations.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.A.SYSTEMS_ADVANCED.T1",
+              "stem": "Find the positive x-coordinate of the intersection points of the line y = {c} and the parabola y = xA� - {a}.",
+              "params": { "a": ["int", 1, 10], "c": ["int", 11, 30] },
+              "answer": "solve_linear_parabola_system(a, c)",
+              "difficulty": 9,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y10.G.TRIG_3D",
+          "strand": "Geometry & Measurement",
+          "name": "Trigonometry in 3D",
+          "description": "Apply trigonometry to find angles and lengths in 3D shapes.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.G.TRIG_3D.T1",
+              "stem": "A rectangular prism has length {l}, width {w}, and height {h}. Find the angle the space diagonal makes with the base, in degrees. Give your answer to 1 decimal place.",
+              "params": { "l": ["int", 5, 15], "w": ["int", 5, 15], "h": ["int", 5, 15] },
+              "answer": "round(atan(h / sqrt(l*l + w*w)) * (180/Math.PI), 1)",
+              "difficulty": 9,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y10.A.FUNCTIONS_ADVANCED",
+          "strand": "Number & Algebra",
+          "name": "Functions, domain and range",
+          "description": "Interpret functions and describe their domains and ranges.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.A.FUNCTIONS_ADVANCED.T1",
+              "stem": "What is the domain of the function f(x) = sqrt(x - {a})? Give your answer in the form x >= a.",
+              "params": { "a": ["int", 0, 20] },
+              "answer": "'x >= ' + a",
+              "difficulty": 8,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y10.S.BIVARIATE",
+          "strand": "Statistics & Probability",
+          "name": "Bivariate statistics",
+          "description": "Interpret lines of best fit and make predictions.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.S.BIVARIATE.T1",
+              "stem": "A line of best fit for a scatter plot is y = {m}x + {c}. Predict the value of y when x = {x_val}.",
+              "params": { "m": ["decimal", 0.5, 5, 1], "c": ["decimal", 0, 20, 1], "x_val": ["int", 5, 25] },
+              "answer": "m * x_val + c",
+              "difficulty": 8,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y10.G.SA_VOLUME_ADVANCED",
+          "strand": "Geometry & Measurement",
+          "name": "Surface area and volume (multi-step)",
+          "description": "Solve multi-step problems involving surface area and volume.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.G.SA_VOLUME_ADVANCED.T1",
+              "stem": "A cone has a slant height of {s} cm and a radius of {r} cm. What is its volume? Use I? �%^ 3.14.",
+              "params": { "s": ["int", 10, 25], "r": ["int", 3, 9] },
+              "answer": "round(volume_cone(r, sqrt(s*s - r*r)), 2)",
+              "difficulty": 9,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y10.G.GEOMETRIC_REASONING",
+          "strand": "Geometry & Measurement",
+          "name": "Geometric reasoning and proofs",
+          "description": "Reason with geometric properties and angle relationships.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.G.GEOMETRIC_REASONING.T1",
+              "stem": "In a cyclic quadrilateral, one angle is {a}A�. What is the measure of the opposite angle?",
+              "params": { "a": ["int", 60, 120] },
+              "answer": "180 - a",
+              "difficulty": 8,
+              "phase": 8
+            }
+          ]
+        }
+      ]
     }
   ]
 }
