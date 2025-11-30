@@ -55,7 +55,7 @@ export default function App() {
   const phaseFilter = phaseFromUrl ? parseInt(phaseFromUrl, 10) : null
   const path = window.location.pathname || '/'
 
-  let initialMode: 'landing' | 'practice' | 'menu' | 'ixl-alternative'
+  let initialMode
   if (path === '/ixl-alternative') {
     initialMode = 'ixl-alternative'
   } else if (skillFromUrl) {
@@ -1338,62 +1338,50 @@ export default function App() {
                   </thead>
                   <tbody>
                     <tr className="border-t border-slate-200">
-                      <td className="px-3 py-2 font-semibold text-slate-800">Price</td>
-                      <td className="px-3 py-2 text-slate-700">100% free to use</td>
-                      <td className="px-3 py-2 text-slate-700">Paid subscription model</td>
-                    </tr>
-                    <tr className="border-t border-slate-200 bg-slate-50/60">
-                      <td className="px-3 py-2 font-semibold text-slate-800">
-                        Curriculum focus
+                      <td className="px-3 py-2 font-semibold text-slate-800">Cost</td>
+                      <td className="px-3 py-2 text-slate-700">
+                        100% free, no subscription required.
                       </td>
                       <td className="px-3 py-2 text-slate-700">
-                        Designed around the New Zealand curriculum (Years 6–10 and NCEA)
-                      </td>
-                      <td className="px-3 py-2 text-slate-700">
-                        Global coverage; not NZ-specific by default
-                      </td>
-                    </tr>
-                    <tr className="border-t border-slate-200">
-                      <td className="px-3 py-2 font-semibold text-slate-800">Ads &amp; tracking</td>
-                      <td className="px-3 py-2 text-slate-700">
-                        No ads; minimal tracking focused on learning progress only
-                      </td>
-                      <td className="px-3 py-2 text-slate-700">
-                        Commercial platform with standard web tracking practices
+                        Subscription-based after a trial limit.
                       </td>
                     </tr>
                     <tr className="border-t border-slate-200 bg-slate-50/60">
-                      <td className="px-3 py-2 font-semibold text-slate-800">
-                        Account required
-                      </td>
+                      <td className="px-3 py-2 font-semibold text-slate-800">Advertisements</td>
+                      <td className="px-3 py-2 text-slate-700">No ads, ever.</td>
                       <td className="px-3 py-2 text-slate-700">
-                        Optional login; you can practice without an account
-                      </td>
-                      <td className="px-3 py-2 text-slate-700">
-                        Accounts typically required for full tracking and access
+                        Ad-free with subscription.
                       </td>
                     </tr>
                     <tr className="border-t border-slate-200">
                       <td className="px-3 py-2 font-semibold text-slate-800">
-                        Question style
+                        Curriculum Focus
                       </td>
                       <td className="px-3 py-2 text-slate-700">
-                        Focused, exam-style questions aligned to NZ topics, including NCEA-style
-                        problems
+                        Built specifically for the NZ curriculum.
                       </td>
                       <td className="px-3 py-2 text-slate-700">
-                        Large international bank of practice questions and skills
+                        International, with an NZ-aligned section.
                       </td>
                     </tr>
                     <tr className="border-t border-slate-200 bg-slate-50/60">
                       <td className="px-3 py-2 font-semibold text-slate-800">
-                        NZ-specific features
+                        NCEA Preparation
                       </td>
                       <td className="px-3 py-2 text-slate-700">
-                        NCEA trial exams, NZ money context, metric units, local terminology
+                        Dedicated NCEA past paper practice.
                       </td>
                       <td className="px-3 py-2 text-slate-700">
-                        General maths practice not tailored specifically to NZ exams
+                        General skill practice up to NCEA levels.
+                      </td>
+                    </tr>
+                    <tr className="border-t border-slate-200">
+                      <td className="px-3 py-2 font-semibold text-slate-800">Mission</td>
+                      <td className="px-3 py-2 text-slate-700">
+                        To provide equitable access to education.
+                      </td>
+                      <td className="px-3 py-2 text-slate-700">
+                        Commercial learning platform.
                       </td>
                     </tr>
                   </tbody>
@@ -1426,11 +1414,12 @@ export default function App() {
                 IXL is a registered trademark of IXL Learning. Mathx.nz is an independent project
                 and is not affiliated with, endorsed by, or sponsored by IXL Learning.
               </p>
-            </div>
           </div>
         </div>
-      </>
-    )
+
+      </div>
+    </>
+  )
   }
 
   // Landing Page
@@ -1611,127 +1600,6 @@ export default function App() {
             </div>
           </div>
 
-          {/* NCEA Past Papers (PDF) */}
-          <div className="bg-white py-10 border-b border-slate-200">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="bg-slate-50 text-slate-900 rounded-3xl p-6 md:p-8 shadow-md border border-slate-200">
-                <h2 className="text-2xl md:text-3xl font-extrabold mb-3">
-                  NCEA Past Papers (PDF)
-                </h2>
-                <p className="text-sm md:text-base text-slate-600 mb-4 max-w-2xl">
-                  Browse all local NCEA maths exam papers by year. Click a topic to open the PDF in a
-                  new tab.
-                </p>
-
-                <div className="bg-white border border-slate-200 rounded-2xl px-4 py-3 text-xs md:text-sm">
-                  <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="font-semibold text-slate-800">Level:</span>
-                    {/* For now, only Level 1 is surfaced, matching the trial exams */}
-                    {[1].map(level => (
-                      <button
-                        key={level}
-                        type="button"
-                        onClick={() => {
-                          setNceaPdfLevel(level)
-                          setNceaPdfYear(() => {
-                            const years = nceaExamPdfs
-                              .filter(p => p.level === level)
-                              .map(p => p.year)
-                            return years.length ? Math.max(...years) : null
-                          })
-                        }}
-                        className={`px-3 py-1 rounded-full border text-xs font-semibold ${
-                          nceaPdfLevel === level
-                            ? 'bg-[#0077B6] text-white border-[#0077B6]'
-                            : 'bg-white text-slate-700 border-slate-300 hover:border-[#0077B6]'
-                        }`}
-                      >
-                        Level {level}
-                      </button>
-                    ))}
-                  </div>
-
-                  <div className="flex flex-wrap items-center gap-2 mb-2">
-                    <span className="text-slate-500">Year:</span>
-                    {Array.from(
-                      new Set(
-                        nceaExamPdfs
-                          .filter(p => p.level === nceaPdfLevel)
-                          .map(p => p.year)
-                      )
-                    )
-                      .sort((a, b) => b - a)
-                      .map(year => (
-                        <button
-                          key={year}
-                          type="button"
-                          onClick={() => setNceaPdfYear(year)}
-                          className={`px-2 py-1 rounded-full border text-xs font-semibold ${
-                            nceaPdfYear === year
-                              ? 'bg-white text-[#0077B6] border-[#0077B6]'
-                              : 'bg-white text-slate-700 border-slate-300 hover:border-[#0077B6]'
-                          }`}
-                        >
-                          {year}
-                        </button>
-                      ))}
-                    {!nceaExamPdfs.some(p => p.level === nceaPdfLevel) && (
-                      <span className="text-slate-400 text-xs">
-                        No local papers for this level yet.
-                      </span>
-                    )}
-                  </div>
-
-                  <div className="max-h-40 overflow-y-auto bg-slate-50 border border-slate-100 rounded-xl">
-                    <table className="min-w-full text-left text-[11px] md:text-xs">
-                      <tbody>
-                        {nceaExamPdfs
-                          .filter(p => p.level === nceaPdfLevel)
-                          .filter(p => (nceaPdfYear ? p.year === nceaPdfYear : true))
-                          .sort(
-                            (a, b) =>
-                              b.year - a.year || a.standard.localeCompare(b.standard)
-                          )
-                          .map(pdf => (
-                            <tr
-                              key={`${pdf.standard}-${pdf.year}`}
-                              className="border-b border-slate-100"
-                            >
-                              <td className="px-3 py-1 whitespace-nowrap font-mono text-slate-900">
-                                {pdf.standard}
-                              </td>
-                              <td className="px-3 py-1 text-slate-800">
-                                {pdf.title} ({pdf.year})
-                              </td>
-                              <td className="px-3 py-1 whitespace-nowrap text-right">
-                                {pdf.url ? (
-                                  <button
-                                    type="button"
-                                    onClick={() => setNceaPdfActive(pdf)}
-                                    className="px-2 py-0.5 rounded-full bg-[#0077B6] hover:bg-sky-700 text-white font-semibold"
-                                  >
-                                    View
-                                  </button>
-                                ) : (
-                                  <span className="text-slate-400">No exam</span>
-                                )}
-                              </td>
-                            </tr>
-                          ))}
-                        {nceaExamPdfs.filter(p => p.level === nceaPdfLevel).length === 0 && (
-                          <tr>
-                            <td className="px-3 py-2 text-slate-400" colSpan={3}>
-                              No local exam PDFs found for this level yet.
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
 
           {/* Curriculum Map */}
           <div id="curriculum-map" className="py-16 bg-slate-100/40 backdrop-blur-sm">
@@ -1974,13 +1842,164 @@ export default function App() {
               </div>
             </section>
           )}
-
-          {/* Footer */}
-          <footer className="bg-gray-800 text-white py-6 mt-16">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
-              © 2025 MathX.nz Platform. Free to learn. Free to grow.
-            </div>
-          </footer>
+ {/* NCEA Past Papers (PDF) */}                                                                                                                                        
+            <div className="bg-white py-10 border-b border-slate-200">                                                                                                            
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">                                                                                                            
+                <div className="bg-slate-50 text-slate-900 rounded-3xl p-6 md:p-8 shadow-md border border-slate-200">                                                             
+                  <h2 className="text-2xl md:text-3xl font-extrabold mb-3">                                                                                                       
+                    NCEA Past Papers (PDF)                                                                                                                                        
+                  </h2>                                                                                                                                                           
+                  <p className="text-sm md:text-base text-slate-600 mb-4 max-w-2xl">                                                                                              
+                    Browse all local NCEA maths exam papers by year. Click a topic to open the PDF in a                                                                           
+                    viewer.                                                                                                                                                       
+                  </p>                                                                                                                                                            
+                                                                                                                                                                                  
+                  <div className="bg-white border border-slate-200 rounded-2xl px-4 py-3 text-xs md:text-sm">                                                                     
+                    <div className="flex flex-wrap items-center gap-2 mb-2">                                                                                                      
+                      <span className="font-semibold text-slate-800">Level:</span>                                                                                                
+                      {[1].map(level => (                                                                                                                                         
+                        <button                                                                                                                                                   
+                          key={level}                                                                                                                                             
+                          type="button"                                                                                                                                           
+                          onClick={() => {                                                                                                                                        
+                            setNceaPdfLevel(level)                                                                                                                                
+                            setNceaPdfYear(() => {                                                                                                                                
+                              const years = nceaExamPdfs                                                                                                                          
+                                .filter(p => p.level === level)                                                                                                                   
+                                .map(p => p.year)                                                                                                                                 
+                              return years.length ? Math.max(...years) : null                                                                                                     
+                            })                                                                                                                                                    
+                          }}                                                                                                                                                      
+                          className={`px-3 py-1 rounded-full border text-xs font-semibold ${                                                                                      
+                            nceaPdfLevel === level                                                                                                                                
+                              ? 'bg-[#0077B6] text-white border-[#0077B6]'                                                                                                        
+                              : 'bg-white text-slate-700 border-slate-300 hover:border-[#0077B6]'                                                                                 
+                          }`}                                                                                                                                                     
+                        >                                                                                                                                                         
+                          Level {level}                                                                                                                                           
+                        </button>                                                                                                                                                 
+                      ))}                                                                                                                                                         
+                      <span className="mx-2 text-slate-300">|</span>                                                                                                              
+                      <span className="text-slate-500">Year:</span>                                                                                                               
+                      {Array.from(
+                        new Set(                                                                                                                                                  
+                          nceaExamPdfs                                                                                                                                            
+                            .filter(p => p.level === nceaPdfLevel)                                                                                                                
+                            .map(p => p.year)                                                                                                                                     
+                        )                                                                                                                                                         
+                      )                                                                                                                                                           
+                        .sort((a, b) => b - a)
+                        .map(year => (                                                                                                                                            
+                          <button                                                                                                                                                 
+                            key={year}                                                                                                                                            
+                            type="button"                                                                                                                                         
+                            onClick={() => setNceaPdfYear(year)}                                                                                                                  
+                            className={`px-2 py-1 rounded-full border text-xs font-semibold ${                                                                                    
+                              nceaPdfYear === year                                                                                                                                
+                                ? 'bg-white text-[#0077B6] border-[#0077B6]'                                                                                                      
+                                : 'bg-white text-slate-700 border-slate-300 hover:border-[#0077B6]'                                                                               
+                            }`}                                                                                                                                                   
+                          >                                                                                                                                                       
+                            {year}                                                                                                                                                
+                          </button>                                                                                                                                               
+                        ))}                                                                                                                                                       
+                      {!nceaExamPdfs.some(p => p.level === nceaPdfLevel) && (                                                                                                     
+                        <span className="text-slate-400 text-xs">                                                                                                                 
+                          No local papers for this level yet.                                                                                                                     
+                        </span>                                                                                                                                                   
+                      )}                                                                                                                                                          
+                    </div>                                                                                                                                                        
+                                                                                                                                                                                  
+                    <div className="max-h-40 overflow-y-auto bg-slate-50 border border-slate-100 rounded-xl">                                                                     
+                      <table className="min-w-full text-left text-[11px] md:text-xs">                                                                                             
+                        <tbody>                                                                                                                                                   
+                          {nceaExamPdfs                                                                                                                                           
+                            .filter(p => p.level === nceaPdfLevel)                                                                                                                
+                            .filter(p => (nceaPdfYear ? p.year === nceaPdfYear : true))                                                                                           
+                            .sort(                                                                                                                                                
+                              (a, b) =>                                                                                                                                           
+                                b.year - a.year || a.standard.localeCompare(b.standard)                                                                                           
+                            )                                                                                                                                                     
+                            .map(pdf => (                                                                                                                                         
+                              <tr                                                                                                                                                 
+                                key={`${pdf.standard}-${pdf.year}`}                                                                                                               
+                                className="border-b border-slate-100"                                                                                                             
+                              >                                                                                                                                                   
+                                <td className="px-3 py-1 whitespace-nowrap font-mono text-slate-900">                                                                             
+                                  {pdf.standard}                                                                                                                                  
+                                </td>                                                                                                                                             
+                                <td className="px-3 py-1 text-slate-800">                                                                                                         
+                                  {pdf.title} ({pdf.year})                                                                                                                        
+                                </td>                                                                                                                                             
+                                <td className="px-3 py-1 whitespace-nowrap text-right">                                                                                           
+                                  {pdf.url ? (                                                                                                                                    
+                                    <button                                                                                                                                       
+                                      type="button"                                                                                                                               
+                                      onClick={() => setNceaPdfActive(pdf)}                                                                                                       
+                                      className="px-2 py-0.5 rounded-full bg-[#0077B6] hover:bg-sky-700 text-white font-semibold"                                                 
+                                    >                                                                                                                                             
+                                      View                                                                                                                                        
+                                    </button>                                                                                                                                     
+                                  ) : (                                                                                                                                           
+                                    <span className="text-slate-400">No exam</span>                                                                                               
+                                  )}                                                                                                                                              
+                                </td>                                                                                                                                             
+                              </tr>                                                                                                                                               
+                            ))}                                                                                                                                                   
+                          {nceaExamPdfs.filter(p => p.level === nceaPdfLevel).length === 0 && (                                                                                   
+                            <tr>                                                                                                                                                  
+                              <td className="px-3 py-2 text-slate-400" colSpan={3}>                                                                                               
+                                No local exam PDFs found for this level yet.                                                                                                      
+                              </td>                                                                                                                                               
+                            </tr>                                                                                                                                                 
+                          )}                                                                                                                                                      
+                        </tbody>                                                                                                                                                  
+                      </table>                                                                                                                                                    
+                    </div>                                                                                                                                                        
+                  </div>                                                                                                                                                          
+                </div>                                                                                                                                                            
+              </div>                                                                                                                                                              
+            </div>                       
+    {/* Footer */}                                                                                                                                                        
+            <footer className="bg-gray-900 text-slate-200 py-8 mt-16 border-t border-slate-800">                                                                                  
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs md:text-sm grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div>                                                                                                                                                             
+                  <h3 className="font-semibold mb-2 text-slate-100">mathx.nz</h3>                                                                                                 
+                  <p className="text-slate-400">                                                                                                                                  
+                    Free maths practice for New Zealand students. No subscriptions, no ads – just                                                                                 
+                    questions aligned to the NZ curriculum.                                                                                                                       
+                  </p>                                                                                                                                                            
+                </div>                                                                                                                                                            
+              <div>
+                <h3 className="font-semibold mb-2 text-slate-100">Practice by level</h3>
+                <div className="flex flex-col gap-1">
+                  {availableYears.map(year => (
+                    <a
+                      key={year}
+                      href={`/?year=${year}`}
+                      className="text-slate-300 hover:text-white underline-offset-2 hover:underline"
+                    >
+                      Year {year}
+                    </a>
+                  ))}
+                </div>
+              </div>
+                <div>                                                                                                                                                             
+                  <h3 className="font-semibold mb-2 text-slate-100">More</h3>                                                                                                     
+                  <div className="flex flex-col gap-1">                                                                                                                           
+                    <a                                                                                                                                                            
+                      href="/ixl-alternative"                                                                                                                                     
+                      className="text-slate-300 hover:text-white underline-offset-2 hover:underline"                                                                              
+                    >                                                                                                                                                             
+                      Free alternative to IXL                                                                                                                                     
+                    </a>                                                                                                                                                          
+                  </div>                                                                                                                                                          
+                  <p className="text-slate-500 mt-3">                                                                                                                             
+                    © 2025 Mathx.nz. Free to learn. Free to grow.                                                                                                                 
+                  </p>                                                                                                                                                            
+                </div>                                                                                                                                                            
+              </div>                                                                                                                                                              
+            </footer>          
         </div>
       </>
     )
