@@ -219,6 +219,67 @@ export default function App() {
   const question = history[currentIndex]
   const availableYears = getAvailableYears(curriculumData)
 
+  // Dynamic SEO: update document title and meta description based on view
+  useEffect(() => {
+    let title = 'Mathx.nz – Free NZ Maths Practice'
+    let description =
+      'Practice New Zealand maths curriculum questions for Years 6–10 and NCEA, free and adaptive with no ads.'
+
+    const yearLabel = selectedYear ? `Year ${selectedYear}` : null
+
+    if (mode === 'practice' && selectedSkill) {
+      // Find the skill metadata
+      const yearData = curriculumData.years.find(y => y.year === selectedYear)
+      const skill =
+        yearData && yearData.skills.find(s => s.id === selectedSkill)
+
+      if (skill) {
+        title = `Practice ${yearLabel} – ${skill.name} | Mathx.nz`
+        description = skill.description
+          ? `${skill.description} Practice questions for ${yearLabel} on Mathx.nz.`
+          : `Practice ${skill.name} for ${yearLabel} on Mathx.nz.`
+      }
+    } else if (mode === 'test') {
+      if (selectedYear) {
+        title = `Full ${yearLabel} Maths Test | Mathx.nz`
+        description = `Take a full adaptive maths assessment for ${yearLabel}, covering all strands of the NZ curriculum.`
+      } else if (activeNceaPaperId) {
+        title = `NCEA Trial Exam – ${activeNceaPaperId} | Mathx.nz`
+        description = 'Sit a timed NCEA-style trial exam using real exam-style questions.'
+      } else {
+        title = 'Full Maths Assessment | Mathx.nz'
+        description =
+          'Take a full adaptive maths assessment across multiple years and strands to identify strengths and gaps.'
+      }
+    } else if (mode === 'test-results') {
+      title = 'Assessment Results | Mathx.nz'
+      description =
+        'Review your maths assessment results, see which topics you are strong in and where you can improve.'
+    } else if (mode === 'practice-results') {
+      title = 'Practice Session Summary | Mathx.nz'
+      description =
+        'See how you performed in your recent practice session and which skills to focus on next.'
+    } else if (mode === 'ncea-index') {
+      title = 'NCEA Trial Exams – Level 1 | Mathx.nz'
+      description =
+        'Browse and start NCEA Level 1 trial exams built from real exam-style questions, including algebra and reasoning.'
+    } else if (mode === 'landing') {
+      title = 'Mathx.nz – Free Maths Practice for NZ Students'
+      description =
+        'Free, adaptive maths practice for New Zealand students. Identify knowledge gaps and build fluency in every topic from Year 6 to NCEA.'
+    }
+
+    document.title = title
+
+    let meta = document.querySelector('meta[name="description"]')
+    if (!meta) {
+      meta = document.createElement('meta')
+      meta.name = 'description'
+      document.head.appendChild(meta)
+    }
+    meta.content = description
+  }, [mode, selectedYear, selectedSkill, activeNceaPaperId, curriculumData])
+
   // Dev-only: generate a sample question/answer for every template in the selected year
   useEffect(() => {
     if (!isDevMode) {
