@@ -1605,7 +1605,7 @@ export default function App() {
               <p className="text-lg md:text-xl text-slate-500 mb-12">Select the year that corresponds to your current curriculum.</p>
 
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-                {availableYears.map((year, idx) => (
+                {availableYears.map((year) => (
                   <div
                     key={year}
                     onClick={() => {
@@ -1620,6 +1620,17 @@ export default function App() {
                     <p className="text-sm text-gray-500 mt-1">
                       {year <= 7 ? 'Foundation' : year === 8 ? 'Intermediate' : 'Advanced'}
                     </p>
+                  </div>
+                ))}
+                {/* Placeholders for upcoming senior years */}
+                {[11, 12, 13].map(level => (
+                  <div
+                    key={`placeholder-${level}`}
+                    className="year-card bg-gray-100/80 p-8 rounded-2xl border-2 border-dashed border-gray-300 card-shadow flex flex-col items-center justify-center cursor-not-allowed"
+                  >
+                    <div className="text-5xl font-bold text-gray-400 mb-4 font-mono">{level}</div>
+                    <h3 className="text-xl font-semibold text-gray-500">Year {level}</h3>
+                    <p className="text-sm text-gray-400 mt-1">Coming soon</p>
                   </div>
                 ))}
               </div>
