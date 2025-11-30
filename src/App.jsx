@@ -7,6 +7,7 @@ import TestResults from './TestResults.jsx'
 import CurriculumMap, { CurriculumMapToggle } from './CurriculumMap.jsx'
 import HintModal from './HintModal.jsx'
 import KnowledgeModal from './KnowledgeModal.jsx'
+import PastPapersIndex from './PastPapersIndex.jsx'
 import CanvasBackground from './CanvasBackground.jsx'
 import DailyChallenge from './DailyChallenge.jsx'
 import LoginModal from './LoginModal.jsx'
@@ -17,6 +18,8 @@ import { generateReportURL } from './config.js'
 import { normalizeFraction } from './mathHelpers.js'
 import WordDropdown from './WordDropdown.jsx'
 import knowledgeSnippets from './knowledgeSnippets.json'
+import { buildLegacy91027Questions, nceaLevel1YearOverviews } from './pastPapersData.js'
+import { nceaExamPdfs } from './nceaPdfs.js'
 
 // Alternating Text Component
 function AlternatingText() {
@@ -79,6 +82,13 @@ export default function App() {
   const [showLoginRecommendation, setShowLoginRecommendation] = useState(false)
   const [pendingAction, setPendingAction] = useState(null) // Store {type: 'practice'|'test', skillId: string}
   const [practiceResults, setPracticeResults] = useState(null) // Store practice session results
+  const [activeNceaPaperId, setActiveNceaPaperId] = useState(null)
+  const [nceaPdfLevel, setNceaPdfLevel] = useState(1)
+  const [nceaPdfYear, setNceaPdfYear] = useState(() => {
+    const level1Years = nceaExamPdfs.filter(p => p.level === 1).map(p => p.year)
+    return level1Years.length ? Math.max(...level1Years) : null
+  })
+  const [nceaPdfActive, setNceaPdfActive] = useState(null)
   const initialized = useRef(false)
   const nextLockedRef = useRef(false)
   const [nextLocked, setNextLocked] = useState(false)
@@ -501,7 +511,8 @@ export default function App() {
     const results = calculateTestResults(history)
     setTestResults(results)
 
-    // Save test result to storage and practice history
+    // Save test result to storage and practice history for normal curriculum tests.
+    // For NCEA trials, we skip storage (selectedYear will be null).
     if (selectedYear && currentUser) {
       saveTestResult(selectedYear, results.correctAnswers, results.totalQuestions)
       savePracticeSession(
@@ -1146,6 +1157,67 @@ export default function App() {
     )
   }
 
+  if (mode === 'ncea-index') {
+    return (
+      <>
+        {showLoginModal && <LoginModal onLogin={handleLogin} />}
+        {showLoginRecommendation && (
+          <LoginRecommendationModal onLogin={handleLogin} onSkip={handleSkipLogin} />
+        )}
+        <PastPapersIndex
+          onBack={() => setMode('landing')}
+          onStartStandardTrial={({ yearId, standardNumber }) => {
+            // Legacy sample: full 91027 exam stored in ncea_2021-2022_full.json
+            // For now, start this exam whenever standard 91027 is selected.
+            if (standardNumber === '91027') {
+              const questions = buildLegacy91027Questions()
+              if (!questions.length) {
+                window.alert('Legacy 91027 sample exam data is not available.')
+                return
+              }
+
+              const examQuestions = questions.map(q => ({
+                question: q.question,
+                answer: q.answer,
+                strand: 'NCEA',
+                topic: q.topic,
+                skill: 'NCEA 91027 Legacy Trial',
+                skillId: 'NCEA.L1.91027',
+                source: 'NCEA',
+                userAnswer: '',
+                userFeedback: '',
+                isCorrect: false,
+                answered: false
+              }))
+
+              setHistory(examQuestions)
+              setCurrentIndex(0)
+              setScore(0)
+              setIsTestMode(true)
+              setSelectedSkill(null)
+              setSelectedYear(null) // keep separate from normal curriculum tracking
+              setAnswer('')
+              setFeedback('')
+              initialized.current = true
+              setActiveNceaPaperId('NCEA-L1-91027-LEGACY')
+              setMode('test')
+              return
+            }
+
+            window.alert(
+              `Trial exam generation for standard ${standardNumber} in ${yearId} will use real exam questions once the full JSON (with answers) is available.`
+            )
+          }}
+          onStartFullTrial={(yearId) => {
+            window.alert(
+              `Full Level 1 trial exam for ${yearId} will combine all relevant topics (coming soon).`
+            )
+          }}
+        />
+      </>
+    )
+  }
+
   // Landing Page
   if (mode === 'landing') {
     // Get strands for selected curriculum map year
@@ -1162,6 +1234,37 @@ export default function App() {
       <>
         {showLoginModal && <LoginModal onLogin={handleLogin} />}
         {mode === 'landing' && <CanvasBackground />}
+
+        {/* Inline PDF viewer for NCEA past papers */}
+        {nceaPdfActive && (
+          <div
+            className="fixed inset-0 flex items-center justify-center bg-black/70"
+            style={{ zIndex: 9999 }}
+          >
+            <div className="bg-white rounded-none md:rounded-2xl shadow-2xl w-screen h-screen md:w-[95vw] md:h-[95vh] flex flex-col">
+              <div className="flex items-center justify-between px-4 py-2 border-b border-slate-200 bg-slate-50">
+                <div className="text-[11px] md:text-sm text-slate-700 font-semibold truncate pr-3">
+                  {nceaPdfActive.standard} – {nceaPdfActive.title} ({nceaPdfActive.year})
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setNceaPdfActive(null)}
+                  className="px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300"
+                >
+                  Close
+                </button>
+              </div>
+              <div className="flex-1 bg-slate-200">
+                <iframe
+                  src={nceaPdfActive.url}
+                  title="NCEA past paper"
+                  className="w-full h-full"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="min-h-screen" style={{ position: 'relative' }}>
           {/* User Profile Corner */}
           {currentUser && (
@@ -1249,6 +1352,168 @@ export default function App() {
                     </p>
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+
+          {/* NCEA Trial Exams preview */}
+          <div className="bg-slate-50/80 py-10 border-b border-slate-200">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="bg-white/95 text-slate-900 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6 shadow-md border border-slate-200">
+                <div>
+                  <h2 className="text-2xl md:text-3xl font-extrabold mb-2">
+                    NCEA Trial Exams
+                  </h2>
+                  <p className="text-sm md:text-base text-slate-600 max-w-xl">
+                    Ready for NCEA? Start a trial exam built from real NZQA questions. Level 1 is
+                    available now, Level 2 and 3 are coming soon.
+                  </p>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
+                  <button
+                    type="button"
+                    onClick={() => setMode('ncea-index')}
+                    className="px-5 py-3 rounded-full bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold shadow-lg text-sm md:text-base transition"
+                  >
+                    Start Level 1
+                  </button>
+                  <button
+                    type="button"
+                    disabled
+                    className="px-5 py-3 rounded-full bg-slate-100 text-slate-400 font-semibold text-sm md:text-base border border-slate-200 cursor-not-allowed"
+                  >
+                    Level 2 (coming soon)
+                  </button>
+                  <button
+                    type="button"
+                    disabled
+                    className="px-5 py-3 rounded-full bg-slate-100 text-slate-400 font-semibold text-sm md:text-base border border-slate-200 cursor-not-allowed"
+                  >
+                    Level 3 (coming soon)
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* NCEA Past Papers (PDF) */}
+          <div className="bg-white py-10 border-b border-slate-200">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+              <div className="bg-slate-50 text-slate-900 rounded-3xl p-6 md:p-8 shadow-md border border-slate-200">
+                <h2 className="text-2xl md:text-3xl font-extrabold mb-3">
+                  NCEA Past Papers (PDF)
+                </h2>
+                <p className="text-sm md:text-base text-slate-600 mb-4 max-w-2xl">
+                  Browse all local NCEA maths exam papers by year. Click a topic to open the PDF in a
+                  new tab.
+                </p>
+
+                <div className="bg-white border border-slate-200 rounded-2xl px-4 py-3 text-xs md:text-sm">
+                  <div className="flex flex-wrap items-center gap-2 mb-2">
+                    <span className="font-semibold text-slate-800">Level:</span>
+                    {/* For now, only Level 1 is surfaced, matching the trial exams */}
+                    {[1].map(level => (
+                      <button
+                        key={level}
+                        type="button"
+                        onClick={() => {
+                          setNceaPdfLevel(level)
+                          setNceaPdfYear(() => {
+                            const years = nceaExamPdfs
+                              .filter(p => p.level === level)
+                              .map(p => p.year)
+                            return years.length ? Math.max(...years) : null
+                          })
+                        }}
+                        className={`px-3 py-1 rounded-full border text-xs font-semibold ${
+                          nceaPdfLevel === level
+                            ? 'bg-[#0077B6] text-white border-[#0077B6]'
+                            : 'bg-white text-slate-700 border-slate-300 hover:border-[#0077B6]'
+                        }`}
+                      >
+                        Level {level}
+                      </button>
+                    ))}
+                  </div>
+
+                  <div className="flex flex-wrap items-center gap-2 mb-2">
+                    <span className="text-slate-500">Year:</span>
+                    {Array.from(
+                      new Set(
+                        nceaExamPdfs
+                          .filter(p => p.level === nceaPdfLevel)
+                          .map(p => p.year)
+                      )
+                    )
+                      .sort((a, b) => b - a)
+                      .map(year => (
+                        <button
+                          key={year}
+                          type="button"
+                          onClick={() => setNceaPdfYear(year)}
+                          className={`px-2 py-1 rounded-full border text-xs font-semibold ${
+                            nceaPdfYear === year
+                              ? 'bg-white text-[#0077B6] border-[#0077B6]'
+                              : 'bg-white text-slate-700 border-slate-300 hover:border-[#0077B6]'
+                          }`}
+                        >
+                          {year}
+                        </button>
+                      ))}
+                    {!nceaExamPdfs.some(p => p.level === nceaPdfLevel) && (
+                      <span className="text-slate-400 text-xs">
+                        No local papers for this level yet.
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="max-h-40 overflow-y-auto bg-slate-50 border border-slate-100 rounded-xl">
+                    <table className="min-w-full text-left text-[11px] md:text-xs">
+                      <tbody>
+                        {nceaExamPdfs
+                          .filter(p => p.level === nceaPdfLevel)
+                          .filter(p => (nceaPdfYear ? p.year === nceaPdfYear : true))
+                          .sort(
+                            (a, b) =>
+                              b.year - a.year || a.standard.localeCompare(b.standard)
+                          )
+                          .map(pdf => (
+                            <tr
+                              key={`${pdf.standard}-${pdf.year}`}
+                              className="border-b border-slate-100"
+                            >
+                              <td className="px-3 py-1 whitespace-nowrap font-mono text-slate-900">
+                                {pdf.standard}
+                              </td>
+                              <td className="px-3 py-1 text-slate-800">
+                                {pdf.title} ({pdf.year})
+                              </td>
+                              <td className="px-3 py-1 whitespace-nowrap text-right">
+                                {pdf.url ? (
+                                  <button
+                                    type="button"
+                                    onClick={() => setNceaPdfActive(pdf)}
+                                    className="px-2 py-0.5 rounded-full bg-[#0077B6] hover:bg-sky-700 text-white font-semibold"
+                                  >
+                                    View
+                                  </button>
+                                ) : (
+                                  <span className="text-slate-400">No exam</span>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        {nceaExamPdfs.filter(p => p.level === nceaPdfLevel).length === 0 && (
+                          <tr>
+                            <td className="px-3 py-2 text-slate-400" colSpan={3}>
+                              No local exam PDFs found for this level yet.
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

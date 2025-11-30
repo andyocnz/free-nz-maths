@@ -1,0 +1,467 @@
+{
+  "ncea_level_1_mathematics_2023_all_papers": {
+    "overview": {
+      "year": 2023,
+      "level": "NCEA Level 1",
+      "subject": "Mathematics and Statistics",
+      "total_standards": 4,
+      "total_possible_credits": 20,
+      "IMPORTANT_NOTE": "⚠️ 2023 WAS A PILOT/TRANSITION YEAR - These were the first assessments under the new refreshed standards. The standards and content changed significantly for 2024. Standard 91946 in particular was completely redesigned.",
+      "pilot_status": "Both external exams (91946 and 91947) were marked as 'PILOT ASSESSMENT' and noted: 'This assessment is based on a now-expired version of the achievement standard and may not accurately reflect the content and practice of external assessments developed for 2024 onwards.'",
+      "note": "This file contains ALL Level 1 Mathematics papers from 2023. Students choose which standards to attempt - they do NOT need to do all papers."
+    },
+    
+    "papers": [
+      {
+        "standard": "91944",
+        "title": "Explore data using a statistical enquiry process",
+        "topic_category": "STATISTICS",
+        "credits": 5,
+        "assessment_type": "Internal",
+        "total_marks": "N/A (portfolio-based)",
+        "duration": "Year-long investigation",
+        "exam_url": null,
+        "schedule_url": null,
+        "pilot_year_notes": "Same structure as 2024 - this standard remained consistent",
+        "description": "School-based statistical investigation assessed by teachers throughout the year. Students complete a full statistical enquiry cycle (PPDAC) investigating a real-world problem.",
+        "topics_covered": [
+          "Statistical enquiry cycle (Problem, Plan, Data, Analysis, Conclusion)",
+          "Data collection methods",
+          "Data representation (graphs, tables)",
+          "Comparison investigations",
+          "Relationship investigations",
+          "Time series analysis",
+          "Probability investigations"
+        ],
+        "assessment_format": "Portfolio/report format with teacher assessment",
+        "questions": "Not exam-based - students complete investigation projects",
+        "note": "⚠️ INTERNAL ASSESSMENT - No external exam. Assessed by school teachers and moderated by NZQA."
+      },
+      
+      {
+        "standard": "91945",
+        "title": "Use mathematical methods to explore problems that relate to life in Aotearoa New Zealand or the Pacific",
+        "topic_category": "CONTEXTUAL MATHEMATICS",
+        "credits": 5,
+        "assessment_type": "Internal",
+        "total_marks": "N/A (project-based)",
+        "duration": "Term-long project",
+        "exam_url": null,
+        "schedule_url": null,
+        "pilot_year_notes": "Same structure as 2024 - this standard remained consistent",
+        "description": "School-based mathematical investigation with real-world NZ/Pacific context. Students must use at least 4 different mathematical processes from at least 2 curriculum areas.",
+        "topics_covered": [
+          "Number and algebra methods",
+          "Measurement and calculations",
+          "Geometry and spatial reasoning",
+          "Real-world problem solving",
+          "Cultural contexts (Aotearoa NZ or Pacific)"
+        ],
+        "assessment_format": "Investigation report showing mathematical modeling of real-world problems",
+        "questions": "Not exam-based - students complete contextual investigations",
+        "note": "⚠️ INTERNAL ASSESSMENT - No external exam. Must relate to life in Aotearoa NZ or Pacific communities."
+      },
+      
+      {
+        "standard": "91946",
+        "title": "Interpret and apply mathematical and statistical information in context (2023 VERSION)",
+        "topic_category": "STATISTICAL LITERACY & INTERPRETATION",
+        "credits": 5,
+        "assessment_type": "External",
+        "total_marks": 40,
+        "duration": "3 hours (combined with 91947)",
+        "exam_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/exams/2023/91946-qbk-2023.pdf",
+        "schedule_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/schedules/2023/91946-ass-2023.pdf",
+        "MAJOR_CHANGE_WARNING": "⚠️⚠️ THIS STANDARD WAS COMPLETELY REDESIGNED FOR 2024! In 2023 it was about interpreting statistical information; in 2024 it became pure algebra. DO NOT use 2023 content to study for 2024/2025 exams!",
+        "description": "Report-writing assessment on electricity usage in New Zealand, analyzing statistical graphs and making interpretations. This format was DISCONTINUED after 2023.",
+        "pilot_year_notes": "This was the pilot version. For 2024 onwards, this standard was completely changed to 'Use algebraic methods to solve problems' with traditional algebra questions instead of report writing.",
+        "topics_covered": [
+          "Interpreting statistical graphs and tables",
+          "Comparing trends over time",
+          "Analyzing electricity pricing data",
+          "Making justified conclusions from data",
+          "Environmental statistics interpretation",
+          "Renewable energy data analysis",
+          "Cost-benefit analysis",
+          "Critical evaluation of claims from data"
+        ],
+        "instructions": "Check that this sheet is printed on both sides. You are to compose a report on electricity usage in New Zealand. Your report will be divided into two parts.",
+        
+        "assessment_structure": {
+          "format": "Report writing with two sections",
+          "section_a": {
+            "title": "HOME Electricity Usage",
+            "tasks": [
+              "Compare electricity prices for Homes vs Businesses (1990-2022)",
+              "Evaluate news claims about power price increases",
+              "Analyze household electricity expenditure and usage data",
+              "Advise on choosing electricity companies (with assumptions/limitations)"
+            ]
+          },
+          "section_b": {
+            "title": "Electricity Generation and the Environment",
+            "tasks": [
+              "Identify which generation method has most environmental impact",
+              "Evaluate NZ's progress toward 100% renewable energy by 2030",
+              "Propose government solutions for Zero Carbon Emissions by 2050"
+            ]
+          }
+        },
+        
+        "resources_provided": [
+          "Resource 1: Electricity price data (1990-2022)",
+          "Resource 2A: Average household electricity expenditure",
+          "Resource 2B: Average household electricity usage",
+          "Resource 3: Electricity company comparison data",
+          "Resource 4-6: Generation methods and environmental impact data"
+        ],
+        
+        "note": "📝 EXTERNAL EXAM (PILOT) - This paper format was DISCONTINUED. From 2024, standard 91946 became a traditional algebra exam."
+      },
+      
+      {
+        "standard": "91947",
+        "title": "Demonstrate mathematical reasoning",
+        "topic_category": "GEOMETRY & REASONING",
+        "credits": 5,
+        "assessment_type": "External",
+        "total_marks": 40,
+        "duration": "3 hours (combined with 91946)",
+        "exam_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/exams/2023/91947-exm-2023.pdf",
+        "schedule_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/schedules/2023/91947-ass-2023.pdf",
+        "pilot_year_notes": "Similar structure to 2024, but some questions were different. The overall format remained consistent.",
+        "description": "Written external examination focusing on mathematical reasoning, geometry, and spatial thinking. This standard's format was maintained from 2023 to 2024.",
+        "topics_covered": [
+          "Formula substitution and calculation",
+          "Perimeter and area problems",
+          "Volumes and surface areas (cylinders, boxes)",
+          "Proportions and ratios",
+          "Bearings and navigation",
+          "Cosine and sine rules",
+          "Regular polygons (octagons, n-sided)",
+          "Isosceles triangles and Pythagoras",
+          "Linear equations from tables",
+          "Quadratic equations from tables",
+          "Graphing parabolas and lines",
+          "Trapezium area calculations"
+        ],
+        "instructions": "Check that the National Student Number (NSN) on your admission slip is the same as the number at the top of this page. You should attempt ALL the questions in this booklet. Pull out Resource Booklet 91947R from the centre of this booklet. Show ALL working.",
+        
+        "questions": [
+          {
+            "question_number": 1,
+            "standard_reference": "91947",
+            "topic_label": "GEOMETRY - Formula, Cylinders, Bearings",
+            "total_marks": 10,
+            "parts": [
+              {
+                "part": "a",
+                "marks": 2,
+                "topic": "Formula substitution",
+                "text": "Find the value of T in the formula T = (π h sin x) / g when h = 2.5, g = 9.81, x = 75°, giving your answer correct to four decimal places.",
+                "solution": {
+                  "working": "T = (π × 2.5 × sin 75°) / 9.81",
+                  "calculation": "T = (π × 2.5 × 0.9659) / 9.81 ≈ 0.7734",
+                  "answer": "T ≈ 0.7734"
+                }
+              },
+              {
+                "part": "b(i)",
+                "marks": 3,
+                "topic": "Cylinder labels area",
+                "text": "The diagram shows a rectangular box (27 cm × 36 cm × 15 cm) containing 12 cylindrical tins in a 3×4 grid. Each tin is 15 cm high. Each tin has a label going all the way around its side, but not on the top or bottom. Find the total area of the labels of all of the tins in the box.",
+                "solution": {
+                  "radius": "Box 27cm contains 3 tins → diameter = 9cm, radius = 4.5cm",
+                  "circumference": "2πr = 2π(4.5) = 9π cm",
+                  "label_area_per_tin": "Circumference × height = 9π × 15 = 135π cm²",
+                  "total_tins": "12",
+                  "total_area": "12 × 135π = 1620π ≈ 5089 cm²",
+                  "answer": "1620π cm² or approximately 5089 cm²"
+                }
+              },
+              {
+                "part": "b(ii)",
+                "marks": 3,
+                "topic": "Volume proportion",
+                "text": "A different box with height 15 cm contains 12 cylindrical tins (layout same as part i), with each tin having radius p cm and height 15 cm. Show that the proportion of the volume in the box that is NOT occupied by the tins is (4-π)/4.",
+                "solution": {
+                  "box_dimensions": "3 tins wide: 6p cm, 4 tins long: 8p cm, height: 15 cm",
+                  "box_volume": "6p × 8p × 15 = 720p² cm³",
+                  "tin_volume_each": "πp² × 15 = 15πp² cm³",
+                  "total_tins_volume": "12 × 15πp² = 180πp² cm³",
+                  "empty_volume": "720p² - 180πp² = 180p²(4 - π)",
+                  "proportion": "(180p²(4 - π)) / (720p²) = (4 - π) / 4 ✓",
+                  "answer": "Proven: (4 - π)/4"
+                }
+              },
+              {
+                "part": "c(i)",
+                "marks": 2,
+                "topic": "Navigation - distance",
+                "text": "Two ships leave Port P at the same time. Ship W sails 70 km on bearing 030° to Alpha. Ship V sails 140 km on bearing 120° to Beta. Find the direct distance between Alpha and Beta.",
+                "solution": {
+                  "angle_at_P": "120° - 30° = 90°",
+                  "method": "Cosine rule or Pythagoras (since angle is 90°)",
+                  "calculation": "Distance² = 70² + 140² = 4900 + 19600 = 24500",
+                  "distance": "√24500 = 70√5 ≈ 156.5 km",
+                  "answer": "70√5 km or approximately 156.5 km"
+                }
+              },
+              {
+                "part": "c(ii)",
+                "marks": 2,
+                "topic": "Navigation - bearing",
+                "text": "Find the bearing of Alpha from Beta (angle x in diagram). Show your working clearly.",
+                "solution": {
+                  "method": "Use trigonometry in triangle",
+                  "tan_calculation": "tan(angle) = 70/140 = 0.5, angle = 26.565°",
+                  "bearing_adjustment": "Bearing from Beta to Alpha = 360° - 30° - 26.565° = 303.4° (approx)",
+                  "answer": "Approximately 303° or 303.4°"
+                }
+              },
+              {
+                "part": "c(iii)",
+                "marks": 1,
+                "topic": "Speed and time",
+                "text": "The speed of ship W is k km/hour. The total time taken for both ships to complete their journeys to Alpha and Beta was four hours. Find the speed of ship V in terms of k.",
+                "solution": {
+                  "ship_W_time": "70/k hours",
+                  "ship_V_time": "140/speed_V",
+                  "equation": "70/k + 140/speed_V = 4",
+                  "solve": "140/speed_V = 4 - 70/k = (4k - 70)/k",
+                  "speed_V": "140k / (4k - 70) = 140k / (4(k - 17.5)) = 35k / (k - 17.5)",
+                  "answer": "Speed of V = 140k/(4k - 70) or 35k/(k - 17.5) km/h"
+                }
+              }
+            ]
+          },
+          
+          {
+            "question_number": 2,
+            "standard_reference": "91947",
+            "topic_label": "GEOMETRY - Polygons, Triangles, Pythagoras",
+            "total_marks": 14,
+            "parts": [
+              {
+                "part": "a(i)",
+                "marks": 2,
+                "topic": "Regular octagon angles",
+                "text": "A regular octagon table top has AZ = 120 cm (Z is center). Show that angle ZAB = 67.5°.",
+                "solution": {
+                  "central_angle": "360° / 8 = 45° (angle AZB)",
+                  "triangle_AZB": "Isosceles triangle",
+                  "base_angles": "(180° - 45°) / 2 = 67.5° ✓",
+                  "answer": "Angle ZAB = 67.5° (shown)"
+                }
+              },
+              {
+                "part": "a(ii)",
+                "marks": 3,
+                "topic": "Regular octagon area",
+                "text": "Find the area of the octagon.",
+                "solution": {
+                  "triangle_area": "½ × AZ × BZ × sin(45°) = ½ × 120 × 120 × sin(45°)",
+                  "one_triangle": "½ × 120² × (√2/2) = 7200√2 cm²",
+                  "total_8_triangles": "8 × 7200√2 = 57600√2 cm²",
+                  "numerical": "≈ 81,429 cm²",
+                  "answer": "57,600√2 cm² or approximately 81,429 cm²"
+                }
+              },
+              {
+                "part": "a(iii)",
+                "marks": 3,
+                "topic": "n-sided polygon area formula",
+                "text": "An n-sided regular polygon table has AZ = p cm (Z is center, A is corner). Find the area in terms of n and p.",
+                "solution": {
+                  "central_angle": "360°/n",
+                  "triangle_area": "½ × p × p × sin(360°/n)",
+                  "total_area": "n × ½p² × sin(360°/n)",
+                  "answer": "Area = (np²/2) × sin(360°/n) or (np²/2) × sin(2π/n)"
+                }
+              },
+              {
+                "part": "b(i)",
+                "marks": 3,
+                "topic": "Isosceles triangle - find side length",
+                "text": "Isosceles triangle ABC has AB = 2x cm, AC = BC = y cm. Perimeter = 100 cm. Height from C to AB is 10 cm. Find y in terms of x.",
+                "solution": {
+                  "perimeter": "2x + y + y = 100",
+                  "simplify": "2x + 2y = 100",
+                  "solve_for_y": "y = (100 - 2x)/2 = 50 - x",
+                  "answer": "y = 50 - x cm"
+                }
+              },
+              {
+                "part": "b(ii)",
+                "marks": 3,
+                "topic": "Triangle area using Pythagoras",
+                "text": "Using Pythagoras' theorem, find the area of triangle ABC. Support with full working.",
+                "solution": {
+                  "half_base": "x cm (height meets AB at midpoint)",
+                  "pythagoras": "y² = x² + 10²",
+                  "substitute_y": "(50 - x)² = x² + 100",
+                  "expand": "2500 - 100x + x² = x² + 100",
+                  "solve": "2500 - 100x = 100 → 100x = 2400 → x = 24",
+                  "base": "AB = 2x = 48 cm",
+                  "area": "½ × 48 × 10 = 240 cm²",
+                  "answer": "Area = 240 cm²"
+                }
+              }
+            ]
+          },
+          
+          {
+            "question_number": 3,
+            "standard_reference": "91947",
+            "topic_label": "ALGEBRA - Sequences, Graphing, Equations",
+            "total_marks": 16,
+            "parts": [
+              {
+                "part": "a(i)",
+                "marks": 2,
+                "topic": "Linear sequence equation",
+                "text": "Table: x = 1,2,3,4,5 and y = 20,25,30,35,40. Find the equation of graph G1.",
+                "solution": {
+                  "pattern": "Linear with common difference 5",
+                  "gradient": "5",
+                  "y_intercept": "When x=0, y=15",
+                  "equation": "y = 5x + 15",
+                  "answer": "y = 5x + 15"
+                }
+              },
+              {
+                "part": "a(ii)",
+                "marks": 3,
+                "topic": "Quadratic sequence equation",
+                "text": "Table: x = 1,2,3,4,5 and y = 0,4,12,24,40. Find the equation of graph G2.",
+                "solution": {
+                  "differences": "First: 4,8,12,16. Second: 4,4,4 (constant)",
+                  "form": "Quadratic: y = ax² + bx + c",
+                  "coefficient_a": "2a = 4 → a = 2",
+                  "test_x1": "2(1)² + b(1) + c = 0",
+                  "test_x2": "2(4) + 2b + c = 4",
+                  "solve": "b = -2, c = 0",
+                  "equation": "y = 2x² - 2x or y = 2x(x - 1)",
+                  "answer": "y = 2x² - 2x"
+                }
+              },
+              {
+                "part": "a(iii)",
+                "marks": 3,
+                "topic": "Intersection of graphs",
+                "text": "Use algebra to find the x-values where G1 and G2 intersect.",
+                "solution": {
+                  "set_equal": "5x + 15 = 2x² - 2x",
+                  "rearrange": "2x² - 7x - 15 = 0",
+                  "factor": "(2x + 3)(x - 5) = 0",
+                  "solutions": "x = -3/2 or x = 5",
+                  "answer": "x = -1.5 and x = 5"
+                }
+              },
+              {
+                "part": "b",
+                "marks": 4,
+                "topic": "Graphing parabola and line",
+                "text": "Draw graphs of y = 3x² - 14x - 120 and y = 10x + 24. Use graphs to solve 3x² - 14x - 120 = 10x + 24.",
+                "solution": {
+                  "method": "Graph both equations and find intersection points",
+                  "rearranged": "3x² - 24x - 144 = 0 → x² - 8x - 48 = 0",
+                  "factor": "(x - 12)(x + 4) = 0",
+                  "graphical_answer": "Read from graph where curves intersect",
+                  "answer": "x = -4 and x = 12"
+                }
+              },
+              {
+                "part": "c",
+                "marks": 4,
+                "topic": "Trapezium area equation",
+                "text": "Trapezium with parallel sides x and (x+7) metres, height 2x metres, area 20 m². Find x with full working.",
+                "solution": {
+                  "formula": "Area = ½(a + b) × h",
+                  "substitute": "20 = ½(x + x + 7) × 2x",
+                  "simplify": "20 = ½(2x + 7) × 2x = (2x + 7)x",
+                  "expand": "20 = 2x² + 7x",
+                  "rearrange": "2x² + 7x - 20 = 0",
+                  "quadratic_formula": "x = (-7 ± √(49 + 160))/4 = (-7 ± √209)/4",
+                  "positive_solution": "x = (-7 + √209)/4 ≈ 1.86",
+                  "answer": "x = (-7 + √209)/4 ≈ 1.86 metres"
+                }
+              }
+            ]
+          }
+        ],
+        
+        "note": "📝 EXTERNAL EXAM (PILOT) - This paper format was maintained for 2024 with similar question types."
+      }
+    ],
+    
+    "exam_logistics": {
+      "external_exam_format": {
+        "description": "Standards 91946 and 91947 were combined into ONE 3-hour examination",
+        "duration": "3 hours total",
+        "format": "Both papers in same booklet, answered consecutively",
+        "total_marks": "80 marks (40 from each standard)",
+        "date": "November 2023 (pilot assessment period)",
+        "pilot_note": "This was the first year of the new standards - marked as PILOT ASSESSMENT",
+        "resources_allowed": [
+          "Calculator (approved models only)",
+          "Resource booklet (provided with 91946 and 91947)",
+          "Ruler, protractor, compass"
+        ]
+      },
+      "internal_assessment_format": {
+        "description": "Standards 91944 and 91945 assessed throughout the year by schools",
+        "format": "Project-based investigations",
+        "duration": "Multiple weeks/term-long",
+        "moderation": "School-assessed, externally moderated by NZQA"
+      }
+    },
+    
+    "differences_from_2024": {
+      "major_change": {
+        "standard": "91946",
+        "2023_version": "Interpret and apply mathematical and statistical information in context - Report writing on electricity usage",
+        "2024_version": "Use algebraic methods to solve problems - Traditional algebra exam questions",
+        "note": "COMPLETELY DIFFERENT ASSESSMENT - Cannot use 2023 to prepare for 2024+"
+      },
+      "minor_changes": {
+        "standard": "91947",
+        "note": "Similar format maintained but specific questions changed. Overall structure of geometry and reasoning questions remained consistent."
+      },
+      "unchanged": {
+        "standards": ["91944", "91945"],
+        "note": "Internal assessment standards remained the same structure from 2023 to 2024"
+      }
+    },
+    
+    "student_guide": {
+      "how_to_use_this_file": [
+        "⚠️ WARNING: This is 2023 PILOT year data - Standard 91946 changed completely for 2024",
+        "Use 2023 Standard 91947 for practice (similar to 2024 format)",
+        "DO NOT study 2023 Standard 91946 for current exams (it's now completely different)",
+        "Filter by 'standard' to see questions from specific papers",
+        "Filter by 'topic_category' to practice specific mathematical areas",
+        "Internal standards (91944, 91945) have same structure in 2023 and 2024"
+      ],
+      "transition_notes": {
+        "summary": "2023 was the first year of refreshed NCEA standards",
+        "changes_for_2024": [
+          "Standard 91946 completely redesigned from statistics interpretation to pure algebra",
+          "Standard 91947 format maintained but questions updated",
+          "Standards 91944 and 91945 remained unchanged"
+        ],
+        "recommendation": "For current exam preparation, use 2024 papers instead of 2023, except for 91947 geometry practice"
+      }
+    },
+    
+    "metadata": {
+      "created": "2023",
+      "source": "NZQA official pilot examination papers",
+      "curriculum": "New Zealand Curriculum (refreshed 2023 - PILOT YEAR)",
+      "completeness": "Full content for external standard 91947; overview for 91946 (report format); overview for internal standards",
+      "accuracy": "Pilot assessment data - standards evolved for 2024 implementation",
+      "last_updated": "November 2023 (pilot year)",
+      "warning": "⚠️ Standard 91946 from 2023 is NOT relevant for 2024+ preparation"
+    }
+  }
+}
