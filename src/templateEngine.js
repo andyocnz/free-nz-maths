@@ -513,7 +513,88 @@ export function generateQuestionFromTemplate(template, skill, year) {
   }
 
   const params = generateParams(template.params, year, templateDifficulty)
-  
+
+  // Special handling: randomise stem-and-leaf plots while keeping answers in sync
+  if ((template.id || '') === 'Y6.S.STEM_AND_LEAF.T1') {
+    const stems = [6, 7, 8, 9]
+    const leaves = {}
+
+    // Generate 2–4 leaves per stem, values 0–9, sorted ascending
+    stems.forEach(stem => {
+      const count = randInt(2, 4)
+      const arr = []
+      for (let i = 0; i < count; i++) {
+        arr.push(randInt(0, 9))
+      }
+      arr.sort((a, b) => a - b)
+      leaves[stem] = arr
+    })
+
+    // Build a key from the first stem/leaf (e.g., 6 | 0 = 60)
+    const keyStem = stems[0]
+    const keyLeaf = leaves[keyStem][0]
+    const key = `${keyStem} | ${keyLeaf} = ${keyStem}${keyLeaf}`
+
+    const question = substituteStem(template.stem, params)
+    const answer = String((leaves[params.targetStem] || []).length)
+
+    const visualData = {
+      type: 'stem_and_leaf',
+      stems,
+      leaves,
+      key
+    }
+
+    return {
+      question,
+      answer,
+      formattedAnswer: null,
+      templateId: template.id,
+      skill,
+      params,
+      visualData
+    }
+  }
+
+  if ((template.id || '') === 'Y6.S.STEM_AND_LEAF.T2') {
+    const stems = [2, 3, 4, 5]
+    const leaves = {}
+
+    stems.forEach(stem => {
+      const count = randInt(2, 4)
+      const arr = []
+      for (let i = 0; i < count; i++) {
+        arr.push(randInt(0, 9))
+      }
+      arr.sort((a, b) => a - b)
+      leaves[stem] = arr
+    })
+
+    const keyStem = stems[0]
+    const keyLeaf = leaves[keyStem][0]
+    const key = `${keyStem} | ${keyLeaf} = ${keyStem}${keyLeaf}`
+
+    const question = substituteStem(template.stem, params)
+    const answer = String((leaves[params.targetStem] || []).length)
+
+    const visualData = {
+      type: 'stem_and_leaf',
+      stems,
+      leaves,
+      key
+    }
+
+    return {
+      question,
+      answer,
+      formattedAnswer: null,
+      templateId: template.id,
+      skill,
+      params,
+      visualData
+    }
+  }
+
     // Ensure Y9 systems of linear equations have a unique solution (avoid parallel/identical lines)
     if ((template.id || '') === 'Y9.A.SYSTEMS_LINEAR.T1') {
       if (typeof params.m === 'number' && typeof params.m2 === 'number' && params.m === params.m2) {
@@ -527,7 +608,7 @@ export function generateQuestionFromTemplate(template, skill, year) {
       }
     }
 
-    // Ensure Y9 quadratics factorisation questions always have integer roots.
+  // Ensure Y9 quadratics factorisation questions always have integer roots.
   // For QUADRATICS.T2, regenerate a and b from integer factors p, q so that
   // x^2 + ax + b = (x + p)(x + q) with small non-zero integer p, q.
   if ((template.id || '') === 'Y9.A.QUADRATICS.T2') {
