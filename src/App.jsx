@@ -110,6 +110,7 @@ export default function App() {
   const nextLockedRef = useRef(false)
   const [nextLocked, setNextLocked] = useState(false)
   const [devTemplateSamples, setDevTemplateSamples] = useState([])
+  const [devTemplateFilterSkill, setDevTemplateFilterSkill] = useState(null)
 
   // Normalize number words for PLACE_VALUE "write in words" questions
   function normalizeNumberWords(str) {
@@ -240,6 +241,28 @@ export default function App() {
   const question = history[currentIndex]
   const availableYears = getAvailableYears(curriculumData)
 
+  // Dev helper: build JSON for template inspector (respects current filter)
+  const buildDevTemplatesJson = () => {
+    const allTemplates = curriculumData.years
+      .filter(y => y.year === curriculumMapYear)
+      .flatMap(y =>
+        (y.skills || []).flatMap(skill =>
+          (skill.templates || []).map(t => ({
+            year: y.year,
+            skillId: skill.id,
+            skillName: skill.name,
+            template: t
+          }))
+        )
+      )
+
+    const filtered = devTemplateFilterSkill
+      ? allTemplates.filter(t => t.skillId === devTemplateFilterSkill)
+      : allTemplates
+
+    return JSON.stringify(filtered, null, 2)
+  }
+
   // Dynamic SEO: update document title and meta description based on view
   useEffect(() => {
     let title = 'Mathx.nz – Free NZ Maths Practice'
@@ -273,9 +296,20 @@ export default function App() {
           'Take a full adaptive maths assessment across multiple years and strands to identify strengths and gaps.'
       }
     } else if (mode === 'test-results') {
-      title = 'Assessment Results | Mathx.nz'
-      description =
-        'Review your maths assessment results, see which topics you are strong in and where you can improve.'
+      const hasCertificate =
+        !!currentUser?.username &&
+        typeof testResults?.percentageScore === 'number' &&
+        testResults.percentageScore >= 50
+
+      if (hasCertificate) {
+        title = "Congratulations, You've Earned Your Certification! | Mathx.nz"
+        description =
+          'You have earned your Mathx.nz certificate. Review your strengths and keep practicing to stay sharp.'
+      } else {
+        title = "Ready to try again? Here's what to review... | Mathx.nz"
+        description =
+          'Review your maths assessment results, see which topics you are strong in and where you can improve before your next attempt.'
+      }
     } else if (mode === 'practice-results') {
       title = 'Practice Session Summary | Mathx.nz'
       description =
@@ -548,7 +582,8 @@ export default function App() {
       onePerTemplate: typeof opts.onePerTemplate !== 'undefined' ? opts.onePerTemplate : auditOnePerTemplate
     }
     const totalQ = typeof opts.totalQuestions !== 'undefined' ? opts.totalQuestions : 60
-    const testQuestions = generateTest(selectedYear, totalQ, options)  // Generate requested number of questions
+    const yearForTest = selectedYear || 6 // Always have a valid year for generator
+    const testQuestions = generateTest(yearForTest, totalQ, options)  // Generate requested number of questions
     setHistory(testQuestions)
     setCurrentIndex(0)
     setScore(0)
@@ -737,6 +772,13 @@ export default function App() {
       return
     }
 
+    // In test mode, lock Next to avoid double-click skips while feedback shows
+    if (isTestMode) {
+      if (nextLockedRef.current) return
+      nextLockedRef.current = true
+      setNextLocked(true)
+    }
+
     // Auto-check answer if not already checked
     if (!question.answered && answer.trim()) {
       checkAnswer()
@@ -747,6 +789,11 @@ export default function App() {
         if (currentIndex < history.length - 1) {
           setCurrentIndex(prev => prev + 1)
         }
+        // Unlock Next after navigation
+        if (isTestMode) {
+          nextLockedRef.current = false
+          setNextLocked(false)
+        }
       }, 1500)
     } else {
       // Already answered or no answer, just move to next
@@ -754,6 +801,11 @@ export default function App() {
       setShowCorrectAnswer(false)
       if (currentIndex < history.length - 1) {
         setCurrentIndex(prev => prev + 1)
+      }
+      // Unlock Next after navigation
+      if (isTestMode) {
+        nextLockedRef.current = false
+        setNextLocked(false)
       }
     }
   }
@@ -1735,7 +1787,7 @@ export default function App() {
                               onClick={() => {
                                 // Generate every new question across all years for audit
                                 const opts = { onlyNew: true, allYears: true, onePerTemplate: true }
-                                const questions = generateTest(selectedYear, 100000, opts)
+                                const questions = generateTest(selectedYear || 6, 100000, opts)
                                 setHistory(questions)
                                 setCurrentIndex(0)
                                 setScore(0)
@@ -1833,6 +1885,92 @@ export default function App() {
                           ))}
                         </tbody>
                       </table>
+                    </div>
+                    {/* Dev-only JSON snippet: raw templates (no generated Q/A) */}
+                    <div className="mt-4 text-xs">
+                      <div className="flex items-center justify-between mb-1">
+                        <p className="text-[0.7rem] text-slate-500">
+                          JSON for templates used in practice/tests for Year {curriculumMapYear} (raw template objects, no generated questions or answers).
+                        </p>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            try {
+                              const jsonText = buildDevTemplatesJson()
+                              if (navigator && navigator.clipboard && navigator.clipboard.writeText) {
+                                navigator.clipboard.writeText(jsonText).catch(() => {})
+                              }
+                            } catch (e) {
+                              // best-effort only; ignore copy errors in dev
+                            }
+                          }}
+                          className="px-2 py-1 text-[0.7rem] rounded-md border border-slate-500 text-slate-100 bg-slate-800 hover:bg-slate-700"
+                        >
+                          Copy JSON
+                        </button>
+                      </div>
+                      <div className="bg-slate-900 text-slate-50 rounded-lg p-3 overflow-x-auto max-h-64">
+                        <pre className="whitespace-pre text-[0.65rem] leading-snug">
+                          {buildDevTemplatesJson()}
+                        </pre>
+                      </div>
+
+                      {/* Topic badges for filtering JSON */}
+                      <div className="mt-2 flex flex-wrap gap-2 items-center">
+                        {(() => {
+                          const topicCounts = {}
+                          devTemplateSamples.forEach(row => {
+                            if (!row.skillId) return
+                            if (!topicCounts[row.skillId]) {
+                              topicCounts[row.skillId] = {
+                                skillId: row.skillId,
+                                name: row.skillName,
+                                count: 0
+                              }
+                            }
+                            topicCounts[row.skillId].count += 1
+                          })
+                          const topics = Object.values(topicCounts)
+                          if (!topics.length) return null
+
+                          return (
+                            <>
+                              <button
+                                type="button"
+                                onClick={() => setDevTemplateFilterSkill(null)}
+                                className={`px-3 py-1 rounded-full border text-[0.7rem] font-semibold ${
+                                  devTemplateFilterSkill == null
+                                    ? 'bg-slate-900 text-white border-slate-900'
+                                    : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100'
+                                }`}
+                              >
+                                All topics
+                                <span className="ml-2 inline-flex items-center justify-center px-2 py-0.5 rounded-full bg-slate-200 text-slate-800">
+                                  {devTemplateSamples.length}
+                                </span>
+                              </button>
+
+                              {topics.map(t => (
+                                <button
+                                  key={t.skillId}
+                                  type="button"
+                                  onClick={() => setDevTemplateFilterSkill(t.skillId)}
+                                  className={`px-3 py-1 rounded-full border text-[0.7rem] font-semibold ${
+                                    devTemplateFilterSkill === t.skillId
+                                      ? 'bg-blue-600 text-white border-blue-600'
+                                      : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100'
+                                  }`}
+                                >
+                                  {t.name}
+                                  <span className="ml-2 inline-flex items-center justify-center px-2 py-0.5 rounded-full bg-slate-200 text-slate-800">
+                                    {t.count}
+                                  </span>
+                                </button>
+                              ))}
+                            </>
+                          )
+                        })()}
+                      </div>
                     </div>
                   </div>
                 )}
@@ -2073,7 +2211,17 @@ export default function App() {
                   </div>                                                                                                                                                          
                   <p className="text-slate-500 mt-3">                                                                                                                             
                     © 2025 Mathx.nz. Free to learn. Free to grow.                                                                                                                 
-                  </p>                                                                                                                                                            
+                  </p>                                               
+                                                                                                                                
+        <a                                                                                                                                                                              
+          href="https://docs.google.com/forms/d/1fBo3CgGwpLxq6ERuCRvEepfl_b_qloVghBntkvneQLs/edit"                                                                                      
+          target="_blank"                                                                                                                                                               
+          rel="noopener noreferrer"                                                                                                                                                     
+          className="inline-flex items-center px-3 py-1.5 rounded-full border border-slate-500 text-slate-100 bg-slate-800 hover:bg-slate-700 hover:border-slate-300 transition         
+  text-[0.8rem] font-semibold"                                                                                                                                                          
+        >                                                                                                                                                                               
+          Send us a message                                                                                                                                                
+        </a>                                                                                                                       
                 </div>                                                                                                                                                            
               </div>                                                                                                                                                              
             </footer>          
@@ -2358,7 +2506,7 @@ export default function App() {
               currentSkill={selectedSkill}
               onSelectSkill={!isTestMode ? startPractice : null}
               collapsed={sidebarCollapsed}
-              year={selectedYear}
+              year={isTestMode ? (question?.year || selectedYear || 6) : selectedYear}
             />
             <CurriculumMapToggle
               collapsed={sidebarCollapsed}
@@ -2576,28 +2724,58 @@ export default function App() {
                       Reveal Answer
                     </button>
                   )}
-                {isTestMode ? (
-                  currentIndex < history.length - 1 ? (
-                    <button className="btn-primary" onClick={goForward}>Next →</button>
-                  ) : (
-                    <button className="btn-danger" onClick={finishTest}>
-                      Finish Test
-                    </button>
-                  )
-                ) : (
-                  <button
-                    className="btn-primary"
-                    onClick={handleNext}
-                    disabled={nextLocked}
-                    aria-disabled={nextLocked}
-                    style={{
-                      opacity: nextLocked ? 0.6 : 1,
-                      cursor: nextLocked ? 'not-allowed' : 'pointer'
-                    }}
-                  >
-                    Next →
-                  </button>
-                )}
+
+
+               <button className="btn-success" onClick={checkAnswer}>Check Answer</button>                                                                                                           
+  {isDevMode && (                                                                                                                                                                       
+    <button                                                                                                                                                                             
+      className="btn-secondary"                                                                                                                                                         
+      onClick={() => {                                                                                                                                                                  
+        setShowCorrectAnswer(true)                                                                                                                                                      
+        setFeedback(`Answer: ${question?.answer || 'N/A'}`)                                                                                                                             
+      }}                                                                                                                                                                                
+      style={{ marginLeft: '8px' }}                                                                                                                                                     
+    >                                                                                                                                                                                   
+      Reveal Answer                                                                                                                                                                     
+    </button>                                                                                                                                                                           
+  )}                                                                                                                                                                                    
+  {isTestMode ? (                                                                                                                                                                       
+    currentIndex < history.length - 1 ? (                                                                                                                                               
+      <button                                                                                                                                                                           
+        className="btn-primary"                                                                                                                                                         
+        onClick={goForward}                                                                                                                                                             
+        disabled={nextLocked}                                                                                                                                                           
+        aria-disabled={nextLocked}                                                                                                                                                      
+        style={{                                                                                                                                                                        
+          opacity: nextLocked ? 0.6 : 1,                                                                                                                                                
+          cursor: nextLocked ? 'not-allowed' : 'pointer'                                                                                                                                
+        }}                                                                                                                                                                              
+      >                                                                                                                                                                                 
+        Next                                                                                                                                                                            
+      </button>                                                                                                                                                                         
+    ) : (                                                                                                                                                                               
+      <button className="btn-danger" onClick={finishTest}>                                                                                                                              
+        Finish Test                                                                                                                                                                     
+      </button>                                                                                                                                                                         
+    )                                                                                                                                                                                   
+  ) : (                                                                                                                                                                                 
+    <button                                                                                                                                                                             
+      className="btn-primary"                                                                                                                                                           
+      onClick={handleNext}                                                                                                                                                              
+      disabled={nextLocked}                                                                                                                                                             
+      aria-disabled={nextLocked}                                                                                                                                                        
+      style={{                                                                                                                                                                          
+        opacity: nextLocked ? 0.6 : 1,                                                                                                                                                  
+        cursor: nextLocked ? 'not-allowed' : 'pointer'                                                                                                                                  
+      }}                                                                                                                                                                                
+    >                                                                                                                                                                                   
+      Next                                                                                                                                                                              
+    </button>                                                                                                                                                                           
+  )}                 
+
+
+
+                
               </div>
 
               {feedback && (

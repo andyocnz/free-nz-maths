@@ -193,7 +193,9 @@ function evaluateAnswer(answerExpr, params) {
       if (Number.isInteger(result)) {
         return result.toString()
       } else {
-        return parseFloat(result.toFixed(10)).toString()
+        // Default to 2 decimal places for display; more precise rounding
+        // can be done explicitly in templates via round(...).
+        return parseFloat(result.toFixed(2)).toString()
       }
     }
 
@@ -513,6 +515,27 @@ export function generateQuestionFromTemplate(template, skill, year) {
   }
 
   const params = generateParams(template.params, year, templateDifficulty)
+
+  // Special handling: keep Y6 time questions realistic by generating start/end
+  // from a reasonable movie duration (rather than independent random times).
+  if ((template.id || '') === 'Y6.M.TIME.T1') {
+    const minDuration = 60  // 1 hour
+    const maxDuration = 180 // 3 hours
+    const totalMinutesInDay = 24 * 60
+
+    const startMins = randInt(0, totalMinutesInDay - 1)
+    const duration = randInt(minDuration, maxDuration)
+    const endMins = (startMins + duration) % totalMinutesInDay
+
+    const formatTime = mins => {
+      const h = Math.floor(mins / 60)
+      const m = mins % 60
+      return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`
+    }
+
+    params.start = formatTime(startMins)
+    params.end = formatTime(endMins)
+  }
 
   // Special handling: randomise stem-and-leaf plots while keeping answers in sync
   if ((template.id || '') === 'Y6.S.STEM_AND_LEAF.T1') {
