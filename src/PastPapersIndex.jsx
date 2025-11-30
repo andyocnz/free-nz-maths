@@ -120,19 +120,19 @@ export default function PastPapersIndex({ onBack, onStartStandardTrial, onStartF
           <div className="hidden md:flex flex-col items-center justify-center">
             <div className="w-10 h-0.5 bg-slate-200" />
             <div className="mt-1 text-[10px] uppercase tracking-wide text-slate-400">
-              future (Level 2–3, from 2026+)
+              upcoming change (from 2028+)
             </div>
           </div>
 
           <div className="flex-1 rounded-2xl border border-dashed border-slate-200 px-4 py-3 text-left bg-slate-50/70">
             <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-400">
-              Future levels
+              Year 11 moves to a Foundational Skills Award replacing NCEA Level 1
             </div>
             <div className="text-sm md:text-base font-bold text-slate-500 mt-1">
-              Level 2 &amp; 3 revisions
+              (literacy &amp; numeracy)
             </div>
             <div className="text-[11px] md:text-xs text-slate-400 mt-1">
-              Coming later on Mathx.nz once Years 11–13 are live.
+              Coming later on Mathx.nz when available.
             </div>
           </div>
         </div>
