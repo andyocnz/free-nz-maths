@@ -1,0 +1,138 @@
+{
+  "ncea_level_1_mathematics_2024": {
+    "overview": {
+      "total_standards": 4,
+      "total_possible_credits": 20,
+      "credits_needed_for_subject_endorsement": 14,
+      "assessment_types": {
+        "internal": 2,
+        "external": 2
+      },
+      "note": "Students choose which standards to attempt. They do NOT have to do all 4."
+    },
+    "standards": [
+      {
+        "standard_number": "91944",
+        "title": "Explore data using a statistical enquiry process",
+        "credits": 5,
+        "assessment_type": "Internal",
+        "assessment_method": "School-based project/investigation throughout the year",
+        "topics": [
+          "Statistical enquiry cycle (PPDAC: Problem, Plan, Data, Analysis, Conclusion)",
+          "Data collection and representation",
+          "Comparison investigations",
+          "Relationship investigations",
+          "Time series investigations",
+          "Probability investigations"
+        ],
+        "exam_available": false,
+        "note": "Internally assessed by teachers, externally moderated by NZQA"
+      },
+      {
+        "standard_number": "91945",
+        "title": "Use mathematical methods to explore problems that relate to life in Aotearoa New Zealand or the Pacific",
+        "credits": 5,
+        "assessment_type": "Internal",
+        "assessment_method": "School-based investigation/project with real-world NZ/Pacific context",
+        "topics": [
+          "Number and algebra methods",
+          "Measurement methods",
+          "Geometry and space methods",
+          "Must use at least 4 different mathematical processes from at least 2 areas"
+        ],
+        "exam_available": false,
+        "note": "Context-based problem solving relevant to Aotearoa NZ or Pacific communities"
+      },
+      {
+        "standard_number": "91946",
+        "title": "Use algebraic methods to solve problems",
+        "credits": 5,
+        "assessment_type": "External",
+        "assessment_method": "Written exam at end of year",
+        "duration": "3 hours (combined with 91947)",
+        "total_marks": 40,
+        "exam_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/exams/2024/91946-exm-2024.pdf",
+        "schedule_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/schedules/2024/91946-ass-2024.pdf",
+        "topics": [
+          "Linear equations and inequalities",
+          "Simultaneous equations",
+          "Quadratic equations (factorising, solving, discriminant)",
+          "Sequences and patterns",
+          "Graph transformations",
+          "Parabola features",
+          "Real-world algebraic applications"
+        ],
+        "exam_structure": {
+          "total_questions": 4,
+          "question_1": "Linear equations, inequalities, simultaneous equations",
+          "question_2": "Quadratics: factorising, solving, discriminant, word problems",
+          "question_3": "Sequences, graph transformations, parabola features",
+          "question_4": "Multi-step real-life problem with perimeter, area, solving"
+        }
+      },
+      {
+        "standard_number": "91947",
+        "title": "Demonstrate mathematical reasoning",
+        "credits": 5,
+        "assessment_type": "External",
+        "assessment_method": "Written exam at end of year",
+        "duration": "3 hours (combined with 91946)",
+        "total_marks": 40,
+        "exam_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/exams/2024/91947-exm-2024.pdf",
+        "schedule_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/schedules/2024/91947-ass-2024.pdf",
+        "topics": [
+          "Perimeter and area problems",
+          "Triangle properties and relationships",
+          "3D geometry and coordinates",
+          "Volumes and surface areas (spheres, prisms, cylinders)",
+          "Angles in shapes (rhombus, polygons)",
+          "Trigonometry in 2D and 3D",
+          "Exponential functions",
+          "Coordinate geometry (lines, intersections)",
+          "Index laws"
+        ],
+        "exam_structure": {
+          "total_questions": 3,
+          "question_1": {
+            "marks": 10,
+            "parts": ["(a) Rectangle perimeter", "(b) Triangle sides", "(c) 3D distance", "(d) Volumes comparison"]
+          },
+          "question_2": {
+            "marks": 12,
+            "parts": ["(a) Rhombus angles", "(b) Area of stripe/trapezium", "(c) Prism volumes"]
+          },
+          "question_3": {
+            "marks": 18,
+            "parts": ["(a) Exponential intercept", "(b) Quadratic sequence", "(c) Linear equations/intersections", "(d) Index laws"]
+          }
+        }
+      }
+    ],
+    "exam_timetable_2024": {
+      "note": "External exams (91946 + 91947) are combined into ONE 3-hour exam paper",
+      "exam_date": "November 2024",
+      "exam_duration": "3 hours",
+      "exam_format": "Both standards assessed in single sitting"
+    },
+    "how_students_choose": {
+      "description": "Students select which standards to attempt based on:",
+      "factors": [
+        "Their strengths (algebra vs geometry vs statistics)",
+        "Career/university requirements",
+        "Teacher recommendations",
+        "School offerings (not all schools offer all standards)"
+      ],
+      "typical_combinations": [
+        "All 4 standards (20 credits) - for strong students",
+        "Both externals + 1 internal (15 credits) - most common",
+        "Both externals only (10 credits) - minimum for math contribution",
+        "Mix and match based on ability"
+      ]
+    },
+    "grading": {
+      "levels": ["Not Achieved", "Achieved", "Merit", "Excellence"],
+      "subject_endorsement": "14+ credits at Merit or Excellence (including 3+ external, 3+ internal)",
+      "note": "Each standard graded independently"
+    }
+  }
+}
