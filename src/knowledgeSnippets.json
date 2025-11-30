@@ -1,0 +1,16 @@
+{
+  "Y6.N.PLACE_VALUE": {
+    "title": "Place Value and Rounding",
+    "summary": "This topic is about understanding that the position of a digit in a number determines its value (e.g., the '2' in 250 is worth 200). It also covers rounding numbers to a given place value, like the nearest ten, hundred, or thousand, to make them easier to work with.",
+    "where_to_look": "NZ Curriculum > Number & Algebra > Place Value",
+    "key_formulas": [
+      "Rounding Rule: Look at the digit to the right of the place you are rounding to. If it's 5 or more, round up. If it's 4 or less, keep the digit the same."
+    ],
+    "example": "To round 45,780 to the nearest thousand, we look at the hundreds digit (7). Since 7 is '5 or more', we round the thousands digit (5) up to 6. The result is 46,000.",
+    "common_misconceptions": [
+      "Confusing the place values, for example, thinking the 'tens' column is the 'hundreds' column.",
+      "When rounding down, changing the digit you are rounding to (e.g., rounding 34 to 20 instead of 30)."
+    ]
+  }
+}
+
