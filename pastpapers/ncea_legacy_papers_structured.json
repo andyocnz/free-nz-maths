@@ -1,0 +1,117 @@
+
+[
+  {
+    "id": "ncea-2023-91027",
+    "paper": {
+      "year": 2023,
+      "level": "NCEA Level 1",
+      "standard": "91027",
+      "title": "Apply algebraic methods in solving problems",
+      "credits": 4,
+      "total_marks": 40,
+      "duration": "3 hours",
+      "exam_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/exams/2023/91027-exm-2023.pdf",
+      "schedule_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/schedules/2023/91027-ass-2023.pdf",
+      "questions": [
+        {
+          "number": 1,
+          "total_marks": 6,
+          "topic": "Linear equations and inequalities",
+          "parts": [
+            { "part": "a", "marks": 2, "text": "Solve the equation: 4(2x - 3) + 5x = 27.", "answer": "x = 3" },
+            { "part": "b", "marks": 2, "text": "Solve the inequality: 3x + 7 > 22.", "answer": "x > 5" },
+            { "part": "c", "marks": 2, "text": "The line y = 2x - 4 intersects the x-axis at point A. Find the coordinates of A.", "answer": "(2, 0)" }
+          ]
+        },
+        {
+          "number": 2,
+          "total_marks": 8,
+          "topic": "Quadratic equations",
+          "parts": [
+            { "part": "a", "marks": 3, "text": "Factorise: x² + 7x + 12 = 0.", "answer": "(x + 3)(x + 4) = 0, so x = -3 or x = -4" },
+            { "part": "b", "marks": 3, "text": "Solve using the quadratic formula: 3x² - 2x - 2 = 0.", "answer": "x = (1 ± sqrt(7))/3" },
+            { "part": "c", "marks": 2, "text": "The discriminant of ax² + bx + c = 0 is 25. If a = 1 and b = -6, find c.", "answer": "c = 11" }
+          ]
+        },
+        {
+          "number": 3,
+          "total_marks": 8,
+          "topic": "Simultaneous equations and sequences",
+          "parts": [
+            { "part": "a", "marks": 3, "text": "Solve the system: 2x + y = 7, x - 3y = -8.", "answer": "x = 1, y = 5" },
+            { "part": "b", "marks": 3, "text": "An arithmetic sequence has first term 5 and common difference 3. Find the 10th term.", "answer": "32" },
+            { "part": "c", "marks": 2, "text": "The sum of the first n terms of a sequence is S_n = n² + n. Find the 4th term.", "answer": "8" }
+          ]
+        },
+        { "number": 4, "total_marks": 9, "topic": "Graphs and transformations", "parts": [
+            { "part": "a", "marks": 3, "text": "Sketch the graph of y = x² - 4x + 3, showing intercepts and vertex.", "answer": "Vertex (2, -1), x-intercepts 1 and 3, y-intercept 3" },
+            { "part": "b", "marks": 3, "text": "The graph of y = f(x) is transformed to y = 2f(x - 1) + 3. Describe the transformations.", "answer": "Horizontal shift right 1 unit, vertical stretch by factor 2, vertical shift up 3 units" },
+            { "part": "c", "marks": 3, "text": "Find the equation of the line parallel to y = 3x - 2 passing through (1, 5).", "answer": "y = 3x + 2" }
+        ]},
+        { "number": 5, "total_marks": 9, "topic": "Application problems", "parts": [
+            { "part": "a", "marks": 4, "text": "A rectangle has length (x + 4) cm and width (2x - 1) cm. The perimeter is 50 cm. Solve for x.", "answer": "x = 22/3 cm" },
+            { "part": "b", "marks": 3, "text": "Diagram: Right-angled triangle with opposite side 5 cm to angle θ, hypotenuse 13 cm. Find sin θ.", "answer": "5/13" },
+            { "part": "c", "marks": 2, "text": "Hence find the adjacent side.", "answer": "12 cm (using Pythagoras)" }
+        ]}
+      ]
+    }
+  },
+  {
+    "id": "ncea-2021-91028",
+    "paper": {
+      "year": 2021, "level": "NCEA Level 1", "standard": "91028", "title": "Investigate relationships between tables, equations and graphs", "credits": 4, "total_marks": 24,
+      "exam_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/exams/2021/91028-exm-2021.pdf",
+      "schedule_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/schedules/2021/91028-ass-2021.pdf",
+      "questions": [
+        { "number": 1, "total_marks": 8, "topic": "Linear equations, transformations and modeling", "parts": [
+            { "part": "a(i)", "marks": 2, "text": "Find the equation of a line passing through given points.", "answer": "y = -3.5x - 3" },
+            { "part": "a(ii)", "marks": 2, "text": "Write the equation after transforming y = -7/2 x - 3 with given shifts.", "answer": "y = -7/2 x + 10" },
+            { "part": "b", "marks": 8, "text": "Three players (Anne, Ben, Charlie) have health points over time in a game. Anne: linear decrease from 4000, loses 500 per minute. Ben: exponential decay from 12000, halves each minute. Charlie: quadratic relationship starting at 12250, finishing at 7 minutes. Find equations, create table and graphs, and make comments about the game.", "answer": "Anne: y = 4000 - 500x, Ben: y = 12000(1/2)^x, Charlie: y = -250x² + 12250. Key comment: Charlie finishes first." }
+        ]},
+        { "number": 2, "total_marks": 8, "topic": "Exponential and quadratic graphs, transformations", "parts": [
+            { "part": "a", "marks": 2, "text": "Draw the graph of an exponential function y = 2^x showing accuracy through points (-1, 2), (0, 4), (1, 8), (2, 16), (3, 32).", "answer": "Smooth curve through given points." },
+            { "part": "b(i)", "marks": 2, "text": "Find the x-coordinate of the vertex and the depth (y-value) of a parabola representing a hole.", "answer": "x = 2.5, depth = 1.8 metres" },
+            { "part": "b(ii)", "marks": 2, "text": "Make two valid comments about how to make the hole less deep by changing the quadratic equation.", "answer": "e.g., Reducing the coefficient of 0.8 will make the hole less deep." },
+            { "part": "b(iii)", "marks": 1, "text": "Find the equation of an exponential curve shown in a graph.", "answer": "y = 2^(-x)" },
+            { "part": "b(iv)", "marks": 3, "text": "A hole has equation related to y = 0.125(x - 5)² - 2.5. Water surface is at y = -2. Find the width of the hole at water level.", "answer": "Width = 4 metres" }
+        ]},
+        { "number": 3, "total_marks": 8, "topic": "Quadratic equations, sequences, and optimization", "parts": [
+            { "part": "a", "marks": 2, "text": "Find the equation of a parabola with given properties (vertex or factored form).", "answer": "y = -(x + 1)² + 9" },
+            { "part": "b(i)", "marks": 2, "text": "Find T values when n = 4 and n = 5 from a pattern sequence.", "answer": "n = 4: T = 60, n = 5: T = 90" },
+            { "part": "b(ii)", "marks": 2, "text": "Find the formula for the sequence pattern.", "answer": "T = 3n² + 3n" },
+            { "part": "b(iii)", "marks": 2, "text": "Draw a graph of the sequence for 1 ≤ n ≤ 8 showing discrete values only.", "answer": "Graph with discrete points, not a continuous line." },
+            { "part": "c", "marks": 8, "text": "Lizzy has a 60 cm stick to cut into two pieces to form a rectangle. Investigate the relationship between lengths and area. Create table, graph, and equation, and make comments about maximum area and patterns.", "answer": "Area = x(60 - x). Maximum area = 900 cm² when both lengths are 30 cm." }
+        ]}
+      ]
+    }
+  },
+  {
+    "id": "ncea-2019-91031",
+    "paper": {
+      "year": 2019, "level": "NCEA Level 1", "standard": "91031", "title": "Apply geometric reasoning in solving problems", "credits": 4, "total_marks": 24,
+      "exam_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/exams/2019/91031-exm-2019.pdf",
+      "schedule_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/schedules/2019/91031-ass-2019.pdf",
+      "questions": [
+        { "number": 1, "total_marks": 8, "topic": "Angles, parallel lines, trigonometry and similar triangles", "parts": [
+            { "part": "a", "marks": 2, "text": "Find the value of x (angle AGB), given that angle AED = 58° in a triangle, and lines are parallel.", "answer": "x = 58°" },
+            { "part": "b", "marks": 2, "text": "Calculate the area of triangle AHE, where the base is 4 m and angle is 46°. Use EK = 2.8 × tan 46°.", "answer": "5.8 m²" },
+            { "part": "c", "marks": 3, "text": "Two similar triangular sails P and Q have bases 3.6 m and 1.44 m respectively. Triangle P has side length 6 m. Calculate total sail area and determine if sails are big enough for top speed (need 12 m²).", "answer": "Total sail area = 11.95 m². Sails are not big enough." },
+            { "part": "d", "marks": 1, "text": "Navigation problem: Find bearing from M to S using triangle with sides 448 km (angle 36°) and 635 km (angle 66°).", "answer": "337.3°" }
+        ]},
+        { "number": 2, "total_marks": 8, "topic": "Pythagoras theorem and circle theorems", "parts": [
+            { "part": "a(i)", "marks": 1, "text": "Show that h = 6.32 m using Pythagoras theorem, given hypotenuse 8 m and base 4.9 m.", "answer": "h = sqrt(8² - 4.9²) = 6.32 m" },
+            { "part": "a(ii)", "marks": 2, "text": "Find length g = PQ, where MQ and MP are calculated using Pythagoras. Given MQ uses height 6.32 m and hypotenuse 11 m.", "answer": "g = 4.1 m" },
+            { "part": "a(iii)", "marks": 3, "text": "Find the perimeter of a shape involving triangle MPN with angle 52.2° and side 4.9 m.", "answer": "11.77 m" },
+            { "part": "b(i)", "marks": 1, "text": "Prove that ∠SAG = ∠AHG = ∠GBA = p using circle theorems (tangent-radius, angle in semicircle, angles in same segment).", "answer": "∠GBA = ∠GHA = p (angles in same segment)." },
+            { "part": "b(ii)", "marks": 1, "text": "Find angle q = ∠VRS using circle theorems. Given ∠VRU base angle is 71° and ∠URT = 38°.", "answer": "q = 71°" }
+        ]},
+        { "number": 3, "total_marks": 8, "topic": "Angle properties, tangent-radius, cyclic quadrilaterals and regular polygons", "parts": [
+            { "part": "a", "marks": 2, "text": "Find ∠MEB given that ∠EBM = 58° (alternate angles, parallel lines) and triangle is isosceles.", "answer": "∠MEB = 64°" },
+            { "part": "b", "marks": 2, "text": "Find length LC where ∠CML = 90° (tangent-radius), ∠MLN is bisected giving ∠MLCe = 36°, and CL is opposite the 36° angle with adjacent side 28 mm.", "answer": "LC = 47.64 mm" },
+            { "part": "c", "marks": 3, "text": "Find ∠DBA in terms of x, where ∠DAB = x, using angle in semicircle and cyclic quadrilateral properties.", "answer": "∠DBA = 90° - x/2" },
+            { "part": "d", "marks": 1, "text": "Find expression for total area of regular octagon with vertices on circle radius r, where internal angle is 135°.", "answer": "Total Area = 2.8285r² (or 2√2 r²)" }
+        ]}
+      ]
+    }
+  }
+]

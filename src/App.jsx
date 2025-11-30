@@ -18,8 +18,11 @@ import { generateReportURL } from './config.js'
 import { normalizeFraction } from './mathHelpers.js'
 import WordDropdown from './WordDropdown.jsx'
 import knowledgeSnippets from './knowledgeSnippets.json'
-import { buildLegacy91027Questions, nceaLevel1YearOverviews } from './pastPapersData.js'
+import { nceaLevel1YearOverviews } from './pastPapersData.js'
 import { nceaExamPdfs } from './nceaPdfs.js'
+import { buildNceaTrialQuestionsForStandard } from './nceaStructuredData.js'
+import { resolveNceaResource } from './nceaResources.js'
+import faviconSvg from '../favicon.svg'
 
 // Alternating Text Component
 function AlternatingText() {
@@ -50,6 +53,7 @@ export default function App() {
   const urlParams = new URLSearchParams(window.location.search)
   const yearFromUrl = urlParams.get('year')
   const skillFromUrl = urlParams.get('skill')
+  const modeFromUrl = urlParams.get('mode')
   const isDevMode = urlParams.has('dev') || urlParams.get('dev') === 'true'
   const phaseFromUrl = urlParams.get('phase')
   const phaseFilter = phaseFromUrl ? parseInt(phaseFromUrl, 10) : null
@@ -58,6 +62,8 @@ export default function App() {
   let initialMode
   if (path === '/ixl-alternative') {
     initialMode = 'ixl-alternative'
+  } else if (modeFromUrl === 'ncea-index') {
+    initialMode = 'ncea-index'
   } else if (skillFromUrl) {
     initialMode = 'practice'
   } else if (yearFromUrl) {
@@ -93,6 +99,7 @@ export default function App() {
   const [pendingAction, setPendingAction] = useState(null) // Store {type: 'practice'|'test', skillId: string}
   const [practiceResults, setPracticeResults] = useState(null) // Store practice session results
   const [activeNceaPaperId, setActiveNceaPaperId] = useState(null)
+  const [activeNceaPaper, setActiveNceaPaper] = useState(null)
   const [nceaPdfLevel, setNceaPdfLevel] = useState(1)
   const [nceaPdfYear, setNceaPdfYear] = useState(() => {
     const level1Years = nceaExamPdfs.filter(p => p.level === 1).map(p => p.year)
@@ -664,6 +671,22 @@ export default function App() {
   }
 
   const backToMenu = () => {
+    // If we're in an NCEA trial, return to the NCEA index instead of the main landing page
+    if (isTestMode && activeNceaPaper) {
+      setMode('ncea-index')
+      setHistory([])
+      setCurrentIndex(-1)
+      setScore(0)
+      setIsTestMode(false)
+      setTestResults(null)
+      setPracticeResults(null)
+      setActiveNceaPaper(null)
+      setActiveNceaPaperId(null)
+      initialized.current = false
+      return
+    }
+
+    // Normal curriculum flow
     setMode('landing')
     setSelectedStrand(null)
     setSelectedTopic(null)
@@ -842,11 +865,41 @@ export default function App() {
   const handleReportIssue = () => {
     if (!question) return
 
+    // Default (regular curriculum) context
+    let yearField = selectedYear || 'N/A'
+    let topicField = `${question.strand || ''} - ${question.topic || ''} - ${question.skill || ''}`.trim()
+
+    // If this is an NCEA trial question, prefer exam metadata
+    if (question.source === 'NCEA') {
+      const std = question.examStandard || activeNceaPaper?.standard
+      const yr = question.examYear || activeNceaPaper?.year
+      const qNum = question.examQuestionNumber
+      const part = question.examPartLabel
+
+      if (std || yr) {
+        yearField = `NCEA Level 1 ${yr || ''} (Standard ${std || ''})`.trim()
+      }
+
+      const partsLabel =
+        qNum != null
+          ? `Q${qNum}${part ? ` (${part})` : ''}`
+          : ''
+
+      topicField = [
+        'NCEA Level 1',
+        std ? `Std ${std}` : '',
+        yr ? `Year ${yr}` : '',
+        partsLabel
+      ]
+        .filter(Boolean)
+        .join(' - ')
+    }
+
     const reportData = {
       question: question.question || 'N/A',
       answer: `User: ${answer || 'N/A'}, Correct: ${question.answer || 'N/A'}`,
-      year: selectedYear || 'N/A',
-      topic: `${question.strand || ''} - ${question.topic || ''} - ${question.skill || ''}`.trim()
+      year: yearField,
+      topic: topicField
     }
 
     const reportURL = generateReportURL(reportData)
@@ -1246,46 +1299,55 @@ export default function App() {
         <PastPapersIndex
           onBack={() => setMode('landing')}
           onStartStandardTrial={({ yearId, standardNumber }) => {
-            // Legacy sample: full 91027 exam stored in ncea_2021-2022_full.json
-            // For now, start this exam whenever standard 91027 is selected.
-            if (standardNumber === '91027') {
-              const questions = buildLegacy91027Questions()
-              if (!questions.length) {
-                window.alert('Legacy 91027 sample exam data is not available.')
-                return
-              }
-
-              const examQuestions = questions.map(q => ({
-                question: q.question,
-                answer: q.answer,
-                strand: 'NCEA',
-                topic: q.topic,
-                skill: 'NCEA 91027 Legacy Trial',
-                skillId: 'NCEA.L1.91027',
-                source: 'NCEA',
-                userAnswer: '',
-                userFeedback: '',
-                isCorrect: false,
-                answered: false
-              }))
-
-              setHistory(examQuestions)
-              setCurrentIndex(0)
-              setScore(0)
-              setIsTestMode(true)
-              setSelectedSkill(null)
-              setSelectedYear(null) // keep separate from normal curriculum tracking
-              setAnswer('')
-              setFeedback('')
-              initialized.current = true
-              setActiveNceaPaperId('NCEA-L1-91027-LEGACY')
-              setMode('test')
+            const result = buildNceaTrialQuestionsForStandard(standardNumber)
+            if (!result) {
+              window.alert(
+                `Structured trial data is not yet available for standard ${standardNumber}.`
+              )
               return
             }
 
-            window.alert(
-              `Trial exam generation for standard ${standardNumber} in ${yearId} will use real exam questions once the full JSON (with answers) is available.`
-            )
+            const { paper, questions } = result
+
+            if (!questions.length) {
+              window.alert(
+                `No questions were found in the structured data for standard ${standardNumber}.`
+              )
+              return
+            }
+
+            const examQuestions = questions.map(q => ({
+              question: q.text,
+              answer: q.answer,
+              strand: 'NCEA',
+              topic: q.topic || paper.title,
+              skill: `NCEA Level 1 ${paper.standard}`,
+              skillId: `NCEA.L1.${paper.standard}`,
+              source: 'NCEA',
+              // Preserve exam structure for reporting and sidebar
+              examStandard: paper.standard,
+              examYear: paper.year,
+              examQuestionNumber: q.number,
+              examPartLabel: q.partLabel,
+              visualData: q.visualData || null,
+              userAnswer: '',
+              userFeedback: '',
+              isCorrect: false,
+              answered: false
+            }))
+
+            setHistory(examQuestions)
+            setCurrentIndex(0)
+            setScore(0)
+            setIsTestMode(true)
+            setSelectedSkill(null)
+            setSelectedYear(null) // keep separate from normal curriculum tracking
+            setAnswer('')
+            setFeedback('')
+            initialized.current = true
+            setActiveNceaPaperId(paper.id || `${paper.standard}-${paper.year}`)
+            setActiveNceaPaper(paper)
+            setMode('test')
           }}
           onStartFullTrial={(yearId) => {
             window.alert(
@@ -2142,6 +2204,36 @@ export default function App() {
         {showLoginModal && <LoginModal onLogin={handleLogin} />}
         {showLoginRecommendation && <LoginRecommendationModal onLogin={handleLogin} onSkip={handleSkipLogin} />}
 
+        {/* Inline PDF viewer for NCEA past papers and resources (available in practice/test too) */}
+        {nceaPdfActive && (
+          <div
+            className="fixed inset-0 flex items-center justify-center bg-black/70"
+            style={{ zIndex: 9999 }}
+          >
+            <div className="bg-white rounded-none md:rounded-2xl shadow-2xl w-screen h-screen md:w-[95vw] md:h-[95vh] flex flex-col">
+              <div className="flex items-center justify-between px-4 py-2 border-b border-slate-200 bg-slate-50">
+                <div className="text-[11px] md:text-sm text-slate-700 font-semibold truncate pr-3">
+                  {nceaPdfActive.standard} �?" {nceaPdfActive.title} ({nceaPdfActive.year})
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setNceaPdfActive(null)}
+                  className="px-3 py-1 rounded-full text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 border border-slate-300"
+                >
+                  Close
+                </button>
+              </div>
+              <div className="flex-1 bg-slate-200">
+                <iframe
+                  src={nceaPdfActive.url}
+                  title="NCEA past paper"
+                  className="w-full h-full"
+                />
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* User Profile Corner */}
         {currentUser && (
           <div className="fixed top-4 right-4 z-50 flex items-center gap-2 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-full shadow-lg border border-gray-200">
@@ -2158,19 +2250,111 @@ export default function App() {
           </div>
         )}
 
-        {/* Curriculum Map Sidebar */}
-        <CurriculumMap
-          currentStrand={isTestMode ? question?.strand : selectedStrand}
-          currentTopic={isTestMode ? question?.topic : selectedTopic}
-          currentSkill={selectedSkill}
-          onSelectSkill={!isTestMode ? startPractice : null}
-          collapsed={sidebarCollapsed}
-          year={selectedYear}
-        />
-        <CurriculumMapToggle
-          collapsed={sidebarCollapsed}
-          onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
-        />
+        {/* Sidebar: curriculum map for normal practice, exam structure for NCEA trials */}
+        {isTestMode && activeNceaPaper ? (
+          <>
+            <div style={{
+              position: 'fixed',
+              left: sidebarCollapsed ? '-280px' : '0',
+              top: 0,
+              width: '280px',
+              height: '100vh',
+              backgroundColor: '#1a1a1a',
+              color: '#fff',
+              overflowY: 'auto',
+              transition: 'left 0.3s ease',
+              zIndex: 1000,
+              padding: '20px',
+              boxShadow: '2px 0 10px rgba(0,0,0,0.3)'
+            }}>
+              <div style={{ marginBottom: '24px' }}>
+                <h3 style={{ fontSize: '0.9em', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '4px' }}>
+                  NCEA Level 1
+                </h3>
+                <h2 style={{ fontSize: '1.2em', margin: 0, fontWeight: 600 }}>
+                  Std {activeNceaPaper.standard} · {activeNceaPaper.year}
+                </h2>
+                <div style={{ fontSize: '0.8em', color: '#bbb', marginTop: '4px' }}>
+                  {activeNceaPaper.title}
+                </div>
+              </div>
+
+              {(() => {
+                const groups = []
+                history.forEach((q, idx) => {
+                  if (q.source !== 'NCEA') return
+                  const num = q.examQuestionNumber
+                  if (num == null) return
+                  let group = groups.find(g => g.number === num)
+                  if (!group) {
+                    group = { number: num, parts: [] }
+                    groups.push(group)
+                  }
+                  group.parts.push({
+                    label: q.examPartLabel || '',
+                    index: idx
+                  })
+                })
+
+                return groups.map(group => {
+                  const isCurrentGroup = group.parts.some(p => p.index === currentIndex)
+                  return (
+                    <div key={group.number} style={{ marginBottom: '16px' }}>
+                      <div style={{
+                        fontSize: '0.85em',
+                        fontWeight: 600,
+                        color: isCurrentGroup ? '#4CAF50' : '#ccc',
+                        marginBottom: '6px'
+                      }}>
+                        Question {group.number}
+                      </div>
+                      <div style={{ marginLeft: '10px' }}>
+                        {group.parts.map((part, i) => {
+                          const isCurrentPart = part.index === currentIndex
+                          return (
+                            <div
+                              key={i}
+                              style={{
+                                fontSize: '0.75em',
+                                color: isCurrentPart ? '#4CAF50' : '#999',
+                                marginBottom: '4px',
+                                padding: '4px 6px',
+                                borderRadius: '4px',
+                                backgroundColor: isCurrentPart ? 'rgba(76, 175, 80, 0.12)' : 'transparent',
+                                borderLeft: isCurrentPart ? '3px solid #4CAF50' : '3px solid transparent'
+                              }}
+                            >
+                              {part.label || 'part'}
+                            </div>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )
+                })
+              })()}
+            </div>
+            <CurriculumMapToggle
+              collapsed={sidebarCollapsed}
+              onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+            />
+          </>
+        ) : (
+          <>
+            <CurriculumMap
+              currentStrand={isTestMode ? question?.strand : selectedStrand}
+              currentTopic={isTestMode ? question?.topic : selectedTopic}
+              currentSkill={selectedSkill}
+              onSelectSkill={!isTestMode ? startPractice : null}
+              collapsed={sidebarCollapsed}
+              year={selectedYear}
+            />
+            <CurriculumMapToggle
+              collapsed={sidebarCollapsed}
+              onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+            />
+          </>
+        )}
 
         <div className="container-narrow fade-in" style={{
           marginLeft: !sidebarCollapsed ? '320px' : '0',
@@ -2230,7 +2414,23 @@ export default function App() {
           </div>
           {question && (
             <>
-              <QuestionVisualizer visualData={question.visualData} />
+              {question?.visualData && question.visualData.type === 'image_resource' ? (
+                (() => {
+                  const url = resolveNceaResource(question.visualData.data)
+                  if (!url) return null
+                  return (
+                    <div style={{ margin: '20px 0' }}>
+                      <img
+                        src={url}
+                        alt="Exam diagram"
+                        className="mx-auto max-w-full h-auto rounded-lg border border-gray-200 bg-white"
+                      />
+                    </div>
+                  )
+                })()
+              ) : (
+                <QuestionVisualizer visualData={question.visualData} />
+              )}
               <div id="math-question" style={{fontSize:'1.8em', margin: '30px 0', minHeight:'50px'}}></div>
 
               {/* Show WordDropdown for "write in words" questions, regular input for others */}
@@ -2331,6 +2531,27 @@ export default function App() {
                   >
                     Remind me the knowledge
                   </button>
+                  {isTestMode && activeNceaPaper?.resourceUrl && (
+                    <button
+                      type="button"
+                      className="btn-secondary"
+                      onClick={() => {
+                        const url = resolveNceaResource(activeNceaPaper.resourceUrl)
+                        if (!url) {
+                          window.alert('Resource PDF not found in the app bundle.')
+                          return
+                        }
+                        setNceaPdfActive({
+                          standard: activeNceaPaper.standard,
+                          title: 'Resource booklet',
+                          year: activeNceaPaper.year,
+                          url
+                        })
+                      }}
+                    >
+                      View resource
+                    </button>
+                  )}
                   <button className="btn-success" onClick={checkAnswer}>Check Answer</button>
                   {isDevMode && (
                     <button
