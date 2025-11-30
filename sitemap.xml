@@ -6,6 +6,11 @@
     <priority>1.0</priority>
   </url>
   <url>
+    <loc>https://mathx.nz/ixl-alternative</loc>
+    <lastmod>2025-11-30</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://mathx.nz/topics/Y6.N.PLACE_VALUE</loc>
     <lastmod>2025-11-30</lastmod>
     <priority>0.8</priority>

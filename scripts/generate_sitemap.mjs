@@ -63,6 +63,12 @@ function buildUrls() {
   // Home
   urls.push({ loc: `${BASE_URL}/`, priority: 1.0 })
 
+   // IXL alternative landing
+  urls.push({
+    loc: `${BASE_URL}/ixl-alternative`,
+    priority: 0.7
+  })
+
   const curriculumData = loadCurriculum()
 
   // One URL per skill/topic

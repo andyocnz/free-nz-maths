@@ -46,17 +46,27 @@ function AlternatingText() {
 }
 
 export default function App() {
-  // Check URL parameters for year and skill
+  // Check URL parameters and path for deep links
   const urlParams = new URLSearchParams(window.location.search)
   const yearFromUrl = urlParams.get('year')
   const skillFromUrl = urlParams.get('skill')
   const isDevMode = urlParams.has('dev') || urlParams.get('dev') === 'true'
   const phaseFromUrl = urlParams.get('phase')
   const phaseFilter = phaseFromUrl ? parseInt(phaseFromUrl, 10) : null
+  const path = window.location.pathname || '/'
 
-  const [mode, setMode] = useState(
-    skillFromUrl ? 'practice' : yearFromUrl ? 'menu' : 'landing'
-  )
+  let initialMode: 'landing' | 'practice' | 'menu' | 'ixl-alternative'
+  if (path === '/ixl-alternative') {
+    initialMode = 'ixl-alternative'
+  } else if (skillFromUrl) {
+    initialMode = 'practice'
+  } else if (yearFromUrl) {
+    initialMode = 'menu'
+  } else {
+    initialMode = 'landing'
+  }
+
+  const [mode, setMode] = useState(initialMode)
   const [selectedYear, setSelectedYear] = useState(yearFromUrl ? parseInt(yearFromUrl) : null)
   const [selectedStrand, setSelectedStrand] = useState(null)
   const [selectedTopic, setSelectedTopic] = useState(null)
@@ -263,6 +273,10 @@ export default function App() {
       title = 'NCEA Trial Exams – Level 1 | Mathx.nz'
       description =
         'Browse and start NCEA Level 1 trial exams built from real exam-style questions, including algebra and reasoning.'
+    } else if (mode === 'ixl-alternative') {
+      title = 'A Free Alternative to IXL for NZ Maths Practice | Mathx.nz'
+      description =
+        'Learn how Mathx.nz offers a free, New Zealand curriculum–focused alternative to IXL, with no ads and no paywalls.'
     } else if (mode === 'landing') {
       title = 'Mathx.nz – Free Maths Practice for NZ Students'
       description =
@@ -1275,6 +1289,146 @@ export default function App() {
             )
           }}
         />
+      </>
+    )
+  }
+
+  if (mode === 'ixl-alternative') {
+    return (
+      <>
+        {showLoginModal && <LoginModal onLogin={handleLogin} />}
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 py-12">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <button
+              type="button"
+              onClick={() => setMode('landing')}
+              className="mb-6 inline-flex items-center px-4 py-2 rounded-full bg-white/80 hover:bg-white border border-slate-300 text-slate-700 text-sm font-semibold shadow-sm transition"
+            >
+              <span className="mr-2">↩</span> Back to main page
+            </button>
+
+            <div className="bg-white rounded-3xl shadow-xl border border-slate-200 p-8 mb-8">
+              <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-3">
+                A Free Alternative to IXL for NZ Maths Practice
+              </h1>
+              <p className="text-slate-600 text-base md:text-lg mb-4">
+                IXL is a well-known maths practice platform used around the world. If you&apos;re
+                looking for a completely free, no-ads alternative focused squarely on the New
+                Zealand curriculum, Mathx.nz was built for you.
+              </p>
+              <p className="text-slate-600 text-sm md:text-base">
+                Our goal is simple: give every learner in Aotearoa access to high-quality maths
+                practice without paywalls, logins, or distractions. You can jump straight into
+                questions by year level, practice specific skills, or sit full trial exams.
+              </p>
+            </div>
+
+            <div className="bg-white rounded-3xl shadow-lg border border-slate-200 p-6 mb-8">
+              <h2 className="text-2xl font-bold text-slate-900 mb-4">
+                Mathx.nz vs IXL – at a glance
+              </h2>
+              <div className="overflow-x-auto">
+                <table className="min-w-full text-left text-xs md:text-sm border border-slate-200 rounded-xl overflow-hidden">
+                  <thead className="bg-slate-50">
+                    <tr>
+                      <th className="px-3 py-2 font-semibold text-slate-700">Feature</th>
+                      <th className="px-3 py-2 font-semibold text-slate-700">Mathx.nz</th>
+                      <th className="px-3 py-2 font-semibold text-slate-700">IXL</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="border-t border-slate-200">
+                      <td className="px-3 py-2 font-semibold text-slate-800">Price</td>
+                      <td className="px-3 py-2 text-slate-700">100% free to use</td>
+                      <td className="px-3 py-2 text-slate-700">Paid subscription model</td>
+                    </tr>
+                    <tr className="border-t border-slate-200 bg-slate-50/60">
+                      <td className="px-3 py-2 font-semibold text-slate-800">
+                        Curriculum focus
+                      </td>
+                      <td className="px-3 py-2 text-slate-700">
+                        Designed around the New Zealand curriculum (Years 6–10 and NCEA)
+                      </td>
+                      <td className="px-3 py-2 text-slate-700">
+                        Global coverage; not NZ-specific by default
+                      </td>
+                    </tr>
+                    <tr className="border-t border-slate-200">
+                      <td className="px-3 py-2 font-semibold text-slate-800">Ads &amp; tracking</td>
+                      <td className="px-3 py-2 text-slate-700">
+                        No ads; minimal tracking focused on learning progress only
+                      </td>
+                      <td className="px-3 py-2 text-slate-700">
+                        Commercial platform with standard web tracking practices
+                      </td>
+                    </tr>
+                    <tr className="border-t border-slate-200 bg-slate-50/60">
+                      <td className="px-3 py-2 font-semibold text-slate-800">
+                        Account required
+                      </td>
+                      <td className="px-3 py-2 text-slate-700">
+                        Optional login; you can practice without an account
+                      </td>
+                      <td className="px-3 py-2 text-slate-700">
+                        Accounts typically required for full tracking and access
+                      </td>
+                    </tr>
+                    <tr className="border-t border-slate-200">
+                      <td className="px-3 py-2 font-semibold text-slate-800">
+                        Question style
+                      </td>
+                      <td className="px-3 py-2 text-slate-700">
+                        Focused, exam-style questions aligned to NZ topics, including NCEA-style
+                        problems
+                      </td>
+                      <td className="px-3 py-2 text-slate-700">
+                        Large international bank of practice questions and skills
+                      </td>
+                    </tr>
+                    <tr className="border-t border-slate-200 bg-slate-50/60">
+                      <td className="px-3 py-2 font-semibold text-slate-800">
+                        NZ-specific features
+                      </td>
+                      <td className="px-3 py-2 text-slate-700">
+                        NCEA trial exams, NZ money context, metric units, local terminology
+                      </td>
+                      <td className="px-3 py-2 text-slate-700">
+                        General maths practice not tailored specifically to NZ exams
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="bg-white rounded-3xl shadow-lg border border-slate-200 p-6 mb-8">
+              <h2 className="text-xl md:text-2xl font-bold text-slate-900 mb-3">
+                Who is Mathx.nz for?
+              </h2>
+              <ul className="list-disc pl-5 space-y-2 text-slate-700 text-sm md:text-base">
+                <li>
+                  <span className="font-semibold">Students</span> who want extra practice for class
+                  tests or NCEA exams without paying for a subscription.
+                </li>
+                <li>
+                  <span className="font-semibold">Parents</span> who want a safe, no-ads practice
+                  site that closely follows what their child is doing at school.
+                </li>
+                <li>
+                  <span className="font-semibold">Teachers</span> who want quick practice links to
+                  share with their classes, aligned to NZ strands and levels.
+                </li>
+              </ul>
+            </div>
+
+            <div className="bg-white rounded-3xl shadow-md border border-slate-200 p-6 mb-4 text-xs md:text-sm text-slate-500">
+              <p>
+                IXL is a registered trademark of IXL Learning. Mathx.nz is an independent project
+                and is not affiliated with, endorsed by, or sponsored by IXL Learning.
+              </p>
+            </div>
+          </div>
+        </div>
       </>
     )
   }
