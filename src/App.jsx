@@ -109,7 +109,11 @@ export default function App() {
     if (!str) return ''
     return String(str)
       .toLowerCase()
+      // Treat hyphens as spaces so "twenty-five" == "twenty five"
       .replace(/-/g, ' ')
+      // Ignore the word "and" so both "one hundred twenty three" and
+      // "one hundred and twenty three" are accepted.
+      .replace(/\band\b/g, ' ')
       .replace(/\s+/g, ' ')
       .trim()
   }
