@@ -1,0 +1,54 @@
+// SINGLE APPS SCRIPT – HANDLES BOTH REGISTRY + SCORES
+
+function doGet(e) {
+  // Only used for reading the registry (teacher unlock)
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Registry");
+  const data = sheet.getDataRange().getValues();
+  const headers = data[0];
+  const rows = data.slice(1).map(row => {
+    let obj = {};
+    headers.forEach((h, i) => obj[h] = row[i]);
+    return obj;
+  });
+  return ContentService
+    .createTextOutput(JSON.stringify(rows))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doPost(e) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const action = (e.parameter.action || '').toLowerCase();
+
+  // === CREATE NEW GROUP TEST (teacher) ===
+  if (action === "creategroup") {
+    const sheet = ss.getSheetByName("Registry");
+    sheet.appendRow([
+      e.parameter.groupCode,
+      e.parameter.teacherEmail,
+      new Date(),
+      e.parameter.testTitle || "",
+      e.parameter.year || "",
+      e.parameter.mode || "",
+      e.parameter.totalQuestions || ""
+    ]);
+    return ContentService.createTextOutput("OK");
+  }
+
+  // === STUDENT SUBMITS TEST (default case) ===
+  const sheet = ss.getSheetByName("Scores");
+  sheet.appendRow([
+    new Date(),
+    e.parameter.groupCode || "",
+    e.parameter.studentName || "Anonymous",
+    Number(e.parameter.score || 0),
+    Number(e.parameter.totalQuestions || 0),
+    Number(e.parameter.percent || 0),
+    e.parameter.startTime || "",
+    e.parameter.endTime || "",
+    Number(e.parameter.durationSec || 0),
+    e.parameter.ipAddress || "",
+    e.parameter.wrongQuestions || ""          // JSON string with topics
+  ]);
+
+  return ContentService.createTextOutput("OK");
+}

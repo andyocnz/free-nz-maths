@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { generateQuestionForSkill, getStrandsForYear, getAvailableYears, generateQuestionFromTemplate } from './templateEngine.js'
 import curriculumData from './curriculumDataMerged.js'
 import { generateTest, calculateTestResults } from './testGenerator.js'
+import { generateGroupTest } from './groupTestEngine.js'
 import QuestionVisualizer from './QuestionVisualizer.jsx'
 import TestResults from './TestResults.jsx'
 import CurriculumMap, { CurriculumMapToggle } from './CurriculumMap.jsx'
@@ -14,7 +15,7 @@ import LoginModal from './LoginModal.jsx'
 import LoginRecommendationModal from './LoginRecommendationModal.jsx'
 import PracticeHistory from './PracticeHistory.jsx'
 import { getCurrentUser, loginUser, logoutUser, saveProgress, saveTestResult, savePracticeSession } from './storage.js'
-import { generateReportURL } from './config.js'
+import { config, generateReportURL } from './config.js'
 import { normalizeFraction } from './mathHelpers.js'
 import WordDropdown from './WordDropdown.jsx'
 import knowledgeSnippets from './knowledgeSnippets.json'
@@ -22,7 +23,7 @@ import { nceaLevel1YearOverviews } from './pastPapersData.js'
 import { nceaExamPdfs } from './nceaPdfs.js'
 import { buildNceaTrialQuestionsForStandard } from './nceaStructuredData.js'
 import { resolveNceaResource } from './nceaResources.js'
-import faviconSvg from '../favicon.svg'
+import { registerGroup, submitScore, getRegistry, fetchGroupScores } from './googleApi.js'
 
 // Alternating Text Component
 function AlternatingText() {
@@ -56,14 +57,19 @@ export default function App() {
   const modeFromUrl = urlParams.get('mode')
   const isDevMode = urlParams.has('dev') || urlParams.get('dev') === 'true'
   const phaseFromUrl = urlParams.get('phase')
+  const groupCodeFromUrl = urlParams.get('group')
   const phaseFilter = phaseFromUrl ? parseInt(phaseFromUrl, 10) : null
   const path = window.location.pathname || '/'
 
   let initialMode
-  if (path === '/ixl-alternative') {
+  if (path === '/results') {
+    initialMode = 'group-results'
+  } else if (path === '/ixl-alternative') {
     initialMode = 'ixl-alternative'
   } else if (modeFromUrl === 'ncea-index') {
     initialMode = 'ncea-index'
+  } else if (groupCodeFromUrl) {
+    initialMode = 'group-lobby'
   } else if (skillFromUrl) {
     initialMode = 'practice'
   } else if (yearFromUrl) {
@@ -111,6 +117,41 @@ export default function App() {
   const [nextLocked, setNextLocked] = useState(false)
   const [devTemplateSamples, setDevTemplateSamples] = useState([])
   const [devTemplateFilterSkill, setDevTemplateFilterSkill] = useState(null)
+
+  // State for Group Test Mode
+  const [groupCode, setGroupCode] = useState(null)
+  const [isGroupMode, setIsGroupMode] = useState(false)
+  const [groupRegistryEntry, setGroupRegistryEntry] = useState(null)
+  const [groupRegistryLoading, setGroupRegistryLoading] = useState(false)
+  const [groupRegistryError, setGroupRegistryError] = useState('')
+  const [groupSetupForm, setGroupSetupForm] = useState({
+    teacherEmail: '',
+    testTitle: '',
+    year: selectedYear || config.defaultYear || 7,
+    totalQuestions: 30,
+    mode: 'full'
+  })
+  const [groupSetupStatus, setGroupSetupStatus] = useState({ submitting: false, success: false, error: '' })
+  const [groupSetupResult, setGroupSetupResult] = useState(null)
+  const [groupStudentName, setGroupStudentName] = useState('')
+  const [groupStartTime, setGroupStartTime] = useState(null)
+  const [groupScoreStatus, setGroupScoreStatus] = useState({ state: 'idle', message: '' })
+  const [groupScores, setGroupScores] = useState([])
+  const [groupScoresLoading, setGroupScoresLoading] = useState(false)
+  const [groupScoresError, setGroupScoresError] = useState('')
+  const [groupScoresFetchedAt, setGroupScoresFetchedAt] = useState(null)
+  const [clientIp, setClientIp] = useState('')
+  const [groupInputValue, setGroupInputValue] = useState(groupCodeFromUrl || '')
+  const [showGroupMenu, setShowGroupMenu] = useState(false)
+  const [showGroupSetupSection, setShowGroupSetupSection] = useState(false)
+  const [recentGroupTests, setRecentGroupTests] = useState([])
+  const [recentGroupScores, setRecentGroupScores] = useState([])
+  const [registryLookupEmail, setRegistryLookupEmail] = useState('')
+  const [registryLookupCode, setRegistryLookupCode] = useState('')
+  const [registryLookupStatus, setRegistryLookupStatus] = useState({ state: 'idle', message: '' })
+  const [scoreLookupCode, setScoreLookupCode] = useState('')
+  const [scoreLookupStatus, setScoreLookupStatus] = useState({ state: 'idle', message: '' })
+
 
   // Normalize number words for PLACE_VALUE "write in words" questions
   function normalizeNumberWords(str) {
@@ -237,6 +278,386 @@ export default function App() {
       // Don't show login modal after logout
     }
   }
+
+  const sanitizeGroupCode = (value) => String(value || '').replace(/\D/g, '').slice(0, 7)
+
+  const updateGroupUrl = (targetPath, code) => {
+    if (typeof window === 'undefined') return
+    const url = new URL(window.location.href)
+    url.pathname = targetPath
+    if (code) {
+      url.searchParams.set('group', code)
+    } else {
+      url.searchParams.delete('group')
+    }
+    window.history.replaceState({}, '', url.toString())
+  }
+
+  const maskEmail = (email) => {
+    if (!email) return ''
+    const [name, domain] = email.split('@')
+    if (!domain) return email
+    if (name.length <= 2) {
+      return `${name[0] || ''}***@${domain}`
+    }
+    return `${name[0]}***${name[name.length - 1]}@${domain}`
+  }
+
+  const CopyButton = ({ value, className = '', title = 'Copy to clipboard', variant = 'dark' }) => {
+    const [copied, setCopied] = useState(false)
+    const baseClasses =
+      variant === 'light'
+        ? 'text-xs px-2 py-1 rounded-lg border border-slate-300 text-slate-600 hover:text-slate-900 hover:border-slate-400 bg-white transition inline-flex items-center gap-1'
+        : 'text-xs px-2 py-1 rounded-lg border border-white/30 text-white/80 hover:text-white hover:border-white transition inline-flex items-center gap-1'
+    const handleCopy = () => {
+      navigator.clipboard?.writeText(value)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    }
+    return (
+      <button
+        type="button"
+        title={title}
+        className={`${baseClasses} ${className}`}
+        onClick={handleCopy}
+      >
+        {copied ? 'Copied!' : '⧉'}
+      </button>
+    )
+  }
+
+  const handleGroupSetupChange = (field, value) => {
+    setGroupSetupForm(prev => ({ ...prev, [field]: value }))
+  }
+
+  const generateGroupCode = () => String(Math.floor(1000000 + Math.random() * 9000000))
+
+  const createGroupTest = async (event) => {
+    event?.preventDefault()
+    if (groupSetupStatus.submitting) return
+
+    const email = (groupSetupForm.teacherEmail || '').trim()
+    if (!email || !email.includes('@')) {
+      setGroupSetupStatus({ submitting: false, success: false, error: 'Enter a valid teacher email.' })
+      return
+    }
+
+    const yearValue = parseInt(groupSetupForm.year, 10) || config.defaultYear || 7
+    const totalQuestions = Math.max(5, Math.min(200, parseInt(groupSetupForm.totalQuestions, 10) || 30))
+    const payload = {
+      groupCode: generateGroupCode(),
+      teacherEmail: email,
+      testTitle: groupSetupForm.testTitle || `Year ${yearValue} group test`,
+      year: String(yearValue),
+      mode: groupSetupForm.mode || 'full',
+      totalQuestions: String(totalQuestions)
+    }
+
+    setGroupSetupStatus({ submitting: true, success: false, error: '' })
+    setGroupSetupResult(null)
+
+    try {
+      const response = await registerGroup(payload)
+      if (!response.ok) {
+        const text = await response.text().catch(() => '')
+        throw new Error(text || 'Failed to create group test.')
+      }
+      setGroupSetupStatus({ submitting: false, success: true, error: '' })
+      setGroupSetupResult(payload)
+      setRecentGroupTests(prev => [
+        {
+          groupCode: payload.groupCode,
+          teacherEmail: payload.teacherEmail,
+          testTitle: payload.testTitle,
+          year: payload.year,
+          totalQuestions,
+          created: new Date().toISOString()
+        },
+        ...prev
+      ].slice(0, 10))
+    } catch (error) {
+      setGroupSetupStatus({
+        submitting: false,
+        success: false,
+        error: error?.message || 'Could not create group test. Try again.'
+      })
+    }
+  }
+
+  const loadGroupFromRegistry = async (code) => {
+    const normalizedCode = sanitizeGroupCode(code)
+    if (!normalizedCode) {
+      setGroupRegistryEntry(null)
+      return
+    }
+
+    setGroupRegistryLoading(true)
+    setGroupRegistryError('')
+
+    try {
+      const data = await getRegistry()
+      const rows = Array.isArray(data) ? data : data?.rows || []
+      const matches = rows.filter(row => sanitizeGroupCode(row.groupCode || row.groupcode) === normalizedCode)
+      const match = matches.length ? matches[matches.length - 1] : null
+
+      if (!match) {
+        throw new Error('Group code not found yet. Check the code with your teacher.')
+      }
+
+      const entry = {
+        groupCode: normalizedCode,
+        teacherEmail: match.teacherEmail || match.teacheremail || '',
+        testTitle: match.testTitle || match.testtitle || '',
+        year: parseInt(match.year, 10) || null,
+        mode: match.mode || 'full',
+        totalQuestions: parseInt(match.totalQuestions, 10) || 30,
+        created: match.created || match.Created || match.Timestamp || ''
+      }
+
+      setGroupRegistryEntry(entry)
+      setGroupRegistryError('')
+      setIsGroupMode(true)
+    } catch (error) {
+      setGroupRegistryEntry(null)
+      setGroupRegistryError(error?.message || 'Could not load group info.')
+    } finally {
+      setGroupRegistryLoading(false)
+    }
+  }
+
+  const handleGroupCodeSubmit = (event, targetMode) => {
+    event.preventDefault()
+    const normalized = sanitizeGroupCode(groupInputValue)
+    if (!normalized) {
+      setGroupRegistryError('Enter a 7-digit group code.')
+      return
+    }
+    setGroupRegistryError('')
+    setGroupScores([])
+    setGroupCode(normalized)
+    if (targetMode === 'results') {
+      updateGroupUrl('/results', normalized)
+      setMode('group-results')
+    } else {
+      updateGroupUrl('/', normalized)
+      setMode('group-lobby')
+    }
+  }
+
+  const startGroupTestSession = () => {
+    if (!groupRegistryEntry) {
+      setGroupRegistryError('Group details are still loading. Please wait a moment.')
+      return
+    }
+
+    const studentName = groupStudentName.trim()
+    if (!studentName) {
+      setGroupRegistryError('Enter your name so your teacher can see your score.')
+      return
+    }
+
+    const totalQuestions = Math.max(5, parseInt(groupRegistryEntry.totalQuestions, 10) || 30)
+    const yearForTest = groupRegistryEntry.year || selectedYear || config.defaultYear || 7
+    const questions = generateGroupTest(
+      { year: yearForTest, totalQuestions, seed: groupRegistryEntry.groupCode },
+      curriculumData
+    )
+
+    if (!questions.length) {
+      setGroupRegistryError('No questions available for this year. Try another year level.')
+      return
+    }
+
+    setHistory(questions)
+    setCurrentIndex(0)
+    setScore(0)
+    setIsTestMode(true)
+    setIsGroupMode(true)
+    setSelectedSkill(null)
+    setAnswer('')
+    setFeedback('')
+    setGroupStartTime(new Date())
+    setGroupScoreStatus({ state: 'idle', message: '' })
+    setMode('test')
+  }
+
+  const submitGroupResults = async (results) => {
+    if (!groupCode || !groupRegistryEntry) return
+
+    const endTime = new Date()
+    const durationSec = groupStartTime ? Math.max(0, Math.round((endTime - groupStartTime) / 1000)) : 0
+    const wrongQuestions = history
+      .filter(q => q.answered && !q.isCorrect)
+      .map(q => ({
+        qid: q.id || q.templateId || q.skill || q.skillId || 'unknown',
+        topic: q.topic || q.skill || q.skillName || '',
+        studentAnswer: q.userAnswer || '',
+        correctAnswer: q.answer || ''
+      }))
+
+    const payload = {
+      groupCode,
+      studentName: groupStudentName.trim() || 'Anonymous',
+      score: String(results.correctAnswers),
+      totalQuestions: String(results.totalQuestions),
+      percent: String(results.percentageScore),
+      startTime: groupStartTime ? groupStartTime.toISOString() : '',
+      endTime: endTime.toISOString(),
+      durationSec: String(durationSec),
+      ipAddress: clientIp || '',
+      wrongQuestions: JSON.stringify(wrongQuestions)
+    }
+
+    setGroupScoreStatus({ state: 'saving', message: 'Sending your score to your teacher...' })
+    try {
+      const response = await submitScore(payload)
+      if (!response.ok) {
+        const text = await response.text().catch(() => '')
+        throw new Error(text || 'Failed to submit score.')
+      }
+      setGroupScoreStatus({ state: 'success', message: 'Score sent to your teacher.' })
+      setRecentGroupScores(prev => [
+        {
+          groupCode,
+          studentName: payload.studentName,
+          percent: results.percentageScore,
+          score: results.correctAnswers,
+          total: results.totalQuestions,
+          submitted: endTime.toISOString()
+        },
+        ...prev
+      ].slice(0, 10))
+    } catch (error) {
+      setGroupScoreStatus({
+        state: 'error',
+        message: error?.message || 'Could not send your score. You can retry from this page.'
+      })
+    }
+  }
+
+  const loadGroupScores = async (code) => {
+    const normalizedCode = sanitizeGroupCode(code)
+    if (!normalizedCode) return
+
+    setGroupScoresLoading(true)
+    setGroupScoresError('')
+
+    try {
+      const data = await fetchGroupScores(normalizedCode)
+      const rows = Array.isArray(data) ? data : data?.rows || []
+      const parsed = rows
+        .filter(row => sanitizeGroupCode(row.groupCode || row.groupcode) === normalizedCode)
+        .map(row => {
+          let wrong = []
+          try {
+            const raw = row.wrongQuestions || row.wrongquestions || '[]'
+            wrong = JSON.parse(raw || '[]')
+          } catch (e) {
+            wrong = []
+          }
+          return {
+            timestamp: row.Timestamp || row.timestamp || '',
+            studentName: row.studentName || row.studentname || 'Anonymous',
+            score: Number(row.score) || 0,
+            totalQuestions: Number(row.totalQuestions || row.totalquestions) || 0,
+            percent: Number(row.percent) || 0,
+            startTime: row.startTime || row.starttime || '',
+            endTime: row.endTime || row.endtime || '',
+            durationSec: Number(row.durationSec || row.durationsec) || null,
+            ipAddress: row.ipAddress || row.ipaddress || '',
+            wrongQuestions: Array.isArray(wrong) ? wrong : []
+          }
+        })
+        .sort((a, b) => b.percent - a.percent)
+
+      setGroupScores(parsed)
+      setGroupScoresFetchedAt(new Date())
+    } catch (error) {
+      setGroupScoresError(error?.message || 'Could not load scores.')
+      setGroupScores([])
+    } finally {
+      setGroupScoresLoading(false)
+    }
+  }
+
+  const formatDuration = (seconds) => {
+    if (seconds === null || typeof seconds === 'undefined') return '—'
+    const mins = Math.floor(seconds / 60)
+    const secs = seconds % 60
+    if (mins <= 0) return `${secs}s`
+    return `${mins}m ${secs.toString().padStart(2, '0')}s`
+  }
+
+  const exitGroupMode = () => {
+    setIsGroupMode(false)
+    setGroupCode(null)
+    setGroupRegistryEntry(null)
+    setGroupRegistryError('')
+    setGroupStudentName('')
+    setGroupStartTime(null)
+    setGroupScoreStatus({ state: 'idle', message: '' })
+    setShowGroupMenu(false)
+    if (typeof window !== 'undefined') {
+      updateGroupUrl('/', '')
+    }
+  }
+
+  const openGroupSetup = () => {
+    setShowGroupSetupSection(true)
+    setShowGroupMenu(false)
+    setTimeout(() => {
+      const el = document.getElementById('group-test-setup')
+      if (el) el.scrollIntoView({ behavior: 'smooth' })
+    }, 50)
+  }
+
+  const openEnterGroupCode = () => {
+    setIsGroupMode(true)
+    setGroupRegistryEntry(null)
+    setGroupRegistryError('')
+    setGroupStudentName('')
+    setGroupCode('')
+    setGroupInputValue('')
+    setShowGroupMenu(false)
+    setMode('group-lobby')
+    updateGroupUrl('/', '')
+  }
+
+  useEffect(() => {
+    if (groupCodeFromUrl) {
+      console.log('Group mode activated via URL. Code:', groupCodeFromUrl)
+      setIsGroupMode(true)
+      setGroupCode(groupCodeFromUrl)
+      if (path === '/results') {
+        setMode('group-results')
+      } else {
+        setMode('group-lobby')
+      }
+    }
+  }, [groupCodeFromUrl, path])
+
+  useEffect(() => {
+    setGroupInputValue(groupCode || '')
+  }, [groupCode])
+
+  useEffect(() => {
+    if (!groupCode) return
+    if (mode !== 'group-lobby' && mode !== 'group-results') return
+    loadGroupFromRegistry(groupCode)
+  }, [groupCode, mode])
+
+  useEffect(() => {
+    if (mode !== 'group-results' || !groupCode) return
+    loadGroupScores(groupCode)
+  }, [mode, groupCode])
+
+  useEffect(() => {
+    if (!isGroupMode || clientIp) return
+    fetch('https://api.ipify.org?format=json')
+      .then(res => res.json())
+      .then(data => setClientIp(data?.ip || ''))
+      .catch(() => {})
+  }, [isGroupMode, clientIp])
 
   const question = history[currentIndex]
   const availableYears = getAvailableYears(curriculumData)
@@ -714,6 +1135,9 @@ export default function App() {
     // Calculate and store test results, then navigate to results view
     const results = calculateTestResults(history)
     setTestResults(results)
+    if (isGroupMode && groupCode) {
+      submitGroupResults(results)
+    }
 
     // Save test result to storage and practice history for normal curriculum tests.
     // For NCEA trials, we skip storage (selectedYear will be null).
@@ -789,6 +1213,9 @@ export default function App() {
   }
 
   const backToMenu = () => {
+    if (isGroupMode) {
+      exitGroupMode()
+    }
     // If we're in an NCEA trial, return to the NCEA index instead of the main landing page
     if (isTestMode && activeNceaPaper) {
       setMode('ncea-index')
@@ -1351,12 +1778,47 @@ export default function App() {
       <>
         {showLoginModal && <LoginModal onLogin={handleLogin} />}
         {showLoginRecommendation && <LoginRecommendationModal onLogin={handleLogin} onSkip={handleSkipLogin} />}
+        {isGroupMode && (
+          <div
+            className={`w-full px-4 py-3 text-sm font-semibold text-center ${
+              groupScoreStatus.state === 'error'
+                ? 'bg-red-50 text-red-700 border-b border-red-200'
+                : groupScoreStatus.state === 'success'
+                  ? 'bg-green-50 text-green-700 border-b border-green-200'
+                  : 'bg-blue-50 text-blue-700 border-b border-blue-200'
+            }`}
+          >
+            <div>Group code: <span className="font-mono">{groupCode}</span></div>
+            <div className="text-xs font-normal text-slate-600">
+              {groupRegistryEntry?.teacherEmail
+                ? `Teacher: ${maskEmail(groupRegistryEntry.teacherEmail)}`
+                : 'Teacher email saved with this code.'}
+            </div>
+            <div className="mt-1 text-slate-700 font-normal">
+              {groupScoreStatus.state === 'success' && groupScoreStatus.message}
+              {groupScoreStatus.state === 'error' && (
+                <>
+                  {groupScoreStatus.message}{' '}
+                  <button
+                    type="button"
+                    className="underline font-semibold"
+                    onClick={() => submitGroupResults(testResults)}
+                  >
+                    Retry now
+                  </button>
+                </>
+              )}
+              {groupScoreStatus.state === 'saving' && groupScoreStatus.message}
+              {groupScoreStatus.state === 'idle' && 'Your score is ready. We will send it to your teacher now.'}
+            </div>
+          </div>
+        )}
         <TestResults
           results={testResults}
           onBackToMenu={backToMenu}
           onPracticeSkill={practiceFromResults}
           username={currentUser?.username}
-          year={selectedYear}
+          year={isGroupMode && groupRegistryEntry?.year ? groupRegistryEntry.year : selectedYear}
         />
       </>
     )
@@ -1629,6 +2091,373 @@ export default function App() {
   )
   }
 
+  if (mode === 'group-lobby') {
+    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://mathx.nz'
+    const shareLink = groupRegistryEntry?.groupCode ? `${origin}/?group=${groupRegistryEntry.groupCode}` : ''
+    const teacherShareLink = groupRegistryEntry?.groupCode ? `${origin}/results?group=${groupRegistryEntry.groupCode}` : ''
+
+    return (
+      <>
+        <CanvasBackground />
+        <div className="min-h-screen bg-gradient-to-b from-blue-50 via-white to-slate-100 py-10 px-4">
+          <div className="max-w-3xl mx-auto bg-white/95 backdrop-blur-xl border border-slate-200 rounded-[32px] shadow-2xl p-8 space-y-6">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-blue-500 font-semibold">Group Quiz</p>
+              <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-2">Start Your Quiz</h1>
+              <p className="text-slate-600 text-base md:text-lg">
+                Whole class, same questions. Students only need a 7-digit code and their name—no logins, no ads.
+              </p>
+            </div>
+
+            <form
+              className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex flex-col md:flex-row gap-3"
+              onSubmit={(e) => handleGroupCodeSubmit(e, 'lobby')}
+            >
+              <div className="flex-1">
+                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide block mb-1">
+                  Group code
+                </label>
+                <input
+                  type="text"
+                  value={groupInputValue}
+                  onChange={(e) => setGroupInputValue(sanitizeGroupCode(e.target.value))}
+                  inputMode="numeric"
+                  maxLength={7}
+                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-lg font-mono tracking-[0.4em] text-center"
+                  placeholder="1234567"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full md:w-auto px-5 py-3 rounded-2xl bg-slate-900 text-white font-semibold shadow-lg hover:bg-slate-800 transition"
+              >
+                Load Test
+              </button>
+            </form>
+
+            {groupRegistryError && (
+              <div className="rounded-2xl border border-red-200 bg-red-50 text-red-600 px-4 py-3 text-sm font-semibold">
+                {groupRegistryError}
+              </div>
+            )}
+
+            {groupRegistryLoading && (
+              <div className="text-center text-slate-500 text-sm">Generating your quiz…</div>
+            )}
+
+            {groupRegistryEntry && (
+              <div className="bg-gradient-to-br from-slate-900 to-blue-900 text-white rounded-3xl p-6 space-y-4 shadow-lg">
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.4em] text-blue-300">Group</p>
+                    <div className="text-3xl font-black font-mono flex items-center gap-2">
+                      {groupRegistryEntry.groupCode}
+                      <CopyButton value={groupRegistryEntry.groupCode} />
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs uppercase tracking-[0.2em] text-blue-300">Teacher</p>
+                    <p className="text-lg font-semibold">{maskEmail(groupRegistryEntry.teacherEmail) || 'Saved securely'}</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                  <div className="bg-white/10 rounded-2xl p-3">
+                    <p className="text-xs uppercase tracking-[0.3em] text-blue-200">Title</p>
+                    <p className="font-semibold">{groupRegistryEntry.testTitle || 'Group assessment'}</p>
+                  </div>
+                  <div className="bg-white/10 rounded-2xl p-3">
+                    <p className="text-xs uppercase tracking-[0.3em] text-blue-200">Year</p>
+                    <p className="font-semibold">Year {groupRegistryEntry.year || selectedYear || 7}</p>
+                  </div>
+                  <div className="bg-white/10 rounded-2xl p-3">
+                    <p className="text-xs uppercase tracking-[0.3em] text-blue-200">Questions</p>
+                    <p className="font-semibold">{groupRegistryEntry.totalQuestions}</p>
+                  </div>
+                </div>
+                {shareLink && (
+                  <div className="bg-white/10 rounded-2xl p-4 text-sm space-y-3">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.3em] text-blue-200 mb-2">Student link</p>
+                      <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
+                        <code className="px-3 py-2 rounded-xl bg-slate-900/60 border border-white/10 text-xs break-all">
+                          {shareLink}
+                        </code>
+                        <CopyButton value={shareLink} />
+                      </div>
+                    </div>
+                    {teacherShareLink && (
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.3em] text-blue-200 mb-2">Teacher results link</p>
+                        <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
+                          <code className="px-3 py-2 rounded-xl bg-slate-900/60 border border-white/10 text-xs break-all">
+                            {teacherShareLink}
+                          </code>
+                          <CopyButton value={teacherShareLink} />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="bg-white border border-slate-200 rounded-3xl p-6 space-y-4">
+              <div>
+                <label className="text-xs uppercase tracking-[0.3em] text-slate-500 font-semibold block mb-2">
+                  Your name
+                </label>
+                <input
+                  type="text"
+                  className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base"
+                  placeholder="e.g. Alex Chen"
+                  value={groupStudentName}
+                  onChange={(e) => setGroupStudentName(e.target.value)}
+                  disabled={!groupRegistryEntry}
+                />
+              </div>
+              <button
+                type="button"
+                onClick={startGroupTestSession}
+                disabled={!groupRegistryEntry || !groupStudentName.trim()}
+                className={`w-full px-6 py-4 rounded-3xl text-lg font-semibold shadow-lg transition ${
+                  !groupRegistryEntry || !groupStudentName.trim()
+                    ? 'bg-slate-200 text-slate-500 cursor-not-allowed'
+                    : 'bg-blue-600 text-white hover:bg-blue-500'
+                }`}
+              >
+                Start test now
+              </button>
+              <p className="text-xs text-slate-500">
+                We will automatically send your score to the teacher email saved with this code.
+              </p>
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-3 justify-between items-center text-sm text-slate-500">
+              <button
+                type="button"
+                onClick={() => {
+                  exitGroupMode()
+                  backToMenu()
+                }}
+                className="px-4 py-2 rounded-2xl border border-slate-200 hover:border-slate-300 hover:text-slate-700 transition"
+              >
+                ← Back to mathx.nz
+              </button>
+              <div>No logins required · Works on any device · Questions aligned to NZ curriculum</div>
+            </div>
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  if (mode === 'group-results') {
+    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://mathx.nz'
+    const studentLink = groupRegistryEntry?.groupCode ? `${origin}/?group=${groupRegistryEntry.groupCode}` : ''
+    const teacherLink = groupRegistryEntry?.groupCode ? `${origin}/results?group=${groupRegistryEntry.groupCode}` : ''
+    const totalSubmissions = groupScores.length
+    const averagePercent = totalSubmissions
+      ? Math.round(groupScores.reduce((sum, row) => sum + row.percent, 0) / totalSubmissions)
+      : 0
+    const bestScore = groupScores[0]?.percent || 0
+    const lastUpdated = groupScoresFetchedAt
+      ? groupScoresFetchedAt.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      : null
+
+    return (
+      <div className="min-h-screen bg-slate-950 text-white py-10 px-4">
+        <div className="max-w-5xl mx-auto space-y-8">
+          <div className="bg-gradient-to-br from-slate-900 to-blue-900 rounded-[32px] border border-white/10 p-8 space-y-6 shadow-2xl">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div>
+                <p className="text-xs uppercase tracking-[0.4em] text-blue-300">Teacher dashboard</p>
+                <h1 className="text-4xl font-extrabold">Group Results</h1>
+              </div>
+              <button
+                type="button"
+                onClick={() => {
+                  exitGroupMode()
+                  backToMenu()
+                }}
+                className="px-4 py-2 rounded-2xl border border-white/20 text-sm font-semibold hover:bg-white/10 transition"
+              >
+                ← Back to site
+              </button>
+            </div>
+
+            <form
+              className="bg-white/10 border border-white/10 rounded-3xl p-4 flex flex-col md:flex-row gap-3"
+              onSubmit={(e) => handleGroupCodeSubmit(e, 'results')}
+            >
+              <div className="flex-1">
+                <label className="text-xs uppercase tracking-[0.3em] text-blue-200 font-semibold block mb-2">
+                  Enter group code
+                </label>
+                <input
+                  type="text"
+                  value={groupInputValue}
+                  onChange={(e) => setGroupInputValue(sanitizeGroupCode(e.target.value))}
+                  inputMode="numeric"
+                  maxLength={7}
+                  className="w-full rounded-2xl border border-white/20 bg-slate-900/60 px-4 py-3 font-mono tracking-[0.4em] text-lg text-white placeholder:text-slate-400"
+                  placeholder="1234567"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full md:w-auto px-5 py-3 rounded-2xl bg-white text-slate-900 font-semibold shadow-lg hover:bg-slate-100 transition"
+              >
+                Load Results
+              </button>
+            </form>
+
+            {groupRegistryError && (
+              <div className="rounded-2xl border border-red-300 bg-red-500/10 text-red-100 px-4 py-3 text-sm font-semibold">
+                {groupRegistryError}
+              </div>
+            )}
+
+            {groupRegistryEntry && (
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                <div className="bg-white/5 rounded-3xl p-4 border border-white/10">
+                  <p className="text-xs uppercase tracking-[0.4em] text-blue-200">Group</p>
+                    <div className="text-2xl font-black font-mono flex items-center gap-2">
+                      {groupRegistryEntry.groupCode}
+                      <CopyButton value={groupRegistryEntry.groupCode} />
+                    </div>
+                  <p className="text-xs text-blue-200 mt-1">{groupRegistryEntry.testTitle || 'Group assessment'}</p>
+                </div>
+                <div className="bg-white/5 rounded-3xl p-4 border border-white/10">
+                  <p className="text-xs uppercase tracking-[0.4em] text-blue-200">Teacher</p>
+                  <p className="text-lg font-semibold">{groupRegistryEntry.teacherEmail || 'Saved securely'}</p>
+                  <p className="text-xs text-blue-200 mt-1">Year {groupRegistryEntry.year || selectedYear || 7}</p>
+                </div>
+                <div className="bg-white/5 rounded-3xl p-4 border border-white/10 space-y-3">
+                  {studentLink && (
+                    <div className="space-y-1">
+                      <p className="text-[10px] uppercase tracking-[0.3em] text-blue-200">Student link</p>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <a href={studentLink} className="text-sm text-white underline break-all">
+                          {studentLink}
+                        </a>
+                        <CopyButton value={studentLink} />
+                      </div>
+                    </div>
+                  )}
+                  {teacherLink && (
+                    <div className="space-y-1">
+                      <p className="text-[10px] uppercase tracking-[0.3em] text-blue-200">Teacher link</p>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <a href={teacherLink} className="text-sm text-white underline break-all">
+                          {teacherLink}
+                        </a>
+                        <CopyButton value={teacherLink} />
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="bg-white text-slate-900 rounded-[32px] shadow-2xl border border-slate-200 p-8 space-y-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div>
+                <h2 className="text-2xl font-bold text-slate-900">Live leaderboard</h2>
+                <p className="text-sm text-slate-500">
+                  {totalSubmissions > 0
+                    ? `${totalSubmissions} submissions · Average ${averagePercent}%`
+                    : 'Waiting for the first submission'}
+                </p>
+              </div>
+              <div className="flex items-center gap-3">
+                {lastUpdated && <span className="text-xs text-slate-400">Updated {lastUpdated}</span>}
+                <button
+                  type="button"
+                  onClick={() => groupCode && loadGroupScores(groupCode)}
+                  className="px-4 py-2 rounded-2xl border border-slate-200 text-sm font-semibold hover:border-slate-300"
+                >
+                  Refresh
+                </button>
+              </div>
+            </div>
+
+            {groupScoresLoading && (
+              <div className="text-center text-slate-500 text-sm">Loading scores from Google Sheets…</div>
+            )}
+
+            {!groupScoresLoading && totalSubmissions === 0 && (
+              <div className="rounded-3xl border border-dashed border-slate-200 p-8 text-center text-slate-500 text-sm">
+                No submissions yet. Share the student link so everyone can take the test.
+              </div>
+            )}
+
+            {!groupScoresLoading && totalSubmissions > 0 && (
+              <div className="space-y-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="rounded-3xl border border-slate-100 bg-slate-50 p-4">
+                    <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Submissions</p>
+                    <p className="text-3xl font-bold text-slate-900">{totalSubmissions}</p>
+                  </div>
+                  <div className="rounded-3xl border border-slate-100 bg-slate-50 p-4">
+                    <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Average</p>
+                    <p className="text-3xl font-bold text-slate-900">{averagePercent}%</p>
+                  </div>
+                  <div className="rounded-3xl border border-slate-100 bg-slate-50 p-4">
+                    <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Top score</p>
+                    <p className="text-3xl font-bold text-slate-900">{bestScore}%</p>
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  {groupScores.map((entry, idx) => (
+                    <div key={`${entry.studentName}-${idx}`} className="border border-slate-200 rounded-3xl p-5">
+                      <div className="flex flex-col md:flex-row justify-between gap-2">
+                        <div>
+                          <p className="text-xl font-bold text-slate-900">{entry.studentName}</p>
+                          <p className="text-xs text-slate-500">
+                            {entry.endTime
+                              ? new Date(entry.endTime).toLocaleString()
+                              : entry.timestamp || 'Submitted'}
+                          </p>
+                        </div>
+                        <div className="text-4xl font-extrabold text-blue-600">{entry.percent}%</div>
+                      </div>
+                      <div className="text-sm text-slate-600 mt-2 flex flex-wrap gap-4">
+                        <span>
+                          {entry.score}/{entry.totalQuestions} correct
+                        </span>
+                        <span>Duration: {formatDuration(entry.durationSec)}</span>
+                      </div>
+                      {entry.wrongQuestions.length > 0 ? (
+                        <details className="mt-3 text-sm">
+                          <summary className="cursor-pointer font-semibold text-slate-700">
+                            Wrong answers ({entry.wrongQuestions.length})
+                          </summary>
+                          <ul className="mt-2 space-y-2 text-slate-600">
+                            {entry.wrongQuestions.map((w, wIdx) => (
+                              <li key={wIdx} className="text-xs md:text-sm border border-slate-100 rounded-xl p-2">
+                                <div className="font-semibold">{w.topic || w.qid || 'Question'}</div>
+                                <div>Student: {w.studentAnswer || '—'}</div>
+                                <div>Correct: {w.correctAnswer || '—'}</div>
+                              </li>
+                            ))}
+                          </ul>
+                        </details>
+                      ) : (
+                        <div className="mt-3 text-sm text-green-600 font-semibold">Perfect score!</div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
   // Landing Page
   if (mode === 'landing') {
     // Get strands for selected curriculum map year
@@ -1640,6 +2469,7 @@ export default function App() {
         strands[skill.strand].push({ ...skill, year: selectedYearData.year })
       })
     }
+    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://mathx.nz'
 
     return (
       <>
@@ -1725,11 +2555,16 @@ export default function App() {
                   </button>
                   <button
                     onClick={() => {
-                      document.getElementById('curriculum-map').scrollIntoView({ behavior: 'smooth' })
+                      setShowGroupMenu(true)
+                      setShowGroupSetupSection(false)
+                      setTimeout(() => {
+                        const el = document.getElementById('group-quiz-menu')
+                        if (el) el.scrollIntoView({ behavior: 'smooth' })
+                      }, 50)
                     }}
-                    className="px-8 py-4 text-lg bg-white/90 hover:bg-white text-gray-800 rounded-full font-semibold border-2 border-gray-300 backdrop-blur-md transition"
+                    className="px-8 py-4 text-lg bg-gradient-to-r from-amber-400 via-orange-500 to-red-500 text-white rounded-full font-semibold shadow-lg transition transform hover:-translate-y-1"
                   >
-                    Explore Map
+                    Start Group Quiz
                   </button>
                 </div>
               </div>
@@ -1738,6 +2573,369 @@ export default function App() {
               </div>
             </div>
           </section>
+
+          {showGroupMenu && (
+            <section id="group-quiz-menu" className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
+              <div className="bg-white/95 border border-slate-200 rounded-[32px] shadow-2xl p-8 space-y-6">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-2">
+                    <p className="text-xs uppercase tracking-[0.4em] text-blue-500 font-semibold">Start a group session</p>
+                    <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900">How do you want to begin?</h3>
+                    <p className="text-slate-600 text-sm md:text-base">
+                      Students enter a 7-digit code to join. Teachers can create a new code and share it with the class.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setShowGroupMenu(false)}
+                    className="px-4 py-2 rounded-2xl border border-slate-200 text-sm font-semibold text-slate-600 hover:border-slate-300"
+                  >
+                    Close
+                  </button>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="border border-slate-200 rounded-3xl p-5 flex flex-col gap-3 bg-slate-50/60">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.3em] text-slate-500 font-semibold">Students</p>
+                      <h4 className="text-xl font-bold text-slate-900">Enter Test Code</h4>
+                      <p className="text-sm text-slate-600">Join the exact same quiz as your classmates using a 7-digit group code.</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={openEnterGroupCode}
+                      className="w-full px-4 py-3 rounded-2xl bg-[#0077B6] text-white font-semibold shadow hover:bg-sky-700 transition"
+                    >
+                      Enter test code
+                    </button>
+                  </div>
+                  <div className="border border-amber-200 rounded-3xl p-5 flex flex-col gap-3 bg-amber-50/70">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.3em] text-amber-600 font-semibold">Teachers</p>
+                      <h4 className="text-xl font-bold text-slate-900">Create Group Test</h4>
+                      <p className="text-sm text-slate-600">Generate a new code, share it instantly, and see every score in your Google Sheet.</p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={openGroupSetup}
+                      className="px-4 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-semibold shadow hover:opacity-95 transition"
+                    >
+                      Create group test
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
+          {showGroupMenu && (
+            <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 space-y-6">
+              <div className="bg-white rounded-2xl border border-slate-200 shadow p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-bold text-slate-900">Recently created group tests</h3>
+                  <form
+                    className="flex flex-wrap gap-2 items-center text-xs text-slate-500"
+                    onSubmit={(e) => {
+                      e.preventDefault()
+                      loadRegistryEntriesFromSheet()
+                    }}
+                  >
+                    <input
+                      type="email"
+                      value={registryLookupEmail}
+                      onChange={(e) => setRegistryLookupEmail(e.target.value)}
+                      placeholder="Teacher email"
+                      className="rounded-xl border border-slate-200 px-3 py-1 text-xs"
+                    />
+                    <input
+                      type="text"
+                      value={registryLookupCode}
+                      onChange={(e) => setRegistryLookupCode(e.target.value)}
+                      placeholder="Group code"
+                      maxLength={7}
+                      className="rounded-xl border border-slate-200 px-3 py-1 text-xs font-mono"
+                    />
+                    <button
+                      type="submit"
+                      className="px-3 py-1 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-semibold"
+                    >
+                      Load from sheet
+                    </button>
+                  </form>
+                </div>
+                {registryLookupStatus.state !== 'idle' && (
+                  <p className={`text-xs mb-2 ${
+                    registryLookupStatus.state === 'error'
+                      ? 'text-red-600'
+                      : registryLookupStatus.state === 'success'
+                        ? 'text-green-600'
+                        : 'text-slate-500'
+                  }`}>
+                    {registryLookupStatus.message}
+                  </p>
+                )}
+                {recentGroupTests.length === 0 ? (
+                  <p className="text-sm text-slate-500">No group tests created this session.</p>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full text-xs md:text-sm">
+                      <thead>
+                        <tr className="text-left text-slate-500">
+                          <th className="px-3 py-2">Group code</th>
+                          <th className="px-3 py-2">Title</th>
+                          <th className="px-3 py-2">Year</th>
+                          <th className="px-3 py-2">Questions</th>
+                          <th className="px-3 py-2">Created</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {recentGroupTests.map((entry, idx) => (
+                          <tr key={`${entry.groupCode}-${idx}`} className="border-t border-slate-100">
+                            <td className="px-3 py-2 font-mono">{entry.groupCode}</td>
+                            <td className="px-3 py-2">{entry.testTitle}</td>
+                            <td className="px-3 py-2">Year {entry.year}</td>
+                            <td className="px-3 py-2">{entry.totalQuestions}</td>
+                            <td className="px-3 py-2 text-slate-500">{new Date(entry.created).toLocaleString()}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+              <div className="bg-white rounded-2xl border border-slate-200 shadow p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-xl font-bold text-slate-900">Recent student attempts</h3>
+                  <form
+                    className="flex items-center gap-2 text-xs text-slate-500"
+                    onSubmit={(e) => {
+                      e.preventDefault()
+                      loadScoresFromSheet()
+                    }}
+                  >
+                    <input
+                      type="text"
+                      value={scoreLookupCode}
+                      onChange={(e) => setScoreLookupCode(e.target.value)}
+                      placeholder="Group code"
+                      maxLength={7}
+                      className="rounded-xl border border-slate-200 px-3 py-1 text-xs font-mono"
+                    />
+                    <button
+                      type="submit"
+                      className="px-3 py-1 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-semibold"
+                    >
+                      Load attempts
+                    </button>
+                  </form>
+                </div>
+                {scoreLookupStatus.state !== 'idle' && (
+                  <p className={`text-xs mb-2 ${
+                    scoreLookupStatus.state === 'error'
+                      ? 'text-red-600'
+                      : scoreLookupStatus.state === 'success'
+                        ? 'text-green-600'
+                        : 'text-slate-500'
+                  }`}>
+                    {scoreLookupStatus.message}
+                  </p>
+                )}
+                {recentGroupScores.length === 0 ? (
+                  <p className="text-sm text-slate-500">No student attempts recorded this session.</p>
+                ) : (
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full text-xs md:text-sm">
+                      <thead>
+                        <tr className="text-left text-slate-500">
+                          <th className="px-3 py-2">Student</th>
+                          <th className="px-3 py-2">Group code</th>
+                          <th className="px-3 py-2">Score</th>
+                          <th className="px-3 py-2">Percent</th>
+                          <th className="px-3 py-2">Submitted</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {recentGroupScores.map((entry, idx) => (
+                          <tr key={`${entry.groupCode}-${idx}-${entry.submitted}`} className="border-t border-slate-100">
+                            <td className="px-3 py-2">{entry.studentName}</td>
+                            <td className="px-3 py-2 font-mono">{entry.groupCode}</td>
+                            <td className="px-3 py-2">{entry.score}/{entry.total}</td>
+                            <td className="px-3 py-2">{entry.percent}%</td>
+                            <td className="px-3 py-2 text-slate-500">{new Date(entry.submitted).toLocaleString()}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
+              </div>
+            </section>
+          )}
+
+          {showGroupSetupSection && (
+          <section id="group-test-setup" className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+            <div className="bg-white/95 border border-slate-200 rounded-[32px] shadow-2xl p-8 space-y-6">
+              <div className="flex items-center justify-between">
+                <div className="space-y-3">
+                  <p className="text-xs uppercase tracking-[0.4em] text-blue-500 font-semibold">New • Group Test Mode</p>
+                  <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-1">Create a group test code</h2>
+                  <p className="text-slate-600 text-sm md:text-base max-w-2xl leading-relaxed">
+                    Enter your email once and Mathx.nz will generate a 7-digit code. Every student who enters that code
+                    gets the exact same deterministic test, and we send their results back to your Google Sheet instantly.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowGroupSetupSection(false)
+                    setShowGroupMenu(true)
+                  }}
+                  className="px-6 py-3 rounded-full bg-slate-900 text-white text-sm font-semibold shadow-lg hover:bg-slate-800 transition"
+                >
+                  ← Back to options
+                </button>
+              </div>
+              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                <div className="flex flex-col gap-2 text-xs text-slate-500">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-green-500" />
+                    Zero logins for students
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-blue-500" />
+                    Works on any device
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-purple-500" />
+                    Aligned to NZ curriculum
+                  </div>
+                </div>
+              </div>
+
+              <form className="space-y-6" onSubmit={createGroupTest}>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.3em] text-slate-500 font-semibold block mb-2">
+                      Teacher email
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={groupSetupForm.teacherEmail}
+                      onChange={(e) => handleGroupSetupChange('teacherEmail', e.target.value)}
+                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base"
+                      placeholder="you@school.nz"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.3em] text-slate-500 font-semibold block mb-2">
+                      Test title
+                    </label>
+                    <input
+                      type="text"
+                      value={groupSetupForm.testTitle}
+                      onChange={(e) => handleGroupSetupChange('testTitle', e.target.value)}
+                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base"
+                      placeholder="Year 8 diagnostic"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.3em] text-slate-500 font-semibold block mb-2">
+                      Year level
+                    </label>
+                    <select
+                      value={groupSetupForm.year}
+                      onChange={(e) => handleGroupSetupChange('year', e.target.value)}
+                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base"
+                    >
+                      {availableYears.map(year => (
+                        <option key={year} value={year}>
+                          Year {year}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.3em] text-slate-500 font-semibold block mb-2">
+                      Total questions
+                    </label>
+                    <input
+                      type="number"
+                      min={5}
+                      max={200}
+                      value={groupSetupForm.totalQuestions}
+                      onChange={(e) => handleGroupSetupChange('totalQuestions', e.target.value)}
+                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.3em] text-slate-500 font-semibold block mb-2">
+                      Mode
+                    </label>
+                    <select
+                      value={groupSetupForm.mode}
+                      onChange={(e) => handleGroupSetupChange('mode', e.target.value)}
+                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base"
+                    >
+                      <option value="full">Full assessment</option>
+                      <option value="mixed">Mixed practice</option>
+                    </select>
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={groupSetupStatus.submitting}
+                  className={`w-full md:w-auto px-6 py-4 rounded-3xl text-lg font-semibold shadow-lg transition ${
+                    groupSetupStatus.submitting ? 'bg-slate-200 text-slate-500 cursor-not-allowed' : 'bg-[#0077B6] text-white hover:bg-sky-600'
+                  }`}
+                >
+                  {groupSetupStatus.submitting ? 'Generating code…' : 'Generate 7-digit code'}
+                </button>
+              </form>
+
+              {groupSetupStatus.error && (
+                <div className="rounded-2xl border border-red-200 bg-red-50 text-red-600 px-4 py-3 text-sm font-semibold">
+                  {groupSetupStatus.error}
+                </div>
+              )}
+
+              {groupSetupResult && (
+                <div className="bg-slate-900 text-white rounded-[28px] p-6 space-y-4 shadow-xl">
+                  <div className="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.4em] text-blue-200">Your new code</p>
+                      <div className="text-4xl font-black font-mono flex items-center gap-2">
+                        {groupSetupResult.groupCode}
+                        <CopyButton value={groupSetupResult.groupCode} variant="light" />
+                      </div>
+                    </div>
+                    <div className="text-xs text-blue-200">
+                      Save this code and links below. Students only need the short link.
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div className="bg-white/10 rounded-2xl p-4">
+                      <p className="text-[10px] uppercase tracking-[0.4em] text-blue-200 mb-1">Student link</p>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <code className="block text-xs break-all">{`${origin}/?group=${groupSetupResult.groupCode}`}</code>
+                        <CopyButton value={`${origin}/?group=${groupSetupResult.groupCode}`} variant="light" />
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-2xl p-4">
+                      <p className="text-[10px] uppercase tracking-[0.4em] text-blue-200 mb-1">Teacher results</p>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <code className="block text-xs break-all">{`${origin}/results?group=${groupSetupResult.groupCode}`}</code>
+                        <CopyButton value={`${origin}/results?group=${groupSetupResult.groupCode}`} variant="light" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </section>
+          )}
 
           {/* Year Selection */}
           <div id="year-selection" className="bg-blue-50/50 py-16 mb-8 backdrop-blur-sm border-t border-b border-blue-100/50">
@@ -2356,13 +3554,20 @@ export default function App() {
     {/* Footer */}                                                                                                                                                        
             <footer className="bg-gray-900 text-slate-200 py-8 mt-16 border-t border-slate-800">                                                                                  
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs md:text-sm grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div>                                                                                                                                                             
-                  <h3 className="font-semibold mb-2 text-slate-100">mathx.nz</h3>                                                                                                 
-                  <p className="text-slate-400">                                                                                                                                  
-                    Free maths practice for New Zealand students. No subscriptions, no ads – just                                                                                 
-                    questions aligned to the NZ curriculum.                                                                                                                       
-                  </p>                                                                                                                                                            
-                </div>                                                                                                                                                            
+ <div>                                                                                                                                                                                                                                                                              
+        <div className="flex items-center gap-2 mb-2">                                                                                                                                                                                                                                   
+ <img                                                                                                                                                                                                                                                                                 
+      src="/favicon/favicon-32x32.png"                                                                                                                                                                                                                                                   
+      alt="Mathx.nz logo"                                                                                                                                                                                                                                                                
+      className="w-6 h-6"                                                                                                                                                                                                                                                                
+    />                                                                                                                                                                                                                                                                                
+          <h3 className="font-semibold text-slate-100">mathx.nz</h3>                                                                                                                                                                                                                     
+        </div>                                                                                                                                                                                                                                                                           
+        <p className="text-slate-400">                                                                                                                                                                                                                                                   
+          Free maths practice for New Zealand students. No subscriptions, no ads - just                                                                                                                                                                                                  
+          questions aligned to the NZ curriculum.                                                                                                                                                                                                                                        
+        </p>                                                                                                                                                                                                                                                                             
+      </div>                                                                                                                                                              
               <div>
                 <h3 className="font-semibold mb-2 text-slate-100">Practice by level</h3>
                 <div className="flex flex-col gap-1">
@@ -2998,12 +4203,12 @@ export default function App() {
             </>
           )}
 
-          {/* Report Issue Button - Bottom Right */}
+          {/* Report Issue Button - Top Right */}
           <button
             onClick={handleReportIssue}
             style={{
               position: 'absolute',
-              bottom: '12px',
+              top: '12px',
               right: '12px',
               fontSize: '0.65em',
               padding: '4px 8px',
@@ -3045,3 +4250,68 @@ export default function App() {
 
   return null
 }
+  const loadRegistryEntriesFromSheet = async () => {
+    setRegistryLookupStatus({ state: 'loading', message: 'Loading registry from sheet…' })
+    try {
+      const data = await getRegistry()
+      const rows = Array.isArray(data) ? data : data?.rows || []
+      const filtered = rows
+        .filter(row => {
+          const matchesEmail = registryLookupEmail
+            ? (row.teacherEmail || row.teacheremail || '').toLowerCase().includes(registryLookupEmail.toLowerCase())
+            : true
+          const sanitizedCode = sanitizeGroupCode(registryLookupCode)
+          const matchesCode = sanitizedCode
+            ? sanitizeGroupCode(row.groupCode || row.groupcode) === sanitizedCode
+            : true
+          return matchesEmail && matchesCode
+        })
+        .map(row => ({
+          groupCode: row.groupCode || row.groupcode || '',
+          teacherEmail: row.teacherEmail || row.teacheremail || '',
+          testTitle: row.testTitle || row.testtitle || '',
+          year: row.year || '',
+          totalQuestions: row.totalQuestions || row.totalquestions || '',
+          created: row.created || row.Created || row.Timestamp || ''
+        }))
+        .slice(0, 20)
+      setRecentGroupTests(filtered)
+      setRegistryLookupStatus({
+        state: 'success',
+        message: filtered.length ? `Loaded ${filtered.length} entries from sheet.` : 'No matches found.'
+      })
+    } catch (error) {
+      setRegistryLookupStatus({ state: 'error', message: error?.message || 'Failed to load registry.' })
+    }
+  }
+
+  const loadScoresFromSheet = async () => {
+    const code = sanitizeGroupCode(scoreLookupCode)
+    if (!code) {
+      setScoreLookupStatus({ state: 'error', message: 'Enter a valid group code.' })
+      return
+    }
+    setScoreLookupStatus({ state: 'loading', message: 'Loading scores from sheet…' })
+    try {
+      const data = await fetchGroupScores(code)
+      const rows = Array.isArray(data) ? data : data?.rows || []
+      const parsed = rows
+        .filter(row => sanitizeGroupCode(row.groupCode || row.groupcode) === code)
+        .map(row => ({
+          groupCode: row.groupCode || row.groupcode || '',
+          studentName: row.studentName || row.studentname || 'Anonymous',
+          score: Number(row.score || row.Score || 0),
+          total: Number(row.totalQuestions || row.totalquestions || 0),
+          percent: Number(row.percent || row.Percent || 0),
+          submitted: row.endTime || row.endtime || row.Timestamp || new Date().toISOString()
+        }))
+        .slice(0, 20)
+      setRecentGroupScores(parsed)
+      setScoreLookupStatus({
+        state: 'success',
+        message: parsed.length ? `Loaded ${parsed.length} attempts from sheet.` : 'No attempts found for that code.'
+      })
+    } catch (error) {
+      setScoreLookupStatus({ state: 'error', message: error?.message || 'Failed to load scores.' })
+    }
+  }

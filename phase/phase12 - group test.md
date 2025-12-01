@@ -14,6 +14,9 @@ Students open mathx.nz/?group=7482915 → same test → submit
 Teacher opens mathx.nz/results?group=7482915 → instantly sees full leaderboard + every wrong answer
 Works forever because app looks up teacher email from Google Sheet
 
+Google App script link for both sheet is https://script.google.com/macros/s/AKfycbxCeRbxwZLESKhge29qEY-r87RjHYnEt8-EejPwV81FNkkxGpkskLpzegoq8vFyO5PC/exec
+
+
 Google Sheets (create once)
 Sheet 1 – GroupScores
 Tab: Scores
