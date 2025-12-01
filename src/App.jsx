@@ -36,7 +36,7 @@ function AlternatingText() {
   useEffect(() => {
     const interval = setInterval(() => {
       setTextIndex(prev => (prev + 1) % texts.length)
-    }, 9000) // Change every 9 seconds
+    }, 15000) // Change every 9 seconds
 
     return () => clearInterval(interval)
   }, [])
@@ -240,6 +240,89 @@ export default function App() {
 
   const question = history[currentIndex]
   const availableYears = getAvailableYears(curriculumData)
+  const lastQuestionIndexRef = useRef(-1)
+
+  // Mark questions as finalised once we navigate away from them, so score/progress
+  // can't be changed later (except in dev mode).
+  useEffect(() => {
+    const last = lastQuestionIndexRef.current
+    if (last !== -1 && last !== currentIndex) {
+      setHistory(prev => {
+        if (last < 0 || last >= prev.length) return prev
+        const updated = [...prev]
+        updated[last] = { ...updated[last], finalised: true }
+        return updated
+      })
+    }
+    lastQuestionIndexRef.current = currentIndex
+  }, [currentIndex])
+
+  // Build a simple step-by-step solution explanation for selected harder templates
+  const buildSolutionSteps = (q) => {
+    if (!q || !q.templateId || !q.params) return null
+    const id = q.templateId
+    const p = q.params
+
+    // Year 12/13 calculus velocity and area
+    if (id === 'Y13.C.CALCULUS_INTEGRAL.T5') {
+      const a = p.a
+      const b = p.b
+      const value = (a * b * b) / 2
+      return `Work: ∫₀^${b} ${a}x dx = [${a}x²/2]₀^${b} = ${a}·${b}²/2 = ${value}.`
+    }
+    if (id === 'Y13.C.CALCULUS_INTEGRAL.T6') {
+      const a = p.a
+      const b = p.b
+      const value = (a * b * b * b) / 3
+      return `Work: ∫₀^${b} ${a}x² dx = [${a}x³/3]₀^${b} = ${a}·${b}³/3 = ${value}.`
+    }
+    if (id === 'Y13.C.CALCULUS_APPLICATIONS.T4') {
+      const a = p.a
+      const t = p.t
+      const b = p.b
+      const value = 2 * a * t + b
+      return `Work: s(t) = ${a}t² + ${b}t ⇒ v(t) = 2·${a}·t + ${b}. At t = ${t}, v = 2·${a}·${t} + ${b} = ${value}.`
+    }
+    if (id === 'Y12.C.CALCULUS_APPLICATIONS.T2') {
+      const a = p.a
+      const t0 = p.t0
+      const b = p.b
+      const value = 2 * a * t0 + b
+      return `Work: s(t) = ${a}t² + ${b}t ⇒ v(t) = 2·${a}·t + ${b}. At t = ${t0}, v = 2·${a}·${t0} + ${b} = ${value}.`
+    }
+    if (id === 'Y12.G.VECTOR_OPS.T2') {
+      const a = p.a
+      const b = p.b
+      const inside = a * a + b * b
+      return `Work: |⟨${a}, ${b}⟩| = √(${a}² + ${b}²) = √(${inside}).`
+    }
+    if (id === 'Y12.A.MATRIX_OPS.T2') {
+      const a = p.a
+      const b = p.b
+      const c = p.c
+      const d = p.d
+      const det = a * d - b * c
+      return `Work: det([[${a}, ${b}], [${c}, ${d}]]) = ${a}·${d} − ${b}·${c} = ${det}.`
+    }
+    if (id === 'Y11.C.CALCULUS_DIFF.T1') {
+      const a = p.a
+      const b = p.b
+      return `Work: f(x) = ${a}x² + ${b}x + ${p.c} ⇒ f'(x) = 2·${a}·x + ${b}.`
+    }
+    if (id === 'Y11.C.CALCULUS_DIFF.T2') {
+      const a = p.a
+      const b = p.b
+      return `Work: y = ${a}x³ + ${b}x² ⇒ dy/dx = 3·${a}·x² + 2·${b}·x.`
+    }
+    if (id === 'Y11.C.CALCULUS_DIFF.T3') {
+      const a = p.a
+      const x0 = p.x0
+      const value = 2 * a * x0
+      return `Work: y = ${a}x² ⇒ dy/dx = 2·${a}·x. At x = ${x0}, gradient = 2·${a}·${x0} = ${value}.`
+    }
+
+    return null
+  }
 
   // Dev helper: build JSON for template inspector (respects current filter)
   const buildDevTemplatesJson = () => {
@@ -811,7 +894,13 @@ export default function App() {
   }
 
     const checkAnswer = () => {
-      if (!answer.trim()) {
+        if (!question) return
+        // Prevent re-answering when a question is finalised or the correct answer was already revealed,
+        // except in dev mode where auditing is allowed.
+        const alreadyRevealed = (question.userFeedback || '').includes('The correct answer is')
+        if (!isDevMode && (question.finalised || alreadyRevealed)) return
+
+        if (!answer.trim()) {
         // For number-to-words questions, gently prompt the student to build an answer
         if (question?.skillId?.includes('PLACE_VALUE') && (question?.question || '').toLowerCase().includes('in words')) {
           setFeedback('Please click words above to build your answer first.')
@@ -1656,36 +1745,29 @@ export default function App() {
               <h2 className="text-4xl md:text-5xl font-extrabold text-slate-800 mb-4">Choose Your Level</h2>
               <p className="text-lg md:text-xl text-slate-500 mb-12">Select the year that corresponds to your current curriculum.</p>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
-                {availableYears.map((year) => (
-                  <div
-                    key={year}
-                    onClick={() => {
-                      setSelectedYear(year)
-                      setCurriculumMapYear(year)
-                      document.getElementById('curriculum-map').scrollIntoView({ behavior: 'smooth' })
-                    }}
-                    className="year-card bg-white/80 p-8 rounded-2xl border-2 border-[#0077B6] card-shadow block cursor-pointer hover:scale-105 transition-transform"
-                  >
-                    <div className="text-6xl font-bold text-[#0077B6] mb-4 font-mono">{year}</div>
-                    <h3 className="text-xl font-semibold text-gray-800">Year {year}</h3>
-                    <p className="text-sm text-gray-500 mt-1">
-                      {year <= 7 ? 'Foundation' : year === 8 ? 'Intermediate' : 'Advanced'}
-                    </p>
-                  </div>
-                ))}
-                {/* Placeholders for upcoming senior years */}
-                {[11, 12, 13].map(level => (
-                  <div
-                    key={`placeholder-${level}`}
-                    className="year-card bg-gray-100/80 p-8 rounded-2xl border-2 border-dashed border-gray-300 card-shadow flex flex-col items-center justify-center cursor-not-allowed"
-                  >
-                    <div className="text-5xl font-bold text-gray-400 mb-4 font-mono">{level}</div>
-                    <h3 className="text-xl font-semibold text-gray-500">Year {level}</h3>
-                    <p className="text-sm text-gray-400 mt-1">Coming soon</p>
-                  </div>
-                ))}
-              </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                  {availableYears.map((year) => (
+                    <div
+                      key={year}
+                      onClick={() => {
+                        setSelectedYear(year)
+                        setCurriculumMapYear(year)
+                        document.getElementById('curriculum-map').scrollIntoView({ behavior: 'smooth' })
+                      }}
+                      className="year-card bg-white/80 p-8 rounded-2xl border-2 border-[#0077B6] card-shadow block cursor-pointer hover:scale-105 transition-transform"
+                    >
+                      <div className="text-6xl font-bold text-[#0077B6] mb-4 font-mono">{year}</div>
+                      <h3 className="text-xl font-semibold text-gray-800">Year {year}</h3>
+                      <p className="text-sm text-gray-500 mt-1">
+                        {year === 6
+                          ? 'Primary'
+                          : year === 7 || year === 8
+                            ? 'Intermediate'
+                            : 'Highschool'}
+                      </p>
+                    </div>
+                  ))}
+                </div>
             </div>
           </div>
 
@@ -1815,8 +1897,104 @@ export default function App() {
                 </div>
 
                 {/* Dev-only: Template sampler table for current year */}
-                {isDevMode && devTemplateSamples.length > 0 && (
-                  <div className="mt-12">
+                {isDevMode && (
+                  <div className="mt-12 mb-12">
+                    {/* Phase overview across all years (dev helper) */}
+                    <div className="mb-3 text-xs text-slate-600">
+                      {(() => {
+                        try {
+                            if (!curriculumData || !Array.isArray(curriculumData.years)) return null
+                            const summary = {}
+                            curriculumData.years.forEach(y => {
+                              (y.skills || []).forEach(skill => {
+                                const skillPhase = typeof skill.phase === 'number' ? skill.phase : null
+                                ;(skill.templates || []).forEach(t => {
+                                  const p = typeof t.phase === 'number' ? t.phase : skillPhase
+                                  const key = p != null ? `Phase ${p}` : 'Base'
+                                  if (!summary[key]) {
+                                    summary[key] = { topics: new Set(), years: new Set(), perYear: {}, phaseNumber: p }
+                                  }
+                                  summary[key].topics.add(skill.name)
+                                  summary[key].years.add(y.year)
+                                  const yr = y.year
+                                  if (!summary[key].perYear[yr]) summary[key].perYear[yr] = 0
+                                  summary[key].perYear[yr] += 1
+                                })
+                              })
+                            })
+                          const items = Object.entries(summary)
+                          if (!items.length) return null
+                          const currentPhaseLabel = phaseFilter ? `Phase ${phaseFilter}` : null
+                          const handlePhaseClick = (phaseNumber) => {
+                            try {
+                              const params = new URLSearchParams(window.location.search)
+                              if (phaseNumber != null) {
+                                params.set('phase', String(phaseNumber))
+                              } else {
+                                params.delete('phase')
+                              }
+                              params.set('dev', 'true')
+                              window.location.search = params.toString()
+                            } catch {
+                              // ignore navigation errors
+                            }
+                          }
+                          return (
+                            <div className="flex flex-wrap gap-2 items-center">
+                              <span className="font-semibold text-slate-700">Loaded phases (all years):</span>
+                              <button
+                                type="button"
+                                onClick={() => handlePhaseClick(null)}
+                                className={`px-2 py-1 rounded-full border text-[0.7rem] font-semibold ${
+                                  !phaseFilter
+                                    ? 'bg-slate-900 text-white border-slate-900'
+                                    : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100'
+                                }`}
+                              >
+                                All phases
+                              </button>
+                              {/* Simple phase summary table with clickable year filters */}
+                              <table className="min-w-max text-[0.7rem] border border-slate-200 bg-white rounded-md overflow-hidden">
+                                <thead className="bg-slate-50">
+                                  <tr>
+                                    <th className="px-2 py-1 border-b border-slate-200 text-left">Phase</th>
+                                    <th className="px-2 py-1 border-b border-slate-200 text-left">Years / Topics</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {items.map(([label, info]) => (
+                                    <tr key={label} className="border-t border-slate-100">
+                                      <td className="px-2 py-1 font-semibold text-slate-700">{label}</td>
+                                        <td className="px-2 py-1">
+                                          {Array.from(info.years).sort((a, b) => a - b).map(year => (
+                                            <button
+                                              key={`${label}-${year}`}
+                                              type="button"
+                                              onClick={() => {
+                                                handlePhaseClick(info.phaseNumber)
+                                                setCurriculumMapYear(year)
+                                                setSelectedYear(year)
+                                              }}
+                                              className="inline-flex items-center px-2 py-0.5 mr-1 mb-1 rounded-full border border-slate-300 bg-white hover:bg-slate-100"
+                                            >
+                                              <span className="mr-1">Year {year}</span>
+                                              <span className="inline-flex items-center justify-center px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[0.65rem]">
+                                                {info.perYear[year] || 0}
+                                              </span>
+                                            </button>
+                                          ))}
+                                      </td>
+                                    </tr>
+                                  ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          )
+                        } catch {
+                          return null
+                        }
+                      })()}
+                    </div>
                     <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2">
                       <h3 className="text-2xl font-bold text-slate-800">
                         Template Samples (Year {curriculumMapYear})
@@ -1887,7 +2065,7 @@ export default function App() {
                       </table>
                     </div>
                     {/* Dev-only JSON snippet: raw templates (no generated Q/A) */}
-                    <div className="mt-4 text-xs">
+                    <div className="mt-6 text-xs">
                       <div className="flex items-center justify-between mb-1">
                         <p className="text-[0.7rem] text-slate-500">
                           JSON for templates used in practice/tests for Year {curriculumMapYear} (raw template objects, no generated questions or answers).
@@ -1916,7 +2094,7 @@ export default function App() {
                       </div>
 
                       {/* Topic badges for filtering JSON */}
-                      <div className="mt-2 flex flex-wrap gap-2 items-center">
+                      <div className="mt-4 flex flex-wrap gap-2 items-center">
                         {(() => {
                           const topicCounts = {}
                           devTemplateSamples.forEach(row => {
@@ -2711,34 +2889,31 @@ export default function App() {
                       View resource
                     </button>
                   )}
-                  <button className="btn-success" onClick={checkAnswer}>Check Answer</button>
-                  {isDevMode && (
                     <button
-                      className="btn-secondary"
-                      onClick={() => {
-                        setShowCorrectAnswer(true)
-                        setFeedback(`Answer: ${question?.answer || 'N/A'}`)
-                      }}
-                      style={{marginLeft: '8px'}}
+                      className="btn-success"
+                      onClick={checkAnswer}
+                      disabled={!isDevMode && question?.answered}
+                      aria-disabled={!isDevMode && question?.answered}
+                      style={
+                        !isDevMode && question?.answered
+                          ? { opacity: 0.6, cursor: 'not-allowed' }
+                          : undefined
+                      }
                     >
-                      Reveal Answer
+                      Check Answer
                     </button>
-                  )}
-
-
-               <button className="btn-success" onClick={checkAnswer}>Check Answer</button>                                                                                                           
-  {isDevMode && (                                                                                                                                                                       
-    <button                                                                                                                                                                             
-      className="btn-secondary"                                                                                                                                                         
-      onClick={() => {                                                                                                                                                                  
-        setShowCorrectAnswer(true)                                                                                                                                                      
-        setFeedback(`Answer: ${question?.answer || 'N/A'}`)                                                                                                                             
-      }}                                                                                                                                                                                
-      style={{ marginLeft: '8px' }}                                                                                                                                                     
-    >                                                                                                                                                                                   
-      Reveal Answer                                                                                                                                                                     
-    </button>                                                                                                                                                                           
-  )}                                                                                                                                                                                    
+                    {isDevMode && (
+                      <button
+                        className="btn-secondary"
+                        onClick={() => {
+                          setShowCorrectAnswer(true)
+                          setFeedback(`Answer: ${question?.answer || 'N/A'}`)
+                        }}
+                        style={{marginLeft: '8px'}}
+                      >
+                        Reveal Answer
+                      </button>
+                    )}
   {isTestMode ? (                                                                                                                                                                       
     currentIndex < history.length - 1 ? (                                                                                                                                               
       <button                                                                                                                                                                           
@@ -2803,6 +2978,21 @@ export default function App() {
                   fontWeight: '600'
                 }}>
                   Correct answer: <span style={{color: '#0b6'}}>{question.answer}</span>
+                </div>
+              )}
+
+              {showCorrectAnswer && question && buildSolutionSteps(question) && (
+                <div style={{
+                  marginTop: '8px',
+                  padding: '12px 14px',
+                  borderRadius: '8px',
+                  backgroundColor: '#eef2ff',
+                  color: '#1e293b',
+                  fontSize: '0.95em',
+                  textAlign: 'left'
+                }}>
+                  <div style={{ fontWeight: 600, marginBottom: '4px' }}>How we worked it out:</div>
+                  <div>{buildSolutionSteps(question)}</div>
                 </div>
               )}
             </>

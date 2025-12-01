@@ -1,0 +1,925 @@
+{
+  "year": 6,
+  "skillId": "Y6.S.STEM_AND_LEAF",
+  "template": {
+    "id": "Y6.S.STEM_AND_LEAF.T2",
+    "stem": "Here is a stem-and-leaf plot of the heights (in cm) of Year 6 students. What is the range of the heights?",
+    "params": {},
+    "answer": "99 - 61",   // or whatever your actual min/max is
+    "visualData": {
+      "type": "stem_and_leaf",
+      "stems": [6,7,8,9],
+      "leaves": {"6":[1,5,7],"7":[0,3,8],"8":[2,6,9],"9":[4,9]},
+      "key": "8 | 2 = 82 cm"
+    }
+  }
+},
+{
+  "year": 6,
+  "skillId": "Y6.M.TIME",
+  "template": {
+    "id": "Y6.M.TIME.T2",
+    "stem": "Sarah arrived at school at 8:45 am and left at 3:15 pm. How long was she at school? Give your answer in hours and minutes.",
+    "params": {
+      "start_h": ["int", 7, 9],
+      "start_m": ["choice", 0, 15, 30, 45],
+      "end_h": ["int", 14, 16],
+      "end_m": ["choice", 0, 15, 30, 45]
+    },
+    "answer": "time_difference_minutes((start_h, start_m), (end_h, end_m)) // 60 + ' hours ' + time_difference_minutes(...) % 60 + ' minutes'"
+  }
+},
+
+{
+  "year": 6,
+  "skillId": "Y6.M.MEASUREMENT",
+  "template": {
+    "id": "Y6.M.MEASUREMENT.T2",
+    "stem": "A rope is {length} m long. It is cut into pieces of {piece} cm each. How many full pieces can be cut?",
+    "params": {
+      "length": ["int", 5, 50],
+      "piece": ["int", 20, 150]
+    },
+    "answer": "floor(length * 100 / piece)"
+  }
+},
+
+{
+  "year": 6,
+  "skillId": "Y6.G.COMPOSITE_SHAPES",
+  "template": {
+    "id": "Y6.G.COMPOSITE_SHAPES.T2",
+    "stem": "Find the perimeter of an L-shaped figure made from a {a}×{b} rectangle with a {c}×{d} rectangle cut out from one corner.",
+    "params": {
+      "a": ["int", 8, 20],
+      "b": ["int", 6, 15],
+      "c": ["int", 3, 7],
+      "d": ["int", 3, 7]
+    },
+    "answer": "2*(a + b) + 2*(c + d)"   // classic L-shape perimeter
+  }
+},
+
+{
+  "year": 6,
+  "skillId": "Y6.G.VOLUME_PRISMS",
+  "template": {
+    "id": "Y6.G.VOLUME_PRISMS.T2",
+    "stem": "A swimming pool is {l} m long, {w} m wide and {d} m deep. How many litres of water does it hold when full? (1 m³ = 1000 litres)",
+    "params": {
+      "l": ["int", 5, 25],
+      "w": ["int", 3, 10],
+      "d": ["decimal", 1.0, 2.5, 1]
+    },
+    "answer": "l * w * d * 1000"
+  }
+},
+
+{
+  "year": 6,
+  "skillId": "Y6.S.PROBABILITY_REPLACEMENT",
+  "template": {
+    "id": "Y6.S.PROBABILITY_REPLACEMENT.T2",
+    "stem": "A spinner has {red} red sectors and {green} green sectors. You spin twice. What is the probability of getting red both times?",
+    "params": {
+      "red": ["int", 1, 6],
+      "green": ["int", 2, 8]
+    },
+    "answer": "round((red/(red+green))**2, 3)"
+  }
+},
+
+{
+  "year": 6,
+  "skillId": "Y6.S.VENN_DIAGRAMS",
+  "template": {
+    "id": "Y6.S.VENN_DIAGRAMS.T2",
+    "stem": "In a class of 28 students, 15 like apples, 17 like bananas and {both} like both. How many students like neither fruit?",
+    "params": {
+      "both": ["int", 6, 12]
+    },
+    "answer": "28 - (15 + 17 - both)"
+  }
+}
+
+[
+  {
+    "year": 7,
+    "skillId": "Y7.N.EXPONENTS_NEGATIVE",
+    "template": {
+      "id": "Y7.N.EXPONENTS_NEGATIVE.T2",
+      "stem": "Write {base}^{−{exp}} as a fraction in simplest form.",
+      "params": {
+        "base": ["choice", 2, 3, 4, 5, 6, 7, 8, 10],
+        "exp": ["int", 2, 4]
+      },
+      "answer": "1/{base}^{exp}"
+    }
+  },
+
+  {
+    "year": 7,
+    "skillId": "Y7.N.EXPONENTS_FRACTIONAL",
+    "template": {
+      "id": "Y7.N.EXPONENTS_FRACTIONAL.T2",
+      "stem": "Evaluate {base}^{1/{exp}}.",
+      "params": {
+        "base": ["choice", 8, 27, 64, 125, 216, 343, 512, 729, 1000],
+        "exp": ["choice", 3, 3, 3, 3, 3, 3, 3, 3, 3]
+      },
+      "answer": "base**(1/exp)"
+    }
+  },
+
+  {
+    "year": 7,
+    "skillId": "Y7.N.RATES",
+    "template": {
+      "id": "Y7.N.RATES.T2",
+      "stem": "A machine fills bottles at a rate of {rate} litres per minute. How many minutes will it take to fill a {volume}-litre container? (Give answer to 1 decimal place if needed)",
+      "params": {
+        "rate": ["int", 5, 20],
+        "volume": ["int", 50, 300]
+      },
+      "answer": "round(volume / rate, 1)"
+    }
+  },
+
+  {
+    "year": 7,
+    "skillId": "Y7.N.RATES",
+    "template": {
+      "id": "Y7.N.RATES.T3",
+      "stem": "Petrol costs ${price} per litre. How much will it cost to fill a {volume}-litre tank? (Answer to nearest cent)",
+      "params": {
+        "price": ["decimal", 1.8, 2.6, 2],
+        "volume": ["int", 30, 70]
+      },
+      "answer": "round(price * volume, 2)"
+    }
+  },
+
+  {
+    "year": 7,
+    "skillId": "Y7.S.COMPOUND_PROBABILITY",
+    "template": {
+      "id": "Y7.S.COMPOUND_PROBABILITY.T2",
+      "stem": "A spinner has {red} red sections, {blue} blue sections and {green} green sections. It is spun twice (results are independent). What is the probability of getting red both times? Give answer as a simplified fraction.",
+      "params": {
+        "red": ["int", 2, 6],
+        "blue": ["int", 1, 4],
+        "green": ["int", 1, 4]
+      },
+      "answer": "simplify(red*red, (red+blue+green)*(red+blue+green))"
+    }
+  },
+
+  {
+    "year": 7,
+    "skillId": "Y7.S.COMPOUND_PROBABILITY",
+    "template": {
+      "id": "Y7.S.COMPOUND_PROBABILITY.T3",
+      "stem": "Two fair dice are rolled. What is the probability that both show an even number?",
+      "params": {},
+      "answer": "1/4"
+    }
+  }
+]
+
+[
+  {
+    "year": 8,
+    "skillId": "Y8.N.NUMBER_THEORY",
+    "template": {
+      "id": "Y8.N.NUMBER_THEORY.T2",
+      "stem": "Find the least common multiple (LCM) of {a} and {b}.",
+      "params": { "a": ["int", 12, 60], "b": ["int", 18, 80] },
+      "answer": "lcm(a, b)"
+    }
+  },
+
+  {
+    "year": 8,
+    "skillId": "Y8.M.MEASUREMENT",
+    "template": {
+      "id": "Y8.M.MEASUREMENT.T2",
+      "stem": "Convert {value} km² to hectares.",
+      "params": { "value": ["decimal", 0.5, 50, 1] },
+      "answer": "value * 100"
+    }
+  },
+
+  {
+    "year": 8,
+    "skillId": "Y8.G.COORDINATE_PLANE",
+    "template": {
+      "id": "Y8.G.COORDINATE_PLANE.T2",
+      "stem": "What is the midpoint of the line segment joining ({x1},{y1}) and ({x2},{y2})?",
+      "params": {
+        "x1": ["int", -10, 10], "y1": ["int", -10, 10],
+        "x2": ["int", -10, 10], "y2": ["int", -10, 10]
+      },
+      "answer": "((x1+x2)/2, (y1+y2)/2)"
+    }
+  },
+
+  {
+    "year": 8,
+    "skillId": "Y8.A.SEQUENCES",
+    "template": {
+      "id": "Y8.A.SEQUENCES.T2",
+      "stem": "A geometric sequence has first term {first} and common ratio {r}. What is the 5th term?",
+      "params": { "first": ["int", 1, 20], "r": ["choice", 2, 3, 4, 5, 0.5, 0.25] },
+      "answer": "first * r**4"
+    }
+  },
+
+  {
+    "year": 8,
+    "skillId": "Y8.A.EXPRESSIONS_EQUATIONS",
+    "template": {
+      "id": "Y8.A.EXPRESSIONS_EQUATIONS.T2",
+      "stem": "Expand: {a}(x + {b}).",
+      "params": { "a": ["int", -8, 8], "b": ["int", -10, 10] },
+      "answer": "a*x + a*b"
+    }
+  },
+
+  {
+    "year": 8,
+    "skillId": "Y8.A.TWO_VARIABLE",
+    "template": {
+      "id": "Y8.A.TWO_VARIABLE.T2",
+      "stem": "Find the gradient of the line passing through ({x1},{y1}) and ({x2},{y2}).",
+      "params": {
+        "x1": ["int", -10, 10], "y1": ["int", -10, 10],
+        "x2": ["int", -10, 10], "y2": ["int", -10, 10]
+      },
+      "answer": "simplify(y2 - y1, x2 - x1)"
+    }
+  },
+
+  {
+    "year": 8,
+    "skillId": "Y8.G.GEOMETRY",
+    "template": {
+      "id": "Y8.G.GEOMETRY.T2",
+      "stem": "The exterior angle of a regular polygon is {ext}°. How many sides does it have?",
+      "params": { "ext": ["choice", 60, 45, 36, 30, 20, 18, 15, 10] },
+      "answer": "360 / ext"
+    }
+  },
+
+  {
+    "year": 8,
+    "skillId": "Y8.G.GEOMETRIC_MEASUREMENT",
+    "template": {
+      "id": "Y8.G.GEOMETRIC_MEASUREMENT.T2",
+      "stem": "Find the surface area of a triangular prism with base area {base} cm² and height {h} cm (ignore the two triangular faces).",
+      "params": { "base": ["int", 20, 100], "h": ["int", 5, 30] },
+      "answer": "base * h * 3"   // equilateral triangle assumption or adjust
+    }
+  },
+
+  {
+    "year": 8,
+    "skillId": "Y8.N.STANDARD_FORM_OPS",
+    "template": {
+      "id": "Y8.N.STANDARD_FORM_OPS.T2",
+      "stem": "Calculate ({m1} × 10^{e1}) ÷ ({m2} × 10^{e2}). Write in standard form.",
+      "params": {
+        "m1": ["int", 2, 9], "e1": ["int", 4, 8],
+        "m2": ["int", 2, 9], "e2": ["int", 1, 5]
+      },
+      "answer": "standard_form(m1/m2 * 10^(e1-e2))"
+    }
+  },
+
+  {
+    "year": 8,
+    "skillId": "Y8.G.PYTHAGORAS",
+    "template": {
+      "id": "Y8.G.PYTHAGORAS.T2",
+      "stem": "A ladder {hyp} m long leans against a wall. The base is {base} m from the wall. How high up the wall does it reach? (1 decimal place)",
+      "params": { "hyp": ["int", 5, 20], "base": ["int", 3, 15] },
+      "answer": "round(sqrt(hyp*hyp - base*base), 1)"
+    }
+  },
+
+  {
+    "year": 8,
+    "skillId": "Y8.A.INEQUALITIES",
+    "template": {
+      "id": "Y8.A.INEQUALITIES.T2",
+      "stem": "Solve the inequality: -{a}x + {b} ≤ {c}",
+      "params": { "a": ["int", 2, 6], "b": ["int", 5, 30], "c": ["int", 1, 20] },
+      "answer": "'x ≥ ' + (b - c)/a"   // remember to flip sign when dividing by negative
+    }
+  }
+]
+
+[
+  {
+    "year": 9,
+    "skillId": "Y9.N.NUMBER_THEORY",
+    "template": {
+      "id": "Y9.N.NUMBER_THEORY.T2",
+      "stem": "Classify the number {n} as prime, composite or neither.",
+      "params": { "n": ["choice", 1, 4, 9, 13, 17, 23, 29, 31, 37, 41, 43, 47, 51, 57, 91] },
+      "answer": "prime_or_composite(n)"
+    }
+  },
+
+  {
+    "year": 9,
+    "skillId": "Y9.N.INTEGERS_RATIONAL",
+    "template": {
+      "id": "Y9.N.INTEGERS_RATIONAL.T2",
+      "stem": "Calculate: {a} ÷ {b} where a and b are integers.",
+      "params": { "a": ["int", -50, 50], "b": ["int", -10, -1, 1, 10] },
+      "answer": "a / b"
+    }
+  },
+
+  {
+    "year": 9,
+    "skillId": "Y9.N.EXPONENTS_ROOTS_STANDARD",
+    "template": {
+      "id": "Y9.N.EXPONENTS_ROOTS_STANDARD.T2",
+      "stem": "Write {n} in scientific notation.",
+      "params": { "n": ["choice", 4500, 72000, 0.0034, 0.000059, 8300000, 0.00012] },
+      "answer": "to_scientific(n)"
+    }
+  },
+
+  {
+    "year": 9,
+    "skillId": "Y9.N.RATIOS_PROPORTIONS",
+    "template": {
+      "id": "Y9.N.RATIOS_PROPORTIONS.T2",
+      "stem": "If 5 books cost ${cost}, how much do 8 books cost?",
+      "params": { "cost": ["decimal", 20, 80, 2] },
+      "answer": "round((cost/5)*8, 2)"
+    }
+  },
+
+  {
+    "year": 9,
+    "skillId": "Y9.N.PERCENTS_CONSUMER",
+    "template": {
+      "id": "Y9.N.PERCENTS_CONSUMER.T2",
+      "stem": "A $ {price} jacket is on sale with {p}% off. It then has an extra 10% off the sale price. What is the final price?",
+      "params": { "price": ["decimal", 80, 300, 2], "p": ["choice", 20, 25,30,40] },
+      "answer": "round(price * (1-p/100) * 0.9, 2)"
+    }
+  },
+
+  {
+    "year": 9,
+    "skillId": "Y9.M.MEASUREMENT",
+    "template": {
+      "id": "Y9.M.MEASUREMENT.T2",
+      "stem": "A swimming pool is {l} m long, {w} m wide and {d} m deep. How many litres of water does it hold when full?",
+      "params": { "l": ["int",5,15], "w": ["int",3,10], "d": ["decimal",1.2,2.5,1] },
+      "answer": "l * w * d * 1000"
+    }
+  },
+
+  {
+    "year": 9,
+    "skillId": "Y9.N.PROBLEM_SOLVING",
+    "template": {
+      "id": "Y9.N.PROBLEM_SOLVING.T2",
+      "stem": "A car travels at {speed} km/h for {time} hours and 30 minutes. How far does it travel?",
+      "params": { "speed": ["int",60,120], "time": ["int",2,5] },
+      "answer": "speed * (time + 0.5)"
+    }
+  },
+
+  {
+    "year": 9,
+    "skillId": "Y9.G.COORDINATE_PLANE",
+    "template": {
+      "id": "Y9.G.COORDINATE_PLANE.T2",
+      "stem": "Find the midpoint between ({x1},{y1}) and ({x2},{y2}).",
+      "params": { "x1": ["int",-15,15], "y1": ["int",-15,15], "x2": ["int",-15,15], "y2": ["int",-15,15] },
+      "answer": "((x1+x2)/2, (y1+y2)/2)"
+    }
+  },
+
+  {
+    "year": 9,
+    "skillId": "Y9.G.GEOMETRY",
+    "template": {
+      "id": "Y9.G.GEOMETRY.T2",
+      "stem": "Two parallel lines are cut by a transversal. A corresponding angle measures {a}°. What is the alternate interior angle?",
+      "params": { "a": ["int",40,140] },
+      "answer": "a"
+    }
+  },
+
+  {
+    "year": 9,
+    "skillId": "Y9.G.TRANSFORMATIONS",
+    "template": {
+      "id": "Y9.G.TRANSFORMATIONS.T2",
+      "stem": "Triangle ABC is rotated 90° anticlockwise about the origin. Vertex A is at ({x},{y}). What are the new coordinates of A′?",
+      "params": { "x": ["int",-8,8], "y": ["int",-8,8] },
+      "answer": "(-y, x)"
+    }
+  },
+
+  {
+    "year": 9,
+    "skillId": "Y9.G.PYTHAGORAS_SOLIDS",
+    "template": {
+      "id": "Y9.G.PYTHAGORAS_SOLIDS.T2",
+      "stem": "Find the length of the space diagonal of a rectangular prism with dimensions {l}×{w}×{h} cm (1 decimal place).",
+      "params": { "l": ["int",5,12], "w": ["int",5,12], "h": ["int",5,12] },
+      "answer": "round(sqrt(l*l + w*w + h*h), 1)"
+    }
+  },
+
+  {
+    "year": 9,
+    "skillId": "Y9.A.SEQUENCES",
+    "template": {
+      "id": "Y9.A.SEQUENCES.T2",
+      "stem": "Find the 8th term of the arithmetic sequence that starts 3, 7, 11, …",
+      "params": {},
+      "answer": "3 + 7*4"
+    }
+  },
+
+  {
+    "year": 9,
+    "skillId": "Y9.A.EXPRESSIONS_POLYNOMIALS",
+    "template": {
+      "id": "Y9.A.EXPRESSIONS_POLYNOMIALS.T2",
+      "stem": "Expand and simplify: (x − {a})(x + {b}).",
+      "params": { "a": ["int",2,10], "b": ["int",2,10] },
+      "answer": "`x² + ${b-a}x - ${a*b}`"
+    }
+  },
+
+  {
+    "year": 9,
+    "skillId": "Y9.A.EQUATIONS_INEQUALITIES",
+    "template": {
+      "id": "Y9.A.EQUATIONS_INEQUALITIES.T2",
+      "stem": "Solve the inequality: −2x + 7 ≥ 15.",
+      "params": {},
+      "answer": "`x ≤ -4`"
+    }
+  },
+
+  {
+    "year": 9,
+    "skillId": "Y9.A.POLYNOMIAL_OPS",
+    "template": {
+      "id": "Y9.A.POLYNOMIAL_OPS.T2",
+      "stem": "Divide 3x³ + 6x² − 9x by 3x.",
+      "params": {},
+      "answer": "`x² + 2x − 3`"
+    }
+  }
+]
+
+[
+  {
+    "year": 10,
+    "skillId": "Y10.A.QUADRATIC_FORMULA",
+    "template": {
+      "id": "Y10.A.QUADRATIC_FORMULA.T2",
+      "stem": "Solve {a}x² + {b}x – 12 = 0 by factorisation (answers are integers).",
+      "params": {
+        "a": ["choice",1,2,3,4],
+        "b": ["int",-15,15]
+      },
+      "answer": "factor_quadratic_integer(a,b,-12)",
+      "difficulty": 8
+    }
+  },
+
+  {
+    "year": 10,
+    "skillId": "Y10.A.GRAPH_QUADRATIC",
+    "template": {
+      "id": "Y10.A.GRAPH_QUADRATIC.T2",
+      "stem": "The parabola y = ax² + bx + c passes through the points (0,5) and (1,8) and has vertex on the y-axis. Find a.",
+      "params": {},
+      "answer": "-3"
+    }
+  },
+
+  {
+    "year": 10,
+    "skillId": "Y10.G.TRIG_RULES",
+    "template": {
+      "id": "Y10.G.TRIG_RULES.T2",
+      "stem": "In triangle ABC, AB = {c} cm, AC = {b} cm, BC = {a} cm. Find angle A to the nearest degree using the Cosine Rule.",
+      "params": { "a": ["int",10,20], "b": ["int",8,18], "c": ["int",9,19] },
+      "answer": "round(cosine_rule_angle(a,b,c), 0)"
+    }
+  },
+
+  {
+    "year": 10,
+    "skillId": "Y10.A.ALGEBRAIC_FRACTIONS",
+    "template": {
+      "id": "Y10.A.ALGEBRAIC_FRACTIONS.T2",
+      "stem": "Simplify fully: \\frac{{a}x - {b}}{{c}x^2 - {d}x}. (All integers, common factor cancels)",
+      "params": { "a": ["int",2,8], "b": ["int",3,12], "c": ["int",1,4], "d": ["int",2,16] },
+      "answer": "simplify_algebraic_fraction(a,b,c,d)"
+    }
+  },
+
+  {
+    "year": 10,
+    "skillId": "Y10.G.CIRCLE_THEOREMS",
+    "template": {
+      "id": "Y10.G.CIRCLE_THEOREMS.T2",
+      "stem": "A chord subtends an angle of {a}° at the circumference. What angle does it subtend at a point on the remaining part of the circumference (same segment)?",
+      "params": { "a": ["int",30,80] },
+      "answer": "a",
+      "visualData": { "type": "circle_theorem_same_segment", "angle": "a" }
+    }
+  },
+
+  {
+    "year": 10,
+    "skillId": "Y10.S.PROB_ADVANCED",
+    "template": {
+      "id": "Y10.S.PROB_ADVANCED.T2",
+      "stem": "60% of students in a school are girls. 20% of girls and 50% of boys own a dog. What percentage of students own a dog?",
+      "params": {},
+      "answer": "32"
+    }
+  },
+
+  {
+
+  {
+    "year": 10,
+    "skillId": "Y10.A.SYSTEMS_ADVANCED",
+    "template": {
+      "id": "Y10.A.SYSTEMS_ADVANCED.T2",
+      "stem": "Solve simultaneously: y = 2x + 1 and x² + y² = 25. Give both solutions (rounded to 2 d.p.).",
+      "params": {},
+      "answer": "(-2.14, -3.28), (2.14, 5.28)"
+    }
+  },
+
+  {
+    "year": 10,
+    "skillId": "Y10.G.TRIG_3D",
+    "template": {
+      "id": "Y10.G.TRIG_3D.T2",
+      "stem": "A spider sits at one corner of a room 3 m × 4 m × 2.5 m high. What is the shortest distance it can crawl along the surfaces to the opposite corner? (1 decimal place)",
+      "params": {},
+      "answer": "7.8"
+    }
+  },
+
+  {
+    "year": 10,
+    "skillId": "Y10.A.FUNCTIONS_ADVANCED",
+    "template": {
+      "id": "Y10.A.FUNCTIONS_ADVANCED.T2",
+      "stem": "What is the range of the function f(x) = 3 – 2(x – 4)²?",
+      "params": {},
+      "answer": "y ≤ 3"
+    }
+  },
+
+  {
+    "year": 10,
+    "skillId": "Y10.S.BIVARIATE",
+    "template": {
+      "id": "Y10.S.BIVARIATE.T2",
+      "stem": "The line of best fit is y ≈ 1.8x – 5. The residual for the point (10, 12) is:",
+      "params": {},
+      "answer": "-1"
+    }
+  },
+
+  {
+    "year": 10,
+    "skillId": "Y10.G.SA_VOLUME_ADVANCED",
+    "template": {
+      "id": "Y10.G.SA_VOLUME_ADVANCED.T2",
+      "stem": "A hemisphere of radius {r} cm is joined to a cylinder of radius {r} cm and height {h} cm. Find the total surface area (including the joining face). Use π ≈ 3.14.",
+      "params": { "r": ["int",4,10], "h": ["int",5,20] },
+      "answer": "round(2*3.14*r*r + 3*3.14*r*r + 2*3.14*r*h, 1)"
+    }
+  },
+
+  {
+    "year": 10,
+    "skillId": "Y10.G.GEOMETRIC_REASONING",
+    "template": {
+      "id": "Y10.G.GEOMETRIC_REASONING.T2",
+      "stem": "In the diagram, triangle ABC is inscribed in a circle with diameter BC. What is the measure of angle BAC?",
+      "params": {},
+      "answer": "90",
+      "visualData": { "type": "circle_diameter_angle" }
+    }
+  },
+[
+  {
+    "year": 11,
+    "skillId": "Y11.S.STATS_INFERENCE",
+    "template": {
+      "id": "Y11.S.STATS_INFERENCE.T2",
+      "stem": "A random sample of 30 students has mean height 168 cm and standard deviation 8 cm. Test the claim that the population mean is 170 cm (5% significance). State the conclusion.",
+      "params": {},
+      "answer": "t = -1.37, fail to reject H₀ (or p > 0.05), insufficient evidence to say mean ≠ 170 cm",
+      "difficulty": 9
+    }
+  },
+
+  {
+    "year": 12,
+    "skillId": "Y12.G.CIRCLE_GEOMETRY",
+    "template": {
+      "id": "Y12.G.CIRCLE_GEOMETRY.T3",
+      "stem": "In the diagram, BC is the diameter of the circle and A is a point on the circumference. What is the measure of angle BAC?",
+      "params": {},
+      "answer": "90",
+      "visualData": { "type": "circle_diameter_angle" },
+      "difficulty": 8
+    }
+  },
+
+  {
+    "year": 12,
+    "skillId": "Y12.G.TRIG_EQUATIONS",
+    "template": {
+      "id": "Y12.G.TRIG_EQUATIONS.T4",
+      "stem": "Solve 2sin²x - sin x - 1 = 0 for 0° ≤ x ≤ 360°.",
+      "params": {},
+      "answer": "x = 30°, 150°",
+      "difficulty": 9
+    }
+  },
+
+  {
+    "year": 12,
+    "skillId": "Y12.S.BIVARIATE_DATA",
+    "template": {
+      "id": "Y12.S.BIVARIATE_DATA.T3",
+      "stem": "The correlation coefficient is r = -0.92. What does this tell us?",
+      "params": {},
+      "answer": "strong negative linear relationship",
+      "difficulty": 8
+    }
+  },
+
+  {
+    "year": 12,
+    "skillId": "Y12.S.PROBABILITY",
+    "template": {
+      "id": "Y12.S.PROBABILITY.T3",
+      "stem": "Events A and B are independent. P(A) = 0.6 and P(B) = 0.4. Find P(A ∪ B).",
+      "params": {},
+      "answer": "0.76",
+      "difficulty": 8
+    }
+  },
+[
+  {
+    "year": 13,
+    "skillId": "Y13.A.COMPLEX_NUMBERS",
+    "template": {
+      "id": "Y13.A.COMPLEX_NUMBERS.T8",
+      "stem": "Find both square roots of 3 + 4i (give exact form).",
+      "params": {},
+      "answer": "±(2 + i)",
+      "difficulty": 10
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.A.POLYNOMIALS",
+    "template": {
+      "id": "Y13.A.POLYNOMIALS.T4",
+      "stem": "Divide x⁴ + 4 by (x² + 2x + 2) and give quotient + remainder.",
+      "params": {},
+      "answer": "x² - 2x + 4, remainder -4x + 4"
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.A.EXPONENTIAL_LOG",
+    "template": {
+      "id": "Y13.A.EXPONENTIAL_LOG.T6",
+      "stem": "Solve 3^{2x} - 10·3^x + 9 = 0",
+      "params": {},
+      "answer": "x = 0, x = 1",
+      "difficulty": 9
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.G.TRIGONOMETRY_ADV",
+    "template": {
+      "id": "Y13.G.TRIGONOMETRY_ADV.T7",
+      "stem": "Express 5sinθ - 12cosθ in the form R sin(θ - α). Find R and α (nearest degree).",
+      "params": {},
+      "answer": "R = 13, α ≈ 67°",
+      "difficulty": 10
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.S.PROBABILITY",
+    "template": {
+      "id": "Y13.S.PROBABILITY.T6",
+      "stem": "P(A) = 0.7, P(B|A) = 0.4, P(B|Aᶜ) = 0.1. Find P(A|B).",
+      "params": {},
+      "answer": "0.875",
+      "difficulty": 9
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.S.INFERENCE",
+    "template": {
+      "id": "Y13.S.INFERENCE.T5",
+      "stem": "Sample proportion p̂ = 0.56, n = 200. Construct a 95% confidence interval for the population proportion.",
+      "params": {},
+      "answer": "0.56 ± 0.069 (or 0.491 to 0.629)",
+      "difficulty": 9
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.G.COORDINATE_GEOMETRY",
+    "template": {
+      "id": "Y13.G.COORDINATE_GEOMETRY.T6",
+      "stem": "Find the equation of the parabola with vertex (2, -3) and focus (2, 0).",
+      "params": {},
+      "answer": "(x-2)² = 12(y+3)",
+      "difficulty": 9
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.G.VECTORS_3D",
+    "template": {
+      "id": "Y13.G.VECTORS_3D.T6",
+      "stem": "Find the scalar projection of vector a = <3,4,0> onto b = <1,1,1>.",
+      "params": {},
+      "answer": "7/√3",
+      "difficulty": 9
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.A.SEQUENCES_SERIES",
+    "template": {
+      "id": "Y13.A.SEQUENCES_SERIES.T6",
+      "stem": "Sum the infinite geometric series 16 - 12 + 9 - …",
+      "params": {},
+      "answer": "64/7",
+      "difficulty": 8
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.A.BINOMIAL",
+    "template": {
+      "id": "Y13.A.BINOMIAL.T4",
+      "stem": "Find the term containing x⁵ in the expansion of (2x - 3)⁸.",
+      "params": {},
+      "answer": "-1008 x⁵",
+      "difficulty": 9
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.A.PARTIAL_FRACTIONS",
+    "template": {
+      "id": "Y13.A.PARTIAL_FRACTIONS.T2",
+      "stem": "Decompose \\frac{7x+5}{(x+1)(x+2)(x+3)} into partial fractions.",
+      "params": {},
+      "answer": "\\frac{1}{x+1} + \\frac{2}{x+2} - \\frac{4}{x+3}",
+      "difficulty": 10
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.C.DIFF_EQUATIONS",
+    "template": {
+      "id": "Y13.C.DIFF_EQUATIONS.T3",
+      "stem": "Solve \\frac{dy}{dx} = 0.1y(100 - y), y(0)=20.",
+      "params": {},
+      "answer": "y = \\frac{100}{1 + 4e^{-10x}} (or equivalent form)",
+      "difficulty": 10
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.G.CONIC_SECTIONS",
+    "template": {
+      "id": "Y13.G.CONIC_SECTIONS.T3",
+      "stem": "Identify the conic and find centre: 9x² - 4y² + 18x + 32y - 119 = 0.",
+      "params": {},
+      "answer": "hyperbola, centre (-1, 4)",
+      "difficulty": 9
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.G.PARAMETRIC_EQS",
+    "template": {
+      "id": "Y13.G.PARAMETRIC_EQS.T3",
+      "stem": "x = 3cosθ, y = 2sinθ. Find \\frac{dy}{dx} when θ = π/6.",
+      "params": {},
+      "answer": "-\\sqrt{3}/2",
+      "difficulty": 9
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.T.TRIG_ADV",
+    "template": {
+      "id": "Y13.T.TRIG_ADV.T6",
+      "stem": "Prove the identity \\frac{sin(3θ)}{sinθ} = 3 - 4sin²θ.",
+      "params": {},
+      "answer": "LHS = RHS (show working)",
+      "difficulty": 10
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.S.PROB_DIST_ADV",
+    "template": {
+      "id": "Y13.S.PROB_DIST_ADV.T4",
+      "stem": "X ~ Bin(20, 0.3). Use normal approximation to find P(X ≥ 9).",
+      "params": {},
+      "answer": "≈ 0.048 (or similar, accept 0.05)",
+      "difficulty": 10
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.S.HYPOTHESIS_TESTING",
+    "template": {
+      "id": "Y13.S.HYPOTHESIS_TESTING.T3",
+      "stem": "Sample mean = 48.2, n=36, σ=9. Test H₀: μ=50 at 1% significance.",
+      "params": {},
+      "answer": "z = -1.2, fail to reject H₀ (p ≈ 0.23)",
+      "difficulty": 9
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.S.REGRESSION",
+    "template": {
+      "id": "Y13.S.REGRESSION.T3",
+      "stem": "The least-squares regression line is ŷ = -4.2 + 1.8x. Interpret the slope.",
+      "params": {},
+      "answer": "For each increase of 1 in x, y increases by 1.8 on average",
+      "difficulty": 8
+    }
+  },
+
+  {
+    "year": 13,
+    "skillId": "Y13.L.LOGARITHMS",
+    "template": {
+      "id": "Y13.L.LOGARITHMS.T5",
+      "stem": "Solve 2^{x+1} = 5^{1-x}. Give answer in exact form.",
+      "params": {},
+      "answer": "x = \\frac{\\ln 5 - \\ln 2}{ \\ln 5 + \\ln 2 }",
+      "difficulty": 9
+    }
+  }
+]
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,244 @@
+[
+  {
+    "id": "ncea-2025-91947",
+    "paper": {
+      "year": 2025,
+      "level": "NCEA Level 1",
+      "standard": "91947",
+      "title": "Demonstrate mathematical reasoning",
+      "credits": 5,
+      "total_marks": 24,
+      "exam_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/exams/2025/91947-exm-2025.pdf",
+      "schedule_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/schedules/2025/91947-ass-2025.pdf",
+      "questions": [
+        {
+          "number": 1,
+          "total_marks": 8,
+          "topic": "Surface area, simultaneous equations, trigonometry, and sequences",
+          "parts": [
+            {
+              "part": "a",
+              "marks": 2,
+              "text": "A cuboid has dimensions (3x + 2), (2x - 1), and 3x. Find the total surface area when x = 7.",
+              "answer": "2110 square units",
+              "visual_data": null
+            },
+            {
+              "part": "b",
+              "marks": 2,
+              "text": "Two straight lines with equations 3x - y = 2 and x + 3y = 19 intersect at point Q. Find the coordinates of Q using an algebraic method.",
+              "answer": "Q = (2.5, 5.5) or (5/2, 11/2)",
+              "visual_data": null
+            },
+            {
+              "part": "c",
+              "marks": 2,
+              "text": "Rectangle ABCE has AE = 70 cm, AB = 1.2 m, angle CBD = 28°. Find the perimeter of triangle BDE.",
+              "answer": "Approximately 300.95 cm",
+              "visual_data": {
+                "type": "image_resource",
+                "data": "local:pastpapers/resources/2025/91947/1c.webp"
+              }
+            },
+            {
+              "part": "d(i)",
+              "marks": 2,
+              "text": "A sequence has x and y values: (1,11), (2,29), (3,83), (4,245), (5,731). Find an equation for y in terms of x.",
+              "answer": "y = 10*3^x - 2x + 3 or equivalent form",
+              "visual_data": null
+            },
+            {
+              "part": "d(ii)",
+              "marks": 2,
+              "text": "Identify THREE different features of the graph of y using the equation from part (d)(i).",
+              "answer": "1. Exponential growth (rapidly increasing as x increases). 2. Contains both exponential and linear/polynomial terms. 3. Always positive for x >= 1.",
+              "visual_data": null
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "total_marks": 8,
+          "topic": "Angle properties, 3D trigonometry, quadratic equations, and volume",
+          "parts": [
+            {
+              "part": "a",
+              "marks": 2,
+              "text": "Triangle PQR has angles: x, (3x + 50°), and (2x + 10°). Find the value of x.",
+              "answer": "x = 20°",
+              "visual_data": null
+            },
+            {
+              "part": "b",
+              "marks": 3,
+              "text": "3D problem: Triangle FGH is right-angled at F (angle GFH = 90°). Line FS is vertical and perpendicular to base triangle FGH. Angle SHF = 32°, angle FGH = 43°, SH = 8 cm. Find angle SGF (x).",
+              "answer": "x approx 30.2°",
+              "visual_data": {
+                "type": "image_resource",
+                "data": "local:pastpapers/resources/2025/91947/2b.webp"
+              }
+            },
+            {
+              "part": "c",
+              "marks": 2,
+              "text": "Factorise and solve: 15x² = 2 - 7x. Give answers as simplified fractions.",
+              "answer": "x = 1/5 or x = -2/3",
+              "visual_data": null
+            },
+            {
+              "part": "d",
+              "marks": 3,
+              "text": "A hole has cuboid top section and is symmetrical about line PQ. Dimensions: ABCD (top rectangle) with AB = 20m. EFGH (another level) with EF at height 5m from bottom HG. Bottom HG has width 30m. Triangular sections from EH to Q and FG to Q where Q is center bottom point. Distance from Q to sides = 25m. 1 m³ earth weighs 800 kg. One truck carries 45 tonnes. Calculate truck trips needed.",
+              "answer": "12 trips",
+              "visual_data": {
+                "type": "image_resource",
+                "data": "local:pastpapers/resources/2025/91947/2d.webp"
+              }
+            },
+            {
+              "part": "a(ii)",
+              "marks": 2,
+              "text": "Find the equation of parabola M shown in the graph. Justify with appropriate reasoning.",
+              "answer": "y = -(x + 1)² + 6 or y = -x² - 2x + 5",
+              "visual_data": {
+                "type": "base64_image",
+                "data": "data:image/webp;base64,UklGRrhSAABXRUJQVlA4IKxSAADQMAGdASoZA0oCPm02l0kkIqIhIlLpGIANiWlu/HyZyB1Suv4NVf+2fwUx3O7Gbuyegr/x+n/6afQR/5eho/537n+43+19Kj/tP//7gf88/5//89wb+P/3n//+1D6lf+K9Rn/FegB//vUA//nWn9Jv5j/SP2Z/qvxb+Mflv9O/vn7Kf1P03/E/mH7R/W/2n/v3svf33h288/lv8P6Efx37Afev7N/hv+H/bvXn+xf4L90P7T6G+/j+Z/u398/Zb5Avxr+Y/3L+w/jp8MPz//L/KrwK84/y3+q/Mn4AvUH5V/iv6t/ff/L/h/bv9a/w/+B/Fz4G/KP6z/of79+Sf2Afyf+l/5H+//4b/xf47/////69/037E+SL9h/3v7G/AD/Jf69/uf7t/lf2Y+kv98/5H+G/zX7Veyn8r/vH/L/wv+a/a/7BP5F/Vf97/gP8n/9f9N/////92///9sP7c//3/b/B1+zf/+/dATC95TL+ZfzL+ZfzL+ZfzL+ZfzL+ZfzL+EhidK7/U0cwOHeRMXUbqY97+jiqlrTlALECUs9ZX9pxM2CS5EY7bL+cmeKSrP7TNMSNtaneQYkJ7cPooJYlSiByEQFMv5gO1fEvkMjMxelPsTmScDHkt0UrChgYbIXW9ve9S1Ln0xLm3iPKyXsek+1e/JnSzpOC3imgePfPalV3wG/r6g4+tKZPB+v5+tSSXcyPTkEz34liurR0dg5f8TwEreUMzYy790DVOacDfP4H61fN+hljXfI3bvejFtTFfI5fMiwo31pyWSofeNpMqCP5gVNZo07SDcUg7/dC53XRNBfwikW/MerbiTiY1axlwaHgoIGGfQxuWoAjwHlGQlk/W7MuA9ksl/9wk1xe35svHCZ+8po/tmKraqHi4tl/v7tDgFMv5o0hIbVQ6jzS90ItGAxO4kGrRVZp5qsPR2BhdMLOC8uON5kCiS6v0d5Zy244syH/ypClWShA6aXmuixio1dWarSYSmnjx+sAU+44blWfLOt9Qztf+r/1f/AQADp22qDuienZV2pHi8dxjuMdxjuMdxjuMdxjuMdxbf0mvNDrMxNF1CEOcnkh+uHydbwr4JyyzAlDBZwO7Y6JBhQ/J9SAS7DKI2CFijYMIPtci07vqx/AeCqyoMeuwVDild+h7DUK3+oUIuqOMmBlHRVqGbzjAH2lqUmwj6HoxuaHnOE3eGUA/CNMpAfGludcl4F2QJC2RrFmEHrM1f9ep/jUdwLxiaRZI3UOUZ7WS2n43Q3RJtJAxrlI+wLLfAbLw2JGO78XL9evm23iehm0M2hm0NC/wAuit3T2ekhl1G+b8klCyn6Wmd56jMqz4GT0g0z17ymX8y/mX8KphcgJNlA+aVij3B1tUA2FdUmflscT+f1tQ8sYNSUXPy+OULF+pdSbuLCpIX3XIvXB3wxFjQDlc0iBQJcWIuUZ+9V71V5co0oTomLJ1Xd08e97di696wMwdODYgkQH8wVjyeBUVlXqeILwMYojh39YQ79QoSBvYo6uwFzVCFkhT84DmqxHCRdYhm0M2hm0M2hm0M2hrnsjzZkjwxx1LzLmJNl9e8pl/Mv5l/Mv5l/Mv5l/Mv5lhiBtXDbYbbDbYbbDbYbbDbYbbDbYbbDbXn79DF0qUkIlkeVIPer/1f+r/1f+r/1f+r/1f+r/1f+r/z8fP4rvkYVlzy2O2sILr45EApl/Mv5l/Mv5l/Mv5l/Mv5l/Mv4VtpUy5tEjQ44YEIMP9Yxzl22G2cOcUgmeB+JHpp/OytWd3m92T6qURe222AlDlf6v/V/6v/V/v/V/6MNFlwJCeI62sIHbi6BFEAxZ6onfxyFlzknJ7TgAhUhFN2itMoMlVv6XmVoUf1f+r/1f+r/1f+r/z6+6ouQjCM0zXrZHqj/9pxTadANVN8UtzAzjcLTZUyIz"
+              }
+            },
+            {
+              "part": "b",
+              "marks": 2,
+              "text": "Quarter circle with radius p, centre C, points F, G, H. Calculate how much longer curve FGH is than straight line FH. Answer in terms of p.",
+              "answer": "p(π/2 - √2) ≈ 0.157p",
+              "visual_data": {
+                "type": "image_resource",
+                "data": "local:pastpapers/resources/2025/91947/2b.webp"
+              }
+            },
+            {
+              "part": "c",
+              "marks": 3,
+              "text": "Right-angled triangle RST has area 72 cm². Right angle at S. Base ST = x/4, height RS is vertical. Hypotenuse RT has length marked with expression involving x and value 41. Find x.",
+              "answer": "x = 24 cm",
+              "visual_data": {
+                "type": "base64_image",
+                "data": "data:image/webp;base64,UklGRh48AABXRUJQVlA4IBI8AABQBAGdASoTA8gBPm02lkkkIqIhIbKZ6IANiWlu/EtTBDdM1bdO4b4GY3e6fzuPFZAc2wvegP/p+nb6a/QHzun/a/bz3K/3DpZv+J///cI/qv/M///uDfwv+2f//2ofUq/xPqHf5X0AP/76gH/866/o5/R/0w/t/gl/iv7v/fv8f/ePT38U+afvf9s/an+2ezz/F/ZT6xvRv5T/Y+g38i+zf4D+6/uj/iP3m+NP8P+Z39k9B/hp/T/mX8Av4//KP8H/eP73/3P7p8WPxv+O7VfNv8j/nvUC9SvlX+M/sX+C/4/909GT+E/sn7i+4v1z/yn3QfYB/K/6j/vf7x/eP/L/g/jT/Nfrf5Kf1r/hewF/JP63/x/9T/n/3B+k39//2v+K/z3/s/zP//92v5b/fP+j/lv8z/8f3//AT+Q/0T/af4T/F//b/R//////c5/5/bD+3//l9yf9gf/h/vP3/FxZzOO0w/PJurdU5xI28z1vhvbf6pZlo4XzfpEZmGhvfL81+dMiHSCgoTCfesfRcPl5upVCKd1KqBP7dEHiOwEfEYn9Gr1CmQDVzN41e4cCj8QcZ55mRsqJtZVtNqg1UT+p0HtQ+t/5CMXXZz2y6gRph+XUCNMPy5tYlI2VSImKQzAdIR8zth0IbTv880CPWQzBmH13ioAUYkvSA7GaAgMdJ2FGFSCj2eoAm/+ASa8DCRqfHH0tgqwj74J5sugPYE3t+7thacXtMoDZe2Y0ISDYJMH5gESyCbLXQGOCMFFoXaPAAhAMOXj+ku2XUCNMPy6gRph+Whzx9uSZtOY/qJb0wnIUJvAboNBx/vd5W0uccV1bP+PfG26dipLRK0FhcBxOq6GZeku2XUCNMPy6G/p4A0d8G1bi2TkZmqt6BsBc8ulzWhCuFUwL1cSCKAF8/sitFpre2IYpQ6BOOrhZ2Eamz6KKc4VuN3ZZsJu/5sCmTxiz64fGxWA+0M9rpJt/mi0wIJguIa+uko5oH23q+pVbwhjxV/E8/wXCydZjSjKp+8ARwZw8c7DbaNcwjVePX9bBYFXMHN+gLc4QtH1AwfxbYZDJcmtEAx5dYCPhJCZF10rJHQ3svSXbLqBGmH5eL3uApyU6JXdQQJKn/AH5dQI0w/LqBGmH5aLOvn1kN3AWIAKQnYCHiOAoYS++cKqqxmUFas3mjbFnu8HAkcmD/j47AtqjIEQ762B+XUCNMPy6gRph+XUCNMK9JVmobuyAVVSEuyRAIgZd/oGpFNX6orgUtPZdh8FYY4YGWKQYrn84Q32jt1Bvbp9Lt7MQKhIMCjdRo2Pm1yLGCUId0rqjfaqj937L0l2y6gRph+XUCNMPy6gbw3svoL494U8D8uoEaYfl1AjTD8uoEaYfl1AjTD8uoEaYfl1AjTD8uoEaYfl1AjTD8W+kxOymmH5dQI0w/HmGa05eYw/LqAnsHY87L0l2y29MUebKw2yeQ8NUvFpp34PPJYNUvFppqFqv9Z9SE7scWmnfg88lgvvDYNBoER92YH5dQIzuHBXXgWckBWZJQEPWBUULZqcG7PP/Dy9ibjejxl7YvEaiKF4XrHyafzRZ6SjfZloEaYfl0QRT1XGJUaJel7W7GxHEHblBV2y6gRph+WnQIKtuXqlUVgphYZFJBkWt2IPy9JcixcnTYOUEx4q2WqBK4cZH5uIPy9Jdsupi0grHi0jy7ZdQFQY94IEaYflpeVHlfv1kimIEQ/caD6SZUfH8lUCNMPy6FVbSYqF78P5dQIn0CsFMQfleMUwfHNBGmRp4M5qTmjityrdilLARph+XT1VKbmU/sM+awUxAyUsqgRph75I403jAkaYfl1MdmLKE688su6qtlUCNMKuCPtw/tLLqAuaVbUsGqXOa2UggKx/qRHxjEH5eku2MeaNZLAPkKi18OymmHu88HH5QbpGIPJzT798p0bt7SR9auUIR/e6Ab"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "id": "ncea-2024-91946",
+    "paper": {
+      "year": 2024,
+      "level": "NCEA Level 1",
+      "standard": "91946",
+      "title": "Use algebraic methods to solve problems",
+      "credits": 5,
+      "total_marks": 40,
+      "duration": "3 hours",
+      "exam_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/exams/2024/91946-exm-2024.pdf",
+      "schedule_url": "https://www.nzqa.govt.nz/nqfdocs/ncea-resource/schedules/2024/91946-ass-2024.pdf",
+      "resource_url": "local:pastpapers/resources/91946-res-2025.pdf",
+      "questions": [
+        {
+          "number": 1,
+          "topic": "Interpreting Statistical Displays (Box Plots, Time Series) and Drawing Conclusions",
+          "total_marks": null,
+          "parts": [
+            {
+              "part": "a",
+              "text": "Using Resource 1A, what percentage of Nike sports shoes cost more than $500?",
+              "answer": "The percentage is (3/126) * 100% ≈ 2.4%.",
+              "visual_data": null
+            },
+            {
+              "part": "b",
+              "text": "Compare the distributions of the cost of Adidas and Nike sports shoes shown in Resource IA. Discuss similarities and differences considering centre, shift, shape, and spread. Provide numerical evidence where appropriate. In your answer, describe at least TWO different features, in context. What conclusion about Adidas and Nike sports shoes can you make about which brand of shoe is more expensive, based on this sample? Use evidence from the graph to support your answer.",
+              "answer": "Conclusion: Nike sports shoes are generally more expensive. Evidence: The median price for Nike ($234.00) is substantially higher than the median price for Adidas ($131.00).",
+              "visual_data": null
+            },
+            {
+              "part": "c",
+              "text": "Give at least one justified reason why Resource 1A may not be reliable for comparing the cost of Adidas and Nike sports shoes.",
+              "answer": "The comparison may not be reliable because the random sample was taken from only one New Zealand website, which may not be representative of all prices available.",
+              "visual_data": null
+            },
+            {
+              "part": "d",
+              "text": "Resource 1B shows the amount of spending on clothing and footwear in New Zealand between the years 2010 and 2024, in millions of New Zealand dollars. What trends, repeating patterns, and unusual features do you notice in the spending shown in the graph? Support your statements with evidence from the graph. Give at least two reasons to support and explain your answer.",
+              "answer": "Trend: Long-term increasing trend in spending. Pattern: Strong seasonal pattern with a spike in the Fourth Quarter (Christmas). Unusual Feature: A noticeable dip around 2020-2021, likely due to the COVID-19 pandemic.",
+              "visual_data": null
+            },
+            {
+              "part": "e",
+              "text": "Using Resource 1B, make a prediction about future spending on clothing and footwear in New Zealand. Explain your prediction, and discuss how confident you are in it.",
+              "answer": "Prediction: Spending will continue to increase. Confidence: Moderately confident in the trend, but less confident in the exact amount due to potential economic disruptions.",
+              "visual_data": null
+            }
+          ]
+        },
+        {
+          "number": 2,
+          "topic": "Interpreting Bivariate Data (Scatter Plot) and Applying Pricing/Special Offers",
+          "total_marks": null,
+          "parts": [
+            {
+              "part": "a",
+              "text": "The graph in Resource 2A shows the relationship between the price of sports shoes and the size of the shoes. Describe and interpret TWO different features of the relationship shown in Resource 2A.",
+              "answer": "Feature 1 (Trend): There is a positive linear association (as shoe size increases, price tends to increase). Feature 2 (Variation): There is a lot of variation in price for any given shoe size, making the relationship only moderately strong.",
+              "visual_data": null
+            },
+            {
+              "part": "b",
+              "text": "Adina needs to buy a new pair of size 6 sports shoes. Using the graph in Resource 2A, what price should Adina expect to pay? How confident can you be in using this graph to predict shoe price? Support your answer with statistical reasoning.",
+              "answer": "Expected Price: Approximately $75 (from the trend line). Confidence: Low to moderate, because the data points are highly scattered.",
+              "visual_data": null
+            },
+            {
+              "part": "c",
+              "text": "Resource 2B summarises three different sports shoe companies' prices and their special offers. Ricky wants to buy new size 7 football (soccer) sports shoes, and will choose from these companies. Ricky wonders whether he should buy one or two pairs of sports shoes. Which company should Ricky choose? Make your recommendations, with reasons and considerations.",
+              "answer": "For 1 pair, Kick Off is cheapest at $70 (collect). For 2 pairs, Kick Off is cheapest at $105 (collect). Best choice is to buy two pairs from Kick Off.",
+              "visual_data": null
+            },
+            {
+              "part": "d",
+              "text": "Ricky is currently wearing size 7 sports shoes, but he is growing quickly. His mother thinks that he will need larger size sports shoes next season. Using both Resource 2A and Resource 2B, recommend the best option for Ricky when buying his sports shoes for next season.",
+              "answer": "Recommendation: Buy two pairs from Kick Off now (one size 7, one larger size). Reason: The special offers only apply to sizes 1-7. He can use the 'buy one, get second half price' deal on a larger, more expensive shoe now, saving money compared to buying it next season at full price.",
+              "visual_data": null
+            }
+          ]
+        },
+        {
+          "number": 3,
+          "topic": "Interpreting Survey Data and Making Recommendations",
+          "total_marks": null,
+          "parts": [
+            {
+              "part": "a",
+              "text": "The survey was completed by 2571 people who visited the Running Shoes Guru website. Approximately how many of the people who completed this survey, would be expected to run in the morning?",
+              "answer": "Approximately 1363 people (2571 * 0.53).",
+              "visual_data": null
+            },
+            {
+              "part": "b",
+              "text": "According to the survey, which brand of running shoe is the most preferred? Discuss how confident you would be in concluding that this brand is the most popular running shoe. Justify your answer.",
+              "answer": "Most preferred is Asics (22%). Confidence is low to moderate because the survey is from a self-selecting sample of visitors to a specific website, which may not be representative of all runners.",
+              "visual_data": null
+            },
+            {
+              "part": "c",
+              "text": "Discuss two similarities or differences in the running shoe preference by age. Use this information to make suggestions of what brand of shoe you think will be bought by Quinn, who is 31 years old.",
+              "answer": "Difference: Nike preference decreases with age. Similarity: Top 4 brands dominate across all age groups. Suggestion for Quinn (31-40 age group): Nike or Asics, as they have the highest equal preference (24%).",
+              "visual_data": null
+            }
+          ]
+        }
+      ]
+    }
+  }
+]
+

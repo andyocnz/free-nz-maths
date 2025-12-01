@@ -1,0 +1,599 @@
+{
+  "problem_set": {
+    "year": 2024,
+    "level": "NCEA Level 1",
+    "standard": "91947",
+    "title": "Apply algebraic methods in solving problems",
+    "credits": 4,
+    "total_questions": 11,
+    "total_parts": 95,
+    "source": "Practice Problem Set",
+    "instructions": "Show all working. Calculators are not permitted.",
+    "topics": [
+      {
+        "number": 1,
+        "title": "Substitute and find value",
+        "total_parts": 4,
+        "parts": [
+          {
+            "part": "i",
+            "text": "Find the value of 4 - 3(5x²yz³ + yz) when x = 2, y = -2, z = 1",
+            "answer": "130"
+          },
+          {
+            "part": "ii",
+            "text": "Find the value of 4 - 3(5x²yz³ + yz) when x = 2, y = 1, z = -1",
+            "answer": "67"
+          },
+          {
+            "part": "iii",
+            "text": "Find the value of the formula T = 2π√(m/k), where m = 2, k = 100. Round your answer to 3 d.p.",
+            "answer": "0.886"
+          },
+          {
+            "part": "iv",
+            "text": "Find the value of the formula B = (1/L)√(mgR tan(x)/(v cos(x))), where L = 1, m = 0.2, g = 9.81, R = 0.5, v = 2 and x = 15°. Round your answer to 3 d.p.",
+            "answer": "0.184"
+          }
+        ]
+      },
+      {
+        "number": 2,
+        "title": "Factorise or solve equations by factorising",
+        "total_parts": 10,
+        "parts": [
+          {
+            "part": "i",
+            "text": "Solve x² + 3x - 40 = 0",
+            "answer": "x = -5, 8"
+          },
+          {
+            "part": "ii",
+            "text": "Solve x² - 12x + 20 = 0",
+            "answer": "x = 2, 10"
+          },
+          {
+            "part": "iii",
+            "text": "Solve 3x² + 3x - 60 = 0",
+            "answer": "x = -5, 4"
+          },
+          {
+            "part": "iv",
+            "text": "Solve 2x² - 5x - 7 = 0",
+            "answer": "x = -1, 7/2"
+          },
+          {
+            "part": "v",
+            "text": "Solve 4x² - 16 = 0",
+            "answer": "x = -2, 2"
+          },
+          {
+            "part": "vi",
+            "text": "Solve x² + 21 = 10x",
+            "answer": "x = 3, 7"
+          },
+          {
+            "part": "vii",
+            "text": "Solve 5x² + 17x + 14 = 0",
+            "answer": "x = -2, -7/5"
+          },
+          {
+            "part": "viii",
+            "text": "The area of a rectangle yard can be written as Area = 2x² - 23x - 12. One side of the yard is equal to (1/3)(2x + 1). Express the perimeter of the yard using x.",
+            "answer": "P = (22/3)x - 214/3"
+          },
+          {
+            "part": "ix",
+            "text": "Factorise 6a²b² - 3ab",
+            "answer": "3ab(2ab - 1)"
+          },
+          {
+            "part": "x",
+            "text": "Factorise 3x²y - x³",
+            "answer": "x²(3y - x)"
+          }
+        ]
+      },
+      {
+        "number": 3,
+        "title": "Simplify or solve rational expressions",
+        "total_parts": 5,
+        "parts": [
+          {
+            "part": "i",
+            "text": "Simplify: (3x² - 15xy)/(3x²)",
+            "answer": "1 - 5y/x"
+          },
+          {
+            "part": "ii",
+            "text": "Simplify: (x² + 10x + 24)/(x² + x - 12)",
+            "answer": "(x + 6)/(x - 3)"
+          },
+          {
+            "part": "iii",
+            "text": "Solve the equation: 2/(x-2) - 3/(x+1) = 2/(5x-2)",
+            "answer": "x = 6, 2/7"
+          },
+          {
+            "part": "iv",
+            "text": "In the following figure, b is a constant. Find length x in terms of b. The two thick lines are parallel to each other.",
+            "answer": "x = 4b"
+          },
+          {
+            "part": "v",
+            "text": "Solve the equation: [(x² - 1)(2x² + 3x - 14)]/[(x² - 4)(x² + 2x + 1)] = 11/12",
+            "answer": "x = -53/13",
+            "note": "x = 2 is an extraneous root"
+          }
+        ]
+      },
+      {
+        "number": 4,
+        "title": "Exponents and powers",
+        "total_parts": 9,
+        "parts": [
+          {
+            "part": "i",
+            "text": "Graph y = 2^(-x) + 1",
+            "answer": "Graph provided with table of values"
+          },
+          {
+            "part": "ii",
+            "text": "Simplify (18a⁴c²a)/(16a²cb)",
+            "answer": "9a³c/(8b)"
+          },
+          {
+            "part": "iii",
+            "text": "Simplify by opening the bracket: (x³/y²)⁴",
+            "answer": "x¹²/y⁸"
+          },
+          {
+            "part": "iv",
+            "text": "Simplify by opening the bracket: (2a³b)²",
+            "answer": "4a⁶b²"
+          },
+          {
+            "part": "v",
+            "text": "Solve 3 × 2^(4x+1) = 24",
+            "answer": "x = 1/2"
+          },
+          {
+            "part": "vi",
+            "text": "Solve: 2^(3x+1) × 2^(1-x) = 64",
+            "answer": "x = 2"
+          },
+          {
+            "part": "viii-a",
+            "text": "Solve 9^(6-x) × 3^(x+3) = 3^(4x)",
+            "answer": "x = 3"
+          },
+          {
+            "part": "viii-b",
+            "text": "Solve 8^(x+2) × 2^(3-2x) = 4^(15-x)",
+            "answer": "x = 7"
+          },
+          {
+            "part": "viii-c",
+            "text": "Find an equation for m, in terms of n: 9 × 3^(m-n) = 81^(2m)",
+            "answer": "m = (2-n)/7"
+          },
+          {
+            "part": "ix",
+            "text": "p is a real number and n is a whole number, 5(p²)^n × 3p³ = 15p¹⁵. What is the value of n?",
+            "answer": "n = 6 if p ≠ 0, ±1; n can be any real number if p = 0 or ±1"
+          }
+        ]
+      },
+      {
+        "number": 5,
+        "title": "Solve linear equations and system of linear equations with two unknowns",
+        "total_parts": 10,
+        "parts": [
+          {
+            "part": "i",
+            "text": "3(x - 2) = 27",
+            "answer": "x = 11"
+          },
+          {
+            "part": "ii",
+            "text": "2x + 8 = 19",
+            "answer": "x = 11/2"
+          },
+          {
+            "part": "iii",
+            "text": "-2x + 5 = -9",
+            "answer": "x = 7"
+          },
+          {
+            "part": "iv",
+            "text": "(3x+2)/7 - (2-x)/3 = 2",
+            "answer": "x = 25/8"
+          },
+          {
+            "part": "v",
+            "text": "-3x + 9 = 2x - 16",
+            "answer": "x = 5"
+          },
+          {
+            "part": "vi",
+            "text": "3(6 - x) + 2 = 2(x + 12) + 7",
+            "answer": "x = -11/5"
+          },
+          {
+            "part": "vii",
+            "text": "Find x. The two thick lines are parallel to each other",
+            "answer": "x = 25°"
+          },
+          {
+            "part": "viii",
+            "text": "Solve for x, y in the following linear system: 3x - y = 0, x - y = -4",
+            "answer": "x = 2, y = 6"
+          },
+          {
+            "part": "ix",
+            "text": "Solve for x, y in the following linear system: 3x + 2y = 56, 2x + 3y = 44",
+            "answer": "x = 16, y = 4"
+          },
+          {
+            "part": "x",
+            "text": "The Rectangle A has a perimeter of 70 cm and B has a perimeter of 64 cm. Find the length and width of each rectangle.",
+            "answer": "Rectangle A: length = 20 cm, width = 15 cm; Rectangle B: length = 20 cm, width = 12 cm"
+          }
+        ]
+      },
+      {
+        "number": 6,
+        "title": "Inequations",
+        "total_parts": 8,
+        "parts": [
+          {
+            "part": "i",
+            "text": "8x > 24",
+            "answer": "x > 3"
+          },
+          {
+            "part": "ii",
+            "text": "3 - 2x < -9",
+            "answer": "x > 6"
+          },
+          {
+            "part": "iii",
+            "text": "-5x > 25",
+            "answer": "x < -5"
+          },
+          {
+            "part": "iv",
+            "text": "(3x - 2)(2x + 1) ≥ (6x + 1)(x - 4)",
+            "answer": "x ≥ -1/11"
+          },
+          {
+            "part": "v",
+            "text": "2x² + 9x - 4 < 2x",
+            "answer": "-4 ≤ x ≤ 1/2"
+          },
+          {
+            "part": "vi",
+            "text": "6x > (x + 4)(7 - x)",
+            "answer": "x ≤ -4 or x ≥ 7"
+          },
+          {
+            "part": "vii",
+            "text": "2^(3x+4) > 2^(x²)",
+            "answer": "-1 < x < 4"
+          },
+          {
+            "part": "viii",
+            "text": "4³ × 4^(x-5) > 2200; x is an integer",
+            "answer": "x = 8, 9, 10, ..."
+          }
+        ]
+      },
+      {
+        "number": 7,
+        "title": "Graph of straight lines",
+        "total_parts": 5,
+        "parts": [
+          {
+            "part": "i",
+            "text": "A line has a slope of 2 and passes through point (3,5). Find its equation.",
+            "answer": "y = 2x - 1"
+          },
+          {
+            "part": "ii",
+            "text": "A line passes through point (3,-3) and point (1,5). Find its slope.",
+            "answer": "Slope = -4"
+          },
+          {
+            "part": "iii",
+            "text": "By using algebra, find the coordinates of the intersection of the following two lines: Line 1: y = 2x - 5 and Line 2: y = 7 - x",
+            "answer": "(4, 3)"
+          },
+          {
+            "part": "iv-a",
+            "text": "A straight line passes through points (0,8) and (-2,0). Another line is parallel to it and passes through (1,2). Find the equation of the dashed line.",
+            "answer": "y = 4x - 2"
+          },
+          {
+            "part": "iv-b",
+            "text": "Find the coordinates of the point where the dashed line intersects with the x-axis (Point A).",
+            "answer": "A(1/2, 0)"
+          },
+          {
+            "part": "v",
+            "text": "A straight line is described by the equation y = -3x + 8. There is a point on the line, whose coordinates can be written as (a, -4a). Find the value of a.",
+            "answer": "a = -8"
+          }
+        ]
+      },
+      {
+        "number": 8,
+        "title": "Data table, number pattern and equation",
+        "total_parts": 5,
+        "parts": [
+          {
+            "part": "i",
+            "text": "The table represents points on a particular graph (x: 1,2,3,4,5; y: 3,7,11,15,19). Find the equation.",
+            "answer": "y = 4x - 1"
+          },
+          {
+            "part": "ii",
+            "text": "The table represents points on a particular graph (x: -5,-4,-3,-2,-1; y: 3,7,11,15,19). Find the equation.",
+            "answer": "y = 4x + 23"
+          },
+          {
+            "part": "iii",
+            "text": "The table represents points on a particular graph (x: 1,2,3,4,5; y: 12,7,2,-3,-8). Find the equation.",
+            "answer": "y = -5x + 17"
+          },
+          {
+            "part": "iv",
+            "text": "The table represents points on a particular graph (x: 1,2,3,4,5; y: 0,3,10,21,36). Find the equation.",
+            "answer": "y = 2x² - 3x + 1"
+          },
+          {
+            "part": "v-a",
+            "text": "Find a function f(n) describing the following number patterns: 3, 8, 13, 18, ...",
+            "answer": "f(n) = 5n - 2; n = 1, 2, 3, ..."
+          },
+          {
+            "part": "v-b",
+            "text": "Find a function f(n) describing the following number patterns: 3, 6, 12, 21, 33, ...",
+            "answer": "f(n) = (3/2)n² - (3/2)n + 3"
+          }
+        ]
+      },
+      {
+        "number": 9,
+        "title": "Geometry I (Trigonometry and similar shapes)",
+        "total_parts": 7,
+        "parts": [
+          {
+            "part": "i-a",
+            "text": "Find the length of the hypotenuse. Right triangle with angle 35°, adjacent side 6 cm.",
+            "answer": "x = 7.32 cm (2 d.p.)"
+          },
+          {
+            "part": "i-b",
+            "text": "Find the indicated angle. Isosceles triangle with two sides 12m, base 10m.",
+            "answer": "θ = 65.4° (1 d.p.)"
+          },
+          {
+            "part": "i-c",
+            "text": "The perimeter of the following right-angled triangle is 48 cm. One side has length x, with angles 90° and 60°. Solve for x and find the area.",
+            "answer": "x = 10.14 cm; Area = 89.11 cm² (2 d.p.)"
+          },
+          {
+            "part": "ii-a",
+            "text": "Jack drove 120 km to Town B (northwest of City A). Mountain C is 50 km northeast of A. Distance B to C is 130 km. Show that A, B and C form a right-angled triangle.",
+            "answer": "130² = 16900; 120² = 14400; 50² = 2500; 16900 = 14400 + 2500"
+          },
+          {
+            "part": "ii-b",
+            "text": "Find the angle ∠ABC.",
+            "answer": "θ = 22.62° (2 d.p.)"
+          },
+          {
+            "part": "iii",
+            "text": "Monument on mountain. Distance 2 km, angle to top of monument β = 11°, angle to top of mount α = 9°. Find height of monument in metres.",
+            "answer": "h = 72.0 m (1 d.p.)"
+          },
+          {
+            "part": "iv-a",
+            "text": "Trigonometry in a prism. Find the length of diagonal AB (dimensions: 8m × 4m × 6m).",
+            "answer": "AB = 2√29 cm ≈ 10.77 cm (2 d.p.)"
+          },
+          {
+            "part": "iv-b",
+            "text": "Find angle α in the prism.",
+            "answer": "α = 33.9° (2 d.p.)"
+          },
+          {
+            "part": "v",
+            "text": "ABCD is a rectangle. AF ⊥ BE at G. BH:HC = 3:1, CE:ED = 2:1, BG = 1 cm, ∠HEC = 20°. Find area of rectangle ABCD.",
+            "answer": "Area = 3.03 cm² (2 d.p.)"
+          },
+          {
+            "part": "vi",
+            "text": "Three circles touch each other. Radii: 1 cm, 3 cm, x cm. Centers form right triangle. Find x and shaded area.",
+            "answer": "x = 6; Area = 2.37 cm² (2 d.p.)"
+          },
+          {
+            "part": "vii",
+            "text": "A and B are regular hexagons. A has side length 1 cm, B has side length 2 cm. What is the ratio between areas?",
+            "answer": "1:4"
+          }
+        ]
+      },
+      {
+        "number": 10,
+        "title": "Geometry II (3D shapes and volumes)",
+        "total_parts": 10,
+        "parts": [
+          {
+            "part": "i-a",
+            "text": "Regular pentagon with side length 1 m. Find angle ∠OBA.",
+            "answer": "∠OBA = 54°"
+          },
+          {
+            "part": "i-b",
+            "text": "Find the area of the pentagon.",
+            "answer": "Area = 1.72 m² (2 d.p.)"
+          },
+          {
+            "part": "ii-a",
+            "text": "Rectangle has perimeter 12 cm, diagonal 2√5 cm. Find area by solving for x.",
+            "answer": "x = 2 or x = 4; Area = 8 cm²"
+          },
+          {
+            "part": "ii-b",
+            "text": "Find x if shaded area is 128 cm² (16 cm × 12 cm shape with cutout).",
+            "answer": "x = 4/3"
+          },
+          {
+            "part": "iii-a",
+            "text": "Square pyramid: H = 10 cm, slant height angle β = 63.43°. Find volume.",
+            "answer": "V = 333 cm³"
+          },
+          {
+            "part": "iii-b",
+            "text": "Find area of paper needed to wrap the sides.",
+            "answer": "Area = 224 cm²"
+          },
+          {
+            "part": "iv-a",
+            "text": "Sphere has surface area equal to lateral area of cylinder (r=3cm, h=5cm). Find sphere volume.",
+            "answer": "V = 86.04 cm³ (2 d.p.)"
+          },
+          {
+            "part": "iv-b",
+            "text": "Cylinder: h = 2r, total surface area = 216π cm². Find height.",
+            "answer": "h = 12 cm"
+          },
+          {
+            "part": "v-a",
+            "text": "Iron cylinder: h = 3r. Write volume expression in terms of r.",
+            "answer": "V = 3πr³"
+          },
+          {
+            "part": "v-b",
+            "text": "96 cylinders melted to make sphere with surface area 324π cm². Find cylinder height.",
+            "answer": "h = 4.5 cm"
+          },
+          {
+            "part": "vi-a",
+            "text": "Cone: radius 3 cm, slant height 6 cm. Find volume.",
+            "answer": "V = 9√3π cm³ ≈ 48.97 cm³ (2 d.p.)"
+          },
+          {
+            "part": "vi-b",
+            "text": "Find total surface area of the cone.",
+            "answer": "Area = 27π cm² ≈ 84.82 cm² (2 d.p.)"
+          },
+          {
+            "part": "vii",
+            "text": "Hexagonal prism: regular hexagon base with side 3 cm, height 8 cm. Find volume.",
+            "answer": "Volume = 108√3 cm³ ≈ 187.06 cm³ (2 d.p.)"
+          }
+        ]
+      },
+      {
+        "number": 11,
+        "title": "Miscellaneous word problems - Application of the above theories",
+        "total_parts": 10,
+        "parts": [
+          {
+            "part": "i",
+            "text": "Cost of marmalade: C = b + an. Cost for 185 cans is $985, for 210 cans is $1085. Find cost for 300 cans.",
+            "answer": "$1445"
+          },
+          {
+            "part": "ii",
+            "text": "Tom spent $560: groceries = 7×(mobile data/internet), rent = groceries + $80, transport = $30. Find mobile data/internet cost.",
+            "answer": "$31.43 (2 d.p.)"
+          },
+          {
+            "part": "iii",
+            "text": "Golf ball trajectory: h = -(1/500)x² + 0.2x. Find x where ball reaches maximum height.",
+            "answer": "x = 50 m"
+          },
+          {
+            "part": "iv",
+            "text": "Profit formula: P = -10x² + 30x + 400. Find x that ensures P > 0 and find x that maximizes P.",
+            "answer": "-5 < x < 8 ensures P > 0; x = $1.5 maximizes P"
+          },
+          {
+            "part": "v",
+            "text": "Rectangular box: 450mm × 600mm × 470mm. Can a 92 cm bar fit?",
+            "answer": "No, diagonal = 88.51 cm < 92 cm"
+          },
+          {
+            "part": "vi",
+            "text": "Triangular prism garden: depth 0.80m, right triangle base with ∠ABC=90°, ∠BAC=30°, lateral area = 43m². Find volume.",
+            "answer": "Volume = 89 m³"
+          },
+          {
+            "part": "vii-a",
+            "text": "Oranges in carton (300mm × 180mm × 240mm), 5×4×3 arrangement. Find volume of one orange.",
+            "answer": "113 cm³"
+          },
+          {
+            "part": "vii-b",
+            "text": "What fraction of carton volume is filled by oranges?",
+            "answer": "π/6"
+          },
+          {
+            "part": "vii-c",
+            "text": "Different carton with radius r cm oranges. Show same fraction π/6 is filled.",
+            "answer": "Algebraic proof provided"
+          },
+          {
+            "part": "viii-a",
+            "text": "Cylinders A and B: radius ratio 2:3, height ratio 4:3. Find volume ratio.",
+            "answer": "16:27"
+          },
+          {
+            "part": "viii-b",
+            "text": "Total surface area ratio A:B = 2:3. Find height:radius ratio for A.",
+            "answer": "1:2"
+          },
+          {
+            "part": "viii-c",
+            "text": "100 cylinders total. Paint cost: A=$4, B=$6. Total spent $490. Find number of each.",
+            "answer": "55 Cylinder A, 45 Cylinder B"
+          },
+          {
+            "part": "ix-a",
+            "text": "Chocolates: mint:orange = 4:3, dark:mint = 3:2. Find dark:mint:orange ratio.",
+            "answer": "6:4:3"
+          },
+          {
+            "part": "ix-b",
+            "text": "After adjustment: dark = mint, orange = 11 pieces, total unchanged. Find dark chocolate count.",
+            "answer": "14 pieces"
+          },
+          {
+            "part": "x-a",
+            "text": "Isosceles triangle grass patch, perimeter 12m. Find base length x in terms of y.",
+            "answer": "x = 12 - 2y"
+          },
+          {
+            "part": "x-b",
+            "text": "Find distance BD from B to path AC in terms of y.",
+            "answer": "BD = √(4y² - 48y + 143)"
+          },
+          {
+            "part": "x-c",
+            "text": "Find area of grass patch.",
+            "answer": "Area = (9/2)√2 m² ≈ 6.36 m² (2 d.p.)"
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "source": "NCEA Level 1 Practice Problem Set for Standard 91947",
+      "difficulty": "Standard Year 11 practice (2024 curriculum)",
+      "ready_for_practice": true,
+      "notes": "Comprehensive problem set covering all aspects of algebraic methods. Includes basic through advanced problems with full worked solutions. Problems marked with * are more challenging."
+    }
+  }
+}
