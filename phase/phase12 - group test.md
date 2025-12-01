@@ -1,212 +1,124 @@
-# Phase 12 – Lightweight Group Test Mode (No Backend, Low-Risk)
+Phase 12 – Group Test Mode (Final Specification)
+Goal
 
-## Goal
+Whole class gets exactly the same questions using one 7-digit code
+Students see only their own score
+Teacher can open results forever, on any device, even new computer
+No login, no PIN, no keys to lose, zero backend
 
-Let multiple students sit **the same test** using a shared join code, and then **submit their scores** to a shared Google Form so a teacher can see a simple scoreboard in a Google Sheet – all **without adding a database, server, or touching the existing test engine**.
+High-Level Flow
 
----
+Teacher creates test → enters email once → gets code 7482915
+App saves "7482915 belongs to teacher@school.nz" in Google Sheet
+Students open mathx.nz/?group=7482915 → same test → submit
+Teacher opens mathx.nz/results?group=7482915 → instantly sees full leaderboard + every wrong answer
+Works forever because app looks up teacher email from Google Sheet
 
-## High-Level Idea
+Google Sheets (create once)
+Sheet 1 – GroupScores
+Tab: Scores
+Headers row 1 (exact):
+Timestamp
+groupCode
+studentName
+score
+totalQuestions
+percent
+startTime
+endTime
+durationSec
+ipAddress
+wrongQuestions
+Sheet 2 – GroupRegistry
+Tab: Registry
+Headers row 1 (exact):
+groupCode
+teacherEmail
+created
+testTitle
+year
+mode
+totalQuestions
+Apps Script – GroupScores
+jsfunction doPost(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Scores");
+  sheet.appendRow([
+    new Date(),
+    e.parameter.groupCode || "",
+    e.parameter.studentName || "Anonymous",
+    Number(e.parameter.score || 0),
+    Number(e.parameter.totalQuestions || 0),
+    Number(e.parameter.percent || 0),
+    e.parameter.startTime || "",
+    e.parameter.endTime || "",
+    Number(e.parameter.durationSec || 0),
+    e.parameter.ipAddress || "",
+    e.parameter.wrongQuestions || ""
+  ]);
+  return ContentService.createTextOutput("OK");
+}
+Apps Script – GroupRegistry
+jsfunction doPost(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Registry");
+  sheet.appendRow([
+    e.parameter.groupCode,
+    e.parameter.teacherEmail,
+    new Date(),
+    e.parameter.testTitle || "",
+    e.parameter.year || "",
+    e.parameter.mode || "",
+    e.parameter.totalQuestions || ""
+  ]);
+  return ContentService.createTextOutput("OK");
+}
 
-We want a **safe**, opt-in group test mode that lives alongside the current test system, not inside it.
+function doGet() {
+  const data = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Registry").getDataRange().getValues();
+  const headers = data[0];
+  const rows = data.slice(1).map(r => {
+    const o = {};
+    headers.forEach((h,i) => o[h] = r[i]);
+    return o;
+  });
+  return ContentService.createTextOutput(JSON.stringify(rows))
+         .setMimeType(ContentService.MimeType.JSON);
+}
+Deploy both as Web App → "Anyone" → copy URLs
+Config (src/config.js)
+jsexport const REGISTRY_URL = "https://script.google.com/macros/s/.../exec"; // GroupRegistry
+export const SCORES_URL   = "https://script.google.com/macros/s/.../exec"; // GroupScores
+Data Sent – Teacher Creates Test (POST to REGISTRY_URL)
+json{
+  "groupCode": "7482915",
+  "teacherEmail": "jane@school.nz",
+  "testTitle": "Year 7 End-of-Year",
+  "year": "7",
+  "mode": "full",
+  "totalQuestions": "50"
+}
+Data Sent – Student Finishes (POST to SCORES_URL)
+json{
+  "groupCode": "7482915",
+  "studentName": "Alex Chen",
+  "score": "44",
+  "totalQuestions": "50",
+  "percent": "88",
+  "startTime": "2025-12-01T10:15:30",
+  "endTime": "2025-12-01T10:48:22",
+  "durationSec": "1972",
+  "ipAddress": "118.92.134.21",
+  "wrongQuestions": "[{\"qid\":\"mult-7-15\",\"topic\":\"Multiplication\",\"studentAnswer\":\"96\",\"correctAnswer\":\"105\"},{\"qid\":\"div-7-22\",\"topic\":\"Division\",\"studentAnswer\":\"7\",\"correctAnswer\":\"8\"}]"
+}
+```
 
-1. **Separate “group test engine”**
-   - Implement a new module (e.g. `src/groupTestEngine.js`) that knows how to generate questions **only for group mode**.
-   - It uses its **own** deterministic PRNG and configuration.
-   - Normal tests keep using `testGenerator.js` / `templateEngine.js` exactly as they do today.
+## Final Links Shown to Teacher
+```
+Group Code: 7482915
 
-2. **Compact group code (not full test)**
-   - A group test is defined by a small config object, for example:
-     ```js
-     {
-       year: 7,
-       totalQuestions: 40,
-       seed: 123456
-     }
-     ```
-   - We encode this into a short `groupCode` (e.g. base36 or base64url), and use it in a URL:
-     - `/?mode=group-test&groupCode=ABC123`
-   - The group engine decodes `groupCode`, reconstructs the config, and generates the same questions for everyone.
+Student link (share with class):
+https://mathx.nz/?group=7482915
 
-3. **Host and Join flows using the separate engine**
-   - **Host flow:**
-     - Choose year/options → click “Host Group Test”.
-     - App generates a fresh `seed`, builds `groupConfig`, and derives a `groupCode` + shareable link.
-     - The host’s test is generated by `groupTestEngine.generateGroupTest(groupConfig, curriculumData)`.
-   - **Join flow:**
-     - Student opens the link or enters `groupCode` on a “Join Group Test” screen.
-     - App decodes `groupCode`, calls `generateGroupTest` with the same config, and they see the identical test.
-
-4. **Score submission via Google Form**
-   - At the end of a group test:
-     - Show `groupCode` and optionally a teacher label (e.g., “Room 10A – Monday”).
-     - Show score / total / percentage.
-   - A “Submit my score” button opens a Google Form with prefilled fields so a teacher gets a simple scoreboard in a linked Google Sheet.
-
----
-
-## Implementation Plan
-
-### 1. Separate group test engine (no changes to existing engine)
-
-**New file:** `src/groupTestEngine.js`
-
-1. Add a small deterministic PRNG in `groupTestEngine.js`, e.g. mulberry32:
-   ```js
-   function createSeededRng(seed) {
-     let s = seed >>> 0
-     return function next() {
-       s |= 0
-       s = (s + 0x6D2B79F5) | 0
-       let t = Math.imul(s ^ (s >>> 15), 1 | s)
-       t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t
-       return ((t ^ (t >>> 14)) >>> 0) / 4294967296
-     }
-   }
-   ```
-
-2. Define a minimal config type for group tests:
-   ```js
-   // Example shape for v1
-   // optionsFlags can be added later if we want extras like "onlyNew".
-   type GroupConfig = {
-     year: number,
-     totalQuestions: number,
-     seed: number
-   }
-   ```
-
-3. Implement `encodeGroupConfig(config) -> groupCode` and `decodeGroupCode(code) -> config`:
-   - For example:
-     - Serialize `{year,totalQuestions,seed}` to a short string: `7|40|123456`.
-     - Base64url-encode that string to get `groupCode`.
-   - Keep the code short enough for a URL parameter and easy to read aloud if needed.
-
-4. Implement `generateGroupTest(config, curriculumData)`:
-   - Uses `createSeededRng(config.seed)` internally.
-   - Selects skills/questions for the given `year` and `totalQuestions` using its own helpers:
-     - Fetch skills for `config.year` from `curriculumData`.
-     - Use the local PRNG to pick skills and templates.
-   - Returns an array of question objects in the **same shape** the app already expects:
-     - `{ question, answer, strand, topic, skillId, year, ... }`
-   - **Important:** this logic is self-contained in `groupTestEngine.js` and does *not* modify `templateEngine.js` or `testGenerator.js`.
-
-### 2. Group test metadata in App state
-
-**File:** `src/App.jsx`
-
-1. Add new state:
-   ```js
-   const [groupCode, setGroupCode] = useState(null)   // string | null
-   const [groupLabel, setGroupLabel] = useState('')   // optional teacher label
-   const [groupMode, setGroupMode] = useState(false)  // is this test in "group" mode?
-   ```
-
-2. URL / query integration:
-   - Read optional `groupCode` and `groupLabel` from `URLSearchParams` on load:
-     ```js
-     const groupCodeFromUrl = urlParams.get('groupCode')
-     const groupLabelFromUrl = urlParams.get('groupLabel')
-     ```
-   - If `groupCodeFromUrl` exists:
-     - Decode it to a `GroupConfig`.
-     - Call `generateGroupTest(config, curriculumData)` once on initial load to seed `history`.
-     - Set `groupMode = true`, `mode = 'test'`, and `groupCode = groupCodeFromUrl`.
-
-3. Keep **normal tests** using the existing `startTestInternal` / `generateTest` path:
-   - Do not modify `generateTest` or `templateEngine`.
-   - Only group mode calls `groupTestEngine.generateGroupTest`.
-
-### 3. Host / Join Group Test UI (separate mode)
-
-**File:** `src/App.jsx`
-
-1. On the main page “Take Full Assessment” card, add a small **“Host Group Test”** option:
-   - Radio / toggle:
-     - `Normal test`
-     - `Group test (share code)`
-   - When “Group test” is selected:
-     - On start:
-       - Generate a seed: `const seed = Math.floor(Math.random() * 1_000_000);`
-       - Build a `GroupConfig` with `{ year: selectedYear, totalQuestions, seed }`.
-       - Derive `groupCode = encodeGroupConfig(config)` and store it in state.
-       - Call `generateGroupTest(config, curriculumData)` to seed `history`, set `groupMode = true`, and enter `mode = 'test'`.
-
-2. Show join info to the host:
-   - Once the group test starts, show a small panel above the question:
-     - `Group code: ABC123`
-     - `Share this link: https://mathx.nz/?mode=group-test&groupCode=ABC123`
-   - The link encodes the year and total questions via `groupCode`, so joiners don’t need to pick a year.
-
-3. Add a simple “Join group test” entry point:
-   - A small box on the landing page or under the test section:
-     - Input for `groupCode`
-     - “Join group test” button that navigates to `/?mode=group-test&groupCode=<code>`
-   - Minimal version:
-     - Teachers just share the full URL.
-     - The app auto-reads `groupCode` from `URLSearchParams` and loads the group test.
-
-### 4. Score summary + Google Form submission
-
-**Files:** `src/TestResults.jsx`, `src/App.jsx`
-
-1. Expand test results props/state to include optional `groupCode` and `groupLabel`.
-
-2. On the test results page, display group info when applicable:
-   - If `groupMode` is true and `groupCode` is set:
-     - Show: `Group code: ABC123`
-     - If `groupLabel` exists, show it as a subtitle or small tag.
-
-3. Add a “Submit score to teacher” button:
-   - Uses your Google Form ID, e.g.:
-     ```text
-     https://docs.google.com/forms/d/1fBo3CgGwpLxq6ERuCRvEepfl_b_qloVghBntkvneQLs/viewform?usp=pp_url
-     ```
-   - Use prefill parameters (`entry.<id>=value`) so we can send:
-     - `groupCode`
-     - `groupLabel` (optional)
-     - `studentName` (if we have a username from login, or ask for it on the results page)
-     - `score` / `totalQuestions` / `percentageScore`
-   - Open in a new tab so the results page stays visible.
-
-4. Teacher workflow:
-   - Document (in README or this phase file) how to:
-     - Set up the Google Form fields and find the `entry.<id>` names.
-     - Use the linked Sheet, filter by `groupCode`, and see a simple score table.
-
-### 5. Safety + Backwards Compatibility
-
-- If `groupMode` is false (no `groupCode`), everything behaves exactly as today:
-  - `generateTest` uses existing randomness and flows.
-  - No group code or extra UI is shown.
-  - Test results page doesn’t show group fields or the score-submission button (unless we decide to always show the form link).
-
-- The new engine is entirely opt-in:
-  - Only used when `mode === 'group-test'` or when “Host Group Test” is chosen.
-  - If we discover issues, we can hide the group UI behind `?dev` or a feature flag without touching core logic.
-
-- For NCEA trials:
-  - Keep them **out** of group mode initially (no `groupCode`).
-  - Later, we can decide if we want group trials as well, but that can be its own phase.
-
----
-
-## Nice-to-Have Enhancements (Later)
-
-- Show a “recommended join link” QR code for the host to project on a screen.
-- Add a lightweight “pseudo leaderboard” on the results page:
-  - Let the student see a **copyable line** like:
-    - `Group ABC123 | Alex | 42/60 (70%)`
-  - Button to “Copy summary” so they can paste into Google Classroom or chat.
-- Teacher-only view linking directly to the Google Sheet with filter instructions.
-
----
-
-## Summary
-
-This phase adds a **group test experience** without any new backend and with minimal risk:
-
-- A separate, deterministic group test engine ensures every participant gets the **same questions** for a given `groupCode`.
-- A simple “host vs join” flow is driven by URL parameters and a compact group code.
-- Scores are aggregated via an existing Google Forms + Sheets workflow.
-- The core app remains fully client-side and backwards-compatible, because the existing test engine is not modified. 
+Teacher results link – BOOKMARK THIS:
+https://mathx.nz/results?group=7482915
+Teacher opens the /results link anytime → app auto-unlocks using registry → shows full leaderboard + every wrong question per student.
+Students only ever get the short link → never see leaderboard.
