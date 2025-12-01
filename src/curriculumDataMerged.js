@@ -1,13 +1,16 @@
 import base from './curriculumDataFull.json'
 import newData from './curriculumDataNew.json'
+import year11Data from './year11Curriculum.json'
+import year12Data from './year12Curriculum.json'
+import year13Data from './year13Curriculum.json'
 
 // Deep clone base to avoid mutating imported object
 const merged = JSON.parse(JSON.stringify(base))
 
-function merge() {
-  if (!newData || !Array.isArray(newData.years)) return merged
+function applyNewData(source) {
+  if (!source || !Array.isArray(source.years)) return
 
-  newData.years.forEach(newYear => {
+  source.years.forEach(newYear => {
     const yearNum = newYear.year
     // Find matching year in base
     const existing = merged.years.find(y => y.year === yearNum)
@@ -50,7 +53,13 @@ function merge() {
       merged.years.push(ycopy)
     }
   })
+}
 
+function merge() {
+  applyNewData(newData)
+  applyNewData(year11Data)
+  applyNewData(year12Data)
+  applyNewData(year13Data)
   return merged
 }
 

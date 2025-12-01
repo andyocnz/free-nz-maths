@@ -1,6 +1,8 @@
 import Certificate from './Certificate.jsx'
 
 export default function TestResults({ results, onBackToMenu, onPracticeSkill, username, year }) {
+  const earnedCertificate = !!username && typeof results?.percentageScore === 'number' && results.percentageScore >= 50
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 py-12" style={{ fontFamily: 'Poppins, sans-serif' }}>
       <div className="container mx-auto px-4 max-w-5xl">
@@ -14,7 +16,14 @@ export default function TestResults({ results, onBackToMenu, onPracticeSkill, us
           </h2>
         </div>
 
-        <h1 className="text-5xl font-bold text-center text-[#0077B6] mb-8" style={{ fontFamily: 'Poppins, sans-serif' }}>Test Results</h1>
+        <h1
+          className="text-5xl font-bold text-center text-[#0077B6] mb-8"
+          style={{ fontFamily: 'Poppins, sans-serif' }}
+        >
+          {earnedCertificate
+            ? "Congratulations, You've Earned Your Certification! 🎉🏆"
+            : "Ready to try again? Here's what to review... 🔍"}
+        </h1>
 
         {/* Overall Score Card */}
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-8 text-center">
@@ -129,7 +138,7 @@ export default function TestResults({ results, onBackToMenu, onPracticeSkill, us
         )}
 
         {/* Certificate Section */}
-        {username && results.percentageScore >= 50 && (
+        {earnedCertificate && (
           <div className="mb-8">
             <h2 className="text-3xl font-bold text-center text-gray-800 mb-6">Your Certificate</h2>
             <Certificate

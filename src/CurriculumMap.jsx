@@ -2,7 +2,8 @@ import { getStrandsForYear } from './templateEngine.js'
 import curriculumData from './curriculumDataMerged.js'
 
 export default function CurriculumMap({ currentStrand, currentTopic, currentSkill, onSelectSkill, collapsed = false, year = 7 }) {
-  const strands = getStrandsForYear(curriculumData, year)
+  const effectiveYear = year || 6
+  const strands = getStrandsForYear(curriculumData, effectiveYear)
 
   return (
     <div style={{
@@ -22,7 +23,7 @@ export default function CurriculumMap({ currentStrand, currentTopic, currentSkil
       {/* Header */}
       <div style={{marginBottom: '30px'}}>
         <h3 style={{fontSize: '0.9em', color: '#888', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '5px'}}>
-          Year {year} Mathematics
+          Year {effectiveYear} Mathematics
         </h3>
         <h2 style={{fontSize: '1.3em', margin: '0', fontWeight: '600'}}>
           Curriculum Map

@@ -193,7 +193,9 @@ function evaluateAnswer(answerExpr, params) {
       if (Number.isInteger(result)) {
         return result.toString()
       } else {
-        return parseFloat(result.toFixed(10)).toString()
+        // Default to 2 decimal places for display; more precise rounding
+        // can be done explicitly in templates via round(...).
+        return parseFloat(result.toFixed(2)).toString()
       }
     }
 
@@ -514,6 +516,27 @@ export function generateQuestionFromTemplate(template, skill, year) {
 
   const params = generateParams(template.params, year, templateDifficulty)
 
+  // Special handling: keep Y6 time questions realistic by generating start/end
+  // from a reasonable movie duration (rather than independent random times).
+  if ((template.id || '') === 'Y6.M.TIME.T1') {
+    const minDuration = 60  // 1 hour
+    const maxDuration = 180 // 3 hours
+    const totalMinutesInDay = 24 * 60
+
+    const startMins = randInt(0, totalMinutesInDay - 1)
+    const duration = randInt(minDuration, maxDuration)
+    const endMins = (startMins + duration) % totalMinutesInDay
+
+    const formatTime = mins => {
+      const h = Math.floor(mins / 60)
+      const m = mins % 60
+      return `${h.toString().padStart(2, '0')}:${m.toString().padStart(2, '0')}`
+    }
+
+    params.start = formatTime(startMins)
+    params.end = formatTime(endMins)
+  }
+
   // Special handling: randomise stem-and-leaf plots while keeping answers in sync
   if ((template.id || '') === 'Y6.S.STEM_AND_LEAF.T1') {
     const stems = [6, 7, 8, 9]
@@ -608,6 +631,21 @@ export function generateQuestionFromTemplate(template, skill, year) {
       }
     }
 
+    // Ensure 2x2 matrices used for inversion in Y12.A.MATRIX_OPS.T4 are non-singular (det ≠ 0).
+    if ((template.id || '') === 'Y12.A.MATRIX_OPS.T4') {
+      let tries = 0
+      while (tries < 20) {
+        const det = params.a * params.d - params.b * params.c
+        if (det !== 0) break
+        // Regenerate entries within the original ranges until det ≠ 0
+        params.a = randInt(1, 5)
+        params.d = randInt(1, 5)
+        params.b = randInt(0, 5)
+        params.c = randInt(0, 5)
+        tries++
+      }
+    }
+
   // Ensure Y9 quadratics factorisation questions always have integer roots.
   // For QUADRATICS.T2, regenerate a and b from integer factors p, q so that
   // x^2 + ax + b = (x + p)(x + q) with small non-zero integer p, q.
@@ -659,7 +697,47 @@ export function generateQuestionFromTemplate(template, skill, year) {
   }
 
   const question = substituteStem(template.stem, params)
-  const answer = evaluateAnswer(template.answer, params)
+
+  const rawAnswer = String(template.answer || '')
+  let answer
+
+  const hasBraces = /{[^}]+}/.test(rawAnswer)
+  const looksAlgebraic = /=/.test(rawAnswer) || /\bx\b/.test(rawAnswer) || /\by\b/.test(rawAnswer)
+
+  if (!hasBraces && !looksAlgebraic) {
+    // Pure expression (numeric/probability style) – use existing evaluator
+    answer = evaluateAnswer(rawAnswer, params)
+  } else {
+    // Treat as a display template and evaluate each { ... } placeholder safely
+    let answerStr = rawAnswer.replace(/\{([^}]+)\}/g, (m, inner) => {
+      const expr = inner.trim()
+      try {
+        // Simple param name
+        if (Object.prototype.hasOwnProperty.call(params, expr)) {
+          return params[expr]
+        }
+        // Allow small expressions using params and math helpers, e.g. a/b, a*d + b*c
+        const context = { ...params, ...mathHelpers, Math, round: mathHelpers.round }
+        const keys = Object.keys(context)
+        const values = Object.values(context)
+        const fn = new Function(...keys, `return (${expr})`)
+        const result = fn(...values)
+        if (typeof result === 'number') {
+          if (Number.isInteger(result)) {
+            return result
+          }
+          // Round non‑integers to 2 decimal places for display consistency
+          return mathHelpers.round(result, 2)
+        }
+        return result
+      } catch (e) {
+        console.error('Error evaluating answer placeholder:', expr, e)
+        // Fall back to the original {expr} text so at least something displays
+        return m
+      }
+    })
+    answer = String(answerStr)
+  }
 
   // Attempt to create a formatted answer for common probability patterns
   // e.g., single draw: r/(r+b)  or two draws with replacement: (r/(r+b))*(r/(r+b))

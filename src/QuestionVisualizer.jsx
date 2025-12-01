@@ -75,6 +75,9 @@ export default function QuestionVisualizer({ question, visualData }) {
       case 'car_on_road':
         drawCarOnRoad(ctx, visualData);
         break;
+      case 'matrix_2x2':
+        drawMatrix2x2(ctx, visualData);
+        break;
       case 'parallel_transversal':
         drawParallelTransversal(ctx, visualData);
         break;
@@ -242,7 +245,16 @@ function drawCarOnRoad(ctx, data) {
 
 // Draw a triangle with labeled sides
 function drawTriangle(ctx, data) {
-  const { a, b, c } = data
+  let { a, b, c } = data
+
+  // Try to infer a missing side for right-triangle style visuals
+  if (typeof a === 'number' && typeof b === 'number' && (c === undefined || c === null)) {
+    c = Math.sqrt(a * a + b * b)
+  } else if (typeof a === 'number' && typeof c === 'number' && (b === undefined || b === null) && c >= a) {
+    b = Math.sqrt(c * c - a * a)
+  } else if (typeof b === 'number' && typeof c === 'number' && (a === undefined || a === null) && c >= b) {
+    a = Math.sqrt(c * c - b * b)
+  }
   ctx.strokeStyle = '#2196F3'
   ctx.fillStyle = '#2196F3'
   ctx.lineWidth = 3
@@ -272,6 +284,76 @@ function drawTriangle(ctx, data) {
   ctx.arc(x2, y2, 5, 0, 2 * Math.PI)
   ctx.arc(x3, y3, 5, 0, 2 * Math.PI)
   ctx.fill()
+}
+
+// Draw one or two 2x2 matrices with entries, used for senior matrix questions.
+function drawMatrix2x2(ctx, data) {
+  const width = data.width || 400
+  const height = data.height || 260
+  ctx.clearRect(0, 0, width, height)
+
+  const matrix1 = data.matrix1 || null
+  const matrix2 = data.matrix2 || null
+  const op = data.op || ''
+
+  ctx.font = '16px Arial'
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+
+  const cellW = 40
+  const cellH = 32
+  const gap = 40
+
+  // Helper to draw a 2x2 matrix at a given origin
+  function drawOneMatrix(mx, x, y) {
+    if (!mx || !Array.isArray(mx) || mx.length !== 2) return
+    ctx.strokeStyle = '#374151'
+    ctx.lineWidth = 1.5
+    for (let r = 0; r < 2; r++) {
+      for (let c = 0; c < 2; c++) {
+        const cx = x + c * cellW
+        const cy = y + r * cellH
+        ctx.strokeRect(cx, cy, cellW, cellH)
+        const val = mx[r][c]
+        if (val !== undefined && val !== null) {
+          ctx.fillStyle = '#111827'
+          ctx.fillText(String(val), cx + cellW / 2, cy + cellH / 2)
+        }
+      }
+    }
+  }
+
+  const totalMatrices = matrix1 && matrix2 ? 2 : matrix1 ? 1 : 0
+  if (totalMatrices === 0) return
+
+  const totalWidthForMatrices = totalMatrices * (2 * cellW) + (totalMatrices - 1) * gap
+  const startX = (width - totalWidthForMatrices) / 2
+  const centerY = height / 2 - cellH
+
+  // Draw first matrix
+  drawOneMatrix(matrix1, startX, centerY)
+
+  // Draw operator and second matrix if present
+  if (matrix2) {
+    const opX = startX + 2 * cellW + gap / 2
+    const opY = centerY + cellH
+    ctx.fillStyle = '#4338CA'
+    ctx.font = 'bold 20px Arial'
+    ctx.fillText(op || '?', opX, opY)
+
+    const secondX = startX + 2 * cellW + gap
+    drawOneMatrix(matrix2, secondX, centerY)
+  } else if (op === 'det') {
+    // For determinant, show "det" label to the left
+    ctx.fillStyle = '#4338CA'
+    ctx.font = 'bold 18px Arial'
+    ctx.fillText('det', startX - 30, centerY + cellH)
+  } else if (op === 'inv') {
+    // For inverse, show small "-1" on the top-right of matrix
+    ctx.fillStyle = '#4338CA'
+    ctx.font = '14px Arial'
+    ctx.fillText('−1', startX + 2 * cellW + 8, centerY - 8)
+  }
 }
 
 // Helper: normalize angle to [0, 2PI)
@@ -556,15 +638,30 @@ function drawCoordinateGrid(ctx, data) {
       const pointX = centerX + px * scale
       const pointY = centerY - py * scale
 
-      ctx.fillStyle = '#FF5722'
-      ctx.beginPath()
-      ctx.arc(pointX, pointY, 6, 0, 2 * Math.PI)
-      ctx.fill()
+    ctx.fillStyle = '#FF5722'
+    ctx.beginPath()
+    ctx.arc(pointX, pointY, 6, 0, 2 * Math.PI)
+    ctx.fill()
 
-      ctx.fillStyle = '#FF5722'
-      ctx.font = 'bold 14px Arial'
-      ctx.fillText(`(${px}, ${py})`, pointX + 8, pointY - 8)
-    }
+    ctx.fillStyle = '#FF5722'
+    ctx.font = 'bold 14px Arial'
+    ctx.fillText(`(${px}, ${py})`, pointX + 8, pointY - 8)
+  }
+  // Multiple points (e.g., for vectors or complex numbers) – draw each as a dot
+  else if (points && points.length > 0) {
+    ctx.fillStyle = '#FF5722'
+    ctx.font = '12px Arial'
+    points.forEach(p => {
+      const px = Number(p[0])
+      const py = Number(p[1])
+      if (Number.isNaN(px) || Number.isNaN(py)) return
+      const pointX = centerX + px * scale
+      const pointY = centerY - py * scale
+      ctx.beginPath()
+      ctx.arc(pointX, pointY, 5, 0, 2 * Math.PI)
+      ctx.fill()
+    })
+  }
   }
 }
 
