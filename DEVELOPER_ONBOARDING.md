@@ -111,6 +111,170 @@ http://localhost:5173/?group=1234567&dev=true
 
 When adjusting SEO behaviour, keep changes minimal and avoid breaking the SPA routing – we still rely on client-side navigation for most paths.
 
+## Template Engine & Answer Expression Guide
+
+This section documents critical knowledge about how the template engine evaluates answer expressions, common pitfalls, and fixes from Phase 12.
+
+### How Answer Evaluation Works
+
+The template engine (`src/templateEngine.js`) evaluates answer expressions in two paths:
+
+1. **Pure Expression Path** (line 709): For numeric/probability expressions without curly braces or algebraic variables
+   - Uses `evaluateAnswer()` function
+   - Creates a JavaScript function with parameter context
+   - Evaluates and returns the result
+
+2. **Display Template Path** (line 711-740): For answers with `{placeholders}` or algebraic syntax
+   - Replaces `{param}` placeholders with values
+   - Used for formatted answers like coordinates `({x}, {y})`
+
+**Detection Logic** (line 707):
+```javascript
+const looksAlgebraic = /(?<![=!<>])=(?!=)/.test(rawAnswer) || /\bx\b/.test(rawAnswer) || /\by\b/.test(rawAnswer)
+```
+
+This regex checks for:
+- Assignment operator `=` (but NOT comparison `===`, `==`, `!=`)
+- Algebraic variables `x` or `y` as standalone words
+
+### Answer Expression Best Practices
+
+#### ✅ DO Use These Patterns
+
+**Simple arithmetic:**
+```javascript
+"answer": "a + b"
+"answer": "a * b / c"
+"answer": "round(a / b, 2)"
+```
+
+**Ternary operators (for conditional logic):**
+```javascript
+"answer": "(x > 0 ? 'Positive' : 'Negative')"
+"answer": "(param === 'key1' ? v1 : param === 'key2' ? v2 : v3)"
+```
+
+**Function calls from mathHelpers:**
+```javascript
+"answer": "simplify(a*d + b*c, b*d)"
+"answer": "volume_rectangular_prism(l, w, h)"
+```
+
+**String literals (with proper escaping):**
+```javascript
+"answer": "'Cube'"  // Single quotes inside double quotes
+"answer": "\"Rectangle\""  // Escaped double quotes
+```
+
+#### ❌ DON'T Use These Patterns
+
+**Object literals with curly braces:**
+```javascript
+// ❌ BAD - Curly braces confuse the parser
+"answer": "({\"key1\": v1, \"key2\": v2})[param]"
+
+// ✅ GOOD - Use ternary chain instead
+"answer": "(param === 'key1' ? v1 : param === 'key2' ? v2 : v3)"
+```
+
+**Assignment operators:**
+```javascript
+// ❌ BAD - Will be treated as algebraic and skip evaluation
+"answer": "x = a + b"
+
+// ✅ GOOD - Just return the value
+"answer": "a + b"
+```
+
+**Complex array/object operations:**
+```javascript
+// ❌ BAD - Too complex for template engine
+"answer": "[v1, v2, v3].map(x => x * 2)[index]"
+
+// ✅ GOOD - Pre-calculate or use simple ternary
+"answer": "(index === 0 ? v1*2 : index === 1 ? v2*2 : v3*2)"
+```
+
+### Case Study: Histogram Answer Fix
+
+**Original Problem** (curriculumDataNew.json line 82):
+```javascript
+"answer": "({\"130-140\": v1, \"140-150\": v2, \"150-160\": v3, \"160-170\": v4})[targetBinLabel]"
+```
+
+**What Went Wrong:**
+1. Curly braces `{}` triggered the "display template" path
+2. Expression wasn't evaluated - shown as raw string to user
+3. Students saw: `Wrong ❌ Answer: ({"130-140": v1, "140-150": v2, ...})[targetBinLabel]`
+
+**The Fix:**
+```javascript
+"answer": "(targetBinLabel === '130-140' ? v1 : targetBinLabel === '140-150' ? v2 : targetBinLabel === '150-160' ? v3 : v4)"
+```
+
+**Why It Works:**
+- No curly braces - goes through pure expression path
+- Comparison operators `===` allowed after regex update
+- Properly evaluates to actual number (e.g., `7`)
+
+**Template Engine Regex Update** (templateEngine.js line 707):
+```javascript
+// OLD - matched any '=' including comparisons
+const looksAlgebraic = /=/.test(rawAnswer) || ...
+
+// NEW - only matches assignment, not comparison
+const looksAlgebraic = /(?<![=!<>])=(?!=)/.test(rawAnswer) || ...
+```
+
+### Testing Answer Expressions
+
+**Quick test in browser console:**
+```javascript
+// Simulate the evaluation context
+const params = { v1: 5, v2: 7, v3: 10, v4: 3, targetBinLabel: '140-150' }
+const answer = "(targetBinLabel === '130-140' ? v1 : targetBinLabel === '140-150' ? v2 : targetBinLabel === '150-160' ? v3 : v4)"
+
+// Use Function constructor like template engine does
+const func = new Function(...Object.keys(params), `return ${answer}`)
+console.log(func(...Object.values(params)))  // Should output: 7
+```
+
+**Using sample generator:**
+```powershell
+node .\scripts\sample_generate.mjs | Select-String "Y6.S.HISTOGRAMS"
+```
+
+This prints sample questions and their evaluated answers - useful for catching expression issues.
+
+### Common Answer Expression Errors
+
+**Error: "Wrong ❌ Answer: (expression...)"**
+- **Cause**: Expression contains `{}` or failed to evaluate
+- **Fix**: Rewrite without object literals, use ternary chains
+
+**Error: Answer shows "0" for all questions**
+- **Cause**: Exception during evaluation (check console)
+- **Fix**: Verify all parameters exist, check function names match mathHelpers exports
+
+**Error: Comparison operators not working**
+- **Cause**: Old regex treated `===` as algebraic
+- **Fix**: Already fixed in line 707 - ensure you have latest templateEngine.js
+
+**Error: Template shows raw {param} in answer**
+- **Cause**: Param name doesn't exist in context
+- **Fix**: Check param name spelling matches exactly
+
+### When to Use formattedAnswer
+
+Some questions need special answer formatting (e.g., fractions shown as "3/4 ≈ 0.75").
+
+Set `formattedAnswer` in special handling code (templateEngine.js lines 740-770):
+```javascript
+formattedAnswer = mathHelpers.simplify(num, den) + ' ≈ ' + (num/den).toFixed(6)
+```
+
+During answer checking, `formattedAnswer` is shown to users, but evaluation still uses the computed `answer`.
+
 ## How to add new question templates (high level)
 1. Add template JSON to `src/curriculumDataNew.json` under the appropriate `year` and `skill` group. Example template structure:
 ```json
