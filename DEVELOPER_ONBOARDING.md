@@ -1,6 +1,6 @@
-# Developer Onboarding – free-nz-maths (Phase 7–9 overview)
+# Developer Onboarding – free-nz-maths (Phase 7–12 overview)
 
-This is a short working guide so a junior dev can pick up where the recent Phase 7–9 changes left off (curriculum extensions, NCEA trials, and basic SEO).
+This is a short working guide so a junior dev can pick up where the recent Phase 7–12 changes left off (curriculum extensions, NCEA trials, SEO, and group test mode).
 
 ## Quick setup (Windows PowerShell)
 - Ensure Node.js (LTS) and npm are installed.
@@ -45,7 +45,64 @@ Open the local dev URL shown by Vite (e.g. `http://localhost:5173/` or `http://l
 - `src/nceaResources.js` – resolves `local:pastpapers/resources/...` paths (both PDF and WEBP/PNG) to Vite URLs via `import.meta.glob`.
 - `src/PastPapersIndex.jsx` – UI for the NCEA Trial Exams section (legacy vs revised tabs, standard/year selection, and hooks for starting trials).
 
-To see the NCEA trial index locally, you can use `/?mode=ncea-index` or navigate via the “NCEA Trial Exams” block on the landing page. Trial questions are built from the structured JSON (fixed questions for now; randomisation is a future phase).
+To see the NCEA trial index locally, you can use `/?mode=ncea-index` or navigate via the "NCEA Trial Exams" block on the landing page. Trial questions are built from the structured JSON (fixed questions for now; randomisation is a future phase).
+
+### Group Test Mode (Phase 12)
+Phase 12 introduces deterministic group testing where teachers create tests with 7-digit codes and students get identical questions.
+
+#### Key Files
+- `src/groupTestEngine.js` – deterministic question generation using seeded RNG. Every student with the same code gets identical questions in identical order.
+- `src/config.js` – Google Apps Script URLs for registry and scores storage.
+- `src/googleApi.js` – API functions for interacting with Google Sheets backend.
+- `phase/phase12 - group test.md` – full specification for group test mode.
+
+#### Google Sheets Backend
+Two sheets are required:
+1. **GroupRegistry** (`REGISTRY_URL`) – stores test metadata (groupCode, teacherEmail, teacherPin, year, mode, totalQuestions)
+2. **GroupScores** (`SCORES_URL`) – stores student results (groupCode, studentName, score, wrongQuestions, etc.)
+
+Apps Script endpoints handle POST (submit data) and GET (retrieve data) operations.
+
+#### How Group Tests Work
+1. Teacher fills form at `/group-test-setup` → generates 7-digit code
+2. Data POSTed to `REGISTRY_URL` with mode encoded as:
+   - `"full"` – all topics for the year
+   - `"focused:SKILL_ID"` – single topic only (e.g., `"focused:Y7.N.FRACTIONS_ADD"`)
+3. Students visit `/?group=7482915` → app fetches registry entry → generates deterministic test
+4. `groupTestEngine.js` uses the group code as seed → all students get same questions
+5. On submit, results POSTed to `SCORES_URL`
+6. Teacher views results at `/results?group=7482915&pin=1234`
+
+#### Focused Mode (Phase 12 Feature)
+Teachers can select a single topic instead of testing all topics:
+- UI: Mode dropdown with "Full assessment" or "Focused on one topic"
+- When "Focused" is selected, a searchable dropdown appears with all skills for that year
+- Skills grouped by strand and sorted alphabetically
+- Mode stored as `focused:SKILL_ID` in the existing `mode` column (no new sheet columns)
+- `groupTestEngine.js` filters to only the selected skill when generating questions
+
+#### Answer Hiding (Phase 12 Feature)
+To prevent answer sharing between students:
+- **Students** see "Wrong ❌" without the answer shown
+- **Teachers** add `&dev=true` to URL to see answers for debugging
+- Regular (non-group) tests always show answers
+- Implementation: checks `isGroupMode && !isDevMode` before displaying answers
+
+#### Testing Group Mode Locally
+```powershell
+# Create a test at:
+http://localhost:5173/
+
+# Navigate to "Group Test Setup" and create a code
+# Then open student link:
+http://localhost:5173/?group=1234567
+
+# View results (teacher):
+http://localhost:5173/results?group=1234567&pin=1234
+
+# Debug mode (see answers):
+http://localhost:5173/?group=1234567&dev=true
+```
 
 ### SEO & site structure (Phase 9.1)
 - `src/App.jsx` (top-level `useEffect`) – sets `document.title` and the main `<meta name="description">` dynamically based on current mode, selected skill, and active NCEA paper.
@@ -104,7 +161,62 @@ Note: New templates in `curriculumDataNew.json` are merged and marked `isNew` at
 - Canvas coordinates assume 400×300 by default. If adding a large/complex visual, use `visualData.canvasWidth` / `canvasHeight` to request a different canvas size.
 - Hints and knowledge content may use `dangerouslySetInnerHTML` to render inline SVG/HTML – review security/escaping if you accept external content.
 - NCEA resource paths must start with `local:pastpapers/resources/...` so `nceaResources.js` can resolve them correctly via `import.meta.glob`.
-- Group test registry lookups must always send both `groupCode` and the sanitized teacher PIN to the Google Apps Script endpoints (`getRegistry`, `fetchGroupScores`). The `/sample/index.html` and `/sample/registry-dump.html` tools already do this – mirror that behaviour in `src/App.jsx` or the backend replies with “Incorrect teacher PIN or group code.” even for valid pairs.
+- Group test registry lookups must always send both `groupCode` and the sanitized teacher PIN to the Google Apps Script endpoints (`getRegistry`, `fetchGroupScores`). The `/sample/index.html` and `/sample/registry-dump.html` tools already do this – mirror that behaviour in `src/App.jsx` or the backend replies with "Incorrect teacher PIN or group code." even for valid pairs.
+
+## Common Issues & Fixes (Phase 12)
+
+### Answer Expression Issues
+**Problem**: Template answer shows raw expression instead of evaluated result (e.g., `"Wrong ❌ Answer: (targetBinLabel === '130-140' ? v1 : ...)"`).
+
+**Root Cause**: The template engine has logic to detect "algebraic" answers (line 707 in `templateEngine.js`) and skip evaluation. The regex `/=/` was matching comparison operators.
+
+**Fix**: Avoid JavaScript object literal syntax `{...}` in answer expressions as curly braces confuse the parser. Use ternary chains instead:
+```javascript
+// ❌ DON'T use object literals
+"answer": "({\"key1\": v1, \"key2\": v2})[param]"
+
+// ✅ DO use ternary chains
+"answer": "(param === 'key1' ? v1 : param === 'key2' ? v2 : v3)"
+```
+
+The regex was updated to `/(?<![=!<>])=(?!=)/` to allow comparison operators while detecting assignment.
+
+### Last Question Not Counted
+**Problem**: When clicking "Finish Test" on the last question with an answer typed in, the answer is skipped and counted as wrong.
+
+**Root Cause**: React state updates are asynchronous. Calling `checkAnswer()` then immediately reading `history` state gave stale data.
+
+**Fix**: The `finishTest()` function now manually checks the answer inline and passes the updated history directly to `finishTestInternal(updatedHistory)` (lines 1296-1350 in `App.jsx`), avoiding async state timing issues.
+
+### Grade Not Displaying
+**Problem**: Test results show percentage (e.g., 80%) but no letter grade (should be A-).
+
+**Root Cause**: The grade was only calculated for group mode tests (line 1324). Regular tests didn't have grade assignment.
+
+**Fix**: Added a safeguard (lines 1327-1330) that ensures `gradeFromPercentage()` is called for all test types:
+```javascript
+if (!normalizedResults.grade) {
+  normalizedResults.grade = gradeFromPercentage(normalizedResults.percentageScore)
+}
+```
+
+### Total Questions Input Not Working
+**Problem**: Cannot type in the "Total questions" field in group setup form.
+
+**Root Cause**: Missing `sanitizeDigits` function that was being called but not defined.
+
+**Fix**: Added the function (line 289 in `App.jsx`):
+```javascript
+const sanitizeDigits = (value, maxLength) => String(value || '').replace(/\D/g, '').slice(0, maxLength)
+```
+
+### Dev Mode for Debugging
+Use `?dev=true` or `&dev=true` in the URL to:
+- See answers in group tests (students normally see "Wrong ❌" only)
+- Access additional debugging features
+- Test teacher-only functionality
+
+Example: `http://localhost:5173/?group=1234567&dev=true`
 
 ---
 Saved as `DEVELOPER_ONBOARDING.md` in the project root.
