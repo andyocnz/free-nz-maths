@@ -41,14 +41,26 @@ export async function submitScore(data) {
 
 /**
  * Fetches the group registry data.
+ * @param {{groupCode?: string, teacherPin?: string}} params
  * @returns {Promise<any>} A promise that resolves to the JSON registry data.
  */
-export async function getRegistry() {
-  const response = await fetch(config.REGISTRY_URL);
+export async function getRegistry(params = {}) {
+  const url = new URL(config.REGISTRY_URL);
+  if (params.groupCode) {
+    url.searchParams.set('groupCode', params.groupCode);
+  }
+  if (params.teacherPin) {
+    url.searchParams.set('teacherPin', params.teacherPin);
+  }
+  const response = await fetch(url.toString());
   if (!response.ok) {
     throw new Error('Failed to fetch group registry');
   }
-  return response.json();
+  const data = await response.json();
+  if (data && data.error) {
+    throw new Error(data.error);
+  }
+  return data;
 }
 
 /**
@@ -56,14 +68,21 @@ export async function getRegistry() {
  * @param {string} groupCode - The 7-digit group code.
  * @returns {Promise<any[]>} Parsed JSON rows from the Google Sheet.
  */
-export async function fetchGroupScores(groupCode) {
+export async function fetchGroupScores(groupCode, teacherPin) {
   const url = new URL(config.SCORES_URL);
   if (groupCode) {
     url.searchParams.set('groupCode', groupCode);
+  }
+  if (teacherPin) {
+    url.searchParams.set('teacherPin', teacherPin);
   }
   const response = await fetch(url.toString());
   if (!response.ok) {
     throw new Error('Failed to fetch group scores');
   }
-  return response.json();
+  const data = await response.json();
+  if (data && data.error) {
+    throw new Error(data.error);
+  }
+  return data;
 }

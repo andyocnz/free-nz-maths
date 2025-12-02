@@ -49,6 +49,10 @@ function AlternatingText() {
   )
 }
 
+function generateTeacherPin() {
+  return String(Math.floor(1000 + Math.random() * 9000))
+}
+
 export default function App() {
   // Check URL parameters and path for deep links
   const urlParams = new URLSearchParams(window.location.search)
@@ -124,13 +128,14 @@ export default function App() {
   const [groupRegistryEntry, setGroupRegistryEntry] = useState(null)
   const [groupRegistryLoading, setGroupRegistryLoading] = useState(false)
   const [groupRegistryError, setGroupRegistryError] = useState('')
-  const [groupSetupForm, setGroupSetupForm] = useState({
+  const [groupSetupForm, setGroupSetupForm] = useState(() => ({
     teacherEmail: '',
+    teacherPin: generateTeacherPin(),
     testTitle: '',
     year: selectedYear || config.defaultYear || 7,
     totalQuestions: 30,
     mode: 'full'
-  })
+  }))
   const [groupSetupStatus, setGroupSetupStatus] = useState({ submitting: false, success: false, error: '' })
   const [groupSetupResult, setGroupSetupResult] = useState(null)
   const [groupStudentName, setGroupStudentName] = useState('')
@@ -144,13 +149,12 @@ export default function App() {
   const [groupInputValue, setGroupInputValue] = useState(groupCodeFromUrl || '')
   const [showGroupMenu, setShowGroupMenu] = useState(false)
   const [showGroupSetupSection, setShowGroupSetupSection] = useState(false)
-  const [recentGroupTests, setRecentGroupTests] = useState([])
-  const [recentGroupScores, setRecentGroupScores] = useState([])
-  const [registryLookupEmail, setRegistryLookupEmail] = useState('')
-  const [registryLookupCode, setRegistryLookupCode] = useState('')
-  const [registryLookupStatus, setRegistryLookupStatus] = useState({ state: 'idle', message: '' })
-  const [scoreLookupCode, setScoreLookupCode] = useState('')
-  const [scoreLookupStatus, setScoreLookupStatus] = useState({ state: 'idle', message: '' })
+  const [groupResultsPin, setGroupResultsPin] = useState('')
+  const [resultLookupCode, setResultLookupCode] = useState('')
+  const [resultLookupPin, setResultLookupPin] = useState('')
+  const [resultLookupStatus, setResultLookupStatus] = useState({ state: 'idle', message: '' })
+  const [resultLookupEntry, setResultLookupEntry] = useState(null)
+  const [resultLookupScores, setResultLookupScores] = useState([])
 
 
   // Normalize number words for PLACE_VALUE "write in words" questions
@@ -280,6 +284,7 @@ export default function App() {
   }
 
   const sanitizeGroupCode = (value) => String(value || '').replace(/\D/g, '').slice(0, 7)
+  const sanitizePin = (value) => String(value || '').replace(/\D/g, '').slice(0, 4)
 
   const updateGroupUrl = (targetPath, code) => {
     if (typeof window === 'undefined') return
@@ -291,16 +296,6 @@ export default function App() {
       url.searchParams.delete('group')
     }
     window.history.replaceState({}, '', url.toString())
-  }
-
-  const maskEmail = (email) => {
-    if (!email) return ''
-    const [name, domain] = email.split('@')
-    if (!domain) return email
-    if (name.length <= 2) {
-      return `${name[0] || ''}***@${domain}`
-    }
-    return `${name[0]}***${name[name.length - 1]}@${domain}`
   }
 
   const CopyButton = ({ value, className = '', title = 'Copy to clipboard', variant = 'dark' }) => {
@@ -327,7 +322,15 @@ export default function App() {
   }
 
   const handleGroupSetupChange = (field, value) => {
-    setGroupSetupForm(prev => ({ ...prev, [field]: value }))
+    let nextValue = value
+    if (field === 'teacherPin') {
+      nextValue = sanitizePin(value)
+    }
+    setGroupSetupForm(prev => ({ ...prev, [field]: nextValue }))
+  }
+
+  const regenerateTeacherPin = () => {
+    setGroupSetupForm(prev => ({ ...prev, teacherPin: generateTeacherPin() }))
   }
 
   const generateGroupCode = () => String(Math.floor(1000000 + Math.random() * 9000000))
@@ -341,12 +344,18 @@ export default function App() {
       setGroupSetupStatus({ submitting: false, success: false, error: 'Enter a valid teacher email.' })
       return
     }
+    const teacherPin = sanitizePin(groupSetupForm.teacherPin || '')
+    if (teacherPin.length < 4) {
+      setGroupSetupStatus({ submitting: false, success: false, error: 'Enter a 4-digit teacher PIN.' })
+      return
+    }
 
     const yearValue = parseInt(groupSetupForm.year, 10) || config.defaultYear || 7
     const totalQuestions = Math.max(5, Math.min(200, parseInt(groupSetupForm.totalQuestions, 10) || 30))
     const payload = {
       groupCode: generateGroupCode(),
       teacherEmail: email,
+      teacherPin,
       testTitle: groupSetupForm.testTitle || `Year ${yearValue} group test`,
       year: String(yearValue),
       mode: groupSetupForm.mode || 'full',
@@ -364,17 +373,6 @@ export default function App() {
       }
       setGroupSetupStatus({ submitting: false, success: true, error: '' })
       setGroupSetupResult(payload)
-      setRecentGroupTests(prev => [
-        {
-          groupCode: payload.groupCode,
-          teacherEmail: payload.teacherEmail,
-          testTitle: payload.testTitle,
-          year: payload.year,
-          totalQuestions,
-          created: new Date().toISOString()
-        },
-        ...prev
-      ].slice(0, 10))
     } catch (error) {
       setGroupSetupStatus({
         submitting: false,
@@ -384,7 +382,7 @@ export default function App() {
     }
   }
 
-  const loadGroupFromRegistry = async (code) => {
+  const loadGroupFromRegistry = async (code, options = {}) => {
     const normalizedCode = sanitizeGroupCode(code)
     if (!normalizedCode) {
       setGroupRegistryEntry(null)
@@ -395,51 +393,86 @@ export default function App() {
     setGroupRegistryError('')
 
     try {
-      const data = await getRegistry()
+      const data = await getRegistry({ groupCode: normalizedCode })
       const rows = Array.isArray(data) ? data : data?.rows || []
       const matches = rows.filter(row => sanitizeGroupCode(row.groupCode || row.groupcode) === normalizedCode)
-      const match = matches.length ? matches[matches.length - 1] : null
 
-      if (!match) {
+      if (!matches.length) {
         throw new Error('Group code not found yet. Check the code with your teacher.')
+      }
+
+      let selected = matches[matches.length - 1]
+      if (options.teacherPin) {
+        const pinMatches = matches.filter(row => sanitizePin(row.teacherPin || row.teacherpin || '') === options.teacherPin)
+        if (!pinMatches.length) {
+          throw new Error('Incorrect teacher PIN or group code.')
+        }
+        selected = pinMatches[pinMatches.length - 1]
       }
 
       const entry = {
         groupCode: normalizedCode,
-        teacherEmail: match.teacherEmail || match.teacheremail || '',
-        testTitle: match.testTitle || match.testtitle || '',
-        year: parseInt(match.year, 10) || null,
-        mode: match.mode || 'full',
-        totalQuestions: parseInt(match.totalQuestions, 10) || 30,
-        created: match.created || match.Created || match.Timestamp || ''
+        teacherEmail: selected.teacherEmail || selected.teacheremail || '',
+        testTitle: selected.testTitle || selected.testtitle || '',
+        year: parseInt(selected.year, 10) || null,
+        mode: selected.mode || 'full',
+        totalQuestions: parseInt(selected.totalQuestions, 10) || 30,
+        created: selected.created || selected.Created || selected.Timestamp || ''
       }
 
       setGroupRegistryEntry(entry)
       setGroupRegistryError('')
       setIsGroupMode(true)
     } catch (error) {
+      const message = error?.message || 'Could not load group info.'
       setGroupRegistryEntry(null)
-      setGroupRegistryError(error?.message || 'Could not load group info.')
+      setGroupRegistryError(message)
+      if (options.teacherPin) {
+        setGroupScores([])
+        setGroupScoresError(message)
+        throw new Error(message)
+      }
     } finally {
       setGroupRegistryLoading(false)
     }
   }
 
-  const handleGroupCodeSubmit = (event, targetMode) => {
+  const handleGroupCodeSubmit = async (event, targetMode) => {
     event.preventDefault()
     const normalized = sanitizeGroupCode(groupInputValue)
     if (!normalized) {
       setGroupRegistryError('Enter a 7-digit group code.')
       return
     }
+    let pinForResults = ''
+    if (targetMode === 'results') {
+      setGroupRegistryEntry(null)
+      setGroupScores([])
+      setGroupScoresError('')
+      pinForResults = sanitizePin(groupResultsPin)
+      if (pinForResults.length < 4) {
+        setGroupRegistryError('Enter your teacher PIN to unlock group results.')
+        return
+      }
+      setGroupResultsPin(pinForResults)
+    } else {
+      setGroupResultsPin('')
+    }
     setGroupRegistryError('')
     setGroupScores([])
     setGroupCode(normalized)
     if (targetMode === 'results') {
-      updateGroupUrl('/results', normalized)
-      setMode('group-results')
+      try {
+        await unlockGroupResults(normalized, pinForResults)
+        updateGroupUrl('/results', normalized)
+        setMode('group-results')
+      } catch (error) {
+        const message = error?.message || 'Could not load group info.'
+        setGroupRegistryError(message)
+        return
+      }
     } else {
-      updateGroupUrl('/', normalized)
+      updateGroupUrl('/', '')
       setMode('group-lobby')
     }
   }
@@ -516,17 +549,6 @@ export default function App() {
         throw new Error(text || 'Failed to submit score.')
       }
       setGroupScoreStatus({ state: 'success', message: 'Score sent to your teacher.' })
-      setRecentGroupScores(prev => [
-        {
-          groupCode,
-          studentName: payload.studentName,
-          percent: results.percentageScore,
-          score: results.correctAnswers,
-          total: results.totalQuestions,
-          submitted: endTime.toISOString()
-        },
-        ...prev
-      ].slice(0, 10))
     } catch (error) {
       setGroupScoreStatus({
         state: 'error',
@@ -573,11 +595,100 @@ export default function App() {
       setGroupScores(parsed)
       setGroupScoresFetchedAt(new Date())
     } catch (error) {
-      setGroupScoresError(error?.message || 'Could not load scores.')
+      const message = error?.message || 'Could not load scores.'
+      setGroupScoresError(message)
       setGroupScores([])
     } finally {
       setGroupScoresLoading(false)
     }
+  }
+
+  const lookupGroupResults = async (event) => {
+    event?.preventDefault()
+    const code = sanitizeGroupCode(resultLookupCode)
+    const pin = sanitizePin(resultLookupPin)
+    if (!code || pin.length < 4) {
+      setResultLookupStatus({ state: 'error', message: 'Enter the group code and 4-digit teacher PIN.' })
+      return
+    }
+
+    setResultLookupStatus({ state: 'loading', message: 'Loading results...' })
+    setResultLookupEntry(null)
+    setResultLookupScores([])
+
+    try {
+      const registryData = await getRegistry({ groupCode: code })
+      const registryRows = Array.isArray(registryData) ? registryData : registryData?.rows || []
+      const filtered = registryRows.filter(row => sanitizeGroupCode(row.groupCode || row.groupcode) === code)
+      const pinMatches = filtered.filter(row => sanitizePin(row.teacherPin || row.teacherpin || '') === pin)
+      if (!pinMatches.length) {
+        throw new Error('Incorrect teacher PIN or group code.')
+      }
+      const match = pinMatches[pinMatches.length - 1]
+
+      const entry = {
+        groupCode: code,
+        teacherEmail: match.teacherEmail || match.teacheremail || '',
+        testTitle: match.testTitle || match.testtitle || '',
+        year: match.year || '',
+        mode: match.mode || 'full',
+        totalQuestions: match.totalQuestions || match.totalquestions || '',
+        created: match.created || match.Created || match.Timestamp || ''
+      }
+      setResultLookupEntry(entry)
+
+      const scoresData = await fetchGroupScores(code)
+      const scoreRows = Array.isArray(scoresData) ? scoresData : scoresData?.rows || []
+      const parsedScores = scoreRows
+        .filter(row => sanitizeGroupCode(row.groupCode || row.groupcode) === code)
+        .map(row => ({
+          groupCode: row.groupCode || row.groupcode || '',
+          studentName: row.studentName || row.studentname || 'Anonymous',
+          score: Number(row.score || row.Score || 0),
+          total: Number(row.totalQuestions || row.totalquestions || 0),
+          percent: Number(row.percent || row.Percent || 0),
+          submitted: row.endTime || row.endtime || row.Timestamp || new Date().toISOString(),
+          wrongTopics: (() => {
+            try {
+              const raw = row.wrongQuestions || row.wrongquestions || '[]'
+              const parsed = JSON.parse(raw)
+              if (!Array.isArray(parsed)) return []
+              return parsed
+                .map(item => item.topic || item.skill || item.qid || '')
+                .filter(Boolean)
+                .slice(0, 5)
+            } catch {
+              return []
+            }
+          })()
+        }))
+
+      setResultLookupScores(parsedScores)
+      setResultLookupStatus({
+        state: 'success',
+        message: parsedScores.length
+          ? `Loaded ${parsedScores.length} student attempts.`
+          : 'Group found, but no student attempts yet.'
+      })
+    } catch (error) {
+      setResultLookupEntry(null)
+      setResultLookupScores([])
+      setResultLookupStatus({ state: 'error', message: error?.message || 'Failed to load group results.' })
+    }
+  }
+
+  const unlockGroupResults = async (code, pin) => {
+    const normalizedCode = sanitizeGroupCode(code)
+    const normalizedPin = sanitizePin(pin)
+    if (!normalizedCode || normalizedPin.length < 4) {
+      setGroupRegistryError('Enter your group code and 4-digit teacher PIN.')
+      setGroupScores([])
+      setGroupScoresError('')
+      return
+    }
+    setGroupScoresError('')
+    await loadGroupFromRegistry(normalizedCode, { teacherPin: normalizedPin })
+    await loadGroupScores(normalizedCode)
   }
 
   const formatDuration = (seconds) => {
@@ -597,6 +708,7 @@ export default function App() {
     setGroupStartTime(null)
     setGroupScoreStatus({ state: 'idle', message: '' })
     setShowGroupMenu(false)
+    setGroupResultsPin('')
     if (typeof window !== 'undefined') {
       updateGroupUrl('/', '')
     }
@@ -618,6 +730,7 @@ export default function App() {
     setGroupStudentName('')
     setGroupCode('')
     setGroupInputValue('')
+    setGroupResultsPin('')
     setShowGroupMenu(false)
     setMode('group-lobby')
     updateGroupUrl('/', '')
@@ -642,14 +755,9 @@ export default function App() {
 
   useEffect(() => {
     if (!groupCode) return
-    if (mode !== 'group-lobby' && mode !== 'group-results') return
+    if (mode !== 'group-lobby') return
     loadGroupFromRegistry(groupCode)
   }, [groupCode, mode])
-
-  useEffect(() => {
-    if (mode !== 'group-results' || !groupCode) return
-    loadGroupScores(groupCode)
-  }, [mode, groupCode])
 
   useEffect(() => {
     if (!isGroupMode || clientIp) return
@@ -1791,7 +1899,7 @@ export default function App() {
             <div>Group code: <span className="font-mono">{groupCode}</span></div>
             <div className="text-xs font-normal text-slate-600">
               {groupRegistryEntry?.teacherEmail
-                ? `Teacher: ${maskEmail(groupRegistryEntry.teacherEmail)}`
+                ? `Teacher: ${groupRegistryEntry.teacherEmail || 'Saved securely'}`
                 : 'Teacher email saved with this code.'}
             </div>
             <div className="mt-1 text-slate-700 font-normal">
@@ -2157,7 +2265,7 @@ export default function App() {
                   </div>
                   <div className="text-right">
                     <p className="text-xs uppercase tracking-[0.2em] text-blue-300">Teacher</p>
-                    <p className="text-lg font-semibold">{maskEmail(groupRegistryEntry.teacherEmail) || 'Saved securely'}</p>
+                  <p className="text-lg font-semibold">{groupRegistryEntry.teacherEmail || 'Saved securely'}</p>
                   </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
@@ -2303,6 +2411,20 @@ export default function App() {
                   placeholder="1234567"
                 />
               </div>
+              <div className="flex-1">
+                <label className="text-xs uppercase tracking-[0.3em] text-blue-200 font-semibold block mb-2">
+                  Teacher PIN
+                </label>
+                <input
+                  type="password"
+                  value={groupResultsPin}
+                  onChange={(e) => setGroupResultsPin(sanitizePin(e.target.value))}
+                  inputMode="numeric"
+                  maxLength={4}
+                  className="w-full rounded-2xl border border-white/20 bg-slate-900/60 px-4 py-3 font-mono tracking-[0.4em] text-lg text-white placeholder:text-slate-400"
+                  placeholder="••••"
+                />
+              </div>
               <button
                 type="submit"
                 className="w-full md:w-auto px-5 py-3 rounded-2xl bg-white text-slate-900 font-semibold shadow-lg hover:bg-slate-100 transition"
@@ -2360,6 +2482,7 @@ export default function App() {
             )}
           </div>
 
+          {groupRegistryEntry ? (
           <div className="bg-white text-slate-900 rounded-[32px] shadow-2xl border border-slate-200 p-8 space-y-6">
             <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
               <div>
@@ -2374,7 +2497,7 @@ export default function App() {
                 {lastUpdated && <span className="text-xs text-slate-400">Updated {lastUpdated}</span>}
                 <button
                   type="button"
-                  onClick={() => groupCode && loadGroupScores(groupCode)}
+                  onClick={() => groupCode && unlockGroupResults(groupCode, groupResultsPin)}
                   className="px-4 py-2 rounded-2xl border border-slate-200 text-sm font-semibold hover:border-slate-300"
                 >
                   Refresh
@@ -2384,6 +2507,12 @@ export default function App() {
 
             {groupScoresLoading && (
               <div className="text-center text-slate-500 text-sm">Loading scores from Google Sheets…</div>
+            )}
+
+            {!groupScoresLoading && groupScoresError && (
+              <div className="rounded-3xl border border-red-100 bg-red-50 text-red-600 px-4 py-3 text-sm font-semibold">
+                {groupScoresError}
+              </div>
             )}
 
             {!groupScoresLoading && totalSubmissions === 0 && (
@@ -2453,6 +2582,11 @@ export default function App() {
               </div>
             )}
           </div>
+          ) : (
+            <div className="bg-white text-slate-900 rounded-[32px] shadow-2xl border border-slate-200 p-8 text-center text-sm text-slate-500">
+              Enter your group code and teacher PIN above to unlock the live leaderboard.
+            </div>
+          )}
         </div>
       </div>
     )
@@ -2569,7 +2703,7 @@ export default function App() {
                 </div>
               </div>
               <div className="flex justify-center items-center p-4">
-                <DailyChallenge />
+                <DailyChallenge devMode={isDevMode} />
               </div>
             </div>
           </section>
@@ -2627,145 +2761,142 @@ export default function App() {
             </section>
           )}
           {showGroupMenu && (
-            <section className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 space-y-6">
-              <div className="bg-white rounded-2xl border border-slate-200 shadow p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-bold text-slate-900">Recently created group tests</h3>
-                  <form
-                    className="flex flex-wrap gap-2 items-center text-xs text-slate-500"
-                    onSubmit={(e) => {
-                      e.preventDefault()
-                      loadRegistryEntriesFromSheet()
-                    }}
-                  >
-                    <input
-                      type="email"
-                      value={registryLookupEmail}
-                      onChange={(e) => setRegistryLookupEmail(e.target.value)}
-                      placeholder="Teacher email"
-                      className="rounded-xl border border-slate-200 px-3 py-1 text-xs"
-                    />
+            <section className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+              <div className="bg-white rounded-3xl border border-slate-200 shadow p-6 space-y-5">
+                <div>
+                  <p className="text-xs uppercase tracking-[0.4em] text-blue-500 font-semibold">Teacher results lookup</p>
+                  <h3 className="text-2xl font-bold text-slate-900 mt-1">Load group test results</h3>
+                  <p className="text-sm text-slate-600 mt-1">
+                    Enter your 7-digit group code and the private teacher PIN you set when creating the test. Mathx.nz will fetch the matching group info and every student attempt saved for that code.
+                  </p>
+                </div>
+
+                <form className="space-y-3" onSubmit={lookupGroupResults}>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                     <input
                       type="text"
-                      value={registryLookupCode}
-                      onChange={(e) => setRegistryLookupCode(e.target.value)}
+                      value={resultLookupCode}
+                      onChange={(e) => setResultLookupCode(sanitizeGroupCode(e.target.value))}
                       placeholder="Group code"
                       maxLength={7}
-                      className="rounded-xl border border-slate-200 px-3 py-1 text-xs font-mono"
+                      className="rounded-2xl border border-slate-300 px-4 py-3 text-base font-mono tracking-widest"
+                      required
+                    />
+                    <input
+                      type="password"
+                      value={resultLookupPin}
+                      onChange={(e) => setResultLookupPin(sanitizePin(e.target.value))}
+                      placeholder="Teacher PIN"
+                      maxLength={4}
+                      inputMode="numeric"
+                      className="rounded-2xl border border-slate-300 px-4 py-3 text-base font-mono tracking-[0.3em]"
+                      required
                     />
                     <button
                       type="submit"
-                      className="px-3 py-1 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-semibold"
+                      className="px-4 py-3 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-white font-semibold shadow hover:opacity-95 transition"
                     >
-                      Load from sheet
+                      View results
                     </button>
-                  </form>
-                </div>
-                {registryLookupStatus.state !== 'idle' && (
-                  <p className={`text-xs mb-2 ${
-                    registryLookupStatus.state === 'error'
+                  </div>
+                </form>
+
+                {resultLookupStatus.state !== 'idle' && (
+                  <p className={`text-sm ${
+                    resultLookupStatus.state === 'error'
                       ? 'text-red-600'
-                      : registryLookupStatus.state === 'success'
+                      : resultLookupStatus.state === 'success'
                         ? 'text-green-600'
                         : 'text-slate-500'
                   }`}>
-                    {registryLookupStatus.message}
+                    {resultLookupStatus.message}
                   </p>
                 )}
-                {recentGroupTests.length === 0 ? (
-                  <p className="text-sm text-slate-500">No group tests created this session.</p>
-                ) : (
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full text-xs md:text-sm">
-                      <thead>
-                        <tr className="text-left text-slate-500">
-                          <th className="px-3 py-2">Group code</th>
-                          <th className="px-3 py-2">Title</th>
-                          <th className="px-3 py-2">Year</th>
-                          <th className="px-3 py-2">Questions</th>
-                          <th className="px-3 py-2">Created</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {recentGroupTests.map((entry, idx) => (
-                          <tr key={`${entry.groupCode}-${idx}`} className="border-t border-slate-100">
-                            <td className="px-3 py-2 font-mono">{entry.groupCode}</td>
-                            <td className="px-3 py-2">{entry.testTitle}</td>
-                            <td className="px-3 py-2">Year {entry.year}</td>
-                            <td className="px-3 py-2">{entry.totalQuestions}</td>
-                            <td className="px-3 py-2 text-slate-500">{new Date(entry.created).toLocaleString()}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
+
+                {resultLookupEntry && (
+                  <div className="bg-slate-50 rounded-2xl p-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-slate-700">
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Group code</p>
+                      <p className="font-mono text-xl font-bold">{resultLookupEntry.groupCode}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Teacher email</p>
+                      <p className="font-semibold">{resultLookupEntry.teacherEmail || 'Saved securely'}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Test title</p>
+                      <p>{resultLookupEntry.testTitle || 'Untitled group test'}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Year & mode</p>
+                      <p>Year {resultLookupEntry.year || '?'}, {resultLookupEntry.mode || 'full'}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Questions</p>
+                      <p>{resultLookupEntry.totalQuestions || 0}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Created</p>
+                      <p>{resultLookupEntry.created ? new Date(resultLookupEntry.created).toLocaleString() : '—'}</p>
+                    </div>
                   </div>
                 )}
-              </div>
-              <div className="bg-white rounded-2xl border border-slate-200 shadow p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-xl font-bold text-slate-900">Recent student attempts</h3>
-                  <form
-                    className="flex items-center gap-2 text-xs text-slate-500"
-                    onSubmit={(e) => {
-                      e.preventDefault()
-                      loadScoresFromSheet()
-                    }}
-                  >
-                    <input
-                      type="text"
-                      value={scoreLookupCode}
-                      onChange={(e) => setScoreLookupCode(e.target.value)}
-                      placeholder="Group code"
-                      maxLength={7}
-                      className="rounded-xl border border-slate-200 px-3 py-1 text-xs font-mono"
-                    />
-                    <button
-                      type="submit"
-                      className="px-3 py-1 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 text-white text-xs font-semibold"
-                    >
-                      Load attempts
-                    </button>
-                  </form>
+
+                <div>
+                  {resultLookupEntry ? (
+                    resultLookupScores.length === 0 ? (
+                      resultLookupStatus.state === 'success' ? (
+                        <p className="text-sm text-slate-500">No student attempts are stored yet.</p>
+                      ) : (
+                        <p className="text-sm text-slate-500">Loading student attempts...</p>
+                      )
+                    ) : (
+                      <div className="overflow-x-auto">
+                        <table className="min-w-full text-xs md:text-sm">
+                          <thead>
+                            <tr className="text-left text-slate-500">
+                              <th className="px-3 py-2">Student</th>
+                              <th className="px-3 py-2">Score</th>
+                              <th className="px-3 py-2">Percent</th>
+                              <th className="px-3 py-2">Submitted</th>
+                              <th className="px-3 py-2">Wrong topics</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {[...resultLookupScores]
+                              .sort((a, b) => b.percent - a.percent)
+                              .map((entry, idx) => (
+                                <tr key={`${entry.groupCode}-${idx}-${entry.submitted}`} className="border-t border-slate-100">
+                                  <td className="px-3 py-2">{entry.studentName}</td>
+                                  <td className="px-3 py-2">{entry.score}/{entry.total}</td>
+                                  <td className="px-3 py-2">{entry.percent}%</td>
+                                  <td className="px-3 py-2 text-slate-500">{new Date(entry.submitted).toLocaleString()}</td>
+                                  <td className="px-3 py-2">
+                                    {entry.wrongTopics.length === 0 ? (
+                                      <span className="text-slate-400">—</span>
+                                    ) : (
+                                      <div className="flex flex-wrap gap-1">
+                                        {entry.wrongTopics.map((topic, topicIdx) => (
+                                          <span
+                                            key={`${entry.groupCode}-${idx}-topic-${topicIdx}`}
+                                            className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[11px]"
+                                          >
+                                            {topic}
+                                          </span>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </td>
+                                </tr>
+                              ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )
+                  ) : (
+                    <p className="text-sm text-slate-500">Enter your group code and teacher PIN above to load the latest results.</p>
+                  )}
                 </div>
-                {scoreLookupStatus.state !== 'idle' && (
-                  <p className={`text-xs mb-2 ${
-                    scoreLookupStatus.state === 'error'
-                      ? 'text-red-600'
-                      : scoreLookupStatus.state === 'success'
-                        ? 'text-green-600'
-                        : 'text-slate-500'
-                  }`}>
-                    {scoreLookupStatus.message}
-                  </p>
-                )}
-                {recentGroupScores.length === 0 ? (
-                  <p className="text-sm text-slate-500">No student attempts recorded this session.</p>
-                ) : (
-                  <div className="overflow-x-auto">
-                    <table className="min-w-full text-xs md:text-sm">
-                      <thead>
-                        <tr className="text-left text-slate-500">
-                          <th className="px-3 py-2">Student</th>
-                          <th className="px-3 py-2">Group code</th>
-                          <th className="px-3 py-2">Score</th>
-                          <th className="px-3 py-2">Percent</th>
-                          <th className="px-3 py-2">Submitted</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {recentGroupScores.map((entry, idx) => (
-                          <tr key={`${entry.groupCode}-${idx}-${entry.submitted}`} className="border-t border-slate-100">
-                            <td className="px-3 py-2">{entry.studentName}</td>
-                            <td className="px-3 py-2 font-mono">{entry.groupCode}</td>
-                            <td className="px-3 py-2">{entry.score}/{entry.total}</td>
-                            <td className="px-3 py-2">{entry.percent}%</td>
-                            <td className="px-3 py-2 text-slate-500">{new Date(entry.submitted).toLocaleString()}</td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
               </div>
             </section>
           )}
@@ -2824,6 +2955,31 @@ export default function App() {
                       className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base"
                       placeholder="you@school.nz"
                     />
+                  </div>
+                  <div>
+                    <label className="text-xs uppercase tracking-[0.3em] text-slate-500 font-semibold block mb-2">
+                      Teacher PIN (4 digits)
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        type="text"
+                        inputMode="numeric"
+                        maxLength={4}
+                        value={groupSetupForm.teacherPin}
+                        onChange={(e) => handleGroupSetupChange('teacherPin', e.target.value)}
+                        className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base font-mono tracking-[0.4em]"
+                        placeholder="1234"
+                      />
+                      <button
+                        type="button"
+                        onClick={regenerateTeacherPin}
+                        className="px-3 py-2 rounded-2xl border border-slate-300 text-slate-600 text-sm hover:bg-slate-100 transition"
+                        title="Generate a new random PIN"
+                      >
+                        Generate PIN
+                      </button>
+                    </div>
+                    <p className="text-xs text-slate-500 mt-1">Keep this PIN private. You&rsquo;ll need it to view results.</p>
                   </div>
                   <div>
                     <label className="text-xs uppercase tracking-[0.3em] text-slate-500 font-semibold block mb-2">
@@ -2911,11 +3067,12 @@ export default function App() {
                         <CopyButton value={groupSetupResult.groupCode} variant="light" />
                       </div>
                     </div>
-                    <div className="text-xs text-blue-200">
-                      Save this code and links below. Students only need the short link.
+                    <div className="text-xs text-blue-200 space-y-1">
+                      <p>Save this code and links below. Students only need the short link.</p>
+                      <p className="font-semibold text-amber-200">Keep your teacher PIN secret �?" it unlocks the results.</p>
                     </div>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                     <div className="bg-white/10 rounded-2xl p-4">
                       <p className="text-[10px] uppercase tracking-[0.4em] text-blue-200 mb-1">Student link</p>
                       <div className="flex items-center gap-2 flex-wrap">
@@ -2928,6 +3085,13 @@ export default function App() {
                       <div className="flex items-center gap-2 flex-wrap">
                         <code className="block text-xs break-all">{`${origin}/results?group=${groupSetupResult.groupCode}`}</code>
                         <CopyButton value={`${origin}/results?group=${groupSetupResult.groupCode}`} variant="light" />
+                      </div>
+                    </div>
+                    <div className="bg-white/10 rounded-2xl p-4">
+                      <p className="text-[10px] uppercase tracking-[0.4em] text-blue-200 mb-1">Teacher PIN �?' keep private</p>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <code className="block text-xs break-all">{groupSetupResult.teacherPin}</code>
+                        <CopyButton value={groupSetupResult.teacherPin} variant="light" />
                       </div>
                     </div>
                   </div>
@@ -4250,68 +4414,3 @@ export default function App() {
 
   return null
 }
-  const loadRegistryEntriesFromSheet = async () => {
-    setRegistryLookupStatus({ state: 'loading', message: 'Loading registry from sheet…' })
-    try {
-      const data = await getRegistry()
-      const rows = Array.isArray(data) ? data : data?.rows || []
-      const filtered = rows
-        .filter(row => {
-          const matchesEmail = registryLookupEmail
-            ? (row.teacherEmail || row.teacheremail || '').toLowerCase().includes(registryLookupEmail.toLowerCase())
-            : true
-          const sanitizedCode = sanitizeGroupCode(registryLookupCode)
-          const matchesCode = sanitizedCode
-            ? sanitizeGroupCode(row.groupCode || row.groupcode) === sanitizedCode
-            : true
-          return matchesEmail && matchesCode
-        })
-        .map(row => ({
-          groupCode: row.groupCode || row.groupcode || '',
-          teacherEmail: row.teacherEmail || row.teacheremail || '',
-          testTitle: row.testTitle || row.testtitle || '',
-          year: row.year || '',
-          totalQuestions: row.totalQuestions || row.totalquestions || '',
-          created: row.created || row.Created || row.Timestamp || ''
-        }))
-        .slice(0, 20)
-      setRecentGroupTests(filtered)
-      setRegistryLookupStatus({
-        state: 'success',
-        message: filtered.length ? `Loaded ${filtered.length} entries from sheet.` : 'No matches found.'
-      })
-    } catch (error) {
-      setRegistryLookupStatus({ state: 'error', message: error?.message || 'Failed to load registry.' })
-    }
-  }
-
-  const loadScoresFromSheet = async () => {
-    const code = sanitizeGroupCode(scoreLookupCode)
-    if (!code) {
-      setScoreLookupStatus({ state: 'error', message: 'Enter a valid group code.' })
-      return
-    }
-    setScoreLookupStatus({ state: 'loading', message: 'Loading scores from sheet…' })
-    try {
-      const data = await fetchGroupScores(code)
-      const rows = Array.isArray(data) ? data : data?.rows || []
-      const parsed = rows
-        .filter(row => sanitizeGroupCode(row.groupCode || row.groupcode) === code)
-        .map(row => ({
-          groupCode: row.groupCode || row.groupcode || '',
-          studentName: row.studentName || row.studentname || 'Anonymous',
-          score: Number(row.score || row.Score || 0),
-          total: Number(row.totalQuestions || row.totalquestions || 0),
-          percent: Number(row.percent || row.Percent || 0),
-          submitted: row.endTime || row.endtime || row.Timestamp || new Date().toISOString()
-        }))
-        .slice(0, 20)
-      setRecentGroupScores(parsed)
-      setScoreLookupStatus({
-        state: 'success',
-        message: parsed.length ? `Loaded ${parsed.length} attempts from sheet.` : 'No attempts found for that code.'
-      })
-    } catch (error) {
-      setScoreLookupStatus({ state: 'error', message: error?.message || 'Failed to load scores.' })
-    }
-  }

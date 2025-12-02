@@ -1,54 +1,106 @@
-// SINGLE APPS SCRIPT – HANDLES BOTH REGISTRY + SCORES
+// Google Apps Script for the Group Registry (REGISTRY_URL)
+// Deploy as a web app with "Anyone" access and copy the exec URL into src/config.js.
 
+const REGISTRY_SHEET = 'Registry';
+
+/**
+ * Handles GET requests so the frontend (and sample/index.html) can look up registry entries.
+ * Requires ?groupCode=XXXXXXX. If ?teacherPin=1234 is provided, it must match the stored PIN.
+ */
 function doGet(e) {
-  // Only used for reading the registry (teacher unlock)
-  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName("Registry");
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(REGISTRY_SHEET);
+  if (!sheet) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'Missing Registry sheet.' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  const requestedCode = sanitizeGroupCode(e?.parameter?.groupCode);
+  if (!requestedCode) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'groupCode query parameter is required.' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  const requestedPin = sanitizePin(e?.parameter?.teacherPin);
   const data = sheet.getDataRange().getValues();
-  const headers = data[0];
-  const rows = data.slice(1).map(row => {
-    let obj = {};
-    headers.forEach((h, i) => obj[h] = row[i]);
-    return obj;
+  const headers = data[0] || [];
+  const normalizedHeaders = headers.map(h => String(h || '').trim().toLowerCase());
+  const codeIndex = normalizedHeaders.indexOf('groupcode');
+  const pinIndex = normalizedHeaders.indexOf('teacherpin');
+
+  const matchingRows = [];
+  for (let i = 1; i < data.length; i++) {
+    const row = data[i];
+    const rowCode = codeIndex >= 0 ? sanitizeGroupCode(row[codeIndex]) : '';
+    if (rowCode === requestedCode) {
+      matchingRows.push(row);
+    }
+  }
+
+  if (!matchingRows.length) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'Group code not found.' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (requestedPin) {
+    const latest = matchingRows[matchingRows.length - 1];
+    const storedPin = pinIndex >= 0 ? sanitizePin(latest[pinIndex]) : '';
+    if (!storedPin || storedPin !== requestedPin) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ error: 'Incorrect teacher PIN.' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+  }
+
+  const sanitizedRows = matchingRows.map(row => {
+    const entry = {};
+    headers.forEach((header, idx) => {
+      if (idx === pinIndex && !requestedPin) {
+        entry[header] = '';
+      } else {
+        entry[header] = row[idx];
+      }
+    });
+    return entry;
   });
+
   return ContentService
-    .createTextOutput(JSON.stringify(rows))
+    .createTextOutput(JSON.stringify(sanitizedRows))
     .setMimeType(ContentService.MimeType.JSON);
 }
 
+/**
+ * Handles POST requests from the Mathx.nz frontend when a teacher creates a new group test.
+ * Expects the payload documented in phase12 - group test.md.
+ */
 function doPost(e) {
-  const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const action = (e.parameter.action || '').toLowerCase();
-
-  // === CREATE NEW GROUP TEST (teacher) ===
-  if (action === "creategroup") {
-    const sheet = ss.getSheetByName("Registry");
-    sheet.appendRow([
-      e.parameter.groupCode,
-      e.parameter.teacherEmail,
-      new Date(),
-      e.parameter.testTitle || "",
-      e.parameter.year || "",
-      e.parameter.mode || "",
-      e.parameter.totalQuestions || ""
-    ]);
-    return ContentService.createTextOutput("OK");
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(REGISTRY_SHEET);
+  if (!sheet) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'Missing Registry sheet.' }))
+      .setMimeType(ContentService.MimeType.JSON);
   }
 
-  // === STUDENT SUBMITS TEST (default case) ===
-  const sheet = ss.getSheetByName("Scores");
   sheet.appendRow([
+    sanitizeGroupCode(e?.parameter?.groupCode),
+    (e?.parameter?.teacherEmail || '').trim(),
+    sanitizePin(e?.parameter?.teacherPin),
     new Date(),
-    e.parameter.groupCode || "",
-    e.parameter.studentName || "Anonymous",
-    Number(e.parameter.score || 0),
-    Number(e.parameter.totalQuestions || 0),
-    Number(e.parameter.percent || 0),
-    e.parameter.startTime || "",
-    e.parameter.endTime || "",
-    Number(e.parameter.durationSec || 0),
-    e.parameter.ipAddress || "",
-    e.parameter.wrongQuestions || ""          // JSON string with topics
+    e?.parameter?.testTitle || '',
+    e?.parameter?.year || '',
+    e?.parameter?.mode || '',
+    e?.parameter?.totalQuestions || ''
   ]);
 
-  return ContentService.createTextOutput("OK");
+  return ContentService.createTextOutput('OK');
+}
+
+function sanitizeGroupCode(code) {
+  return (code || '').toString().replace(/\D/g, '');
+}
+
+function sanitizePin(pin) {
+  return (pin || '').toString().replace(/\D/g, '').substring(0, 4);
 }
