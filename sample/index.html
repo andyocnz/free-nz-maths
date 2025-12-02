@@ -3,90 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Registry & Scores Test</title>
+    <title>Group Lookup Debugger</title>
     <style>
+        :root {
+            color-scheme: light;
+        }
         body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f4;
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            padding: 24px;
+            background: #f4f6fb;
+            color: #1f2937;
         }
         h1 {
-            color: #333;
+            margin-bottom: 6px;
         }
-        .section {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-top: 20px;
-        }
-        .section h2 {
+        p.description {
             margin-top: 0;
-            color: #333;
+            color: #4b5563;
         }
-        .input-section {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-bottom: 15px;
+        .card {
+            background: #fff;
+            border-radius: 14px;
+            box-shadow: 0 12px 40px rgba(15, 23, 42, 0.12);
+            padding: 20px;
+            margin-bottom: 24px;
         }
-        .input-section input {
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            flex: 1;
-            min-width: 180px;
+        label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #475569;
+            display: block;
+            margin-bottom: 6px;
         }
-        .input-section button {
-            padding: 10px 18px;
+        input {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid #c8d0e9;
+            font-size: 1rem;
+            margin-bottom: 16px;
+        }
+        .row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            column-gap: 16px;
+        }
+        button {
+            background: #2563eb;
+            color: #fff;
             border: none;
-            border-radius: 4px;
-            background-color: #0077b6;
-            color: white;
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-size: 1rem;
             cursor: pointer;
+            transition: background 0.2s ease;
+            margin-top: 6px;
         }
-        .input-section button:hover {
-            background-color: #005f90;
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
-        .data-container {
+        button:not(:disabled):hover {
+            background: #1d4ed8;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            font-size: 0.95rem;
+        }
+        th, td {
+            border: 1px solid #e5e7eb;
+            padding: 8px 10px;
+            text-align: left;
+        }
+        th {
+            background: #eef2ff;
+            color: #1e3a8a;
+            white-space: nowrap;
+        }
+        .status {
+            font-size: 0.9rem;
+            color: #6b7280;
+            margin: 6px 0 0;
+        }
+        pre {
+            background: #0f172a;
+            color: #f1f5f9;
+            padding: 12px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+        }
+        .warning {
+            color: #b91c1c;
             margin-top: 10px;
-        }
-        .data-item {
-            margin-bottom: 15px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        .data-item:last-child {
-            border-bottom: none;
-            margin-bottom: 0;
-            padding-bottom: 0;
-        }
-        .data-item strong {
-            color: #555;
         }
     </style>
 </head>
 <body>
-    <h1>Test Google Apps Script Endpoints</h1>
+    <h1>Group Lookup Debugger</h1>
+    <p class="description">
+        Use this page to hit the Google Apps Script endpoints with any group code and instantly see the registry rows,
+        student attempts, and raw JSON responses. This mirrors <code>registry-dump.html</code> but lets you override the URLs.
+        Tip: append <code>?group=7482915&amp;pin=1234</code> (plus optional <code>registryUrl</code>/<code>scoresUrl</code>) to auto-fill + load on arrival.
+    </p>
 
-    <div class="section">
-        <h2>Registry Lookup (Group details)</h2>
-        <div class="input-section">
-            <input type="text" id="registryGroupCode" placeholder="Enter group code">
-            <input type="text" id="registryPin" placeholder="Teacher PIN">
-            <button id="registryButton">Load registry</button>
+    <div class="card">
+        <h2>Inputs</h2>
+        <div class="row">
+            <div>
+                <label for="registry-url">Registry URL</label>
+                <input id="registry-url" type="text" value="https://script.google.com/macros/s/AKfycbwJ-ZTs2TvnjAMDlH0keq9TZFXfhY9O2QxNpBdEBw5eg7GcTqZGpqJZyoyZh4nbJ1H9bw/exec">
+            </div>
+            <div>
+                <label for="scores-url">Scores URL</label>
+                <input id="scores-url" type="text" value="https://script.google.com/macros/s/AKfycbxq7vSIEjjtPFoB7bbtr-wYv0dBYP1MZzQvpeIqyYSdl-9hCHOUyvblN60DEc2BBei8lw/exec">
+            </div>
         </div>
-        <div id="registry-data" class="data-container">
-            <p>Enter a group code and click "Load registry".</p>
+        <div class="row">
+            <div>
+                <label for="group-code">Group code</label>
+                <input id="group-code" type="text" inputmode="numeric" placeholder="7482915">
+            </div>
+            <div>
+                <label for="teacher-pin">Teacher PIN (optional)</label>
+                <input id="teacher-pin" type="text" inputmode="numeric" maxlength="4" placeholder="1234">
+            </div>
         </div>
+        <button id="load-btn">Load data</button>
+        <p class="status" id="global-status"></p>
     </div>
 
-    <div class="section">
-        <h2>Scores Lookup (Student attempts)</h2>
-        <p>Once the registry lookup succeeds, the matching student attempts will load automatically.</p>
-        <div id="scores-data" class="data-container">
-            <p>Validate a group code and PIN above to see student attempts.</p>
-        </div>
+    <div class="card">
+        <h2>Request details</h2>
+        <p class="status" id="request-summary">No requests yet.</p>
+        <details>
+            <summary>Registry request</summary>
+            <pre id="registry-request">n/a</pre>
+        </details>
+        <details>
+            <summary>Scores request</summary>
+            <pre id="scores-request">n/a</pre>
+        </details>
+    </div>
+
+    <div class="card">
+        <h2>Registry rows</h2>
+        <p class="status" id="registry-status">Waiting for input…</p>
+        <div id="registry-warning" class="warning"></div>
+        <table>
+            <thead id="registry-head"></thead>
+            <tbody id="registry-body">
+                <tr><td>No data yet.</td></tr>
+            </tbody>
+        </table>
+        <details style="margin-top:12px;">
+            <summary>Raw registry JSON</summary>
+            <pre id="registry-raw">[]</pre>
+        </details>
+    </div>
+
+    <div class="card">
+        <h2>Scores</h2>
+        <p class="status" id="scores-status">Waiting for input…</p>
+        <table>
+            <thead id="scores-head"></thead>
+            <tbody id="scores-body">
+                <tr><td>No data yet.</td></tr>
+            </tbody>
+        </table>
+        <details style="margin-top:12px;">
+            <summary>Raw scores JSON</summary>
+            <pre id="scores-raw">[]</pre>
+        </details>
     </div>
 
     <script src="script.js"></script>

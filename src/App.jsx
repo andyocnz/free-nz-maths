@@ -361,6 +361,14 @@ export default function App() {
       mode: groupSetupForm.mode || 'full',
       totalQuestions: String(totalQuestions)
     }
+    console.log('=== PAYLOAD DEBUG ===')
+    console.log('Full payload:', payload)
+    console.log('teacherPin in payload:', payload.teacherPin)
+    console.log('teacherPin type:', typeof payload.teacherPin)
+    console.log('teacherPin length:', payload.teacherPin?.length)
+    console.log('groupSetupForm.teacherPin (raw):', groupSetupForm.teacherPin)
+    console.log('sanitized teacherPin variable:', teacherPin)
+    console.log('=== END DEBUG ===')
 
     setGroupSetupStatus({ submitting: true, success: false, error: '' })
     setGroupSetupResult(null)
@@ -393,7 +401,11 @@ export default function App() {
     setGroupRegistryError('')
 
     try {
-      const data = await getRegistry({ groupCode: normalizedCode })
+      const registryParams = { groupCode: normalizedCode }
+      if (options.teacherPin) {
+        registryParams.teacherPin = options.teacherPin
+      }
+      const data = await getRegistry(registryParams)
       const rows = Array.isArray(data) ? data : data?.rows || []
       const matches = rows.filter(row => sanitizeGroupCode(row.groupCode || row.groupcode) === normalizedCode)
 
@@ -514,12 +526,13 @@ export default function App() {
     setMode('test')
   }
 
-  const submitGroupResults = async (results) => {
+  const submitGroupResults = async (results, scoringHistory = null) => {
     if (!groupCode || !groupRegistryEntry) return
 
     const endTime = new Date()
     const durationSec = groupStartTime ? Math.max(0, Math.round((endTime - groupStartTime) / 1000)) : 0
-    const wrongQuestions = history
+    const sourceHistory = Array.isArray(scoringHistory) ? scoringHistory : history
+    const wrongQuestions = sourceHistory
       .filter(q => q.answered && !q.isCorrect)
       .map(q => ({
         qid: q.id || q.templateId || q.skill || q.skillId || 'unknown',
@@ -557,15 +570,16 @@ export default function App() {
     }
   }
 
-  const loadGroupScores = async (code) => {
+  const loadGroupScores = async (code, options = {}) => {
     const normalizedCode = sanitizeGroupCode(code)
     if (!normalizedCode) return
 
+    const pinForScores = options.teacherPin ? sanitizePin(options.teacherPin) : ''
     setGroupScoresLoading(true)
     setGroupScoresError('')
 
     try {
-      const data = await fetchGroupScores(normalizedCode)
+      const data = await fetchGroupScores(normalizedCode, pinForScores)
       const rows = Array.isArray(data) ? data : data?.rows || []
       const parsed = rows
         .filter(row => sanitizeGroupCode(row.groupCode || row.groupcode) === normalizedCode)
@@ -617,7 +631,7 @@ export default function App() {
     setResultLookupScores([])
 
     try {
-      const registryData = await getRegistry({ groupCode: code })
+      const registryData = await getRegistry({ groupCode: code, teacherPin: pin })
       const registryRows = Array.isArray(registryData) ? registryData : registryData?.rows || []
       const filtered = registryRows.filter(row => sanitizeGroupCode(row.groupCode || row.groupcode) === code)
       const pinMatches = filtered.filter(row => sanitizePin(row.teacherPin || row.teacherpin || '') === pin)
@@ -688,7 +702,7 @@ export default function App() {
     }
     setGroupScoresError('')
     await loadGroupFromRegistry(normalizedCode, { teacherPin: normalizedPin })
-    await loadGroupScores(normalizedCode)
+    await loadGroupScores(normalizedCode, { teacherPin: normalizedPin })
   }
 
   const formatDuration = (seconds) => {
@@ -1239,12 +1253,38 @@ export default function App() {
     startTestInternal(opts)
   }
 
+  const gradeFromPercentage = percentage => {
+    if (percentage >= 90) return 'A+'
+    if (percentage >= 85) return 'A'
+    if (percentage >= 80) return 'A-'
+    if (percentage >= 75) return 'B+'
+    if (percentage >= 70) return 'B'
+    if (percentage >= 65) return 'B-'
+    if (percentage >= 60) return 'C+'
+    if (percentage >= 55) return 'C'
+    if (percentage >= 50) return 'C-'
+    return 'D'
+  }
+
   const finishTest = () => {
-    // Calculate and store test results, then navigate to results view
-    const results = calculateTestResults(history)
-    setTestResults(results)
+    const scoringHistory = isGroupMode
+      ? history.map(q => (q.answered ? q : { ...q, answered: true, isCorrect: false }))
+      : history
+
+    const results = calculateTestResults(scoringHistory)
+    const normalizedResults = { ...results }
+    if (isGroupMode) {
+      normalizedResults.incorrectAnswers += normalizedResults.unanswered
+      normalizedResults.unanswered = 0
+      const total = normalizedResults.totalQuestions
+      normalizedResults.percentageScore = total > 0
+        ? Math.round((normalizedResults.correctAnswers / total) * 100)
+        : 0
+      normalizedResults.grade = gradeFromPercentage(normalizedResults.percentageScore)
+    }
+    setTestResults(normalizedResults)
     if (isGroupMode && groupCode) {
-      submitGroupResults(results)
+      submitGroupResults(normalizedResults, scoringHistory)
     }
 
     // Save test result to storage and practice history for normal curriculum tests.
@@ -2217,6 +2257,83 @@ export default function App() {
               </p>
             </div>
 
+            <div className="bg-white border border-slate-200 rounded-3xl p-6 space-y-4">
+              <div>
+                <label className="text-xs uppercase tracking-[0.3em] text-slate-500 font-semibold block mb-2">
+                  Your name
+                </label>
+                <input
+                  type="text"
+                  className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base"
+                  placeholder="Enter your name to start the test"
+                  value={groupStudentName}
+                  onChange={(e) => setGroupStudentName(e.target.value)}
+                  disabled={!groupRegistryEntry}
+                />
+              </div>
+              <button
+                type="button"
+                onClick={startGroupTestSession}
+                disabled={!groupRegistryEntry || !groupStudentName.trim()}
+                className={`w-full px-6 py-4 rounded-3xl text-lg font-semibold shadow-lg transition ${
+                  !groupRegistryEntry || !groupStudentName.trim()
+                    ? 'bg-slate-200 text-slate-500 cursor-not-allowed'
+                    : 'bg-blue-600 text-white hover:bg-blue-500'
+                }`}
+              >
+                Start test now
+              </button>
+              <p className="text-xs text-slate-500">
+                We will automatically send your score to the teacher email saved with this code.
+              </p>
+            </div>
+
+            {groupRegistryEntry && (
+              <div className="bg-gradient-to-br from-slate-900 to-blue-900 text-white rounded-3xl p-6 space-y-4 shadow-lg">
+                <div className="flex flex-wrap items-center justify-between gap-4">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.4em] text-blue-300">Group</p>
+                    <div className="text-3xl font-black font-mono flex items-center gap-2">
+                      {groupRegistryEntry.groupCode}
+                      <CopyButton value={groupRegistryEntry.groupCode} />
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-xs uppercase tracking-[0.2em] text-blue-300">Teacher</p>
+                    <p className="text-lg font-semibold">{groupRegistryEntry.teacherEmail || 'Saved securely'}</p>
+                  </div>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                  <div className="bg-white/10 rounded-2xl p-3">
+                    <p className="text-xs uppercase tracking-[0.3em] text-blue-200">Title</p>
+                    <p className="font-semibold">{groupRegistryEntry.testTitle || 'Group assessment'}</p>
+                  </div>
+                  <div className="bg-white/10 rounded-2xl p-3">
+                    <p className="text-xs uppercase tracking-[0.3em] text-blue-200">Year</p>
+                    <p className="font-semibold">Year {groupRegistryEntry.year || selectedYear || 7}</p>
+                  </div>
+                  <div className="bg-white/10 rounded-2xl p-3">
+                    <p className="text-xs uppercase tracking-[0.3em] text-blue-200">Questions</p>
+                    <p className="font-semibold">{groupRegistryEntry.totalQuestions}</p>
+                  </div>
+                </div>
+                {shareLink && (
+                  <div className="bg-white/10 rounded-2xl p-4 text-sm space-y-2">
+                    <p className="text-xs uppercase tracking-[0.3em] text-blue-200">Student link</p>
+                    <p className="text-xs text-blue-100">
+                      This link loads the test automatically for anyone with your code.
+                    </p>
+                    <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
+                      <code className="px-3 py-2 rounded-xl bg-slate-900/60 border border-white/10 text-xs break-all">
+                        {shareLink}
+                      </code>
+                      <CopyButton value={shareLink} />
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
             <form
               className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex flex-col md:flex-row gap-3"
               onSubmit={(e) => handleGroupCodeSubmit(e, 'lobby')}
@@ -2252,93 +2369,6 @@ export default function App() {
             {groupRegistryLoading && (
               <div className="text-center text-slate-500 text-sm">Generating your quiz…</div>
             )}
-
-            {groupRegistryEntry && (
-              <div className="bg-gradient-to-br from-slate-900 to-blue-900 text-white rounded-3xl p-6 space-y-4 shadow-lg">
-                <div className="flex flex-wrap items-center justify-between gap-4">
-                  <div>
-                    <p className="text-xs uppercase tracking-[0.4em] text-blue-300">Group</p>
-                    <div className="text-3xl font-black font-mono flex items-center gap-2">
-                      {groupRegistryEntry.groupCode}
-                      <CopyButton value={groupRegistryEntry.groupCode} />
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-xs uppercase tracking-[0.2em] text-blue-300">Teacher</p>
-                  <p className="text-lg font-semibold">{groupRegistryEntry.teacherEmail || 'Saved securely'}</p>
-                  </div>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                  <div className="bg-white/10 rounded-2xl p-3">
-                    <p className="text-xs uppercase tracking-[0.3em] text-blue-200">Title</p>
-                    <p className="font-semibold">{groupRegistryEntry.testTitle || 'Group assessment'}</p>
-                  </div>
-                  <div className="bg-white/10 rounded-2xl p-3">
-                    <p className="text-xs uppercase tracking-[0.3em] text-blue-200">Year</p>
-                    <p className="font-semibold">Year {groupRegistryEntry.year || selectedYear || 7}</p>
-                  </div>
-                  <div className="bg-white/10 rounded-2xl p-3">
-                    <p className="text-xs uppercase tracking-[0.3em] text-blue-200">Questions</p>
-                    <p className="font-semibold">{groupRegistryEntry.totalQuestions}</p>
-                  </div>
-                </div>
-                {shareLink && (
-                  <div className="bg-white/10 rounded-2xl p-4 text-sm space-y-3">
-                    <div>
-                      <p className="text-xs uppercase tracking-[0.3em] text-blue-200 mb-2">Student link</p>
-                      <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
-                        <code className="px-3 py-2 rounded-xl bg-slate-900/60 border border-white/10 text-xs break-all">
-                          {shareLink}
-                        </code>
-                        <CopyButton value={shareLink} />
-                      </div>
-                    </div>
-                    {teacherShareLink && (
-                      <div>
-                        <p className="text-xs uppercase tracking-[0.3em] text-blue-200 mb-2">Teacher results link</p>
-                        <div className="flex flex-col md:flex-row items-start md:items-center gap-2">
-                          <code className="px-3 py-2 rounded-xl bg-slate-900/60 border border-white/10 text-xs break-all">
-                            {teacherShareLink}
-                          </code>
-                          <CopyButton value={teacherShareLink} />
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            )}
-
-            <div className="bg-white border border-slate-200 rounded-3xl p-6 space-y-4">
-              <div>
-                <label className="text-xs uppercase tracking-[0.3em] text-slate-500 font-semibold block mb-2">
-                  Your name
-                </label>
-                <input
-                  type="text"
-                  className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base"
-                  placeholder="e.g. Alex Chen"
-                  value={groupStudentName}
-                  onChange={(e) => setGroupStudentName(e.target.value)}
-                  disabled={!groupRegistryEntry}
-                />
-              </div>
-              <button
-                type="button"
-                onClick={startGroupTestSession}
-                disabled={!groupRegistryEntry || !groupStudentName.trim()}
-                className={`w-full px-6 py-4 rounded-3xl text-lg font-semibold shadow-lg transition ${
-                  !groupRegistryEntry || !groupStudentName.trim()
-                    ? 'bg-slate-200 text-slate-500 cursor-not-allowed'
-                    : 'bg-blue-600 text-white hover:bg-blue-500'
-                }`}
-              >
-                Start test now
-              </button>
-              <p className="text-xs text-slate-500">
-                We will automatically send your score to the teacher email saved with this code.
-              </p>
-            </div>
 
             <div className="flex flex-col md:flex-row gap-3 justify-between items-center text-sm text-slate-500">
               <button
@@ -3042,12 +3072,14 @@ export default function App() {
 
                 <button
                   type="submit"
-                  disabled={groupSetupStatus.submitting}
+                  disabled={groupSetupStatus.submitting || groupSetupStatus.success}
                   className={`w-full md:w-auto px-6 py-4 rounded-3xl text-lg font-semibold shadow-lg transition ${
-                    groupSetupStatus.submitting ? 'bg-slate-200 text-slate-500 cursor-not-allowed' : 'bg-[#0077B6] text-white hover:bg-sky-600'
+                    groupSetupStatus.submitting || groupSetupStatus.success
+                      ? 'bg-slate-200 text-slate-500 cursor-not-allowed'
+                      : 'bg-[#0077B6] text-white hover:bg-sky-600'
                   }`}
                 >
-                  {groupSetupStatus.submitting ? 'Generating code…' : 'Generate 7-digit code'}
+                  {groupSetupStatus.submitting ? 'Generating code…' : groupSetupStatus.success ? 'Code ready' : 'Generate 7-digit code'}
                 </button>
               </form>
 
@@ -3069,7 +3101,7 @@ export default function App() {
                     </div>
                     <div className="text-xs text-blue-200 space-y-1">
                       <p>Save this code and links below. Students only need the short link.</p>
-                      <p className="font-semibold text-amber-200">Keep your teacher PIN secret �?" it unlocks the results.</p>
+                      <p className="font-semibold text-amber-200">Keep your teacher PIN secret it unlocks the results.</p>
                     </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
@@ -3088,7 +3120,7 @@ export default function App() {
                       </div>
                     </div>
                     <div className="bg-white/10 rounded-2xl p-4">
-                      <p className="text-[10px] uppercase tracking-[0.4em] text-blue-200 mb-1">Teacher PIN �?' keep private</p>
+                      <p className="text-[10px] uppercase tracking-[0.4em] text-blue-200 mb-1">Teacher PIN - keep private</p>
                       <div className="flex items-center gap-2 flex-wrap">
                         <code className="block text-xs break-all">{groupSetupResult.teacherPin}</code>
                         <CopyButton value={groupSetupResult.teacherPin} variant="light" />

@@ -5,8 +5,8 @@ export const config = {
   googleFormReportURL: 'https://docs.google.com/forms/d/e/1FAIpQLSfwqDJy0V4ePonb0VZJ3Ph6t5TsKYrO9tXxjKtsgr3FnSEiBQ/viewform?usp=pp_url&entry.193960772={timestamp}&entry.661014612={question}&entry.939831606={answer}&entry.2087041182={year}&entry.204114429={topic}',
 
   // Group test URLs
-  REGISTRY_URL: "https://script.google.com/macros/s/AKfycbxCeRbxwZLESKhge29qEY-r87RjHYnEt8-EejPwV81FNkkxGpkskLpzegoq8vFyO5PC/exec",
-  SCORES_URL:   "https://script.google.com/macros/s/AKfycbxfmlIXtK13RbXl9hZyROdO-02jBFzNftjEPj1OcVjk57vDALeiUjTARjkSe88h6SIpSA/exec",
+  REGISTRY_URL: "https://script.google.com/macros/s/AKfycbwJ-ZTs2TvnjAMDlH0keq9TZFXfhY9O2QxNpBdEBw5eg7GcTqZGpqJZyoyZh4nbJ1H9bw/exec",
+  SCORES_URL:   "https://script.google.com/macros/s/AKfycbxq7vSIEjjtPFoB7bbtr-wYv0dBYP1MZzQvpeIqyYSdl-9hCHOUyvblN60DEc2BBei8lw/exec",
 
   // App settings
   defaultYear: 7,
