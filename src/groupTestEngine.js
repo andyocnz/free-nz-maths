@@ -41,11 +41,12 @@ function hashSeed(value) {
  * @param {number} config.year - Year level for the test.
  * @param {number} config.totalQuestions - Total number of questions to produce.
  * @param {number|string} config.seed - Seed derived from the group code.
+ * @param {string} config.mode - Mode for the test (e.g., 'full' or 'focused:SKILL_ID').
  * @param {object} curriculumData - Full curriculum data.
  * @returns {Array<object>} Question objects ready for the main test runner.
  */
 export function generateGroupTest(config, curriculumData) {
-  const { year, totalQuestions = 30, seed } = config || {}
+  const { year, totalQuestions = 30, seed, mode = 'full' } = config || {}
   const normalizedSeed = hashSeed(seed)
   const rng = createSeededRng(normalizedSeed)
   const questions = []
@@ -55,8 +56,23 @@ export function generateGroupTest(config, curriculumData) {
   const skillsForYear = getSkillsForYear(curriculumData, year)
   if (!skillsForYear || !skillsForYear.length) return questions
 
+  // Check if mode is focused on a specific skill
+  let targetSkills = skillsForYear
+  if (mode && mode.startsWith('focused:')) {
+    const focusedSkillId = mode.split(':')[1]
+    if (focusedSkillId) {
+      const focusedSkill = skillsForYear.find(s => s.id === focusedSkillId)
+      if (focusedSkill) {
+        targetSkills = [focusedSkill]
+      } else {
+        // If the focused skill is not found, fall back to all skills to avoid breaking
+        console.warn(`Focused skill "${focusedSkillId}" not found for year ${year}. Using all skills.`)
+      }
+    }
+  }
+
   // Keep skill order deterministic to avoid drifting selections across clients.
-  const orderedSkills = [...skillsForYear].sort((a, b) => a.id.localeCompare(b.id))
+  const orderedSkills = [...targetSkills].sort((a, b) => a.id.localeCompare(b.id))
 
   // Override Math.random while generating questions so templateEngine becomes deterministic.
   const originalRandom = Math.random

@@ -9,14 +9,23 @@ import { config } from './config';
  * @returns {Promise<Response>} The response from the fetch call.
  */
 export async function registerGroup(data) {
-  const formData = new FormData();
+  console.log('registerGroup received data:', data)
+  console.log('data.teacherPin:', data?.teacherPin, 'type:', typeof data?.teacherPin)
+  const formData = new URLSearchParams();
   formData.append('action', 'createGroup');
   for (const key in data) {
     formData.append(key, data[key]);
   }
+  console.log('FormData entries:')
+  for (const [key, value] of formData.entries()) {
+    console.log(`  ${key}: "${value}"`)
+  }
 
   return fetch(config.REGISTRY_URL, {
     method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+    },
     body: formData,
   });
 }

@@ -1,92 +1,92 @@
 const SCORES_SHEET = 'Scores'
-const REGISTRY_SHEET = 'Registry'
 
-function doGet(e)  { return handleRequest(e) }
-function doPost(e) { return handleRequest(e) }
-
-function handleRequest(e) {
+function doGet(e) {
   const scoresSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SCORES_SHEET)
-  const isPost = e && e.postData
-
-  if (!isPost) {
-    const requestedCode = sanitizeGroupCode(e?.parameter?.groupCode)
-    const requestedPin = sanitizePin(e?.parameter?.teacherPin)
-    if (!requestedCode || requestedPin.length < 4) {
-      return ContentService
-        .createTextOutput(JSON.stringify({ error: 'groupCode and teacherPin are required.' }))
-        .setMimeType(ContentService.MimeType.JSON)
-    }
-
-    const registrySheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(REGISTRY_SHEET)
-    const registryData = registrySheet.getDataRange().getValues()
-    const registryHeaders = registryData[0] || []
-    const normalizedRegistryHeaders = registryHeaders.map(h => String(h || '').trim().toLowerCase())
-    const codeIdx = normalizedRegistryHeaders.indexOf('groupcode')
-    const pinIdx = normalizedRegistryHeaders.indexOf('teacherpin')
-
-    let storedPin = ''
-    for (let i = registryData.length - 1; i >= 1; i--) {
-      const row = registryData[i]
-      const rowCode = codeIdx >= 0 ? sanitizeGroupCode(row[codeIdx]) : ''
-      if (rowCode === requestedCode) {
-        storedPin = pinIdx >= 0 ? sanitizePin(row[pinIdx]) : ''
-        break
-      }
-    }
-
-    if (!storedPin) {
-      return ContentService
-        .createTextOutput(JSON.stringify({ error: 'Group code not found.' }))
-        .setMimeType(ContentService.MimeType.JSON)
-    }
-
-    if (storedPin !== requestedPin) {
-      return ContentService
-        .createTextOutput(JSON.stringify({ error: 'Incorrect teacher PIN.' }))
-        .setMimeType(ContentService.MimeType.JSON)
-    }
-
-    const scoreData = scoresSheet.getDataRange().getValues()
-    const scoreHeaders = scoreData[0] || []
-    const normalizedScoreHeaders = scoreHeaders.map(h => String(h || '').trim().toLowerCase())
-    const scoreCodeIdx = normalizedScoreHeaders.indexOf('groupcode')
-    const filteredRows = []
-    for (let i = 1; i < scoreData.length; i++) {
-      const row = scoreData[i]
-      const rowCode = scoreCodeIdx >= 0 ? sanitizeGroupCode(row[scoreCodeIdx]) : ''
-      if (rowCode === requestedCode) {
-        const obj = {}
-        scoreHeaders.forEach((h, idx) => { obj[h] = row[idx] })
-        filteredRows.push(obj)
-      }
-    }
-
+  if (!scoresSheet) {
     return ContentService
-      .createTextOutput(JSON.stringify(filteredRows))
+      .createTextOutput(JSON.stringify({ error: 'Missing Scores sheet.' }))
       .setMimeType(ContentService.MimeType.JSON)
   }
 
-  const p = e.parameter || {}
+  const requestedCode = sanitizeGroupCode(e?.parameter?.groupCode)
+  if (!requestedCode) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'groupCode is required.' }))
+      .setMimeType(ContentService.MimeType.JSON)
+  }
+
+  const scoreData = scoresSheet.getDataRange().getValues()
+  const scoreHeaders = scoreData[0] || []
+  const normalizedScoreHeaders = scoreHeaders.map(h => String(h || '').trim().toLowerCase())
+  const scoreCodeIdx = normalizedScoreHeaders.indexOf('groupcode')
+  const filteredRows = []
+  for (let i = 1; i < scoreData.length; i++) {
+    const row = scoreData[i]
+    const rowCode = scoreCodeIdx >= 0 ? sanitizeGroupCode(row[scoreCodeIdx]) : ''
+    if (rowCode === requestedCode) {
+      const obj = {}
+      scoreHeaders.forEach((h, idx) => { obj[h] = row[idx] })
+      filteredRows.push(obj)
+    }
+  }
+
+  return ContentService
+    .createTextOutput(JSON.stringify(filteredRows))
+    .setMimeType(ContentService.MimeType.JSON)
+}
+
+function doPost(e) {
+  const scoresSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SCORES_SHEET)
+  if (!scoresSheet) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'Missing Scores sheet.' }))
+      .setMimeType(ContentService.MimeType.JSON)
+  }
+
+  let params = e?.parameter ? { ...e.parameter } : {}
+  if (e?.postData?.type === 'application/json' && e?.postData?.contents) {
+    try {
+      const jsonPayload = JSON.parse(e.postData.contents)
+      params = { ...params, ...jsonPayload }
+    } catch (err) {
+      Logger.log('Failed to parse JSON payload: ' + err)
+    }
+  }
+
+  const groupCode = sanitizeGroupCode(params.groupCode || params.groupcode || '')
+  const studentName = params.studentName || params.studentname || 'Anonymous'
+  const score = Number(params.score || 0)
+  const totalQuestions = Number(params.totalQuestions || params.totalquestions || 0)
+  const percent = Number(params.percent || 0)
+  const startTime = params.startTime || params.starttime || ''
+  const endTime = params.endTime || params.endtime || ''
+  const durationSec = Number(params.durationSec || params.durationsec || 0)
+  const ipAddress = params.ipAddress || params.ipaddress || ''
+  const wrongQuestions = params.wrongQuestions || params.wrongquestions || ''
+
+  if (!groupCode) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'groupCode is required.' }))
+      .setMimeType(ContentService.MimeType.JSON)
+  }
+
   scoresSheet.appendRow([
     new Date(),
-    sanitizeGroupCode(p.groupCode),
-    p.studentName || 'Anonymous',
-    Number(p.score || 0),
-    Number(p.totalQuestions || 0),
-    Number(p.percent || 0),
-    p.startTime || '',
-    p.endTime || '',
-    Number(p.durationSec || 0),
-    p.ipAddress || '',
-    p.wrongQuestions || ''
+    groupCode,
+    studentName,
+    score,
+    totalQuestions,
+    percent,
+    startTime,
+    endTime,
+    durationSec,
+    ipAddress,
+    wrongQuestions
   ])
+
   return ContentService.createTextOutput('OK')
 }
 
 function sanitizeGroupCode(code) {
   return (code || '').toString().replace(/\D/g, '')
-}
-
-function sanitizePin(pin) {
-  return (pin || '').toString().replace(/\D/g, '').substring(0, 4)
 }

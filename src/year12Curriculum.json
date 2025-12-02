@@ -157,7 +157,7 @@
                 "b": ["int", -10, 10],
                 "c": ["int", -10, 10]
               },
-              "answer": "x = {-b/(2*a)}",
+              "answer": "{-b/(2*a)}",
               "visualData": {
                 "type": "graph_parabola",
                 "a": "a",
@@ -176,7 +176,7 @@
                 "b": ["int", -10, 10],
                 "t0": ["int", 1, 5]
               },
-              "answer": "v = {2*a*t0 + b}",
+              "answer": "{2*a*t0 + b}",
               "difficulty": 9
             }
           ]
@@ -289,7 +289,7 @@
                 "b": ["int", -5, 10],
                 "x0": ["int", 5, 20]
               },
-              "answer": "y = {a*x0 + b}",
+              "answer": "{a*x0 + b}",
               "visualData": {
                 "type": "scatter_plot",
                 "points": [[1,"a*1 + b"],[2,"a*2 + b"],[3,"a*3 + b"]],

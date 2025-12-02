@@ -79,7 +79,7 @@
                 "v4": ["int", 1, 6],
                 "targetBinLabel": ["choice", "130-140", "140-150", "150-160", "160-170"]
               },
-              "answer": "({\"130-140\": v1, \"140-150\": v2, \"150-160\": v3, \"160-170\": v4})[targetBinLabel]",
+              "answer": "(targetBinLabel === '130-140' ? v1 : targetBinLabel === '140-150' ? v2 : targetBinLabel === '150-160' ? v3 : v4)",
               "difficulty": 2,
               "visualData": { "type": "histogram", "bins": ["130-140", "140-150", "150-160", "160-170"], "values": ["v1", "v2", "v3", "v4"] }
             }
@@ -422,7 +422,7 @@
               "id": "Y8.G.TRANSFORMATIONS_COORDINATE.T1",
               "stem": "Reflect the point ({x},{y}) across the y-axis.",
               "params": { "x": ["int", 1, 10], "y": ["int", 1, 10] },
-              "answer": "`(${-x},${y})`",
+              "answer": "({-x}, {y})",
               "difficulty": 6,
               "visualData": { "type": "coordinate_grid", "points": [["x","y"]], "showPoint": true }
             },
@@ -430,7 +430,7 @@
               "id": "Y8.G.TRANSFORMATIONS_COORDINATE.T2",
               "stem": "Rotate the point ({x},{y}) 90° clockwise around the origin (0,0).",
               "params": { "x": ["int", 1, 10], "y": ["int", 1, 10] },
-              "answer": "`(${y},${-x})`",
+              "answer": "({y}, {-x})",
               "difficulty": 7,
               "visualData": { "type": "coordinate_grid", "points": [["x","y"], ["y", "-x"]], "showLine": true }
             }
@@ -484,7 +484,7 @@
               "id": "Y8.N.STANDARD_FORM_OPS.T1",
               "stem": "Calculate ({m1} x 10^{e1}) × ({m2} x 10^{e2}). Write in standard form.",
               "params": { "m1": ["int", 2, 9], "e1": ["int", 3, 5], "m2": ["int", 2, 9], "e2": ["int", 2, 4] },
-              "answer": "`${m1*m2} x 10^${e1+e2}`",
+              "answer": "{m1*m2} x 10^{e1+e2}",
               "difficulty": 7
             }
           ]
@@ -532,7 +532,7 @@
                 "x": ["decimal", 0, 200, 2],
                 "y": ["decimal", 0, 200, 2]
               },
-              "answer": "x + y",
+              "answer": "{x + y}",
               "difficulty": 5
             },
             {
@@ -541,7 +541,7 @@
               "params": {
                 "x": ["decimal", 0, 20, 3]
               },
-              "answer": "decimal_to_fraction_simplified(x)",
+              "answer": "{decimal_to_fraction_simplified(x)}",
               "difficulty": 6
             }
           ]
@@ -672,7 +672,7 @@
                 "y": ["decimal", -100, 100, 3],
                 "z": ["decimal", -100, 100, 3]
               },
-              "answer": "sort([x,y,z])",
+              "answer": "{sort([x,y,z])}",
               "difficulty": 6
             },
             {
@@ -682,7 +682,7 @@
                 "x": ["decimal", -200, 200, 2],
                 "y": ["decimal", -200, 200, 2]
               },
-              "answer": "x + y",
+              "answer": "{x + y}",
               "difficulty": 6
             },
             {
@@ -691,7 +691,7 @@
               "params": {
                 "x": ["decimal", 0, 50, 3]
               },
-              "answer": "decimal_to_fraction_simplified(x)",
+              "answer": "{decimal_to_fraction_simplified(x)}",
               "difficulty": 7
             }
           ]
@@ -766,7 +766,7 @@
               "id": "Y8.A.INEQUALITIES.T1",
               "stem": "Solve for x: {a}x + {b} > {c}",
               "params": { "a": ["int", 2, 5], "b": ["int", 1, 10], "c": ["int", 11, 40] },
-              "answer": "'x > ' + ((c - b) / a)",
+              "answer": "{'x > ' + round((c - b) / a, 2)}",
               "difficulty": 7,
               "phase": 8
             }
@@ -895,14 +895,14 @@
               "id": "Y9.A.INEQUALITIES.T1",
               "stem": "Solve for x: {a}x + {b} < {c}",
               "params": { "a": ["int", 2, 5], "b": ["int", 1, 20], "c": ["int", 21, 50] },
-              "answer": "`x < ${(c - b) / a}`",
+              "answer": "x < {(c - b) / a}",
               "difficulty": 8
             },
             {
               "id": "Y9.A.INEQUALITIES.T2",
               "stem": "Solve for x: {b} - {a}x ≥ {c}",
               "params": { "a": ["int", 2, 5], "b": ["int", 21, 50], "c": ["int", 1, 20] },
-              "answer": "`x ≤ ${(b - c) / a}`",
+              "answer": "x ≤ {(b - c) / a}",
               "difficulty": 9
             }
           ]
@@ -939,7 +939,7 @@
               "id": "Y9.A.POLYNOMIAL_OPS.T1",
               "stem": "Expand and simplify: {a}x( {b}x + {c} ).",
               "params": { "a": ["int", 2, 5], "b": ["int", 2, 5], "c": ["int", -5, 5, 1] },
-              "answer": "`${a*b}x² + ${a*c}x`",
+              "answer": "{a*b}x² + {a*c}x",
               "difficulty": 8
             }
           ]
@@ -1103,8 +1103,8 @@
             {
               "id": "Y10.A.QUADRATIC_FORMULA.T1",
               "stem": "Use the quadratic formula to solve {a}x^2 + {b}x + {c} = 0. Give your answers to two decimal places.",
-              "params": { "a": ["int", 2, 5], "b": ["int", -10, 10], "c": ["int", -10, 5] },
-              "answer": "solve_quadratic_formula(a, b, c)",
+              "params": { "a": ["int", 2, 5], "b": ["int", -10, 10], "c": ["int", -10, -1] },
+              "answer": "{solve_quadratic_formula(a, b, c)}",
               "difficulty": 9,
               "phase": 8
             }
@@ -1156,7 +1156,7 @@
               "id": "Y10.A.ALGEBRAIC_FRACTIONS.T1",
               "stem": "Simplify the expression: (x^2 - {a*a}) / (x - {a}).",
               "params": { "a": ["int", 1, 10, 1] },
-              "answer": "'x + ' + a",
+              "answer": "{'x + ' + a}",
               "difficulty": 8,
               "phase": 8
             }
@@ -1242,7 +1242,7 @@
               "id": "Y10.A.FUNCTIONS_ADVANCED.T1",
               "stem": "What is the domain of the function f(x) = sqrt(x - {a})? Give your answer in the form x >= a.",
               "params": { "a": ["int", 0, 20] },
-              "answer": "'x >= ' + a",
+              "answer": "{'x >= ' + a}",
               "difficulty": 8,
               "phase": 8
             }

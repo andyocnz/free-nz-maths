@@ -290,7 +290,7 @@
                                                                                         2
                                                                                     ]
                                                                           },
-                                                               "answer":  "x + y"
+                                                               "answer":  "{x + y}"
                                                            },
                                                            {
                                                                "id":  "Y6.N.DECIMALS.T2",
@@ -303,7 +303,7 @@
                                                                                         3
                                                                                     ]
                                                                           },
-                                                               "answer":  "decimal_to_fraction_simplified(x)"
+                                                               "answer":  "{decimal_to_fraction_simplified(x)}"
                                                            }
                                                        ]
                                      },
@@ -814,7 +814,7 @@
                                                                                         3
                                                                                     ]
                                                                           },
-                                                               "answer":  "sort([x,y,z])"
+                                                               "answer":  "{sort([x,y,z])}"
                                                            },
                                                            {
                                                                "id":  "Y7.N.DECIMALS.T2",
@@ -832,7 +832,7 @@
                                                                                         20
                                                                                     ]
                                                                           },
-                                                               "answer":  "x * y"
+                                                               "answer":  "{x * y}"
                                                            }
                                                        ]
                                      },
@@ -1048,7 +1048,7 @@
                                                                                         10
                                                                                     ]
                                                                           },
-                                                               "answer":  "2 * x + 3 * y"
+                                                               "answer":  "{2 * x + 3 * y}"
                                                            },
                                                            {
                                                                "id":  "Y7.A.EXPRESSIONS_EQUATIONS.T2",
@@ -1205,7 +1205,7 @@
                                                                                         10
                                                                                     ]
                                                                           },
-                                                               "answer":  "linear_eval(m, c, x)"
+                                                               "answer":  "{linear_eval(m, c, x)}"
                                                            },
                                                            {
                                                                "id":  "Y7.A.LINEAR_RELATIONS.T2",
@@ -1340,7 +1340,7 @@
                                                                                         2
                                                                                     ]
                                                                           },
-                                                               "answer":  "x + y * z"
+                                                               "answer":  "{x + y * z}"
                                                            }
                                                        ]
                                      },
@@ -1380,7 +1380,7 @@
                                                                                         12
                                                                                     ]
                                                                           },
-                                                               "answer":  "simplify(a * c, b * d)"
+                                                               "answer":  "{simplify(a * c, b * d)}"
                                                            }
                                                        ]
                                      },
@@ -1566,7 +1566,7 @@
                                                                                          10
                                                                                      ]
                                                                           },
-                                                               "answer":  "sqrt((x2 - x1)**2 + (y2 - y1)**2)"
+                                                               "answer":  "{sqrt((x2 - x1)**2 + (y2 - y1)**2)}"
                                                            }
                                                        ]
                                      },
@@ -1656,7 +1656,7 @@
                                                                                         10
                                                                                     ]
                                                                           },
-                                                               "answer":  "m * x + c"
+                                                               "answer":  "{m * x + c}"
                                                            }
                                                        ]
                                      },
@@ -1762,7 +1762,7 @@
                                                                                         50
                                                                                     ]
                                                                           },
-                                                               "answer":  "max([a,b,c,d,e]) - min([a,b,c,d,e])"
+                                                               "answer":  "{max([a,b,c,d,e]) - min([a,b,c,d,e])}"
                                                            }
                                                        ]
                                      },
@@ -1794,7 +1794,7 @@
                                                                                           1
                                                                                       ]
                                                                           },
-                                                               "answer":  "trig_ratio(opp, adj, hyp, \u0027sin\u0027)"
+                                                               "answer":  "{trig_ratio(opp, adj, hyp, 'sin')}"
                                                            },
                                                            {
                                                                "id":  "Y8.G.TRIG_RIGHT.T2",
@@ -1819,7 +1819,7 @@
                                                                                           1
                                                                                       ]
                                                                           },
-                                                               "answer":  "trig_ratio(opp, adj, hyp, \u0027cos\u0027)"
+                                                               "answer":  "{trig_ratio(opp, adj, hyp, 'cos')}"
                                                            }
                                                        ]
                                      },
@@ -1974,7 +1974,7 @@
                                                                                         2
                                                                                     ]
                                                                           },
-                                                               "answer":  "k * x"
+                                                               "answer":  "{k * x}"
                                                            }
                                                        ]
                                      },
@@ -2368,7 +2368,7 @@
                                                                                         8
                                                                                     ]
                                                                           },
-                                                               "answer":  "`x² + ${a+b}x + ${a*b}`"
+                                                               "answer":  "x² + {a+b}x + {a*b}"
                                                            },
                                                            {
                                                                "id":  "Y9.A.QUADRATICS.T2",

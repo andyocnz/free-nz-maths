@@ -83,15 +83,52 @@ function doPost(e) {
       .setMimeType(ContentService.MimeType.JSON);
   }
 
+  let params = e?.parameter ? { ...e.parameter } : {};
+  if (e?.postData?.type === 'application/json' && e?.postData?.contents) {
+    try {
+      const jsonPayload = JSON.parse(e.postData.contents);
+      params = { ...params, ...jsonPayload };
+    } catch (err) {
+      Logger.log('Failed to parse JSON payload: ' + err);
+    }
+  }
+  const groupCodeRaw = params.groupCode || params.groupcode || '';
+  const groupCode = sanitizeGroupCode(groupCodeRaw);
+  const teacherEmail = (params.teacherEmail || params.teacheremail || '').trim();
+  const teacherPinRaw = params.teacherPin ?? params.teacherpin ?? params.teacherPIN ?? params.pin ?? '';
+  const teacherPin = sanitizePin(teacherPinRaw);
+  const testTitle = params.testTitle || '';
+  const year = params.year || '';
+  const mode = params.mode || '';
+  const totalQuestions = params.totalQuestions || '';
+
+  if (!groupCode || groupCode.length !== 7) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'A valid 7-digit groupCode is required.' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (!teacherEmail || !teacherEmail.includes('@')) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'A valid teacherEmail is required.' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (teacherPin.length < 4) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'A 4-digit teacherPin is required.' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
   sheet.appendRow([
-    sanitizeGroupCode(e?.parameter?.groupCode),
-    (e?.parameter?.teacherEmail || '').trim(),
-    sanitizePin(e?.parameter?.teacherPin),
+    groupCode,
+    teacherEmail,
+    teacherPin,
     new Date(),
-    e?.parameter?.testTitle || '',
-    e?.parameter?.year || '',
-    e?.parameter?.mode || '',
-    e?.parameter?.totalQuestions || ''
+    testTitle,
+    year,
+    mode,
+    totalQuestions
   ]);
 
   return ContentService.createTextOutput('OK');

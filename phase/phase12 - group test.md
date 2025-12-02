@@ -14,7 +14,7 @@ Students open mathx.nz/?group=7482915 → same test → submit
 Teacher opens mathx.nz/results?group=7482915 → instantly sees full leaderboard + every wrong answer
 Works forever because app looks up teacher email from Google Sheet
 
-Google App script link for both sheet is https://script.google.com/macros/s/AKfycbxCeRbxwZLESKhge29qEY-r87RjHYnEt8-EejPwV81FNkkxGpkskLpzegoq8vFyO5PC/exec
+Google App script link for both sheet is https://script.google.com/macros/s/AKfycbwJ-ZTs2TvnjAMDlH0keq9TZFXfhY9O2QxNpBdEBw5eg7GcTqZGpqJZyoyZh4nbJ1H9bw/exec
 
 
 Google Sheets (create once)
@@ -37,6 +37,7 @@ Tab: Registry
 Headers row 1 (exact):
 groupCode
 teacherEmail
+teacherPin
 created
 testTitle
 year
@@ -66,6 +67,7 @@ jsfunction doPost(e) {
   sheet.appendRow([
     e.parameter.groupCode,
     e.parameter.teacherEmail,
+    e.parameter.teacherPin,
     new Date(),
     e.parameter.testTitle || "",
     e.parameter.year || "",
