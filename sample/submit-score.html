@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Score Submission Debugger</title>
+    <style>
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            margin: 0;
+            padding: 24px;
+            background: #f4f6fb;
+            color: #1f2937;
+        }
+        h1 {
+            margin-bottom: 8px;
+        }
+        .description {
+            margin-top: 0;
+            color: #4b5563;
+        }
+        .card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(15, 23, 42, 0.08);
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+        label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #475569;
+            display: block;
+            margin-bottom: 6px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border-radius: 12px;
+            border: 1px solid #c7d2fe;
+            font-size: 1rem;
+            margin-bottom: 14px;
+            background: #f8fafc;
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            column-gap: 16px;
+        }
+        button {
+            background: #2563eb;
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 999px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        button:not(:disabled):hover {
+            background: #1d4ed8;
+        }
+        pre {
+            background: #0f172a;
+            color: #f1f5f9;
+            padding: 12px;
+            border-radius: 10px;
+            overflow-x: auto;
+            font-size: 0.85rem;
+        }
+        .status {
+            font-size: 0.9rem;
+            color: #4b5563;
+            margin-top: 6px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Score Submission Debugger</h1>
+    <p class="description">
+        Quickly POST score data to the Google Apps Script endpoint and inspect the exact FormData payload + response.
+        Append <code>?group=7482915</code> or <code>?scoresUrl=https://script.google.com/.../exec</code> to auto-fill fields.
+    </p>
+
+    <div class="card">
+        <h2>Score payload</h2>
+        <form id="score-form">
+            <label for="scores-url">Scores URL</label>
+            <input id="scores-url" type="url" required value="https://script.google.com/macros/s/AKfycbxq7vSIEjjtPFoB7bbtr-wYv0dBYP1MZzQvpeIqyYSdl-9hCHOUyvblN60DEc2BBei8lw/exec">
+
+            <div class="grid">
+                <div>
+                    <label for="group-code">Group code</label>
+                    <input id="group-code" type="text" inputmode="numeric" placeholder="7482915" required>
+                </div>
+                <div>
+                    <label for="student-name">Student name</label>
+                    <input id="student-name" type="text" placeholder="Alex Chen" value="Debug Student">
+                </div>
+                <div>
+                    <label for="score">Score</label>
+                    <input id="score" type="number" min="0" value="12">
+                </div>
+                <div>
+                    <label for="total">Total questions</label>
+                    <input id="total" type="number" min="1" value="15">
+                </div>
+                <div>
+                    <label for="percent">Percent</label>
+                    <input id="percent" type="number" min="0" max="100" value="80">
+                </div>
+                <div>
+                    <label for="duration">Duration (seconds)</label>
+                    <input id="duration" type="number" min="0" value="900">
+                </div>
+            </div>
+
+            <label for="start-time">Start time (leave blank for now)</label>
+            <input id="start-time" type="datetime-local">
+            <label for="end-time">End time</label>
+            <input id="end-time" type="datetime-local">
+
+            <label for="ip-address">IP address (optional)</label>
+            <input id="ip-address" type="text" placeholder="118.92.134.21">
+
+            <label for="wrong-questions">Wrong questions JSON</label>
+            <textarea id="wrong-questions">[{"qid":"q1","topic":"Fractions","studentAnswer":"2/5","correctAnswer":"3/5"}]</textarea>
+
+            <button type="submit" id="send-btn">Send score</button>
+            <p class="status" id="form-status"></p>
+        </form>
+    </div>
+
+    <div class="card">
+        <h2>Debug output</h2>
+        <p class="status" id="request-summary">No requests yet.</p>
+        <details open>
+            <summary>FormData preview</summary>
+            <pre id="payload-preview">{
+  "groupCode": "",
+  "studentName": "",
+  "score": "",
+  "totalQuestions": "",
+  "percent": "",
+  "startTime": "",
+  "endTime": "",
+  "durationSec": "",
+  "ipAddress": "",
+  "wrongQuestions": ""
+}</pre>
+        </details>
+        <details open>
+            <summary>Response</summary>
+            <pre id="response-preview">No response yet.</pre>
+        </details>
+    </div>
+
+    <script src="submit-score.js"></script>
+</body>
+</html>

@@ -65,6 +65,35 @@ export function getAllUsers() {
   return usersJson ? JSON.parse(usersJson) : {}
 }
 
+export function importUserData(importedData) {
+  const currentUsername = localStorage.getItem(CURRENT_USER_KEY)
+  if (!currentUsername) {
+    throw new Error('No user is currently logged in.')
+  }
+
+  const users = getAllUsers()
+
+  // The key for the user object is the normalized (lowercase) username
+  const userKey = currentUsername.toLowerCase()
+
+  if (!users[userKey]) {
+    throw new Error('Current user not found in the database.')
+  }
+  
+  // Overwrite the existing user's data with the imported data
+  users[userKey] = {
+    username: users[userKey].username, // Keep the original username casing
+    createdAt: importedData.createdAt || users[userKey].createdAt,
+    progress: importedData.progress || {},
+    testResults: importedData.testResults || [],
+    practiceHistory: importedData.practiceHistory || [],
+    totalScore: importedData.totalScore || 0,
+    questionsAnswered: importedData.questionsAnswered || 0,
+  }
+
+  localStorage.setItem(USERS_KEY, JSON.stringify(users))
+}
+
 // Progress Tracking
 export function saveProgress(skillId, correct, year) {
   const user = getCurrentUser()

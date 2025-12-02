@@ -1,0 +1,143 @@
+// Google Apps Script for the Group Registry (REGISTRY_URL)
+// Deploy as a web app with "Anyone" access and copy the exec URL into src/config.js.
+
+const REGISTRY_SHEET = 'Registry';
+
+/**
+ * Handles GET requests so the frontend (and sample/index.html) can look up registry entries.
+ * Requires ?groupCode=XXXXXXX. If ?teacherPin=1234 is provided, it must match the stored PIN.
+ */
+function doGet(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(REGISTRY_SHEET);
+  if (!sheet) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'Missing Registry sheet.' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  const requestedCode = sanitizeGroupCode(e?.parameter?.groupCode);
+  if (!requestedCode) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'groupCode query parameter is required.' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  const requestedPin = sanitizePin(e?.parameter?.teacherPin);
+  const data = sheet.getDataRange().getValues();
+  const headers = data[0] || [];
+  const normalizedHeaders = headers.map(h => String(h || '').trim().toLowerCase());
+  const codeIndex = normalizedHeaders.indexOf('groupcode');
+  const pinIndex = normalizedHeaders.indexOf('teacherpin');
+
+  const matchingRows = [];
+  for (let i = 1; i < data.length; i++) {
+    const row = data[i];
+    const rowCode = codeIndex >= 0 ? sanitizeGroupCode(row[codeIndex]) : '';
+    if (rowCode === requestedCode) {
+      matchingRows.push(row);
+    }
+  }
+
+  if (!matchingRows.length) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'Group code not found.' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (requestedPin) {
+    const latest = matchingRows[matchingRows.length - 1];
+    const storedPin = pinIndex >= 0 ? sanitizePin(latest[pinIndex]) : '';
+    if (!storedPin || storedPin !== requestedPin) {
+      return ContentService
+        .createTextOutput(JSON.stringify({ error: 'Incorrect teacher PIN.' }))
+        .setMimeType(ContentService.MimeType.JSON);
+    }
+  }
+
+  const sanitizedRows = matchingRows.map(row => {
+    const entry = {};
+    headers.forEach((header, idx) => {
+      if (idx === pinIndex && !requestedPin) {
+        entry[header] = '';
+      } else {
+        entry[header] = row[idx];
+      }
+    });
+    return entry;
+  });
+
+  return ContentService
+    .createTextOutput(JSON.stringify(sanitizedRows))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+/**
+ * Handles POST requests from the Mathx.nz frontend when a teacher creates a new group test.
+ * Expects the payload documented in phase12 - group test.md.
+ */
+function doPost(e) {
+  const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(REGISTRY_SHEET);
+  if (!sheet) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'Missing Registry sheet.' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  let params = e?.parameter ? { ...e.parameter } : {};
+  if (e?.postData?.type === 'application/json' && e?.postData?.contents) {
+    try {
+      const jsonPayload = JSON.parse(e.postData.contents);
+      params = { ...params, ...jsonPayload };
+    } catch (err) {
+      Logger.log('Failed to parse JSON payload: ' + err);
+    }
+  }
+  const groupCodeRaw = params.groupCode || params.groupcode || '';
+  const groupCode = sanitizeGroupCode(groupCodeRaw);
+  const teacherEmail = (params.teacherEmail || params.teacheremail || '').trim();
+  const teacherPinRaw = params.teacherPin ?? params.teacherpin ?? params.teacherPIN ?? params.pin ?? '';
+  const teacherPin = sanitizePin(teacherPinRaw);
+  const testTitle = params.testTitle || '';
+  const year = params.year || '';
+  const mode = params.mode || '';
+  const totalQuestions = params.totalQuestions || '';
+
+  if (!groupCode || groupCode.length !== 7) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'A valid 7-digit groupCode is required.' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (!teacherEmail || !teacherEmail.includes('@')) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'A valid teacherEmail is required.' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  if (teacherPin.length < 4) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'A 4-digit teacherPin is required.' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  sheet.appendRow([
+    groupCode,
+    teacherEmail,
+    teacherPin,
+    new Date(),
+    testTitle,
+    year,
+    mode,
+    totalQuestions
+  ]);
+
+  return ContentService.createTextOutput('OK');
+}
+
+function sanitizeGroupCode(code) {
+  return (code || '').toString().replace(/\D/g, '');
+}
+
+function sanitizePin(pin) {
+  return (pin || '').toString().replace(/\D/g, '').substring(0, 4);
+}

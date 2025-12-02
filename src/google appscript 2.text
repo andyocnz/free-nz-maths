@@ -1,0 +1,92 @@
+const SCORES_SHEET = 'Scores'
+
+function doGet(e) {
+  const scoresSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SCORES_SHEET)
+  if (!scoresSheet) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'Missing Scores sheet.' }))
+      .setMimeType(ContentService.MimeType.JSON)
+  }
+
+  const requestedCode = sanitizeGroupCode(e?.parameter?.groupCode)
+  if (!requestedCode) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'groupCode is required.' }))
+      .setMimeType(ContentService.MimeType.JSON)
+  }
+
+  const scoreData = scoresSheet.getDataRange().getValues()
+  const scoreHeaders = scoreData[0] || []
+  const normalizedScoreHeaders = scoreHeaders.map(h => String(h || '').trim().toLowerCase())
+  const scoreCodeIdx = normalizedScoreHeaders.indexOf('groupcode')
+  const filteredRows = []
+  for (let i = 1; i < scoreData.length; i++) {
+    const row = scoreData[i]
+    const rowCode = scoreCodeIdx >= 0 ? sanitizeGroupCode(row[scoreCodeIdx]) : ''
+    if (rowCode === requestedCode) {
+      const obj = {}
+      scoreHeaders.forEach((h, idx) => { obj[h] = row[idx] })
+      filteredRows.push(obj)
+    }
+  }
+
+  return ContentService
+    .createTextOutput(JSON.stringify(filteredRows))
+    .setMimeType(ContentService.MimeType.JSON)
+}
+
+function doPost(e) {
+  const scoresSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SCORES_SHEET)
+  if (!scoresSheet) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'Missing Scores sheet.' }))
+      .setMimeType(ContentService.MimeType.JSON)
+  }
+
+  let params = e?.parameter ? { ...e.parameter } : {}
+  if (e?.postData?.type === 'application/json' && e?.postData?.contents) {
+    try {
+      const jsonPayload = JSON.parse(e.postData.contents)
+      params = { ...params, ...jsonPayload }
+    } catch (err) {
+      Logger.log('Failed to parse JSON payload: ' + err)
+    }
+  }
+
+  const groupCode = sanitizeGroupCode(params.groupCode || params.groupcode || '')
+  const studentName = params.studentName || params.studentname || 'Anonymous'
+  const score = Number(params.score || 0)
+  const totalQuestions = Number(params.totalQuestions || params.totalquestions || 0)
+  const percent = Number(params.percent || 0)
+  const startTime = params.startTime || params.starttime || ''
+  const endTime = params.endTime || params.endtime || ''
+  const durationSec = Number(params.durationSec || params.durationsec || 0)
+  const ipAddress = params.ipAddress || params.ipaddress || ''
+  const wrongQuestions = params.wrongQuestions || params.wrongquestions || ''
+
+  if (!groupCode) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'groupCode is required.' }))
+      .setMimeType(ContentService.MimeType.JSON)
+  }
+
+  scoresSheet.appendRow([
+    new Date(),
+    groupCode,
+    studentName,
+    score,
+    totalQuestions,
+    percent,
+    startTime,
+    endTime,
+    durationSec,
+    ipAddress,
+    wrongQuestions
+  ])
+
+  return ContentService.createTextOutput('OK')
+}
+
+function sanitizeGroupCode(code) {
+  return (code || '').toString().replace(/\D/g, '')
+}

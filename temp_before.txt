@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { generateQuestionForSkill, getStrandsForYear, getAvailableYears, generateQuestionFromTemplate, getSkillsForYear } from './templateEngine.js'
+import { generateQuestionForSkill, getStrandsForYear, getAvailableYears, generateQuestionFromTemplate } from './templateEngine.js'
 import curriculumData from './curriculumDataMerged.js'
 import { generateTest, calculateTestResults } from './testGenerator.js'
 import { generateGroupTest } from './groupTestEngine.js'
@@ -134,8 +134,7 @@ export default function App() {
     testTitle: '',
     year: selectedYear || config.defaultYear || 7,
     totalQuestions: 30,
-    mode: 'full',
-    focusedSkill: ''
+    mode: 'full'
   }))
   const [groupSetupStatus, setGroupSetupStatus] = useState({ submitting: false, success: false, error: '' })
   const [groupSetupResult, setGroupSetupResult] = useState(null)
@@ -286,7 +285,6 @@ export default function App() {
 
   const sanitizeGroupCode = (value) => String(value || '').replace(/\D/g, '').slice(0, 7)
   const sanitizePin = (value) => String(value || '').replace(/\D/g, '').slice(0, 4)
-  const sanitizeDigits = (value, maxLength) => String(value || '').replace(/\D/g, '').slice(0, maxLength)
 
   const updateGroupUrl = (targetPath, code) => {
     if (typeof window === 'undefined') return
@@ -327,19 +325,8 @@ export default function App() {
     let nextValue = value
     if (field === 'teacherPin') {
       nextValue = sanitizePin(value)
-    } else if (field === 'totalQuestions') {
-      nextValue = sanitizeDigits(value, 3)
     }
-    setGroupSetupForm(prev => {
-      const updated = { ...prev, [field]: nextValue }
-      if (field === 'mode' && value !== 'focused') {
-        updated.focusedSkill = ''
-      }
-      if (field === 'year' && prev.focusedSkill) {
-        updated.focusedSkill = ''
-      }
-      return updated
-    })
+    setGroupSetupForm(prev => ({ ...prev, [field]: nextValue }))
   }
 
   const regenerateTeacherPin = () => {
@@ -365,27 +352,13 @@ export default function App() {
 
     const yearValue = parseInt(groupSetupForm.year, 10) || config.defaultYear || 7
     const totalQuestions = Math.max(5, Math.min(200, parseInt(groupSetupForm.totalQuestions, 10) || 30))
-    const selectedMode = groupSetupForm.mode || 'full'
-
-    // Validate focused mode has a skill selected
-    if (selectedMode === 'focused' && !groupSetupForm.focusedSkill) {
-      setGroupSetupStatus({ submitting: false, success: false, error: 'Please select a topic for focused mode.' })
-      return
-    }
-
-    const modeValue = selectedMode.startsWith('focused:')
-      ? selectedMode
-      : selectedMode === 'focused' && groupSetupForm.focusedSkill
-        ? `focused:${groupSetupForm.focusedSkill}`
-        : selectedMode
-
     const payload = {
       groupCode: generateGroupCode(),
       teacherEmail: email,
       teacherPin,
       testTitle: groupSetupForm.testTitle || `Year ${yearValue} group test`,
       year: String(yearValue),
-      mode: modeValue,
+      mode: groupSetupForm.mode || 'full',
       totalQuestions: String(totalQuestions)
     }
     console.log('=== PAYLOAD DEBUG ===')
@@ -428,11 +401,7 @@ export default function App() {
     setGroupRegistryError('')
 
     try {
-      const registryParams = { groupCode: normalizedCode }
-      if (options.teacherPin) {
-        registryParams.teacherPin = options.teacherPin
-      }
-      const data = await getRegistry(registryParams)
+      const data = await getRegistry({ groupCode: normalizedCode })
       const rows = Array.isArray(data) ? data : data?.rows || []
       const matches = rows.filter(row => sanitizeGroupCode(row.groupCode || row.groupcode) === normalizedCode)
 
@@ -531,7 +500,7 @@ export default function App() {
     const totalQuestions = Math.max(5, parseInt(groupRegistryEntry.totalQuestions, 10) || 30)
     const yearForTest = groupRegistryEntry.year || selectedYear || config.defaultYear || 7
     const questions = generateGroupTest(
-      { year: yearForTest, totalQuestions, seed: groupRegistryEntry.groupCode, mode: groupRegistryEntry.mode },
+      { year: yearForTest, totalQuestions, seed: groupRegistryEntry.groupCode },
       curriculumData
     )
 
@@ -553,13 +522,12 @@ export default function App() {
     setMode('test')
   }
 
-  const submitGroupResults = async (results, scoringHistory = null) => {
+  const submitGroupResults = async (results) => {
     if (!groupCode || !groupRegistryEntry) return
 
     const endTime = new Date()
     const durationSec = groupStartTime ? Math.max(0, Math.round((endTime - groupStartTime) / 1000)) : 0
-    const sourceHistory = Array.isArray(scoringHistory) ? scoringHistory : history
-    const wrongQuestions = sourceHistory
+    const wrongQuestions = history
       .filter(q => q.answered && !q.isCorrect)
       .map(q => ({
         qid: q.id || q.templateId || q.skill || q.skillId || 'unknown',
@@ -597,16 +565,15 @@ export default function App() {
     }
   }
 
-  const loadGroupScores = async (code, options = {}) => {
+  const loadGroupScores = async (code) => {
     const normalizedCode = sanitizeGroupCode(code)
     if (!normalizedCode) return
 
-    const pinForScores = options.teacherPin ? sanitizePin(options.teacherPin) : ''
     setGroupScoresLoading(true)
     setGroupScoresError('')
 
     try {
-      const data = await fetchGroupScores(normalizedCode, pinForScores)
+      const data = await fetchGroupScores(normalizedCode)
       const rows = Array.isArray(data) ? data : data?.rows || []
       const parsed = rows
         .filter(row => sanitizeGroupCode(row.groupCode || row.groupcode) === normalizedCode)
@@ -658,7 +625,7 @@ export default function App() {
     setResultLookupScores([])
 
     try {
-      const registryData = await getRegistry({ groupCode: code, teacherPin: pin })
+      const registryData = await getRegistry({ groupCode: code })
       const registryRows = Array.isArray(registryData) ? registryData : registryData?.rows || []
       const filtered = registryRows.filter(row => sanitizeGroupCode(row.groupCode || row.groupcode) === code)
       const pinMatches = filtered.filter(row => sanitizePin(row.teacherPin || row.teacherpin || '') === pin)
@@ -729,7 +696,7 @@ export default function App() {
     }
     setGroupScoresError('')
     await loadGroupFromRegistry(normalizedCode, { teacherPin: normalizedPin })
-    await loadGroupScores(normalizedCode, { teacherPin: normalizedPin })
+    await loadGroupScores(normalizedCode)
   }
 
   const formatDuration = (seconds) => {
@@ -1280,112 +1247,12 @@ export default function App() {
     startTestInternal(opts)
   }
 
-  const gradeFromPercentage = percentage => {
-    if (percentage >= 90) return 'A+'
-    if (percentage >= 85) return 'A'
-    if (percentage >= 80) return 'A-'
-    if (percentage >= 75) return 'B+'
-    if (percentage >= 70) return 'B'
-    if (percentage >= 65) return 'B-'
-    if (percentage >= 60) return 'C+'
-    if (percentage >= 55) return 'C'
-    if (percentage >= 50) return 'C-'
-    return 'D'
-  }
-
   const finishTest = () => {
-    // Check the current question's answer if it hasn't been checked yet
-    if (question && !question.answered && answer.trim()) {
-      // Manually check the answer and update history inline to avoid state timing issues
-      let isCorrect = false
-
-      try {
-        // Word-based place-value questions
-        if (question?.skillId?.includes('PLACE_VALUE') && (question?.question || '').toLowerCase().includes('in words')) {
-          const userNorm = normalizeNumberWords(answer.trim())
-          const correctNorm = normalizeNumberWords(question.answer)
-          isCorrect = userNorm === correctNorm
-        } else {
-          // Try numeric/fraction comparison
-          const userAnswerNum = normalizeFraction(answer.trim())
-          const correctAnswerNum = normalizeFraction(question.answer)
-
-          if (!Number.isNaN(userAnswerNum) && !Number.isNaN(correctAnswerNum)) {
-            isCorrect = Math.abs(userAnswerNum - correctAnswerNum) < 0.01
-          } else {
-            // Text comparison
-            const ua = String(answer).trim().toLowerCase().replace(/["'\s]+/g, ' ')
-            const ca = String(question.answer).trim().toLowerCase().replace(/["'\s]+/g, ' ')
-            const normalizeText = s => s.replace(/\b(a |an |the )\b/g, '').replace(/\bsquares?\b/g, 'square').trim()
-            isCorrect = normalizeText(ua) === normalizeText(ca)
-          }
-        }
-      } catch (e) {
-        isCorrect = false
-      }
-
-      // Update history with the checked answer
-      const updatedHistory = [...history]
-      const feedbackMsg = isCorrect ? 'Correct! ✅' : (isGroupMode && !isDevMode ? 'Wrong ❌' : `Wrong ❌ Answer: ${question.formattedAnswer || question.answer}`)
-      updatedHistory[currentIndex] = {
-        ...updatedHistory[currentIndex],
-        userAnswer: answer,
-        userFeedback: feedbackMsg,
-        isCorrect: isCorrect,
-        answered: true
-      }
-
-      // Update state and show feedback briefly before finishing
-      setHistory(updatedHistory)
-      setFeedback(feedbackMsg)
-
-      // Update score if correct
-      if (isCorrect) {
-        setScore(s => s + 1)
-      }
-
-      // Give user a moment to see the feedback, then finish
-      setTimeout(() => {
-        finishTestInternal(updatedHistory)
-      }, 800)
-      return
-    }
-
-    finishTestInternal()
-  }
-
-  const finishTestInternal = (historyToUse = null) => {
-    const baseHistory = historyToUse || history
-    const scoringHistory = isGroupMode
-      ? baseHistory.map(q => (q.answered ? q : { ...q, answered: true, isCorrect: false }))
-      : baseHistory
-
-    const results = calculateTestResults(scoringHistory)
-    const normalizedResults = { ...results }
-    if (isGroupMode) {
-      normalizedResults.incorrectAnswers += normalizedResults.unanswered
-      normalizedResults.unanswered = 0
-      const total = normalizedResults.totalQuestions
-      normalizedResults.percentageScore = total > 0
-        ? Math.round((normalizedResults.correctAnswers / total) * 100)
-        : 0
-      normalizedResults.grade = gradeFromPercentage(normalizedResults.percentageScore)
-    }
-
-    // Ensure grade is always set even for non-group tests
-    if (!normalizedResults.grade) {
-      normalizedResults.grade = gradeFromPercentage(normalizedResults.percentageScore)
-    }
-
-    console.log('=== TEST RESULTS DEBUG ===')
-    console.log('Percentage:', normalizedResults.percentageScore)
-    console.log('Grade:', normalizedResults.grade)
-    console.log('Correct:', normalizedResults.correctAnswers, '/', normalizedResults.totalQuestions)
-    console.log('=== END DEBUG ===')
-
-    setTestResults(normalizedResults)
+    // Calculate and store test results, then navigate to results view
+    const results = calculateTestResults(history)
+    setTestResults(results)
     if (isGroupMode && groupCode) {
-      submitGroupResults(normalizedResults, scoringHistory)
+      submitGroupResults(results)
     }
 
     // Save test result to storage and practice history for normal curriculum tests.
@@ -1635,12 +1502,7 @@ export default function App() {
 
         const displayAnswer = question.formattedAnswer || question.answer
         if (isTestMode) {
-          // In group mode, hide answers unless dev mode is enabled (teacher can add &dev=true to URL)
-          if (isGroupMode && !isDevMode) {
-            newFeedback = `Wrong ❌`
-          } else {
-            newFeedback = `Wrong ❌ Answer: ${displayAnswer}`
-          }
+          newFeedback = `Wrong ❌ Answer: ${displayAnswer}`
         } else {
           if (newAttempts >= 2) {
             setShowCorrectAnswer(true)
@@ -2363,6 +2225,42 @@ export default function App() {
               </p>
             </div>
 
+            <form
+              className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex flex-col md:flex-row gap-3"
+              onSubmit={(e) => handleGroupCodeSubmit(e, 'lobby')}
+            >
+              <div className="flex-1">
+                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide block mb-1">
+                  Group code
+                </label>
+                <input
+                  type="text"
+                  value={groupInputValue}
+                  onChange={(e) => setGroupInputValue(sanitizeGroupCode(e.target.value))}
+                  inputMode="numeric"
+                  maxLength={7}
+                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-lg font-mono tracking-[0.4em] text-center"
+                  placeholder="1234567"
+                />
+              </div>
+              <button
+                type="submit"
+                className="w-full md:w-auto px-5 py-3 rounded-2xl bg-slate-900 text-white font-semibold shadow-lg hover:bg-slate-800 transition"
+              >
+                Load Test
+              </button>
+            </form>
+
+            {groupRegistryError && (
+              <div className="rounded-2xl border border-red-200 bg-red-50 text-red-600 px-4 py-3 text-sm font-semibold">
+                {groupRegistryError}
+              </div>
+            )}
+
+            {groupRegistryLoading && (
+              <div className="text-center text-slate-500 text-sm">Generating your quiz…</div>
+            )}
+
             <div className="bg-white border border-slate-200 rounded-3xl p-6 space-y-4">
               <div>
                 <label className="text-xs uppercase tracking-[0.3em] text-slate-500 font-semibold block mb-2">
@@ -2438,42 +2336,6 @@ export default function App() {
                   </div>
                 )}
               </div>
-            )}
-
-            <form
-              className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex flex-col md:flex-row gap-3"
-              onSubmit={(e) => handleGroupCodeSubmit(e, 'lobby')}
-            >
-              <div className="flex-1">
-                <label className="text-xs font-semibold text-slate-500 uppercase tracking-wide block mb-1">
-                  Group code
-                </label>
-                <input
-                  type="text"
-                  value={groupInputValue}
-                  onChange={(e) => setGroupInputValue(sanitizeGroupCode(e.target.value))}
-                  inputMode="numeric"
-                  maxLength={7}
-                  className="w-full rounded-xl border border-slate-300 px-4 py-3 text-lg font-mono tracking-[0.4em] text-center"
-                  placeholder="1234567"
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full md:w-auto px-5 py-3 rounded-2xl bg-slate-900 text-white font-semibold shadow-lg hover:bg-slate-800 transition"
-              >
-                Load Test
-              </button>
-            </form>
-
-            {groupRegistryError && (
-              <div className="rounded-2xl border border-red-200 bg-red-50 text-red-600 px-4 py-3 text-sm font-semibold">
-                {groupRegistryError}
-              </div>
-            )}
-
-            {groupRegistryLoading && (
-              <div className="text-center text-slate-500 text-sm">Generating your quiz…</div>
             )}
 
             <div className="flex flex-col md:flex-row gap-3 justify-between items-center text-sm text-slate-500">
@@ -2965,15 +2827,7 @@ export default function App() {
                     </div>
                     <div>
                       <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Year & mode</p>
-                      <p>Year {resultLookupEntry.year || '?'}, {(() => {
-                        const mode = resultLookupEntry.mode || 'full'
-                        if (mode.startsWith('focused:')) {
-                          const skillId = mode.split(':')[1]
-                          const skill = getSkillsForYear(curriculumData, parseInt(resultLookupEntry.year, 10)).find(s => s.id === skillId)
-                          return `Focused: ${skill?.name || skillId}`
-                        }
-                        return mode === 'full' ? 'Full assessment' : mode
-                      })()}</p>
+                      <p>Year {resultLookupEntry.year || '?'}, {resultLookupEntry.mode || 'full'}</p>
                     </div>
                     <div>
                       <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Questions</p>
@@ -3178,51 +3032,20 @@ export default function App() {
                       onChange={(e) => handleGroupSetupChange('mode', e.target.value)}
                       className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base"
                     >
-                      <option value="full">Full assessment (all topics)</option>
-                      <option value="focused">Focused on one topic</option>
+                      <option value="full">Full assessment</option>
+                      <option value="mixed">Mixed practice</option>
                     </select>
                   </div>
                 </div>
 
-                {groupSetupForm.mode === 'focused' && (
-                  <div>
-                    <label className="text-xs uppercase tracking-[0.3em] text-slate-500 font-semibold block mb-2">
-                      Select Topic
-                    </label>
-                    <select
-                      value={groupSetupForm.focusedSkill}
-                      onChange={(e) => handleGroupSetupChange('focusedSkill', e.target.value)}
-                      className="w-full rounded-2xl border border-slate-300 px-4 py-3 text-base"
-                      required={groupSetupForm.mode === 'focused'}
-                    >
-                      <option value="">-- Choose a topic --</option>
-                      {getSkillsForYear(curriculumData, parseInt(groupSetupForm.year, 10))
-                        .sort((a, b) => {
-                          if (a.strand !== b.strand) return a.strand.localeCompare(b.strand)
-                          return a.name.localeCompare(b.name)
-                        })
-                        .map(skill => (
-                          <option key={skill.id} value={skill.id}>
-                            {skill.strand} → {skill.name}
-                          </option>
-                        ))}
-                    </select>
-                    <p className="text-xs text-slate-500 mt-2">
-                      All {groupSetupForm.totalQuestions} questions will be from this topic only.
-                    </p>
-                  </div>
-                )}
-
                 <button
                   type="submit"
-                  disabled={groupSetupStatus.submitting || groupSetupStatus.success}
+                  disabled={groupSetupStatus.submitting}
                   className={`w-full md:w-auto px-6 py-4 rounded-3xl text-lg font-semibold shadow-lg transition ${
-                    groupSetupStatus.submitting || groupSetupStatus.success
-                      ? 'bg-slate-200 text-slate-500 cursor-not-allowed'
-                      : 'bg-[#0077B6] text-white hover:bg-sky-600'
+                    groupSetupStatus.submitting ? 'bg-slate-200 text-slate-500 cursor-not-allowed' : 'bg-[#0077B6] text-white hover:bg-sky-600'
                   }`}
                 >
-                  {groupSetupStatus.submitting ? 'Generating code…' : groupSetupStatus.success ? 'Code ready' : 'Generate 7-digit code'}
+                  {groupSetupStatus.submitting ? 'Generating code…' : 'Generate 7-digit code'}
                 </button>
               </form>
 

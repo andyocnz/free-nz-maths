@@ -702,7 +702,9 @@ export function generateQuestionFromTemplate(template, skill, year) {
   let answer
 
   const hasBraces = /{[^}]+}/.test(rawAnswer)
-  const looksAlgebraic = /=/.test(rawAnswer) || /\bx\b/.test(rawAnswer) || /\by\b/.test(rawAnswer)
+  // Only treat as algebraic if it has assignment (=) but not comparison (===, ==, !=)
+  // or if it has algebraic variables x, y (but not as part of other identifiers)
+  const looksAlgebraic = /(?<![=!<>])=(?!=)/.test(rawAnswer) || /\bx\b/.test(rawAnswer) || /\by\b/.test(rawAnswer)
 
   if (!hasBraces && !looksAlgebraic) {
     // Pure expression (numeric/probability style) – use existing evaluator

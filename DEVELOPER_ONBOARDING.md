@@ -104,6 +104,7 @@ Note: New templates in `curriculumDataNew.json` are merged and marked `isNew` at
 - Canvas coordinates assume 400×300 by default. If adding a large/complex visual, use `visualData.canvasWidth` / `canvasHeight` to request a different canvas size.
 - Hints and knowledge content may use `dangerouslySetInnerHTML` to render inline SVG/HTML – review security/escaping if you accept external content.
 - NCEA resource paths must start with `local:pastpapers/resources/...` so `nceaResources.js` can resolve them correctly via `import.meta.glob`.
+- Group test registry lookups must always send both `groupCode` and the sanitized teacher PIN to the Google Apps Script endpoints (`getRegistry`, `fetchGroupScores`). The `/sample/index.html` and `/sample/registry-dump.html` tools already do this – mirror that behaviour in `src/App.jsx` or the backend replies with “Incorrect teacher PIN or group code.” even for valid pairs.
 
 ---
 Saved as `DEVELOPER_ONBOARDING.md` in the project root.
