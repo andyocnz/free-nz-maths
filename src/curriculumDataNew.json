@@ -12,10 +12,13 @@
           "templates": [
             {
               "id": "Y6.G.ROTATIONAL_SYMMETRY.T1",
-              "stem": "What is the order of rotational symmetry of a square?",
-              "params": {},
-              "answer": "4",
-              "difficulty": 4
+              "stem": "What is the order of rotational symmetry of a regular {sides}-sided polygon?",
+              "params": {
+                "sides": ["choice", 3, 4, 5, 6, 8, 10, 12]
+              },
+              "answer": "sides",
+              "difficulty": 5,
+              "phase": 10.12
             },
             {
               "id": "Y6.G.ROTATIONAL_SYMMETRY.T2",
@@ -302,6 +305,31 @@
           ]
         },
         {
+          "id": "Y6.M.TIME",
+          "strand": "Geometry & Measurement",
+          "name": "Time, schedules and elapsed time",
+          "description": "Convert time units, find elapsed time, and interpret schedules and timelines.",
+          "phase": 10.9,
+          "templates": [
+            {
+              "id": "Y6.M.TIME.T2",
+              "stem": "How many seconds are in {minutes} minutes?",
+              "params": { "minutes": ["int", 2, 60] },
+              "answer": "minutes * 60",
+              "difficulty": 2,
+              "phase": 10.9
+            },
+            {
+              "id": "Y6.M.TIME.T3",
+              "stem": "Convert {hours} hours to minutes.",
+              "params": { "hours": ["int", 1, 12] },
+              "answer": "hours * 60",
+              "difficulty": 2,
+              "phase": 10.9
+            }
+          ]
+        },
+        {
           "id": "Y6.M.MEASUREMENT",
           "strand": "Measurement",
           "name": "Measurement units and conversions",
@@ -315,6 +343,30 @@
               "answer": "Math.floor(length * 100 / piece)",
               "difficulty": 5,
               "phase": 10.6
+            },
+            {
+              "id": "Y6.M.MEASUREMENT.T3",
+              "stem": "Convert {km} kilometres to metres.",
+              "params": { "km": ["decimal", 1, 50, 2] },
+              "answer": "km * 1000",
+              "difficulty": 2,
+              "phase": 10.9
+            },
+            {
+              "id": "Y6.M.MEASUREMENT.T4",
+              "stem": "The temperature was {temp1}°C and increased by {rise}°C. What is the new temperature?",
+              "params": { "temp1": ["int", -10, 25], "rise": ["int", 5, 15] },
+              "answer": "temp1 + rise",
+              "difficulty": 3,
+              "phase": 10.9
+            },
+            {
+              "id": "Y6.M.MEASUREMENT.T5",
+              "stem": "Convert {g} grams to kilograms.",
+              "params": { "g": ["int", 1000, 50000] },
+              "answer": "g / 1000",
+              "difficulty": 3,
+              "phase": 10.9
             }
           ]
         },
@@ -507,6 +559,16 @@
               "params": { "n": ["int", 1, 6] },
               "answer": "'1/12'",
               "difficulty": 6
+            },
+            {
+              "id": "Y7.S.COMPOUND_PROBABILITY.T3",
+              "stem": "Two fair dice are rolled. What is the probability that both show a number {condition}?",
+              "params": {
+                "condition": ["choice", ["greater than 4", "1/9"], ["less than 3", "1/9"], ["equal to 6", "1/36"], ["greater than 2", "4/9"], ["that is even", "1/4"], ["that is odd", "1/4"]]
+              },
+              "answer": "condition[1]",
+              "difficulty": 6,
+              "phase": 10.12
             }
           ]
         }
@@ -529,21 +591,24 @@
               "stem": "How many cents are in ${dollars}?",
               "params": { "dollars": ["decimal", 1, 200, 2] },
               "answer": "dollars * 100",
-              "difficulty": 2
+              "difficulty": 2,
+              "phase": 10.9
             },
             {
               "id": "Y7.M.MEASUREMENT_TIME_MONEY.T3",
               "stem": "Convert {ml} millilitres to litres.",
               "params": { "ml": ["int", 100, 5000] },
               "answer": "ml / 1000",
-              "difficulty": 2
+              "difficulty": 2,
+              "phase": 10.9
             },
             {
               "id": "Y7.M.MEASUREMENT_TIME_MONEY.T4",
               "stem": "How many minutes is {hours} hours and {mins} minutes?",
               "params": { "hours": ["int", 1, 5], "mins": ["int", 0, 59] },
               "answer": "hours * 60 + mins",
-              "difficulty": 3
+              "difficulty": 3,
+              "phase": 10.9
             },
             {
               "id": "Y7.M.MEASUREMENT_TIME_MONEY.T5",
@@ -551,6 +616,31 @@
               "params": { "p": ["choice", 2, 5, 7, 9], "paid": ["choice", 10, 20, 50] },
               "answer": "paid - p",
               "difficulty": 3
+            }
+          ]
+        },
+        {
+          "id": "Y7.N.PROBLEM_SOLVING",
+          "strand": "Number & Algebra",
+          "name": "Problem solving",
+          "description": "Simple multi-step word problems with arithmetic.",
+          "phase": 10.9,
+          "templates": [
+            {
+              "id": "Y7.N.PROBLEM_SOLVING.T1",
+              "stem": "You have {total} items and want to pack them in boxes that hold {per_box} items each. How many boxes will you need?",
+              "params": { "total": ["int", 50, 200], "per_box": ["int", 6, 20] },
+              "answer": "Math.ceil(total / per_box)",
+              "difficulty": 4,
+              "phase": 10.9
+            },
+            {
+              "id": "Y7.N.PROBLEM_SOLVING.T2",
+              "stem": "A recipe needs {flourCups} cups of flour. If you want to double the recipe, how much flour do you need?",
+              "params": { "flourCups": ["decimal", 0.5, 4, 1] },
+              "answer": "flourCups * 2",
+              "difficulty": 3,
+              "phase": 10.9
             }
           ]
         }
@@ -684,11 +774,38 @@
           "templates": [
             {
               "id": "Y8.S.SCATTER_PLOTS.T1",
-              "stem": "A scatter plot shows hours studied vs. test scores. The points trend upwards from left to right. What type of correlation is this?",
-              "params": {},
-              "answer": "'Positive'",
+              "stem": "{scenario}. What type of correlation does this show?",
+              "params": {
+                "scenario": ["choice",
+                  ["A scatter plot shows hours studied vs. test scores. As hours studied increase, test scores increase", "Positive"],
+                  ["A scatter plot shows temperature vs. ice cream sales. As temperature increases, sales increase", "Positive"],
+                  ["A scatter plot shows advertising spending vs. product sales. As advertising increases, sales increase", "Positive"],
+                  ["A scatter plot shows years of education vs. annual income. As education increases, income increases", "Positive"],
+                  ["A scatter plot shows plant growth vs. amount of sunlight. As sunlight increases, growth increases", "Positive"]
+                ]
+              },
+              "answer": "scenario[1]",
               "difficulty": 6,
-              "visualData": {"type": "scatter_plot", "points": [[1,40],[2,45],[3,50],[4,60],[5,70]], "trend": true }
+              "visualData": {"type": "scatter_plot", "points": [[1,40],[2,45],[3,50],[4,60],[5,70]], "trend": true },
+              "phase": 10.12
+            },
+            {
+              "id": "Y8.S.SCATTER_PLOTS.T2",
+              "stem": "{scenario}. What type of correlation does this show?",
+              "params": {
+                "scenario": ["choice",
+                  ["A scatter plot shows hours of TV watched vs. test scores. As TV hours increase, test scores decrease", "Negative"],
+                  ["A scatter plot shows age of car vs. resale value. As car age increases, resale value decreases", "Negative"],
+                  ["A scatter plot shows exercise hours per week vs. resting heart rate. As exercise increases, heart rate decreases", "Negative"],
+                  ["A scatter plot shows price of a product vs. quantity sold. As price increases, quantity sold decreases", "Negative"],
+                  ["A scatter plot shows distance from city center vs. house prices. As distance increases, prices decrease", "Negative"],
+                  ["A scatter plot shows altitude vs. temperature. As altitude increases, temperature decreases", "Negative"]
+                ]
+              },
+              "answer": "scenario[1]",
+              "difficulty": 6,
+              "visualData": {"type": "scatter_plot", "points": [[1,70],[2,60],[3,50],[4,45],[5,40]], "trend": true },
+              "phase": 10.12
             }
           ]
         },
@@ -736,6 +853,31 @@
               },
               "answer": "(a + b + c) / 3",
               "difficulty": 5
+            },
+            {
+              "id": "Y7.S.DATA_STATS_PROB.T4",
+              "stem": "The ages of students are {a}, {b}, {c}, {d}, {e}. What is the median age?",
+              "params": {
+                "a": ["int", 10, 18],
+                "b": ["int", 10, 18],
+                "c": ["int", 10, 18],
+                "d": ["int", 10, 18],
+                "e": ["int", 10, 18]
+              },
+              "answer": "{[a,b,c,d,e].sort((x,y) => x-y)[2]}",
+              "difficulty": 5,
+              "phase": 10.9
+            },
+            {
+              "id": "Y7.S.DATA_STATS_PROB.T5",
+              "stem": "In a survey, {yes} people said Yes and {no} people said No. What percentage said Yes? (Round to 1 decimal place)",
+              "params": {
+                "yes": ["int", 10, 90],
+                "no": ["int", 10, 90]
+              },
+              "answer": "round((yes / (yes + no)) * 100, 1)",
+              "difficulty": 5,
+              "phase": 10.9
             }
           ]
         },
@@ -987,6 +1129,14 @@
               "answer": "{'x > ' + round((c - b) / a, 2)}",
               "difficulty": 7,
               "phase": 8
+            },
+            {
+              "id": "Y8.A.INEQUALITIES.T2",
+              "stem": "Solve the inequality: -{a}x + {b} ≤ {c}",
+              "params": { "a": ["int", 2, 6], "b": ["int", 5, 30], "c": ["int", 1, 20] },
+              "answer": "{'x ≥ ' + round((b - c) / a, 2)}",
+              "difficulty": 7,
+              "phase": 10.11
             }
           ]
         },
@@ -1250,6 +1400,44 @@
           ]
         },
         {
+          "id": "Y9.A.EXPRESSIONS_POLYNOMIALS",
+          "strand": "Number & Algebra",
+          "name": "Expressions and polynomials",
+          "description": "Expand and simplify polynomial expressions.",
+          "phase": 10.11,
+          "templates": [
+            {
+              "id": "Y9.A.EXPRESSIONS_POLYNOMIALS.T2",
+              "stem": "Expand and simplify: (x − {a})(x + {b}).",
+              "params": { "a": ["int", 2, 10], "b": ["int", 2, 10] },
+              "answer": "{'x² + ' + (b-a) + 'x − ' + (a*b)}",
+              "difficulty": 7,
+              "phase": 10.11
+            }
+          ]
+        },
+        {
+          "id": "Y9.A.EQUATIONS_INEQUALITIES",
+          "strand": "Number & Algebra",
+          "name": "Equations and inequalities",
+          "description": "Solve linear equations and inequalities.",
+          "phase": 10.11,
+          "templates": [
+            {
+              "id": "Y9.A.EQUATIONS_INEQUALITIES.T2",
+              "stem": "Solve the inequality: {a}x + {b} ≥ {c}",
+              "params": {
+                "a": ["int", -8, -1],
+                "b": ["int", 5, 20],
+                "c": ["int", 10, 30]
+              },
+              "answer": "{'x ≤ ' + round((c - b) / a, 2)}",
+              "difficulty": 7,
+              "phase": 10.12
+            }
+          ]
+        },
+        {
           "id": "Y9.A.POLYNOMIAL_OPS",
           "strand": "Number & Algebra",
           "name": "Multiply and divide polynomials",
@@ -1261,6 +1449,18 @@
               "params": { "a": ["int", 2, 5], "b": ["int", 2, 5], "c": ["int", -5, 5, 1] },
               "answer": "{a*b}x² + {a*c}x",
               "difficulty": 8
+            },
+            {
+              "id": "Y9.A.POLYNOMIAL_OPS.T2",
+              "stem": "Divide {a}x³ + {a*b}x² − {a*c}x by {a}x.",
+              "params": {
+                "a": ["int", 2, 5],
+                "b": ["int", 2, 6],
+                "c": ["int", 2, 5]
+              },
+              "answer": "{'x² + ' + b + 'x − ' + c}",
+              "difficulty": 8,
+              "phase": 10.12
             }
           ]
         },
