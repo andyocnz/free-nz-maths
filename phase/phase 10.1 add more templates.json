@@ -1,0 +1,539 @@
+// Phase 10.1 Template Planning & Status Tracking
+// ✅ = Already in curriculum (no action needed)
+// 🔄 = Modified/Fixed in this session
+// ⏳ = Still needs to be added
+// ❌ = Has issues, needs fixing
+
+// =============================================================================
+// YEAR 6 TEMPLATES
+// =============================================================================
+
+// ✅ DONE: Y6.S.STEM_AND_LEAF.T2
+// Status: Already in curriculum (phase 10.9)
+// Note: Implemented differently than in planning - uses "count from stem"
+
+// ✅ DONE: Y6.M.TIME.T2 + T3
+// Status: Added to curriculum (phase 10.9)
+// T2: "How many seconds are in {minutes} minutes?"
+// T3: "Convert {hours} hours to minutes."
+
+// ✅ DONE: Y6.M.MEASUREMENT.T2-T5
+// Status: All added to curriculum
+// T2: Rope cutting (phase 10.6)
+// T3: km → meters conversion (phase 10.9)
+// T4: Temperature increase (phase 10.9)
+// T5: grams → kilograms conversion (phase 10.9)
+
+// ⏳ TODO: Y6.G.COMPOSITE_SHAPES.T2
+{
+  "year": 6,
+  "skillId": "Y6.G.COMPOSITE_SHAPES",
+  "template": {
+    "id": "Y6.G.COMPOSITE_SHAPES.T2",
+    "stem": "Find the perimeter of an L-shaped figure made from a {a}×{b} rectangle with a {c}×{d} rectangle cut out from one corner.",
+    "params": {
+      "a": ["int", 8, 20],
+      "b": ["int", 6, 15],
+      "c": ["int", 3, 7],
+      "d": ["int", 3, 7]
+    },
+    "answer": "{2*(a + b) + 2*(c + d)}",
+    "difficulty": 4,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y6.G.VOLUME_PRISMS.T2
+{
+  "year": 6,
+  "skillId": "Y6.G.VOLUME_PRISMS",
+  "template": {
+    "id": "Y6.G.VOLUME_PRISMS.T2",
+    "stem": "A swimming pool is {l} m long, {w} m wide and {d} m deep. How many litres of water does it hold when full? (1 m³ = 1000 litres)",
+    "params": {
+      "l": ["int", 5, 25],
+      "w": ["int", 3, 10],
+      "d": ["decimal", 1.0, 2.5, 1]
+    },
+    "answer": "{l * w * d * 1000}",
+    "difficulty": 3,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y6.S.PROBABILITY_REPLACEMENT.T2
+{
+  "year": 6,
+  "skillId": "Y6.S.PROBABILITY_REPLACEMENT",
+  "template": {
+    "id": "Y6.S.PROBABILITY_REPLACEMENT.T2",
+    "stem": "A spinner has {red} red sectors and {green} green sectors. You spin twice. What is the probability of getting red both times? Round to 3 decimal places.",
+    "params": {
+      "red": ["int", 1, 6],
+      "green": ["int", 2, 8]
+    },
+    "answer": "{round((red/(red+green))**2, 3)}",
+    "difficulty": 5,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y6.S.VENN_DIAGRAMS.T2
+{
+  "year": 6,
+  "skillId": "Y6.S.VENN_DIAGRAMS",
+  "template": {
+    "id": "Y6.S.VENN_DIAGRAMS.T2",
+    "stem": "In a class of 28 students, 15 like apples, 17 like bananas and {both} like both. How many students like neither fruit?",
+    "params": {
+      "both": ["int", 6, 12]
+    },
+    "answer": "{28 - (15 + 17 - both)}",
+    "difficulty": 4,
+    "phase": 10.1
+  }
+},
+
+// =============================================================================
+// YEAR 7 TEMPLATES
+// =============================================================================
+
+// ⏳ TODO: Y7.N.EXPONENTS_NEGATIVE.T2
+{
+  "year": 7,
+  "skillId": "Y7.N.EXPONENTS_NEGATIVE",
+  "template": {
+    "id": "Y7.N.EXPONENTS_NEGATIVE.T2",
+    "stem": "Write {base}^−{exp} as a fraction in simplest form.",
+    "params": {
+      "base": ["choice", 2, 3, 4, 5, 6, 7, 8, 10],
+      "exp": ["int", 2, 4]
+    },
+    "answer": "'1/{base}^{exp}'",
+    "difficulty": 5,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y7.N.EXPONENTS_FRACTIONAL.T2
+{
+  "year": 7,
+  "skillId": "Y7.N.EXPONENTS_FRACTIONAL",
+  "template": {
+    "id": "Y7.N.EXPONENTS_FRACTIONAL.T2",
+    "stem": "Evaluate {base}^(1/{root}).",
+    "params": {
+      "base": ["choice", 8, 27, 64, 125, 216, 343, 512, 729, 1000],
+      "root": ["choice", 3, 3, 3, 3, 3, 3, 3, 3, 3]
+    },
+    "answer": "{base**(1/root)}",
+    "difficulty": 5,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y7.N.RATES.T2
+{
+  "year": 7,
+  "skillId": "Y7.N.RATES",
+  "template": {
+    "id": "Y7.N.RATES.T2",
+    "stem": "A machine fills bottles at a rate of {rate} litres per minute. How many minutes will it take to fill a {volume}-litre container? (Give answer to 1 decimal place)",
+    "params": {
+      "rate": ["int", 5, 20],
+      "volume": ["int", 50, 300]
+    },
+    "answer": "{round(volume / rate, 1)}",
+    "difficulty": 4,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y7.N.RATES.T3
+{
+  "year": 7,
+  "skillId": "Y7.N.RATES",
+  "template": {
+    "id": "Y7.N.RATES.T3",
+    "stem": "Petrol costs ${price} per litre. How much will it cost to fill a {volume}-litre tank? (Answer to nearest cent)",
+    "params": {
+      "price": ["decimal", 1.8, 2.6, 2],
+      "volume": ["int", 30, 70]
+    },
+    "answer": "{round(price * volume, 2)}",
+    "difficulty": 3,
+    "phase": 10.1
+  }
+},
+
+// 🔄 FIXED: Y7.S.COMPOUND_PROBABILITY.T2
+// Status: Already in curriculum but uses helper function simplify()
+// Note: Junior dev should skip this, Claude handles it
+
+// 🔄 ADDED: Y7.S.COMPOUND_PROBABILITY.T3
+// Status: Added with 6 dice roll scenarios (phase 10.12)
+// Note: Uses choice param with pre-calculated answers
+
+// =============================================================================
+// YEAR 8 TEMPLATES
+// =============================================================================
+
+// ❌ NEEDS HELPER: Y8.N.NUMBER_THEORY.T2
+{
+  "year": 8,
+  "skillId": "Y8.N.NUMBER_THEORY",
+  "template": {
+    "id": "Y8.N.NUMBER_THEORY.T2",
+    "stem": "Find the least common multiple (LCM) of {a} and {b}.",
+    "params": { "a": ["int", 12, 60], "b": ["int", 18, 80] },
+    "answer": "lcm(a, b)",
+    "difficulty": 7,
+    "phase": 10.1,
+    "note": "CLAUDE: Needs lcm() helper function"
+  }
+},
+
+// ⏳ TODO: Y8.M.MEASUREMENT.T2
+{
+  "year": 8,
+  "skillId": "Y8.M.MEASUREMENT",
+  "template": {
+    "id": "Y8.M.MEASUREMENT.T2",
+    "stem": "Convert {value} km² to hectares.",
+    "params": { "value": ["decimal", 0.5, 50, 1] },
+    "answer": "{value * 100}",
+    "difficulty": 3,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y8.G.COORDINATE_PLANE.T2
+{
+  "year": 8,
+  "skillId": "Y8.G.COORDINATE_PLANE",
+  "template": {
+    "id": "Y8.G.COORDINATE_PLANE.T2",
+    "stem": "What is the midpoint of the line segment joining ({x1},{y1}) and ({x2},{y2})?",
+    "params": {
+      "x1": ["int", -10, 10], "y1": ["int", -10, 10],
+      "x2": ["int", -10, 10], "y2": ["int", -10, 10]
+    },
+    "answer": "'(' + round((x1+x2)/2, 1) + ', ' + round((y1+y2)/2, 1) + ')'",
+    "difficulty": 4,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y8.A.SEQUENCES.T2
+{
+  "year": 8,
+  "skillId": "Y8.A.SEQUENCES",
+  "template": {
+    "id": "Y8.A.SEQUENCES.T2",
+    "stem": "A geometric sequence has first term {first} and common ratio {r}. What is the 5th term?",
+    "params": { "first": ["int", 1, 20], "r": ["choice", 2, 3, 4, 5] },
+    "answer": "{first * (r**4)}",
+    "difficulty": 5,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y8.A.EXPRESSIONS_EQUATIONS.T2
+{
+  "year": 8,
+  "skillId": "Y8.A.EXPRESSIONS_EQUATIONS",
+  "template": {
+    "id": "Y8.A.EXPRESSIONS_EQUATIONS.T2",
+    "stem": "Expand: {a}(x + {b}).",
+    "params": { "a": ["int", -8, 8], "b": ["int", -10, 10] },
+    "answer": "'{a}x + {a*b}'",
+    "difficulty": 3,
+    "phase": 10.1
+  }
+},
+
+// ❌ NEEDS HELPER: Y8.A.TWO_VARIABLE.T2
+{
+  "year": 8,
+  "skillId": "Y8.A.TWO_VARIABLE",
+  "template": {
+    "id": "Y8.A.TWO_VARIABLE.T2",
+    "stem": "Find the gradient of the line passing through ({x1},{y1}) and ({x2},{y2}).",
+    "params": {
+      "x1": ["int", -10, 10], "y1": ["int", -10, 10],
+      "x2": ["int", -10, 10], "y2": ["int", -10, 10]
+    },
+    "answer": "simplify(y2 - y1, x2 - x1)",
+    "difficulty": 5,
+    "phase": 10.1,
+    "note": "CLAUDE: Needs simplify() helper function"
+  }
+},
+
+// ⏳ TODO: Y8.G.GEOMETRY.T2
+{
+  "year": 8,
+  "skillId": "Y8.G.GEOMETRY",
+  "template": {
+    "id": "Y8.G.GEOMETRY.T2",
+    "stem": "The exterior angle of a regular polygon is {ext}°. How many sides does it have?",
+    "params": { "ext": ["choice", 60, 45, 36, 30, 20, 18, 15, 10] },
+    "answer": "{360 / ext}",
+    "difficulty": 4,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y8.G.GEOMETRIC_MEASUREMENT.T2
+{
+  "year": 8,
+  "skillId": "Y8.G.GEOMETRIC_MEASUREMENT",
+  "template": {
+    "id": "Y8.G.GEOMETRIC_MEASUREMENT.T2",
+    "stem": "Find the surface area of a triangular prism with base area {base} cm² and 3 rectangular faces of {h} cm height each.",
+    "params": { "base": ["int", 20, 100], "h": ["int", 5, 30] },
+    "answer": "{2 * base + base * h * 3}",
+    "difficulty": 5,
+    "phase": 10.1
+  }
+},
+
+// ❌ NEEDS HELPER: Y8.N.STANDARD_FORM_OPS.T2
+{
+  "year": 8,
+  "skillId": "Y8.N.STANDARD_FORM_OPS",
+  "template": {
+    "id": "Y8.N.STANDARD_FORM_OPS.T2",
+    "stem": "Calculate ({m1} × 10^{e1}) ÷ ({m2} × 10^{e2}). Write in standard form.",
+    "params": {
+      "m1": ["int", 2, 9], "e1": ["int", 4, 8],
+      "m2": ["int", 2, 9], "e2": ["int", 1, 5]
+    },
+    "answer": "standard_form(m1/m2 * 10**(e1-e2))",
+    "difficulty": 6,
+    "phase": 10.1,
+    "note": "CLAUDE: Needs standard_form() helper"
+  }
+},
+
+// ⏳ TODO: Y8.G.PYTHAGORAS.T2
+{
+  "year": 8,
+  "skillId": "Y8.G.PYTHAGORAS",
+  "template": {
+    "id": "Y8.G.PYTHAGORAS.T2",
+    "stem": "A ladder {hyp} m long leans against a wall. The base is {base} m from the wall. How high up the wall does it reach? (1 decimal place)",
+    "params": { "hyp": ["int", 5, 20], "base": ["int", 3, 15] },
+    "answer": "{round(sqrt(hyp*hyp - base*base), 1)}",
+    "difficulty": 5,
+    "phase": 10.1
+  }
+},
+
+// 🔄 ADDED: Y8.A.INEQUALITIES.T2
+// Status: Added with randomized parameters (phase 10.12)
+// Note: Fixed to use proper curly braces in answer
+
+// 🔄 ADDED: Y8.S.SCATTER_PLOTS.T2
+// Status: Added with negative correlation scenarios (phase 10.12)
+// Note: Split from T1 which has positive correlations
+
+// =============================================================================
+// YEAR 9 TEMPLATES
+// =============================================================================
+
+// ❌ NEEDS HELPER: Y9.N.NUMBER_THEORY.T2
+{
+  "year": 9,
+  "skillId": "Y9.N.NUMBER_THEORY",
+  "template": {
+    "id": "Y9.N.NUMBER_THEORY.T2",
+    "stem": "Classify the number {n} as prime, composite or neither.",
+    "params": { "n": ["choice", 1, 4, 9, 13, 17, 23, 29, 31, 37, 41, 43, 47, 51, 57, 91] },
+    "answer": "prime_or_composite(n)",
+    "difficulty": 5,
+    "phase": 10.1,
+    "note": "CLAUDE: Needs prime_or_composite() helper"
+  }
+},
+
+// ⏳ TODO: Y9.N.INTEGERS_RATIONAL.T2
+{
+  "year": 9,
+  "skillId": "Y9.N.INTEGERS_RATIONAL",
+  "template": {
+    "id": "Y9.N.INTEGERS_RATIONAL.T2",
+    "stem": "Calculate: {a} ÷ {b} (as a fraction in simplest form)",
+    "params": { "a": ["int", -50, 50], "b": ["choice", -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },
+    "answer": "{round(a / b, 2)}",
+    "difficulty": 4,
+    "phase": 10.1
+  }
+},
+
+// ❌ NEEDS HELPER: Y9.N.EXPONENTS_ROOTS_STANDARD.T2
+{
+  "year": 9,
+  "skillId": "Y9.N.EXPONENTS_ROOTS_STANDARD",
+  "template": {
+    "id": "Y9.N.EXPONENTS_ROOTS_STANDARD.T2",
+    "stem": "Write {n} in scientific notation.",
+    "params": { "n": ["choice", 4500, 72000, 0.0034, 0.000059, 8300000, 0.00012] },
+    "answer": "to_scientific(n)",
+    "difficulty": 5,
+    "phase": 10.1,
+    "note": "CLAUDE: Needs to_scientific() helper"
+  }
+},
+
+// ⏳ TODO: Y9.N.RATIOS_PROPORTIONS.T2
+{
+  "year": 9,
+  "skillId": "Y9.N.RATIOS_PROPORTIONS",
+  "template": {
+    "id": "Y9.N.RATIOS_PROPORTIONS.T2",
+    "stem": "If 5 books cost ${cost}, how much do 8 books cost?",
+    "params": { "cost": ["decimal", 20, 80, 2] },
+    "answer": "{round((cost/5)*8, 2)}",
+    "difficulty": 3,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y9.N.PERCENTS_CONSUMER.T2
+{
+  "year": 9,
+  "skillId": "Y9.N.PERCENTS_CONSUMER",
+  "template": {
+    "id": "Y9.N.PERCENTS_CONSUMER.T2",
+    "stem": "A ${price} jacket is on sale with {p}% off. It then has an extra 10% off the sale price. What is the final price?",
+    "params": { "price": ["decimal", 80, 300, 2], "p": ["choice", 20, 25, 30, 40] },
+    "answer": "{round(price * (1-p/100) * 0.9, 2)}",
+    "difficulty": 4,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y9.M.MEASUREMENT.T2
+{
+  "year": 9,
+  "skillId": "Y9.M.MEASUREMENT",
+  "template": {
+    "id": "Y9.M.MEASUREMENT.T2",
+    "stem": "A swimming pool is {l} m long, {w} m wide and {d} m deep. How many litres of water does it hold when full?",
+    "params": { "l": ["int", 5, 15], "w": ["int", 3, 10], "d": ["decimal", 1.2, 2.5, 1] },
+    "answer": "{l * w * d * 1000}",
+    "difficulty": 3,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y9.N.PROBLEM_SOLVING.T2
+{
+  "year": 9,
+  "skillId": "Y9.N.PROBLEM_SOLVING",
+  "template": {
+    "id": "Y9.N.PROBLEM_SOLVING.T2",
+    "stem": "A car travels at {speed} km/h for {time} hours and 30 minutes. How far does it travel?",
+    "params": { "speed": ["int", 60, 120], "time": ["int", 2, 5] },
+    "answer": "{speed * (time + 0.5)}",
+    "difficulty": 3,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y9.G.COORDINATE_PLANE.T2
+{
+  "year": 9,
+  "skillId": "Y9.G.COORDINATE_PLANE",
+  "template": {
+    "id": "Y9.G.COORDINATE_PLANE.T2",
+    "stem": "Find the midpoint between ({x1},{y1}) and ({x2},{y2}).",
+    "params": { "x1": ["int", -15, 15], "y1": ["int", -15, 15], "x2": ["int", -15, 15], "y2": ["int", -15, 15] },
+    "answer": "'(' + ((x1+x2)/2) + ', ' + ((y1+y2)/2) + ')'",
+    "difficulty": 4,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y9.G.GEOMETRY.T2
+{
+  "year": 9,
+  "skillId": "Y9.G.GEOMETRY",
+  "template": {
+    "id": "Y9.G.GEOMETRY.T2",
+    "stem": "Two parallel lines are cut by a transversal. A corresponding angle measures {a}°. What is the alternate interior angle?",
+    "params": { "a": ["int", 40, 140] },
+    "answer": "{a}",
+    "difficulty": 3,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y9.G.TRANSFORMATIONS.T2
+{
+  "year": 9,
+  "skillId": "Y9.G.TRANSFORMATIONS",
+  "template": {
+    "id": "Y9.G.TRANSFORMATIONS.T2",
+    "stem": "Triangle ABC is rotated 90° anticlockwise about the origin. Vertex A is at ({x},{y}). What are the new coordinates of A′?",
+    "params": { "x": ["int", -8, 8], "y": ["int", -8, 8] },
+    "answer": "'(' + (-y) + ', ' + x + ')'",
+    "difficulty": 4,
+    "phase": 10.1
+  }
+},
+
+// ⏳ TODO: Y9.G.PYTHAGORAS_SOLIDS.T2
+{
+  "year": 9,
+  "skillId": "Y9.G.PYTHAGORAS_SOLIDS",
+  "template": {
+    "id": "Y9.G.PYTHAGORAS_SOLIDS.T2",
+    "stem": "Find the length of the space diagonal of a rectangular prism with dimensions {l}×{w}×{h} cm (1 decimal place).",
+    "params": { "l": ["int", 5, 12], "w": ["int", 5, 12], "h": ["int", 5, 12] },
+    "answer": "{round(sqrt(l*l + w*w + h*h), 1)}",
+    "difficulty": 5,
+    "phase": 10.1
+  }
+},
+
+// ❌ HARDCODED: Y9.A.SEQUENCES.T2
+// Status: ❌ Needs randomization (currently hardcoded to "3 + 7*4 = 31")
+// Note: CLAUDE: Needs to randomize first term and common difference
+
+// 🔄 ADDED: Y9.A.EXPRESSIONS_POLYNOMIALS.T2
+// Status: Added with randomized parameters (phase 10.12)
+// Note: Expand (x - a)(x + b) formula
+
+// 🔄 ADDED: Y9.A.EQUATIONS_INEQUALITIES.T2
+// Status: Added with randomized parameters (phase 10.12)
+// Note: Inequality solving with negative coefficient
+
+// 🔄 ADDED: Y9.A.POLYNOMIAL_OPS.T2
+// Status: Added with randomized polynomial division (phase 10.12)
+// Note: Dividing polynomial by monomial
+
+// =============================================================================
+// SUMMARY
+// =============================================================================
+/*
+✅ COMPLETED:
+- Y6 (5 templates): TIME.T2-T3, MEASUREMENT.T2-T5, STEM_AND_LEAF.T2 (existing)
+- Y7 (3 templates): Added COMPOUND_PROBABILITY.T3 (10.12)
+- Y8 (2 templates): Added INEQUALITIES.T2, SCATTER_PLOTS.T2 (10.12)
+- Y9 (3 templates): Added EXPRESSIONS_POLYNOMIALS.T2, EQUATIONS_INEQUALITIES.T2, POLYNOMIAL_OPS.T2 (10.12)
+Total Added This Session: 13 templates
+
+⏳ REMAINING IN PHASE 10.1:
+- Y6: COMPOSITE_SHAPES.T2, VOLUME_PRISMS.T2, PROBABILITY_REPLACEMENT.T2, VENN_DIAGRAMS.T2 (4)
+- Y7: EXPONENTS_NEGATIVE.T2, EXPONENTS_FRACTIONAL.T2, RATES.T2, RATES.T3 (4)
+- Y8: NUMBER_THEORY.T2*, MEASUREMENT.T2, COORDINATE_PLANE.T2, SEQUENCES.T2, EXPRESSIONS_EQUATIONS.T2, TWO_VARIABLE.T2*, GEOMETRY.T2, GEOMETRIC_MEASUREMENT.T2, STANDARD_FORM_OPS.T2*, PYTHAGORAS.T2 (10)
+- Y9: NUMBER_THEORY.T2*, INTEGERS_RATIONAL.T2, EXPONENTS_ROOTS.T2*, RATIOS_PROPORTIONS.T2, PERCENTS.T2, MEASUREMENT.T2, PROBLEM_SOLVING.T2, COORDINATE_PLANE.T2, GEOMETRY.T2, TRANSFORMATIONS.T2, PYTHAGORAS_SOLIDS.T2, SEQUENCES.T2 (12)
+- Y10: QUADRATIC_FORMULA.T2*, GRAPH_QUADRATIC.T2, TRIG_RULES.T2*, ALGEBRAIC_FRACTIONS.T2*, CIRCLE_THEOREMS.T2, PROB_ADVANCED.T2, SYSTEMS_ADVANCED.T2, TRIG_3D.T2, FUNCTIONS_ADVANCED.T2, BIVARIATE.T2, SA_VOLUME_ADVANCED.T2, GEOMETRIC_REASONING.T2 (12)
+- Y11-13: Various (included in separate files)
+
+*NEEDS HELPER FUNCTIONS (Claude)
+
+Next Priority: Junior Dev should add the ⏳ templates (simple, no helpers)
+*/
