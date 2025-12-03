@@ -62,7 +62,7 @@ export default function App() {
   const isDevMode = urlParams.has('dev') || urlParams.get('dev') === 'true'
   const phaseFromUrl = urlParams.get('phase')
   const groupCodeFromUrl = urlParams.get('group')
-  const phaseFilter = phaseFromUrl ? parseInt(phaseFromUrl, 10) : null
+  const phaseFilter = phaseFromUrl ? parseFloat(phaseFromUrl) : null
   const path = window.location.pathname || '/'
 
   let initialMode

@@ -299,6 +299,51 @@
               "difficulty": 8
             }
           ]
+        },
+        {
+          "id": "Y12.S.PROBABILITY_DISTRIBUTIONS",
+          "strand": "Statistics & Probability",
+          "name": "Probability distributions",
+          "description": "Binomial and normal distributions.",
+          "phase": 10.7,
+          "phase_tag": "phase10.7_year12",
+          "templates": [
+            {
+              "id": "Y12.S.PROBABILITY_DISTRIBUTIONS.T2",
+              "stem": "A biased coin has P(heads) = {p}. What is the probability of getting exactly {k} heads in {n} flips? (Round to 2 decimal places)",
+              "params": {
+                "p": ["decimal", 0.3, 0.7, 1],
+                "n": ["choice", 3, 4, 5],
+                "k": ["int", 1, 3]
+              },
+              "answer": "round(binomial_coeff(n, k) * (p ** k) * ((1 - p) ** (n - k)), 2)",
+              "difficulty": 9,
+              "phase": 10.7
+            }
+          ]
+        },
+        {
+          "id": "Y12.A.POLYNOMIALS",
+          "strand": "Number & Algebra",
+          "name": "Polynomial operations",
+          "description": "Factoring, division, remainder theorem.",
+          "phase": 10.7,
+          "phase_tag": "phase10.7_year12",
+          "templates": [
+            {
+              "id": "Y12.A.POLYNOMIALS.T2",
+              "stem": "Use the factor theorem to determine if (x - {a}) is a factor of x^3 + {b}x^2 + {c}x + {d}",
+              "params": {
+                "a": ["int", 1, 4],
+                "b": ["int", -5, 5],
+                "c": ["int", -10, 10],
+                "d": ["int", -20, 20]
+              },
+              "answer": "(a*a*a + b*a*a + c*a + d === 0 ? 'Yes' : 'No')",
+              "difficulty": 9,
+              "phase": 10.7
+            }
+          ]
         }
       ]
     }

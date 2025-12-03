@@ -10,11 +10,14 @@ function checkFile(filepath, filename) {
       skill.templates.forEach(template => {
         const answer = template.answer || '';
 
-        // Check for missing {}
-        const hasProblematicChars = /\bx\b/.test(answer) || /\by\b/.test(answer) || /=/.test(answer);
+        // Check for missing {} around x/y variables or assignment operators
+        const hasXorY = /\bx\b/.test(answer) || /\by\b/.test(answer);
+        const hasAssignment = /(?<![=!<>])=(?!=)/.test(answer); // Assignment =, not comparison ===
         const hasBraces = answer.includes('{');
 
-        if (hasProblematicChars && !hasBraces) {
+        // Only flag if it has x/y or assignment AND no braces
+        // Ternary expressions with === are OK without braces
+        if ((hasXorY || hasAssignment) && !hasBraces) {
           broken.push({
             file: filename,
             id: template.id,

@@ -1,5 +1,93 @@
 # Developer Onboarding – free-nz-maths (Phase 7–12 overview)
 
+This is a comprehensive guide for adding new question templates and understanding the codebase structure. Updated with learnings from Phase 12 (37 templates fixed).
+
+## 🚀 Quick Start: Adding New Templates (5 Minutes)
+
+**Want to add templates quickly and correctly?** Follow this streamlined workflow:
+
+### Step 1: Create Your Template JSON
+Use examples from `TEMPLATE_EXAMPLES.md` or start with this basic structure:
+
+```json
+{
+  "id": "Y6.N.MY_SKILL.T1",
+  "stem": "Question text with {param}",
+  "params": {
+    "param": ["int", 1, 10]
+  },
+  "answer": "param * 2",
+  "difficulty": 5
+}
+```
+
+### Step 2: Validate It
+```bash
+# Catches 90% of issues before you add it!
+node scripts/validate_template.cjs '{"id":"Y6.N.MY_SKILL.T1",...}'
+```
+
+The validator checks for:
+- ✅ Missing `{}` around expressions with x/y
+- ✅ Backticks or `${}` template literal syntax
+- ✅ Variable prefixes students shouldn't type
+- ✅ Missing parameters
+- ✅ Division by zero risks
+- ✅ Invalid parameter formats
+
+### Step 3: Add to curriculumDataNew.json
+1. Find the right year and skill in `src/curriculumDataNew.json`
+2. Add your template to the `templates` array
+3. **IMPORTANT - Phase Numbering:** Use the same phase number for all templates added in one batch
+   - **All templates added in the same batch should use the SAME phase number**, regardless of year level
+   - Example: If adding templates for Years 6, 7, and 13 together, use `"phase": 10.6` for ALL of them
+   - This makes filtering easier in dev mode (`?dev&phase=10.6` shows all templates from that batch)
+   - Use incremental phase numbers for different batches: `10.1`, `10.2`, `10.3`, etc.
+   - Example:
+   ```json
+   // Year 6 template in batch 10.6
+   {
+     "id": "Y6.M.MEASUREMENT",
+     "phase": 10.6,
+     "templates": [...]
+   }
+
+   // Year 13 template in SAME batch 10.6
+   {
+     "id": "Y13.L.LOGARITHMS",
+     "phase": 10.6,
+     "templates": [...]
+   }
+   ```
+4. Validate JSON syntax:
+   ```powershell
+   Get-Content src/curriculumDataNew.json | ConvertFrom-Json | Out-Null
+   ```
+
+### Step 4: Test It
+```bash
+# Generate sample question
+npm run dev
+# Then navigate to your skill in the UI
+
+# OR use the sample generator
+node scripts/sample_generate.mjs | Select-String "Y6.N.MY_SKILL"
+```
+
+### Common Issues Quick Reference
+
+| Issue | Example | Fix |
+|-------|---------|-----|
+| **Missing {}** | `"answer": "x + y"` | `"answer": "{x + y}"` |
+| **Backticks** | `` "answer": "`x=${a}`" `` | `"answer": "x={a}"` |
+| **Variable prefix** | `"answer": "v = {value}"` | `"answer": "{value}"` |
+| **No rounding** | `"answer": "{a/b}"` | `"answer": "{round(a/b, 2)}"` |
+| **Div by zero** | `["int", -5, 5]` with `/x` | Use `["int", 1, 10]` or conditional |
+
+**📖 See TEMPLATE_EXAMPLES.md for complete patterns and examples.**
+
+---
+
 This is a short working guide so a junior dev can pick up where the recent Phase 7–12 changes left off (curriculum extensions, NCEA trials, SEO, and group test mode).
 
 ## Quick setup (Windows PowerShell)
@@ -275,8 +363,16 @@ formattedAnswer = mathHelpers.simplify(num, den) + ' ≈ ' + (num/den).toFixed(6
 
 During answer checking, `formattedAnswer` is shown to users, but evaluation still uses the computed `answer`.
 
-## How to add new question templates (high level)
-1. Add template JSON to `src/curriculumDataNew.json` under the appropriate `year` and `skill` group. Example template structure:
+## How to add new question templates
+
+**Recommended workflow** (uses validation tools):
+
+1. **Write template** - Start with examples from `TEMPLATE_EXAMPLES.md`
+2. **Validate** - Run `node scripts/validate_template.cjs '<json>'` to catch issues
+3. **Add to file** - Add to `src/curriculumDataNew.json` under appropriate year/skill
+4. **Test** - Use `npm run dev` or `node scripts/sample_generate.mjs`
+
+### Template Structure
 ```json
 {
   "id": "Y6.G.NETS.T8",
@@ -287,11 +383,28 @@ During answer checking, `formattedAnswer` is shown to users, but evaluation stil
   "visualData": { "type": "net", "shape_type": "tetrahedron" }
 }
 ```
-2. Pick `visualData.type` to match a renderer in `QuestionVisualizer.jsx` (e.g. `net`, `histogram`, `parallel_transversal`).
-3. If the template needs parameters, add a `params` object using the same param types as existing templates (e.g., `["int", min, max]`, `["choice", ...]`).
-4. Keep the `answer` expression as a JavaScript-style expression string. The template engine evaluates it.
 
-Note: New templates in `curriculumDataNew.json` are merged and marked `isNew` at runtime – don't edit `curriculumDataMerged.js` unless you need to change merging behaviour.
+### Key Rules (from 37 templates fixed in Phase 12)
+1. **Use `{}` for expressions with x/y**: `"answer": "{x + y}"` not `"answer": "x + y"`
+2. **No backticks**: Use `"x={a}"` not `` "`x=${a}`" ``
+3. **No variable prefixes**: Use `"{2*a}x + {b}"` not `"f'(x) = {2*a}x + {b}"`
+4. **Round divisions**: Use `"round(a/b, 2)"` not `"a/b"`
+5. **Protect division by zero**: Use conditionals or avoid 0 in ranges
+
+### Visual Data
+Pick `visualData.type` to match a renderer in `QuestionVisualizer.jsx`:
+- `net`, `histogram`, `parallel_transversal`, `scatter_plot`, `stem_and_leaf`
+- `coordinate_grid`, `graph_parabola`, `triangle`, `circle`, `bar_chart`
+- `pie_chart`, `box_plot`, `venn_diagram`, `fraction_visual`
+
+### Parameter Types
+- `["int", min, max]` - Random integer
+- `["decimal", min, max, decimals]` - Random decimal (e.g., `["decimal", 0, 10, 2]`)
+- `["choice", val1, val2, ...]` - Random selection
+
+**Note**: New templates in `curriculumDataNew.json` are merged and marked `isNew` at runtime – don't edit `curriculumDataMerged.js` unless you need to change merging behaviour.
+
+**📖 Full examples and patterns: see `TEMPLATE_EXAMPLES.md`**
 
 ## How to extend visuals
 - Open `src/QuestionVisualizer.jsx` and find the `switch` on `visualData.type`. Add a case that calls a new `drawXxx` function.
