@@ -1,0 +1,12 @@
+Summary of QA/encoding issues
+-----------------------------
+No data files need edits; the curriculum JSON already stores the intended Unicode symbols (v, ×, °, etc.). The corruption comes from the QA/dev pipeline exporting strings before the mojibake sequences are cleaned up. I already added a `normalizeMathDisplay()` helper in `src/App.jsx` that fixes most sequences; extend it further if other weird tokens show up.
+
+To finish the work:
+1. QA view still shows some garbled sequences (e.g. `GêÆ`, `Ç Gëê`). Inspect `normalizeMathDisplay()` in `src/App.jsx` (~line 200) and add replacements until all dev/QA outputs render clean math symbols.
+2. If QA needs ASCII-only output, create a variant (e.g. `normalizeMathDisplayAscii`) that maps `×?*`, `v?sqrt`, `²?^2`, etc., and use it in the QA export.
+3. No need to edit the thousands of templates—focus on that front-end normalizer (and any other pipeline code that renders JSON) so it post-processes the strings before display.
+
+Current status:
+- App commits: `b33ef14` (sanitized dev QA math symbols) and `1f2df16` (extended normalization table)
+- Next step is to iterate on `normalizeMathDisplay` until all QA outputs look clean.
