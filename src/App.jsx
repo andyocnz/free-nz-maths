@@ -185,6 +185,48 @@ export default function App() {
     return normalized
   }
 
+  const textDecoder = typeof TextDecoder !== 'undefined' ? new TextDecoder('utf-8') : null
+  function normalizeMathDisplay(str) {
+    if (!str) return ''
+    let result = String(str)
+    if (/[ÃΓùÂ]/.test(result) && textDecoder) {
+      try {
+        const bytes = new Uint8Array(result.length)
+        for (let i = 0; i < result.length; i++) {
+          bytes[i] = result.charCodeAt(i) & 0xff
+        }
+        const decoded = textDecoder.decode(bytes)
+        if (!decoded.includes('�')) {
+          result = decoded
+        }
+      } catch {
+        // ignore decoding errors
+      }
+    }
+    const replacements = [
+      { pattern: /ù/g, replacement: '×' },
+      { pattern: /Ã—/g, replacement: '×' },
+      { pattern: /Â×/g, replacement: '×' },
+      { pattern: /Ã·/g, replacement: '÷' },
+      { pattern: /Â·/g, replacement: '·' },
+      { pattern: /Â°/g, replacement: '°' },
+      { pattern: /ΓêÜ/g, replacement: '√' },
+      { pattern: /Γêû/g, replacement: '≤' },
+      { pattern: /Γêì/g, replacement: '≥' },
+      { pattern: /ΓÇô/g, replacement: '–' },
+      { pattern: /ΓÇö/g, replacement: '–' },
+      { pattern: /ΓÇó/g, replacement: '•' },
+      { pattern: /ΓÇ£/g, replacement: '“' },
+      { pattern: /ΓÇ¥/g, replacement: '”' },
+      { pattern: /ΓÇÖ/g, replacement: '’' },
+      { pattern: /ΓÇª/g, replacement: '…' }
+    ]
+    replacements.forEach(({ pattern, replacement }) => {
+      result = result.replace(pattern, replacement)
+    })
+    return result
+  }
+
   const openKnowledgeModal = () => {
     if (!question) return
     const skillId = question.skillId || selectedSkill
@@ -959,7 +1001,21 @@ export default function App() {
       filtered = filtered.filter(t => t.skillId === devTemplateFilterSkill)
     }
 
-    return JSON.stringify(filtered, null, 2)
+    const sanitized = filtered.map(entry => {
+      const tpl = entry.template || {}
+      return {
+        ...entry,
+        template: {
+          ...tpl,
+          stem: normalizeMathDisplay(tpl.stem),
+          hint: normalizeMathDisplay(tpl.hint),
+          answer: normalizeMathDisplay(tpl.answer),
+          explanation: normalizeMathDisplay(tpl.explanation)
+        }
+      }
+    })
+
+    return JSON.stringify(sanitized, null, 2)
   }
 
   // Dynamic SEO: update document title and meta description based on view
@@ -1058,13 +1114,15 @@ export default function App() {
           }
           try {
             const q = generateQuestionFromTemplate(template, skill.name, 'Olympiad')
+            const questionText = normalizeMathDisplay(q.question)
+            const answerText = normalizeMathDisplay(q.formattedAnswer || q.answer)
             rows.push({
               templateId: template.id || '',
               skillId: skill.id,
               skillName: skill.name,
               year: 'Olympiad',
-              question: q.question,
-              answer: q.formattedAnswer || q.answer,
+              question: questionText,
+              answer: answerText,
               isNew: !!(template.isNew || skill.isNew)
             })
           } catch (e) {
@@ -1093,16 +1151,18 @@ export default function App() {
               return
             }
             try {
-              const q = generateQuestionFromTemplate(template, skill.name, year.year)
-              rows.push({
-                templateId: template.id || '',
-                skillId: skill.id,
-                skillName: skill.name,
-                year: year.year,
-                question: q.question,
-                answer: q.formattedAnswer || q.answer,
-                isNew: !!(template.isNew || skill.isNew)
-              })
+            const q = generateQuestionFromTemplate(template, skill.name, year.year)
+            const questionText = normalizeMathDisplay(q.question)
+            const answerText = normalizeMathDisplay(q.formattedAnswer || q.answer)
+            rows.push({
+              templateId: template.id || '',
+              skillId: skill.id,
+              skillName: skill.name,
+              year: year.year,
+              question: questionText,
+              answer: answerText,
+              isNew: !!(template.isNew || skill.isNew)
+            })
             } catch (e) {
               rows.push({
                 templateId: template.id || '',
