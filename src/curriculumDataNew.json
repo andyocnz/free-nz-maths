@@ -4470,7 +4470,6 @@
               "hint": "Even degree positive leading coeff → up on both sides"
             },
             {
-            {
               "id": "Y11.A.POLYNOMIALS.T2",
               "stem": "Factor {aCoeff}x^2 + {bCoeff}x + {cCoeff}.",
               "params": {
