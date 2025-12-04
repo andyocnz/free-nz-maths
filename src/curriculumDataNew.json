@@ -5702,10 +5702,10 @@
                   12
                 ]
               },
-              "answer": "{Math.round(Math.acos((a*c + b*d)/(Math.sqrt(a*a + b*b)*Math.sqrt(c*c + d*d))) * 180 / Math.PI)}┬░",
+              "answer": "{Math.round(Math.acos((a*c + b*d)/(Math.sqrt(a*a + b*b)*Math.sqrt(c*c + d*d))) * 180 / Math.PI)}°",
               "difficulty": 9,
               "phase": 10.14,
-              "hint": "cos ╬╕ = (u ┬╖ v) / (|u||v|)"
+              "hint": "cos θ = (u · v) / (|u||v|)"
             }
           ]
         },
@@ -5870,7 +5870,7 @@
           "templates": [
             {
               "id": "Y12.C.CALCULUS_APPLICATIONS.T2",
-              "stem": "A particle moves according to s(t) = {a}t┬▓ + {b}t + {c}. Find its velocity at t = {t}.",
+              "stem": "A particle moves according to s(t) = {a}t^2 + {b}t + {c}. Find its velocity at t = {t}.",
               "params": {
                 "a": [
                   "int",
