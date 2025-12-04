@@ -97,12 +97,15 @@ export default function QuestionVisualizer({ question, visualData }) {
 
   if (!visualData) return null
 
+  const canvasWidth = visualData.canvasWidth || visualData.width || 400
+  const canvasHeight = visualData.canvasHeight || visualData.height || 300
+
   return (
     <div style={{ margin: '20px 0' }}>
       <canvas
         ref={canvasRef}
-        width={visualData.canvasWidth || visualData.width || 400}
-        height={visualData.canvasHeight || visualData.height || 300}
+        width={canvasWidth}
+        height={canvasHeight}
         style={{ border: '1px solid #ddd', borderRadius: '8px', backgroundColor: 'white' }}
       />
     </div>
@@ -1010,31 +1013,12 @@ function drawTriangularPrism(ctx, data) {
   // Label base area
   ctx.fillStyle = '#1565C0'
   ctx.font = 'bold 14px Arial'
-  ctx.fillText(`Base area = ${baseArea} cmÂ²`, x1 - 10, y1 + 30)
+  ctx.fillText(`Base area = ${baseArea} cm²`, x1 - 10, y1 + 30)
 
-  // Draw height arrow along prism length
-  ctx.strokeStyle = '#FF5722'
-  ctx.fillStyle = '#FF5722'
-  const hx1 = (x2 + bx2) / 2
-  const hy1 = (y2 + by2) / 2
-  const hx2 = hx1 + 40
-  const hy2 = hy1
-
-  ctx.beginPath()
-  ctx.moveTo(hx1, hy1)
-  ctx.lineTo(hx2, hy2)
-  ctx.stroke()
-
-  // Arrow head
-  ctx.beginPath()
-  ctx.moveTo(hx2, hy2)
-  ctx.lineTo(hx2 - 8, hy2 - 4)
-  ctx.lineTo(hx2 - 8, hy2 + 4)
-  ctx.closePath()
-  ctx.fill()
-
+  // Label height
+  ctx.fillStyle = '#1565C0'
   ctx.font = 'bold 14px Arial'
-  ctx.fillText(`height = ${height} cm`, hx2 + 8, hy2 + 5)
+  ctx.fillText(`height = ${height} cm`, bx2 + 10, by2 + 30)
 }
 
 // Draw composite shape: rectangle + triangle on top

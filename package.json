@@ -6,7 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "validate": "node scripts/validate_template.cjs",
+    "check-broken": "node scripts/find_broken_answers.cjs",
+    "samples": "node scripts/sample_generate.mjs",
+    "find-singles": "node scripts/find_single_template_skills.js"
   },
   "dependencies": {
     "html2canvas": "^1.4.1",

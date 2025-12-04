@@ -211,6 +211,150 @@
               "difficulty": 8
             }
           ]
+        },
+        {
+          "id": "Y13.A.SEQUENCES_SERIES",
+          "strand": "Number & Algebra",
+          "name": "Sequences and series",
+          "description": "Arithmetic, geometric sequences and series",
+          "phase": 10.1,
+          "phase_tag": "phase10.1_year13_sequences",
+          "templates": [
+            {
+              "id": "Y13.A.SEQUENCES_SERIES.T1",
+              "stem": "Find the {n}th term of arithmetic sequence: a={a}, d={d}",
+              "params": { "a": ["int", 2, 20], "d": ["int", 2, 8], "n": ["int", 10, 20] },
+              "answer": "{a + (n-1)*d}",
+              "difficulty": 7
+            },
+            {
+              "id": "Y13.A.SEQUENCES_SERIES.T2",
+              "stem": "Sum of first {n} terms: a={a}, d={d}",
+              "params": { "a": ["int", 3, 15], "d": ["int", 2, 6], "n": ["int", 10, 25] },
+              "answer": "{n/2 * (2*a + (n-1)*d)}",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.A.SEQUENCES_SERIES.T3",
+              "stem": "Find the {n}th term of geometric sequence: a={a}, r={r}",
+              "params": { "a": ["int", 2, 10], "r": ["int", 2, 4], "n": ["int", 5, 10] },
+              "answer": "{a * r**(n-1)}",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.A.SEQUENCES_SERIES.T4",
+              "stem": "Sum of infinite geometric series: a={a}, r={r}",
+              "params": { "a": ["int", 4, 20], "r": ["decimal", 0.2, 0.8, 1] },
+              "answer": "{a/(1 - r)}",
+              "difficulty": 9
+            },
+            {
+              "id": "Y13.A.SEQUENCES_SERIES.T5",
+              "stem": "Find the {n}th term of arithmetic sequence: a₁={a}, d={d}",
+              "params": { "a": ["int", 2, 15], "d": ["int", 2, 8], "n": ["int", 10, 25] },
+              "answer": "{a + (n - 1) * d}",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.A.SEQUENCES_SERIES.T6",
+              "stem": "Find the sum of the first {n} terms of an arithmetic series with first term {a} and common difference {d}",
+              "params": { "a": ["int", 2, 12], "d": ["int", 2, 8], "n": ["int", 8, 20] },
+              "answer": "{n/2 * (2*a + (n-1)*d)}",
+              "difficulty": 8,
+              "phase": 10.7
+            }
+          ]
+        },
+        {
+          "id": "Y13.L.LOGARITHMS",
+          "strand": "Number & Algebra",
+          "name": "Logarithms",
+          "description": "Logarithm laws and equations",
+          "phase": 10.2,
+          "phase_tag": "phase10.2_year13_logarithms",
+          "templates": [
+            {
+              "id": "Y13.L.LOGARITHMS.T1",
+              "stem": "Solve log₂(x) = {n}",
+              "params": { "n": ["int", 3, 7] },
+              "answer": "x = {2**n}",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.L.LOGARITHMS.T2",
+              "stem": "Simplify log({a}) + log({b})",
+              "params": { "a": ["int", 2, 9], "b": ["int", 2, 9] },
+              "answer": "log({a*b})",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.L.LOGARITHMS.T3",
+              "stem": "Solve {a}^x = {b}",
+              "params": { "a": ["int", 2, 5], "b": ["int", 8, 50] },
+              "answer": "x = {round(log(b)/log(a), 2)}",
+              "difficulty": 9
+            },
+            {
+              "id": "Y13.L.LOGARITHMS.T4",
+              "stem": "Simplify log(x^2)",
+              "params": {},
+              "answer": "{\"2*log(x)\"}",
+              "difficulty": 7
+            }
+          ]
+        },
+        {
+          "id": "Y13.G.COORDINATE_GEOMETRY",
+          "strand": "Geometry & Measurement",
+          "name": "Coordinate geometry",
+          "description": "Circles, parabolas, ellipses, hyperbolas",
+          "phase": 10.3,
+          "phase_tag": "phase10.3_year13_coordinate_geom",
+          "templates": [
+            {
+              "id": "Y13.G.COORDINATE_GEOMETRY.T1",
+              "stem": "Find center and radius of (x - {h})^2 + (y - {k})^2 = {r}^2",
+              "params": { "h": ["int", -5, 5], "k": ["int", -5, 5], "r": ["int", 3, 8] },
+              "answer": "center ({h}, {k}), radius {r}",
+              "difficulty": 7
+            },
+            {
+              "id": "Y13.G.COORDINATE_GEOMETRY.T2",
+              "stem": "Find equation of circle with center ({h}, {k}) and radius {r}",
+              "params": { "h": ["int", -6, 6], "k": ["int", -6, 6], "r": ["int", 2, 7] },
+              "answer": "(x - {h})^2 + (y - {k})^2 = {r*r}",
+              "difficulty": 7
+            },
+            {
+              "id": "Y13.G.COORDINATE_GEOMETRY.T3",
+              "stem": "Find vertex of parabola y = {a}(x - {h})^2 + {k}",
+              "params": { "a": ["int", 1, 4], "h": ["int", -5, 5], "k": ["int", -8, 8] },
+              "answer": "({h}, {k})",
+              "difficulty": 6
+            },
+            {
+              "id": "Y13.G.COORDINATE_GEOMETRY.T4",
+              "stem": "Find focus of parabola x^2 = {a}y",
+              "params": { "a": ["int", 4, 16] },
+              "answer": "(0, {a/4})",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.G.COORDINATE_GEOMETRY.T5",
+              "stem": "Find distance between points ({x1}, {y1}) and ({x2}, {y2})",
+              "params": { "x1": ["int", -8, 8], "y1": ["int", -8, 8], "x2": ["int", -8, 8], "y2": ["int", -8, 8] },
+              "answer": "sqrt(({x2}-{x1})^2 + ({y2}-{y1})^2)",
+              "difficulty": 6
+            },
+            {
+              "id": "Y13.G.COORDINATE_GEOMETRY.T6",
+              "stem": "Find the midpoint of the line segment joining ({x1}, {y1}) and ({x2}, {y2})",
+              "params": { "x1": ["int", -10, 10], "y1": ["int", -10, 10], "x2": ["int", -10, 10], "y2": ["int", -10, 10] },
+              "answer": "{'(' + (x1+x2)/2 + ', ' + (y1+y2)/2 + ')'}",
+              "difficulty": 6,
+              "phase": 10.7
+            }
+          ]
         }
       ]
     }

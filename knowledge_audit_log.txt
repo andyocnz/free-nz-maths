@@ -1,0 +1,87 @@
+# Knowledge Snippet Audit
+
+## 1. Missing Knowledge Snippets
+
+The following skill IDs are present in the curriculum but do not have corresponding entries in `src/knowledgeSnippets.json`:
+
+- Y9.A.INEQUALITIES
+- Y9.A.NONLINEAR_FUNCTIONS
+- Y9.A.EXPRESSIONS_POLYNOMIALS
+- Y9.A.EQUATIONS_INEQUALITIES
+- Y9.A.POLYNOMIAL_OPS
+- Y9.S.COUNTING_PRINCIPLE
+- Y9.G.CONES_SPHERES
+- Y9.S.BOX_PLOTS
+- Y9.S.DATA_STATS_PROB
+- Y9.A.GEOMETRIC_SEQUENCES
+- Y9.N.INTEGERS_RATIONAL
+- Y9.N.RATIOS_PROPORTIONS
+- Y9.N.PERCENTS_CONSUMER
+- Y9.G.TRANSFORMATIONS
+- Y9.G.PYTHAGORAS_SOLIDS
+- Y9.A.SEQUENCES
+- N.FINANCIAL_RATES
+- N.FINANCIAL_COMPOUND
+- M.PRECISION_ERROR
+- M.VOLUME_SIMILAR
+- C.COORD_DISTANCE
+- C.COORD_GRADIENT
+- L.NONLINEAR_GRAPH
+- G.SIMILAR_TRIANGLES
+- G.CONGRUENT_SSS
+- S.UNIVARIATE_BOXPLOT
+- S.BIVARIATE_CORRELATION
+- A.QUADRATICS_COMPLETE_SQUARE
+- M.SURFACE_AREA_PYRAMID
+- M.VOLUME_SPHERE
+- T.TRIG_GRAPH
+- M.MATRIX_ADD
+- M.MATRIX_MULTIPLY_2X2
+- A.QUADRATIC_EQS
+- A.POLYNOMIALS
+- G.TRIG_RATIOS
+- G.TRIG_IDENTITIES
+- G.COORDINATE_GEOMETRY
+- S.DESCRIPTIVE_STATS
+- C.CALCULUS_DIFF
+- Y12.G.2
+- Y12.G.3
+- Y12.G.4
+- Y12.G.5
+- Y12.G.6
+- Y12.AA.4
+- Y12.P.8
+- Y12.EE.1
+- A.COMPLEX_NUMBERS
+
+## 2. Proposed Addition for This Step
+
+I will add a knowledge snippet for the following skill ID: `Y9.G.PYTHAGORAS`.
+
+**NOTE:** This skill ID was used as an example in `HINT_KNOWLEDGE_MODAL_GUIDE.md` but is not currently present in `src/curriculumDataNew.json`. I will add it to the knowledge base so it is ready for future use when the curriculum is updated.
+
+**Content to be added:**
+```json
+"Y9.G.PYTHAGORAS": {
+  "title": "Pythagorean Theorem",
+  "summary": "In any right-angled triangle, the square of the length of the hypotenuse (the side opposite the right angle) is equal to the sum of the squares of the lengths of the other two sides (legs).",
+  "key_formulas": [
+    "a² + b² = c²",
+    "c = √(a² + b²)"
+  ],
+  "example": "If a right-angled triangle has legs of length a=3 and b=4, the hypotenuse c can be found using c² = 3² + 4² = 9 + 16 = 25. Therefore, c = √25 = 5.",
+  "common_misconceptions": [
+    "The theorem only applies to right-angled triangles.",
+    "Forgetting to take the square root to find the final length of the hypotenuse.",
+    "Incorrectly identifying which side is the hypotenuse (it is always the longest side, opposite the right angle)."
+  ]
+}
+```
+
+## 3. Snippets Added in This Session
+
+(None yet)
+
+## 4. Remaining Missing Snippets
+
+(This list will be the same as in Section 1, as the proposed addition is for a new skill not currently in the curriculum).

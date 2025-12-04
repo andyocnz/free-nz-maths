@@ -1,8 +1,30 @@
-# Developer Onboarding – free-nz-maths (Phase 7–9 overview)
+# Developer Onboarding – free-nz-maths
 
-This is a short working guide so a junior dev can pick up where the recent Phase 7–9 changes left off (curriculum extensions, NCEA trials, and basic SEO).
+This guide provides a comprehensive overview of the codebase, workflows, and best practices for adding new content and features.
 
-## Quick setup (Windows PowerShell)
+## Table of Contents
+
+1.  [**Quick Start & Setup**](#1-quick-start--setup)
+    *   [Initial Project Setup](#11-initial-project-setup-windows-powershell)
+    *   [5-Minute Workflow: Adding a New Template](#12-5-minute-workflow-adding-a-new-template)
+2.  [**Core Workflows**](#2-core-workflows)
+    *   [Adding New Question Templates (Detailed)](#21-adding-new-question-templates-detailed)
+    *   [Extending Visuals](#22-extending-visuals)
+    *   [Testing and Verification](#23-testing-and-verification)
+3.  [**System Deep Dives**](#3-system-deep-dives)
+    *   [The Template & Answer Engine](#31-the-template--answer-engine)
+    *   [NCEA Implementation](#32-ncea-implementation)
+    *   [Group Test Mode](#33-group-test-mode)
+4.  [**Project Reference**](#4-project-reference)
+    *   [Project File Overview](#41-project-file-overview)
+    *   [Commit & PR Guidelines](#42-commit--pr-guidelines)
+    *   [Common Issues & Gotchas](#43-common-issues--gotchas)
+
+---
+
+## 1. Quick Start & Setup
+
+### 1.1. Initial Project Setup (Windows PowerShell)
 - Ensure Node.js (LTS) and npm are installed.
 - From the project root (`c:\Users\Andy\free-nz-maths`):
 
@@ -21,41 +43,56 @@ npm run build
 node .\scripts\sample_generate.mjs
 ```
 
-Open the local dev URL shown by Vite (e.g. `http://localhost:5173/` or `http://localhost:5174/`) to view the app.
+Open the local dev URL shown by Vite (e.g. `http://localhost:5173/`) to view the app.
 
-## Files you should know (most-relevant)
-- `src/curriculumDataFull.json` – audited/base curriculum (do not modify directly when adding new Phase content).
-- `src/curriculumDataNew.json` – Phase 7+ additions and editable new templates. New templates live here and are merged at runtime.
-- `src/curriculumDataMerged.js` – runtime merging logic that appends `curriculumDataNew` into the base and marks appended templates with `isNew`.
-- `src/templateEngine.js` – template parameter generation, answer expression evaluation, and `visualData` token substitution. Edit here when you need new param generators or answer normalization.
-- `src/QuestionVisualizer.jsx` – HTML5 Canvas rendering routines for all visuals. Key functions:
-  - `drawNet(ctx, data)` – draws nets. (Extended to support `shape_type`: `cube`, `rectangular_prism`, `triangular_prism`, `square_pyramid`, `tetrahedron`).
-  - `drawParallelTransversal`, `drawHistogram`, etc. – other visuals.
-- `src/HintModal.jsx` – hint modal component. Accepts `htmlContent` for rich (SVG/HTML) hints.
-- `src/KnowledgeModal.jsx` – “Remind me the knowledge” modal that shows concept summaries from `src/knowledgeSnippets.json`. It is scrollable and sized larger than the hint modal.
-- `src/App.jsx` – app logic (hint generation, wiring, question lifecycle), NCEA trial wiring, SEO titles/meta descriptions, and the IXL-alternative landing page.
-- `scripts/sample_generate.mjs` – quick node script that uses the template engine to print sample questions (useful for automated checks without running the browser).
+### 1.2. 5-Minute Workflow: Adding a New Template
+**Want to add templates quickly and correctly?** Follow this streamlined workflow:
 
-### NCEA past papers & trials (Phase 9)
-- `pastpapers/ncea_legacy_papers_structured.json` – structured Level 1 **legacy** externals (91027, 91028, 91031 etc).
-- `pastpapers/ncea_new_papers_structured.json` – structured Level 1 **revised** standards (e.g. 91946, 91947).
-- `pastpapers/NewFrom2024.json` – source of the clean 2025 91947 structure; used to normalise the 91947 entry.
-- `pastpapers/resources/**` – local exam/resource PDFs and diagrams (e.g. `pastpapers/resources/2025/91947/3a.webp`, `pastpapers/resources/91946-res-2025.pdf`).
-- `src/nceaStructuredData.js` – normalises NCEA JSON into a flat question list and exposes `buildNceaTrialQuestionsForStandard(standardNumber)` used by the trial engine.
-- `src/nceaResources.js` – resolves `local:pastpapers/resources/...` paths (both PDF and WEBP/PNG) to Vite URLs via `import.meta.glob`.
-- `src/PastPapersIndex.jsx` – UI for the NCEA Trial Exams section (legacy vs revised tabs, standard/year selection, and hooks for starting trials).
+#### Step 1: Create Your Template JSON
+Use examples from `TEMPLATE_EXAMPLES.md` or start with this basic structure:
+```json
+{
+  "id": "Y6.N.MY_SKILL.T1",
+  "stem": "Question text with {param}",
+  "params": { "param": ["int", 1, 10] },
+  "answer": "param * 2",
+  "difficulty": 5
+}
+```
 
-To see the NCEA trial index locally, you can use `/?mode=ncea-index` or navigate via the “NCEA Trial Exams” block on the landing page. Trial questions are built from the structured JSON (fixed questions for now; randomisation is a future phase).
+#### Step 2: Validate It
+```bash
+# Catches 90% of issues before you add it!
+node scripts/validate_template.cjs '{"id":"Y6.N.MY_SKILL.T1",...}'
+```
 
-### SEO & site structure (Phase 9.1)
-- `src/App.jsx` (top-level `useEffect`) – sets `document.title` and the main `<meta name="description">` dynamically based on current mode, selected skill, and active NCEA paper.
-- `src/App.jsx` – also handles a dedicated `/ixl-alternative` virtual page (“A Free Alternative to IXL for NZ Maths Practice”) with comparison table and copy.
-- `scripts/generate_sitemap.mjs` – Node script that merges `curriculumDataFull.json` + `curriculumDataNew.json` and generates `sitemap.xml` (root) with routes like `/`, `/ixl-alternative`, `/topics/<skillId>`.
+#### Step 3: Add to `src/curriculumDataNew.json`
+1.  Find the right skill and add your template to its `templates` array.
+2.  **IMPORTANT - Phase Numbering:** Use the same phase number (e.g., `"phase": 10.6`) for all templates added in the same batch. After 10.9, use `10.11`, `10.12` to avoid JavaScript decimal issues.
 
-When adjusting SEO behaviour, keep changes minimal and avoid breaking the SPA routing – we still rely on client-side navigation for most paths.
+#### Step 4: Test It
+```bash
+# Generate a sample to check the output
+node scripts/sample_generate.mjs | Select-String "Y6.N.MY_SKILL"
+# Or run the dev server to test in the UI
+npm run dev
+```
 
-## How to add new question templates (high level)
-1. Add template JSON to `src/curriculumDataNew.json` under the appropriate `year` and `skill` group. Example template structure:
+#### Multiple-Choice Templates
+Some skills (like polynomial expansion/simplification) use button-style choices instead of free-form text. To set one up:
+- Compute any helper params (e.g., `correctExpr`) in the `params` block and keep `answer` pointed at the canonical expression.
+- Add a `choices` array. Each entry can be a param name (e.g., `"correctExpr"`) or a string containing `{...}` expressions (e.g., `"{formatQuadraticExpression(aSum, bSum, cSum)}"`). The engine evaluates every entry, clones the values, and shuffles them automatically.
+- No extra UI wiring is needed—the practice view shows a “Choose one:” prompt above the options.
+
+See `Y11.A.POLYNOMIALS.T1`/`T3` in `src/curriculumDataNew.json` for reference.
+
+---
+
+## 2. Core Workflows
+
+### 2.1. Adding New Question Templates (Detailed)
+
+#### Template Structure
 ```json
 {
   "id": "Y6.G.NETS.T8",
@@ -66,45 +103,92 @@ When adjusting SEO behaviour, keep changes minimal and avoid breaking the SPA ro
   "visualData": { "type": "net", "shape_type": "tetrahedron" }
 }
 ```
-2. Pick `visualData.type` to match a renderer in `QuestionVisualizer.jsx` (e.g. `net`, `histogram`, `parallel_transversal`).
-3. If the template needs parameters, add a `params` object using the same param types as existing templates (e.g., `["int", min, max]`, `["choice", ...]`).
-4. Keep the `answer` expression as a JavaScript-style expression string. The template engine evaluates it.
 
-Note: New templates in `curriculumDataNew.json` are merged and marked `isNew` at runtime – don't edit `curriculumDataMerged.js` unless you need to change merging behaviour.
+#### Parameter Types
+- `["int", min, max]` - Random integer.
+- `["decimal", min, max, decimals]` - Random decimal.
+- `["choice", val1, val2, ...]` - Random selection from a list.
 
-## How to extend visuals
-- Open `src/QuestionVisualizer.jsx` and find the `switch` on `visualData.type`. Add a case that calls a new `drawXxx` function.
-- Implement the `drawXxx(ctx, data)` function. Keep drawings simple and avoid revealing answers in the visual. Use `data` fields rather than hard-coded numbers.
-- For nets: edit `drawNet` and add support for new `shape_type` variants. Keep the function robust to missing fields.
-- After modifying visuals, run the dev server and view affected questions in-browser, or run `node .\scripts\sample_generate.mjs` to see the `visualData` printed and ensure the correct `shape_type` is used.
+#### Key Rules for Writing Templates
+1.  **Use `{}` for expressions with x/y**: `"answer": "{x + y}"` not `"answer": "x + y"`.
+2.  **No backticks**: Use `"x={a}"` not ``'`x=${a}`'``.
+3.  **No variable prefixes**: Use `"{2*a}x + {b}"` not `"f'(x) = {2*a}x + {b}"`. The system adds prefixes automatically.
+4.  **Round divisions**: Use `"round(a/b, 2)"` to avoid long decimals.
+5.  **Protect division by zero**: If a parameter `x` is used in a denominator, ensure its range does not include 0 (e.g., `["int", 1, 10]`).
+6.  **Static Answers**: If a template has no `params`, the `answer` string must NOT have extra quotes. E.g., `"answer": "x ≤ −4"`, not `"answer": "'x ≤ −4'"`.
+7.  **No Hardcoded Calculations**: Templates with empty `params` are only allowed if they include `visualData` for interpretation. A question like `"stem": "Solve 2x + 5 = 15"` with an answer of `"5"` is not allowed as students will memorize it. It MUST be parameterized.
 
-## How hints & knowledge reminders work
-- The app uses `HintModal.jsx` for per-question hints. Hints may be provided as plain text or as `htmlContent` containing inline SVG/HTML.
-- “Remind me the knowledge” uses `KnowledgeModal.jsx` + `knowledgeSnippets.json` to show a short, scrollable concept recap with formulas and examples for the current skill.
-- Both modals are opened from `App.jsx` – search for `hintModal` and `knowledgeModal` usage to see where content is constructed.
+### 2.2. Extending Visuals
+- Open `src/QuestionVisualizer.jsx` and find the `switch` statement on `visualData.type`.
+- Add a `case` for your new visual type that calls a new drawing function (e.g., `drawMyNewVisual(ctx, data)`).
+- Implement your `drawMyNewVisual(ctx, data)` function.
+- **IMPORTANT**: If the visual depends on randomized parameters, reference them as strings in the `visualData` object (e.g., `"values": ["v1","v2"]`) so the template engine can substitute the values. If the visual changes fundamentally based on a parameter, create separate templates for each case.
 
-## Testing & verification
-- Use `node .\scripts\sample_generate.mjs` to generate and inspect sample questions quickly. The script prints `visualData` objects – this is useful to confirm template IDs, params, and `visualData.type`/`shape_type` values.
-- To verify visuals in-context: run `npm run dev`, open the site, navigate to Practice/Test pages and trigger the skill/topic that contains your templates.
-- NCEA trials: use `/?mode=ncea-index`, choose a standard (e.g. 91947), and step through the trial to confirm diagrams/resources are wired correctly.
-
-## Common tasks you may need to do
-- Add synonyms for answers (e.g., accept both `Cuboid` and `Rectangular prism`): update `src/templateEngine.js` answer normalization or add multiple acceptable answer strings in the template (or extend the UI comparison to accept case-insensitive variations).
-- Add new param generators (e.g., generate an array of points): extend `templateEngine.js` helpers and param types parsing.
-- Improve artwork for a visual: update drawing code in `src/QuestionVisualizer.jsx` and watch for canvas scaling differences across sizes.
-- Extend NCEA coverage: update `pastpapers/*.json`, re-run any helper scripts (e.g. `scripts/embed_91947_images.mjs`), and ensure new standards are surfaced in `PastPapersIndex.jsx` and `nceaStructuredData.js`.
-
-## Commit / PR guidance
-- Keep changes focused: one concept per PR (e.g., “Add triangular prism nets” vs “Refactor visualizer”).
-- Run `npm run build` or at least `node .\scripts\sample_generate.mjs` before opening a PR to catch syntax/runtime issues.
-- Reference template IDs, NCEA standards, and pages changed in the PR description so reviewers know where to look (e.g. “updates 91947 Q2(b) diagram wiring”).
-
-## Notes / Gotchas
-- The template engine performs string substitution for `visualData` fields. If you put parameter names as strings in `visualData` (e.g., `"values": ["v1","v2"]`) the engine will replace those with actual numbers when generating a question.
-- Canvas coordinates assume 400×300 by default. If adding a large/complex visual, use `visualData.canvasWidth` / `canvasHeight` to request a different canvas size.
-- Hints and knowledge content may use `dangerouslySetInnerHTML` to render inline SVG/HTML – review security/escaping if you accept external content.
-- NCEA resource paths must start with `local:pastpapers/resources/...` so `nceaResources.js` can resolve them correctly via `import.meta.glob`.
-- Group test registry lookups must always send both `groupCode` and the sanitized teacher PIN to the Google Apps Script endpoints (`getRegistry`, `fetchGroupScores`). The `/sample/index.html` and `/sample/registry-dump.html` tools already do this – mirror that behaviour in `src/App.jsx` or the backend replies with “Incorrect teacher PIN or group code.” even for valid pairs.
+### 2.3. Testing and Verification
+- **Quick Check:** Use `node .\scripts\sample_generate.mjs` to generate and inspect sample question objects. This is great for quickly checking parameters and answers without a browser.
+- **Visual Check:** Run `npm run dev`, navigate to the relevant skill, and generate several questions to ensure the visuals render correctly and match the question text.
+- **NCEA Trials:** Use the `/?mode=ncea-index` query parameter to access the NCEA section and test that trial papers and their resources load correctly.
 
 ---
-Saved as `DEVELOPER_ONBOARDING.md` in the project root.
+
+## 3. System Deep Dives
+
+### 3.1. The Template & Answer Engine
+This section documents critical knowledge about how `src/templateEngine.js` evaluates answer expressions.
+
+#### How Answer Evaluation Works
+The engine uses two paths:
+1.  **Pure Expression Path**: For numeric/probability expressions. It creates and evaluates a JavaScript function from the `answer` string.
+2.  **Display Template Path**: For answers containing `{placeholders}` or algebraic syntax (like an `=` sign or `x`/`y` variables). This path performs string substitution.
+
+**Detection Logic**: `const looksAlgebraic = /(?<![=!<>])=(?!=)/.test(rawAnswer) || /x/.test(rawAnswer) || /y/.test(rawAnswer)`
+This regex is specifically designed to detect assignment operators (`=`), not comparison operators (`==`, `!=`, etc.).
+
+#### Answer Expression Best Practices
+- **DO** use simple arithmetic (`a+b`), ternary operators (`a > b ? 1 : 0`), and function calls from `mathHelpers` (`simplify(a,b)`).
+- **DON'T** use object literals (`{...}`) as they confuse the parser. Use a ternary chain instead.
+- **DON'T** use assignment operators (`x = a + b`). The answer expression should only return a value.
+
+#### Case Study: Histogram Answer Fix
+- **Original Problem**: `"answer": "({\"130-140\": v1, ...})[targetBinLabel]"
+- **Why it Failed**: The `{}` triggered the display path, showing the raw expression as the answer.
+- **The Fix**: `"answer": "(targetBinLabel === '130-140' ? v1 : ...)"`. This uses a ternary chain, which is evaluated as a pure expression.
+
+### 3.2. NCEA Implementation
+- **Data Files**: `pastpapers/ncea_legacy_papers_structured.json` and `pastpapers/ncea_new_papers_structured.json` contain the structured exam data.
+- **Resource Loading**: `src/nceaResources.js` resolves `local:pastpapers/resources/...` paths to Vite URLs using `import.meta.glob`.
+- **Logic**: `src/nceaStructuredData.js` normalizes the JSON data into a flat question list for trials.
+- **UI**: `src/PastPapersIndex.jsx` renders the NCEA Trial Exams section.
+
+### 3.3. Group Test Mode
+- **Engine**: `src/groupTestEngine.js` uses a seeded RNG based on a 7-digit group code to ensure all students get identical questions.
+- **Backend**: `src/googleApi.js` and `src/config.js` handle communication with Google Apps Script endpoints for storing test registry data and scores.
+- **Workflow**: A teacher creates a test (full or focused on one topic), gets a code, and students use that code to take the deterministic test. Results are posted to a Google Sheet for the teacher to view.
+- **Features**: Includes "Focused Mode" (testing a single skill) and "Answer Hiding" (students only see "Wrong ❌" without the correct answer).
+
+---
+
+## 4. Project Reference
+
+### 4.1. Project File Overview
+- `src/curriculumDataNew.json`: Where all new question templates should be added.
+- `src/templateEngine.js`: The core engine for generating questions and evaluating answers.
+- `src/QuestionVisualizer.jsx`: Contains all HTML5 Canvas rendering code for visuals.
+- `src/App.jsx`: The main application component, handling UI logic, routing, and state management.
+- `scripts/sample_generate.mjs`: A utility script for quickly generating sample questions.
+- `scripts/validate_template.cjs`: A crucial validator to check template syntax before submission.
+
+### 4.2. Commit & PR Guidelines
+- Keep changes focused: one concept per Pull Request.
+- Run `npm run build` or at least `node .\scripts\sample_generate.mjs` to catch errors before submitting.
+- Reference template IDs, NCEA standards, or file names in the PR description so reviewers know what to check.
+
+### 4.3. Common Issues & Gotchas
+- **Phase Numbering**: JavaScript treats `10.10` as `10.1`. After phase 10.9, use `10.11`, `10.12`, etc.
+- **`visualData` Mismatches**: Ensure that visuals correctly reference randomized parameters or are split into separate templates for different scenarios.
+- **Answer Expression Errors**:
+    - "Wrong ❌ Answer: (expression...)" -> Caused by `{}` in the answer. Use a ternary chain instead.
+    - Answer shows "0" -> Caused by an exception during evaluation. Check the browser console.
+- **Last Question Not Counted**: This was a state update timing issue, fixed in `finishTest()` in `App.jsx` by checking the answer synchronously before finishing.
+- **Grade Not Displaying**: This was fixed by ensuring `gradeFromPercentage()` is called for all test modes, not just group mode.
+- **Dev Mode**: Use `?dev=true` to see answers in group tests and access other debugging features.

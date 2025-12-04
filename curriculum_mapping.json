@@ -1,0 +1,405 @@
+{
+  "audit_date": "2025-12-04",
+  "summary": {
+    "total_templates": 47,
+    "total_official_topics": 559,
+    "templates_matched": 32,
+    "templates_unmatched": 15,
+    "topics_without_templates": 536,
+    "coverage_percentage": 6
+  },
+  "year_10": {
+    "summary": {
+      "templates_total": 23,
+      "templates_matched": 19,
+      "templates_unmatched": 4,
+      "official_topics_total": 223,
+      "official_topics_covered": 19,
+      "official_topics_missing": 204,
+      "coverage_percentage": 8
+    },
+    "matched_templates": [
+      {
+        "template_id": "Y10.A.QUADRATIC_FORMULA.T1",
+        "skill_name": "Quadratic formula",
+        "official_code": "Y10.V.3",
+        "official_topic": "Factorise quadratics with leading coefficient 1",
+        "match_quality": "POOR",
+        "notes": "Should map to quadratic formula topic specifically, not factorising"
+      },
+      {
+        "template_id": "Y10.N.FINANCIAL_COMPOUND.T1",
+        "skill_name": "Financial Compound",
+        "official_code": "Y10.D.7",
+        "official_topic": "Compound interest",
+        "match_quality": "PERFECT",
+        "notes": "Excellent alignment"
+      },
+      {
+        "template_id": "Y10.C.COORD_DISTANCE.T1",
+        "skill_name": "Coord Distance",
+        "official_code": "Y10.G.3",
+        "official_topic": "Distance between two points",
+        "match_quality": "PERFECT",
+        "notes": "Excellent alignment"
+      },
+      {
+        "template_id": "Y10.C.COORD_GRADIENT.T1",
+        "skill_name": "Coord Gradient",
+        "official_code": "Y10.O.4",
+        "official_topic": "Find a missing coordinate using gradient",
+        "match_quality": "GOOD",
+        "notes": "Good alignment, though could also map to O.3"
+      },
+      {
+        "template_id": "Y10.G.SIMILAR_TRIANGLES.T1",
+        "skill_name": "Similar Triangles",
+        "official_code": "Y10.F.10",
+        "official_topic": "Similar triangles and indirect measurement",
+        "match_quality": "PERFECT",
+        "notes": "Excellent alignment"
+      },
+      {
+        "template_id": "Y10.G.CONGRUENT_SSS.T1",
+        "skill_name": "Congruent SSS",
+        "official_code": "Y10.F.8",
+        "official_topic": "Congruent figures: side lengths and angle measures",
+        "match_quality": "GOOD",
+        "notes": "Good alignment"
+      },
+      {
+        "template_id": "Y10.M.VOLUME_SIMILAR.T1",
+        "skill_name": "Volume Similar",
+        "official_code": "Y10.F.15",
+        "official_topic": "Volume and surface area of similar solids",
+        "match_quality": "PERFECT",
+        "notes": "Excellent alignment"
+      },
+      {
+        "template_id": "Y10.S.PROB_ADVANCED.T1",
+        "skill_name": "Conditional probability and tree diagrams",
+        "official_code": "Y10.AA.5",
+        "official_topic": "Probability of independent and dependent events",
+        "match_quality": "GOOD",
+        "notes": "Good match for conditional probability"
+      }
+    ],
+    "unmatched_templates": [
+      {
+        "template_id": "Y10.A.ALGEBRAIC_FRACTIONS.T1",
+        "skill_name": "Algebraic fractions",
+        "stem": "Simplify the expression: (x^2 - {a*a}) / (x - {a}).",
+        "suggested_mapping": "Y10.Y.2",
+        "suggested_topic": "Simplify rational expressions",
+        "action_required": "Verify if Y10.Y.2 exists in official curriculum or create new topic"
+      },
+      {
+        "template_id": "Y10.G.GEOMETRIC_REASONING.T1",
+        "skill_name": "Geometric reasoning and proofs",
+        "stem": "In a cyclic quadrilateral, one angle is {a}°. What is the measure of the opposite angle?",
+        "suggested_mapping": null,
+        "suggested_topic": "Circle theorems - cyclic quadrilaterals",
+        "action_required": "Create new topic for cyclic quadrilateral properties"
+      },
+      {
+        "template_id": "Y10.M.PRECISION_ERROR.T1",
+        "skill_name": "Precision Error",
+        "stem": "A length is measured as {m} cm, correct to the nearest {unit} cm. What is the greatest possible error?",
+        "suggested_mapping": "Y10.E.3",
+        "suggested_topic": "Greatest possible error",
+        "action_required": "Verify template aligns with Y10.E.3 and update skill ID"
+      },
+      {
+        "template_id": "Y10.S.BIVARIATE_CORRELATION.T1",
+        "skill_name": "Bivariate Correlation",
+        "stem": "{desc}",
+        "suggested_mapping": "Y10.L.6",
+        "suggested_topic": "Interpret a scatter plot",
+        "action_required": "Verify template aligns with scatter plot correlation"
+      }
+    ],
+    "critical_missing_topics": [
+      {
+        "section": "Numbers",
+        "missing_count": 6,
+        "topics": [
+          "Y10.A.1 - Classify numbers",
+          "Y10.A.2 - Compare and order rational numbers",
+          "Y10.A.3 - Number lines",
+          "Y10.A.4 - Convert between decimals and fractions",
+          "Y10.A.5 - Square roots",
+          "Y10.A.6 - Cube roots"
+        ],
+        "priority": "CRITICAL"
+      },
+      {
+        "section": "Operations",
+        "missing_count": 7,
+        "topics": [
+          "Y10.B.1 - Add, subtract, multiply and divide integers",
+          "Y10.B.2 - Evaluate numerical expressions involving integers",
+          "Y10.B.3 - Evaluate variable expressions involving integers",
+          "Y10.B.4 - Add and subtract rational numbers",
+          "Y10.B.5 - Multiply and divide rational numbers",
+          "Y10.B.6 - Evaluate numerical expressions involving rational numbers",
+          "Y10.B.7 - Evaluate variable expressions involving rational numbers"
+        ],
+        "priority": "CRITICAL"
+      },
+      {
+        "section": "Solve equations",
+        "missing_count": 11,
+        "topics": [
+          "Y10.J.1 - Model and solve equations using algebra tiles",
+          "Y10.J.2 - Write and solve equations that represent diagrams",
+          "Y10.J.3 - Solve one-step linear equations",
+          "Y10.J.4 - Solve two-step linear equations",
+          "Y10.J.5 - Solve advanced linear equations",
+          "Y10.J.6 - Solve equations with variables on both sides",
+          "Y10.J.7 - Solve equations: complete the solution",
+          "Y10.J.8 - Find the number of solutions",
+          "Y10.J.9 - Create equations with no solutions or infinitely many solutions",
+          "Y10.J.10 - Solve linear equations: word problems",
+          "Y10.J.11 - Solve linear equations: mixed review"
+        ],
+        "priority": "CRITICAL"
+      },
+      {
+        "section": "Linear functions",
+        "missing_count": 22,
+        "priority": "HIGH"
+      },
+      {
+        "section": "Simultaneous equations",
+        "missing_count": 9,
+        "priority": "HIGH"
+      },
+      {
+        "section": "Exponents",
+        "missing_count": 9,
+        "priority": "HIGH"
+      },
+      {
+        "section": "Polynomials",
+        "missing_count": 10,
+        "priority": "HIGH"
+      },
+      {
+        "section": "Factorising",
+        "missing_count": 8,
+        "priority": "HIGH"
+      }
+    ]
+  },
+  "year_11": {
+    "summary": {
+      "templates_total": 16,
+      "templates_matched": 13,
+      "templates_unmatched": 3,
+      "official_topics_total": 336,
+      "official_topics_covered": 11,
+      "official_topics_missing": 325,
+      "coverage_percentage": 3
+    },
+    "matched_templates": [
+      {
+        "template_id": "Y11.A.QUADRATICS_COMPLETE_SQUARE.T1",
+        "skill_name": "Quadratics Complete Square",
+        "official_code": "Y11.Q.7",
+        "official_topic": "Solve a quadratic equation by completing the square",
+        "match_quality": "PERFECT",
+        "notes": "Excellent alignment"
+      },
+      {
+        "template_id": "Y11.M.SURFACE_AREA_PYRAMID.T1",
+        "skill_name": "Surface Area Pyramid",
+        "official_code": "Y11.JJ.3",
+        "official_topic": "Surface area of pyramids and cones",
+        "match_quality": "PERFECT",
+        "notes": "Excellent alignment"
+      },
+      {
+        "template_id": "Y11.M.VOLUME_SPHERE.T1",
+        "skill_name": "Volume Sphere",
+        "official_code": "Y11.JJ.6",
+        "official_topic": "Surface area and volume of spheres",
+        "match_quality": "GOOD",
+        "notes": "Good alignment"
+      },
+      {
+        "template_id": "Y11.G.TRIG_RATIOS.T1",
+        "skill_name": "Trig Ratios",
+        "official_code": "Y11.GG.1",
+        "official_topic": "Trigonometric ratios: sin, cos and tan",
+        "match_quality": "PERFECT",
+        "notes": "Excellent alignment"
+      },
+      {
+        "template_id": "Y11.G.COORDINATE_GEOMETRY.T1",
+        "skill_name": "Coordinate Geometry",
+        "official_code": "Y11.I.3",
+        "official_topic": "Find the gradient from two points",
+        "match_quality": "PERFECT",
+        "notes": "Excellent alignment"
+      },
+      {
+        "template_id": "Y11.G.COORDINATE_GEOMETRY.T2",
+        "skill_name": "Coordinate Geometry",
+        "official_code": "Y11.D.3",
+        "official_topic": "Distance between two points",
+        "match_quality": "PERFECT",
+        "notes": "Excellent alignment"
+      }
+    ],
+    "unmatched_templates": [
+      {
+        "template_id": "Y11.M.MATRIX_ADD.T1",
+        "skill_name": "Matrix Add",
+        "stem": "A = [[{a11},{a12}],[{a21},{a22}]] and B = [[{b11},{b12}],[{b21},{b22}]]. Find A + B.",
+        "suggested_mapping": null,
+        "suggested_topic": "Matrix operations",
+        "action_required": "Verify if matrices are in Year 11 NZ curriculum or move to Year 12/13"
+      },
+      {
+        "template_id": "Y11.M.MATRIX_MULTIPLY_2X2.T1",
+        "skill_name": "Matrix Multiply 2x2",
+        "stem": "Calculate AB where A = [[{a},{b}],[{c},{d}]] and B = [[{e},{f}],[{g},{h}]].",
+        "suggested_mapping": null,
+        "suggested_topic": "Matrix multiplication",
+        "action_required": "Verify if matrices are in Year 11 NZ curriculum or move to Year 12/13"
+      },
+      {
+        "template_id": "Y11.C.CALCULUS_DIFF.T1",
+        "skill_name": "Calculus Diff",
+        "stem": "Differentiate f(x) = {a}x² + {b}x + {c}",
+        "suggested_mapping": null,
+        "suggested_topic": "Basic differentiation",
+        "action_required": "Verify if calculus is in Year 11 NZ curriculum or move to Year 12/13"
+      }
+    ],
+    "critical_missing_topics": [
+      {
+        "section": "Numbers",
+        "missing_count": 4,
+        "priority": "CRITICAL"
+      },
+      {
+        "section": "Ratios, rates and proportions",
+        "missing_count": 7,
+        "priority": "CRITICAL"
+      },
+      {
+        "section": "Solve equations",
+        "missing_count": 11,
+        "priority": "CRITICAL"
+      },
+      {
+        "section": "Logarithms",
+        "missing_count": 9,
+        "priority": "HIGH"
+      },
+      {
+        "section": "Trigonometry",
+        "missing_count": 19,
+        "priority": "HIGH"
+      }
+    ]
+  },
+  "year_12": {
+    "summary": {
+      "templates_total": 8,
+      "templates_matched": 0,
+      "templates_unmatched": 8,
+      "official_topics_total": 0,
+      "official_topics_covered": 0,
+      "official_topics_missing": 0,
+      "coverage_percentage": 0,
+      "notes": "Year 12 official topics not parsed from source file - needs investigation"
+    },
+    "unmatched_templates": [
+      {
+        "template_id": "Y12.C.COMPLEX_ADD.T1",
+        "skill_name": "Complex Add",
+        "action_required": "Parse Year 12 official topics and create mapping"
+      },
+      {
+        "template_id": "Y12.V.VECTOR_DOT.T1",
+        "skill_name": "Vector Dot",
+        "action_required": "Parse Year 12 official topics and create mapping"
+      },
+      {
+        "template_id": "Y12.V.VECTOR_ANGLE.T1",
+        "skill_name": "Vector Angle",
+        "action_required": "Parse Year 12 official topics and create mapping"
+      },
+      {
+        "template_id": "Y12.ALG.RECURSION.T1",
+        "skill_name": "Recursion",
+        "action_required": "Parse Year 12 official topics and create mapping"
+      },
+      {
+        "template_id": "Y12.A.MATRIX_OPS.T2",
+        "skill_name": "Matrix Ops",
+        "action_required": "Parse Year 12 official topics and create mapping"
+      },
+      {
+        "template_id": "Y12.A.EXPONENTIALS_LOGS.T2",
+        "skill_name": "Exponentials Logs",
+        "action_required": "Parse Year 12 official topics and create mapping"
+      },
+      {
+        "template_id": "Y12.C.CALCULUS_APPLICATIONS.T2",
+        "skill_name": "Calculus Applications",
+        "action_required": "Parse Year 12 official topics and create mapping"
+      },
+      {
+        "template_id": "Y12.G.VECTOR_OPS.T3",
+        "skill_name": "Vector Ops",
+        "action_required": "Parse Year 12 official topics and create mapping"
+      }
+    ]
+  },
+  "recommendations": {
+    "immediate_actions": [
+      {
+        "priority": 1,
+        "action": "Create templates for Year 10 Numbers section (6 topics)",
+        "estimated_effort": "1-2 days"
+      },
+      {
+        "priority": 1,
+        "action": "Create templates for Year 10 Operations section (7 topics)",
+        "estimated_effort": "2-3 days"
+      },
+      {
+        "priority": 1,
+        "action": "Fix incorrect template mappings (4 templates in Year 10)",
+        "estimated_effort": "1 day"
+      },
+      {
+        "priority": 2,
+        "action": "Parse Year 12 official topics from source file",
+        "estimated_effort": "0.5 days"
+      },
+      {
+        "priority": 2,
+        "action": "Create templates for Year 10 Solve equations section (11 topics)",
+        "estimated_effort": "3-4 days"
+      }
+    ],
+    "structural_changes": [
+      "Add 'official_nz_code' field to all templates",
+      "Add 'official_topic_name' field to all templates",
+      "Add 'curriculum_section' field to all templates",
+      "Consider renaming skill IDs to match official NZ codes",
+      "Add automated validation to ensure new templates map to official topics"
+    ],
+    "long_term_goals": [
+      "Achieve 100% coverage of official NZ curriculum Years 10-12",
+      "Create quality assurance process for curriculum alignment",
+      "Implement automated testing for curriculum coverage",
+      "Build template generation tools for missing topics",
+      "Create difficulty calibration against NCEA levels"
+    ]
+  }
+}

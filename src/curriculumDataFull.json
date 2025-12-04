@@ -681,7 +681,14 @@
                                                                                         20
                                                                                     ]
                                                                           },
-                                                               "answer":  "a * h"
+                                                               "answer":  "a * h",
+                                                               "visualData":  {
+                                                                              "type":  "triangular_prism",
+                                                                              "baseArea":  "a",
+                                                                              "height":  "h",
+                                                                              "canvasWidth":  400,
+                                                                              "canvasHeight":  300
+                                                                          }
                                                            }
                                                        ]
                                      }
