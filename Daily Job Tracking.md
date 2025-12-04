@@ -3,6 +3,14 @@
 **Last Updated:** 2025-12-04  
 **Focus:** Phase 10.18 – Helper batches & Olympiad prep (Phase 10.17 quick wins completed)
 
+## Daily Progress Snapshot
+| KPI | Progress (Today) |
+|-----|------------------|
+| Phase 10.17 quick wins | 7 / 7 templates (100% complete) |
+| Helper Batch A (4 templates) | 0 / 4 (0% - next focus) |
+| Helper Batch B (2 templates) | 0 / 2 (0% - queued) |
+| Helper Batch C (5 templates) | 0 / 5 (0% - queued) |
+
 ---
 
 ## Phase 10.16 Workboard

@@ -61,118 +61,6 @@
               "difficulty": 4,
               "phase": 10.1,
               "hint": "The order of rotational symmetry equals the number of identical positions when rotating."
-            },
-            {
-              "id": "Y11.G.TRIG_IDENTITIES.T2",
-              "stem": "Which identity correctly expresses tanθ in terms of sinθ and cosθ?",
-              "params": {},
-              "answer": "tanθ = sinθ / cosθ",
-              "choices": [
-                "tanθ = sinθ / cosθ",
-                "tanθ = cosθ / sinθ",
-                "tanθ = sinθ · cosθ",
-                "tanθ = cosθ - sinθ"
-              ],
-              "difficulty": 6,
-              "phase": 10.17,
-              "hint": "tanθ is defined as sinθ divided by cosθ."
-            }
-          ]
-        },
-        {
-          "id": "A.LINEAR_SYSTEMS",
-          "strand": "Algebra & Sequences",
-          "name": "Simultaneous equations",
-          "description": "Solve systems of linear equations",
-          "templates": [
-            {
-              "id": "Y11.A.LINEAR_SYSTEMS.T1",
-              "stem": "Solve: x + {m}y = {c1}, {n}x + y = {c2}.",
-              "params": {
-                "xSolution": [
-                  "int",
-                  -8,
-                  8
-                ],
-                "ySolution": [
-                  "int",
-                  -8,
-                  8
-                ],
-                "m": [
-                  "int",
-                  2,
-                  6
-                ],
-                "n": [
-                  "int",
-                  2,
-                  6
-                ],
-                "c1": "{xSolution + m * ySolution}",
-                "c2": "{n * xSolution + ySolution}",
-                "correctAnswer": "{formatOrderedPair(xSolution, ySolution)}",
-                "choiceSwap": "{formatOrderedPair(ySolution, xSolution)}",
-                "choiceNegX": "{formatOrderedPair(-xSolution, ySolution)}",
-                "choiceNegY": "{formatOrderedPair(xSolution, -ySolution)}"
-              },
-              "answer": "{correctAnswer}",
-              "choices": [
-                "{correctAnswer}",
-                "{choiceSwap}",
-                "{choiceNegX}",
-                "{choiceNegY}"
-              ],
-              "difficulty": 8,
-              "phase": 10.17,
-              "hint": "Use elimination: subtract a multiple of one equation from the other to isolate a variable."
-            },
-            {
-              "id": "Y11.A.LINEAR_SYSTEMS.T2",
-              "stem": "Solve by substitution: y = {aCoeff}x + {bConst}, {cCoeff}x + {dCoeff}y = {eConst}.",
-              "params": {
-                "xSolution": [
-                  "int",
-                  -6,
-                  6
-                ],
-                "aCoeff": [
-                  "int",
-                  -3,
-                  3
-                ],
-                "bConst": [
-                  "int",
-                  -10,
-                  10
-                ],
-                "ySolution": "{aCoeff * xSolution + bConst}",
-                "cCoeff": [
-                  "int",
-                  1,
-                  5
-                ],
-                "dCoeff": [
-                  "int",
-                  1,
-                  5
-                ],
-                "eConst": "{cCoeff * xSolution + dCoeff * ySolution}",
-                "correctAnswer": "{formatOrderedPair(xSolution, ySolution)}",
-                "choiceSwap": "{formatOrderedPair(ySolution, xSolution)}",
-                "choiceNegX": "{formatOrderedPair(-xSolution, ySolution)}",
-                "choiceNegY": "{formatOrderedPair(xSolution, -ySolution)}"
-              },
-              "answer": "{correctAnswer}",
-              "choices": [
-                "{correctAnswer}",
-                "{choiceSwap}",
-                "{choiceNegX}",
-                "{choiceNegY}"
-              ],
-              "difficulty": 7,
-              "phase": 10.17,
-              "hint": "Substitute y into the second equation, solve for x, then back-substitute for y."
             }
           ]
         },
@@ -4098,6 +3986,103 @@
           ]
         },
         {
+          "id": "A.LINEAR_SYSTEMS",
+          "strand": "Algebra & Sequences",
+          "name": "Simultaneous equations",
+          "description": "Solve systems of linear equations",
+          "templates": [
+            {
+              "id": "Y11.A.LINEAR_SYSTEMS.T1",
+              "stem": "Solve: x + {m}y = {c1}, {n}x + y = {c2}.",
+              "params": {
+                "xSolution": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "ySolution": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "m": [
+                  "int",
+                  2,
+                  6
+                ],
+                "n": [
+                  "int",
+                  2,
+                  6
+                ],
+                "c1": "{xSolution + m * ySolution}",
+                "c2": "{n * xSolution + ySolution}",
+                "correctAnswer": "{formatOrderedPair(xSolution, ySolution)}",
+                "choiceSwap": "{formatOrderedPair(ySolution, xSolution)}",
+                "choiceNegX": "{formatOrderedPair(-xSolution, ySolution)}",
+                "choiceNegY": "{formatOrderedPair(xSolution, -ySolution)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceSwap}",
+                "{choiceNegX}",
+                "{choiceNegY}"
+              ],
+              "difficulty": 8,
+              "phase": 10.17,
+              "hint": "Use elimination: subtract a multiple of one equation from the other to isolate a variable."
+            },
+            {
+              "id": "Y11.A.LINEAR_SYSTEMS.T2",
+              "stem": "Solve by substitution: y = {aCoeff}x + {bConst}, {cCoeff}x + {dCoeff}y = {eConst}.",
+              "params": {
+                "xSolution": [
+                  "int",
+                  -6,
+                  6
+                ],
+                "aCoeff": [
+                  "int",
+                  -3,
+                  3
+                ],
+                "bConst": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "ySolution": "{aCoeff * xSolution + bConst}",
+                "cCoeff": [
+                  "int",
+                  1,
+                  5
+                ],
+                "dCoeff": [
+                  "int",
+                  1,
+                  5
+                ],
+                "eConst": "{cCoeff * xSolution + dCoeff * ySolution}",
+                "correctAnswer": "{formatOrderedPair(xSolution, ySolution)}",
+                "choiceSwap": "{formatOrderedPair(ySolution, xSolution)}",
+                "choiceNegX": "{formatOrderedPair(-xSolution, ySolution)}",
+                "choiceNegY": "{formatOrderedPair(xSolution, -ySolution)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceSwap}",
+                "{choiceNegX}",
+                "{choiceNegY}"
+              ],
+              "difficulty": 7,
+              "phase": 10.17,
+              "hint": "Substitute y into the second equation, solve for x, then back-substitute for y."
+            }
+          ]
+        },
+        {
           "id": "M.SURFACE_AREA_PYRAMID",
           "strand": "Measurement & Geometry",
           "name": "Surface Area Pyramid",
@@ -4672,6 +4657,21 @@
               "difficulty": 8,
               "phase": 10.15,
               "hint": "sin²θ + cos²θ = 1"
+            },
+            {
+              "id": "Y11.G.TRIG_IDENTITIES.T2",
+              "stem": "Which identity correctly expresses tan(theta) in terms of sin(theta) and cos(theta)?",
+              "params": {},
+              "answer": "tan(theta) = sin(theta) / cos(theta)",
+              "choices": [
+                "tan(theta) = sin(theta) / cos(theta)",
+                "tan(theta) = cos(theta) / sin(theta)",
+                "tan(theta) = sin(theta) * cos(theta)",
+                "tan(theta) = cos(theta) - sin(theta)"
+              ],
+              "difficulty": 6,
+              "phase": 10.17,
+              "hint": "tan(theta) is defined as sin(theta) divided by cos(theta)."
             }
           ]
         },
@@ -5173,6 +5173,3 @@
     }
   ]
 }
-
-
-
