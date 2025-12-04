@@ -11,24 +11,30 @@
           "templates": [
             {
               "id": "Y11.A.QUADRATIC_EQS.T1",
-              "stem": "Solve x^2 + {a}x + {b} = 0 by factoring",
+              "stem": "Solve x² + {a}x + {b} = 0 by factoring",
               "params": { "a": ["int", -10, 10], "b": ["int", -24, 24] },
               "answer": "x = {solution1}, {solution2}",
-              "difficulty": 8
+              "difficulty": 8,
+              "phase": 7,
+              "hint": "Look for two numbers that multiply to {b} and add to {a}."
             },
             {
               "id": "Y11.A.QUADRATIC_EQS.T2",
-              "stem": "Solve {a}x^2 + {b}x + {c} = 0 using quadratic formula",
+              "stem": "Solve {a}x² + {b}x + {c} = 0 using quadratic formula",
               "params": { "a": ["int", 1, 5], "b": ["int", -10, 10], "c": ["int", -25, 25] },
               "answer": "x = {solution1}, {solution2}",
-              "difficulty": 9
+              "difficulty": 9,
+              "phase": 8,
+              "hint": "Use x = [-b ± √(b² - 4ac)] / 2a. Calculate the discriminant first."
             },
             {
               "id": "Y11.A.QUADRATIC_EQS.T4",
-              "stem": "Find the discriminant of {a}x^2 + {b}x + {c} = 0 and describe the nature of roots",
+              "stem": "Find the discriminant of {a}x² + {b}x + {c} = 0 and describe the nature of roots",
               "params": { "a": ["int", 1, 5], "b": ["int", -10, 10], "c": ["int", -25, 25] },
-              "answer": "D = {b^2 - 4ac}, {nature}",
-              "difficulty": 8
+              "answer": "D = {b² - 4ac}, {nature}",
+              "difficulty": 8,
+              "phase": 8,
+              "hint": "The discriminant is b² - 4ac. If Δ > 0 (two roots), Δ = 0 (one root), Δ < 0 (no real roots)."
             }
           ]
         },
@@ -43,14 +49,18 @@
               "stem": "Solve: {a}x + {b}y = {c}, {d}x + {e}y = {f}",
               "params": { "a": ["int", 1, 5], "b": ["int", 1, 5], "c": ["int", -20, 20], "d": ["int", 1, 5], "e": ["int", 1, 5], "f": ["int", -20, 20] },
               "answer": "x = {x_solution}, y = {y_solution}",
-              "difficulty": 8
+              "difficulty": 8,
+              "phase": 8,
+              "hint": "Use elimination or substitution. Multiply one equation to make coefficients equal."
             },
             {
               "id": "Y11.A.LINEAR_SYSTEMS.T2",
               "stem": "Solve by substitution: y = {a}x + {b}, {c}x + {d}y = {e}",
               "params": { "a": ["int", 1, 5], "b": ["int", -10, 10], "c": ["int", 1, 5], "d": ["int", 1, 5], "e": ["int", -20, 20] },
               "answer": "x = {x_solution}, y = {y_solution}",
-              "difficulty": 7
+              "difficulty": 7,
+              "phase": 7,
+              "hint": "Substitute the first equation into the second, then solve for x."
             }
           ]
         },
@@ -62,10 +72,21 @@
           "templates": [
             {
               "id": "Y11.A.POLYNOMIALS.T2",
-              "stem": "Factor {a}x^2 + {b}x + {c}",
+              "stem": "Factor {a}x² + {b}x + {c}",
               "params": { "a": ["int", 1, 5], "b": ["int", -20, 20], "c": ["int", -50, 50] },
               "answer": "({p}x + {q})({r}x + {s})",
-              "difficulty": 8
+              "difficulty": 8,
+              "phase": 8,
+              "hint": "Find factors of ac that add to b. Then group and factor out common terms."
+            },
+            {
+              "id": "Y11.A.POLYNOMIALS_FACTOR.T1",
+              "stem": "Factorise {a}x² + {b}x + {c} completely.",
+              "params": { "a": ["int", 1, 4], "b": ["int", -10, 10], "c": ["int", -20, 20] },
+              "answer": "{factor_quadratic(a,b,c)}",
+              "difficulty": 8,
+              "phase": 8,
+              "hint": "Check if there's a common factor first. Then use the AC method."
             }
           ]
         },
@@ -77,109 +98,15 @@
           "templates": [
             {
               "id": "Y11.G.TRIG_IDENTITIES.T2",
-              "stem": "Prove tanθ = sinθ/cosθ",
+              "stem": "Prove tan θ = sin θ / cos θ",
               "params": {},
-              "answer": "identity",
-              "difficulty": 9
+              "answer": "Use definitions: sin θ = opposite/hypotenuse, cos θ = adjacent/hypotenuse",
+              "difficulty": 9,
+              "phase": 9,
+              "hint": "Start with the definitions of sine and cosine in a right triangle. Divide them together."
             }
           ]
         },
-
-
-{
-    "id": "Y10.N.SURDS_SIMPLIFY.T1",
-    "topic_note": "Year 10 / Radical expressions / Simplify radical expressions",
-    "stem": "Simplify √{n}.",
-    "params": { "n": ["int", 12, 200] },
-    "answer": "{simplify_surd(n)}",
-    "difficulty": 7,
-    "phase": 7
-  },
-  {
-    "id": "Y10.N.SURDS_RATIONALISE.T1",
-    "topic_note": "Year 10 / Radical expressions / Simplify radical expressions using conjugates",
-    "stem": "Rationalise the denominator of \frac{1}{\sqrt{a} - \sqrt{b}}.",
-    "params": { "a": ["int", 5, 20], "b": ["int", 2, "a-1"] },
-    "answer": "{rationalise_surd(a,b)}",
-    "difficulty": 8,
-    "phase": 8
-  },
-  {
-    "id": "Y10.N.RATIOS_BESTBUY.T1",
-    "topic_note": "Year 10 / Ratios, rates and proportions / Unit prices",
-    "stem": "Brand A: {a}g for ${pa}. Brand B: {b}g for ${pb}. Which is better value? (Answer Brand A or Brand B)",
-    "params": { "a": ["int", 200, 1000], "pa": ["decimal", 1.5, 6, 0.5], "b": ["int", 200, 1000], "pb": ["decimal", 1.5, 6, 0.5] },
-    "answer": "{best_buy(a,pa,b,pb)}",
-    "difficulty": 8,
-    "phase": 8
-  },
-  {
-    "id": "Y10.A.POLYNOMIALS_FACTOR.T1",
-    "topic_note": "Year 10 / Factorising / Factorise quadratics",
-    "stem": "Factorise {a}x² + {b}x + {c} completely.",
-    "params": { "a": ["int", 1, 4], "b": ["int", -10, 10], "c": ["int", -20, 20] },
-    "answer": "{factor_quadratic(a,b,c)}",
-    "difficulty": 8,
-    "phase": 8
-  },
-  {
-    "id": "Y10.L.SIMULTANEOUS_GRAPH.T1",
-    "topic_note": "Year 10 / Simultaneous equations / Solve nonlinear simultaneous equations",
-    "stem": "The line y = {m}x + {c} intersects y = x² - {k} at two points. Find the positive x-coordinate of intersection to 2 decimal places.",
-    "params": { "m": ["int", 1, 5], "c": ["int", 5, 20], "k": ["int", 1, 10] },
-    "answer": "{solve_parabola_line(m,c,k)}",
-    "difficulty": 9,
-    "phase": 8
-  },
-  {
-    "id": "Y11.A.QUADRATICS_DISCRIMINANT.T1",
-    "topic_note": "Year 11 / Quadratic equations / Using the discriminant",
-    "stem": "For the quadratic {a}x² + {b}x + {c} = 0, find the discriminant and state the nature of the roots.",
-    "params": { "a": ["int", 1, 5], "b": ["int", -15, 15], "c": ["int", -20, 20] },
-    "answer": "{b*b - 4*a*c} ({discriminant_nature(b*b - 4*a*c)})",
-    "difficulty": 8,
-    "phase": 7
-  },
-  {
-    "id": "Y11.S.NORMAL_PERCENT.T1",
-    "topic_note": "Year 11 / Probability / Find probabilities using the normal distribution",
-    "stem": "IQ scores are normally distributed with mean 100 and standard deviation 15. What percentage have IQ > {score}? Answer to nearest percent.",
-    "params": { "score": ["int", 115, 145, 5] },
-    "answer": "{round(100 * (1 - norm_cdf((score-100)/15)), 0)}",
-    "difficulty": 9,
-    "phase": 9
-  },
-  {
-    "id": "Y11.T.TRIG_EXACT.T1",
-    "topic_note": "Year 11 / Trigonometry / Sin, cos and tan of special angles",
-    "stem": "Find the exact value of sin({angle}°).",
-    "params": { "angle": ["choice", 30, 45, 60] },
-    "answer": "{exact_sin(angle)}",
-    "difficulty": 7,
-    "phase": 7
-  },
-  {
-    "id": "Y11.M.MATRIX_INVERSE_2X2.T1",
-    "topic_note": "Year 11 / Matrices / The inverse of a matrix",
-    "stem": "Find the inverse of the matrix [[{a},{b}],[{c},{d}]] (ad - bc ≠ 0).",
-    "params": { "a": ["int", 2, 6], "b": ["int", -4, 4], "c": ["int", -4, 4], "d": ["int", 2, 6] },
-    "answer": "{1/(a*d-b*c)}[[{d},{-b}],[{-c},{a}]]",
-    "difficulty": 9,
-    "phase": 9
-  },
-  {
-    "id": "Y12.C.COMPLEX_POLAR.T1",
-    "topic_note": "Year 12 / Complex numbers / Convert between rectangular and polar form",
-    "stem": "Convert {a} + {b}i to polar form r∠θ° (θ to nearest degree).",
-    "params": { "a": ["int", -10, 10, 2], "b": ["int", -10, 10, 2] },
-    "answer": "{round(sqrt(a*a+b*b),2)}∠{round(atan2(b,a)*180/π)}°",
-    "difficulty": 9,
-    "phase": 9
-  },
-
-
-
-
         {
           "id": "Y11.S.STATS_INFERENCE",
           "strand": "Statistics & Probability",
@@ -191,7 +118,150 @@
               "stem": "Find the median of: {a}, {b}, {c}, {d}, {e}",
               "params": { "a": ["int", 10, 100], "b": ["int", 10, 100], "c": ["int", 10, 100], "d": ["int", 10, 100], "e": ["int", 10, 100] },
               "answer": "{median}",
-              "difficulty": 5
+              "difficulty": 5,
+              "phase": 6,
+              "hint": "Arrange the numbers in order. The median is the middle value."
+            }
+          ]
+        },
+        {
+          "id": "Y11.T.TRIG_EXACT",
+          "strand": "Geometry & Measurement",
+          "name": "Trigonometric exact values",
+          "description": "Find exact values of trig ratios for special angles",
+          "templates": [
+            {
+              "id": "Y11.T.TRIG_EXACT.T1",
+              "stem": "Find the exact value of sin({angle}°).",
+              "params": { "angle": ["choice", 30, 45, 60] },
+              "answer": "{exact_sin(angle)}",
+              "difficulty": 7,
+              "phase": 7,
+              "hint": "Recall the exact values: sin(30°) = 1/2, sin(45°) = √2/2, sin(60°) = √3/2."
+            }
+          ]
+        },
+        {
+          "id": "Y11.M.MATRIX_INVERSE_2X2",
+          "strand": "Number & Algebra",
+          "name": "Matrix inverse",
+          "description": "Find the inverse of 2×2 matrices",
+          "templates": [
+            {
+              "id": "Y11.M.MATRIX_INVERSE_2X2.T1",
+              "stem": "Find the inverse of the matrix [[{a},{b}],[{c},{d}]] (ad - bc ≠ 0).",
+              "params": { "a": ["int", 2, 6], "b": ["int", -4, 4], "c": ["int", -4, 4], "d": ["int", 2, 6] },
+              "answer": "1/(ad-bc) × [[{d},{-b}],[{-c},{a}]]",
+              "difficulty": 9,
+              "phase": 9,
+              "hint": "For [[a,b],[c,d]], the inverse is (1/determinant) × [[d,-b],[-c,a]]."
+            }
+          ]
+        },
+        {
+          "id": "Y11.S.NORMAL_PERCENT",
+          "strand": "Statistics & Probability",
+          "name": "Normal distribution",
+          "description": "Calculate probabilities using the normal distribution",
+          "templates": [
+            {
+              "id": "Y11.S.NORMAL_PERCENT.T1",
+              "stem": "IQ scores are normally distributed with mean 100 and standard deviation 15. What percentage have IQ > {score}? Answer to nearest percent.",
+              "params": { "score": ["int", 115, 145, 5] },
+              "answer": "{round(100 * (1 - norm_cdf((score-100)/15)), 0)}",
+              "difficulty": 9,
+              "phase": 9,
+              "hint": "Standardize the score: z = (score - mean) / SD. Use the standard normal table."
+            }
+          ]
+        },
+        {
+          "id": "Y11.A.QUADRATICS_DISCRIMINANT",
+          "strand": "Number & Algebra",
+          "name": "Quadratic discriminant",
+          "description": "Use the discriminant to determine nature of roots",
+          "templates": [
+            {
+              "id": "Y11.A.QUADRATICS_DISCRIMINANT.T1",
+              "stem": "For the quadratic {a}x² + {b}x + {c} = 0, find the discriminant and state the nature of the roots.",
+              "params": { "a": ["int", 1, 5], "b": ["int", -15, 15], "c": ["int", -20, 20] },
+              "answer": "{b*b - 4*a*c} ({discriminant_nature(b*b - 4*a*c)})",
+              "difficulty": 8,
+              "phase": 7,
+              "hint": "Discriminant = b² - 4ac. Two roots if > 0, one if = 0, none if < 0."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 10,
+      "skills": [
+        {
+          "id": "Y10.N.SURDS_SIMPLIFY",
+          "strand": "Number & Algebra",
+          "name": "Simplifying surds",
+          "description": "Simplify radical expressions",
+          "templates": [
+            {
+              "id": "Y10.N.SURDS_SIMPLIFY.T1",
+              "stem": "Simplify √{n}.",
+              "params": { "n": ["int", 12, 200] },
+              "answer": "{simplify_surd(n)}",
+              "difficulty": 7,
+              "phase": 7,
+              "hint": "Find the largest perfect square that divides {n}. Factor it out of the radical."
+            }
+          ]
+        },
+        {
+          "id": "Y10.N.SURDS_RATIONALISE",
+          "strand": "Number & Algebra",
+          "name": "Rationalising denominators",
+          "description": "Simplify radical expressions using conjugates",
+          "templates": [
+            {
+              "id": "Y10.N.SURDS_RATIONALISE.T1",
+              "stem": "Rationalise the denominator of 1 / (sqrt({a}) - sqrt({b})).",
+              "params": { "a": ["int", 5, 20], "b": ["int", 2, 10] },
+              "answer": "{rationalise_surd(a,b)}",
+              "difficulty": 8,
+              "phase": 8,
+              "hint": "Multiply by the conjugate (sqrt(a) + sqrt(b)) / (sqrt(a) + sqrt(b))."
+            }
+          ]
+        },
+        {
+          "id": "Y10.N.RATIOS_BESTBUY",
+          "strand": "Number & Algebra",
+          "name": "Best buy problems",
+          "description": "Compare unit prices and ratios",
+          "templates": [
+            {
+              "id": "Y10.N.RATIOS_BESTBUY.T1",
+              "stem": "Brand A: {a}g for ${pa}. Brand B: {b}g for ${pb}. Which is better value?",
+              "params": { "a": ["int", 200, 1000], "pa": ["decimal", 1.5, 6, 0.5], "b": ["int", 200, 1000], "pb": ["decimal", 1.5, 6, 0.5] },
+              "answer": "{best_buy(a,pa,b,pb)}",
+              "difficulty": 8,
+              "phase": 8,
+              "hint": "Calculate price per gram for each brand. Compare: divide price by weight."
+            }
+          ]
+        },
+        {
+          "id": "Y10.L.SIMULTANEOUS_GRAPH",
+          "strand": "Algebra & Functions",
+          "name": "Solving nonlinear systems",
+          "description": "Solve nonlinear simultaneous equations graphically",
+          "templates": [
+            {
+              "id": "Y10.L.SIMULTANEOUS_GRAPH.T1",
+              "stem": "The line y = {m}x + {c} intersects y = x² - {k} at two points. Find the positive x-coordinate to 2 d.p.",
+              "params": { "m": ["int", 1, 5], "c": ["int", 5, 20], "k": ["int", 1, 10] },
+              "answer": "{solve_parabola_line(m,c,k)}",
+              "difficulty": 9,
+              "phase": 8,
+              "hint": "Set the equations equal: {m}x + {c} = x² - {k}. Rearrange to standard form and solve."
             }
           ]
         }
@@ -211,14 +281,18 @@
               "stem": "Multiply matrices [[{a},{b}],[{c},{d}]] × [[{e},{f}],[{g},{h}]]",
               "params": { "a": ["int", 1, 5], "b": ["int", 1, 5], "c": ["int", 1, 5], "d": ["int", 1, 5], "e": ["int", 1, 5], "f": ["int", 1, 5], "g": ["int", 1, 5], "h": ["int", 1, 5] },
               "answer": "[[{ae+bg}, {af+bh}], [{ce+dg}, {cf+dh}]]",
-              "difficulty": 9
+              "difficulty": 9,
+              "phase": 9,
+              "hint": "Use row-by-column multiplication. First row × first column gives first element."
             },
             {
               "id": "Y12.A.MATRIX_OPS.T4",
               "stem": "Find the inverse of [[{a},{b}],[{c},{d}]]",
               "params": { "a": ["int", 1, 5], "b": ["int", 0, 5], "c": ["int", 0, 5], "d": ["int", 1, 5] },
-              "answer": "1/{ad-bc} * [[{d},{-b}],[{-c},{a}]]",
-              "difficulty": 10
+              "answer": "1/{ad-bc} × [[{d},{-b}],[{-c},{a}]]",
+              "difficulty": 10,
+              "phase": 10,
+              "hint": "First calculate the determinant ad - bc. Then use the formula for 2×2 inverse."
             }
           ]
         },
@@ -230,10 +304,12 @@
           "templates": [
             {
               "id": "Y12.G.CIRCLE_GEOMETRY.T2",
-              "stem": "Find the center and radius of x^2 + y^2 + {a}x + {b}y = {c}",
+              "stem": "Find the center and radius of x² + y² + {a}x + {b}y = {c}",
               "params": { "a": ["int", -10, 10], "b": ["int", -10, 10], "c": ["int", -20, 20] },
               "answer": "Center: ({-a/2}, {-b/2}), r = sqrt({calculated})",
-              "difficulty": 9
+              "difficulty": 9,
+              "phase": 9,
+              "hint": "Complete the square for both x and y terms to find the center and radius."
             }
           ]
         },
@@ -248,7 +324,26 @@
               "stem": "Data: x = {x1},{x2},{x3}; y = {y1},{y2},{y3}. Find correlation coefficient",
               "params": { "x1": ["int", 1, 10], "x2": ["int", 1, 10], "x3": ["int", 1, 10], "y1": ["int", 1, 10], "y2": ["int", 1, 10], "y3": ["int", 1, 10] },
               "answer": "r = {correlation}",
-              "difficulty": 10
+              "difficulty": 10,
+              "phase": 10,
+              "hint": "Use the correlation formula r = Σ(xy) - nxy / √[Σ(x²) - nx²][Σ(y²) - ny²]."
+            }
+          ]
+        },
+        {
+          "id": "Y12.C.COMPLEX_POLAR",
+          "strand": "Calculus & Algebra",
+          "name": "Complex numbers - polar form",
+          "description": "Convert between rectangular and polar form",
+          "templates": [
+            {
+              "id": "Y12.C.COMPLEX_POLAR.T1",
+              "stem": "Convert {a} + {b}i to polar form r∠θ° (θ to nearest degree).",
+              "params": { "a": ["int", -10, 10, 2], "b": ["int", -10, 10, 2] },
+              "answer": "{round(sqrt(a*a+b*b),2)}∠{round(atan2(b,a)*180/π)}°",
+              "difficulty": 9,
+              "phase": 9,
+              "hint": "r = √(a² + b²) and θ = arctan(b/a). Check which quadrant to adjust angle."
             }
           ]
         }
@@ -265,10 +360,12 @@
           "templates": [
             {
               "id": "Y13.C.CALCULUS_APPLICATIONS.T1",
-              "stem": "Find critical points of f(x) = x^3 - {a}x^2 + {b}x",
+              "stem": "Find critical points of f(x) = x³ - {a}x² + {b}x",
               "params": { "a": ["int", 3, 9], "b": ["int", 2, 12] },
-              "answer": "solve(3x^2 - 2*{a}x + {b} = 0)",
-              "difficulty": 9
+              "answer": "solve(3x² - 2×{a}x + {b} = 0)",
+              "difficulty": 9,
+              "phase": 9,
+              "hint": "Take the derivative and set it equal to zero. Solve for x."
             }
           ]
         },
@@ -280,10 +377,12 @@
           "templates": [
             {
               "id": "Y13.A.COMPLEX_NUMBERS.T7",
-              "stem": "Solve z^2 = {a} + {b}i",
+              "stem": "Solve z² = {a} + {b}i",
               "params": { "a": ["int", -12, 12], "b": ["int", -12, 12] },
               "answer": "±sqrt_complex({a} + {b}i)",
-              "difficulty": 10
+              "difficulty": 10,
+              "phase": 10,
+              "hint": "Convert to polar form first, then use De Moivre's theorem to find square roots."
             }
           ]
         },
@@ -295,10 +394,12 @@
           "templates": [
             {
               "id": "Y13.A.POLYNOMIALS.T3",
-              "stem": "If (x - {a}) is a factor of x^3 + bx^2 + {c}x + {d}, find b",
+              "stem": "If (x - {a}) is a factor of x³ + bx² + {c}x + {d}, find b",
               "params": { "a": ["int", 1, 4], "c": ["int", -6, 6], "d": ["int", -12, 12] },
               "answer": "solve_for_b",
-              "difficulty": 9
+              "difficulty": 9,
+              "phase": 9,
+              "hint": "Use the factor theorem: if (x - a) is a factor, then f(a) = 0."
             }
           ]
         }

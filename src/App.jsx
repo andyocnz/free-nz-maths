@@ -24,6 +24,8 @@ import { nceaExamPdfs } from './nceaPdfs.js'
 import { buildNceaTrialQuestionsForStandard } from './nceaStructuredData.js'
 import { resolveNceaResource } from './nceaResources.js'
 import { registerGroup, submitScore, getRegistry, fetchGroupScores } from './googleApi.js'
+import legalDisclaimerContent from '../phase/legal disclaimer.txt?raw'
+import footerLogo from '../favicon/favicon-32x32.png'
 
 // Alternating Text Component
 function AlternatingText() {
@@ -104,6 +106,7 @@ export default function App() {
   const [attempts, setAttempts] = useState(0)
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false)
   const [curriculumMapYear, setCurriculumMapYear] = useState(6) // Year selector for curriculum map
+  const [isOlympiadMode, setIsOlympiadMode] = useState(false) // Toggle for Olympiad content preview
   const [currentUser, setCurrentUser] = useState(null)
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showLoginRecommendation, setShowLoginRecommendation] = useState(false)
@@ -322,6 +325,14 @@ export default function App() {
         {copied ? 'Copied!' : '⧉'}
       </button>
     )
+  }
+
+  const scrollToCurriculumMap = () => {
+    if (typeof document === 'undefined') return
+    const el = document.getElementById('curriculum-map')
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   const handleGroupSetupChange = (field, value) => {
@@ -2756,15 +2767,23 @@ export default function App() {
 
   // Landing Page
   if (mode === 'landing') {
-    // Get strands for selected curriculum map year
+    const olympiadCurriculum = {
+      year: 'Olympiad Mathematics',
+      skills: []
+    }
+
     const selectedYearData = curriculumData.years.find(y => y.year === curriculumMapYear)
+    const activeYearData = isOlympiadMode ? olympiadCurriculum : selectedYearData
+
+    // Build strands for the active curriculum (standard year or Olympiad)
     const strands = {}
-    if (selectedYearData) {
-      selectedYearData.skills.forEach(skill => {
+    if (activeYearData) {
+      activeYearData.skills.forEach(skill => {
         if (!strands[skill.strand]) strands[skill.strand] = []
-        strands[skill.strand].push({ ...skill, year: selectedYearData.year })
+        strands[skill.strand].push({ ...skill, year: activeYearData.year })
       })
     }
+    const mapHeading = isOlympiadMode ? 'Olympiad Mathematics' : `Year ${curriculumMapYear}`
     const origin = typeof window !== 'undefined' ? window.location.origin : 'https://mathx.nz'
 
     return (
@@ -3315,7 +3334,8 @@ export default function App() {
                       onClick={() => {
                         setSelectedYear(year)
                         setCurriculumMapYear(year)
-                        document.getElementById('curriculum-map').scrollIntoView({ behavior: 'smooth' })
+                        setIsOlympiadMode(false)
+                        scrollToCurriculumMap()
                       }}
                       className="year-card bg-white/80 p-8 rounded-2xl border-2 border-[#0077B6] card-shadow block cursor-pointer hover:scale-105 transition-transform"
                     >
@@ -3331,46 +3351,6 @@ export default function App() {
                     </div>
                   ))}
                 </div>
-            </div>
-          </div>
-
-          {/* NCEA Trial Exams preview */}
-          <div className="bg-slate-50/80 py-10 border-b border-slate-200">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="bg-white/95 text-slate-900 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6 shadow-md border border-slate-200">
-                <div>
-                  <h2 className="text-2xl md:text-3xl font-extrabold mb-2">
-                    NCEA Trial Exams
-                  </h2>
-                  <p className="text-sm md:text-base text-slate-600 max-w-xl">
-                    Ready for NCEA? Start a trial exam built from real NZQA questions. Level 1 is
-                    available now, Level 2 and 3 are coming soon.
-                  </p>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
-                  <button
-                    type="button"
-                    onClick={() => setMode('ncea-index')}
-                    className="px-5 py-3 rounded-full bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold shadow-lg text-sm md:text-base transition"
-                  >
-                    Start Level 1
-                  </button>
-                  <button
-                    type="button"
-                    disabled
-                    className="px-5 py-3 rounded-full bg-slate-100 text-slate-400 font-semibold text-sm md:text-base border border-slate-200 cursor-not-allowed"
-                  >
-                    Level 2 (coming soon)
-                  </button>
-                  <button
-                    type="button"
-                    disabled
-                    className="px-5 py-3 rounded-full bg-slate-100 text-slate-400 font-semibold text-sm md:text-base border border-slate-200 cursor-not-allowed"
-                  >
-                    Level 3 (coming soon)
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -3390,9 +3370,10 @@ export default function App() {
                       onClick={() => {
                         setSelectedYear(year)
                         setCurriculumMapYear(year)
+                        setIsOlympiadMode(false)
                       }}
                       className={`px-6 py-3 rounded-lg font-semibold text-lg transition-all ${
-                        curriculumMapYear === year
+                        !isOlympiadMode && curriculumMapYear === year
                           ? 'bg-[#0077B6] text-white shadow-lg scale-105'
                           : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-[#0077B6] hover:text-[#0077B6]'
                       }`}
@@ -3400,9 +3381,29 @@ export default function App() {
                       Year {year}
                     </button>
                   ))}
+                  <button
+                    onClick={() => {
+                      setIsOlympiadMode(true)
+                      scrollToCurriculumMap()
+                    }}
+                    className={`px-6 py-3 rounded-lg font-semibold text-lg transition-all ${
+                      isOlympiadMode
+                        ? 'bg-amber-400 text-slate-900 shadow-lg scale-105'
+                        : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-amber-400 hover:text-amber-500'
+                    }`}
+                  >
+                    Olympiad
+                  </button>
                 </div>
 
+                {isOlympiadMode && (!activeYearData || (activeYearData.skills || []).length === 0) && (
+                  <div className="text-center text-slate-600 mb-12">
+                    Olympiad question bank incoming – templates will appear here as we migrate them from Phase 13.
+                  </div>
+                )}
+
                 {/* Take Full Assessment Button */}
+                {!isOlympiadMode && (
                 <div className="mb-12">
                   <div className="max-w-3xl mx-auto bg-white/90 p-6 rounded-xl border-2 border-red-400 card-shadow transition-all">
                     <div className="flex items-center justify-between gap-6">
@@ -3459,9 +3460,10 @@ export default function App() {
                     </div>
                   </div>
                 </div>
+                )}
 
                 {/* Dev-only: Template sampler table for current year */}
-                {isDevMode && (
+                {isDevMode && !isOlympiadMode && (
                   <div className="mt-12 mb-12">
                     {/* Phase overview across all years (dev helper) */}
                     <div className="mb-3 text-xs text-slate-600">
@@ -3561,7 +3563,7 @@ export default function App() {
                     </div>
                     <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2">
                       <h3 className="text-2xl font-bold text-slate-800">
-                        Template Samples (Year {curriculumMapYear})
+                        Template Samples ({mapHeading})
                       </h3>
                       <span className="text-sm text-slate-500">
                         Total generated: {devTemplateSamples.length}
@@ -3632,7 +3634,7 @@ export default function App() {
                     <div className="mt-6 text-xs">
                       <div className="flex items-center justify-between mb-1">
                         <p className="text-[0.7rem] text-slate-500">
-                          JSON for templates used in practice/tests for Year {curriculumMapYear} (raw template objects, no generated questions or answers).
+                          JSON for templates used in practice/tests for {mapHeading} (raw template objects, no generated questions or answers).
                         </p>
                         <button
                           type="button"
@@ -3719,7 +3721,7 @@ export default function App() {
 
                 {/* Curriculum for Selected Year */}
                 <div className="space-y-8">
-                  <h3 className="text-3xl font-bold mb-6 text-[#0077B6]">Year {curriculumMapYear}</h3>
+                  <h3 className="text-3xl font-bold mb-6 text-[#0077B6]">{mapHeading}</h3>
 
                   {Object.entries(strands).map(([strandName, skills]) => (
                     <div key={strandName} className="mb-8">
@@ -3755,6 +3757,40 @@ export default function App() {
             </div>
           )}
 
+          {/* Olympiad CTA */}
+          <section className="bg-slate-900 text-white py-16">
+            <div className="max-w-4xl mx-auto px-6 text-center space-y-6">
+              <div className="text-5xl" aria-hidden="true">🥇</div>
+              <p className="text-xs uppercase tracking-[0.4em] text-amber-300">Olympiad Mathematics</p>
+              <h2 className="text-4xl md:text-5xl font-black text-white">Think You’ve Mastered It All?</h2>
+              <p className="text-base md:text-lg text-slate-200">
+                Welcome to the arena where routine problems surrender. This is Olympiad Mathematics: where the puzzles
+                are deep, the logic is king, and “obvious” is often wrong. For those who find normal math a warm-up.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsOlympiadMode(true)
+                    scrollToCurriculumMap()
+                  }}
+                  className="px-6 py-3 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-900 font-semibold shadow-lg text-base"
+                >
+                  Accept the Challenge
+                </button>
+                {isOlympiadMode && (
+                  <button
+                    type="button"
+                    onClick={() => setIsOlympiadMode(false)}
+                    className="px-6 py-3 rounded-full border border-white/40 text-white hover:bg-white/10 font-semibold text-base shadow-lg"
+                  >
+                    Back to Standard Practice
+                  </button>
+                )}
+              </div>
+            </div>
+          </section>
+
           {/* Mission & Parent Note Combined Section */}
           <section className="py-16 bg-white/60 backdrop-blur-sm">
             <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -3769,13 +3805,13 @@ export default function App() {
               <div className="mt-12">
                 <div className="bg-amber-50/80 border-l-4 border-amber-500 rounded-lg p-6 text-left">
                   <p className="text-lg text-slate-700 leading-relaxed mb-4">
-                    This website is built by people who want to help. While we work hard to make sure everything is correct, there's always a small chance a mistake might slip through.
+                    This website is built by people who want to help. While we work hard to ensure everything is correct, occasional errors may occur.
                   </p>
                   <p className="text-lg text-slate-700 leading-relaxed mb-4">
-                    Please use this as an alternative tool, but always double-check with your own knowledge or the student's school materials.
+                    Please use this as a helpful practice tool, but always confirm key information with your school materials or teacher.
                   </p>
                   <p className="text-lg text-slate-700 leading-relaxed">
-                    Think of it like a practice worksheet we've made for you – it's really useful, but it's always good to have a teacher or a textbook to confirm the answers.
+                    Found something that needs correcting? Please use the <b>"Report an Issue"</b> button to <b>notify</b> us. We greatly appreciate your help in making this resource better!
                   </p>
                 </div>
               </div>
@@ -3799,6 +3835,41 @@ export default function App() {
               </div>
             </section>
           )}
+
+          {/* NCEA Trial Exams preview */}
+          <section className="py-16 bg-slate-50/80 border-b border-slate-200">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+              <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900">Preparing for NCEA Finals?</h2>
+              <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">
+                Build confidence with deterministic trial exams made from real NZQA questions. Level 1 is ready now,
+                and Levels 2 & 3 are coming soon.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <button
+                  type="button"
+                  onClick={() => setMode('ncea-index')}
+                  className="px-6 py-3 rounded-full bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold shadow-lg text-base transition"
+                >
+                  Start Level 1 Trial
+                </button>
+                <button
+                  type="button"
+                  disabled
+                  className="px-6 py-3 rounded-full bg-slate-100 text-slate-400 font-semibold text-base border border-slate-200 cursor-not-allowed"
+                >
+                  Level 2 (coming soon)
+                </button>
+                <button
+                  type="button"
+                  disabled
+                  className="px-6 py-3 rounded-full bg-slate-100 text-slate-400 font-semibold text-base border border-slate-200 cursor-not-allowed"
+                >
+                  Level 3 (coming soon)
+                </button>
+              </div>
+            </div>
+          </section>
+
  {/* NCEA Past Papers (PDF) */}                                                                                                                                        
             <div className="bg-white py-10 border-b border-slate-200">                                                                                                            
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">                                                                                                            
@@ -3922,18 +3993,25 @@ export default function App() {
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs md:text-sm grid grid-cols-1 md:grid-cols-3 gap-6">
  <div>                                                                                                                                                                                                                                                                              
         <div className="flex items-center gap-2 mb-2">                                                                                                                                                                                                                                   
- <img                                                                                                                                                                                                                                                                                 
-      src="/favicon/favicon-32x32.png"                                                                                                                                                                                                                                                   
-      alt="Mathx.nz logo"                                                                                                                                                                                                                                                                
-      className="w-6 h-6"                                                                                                                                                                                                                                                                
-    />                                                                                                                                                                                                                                                                                
+    <img
+      src={footerLogo}
+      alt="Mathx.nz logo"
+      className="w-6 h-6"
+    />
           <h3 className="font-semibold text-slate-100">mathx.nz</h3>                                                                                                                                                                                                                     
         </div>                                                                                                                                                                                                                                                                           
-        <p className="text-slate-400">                                                                                                                                                                                                                                                   
-          Free maths practice for New Zealand students. No subscriptions, no ads - just                                                                                                                                                                                                  
-          questions aligned to the NZ curriculum.                                                                                                                                                                                                                                        
-        </p>                                                                                                                                                                                                                                                                             
-      </div>                                                                                                                                                              
+        <p className="text-slate-400">
+          Free maths practice for New Zealand students. No subscriptions, no ads - just
+          questions aligned to the NZ curriculum.
+        </p>
+        <button
+          type="button"
+          onClick={() => setMode('legal')}
+          className="mt-4 text-slate-300 hover:text-white underline-offset-2 hover:underline text-sm"
+        >
+          Legal & Disclaimer
+        </button>
+      </div>
               <div>
                 <h3 className="font-semibold mb-2 text-slate-100">Practice by level</h3>
                 <div className="flex flex-col gap-1">
@@ -3976,6 +4054,58 @@ export default function App() {
             </footer>          
         </div>
       </>
+    )
+  }
+
+  if (mode === 'legal') {
+    const legalBlocks = legalDisclaimerContent
+      .split(/\r?\n\r?\n/)
+      .map(block => block.trim())
+      .filter(Boolean)
+
+    return (
+      <div className="min-h-screen bg-slate-100">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <button
+            type="button"
+            onClick={() => setMode('landing')}
+            className="text-sm text-slate-600 hover:text-slate-900 mb-6 inline-flex items-center gap-2"
+          >
+            <span aria-hidden="true">←</span> Back to Mathx.nz
+          </button>
+          <div className="bg-white rounded-3xl shadow-xl border border-slate-200 p-8 space-y-6">
+            <h1 className="text-4xl font-extrabold text-slate-900">Legal & Disclaimer</h1>
+            <p className="text-slate-500">
+              Please read these terms carefully. By using Mathx.nz you agree to the following conditions.
+            </p>
+            <div className="text-slate-700 leading-relaxed space-y-4">
+              {legalBlocks.map((block, idx) => {
+                if (block.startsWith('###')) {
+                  const text = block.replace(/^###\s*\*\*(.*?)\*\*$/, '$1')
+                  return (
+                    <h2 key={`legal-h2-${idx}`} className="text-2xl font-bold text-slate-900 mt-4">
+                      {text}
+                    </h2>
+                  )
+                }
+                if (/^\*\*(.*?)\*\*$/.test(block.split('\n')[0])) {
+                  const text = block.replace(/^\*\*(.*?)\*\*$/, '$1')
+                  return (
+                    <h3 key={`legal-h3-${idx}`} className="text-xl font-semibold text-slate-900 mt-4">
+                      {text}
+                    </h3>
+                  )
+                }
+                return (
+                  <p key={`legal-p-${idx}`}>
+                    {block.replace(/\*\*(.*?)\*\*/g, '$1')}
+                  </p>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
     )
   }
 
