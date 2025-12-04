@@ -4539,7 +4539,9 @@
               "difficulty": 8,
               "phase": 10.17,
               "hint": "Work backwards from (mx + p)(nx + q) so the product matches the original quadratic."
-            },              "id": "Y11.A.POLYNOMIALS.T3",
+            },
+            {
+              "id": "Y11.A.POLYNOMIALS.T3",
               "stem": "Simplify ({a}x² + {b}x + {c}) + ({d}x² + {e}x + {f})",
               "params": {
                 "a": [
@@ -5171,5 +5173,6 @@
     }
   ]
 }
+
 
 
