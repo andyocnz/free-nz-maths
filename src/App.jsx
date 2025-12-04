@@ -3098,8 +3098,7 @@ export default function App() {
                   <p className="text-xs uppercase tracking-[0.4em] text-blue-500 font-semibold">New • Group Test Mode</p>
                   <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-1">Create a group test code</h2>
                   <p className="text-slate-600 text-sm md:text-base max-w-2xl leading-relaxed">
-                    Enter your email once and Mathx.nz will generate a 7-digit code. Every student who enters that code
-                    gets the exact same deterministic test, and we send their results back to your Google Sheet instantly.
+                    Your email creates a 7-digit test code and a direct link. Share the link or code so your class gets the same test, and use the code to see everyone’s results.
                   </p>
                 </div>
                 <button

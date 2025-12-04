@@ -1,19 +1,18 @@
 # Daily Job Tracking – Free NZ Maths
 
 **Last Updated:** 2025-12-04  
-**Focus:** Phase 10.16 – Year 11‑13 backlog + Olympiad pool (easy-first strategy)
+**Focus:** Phase 10.18 – Helper batches & Olympiad prep (Phase 10.17 quick wins completed)
 
 ---
 
 ## Phase 10.16 Workboard
 | Priority | Template Group (File) | Plan of Attack | Notes |
 |----------|----------------------|----------------|-------|
-| ✅ **MC conversions (no helpers)** | Quadratic factoring/roots, discriminant, linear systems, polynomial operations (`phase/phase 10 year 11-13.json`) | Rephrase into multiple choice (correct answer + FOIL / elimination distractors). Use existing formatting helpers. | Start here – fastest wins. |
-| ✅ **Conceptual cleanups** | Trig identity proof (`Y11.G.TRIG_IDENTITIES.T2`) | Rewrite as “Which step completes the identity?” MC. | Avoid free-form text answers. |
-| ⚙ **Helper Batch A** | Surds, ratios, quadratic factor T1, parabola/line intersection (`Y10.N.SURDS_*`, `Y10.N.RATIOS_BESTBUY.T1`, `Y10.L.SIMULTANEOUS_GRAPH.T1`) | Add helpers: `simplifySurd`, `rationaliseSurd`, `bestValue`, `solveParabolaLine`. | Implement after MC conversions merged. |
-| ⚙ **Helper Batch B** | Normal distribution %, trig exact values (`Y11.S.NORMAL_PERCENT.T1`, `Y11.T.TRIG_EXACT.T1`) | `normalCdfApprox(z)` + `exactSin(angle)` (30/45/60). | Required before importing these templates. |
-| ⚙ **Helper Batch C** | Matrix ops/inverse, complex polar/square root (`Y11.M.MATRIX_INVERSE_2X2.T1`, `Y12.A.MATRIX_OPS.*`, `Y12.C.COMPLEX_POLAR.T1`, `Y13.A.COMPLEX_NUMBERS.T7`) | Helpers: `matrixMultiply2x2`, `inverse2x2`, `formatMatrix`, `polarForm`, `sqrtComplex`. Guard against singular matrices. | Impacts both phase 10 file + Olympiad set. |
-| 🧠 **Advanced / later** | Calculus critical points, factor theorem (`Y13.C.CALCULUS_APPLICATIONS.T1`, `Y13.A.POLYNOMIALS.T3`) | Consider helper `criticalPointsCubic` + `solveForB`, or convert to curated MC. | Leave until preceding batches merged. |
+| ✅ **Phase 10.17 (done)** | Quadratics/linear/polynomial MC conversions | Templates tagged `phase: 10.17` now live (factorisation, quadratic formula, discriminant, linear systems, trig identity). | No further action. |
+| ⚙ **Helper Batch A** | Surds, ratios, quadratic factor T1, parabola/line intersection (`Y10.N.SURDS_*`, `Y10.N.RATIOS_BESTBUY.T1`, `Y10.L.SIMULTANEOUS_GRAPH.T1`) | Add helpers: `simplifySurd`, `rationaliseSurd`, `bestValue`, `solveParabolaLine`. Tag resulting templates `phase: 10.18`. | Next up. |
+| ⚙ **Helper Batch B** | Normal distribution %, trig exact values (`Y11.S.NORMAL_PERCENT.T1`, `Y11.T.TRIG_EXACT.T1`) | `normalCdfApprox(z)` + `exactSin(angle)` (30/45/60). | Needed after Batch A. |
+| ⚙ **Helper Batch C** | Matrix ops/inverse, complex polar/square root (`Y11.M.MATRIX_INVERSE_2X2.T1`, `Y12.A.MATRIX_OPS.*`, `Y12.C.COMPLEX_POLAR.T1`, `Y13.A.COMPLEX_NUMBERS.T7`) | Helpers: `matrixMultiply2x2`, `inverse2x2`, `formatMatrix`, `polarForm`, `sqrtComplex`. Guard against singular matrices. | Enables both standard + Olympiad templates. |
+| 🧠 **Advanced / later** | Calculus critical points, factor theorem (`Y13.C.CALCULUS_APPLICATIONS.T1`, `Y13.A.POLYNOMIALS.T3`) | Consider helper `criticalPointsCubic` + `solveForB`, or convert to curated MC. | Leave until helper batches merged. |
 
 ## Olympiad Queue (`phase/phase 13 olymics.json`)
 | Priority | Template | Strategy | Status |

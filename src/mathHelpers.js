@@ -183,6 +183,52 @@ export function formatDiscriminantNature(value) {
   return `D = ${value}, ${describeDiscriminant(value)}`
 }
 
+export function simplifySurd(n) {
+  const value = Math.max(0, Math.round(Number(n)))
+  if (value === 0) return '0'
+  let factor = value
+  let outside = 1
+  for (let i = Math.floor(Math.sqrt(value)); i >= 2; i--) {
+    const square = i * i
+    if (value % square === 0) {
+      outside = i
+      factor = value / square
+      break
+    }
+  }
+  if (outside === 1) {
+    return `√${factor}`
+  }
+  if (factor === 1) {
+    return `${outside}`
+  }
+  return `${outside}√${factor}`
+}
+
+export function rationaliseSurd(a, b) {
+  const factor = (Number(a) - Number(b))
+  const numerator = `(√${a} + √${b})`
+  if (factor === 1) return numerator
+  return `${factor}${numerator}`
+}
+
+export function bestValue(a, priceA, b, priceB) {
+  const unitA = priceA / a
+  const unitB = priceB / b
+  if (Math.abs(unitA - unitB) < 1e-6) return 'Tie'
+  return unitA < unitB ? 'Brand A' : 'Brand B'
+}
+
+export function solveParabolaLine(m, c, k) {
+  const A = 1
+  const B = -m
+  const C = -(k + c)
+  const disc = B * B - 4 * A * C
+  if (disc < 0) return 'No real solution'
+  const root = (-B + Math.sqrt(disc)) / (2 * A)
+  return root.toFixed(2)
+}
+
 export function formatLinearExpression(aCoeff, bCoeff) {
   const formatTerm = (coef, suffix) => {
     if (coef === 0) return ''
