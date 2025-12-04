@@ -1046,24 +1046,23 @@ export default function App() {
     }
 
     const rows = []
-    curriculumData.years.forEach(year => {
-      if (year.year !== curriculumMapYear) return
-      year.skills.forEach(skill => {
+    if (isOlympiadMode) {
+      const skills = olympiadCurriculum.skills || []
+      skills.forEach(skill => {
         const templates = skill.templates || []
         templates.forEach(template => {
-          // Optional phase filter for dev mode (e.g., ?dev=true&phase=8)
           const tmplPhase = typeof template.phase === 'number' ? template.phase : null
           const skillPhase = typeof skill.phase === 'number' ? skill.phase : null
           if (phaseFilter && tmplPhase !== phaseFilter && skillPhase !== phaseFilter) {
             return
           }
           try {
-            const q = generateQuestionFromTemplate(template, skill.name, year.year)
+            const q = generateQuestionFromTemplate(template, skill.name, 'Olympiad')
             rows.push({
               templateId: template.id || '',
               skillId: skill.id,
               skillName: skill.name,
-              year: year.year,
+              year: 'Olympiad',
               question: q.question,
               answer: q.formattedAnswer || q.answer,
               isNew: !!(template.isNew || skill.isNew)
@@ -1073,7 +1072,7 @@ export default function App() {
               templateId: template.id || '',
               skillId: skill.id,
               skillName: skill.name,
-              year: year.year,
+              year: 'Olympiad',
               question: 'Error generating question',
               answer: '0',
               isNew: !!(template.isNew || skill.isNew)
@@ -1081,10 +1080,47 @@ export default function App() {
           }
         })
       })
-    })
+    } else {
+      curriculumData.years.forEach(year => {
+        if (year.year !== curriculumMapYear) return
+        year.skills.forEach(skill => {
+          const templates = skill.templates || []
+          templates.forEach(template => {
+            // Optional phase filter for dev mode (e.g., ?dev=true&phase=8)
+            const tmplPhase = typeof template.phase === 'number' ? template.phase : null
+            const skillPhase = typeof skill.phase === 'number' ? skill.phase : null
+            if (phaseFilter && tmplPhase !== phaseFilter && skillPhase !== phaseFilter) {
+              return
+            }
+            try {
+              const q = generateQuestionFromTemplate(template, skill.name, year.year)
+              rows.push({
+                templateId: template.id || '',
+                skillId: skill.id,
+                skillName: skill.name,
+                year: year.year,
+                question: q.question,
+                answer: q.formattedAnswer || q.answer,
+                isNew: !!(template.isNew || skill.isNew)
+              })
+            } catch (e) {
+              rows.push({
+                templateId: template.id || '',
+                skillId: skill.id,
+                skillName: skill.name,
+                year: year.year,
+                question: 'Error generating question',
+                answer: '0',
+                isNew: !!(template.isNew || skill.isNew)
+              })
+            }
+          })
+        })
+      })
+    }
 
     setDevTemplateSamples(rows)
-  }, [isDevMode, curriculumMapYear])
+  }, [isDevMode, curriculumMapYear, isOlympiadMode])
 
   useEffect(() => {
     if (!initialized.current && mode === 'practice') {
@@ -3486,105 +3522,104 @@ export default function App() {
                 </div>
                 )}
 
-                {/* Dev-only: Template sampler table for current year */}
-                {isDevMode && !isOlympiadMode && (
+                {/* Dev-only: Template sampler table */}
+                {isDevMode && (
                   <div className="mt-12 mb-12">
-                    {/* Phase overview across all years (dev helper) */}
-                    <div className="mb-3 text-xs text-slate-600">
-                      {(() => {
-                        try {
-                            if (!curriculumData || !Array.isArray(curriculumData.years)) return null
-                            const summary = {}
-                            curriculumData.years.forEach(y => {
-                              (y.skills || []).forEach(skill => {
-                                const skillPhase = typeof skill.phase === 'number' ? skill.phase : null
-                                ;(skill.templates || []).forEach(t => {
-                                  const p = typeof t.phase === 'number' ? t.phase : skillPhase
-                                  const key = p != null ? `Phase ${p}` : 'Base'
-                                  if (!summary[key]) {
-                                    summary[key] = { topics: new Set(), years: new Set(), perYear: {}, phaseNumber: p }
-                                  }
-                                  summary[key].topics.add(skill.name)
-                                  summary[key].years.add(y.year)
-                                  const yr = y.year
-                                  if (!summary[key].perYear[yr]) summary[key].perYear[yr] = 0
-                                  summary[key].perYear[yr] += 1
+                    {!isOlympiadMode && (
+                      <div className="mb-3 text-xs text-slate-600">
+                        {(() => {
+                          try {
+                              if (!curriculumData || !Array.isArray(curriculumData.years)) return null
+                              const summary = {}
+                              curriculumData.years.forEach(y => {
+                                (y.skills || []).forEach(skill => {
+                                  const skillPhase = typeof skill.phase === 'number' ? skill.phase : null
+                                  ;(skill.templates || []).forEach(t => {
+                                    const p = typeof t.phase === 'number' ? t.phase : skillPhase
+                                    const key = p != null ? `Phase ${p}` : 'Base'
+                                    if (!summary[key]) {
+                                      summary[key] = { topics: new Set(), years: new Set(), perYear: {}, phaseNumber: p }
+                                    }
+                                    summary[key].topics.add(skill.name)
+                                    summary[key].years.add(y.year)
+                                    const yr = y.year
+                                    if (!summary[key].perYear[yr]) summary[key].perYear[yr] = 0
+                                    summary[key].perYear[yr] += 1
+                                  })
                                 })
                               })
-                            })
-                          const items = Object.entries(summary)
-                          if (!items.length) return null
-                          const currentPhaseLabel = phaseFilter ? `Phase ${phaseFilter}` : null
-                          const handlePhaseClick = (phaseNumber) => {
-                            try {
-                              const params = new URLSearchParams(window.location.search)
-                              if (phaseNumber != null) {
-                                params.set('phase', String(phaseNumber))
-                              } else {
-                                params.delete('phase')
+                            const items = Object.entries(summary)
+                            if (!items.length) return null
+                            const handlePhaseClick = (phaseNumber) => {
+                              try {
+                                const params = new URLSearchParams(window.location.search)
+                                if (phaseNumber != null) {
+                                  params.set('phase', String(phaseNumber))
+                                } else {
+                                  params.delete('phase')
+                                }
+                                params.set('dev', 'true')
+                                window.location.search = params.toString()
+                              } catch {
+                                // ignore navigation errors
                               }
-                              params.set('dev', 'true')
-                              window.location.search = params.toString()
-                            } catch {
-                              // ignore navigation errors
                             }
-                          }
-                          return (
-                            <div className="flex flex-wrap gap-2 items-center">
-                              <span className="font-semibold text-slate-700">Loaded phases (all years):</span>
-                              <button
-                                type="button"
-                                onClick={() => handlePhaseClick(null)}
-                                className={`px-2 py-1 rounded-full border text-[0.7rem] font-semibold ${
-                                  !phaseFilter
-                                    ? 'bg-slate-900 text-white border-slate-900'
-                                    : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100'
-                                }`}
-                              >
-                                All phases
-                              </button>
-                              {/* Simple phase summary table with clickable year filters */}
-                              <table className="min-w-max text-[0.7rem] border border-slate-200 bg-white rounded-md overflow-hidden">
-                                <thead className="bg-slate-50">
-                                  <tr>
-                                    <th className="px-2 py-1 border-b border-slate-200 text-left">Phase</th>
-                                    <th className="px-2 py-1 border-b border-slate-200 text-left">Years / Topics</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {items.map(([label, info]) => (
-                                    <tr key={label} className="border-t border-slate-100">
-                                      <td className="px-2 py-1 font-semibold text-slate-700">{label}</td>
-                                        <td className="px-2 py-1">
-                                          {Array.from(info.years).sort((a, b) => a - b).map(year => (
-                                            <button
-                                              key={`${label}-${year}`}
-                                              type="button"
-                                              onClick={() => {
-                                                handlePhaseClick(info.phaseNumber)
-                                                setCurriculumMapYear(year)
-                                                setSelectedYear(year)
-                                              }}
-                                              className="inline-flex items-center px-2 py-0.5 mr-1 mb-1 rounded-full border border-slate-300 bg-white hover:bg-slate-100"
-                                            >
-                                              <span className="mr-1">Year {year}</span>
-                                              <span className="inline-flex items-center justify-center px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[0.65rem]">
-                                                {info.perYear[year] || 0}
-                                              </span>
-                                            </button>
-                                          ))}
-                                      </td>
+                            return (
+                              <div className="flex flex-wrap gap-2 items-center">
+                                <span className="font-semibold text-slate-700">Loaded phases (all years):</span>
+                                <button
+                                  type="button"
+                                  onClick={() => handlePhaseClick(null)}
+                                  className={`px-2 py-1 rounded-full border text-[0.7rem] font-semibold ${
+                                    !phaseFilter
+                                      ? 'bg-slate-900 text-white border-slate-900'
+                                      : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100'
+                                  }`}
+                                >
+                                  All phases
+                                </button>
+                                <table className="min-w-max text-[0.7rem] border border-slate-200 bg-white rounded-md overflow-hidden">
+                                  <thead className="bg-slate-50">
+                                    <tr>
+                                      <th className="px-2 py-1 border-b border-slate-200 text-left">Phase</th>
+                                      <th className="px-2 py-1 border-b border-slate-200 text-left">Years / Topics</th>
                                     </tr>
-                                  ))}
-                                </tbody>
-                              </table>
-                            </div>
-                          )
-                        } catch {
-                          return null
-                        }
-                      })()}
-                    </div>
+                                  </thead>
+                                  <tbody>
+                                    {items.map(([label, info]) => (
+                                      <tr key={label} className="border-t border-slate-100">
+                                        <td className="px-2 py-1 font-semibold text-slate-700">{label}</td>
+                                          <td className="px-2 py-1">
+                                            {Array.from(info.years).sort((a, b) => a - b).map(year => (
+                                              <button
+                                                key={`${label}-${year}`}
+                                                type="button"
+                                                onClick={() => {
+                                                  handlePhaseClick(info.phaseNumber)
+                                                  setCurriculumMapYear(year)
+                                                  setSelectedYear(year)
+                                                }}
+                                                className="inline-flex items-center px-2 py-0.5 mr-1 mb-1 rounded-full border border-slate-300 bg-white hover:bg-slate-100"
+                                              >
+                                                <span className="mr-1">Year {year}</span>
+                                                <span className="inline-flex items-center justify-center px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[0.65rem]">
+                                                  {info.perYear[year] || 0}
+                                                </span>
+                                              </button>
+                                            ))}
+                                        </td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              </div>
+                            )
+                          } catch {
+                            return null
+                          }
+                        })()}
+                      </div>
+                    )}
                     <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2">
                       <h3 className="text-2xl font-bold text-slate-800">
                         Template Samples ({mapHeading})
