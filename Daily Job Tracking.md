@@ -39,6 +39,9 @@
 5. **Olympiad helper batch** – Diophantine/function/scaling.
 6. **Advanced leftovers** – Calculus, modular/binomial olympiad, etc. (MC rewrite if faster).
 
+
+**Curriculum files:** When adding helper-enabled templates, update `phase/phase 10 year 11-13.json` and `phase/phase 13 olymics.json` so the curriculum stays in sync.
+
 For every batch:
 - Rephrase stems to fit the system (no hardcoded answers, no proofs).
 - Prefer multiple choice when it reduces complexity.

@@ -229,6 +229,288 @@ export function solveParabolaLine(m, c, k) {
   return root.toFixed(2)
 }
 
+export function binomial_coeff(n, k) {
+  const N = Math.floor(Number(n))
+  const K = Math.floor(Number(k))
+  if (isNaN(N) || isNaN(K) || K < 0 || N < 0 || K > N) return 0
+  if (K === 0 || K === N) return 1
+  const effectiveK = Math.min(K, N - K)
+  let numerator = 1
+  let denominator = 1
+  for (let i = 1; i <= effectiveK; i++) {
+    numerator *= N - (effectiveK - i)
+    denominator *= i
+  }
+  return Math.round(numerator / denominator)
+}
+
+// Approximate the cumulative distribution function for N(0,1).
+export function normalCdfApprox(z) {
+  const value = Number(z)
+  if (!Number.isFinite(value)) return 0.5
+  const absZ = Math.abs(value)
+  const t = 1 / (1 + 0.2316419 * absZ)
+  const d = 0.3989422804014327 * Math.exp(-absZ * absZ / 2)
+  const poly =
+    t *
+    (0.319381530 +
+      t *
+        (-0.356563782 +
+          t * (1.781477937 + t * (-1.821255978 + t * 1.330274429))))
+  let cdf = 1 - d * poly
+  if (value < 0) {
+    cdf = 1 - cdf
+  }
+  if (cdf < 0) return 0
+  if (cdf > 1) return 1
+  return cdf
+}
+
+const exactTrigTable = {
+  sin: {
+    0: '0',
+    30: '1/2',
+    45: 'sqrt(2)/2',
+    60: 'sqrt(3)/2',
+    90: '1'
+  },
+  cos: {
+    0: '1',
+    30: 'sqrt(3)/2',
+    45: 'sqrt(2)/2',
+    60: '1/2',
+    90: '0'
+  },
+  tan: {
+    0: '0',
+    30: 'sqrt(3)/3',
+    45: '1',
+    60: 'sqrt(3)',
+    90: 'undefined'
+  }
+}
+
+function normalizeAngle(angle) {
+  const value = Number(angle)
+  return Number.isFinite(value) ? value : 0
+}
+
+export function exactTrigValue(fn, angle) {
+  const key = (fn || '').toString().toLowerCase()
+  const lookup = exactTrigTable[key]
+  if (!lookup) return '0'
+  const normalized = normalizeAngle(angle)
+  return lookup.hasOwnProperty(normalized) ? lookup[normalized] : '0'
+}
+
+export const exactSin = angle => exactTrigValue('sin', angle)
+export const exactCos = angle => exactTrigValue('cos', angle)
+export const exactTan = angle => exactTrigValue('tan', angle)
+
+export function formatInverse2x2(a, b, c, d) {
+  const det = Number(a) * Number(d) - Number(b) * Number(c)
+  if (det === 0) return 'Not invertible'
+  const formatEntry = value => {
+    const num = Number(value)
+    if (Object.is(num, -0)) return '0'
+    return num.toString()
+  }
+  const matrixStr = `[[${formatEntry(d)}, ${formatEntry(-b)}], [${formatEntry(-c)}, ${formatEntry(a)}]]`
+  if (det === 1) {
+    return matrixStr
+  }
+  return `(1/${det})${matrixStr}`
+}
+
+export function powMod(base, exp, mod) {
+  const MOD = Math.abs(Number(mod)) || 1
+  let b = Number(base) % MOD
+  let e = Math.max(0, Math.floor(Number(exp)))
+  let result = 1
+  while (e > 0) {
+    if (e % 2 === 1) {
+      result = (result * b) % MOD
+    }
+    b = (b * b) % MOD
+    e = Math.floor(e / 2)
+  }
+  return result
+}
+
+export function sumOfDivisors(n) {
+  let value = Math.abs(Math.floor(Number(n)))
+  if (value === 0) return 0
+  let total = 1
+  for (let p = 2; p * p <= value; p++) {
+    if (value % p === 0) {
+      let term = 1
+      let sum = 1
+      while (value % p === 0) {
+        value /= p
+        term *= p
+        sum += term
+      }
+      total *= sum
+    }
+  }
+  if (value > 1) {
+    total *= (1 + value)
+  }
+  return total
+}
+
+export function countPositiveDiophantine(a, b, target) {
+  const A = Math.abs(Math.floor(Number(a)))
+  const B = Math.abs(Math.floor(Number(b)))
+  const T = Math.floor(Number(target))
+  if (A === 0 || B === 0 || T <= 0) return 0
+  let count = 0
+  for (let x = 1; x * A < T; x++) {
+    const remaining = T - x * A
+    if (remaining <= 0) break
+    if (remaining % B === 0) {
+      const y = remaining / B
+      if (y > 0) count++
+    }
+  }
+  return count
+}
+
+export function tanRecurrenceValue(den, num, term) {
+  const Den = Number(den)
+  const Num = Number(num)
+  let value = Num / Den
+  const steps = Math.max(0, Math.floor(Number(term)))
+  for (let i = 0; i < steps; i++) {
+    const numerator = Den * value + Num
+    const denominator = Den - Num * value
+    if (Math.abs(denominator) < 1e-9) {
+      return Number.POSITIVE_INFINITY
+    }
+    value = numerator / denominator
+  }
+  return Math.round(value * 10000) / 10000
+}
+
+export function scalingFunctionValue(k, target) {
+  const K = Math.max(1, Math.floor(Number(k)))
+  let x = Number(target)
+  if (!Number.isFinite(x) || x <= 0) return 0
+  let scale = 1
+  while (x > 3) {
+    x /= K
+    scale *= K
+  }
+  while (x < 1) {
+    x *= K
+    scale /= K
+  }
+  const baseValue = 1 - Math.abs(x - 2)
+  return Math.max(0, scale * baseValue)
+}
+
+export function solveInverseFunctional(c, d, val) {
+  const C = Number(c)
+  const D = Number(d)
+  const x = Number(val)
+  const denom = 1 - C * C
+  if (denom === 0 || x === 0) return 0
+  const fInv = (D / x - C * D * x) / denom
+  const fx = D * x - C * fInv
+  return Math.round(fx * 10000) / 10000
+}
+
+export function polyLinearRemainderSum(a, b, ra, rb) {
+  const A = Number(a)
+  const B = Number(b)
+  const RA = Number(ra)
+  const RB = Number(rb)
+  const coeff = (RA - RB) / (A - B)
+  const constant = RA - coeff * A
+  return Math.round((coeff + constant) * 10000) / 10000
+}
+
+export function derangement(n) {
+  const N = Math.max(0, Math.floor(Number(n)))
+  if (N === 0) return 1
+  if (N === 1) return 0
+  let prev2 = 1
+  let prev1 = 0
+  let current = 0
+  for (let i = 2; i <= N; i++) {
+    current = (i - 1) * (prev1 + prev2)
+    prev2 = prev1
+    prev1 = current
+  }
+  return current
+}
+
+export function triangleRandomWalkProbability(steps) {
+  const n = Math.max(0, Math.floor(Number(steps)))
+  let startProb = 1
+  let neighborProb = 0
+  for (let i = 0; i < n; i++) {
+    const nextStart = neighborProb
+    const nextNeighbor = startProb / 2 + neighborProb / 2
+    startProb = nextStart
+    neighborProb = nextNeighbor
+  }
+  return Math.round(startProb * 10000) / 10000
+}
+
+export function lcmRange(n) {
+  const limit = Math.max(1, Math.floor(Number(n)))
+  let result = 1
+  for (let i = 2; i <= limit; i++) {
+    result = lcm(result, i)
+  }
+  return result
+}
+
+export function factorial(n) {
+  const N = Math.max(0, Math.floor(Number(n)))
+  let result = 1
+  for (let i = 2; i <= N; i++) {
+    result *= i
+  }
+  return result
+}
+
+export function unitsDigit(base, exp) {
+  const b = Math.abs(Math.floor(Number(base))) % 10
+  const e = Math.max(0, Math.floor(Number(exp)))
+  if (e === 0) return 1
+  const cycles = {
+    0: [0],
+    1: [1],
+    2: [2, 4, 8, 6],
+    3: [3, 9, 7, 1],
+    4: [4, 6],
+    5: [5],
+    6: [6],
+    7: [7, 9, 3, 1],
+    8: [8, 4, 2, 6],
+    9: [9, 1]
+  }
+  const cycle = cycles[b] || [b]
+  const index = (e - 1) % cycle.length
+  return cycle[index]
+}
+
+export function countPrimesLessThan(n) {
+  const limit = Math.max(2, Math.floor(Number(n)))
+  const sieve = new Array(limit).fill(true)
+  sieve[0] = sieve[1] = false
+  for (let i = 2; i * i < limit; i++) {
+    if (sieve[i]) {
+      for (let j = i * i; j < limit; j += i) {
+        sieve[j] = false
+      }
+    }
+  }
+  return sieve.reduce((count, isPrime) => count + (isPrime ? 1 : 0), 0)
+}
+
 export function formatLinearExpression(aCoeff, bCoeff) {
   const formatTerm = (coef, suffix) => {
     if (coef === 0) return ''

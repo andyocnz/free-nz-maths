@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { generateQuestionForSkill, getStrandsForYear, getAvailableYears, generateQuestionFromTemplate, getSkillsForYear } from './templateEngine.js'
 import curriculumData from './curriculumDataMerged.js'
+import olympiadCurriculum from './olympiadCurriculum.json'
 import { generateTest, calculateTestResults } from './testGenerator.js'
 import { generateGroupTest } from './groupTestEngine.js'
 import QuestionVisualizer from './QuestionVisualizer.jsx'
@@ -174,6 +175,14 @@ export default function App() {
       .replace(/\band\b/g, ' ')
       .replace(/\s+/g, ' ')
       .trim()
+  }
+
+  function normalizeRadicals(str) {
+    if (!str) return ''
+    let normalized = String(str).replace(/√/g, 'sqrt')
+    normalized = normalized.replace(/sqrt\s*\(\s*([^)]+?)\s*\)/g, (_, inner) => `sqrt${inner.replace(/\s+/g, '')}`)
+    normalized = normalized.replace(/sqrt\s+([A-Za-z0-9]+)/g, 'sqrt$1')
+    return normalized
   }
 
   const openKnowledgeModal = () => {
@@ -912,6 +921,15 @@ export default function App() {
 
   // Dev helper: build JSON for template inspector (respects current filter)
   const buildDevTemplatesJson = () => {
+    const skillMap = new Map()
+    curriculumData.years
+      .filter(y => y.year === curriculumMapYear)
+      .forEach(y => {
+        y.skills?.forEach(skill => {
+          skillMap.set(skill.id, skill)
+        })
+      })
+
     const allTemplates = curriculumData.years
       .filter(y => y.year === curriculumMapYear)
       .flatMap(y =>
@@ -925,9 +943,21 @@ export default function App() {
         )
       )
 
-    const filtered = devTemplateFilterSkill
-      ? allTemplates.filter(t => t.skillId === devTemplateFilterSkill)
-      : allTemplates
+    // Apply phase filter (same as table)
+    let filtered = allTemplates
+    if (phaseFilter) {
+      filtered = filtered.filter(t => {
+        const tmplPhase = typeof t.template.phase === 'number' ? t.template.phase : null
+        const skill = skillMap.get(t.skillId)
+        const skillPhase = typeof skill?.phase === 'number' ? skill.phase : null
+        return tmplPhase === phaseFilter || skillPhase === phaseFilter
+      })
+    }
+
+    // Apply skill filter
+    if (devTemplateFilterSkill) {
+      filtered = filtered.filter(t => t.skillId === devTemplateFilterSkill)
+    }
 
     return JSON.stringify(filtered, null, 2)
   }
@@ -1344,8 +1374,8 @@ export default function App() {
             isCorrect = Math.abs(userAnswerNum - correctAnswerNum) < 0.01
           } else {
             // Text comparison
-            const ua = String(answer).trim().toLowerCase().replace(/["'\s]+/g, ' ')
-            const ca = String(question.answer).trim().toLowerCase().replace(/["'\s]+/g, ' ')
+            const ua = normalizeRadicals(String(answer)).trim().toLowerCase().replace(/["'\s]+/g, ' ')
+            const ca = normalizeRadicals(String(question.answer)).trim().toLowerCase().replace(/["'\s]+/g, ' ')
             const normalizeText = s => s.replace(/\b(a |an |the )\b/g, '').replace(/\bsquares?\b/g, 'square').trim()
             isCorrect = normalizeText(ua) === normalizeText(ca)
           }
@@ -1644,8 +1674,8 @@ export default function App() {
           }
         } else {
           // Fallback: text comparison for word answers (e.g., 'Cube')
-          const ua = String(answer).trim().toLowerCase().replace(/["'\s]+/g, ' ')
-          const ca = String(question.answer).trim().toLowerCase().replace(/["'\s]+/g, ' ')
+        const ua = normalizeRadicals(String(answer)).trim().toLowerCase().replace(/["'\s]+/g, ' ')
+        const ca = normalizeRadicals(String(question.answer)).trim().toLowerCase().replace(/["'\s]+/g, ' ')
           // Accept some simple synonyms and normalize plurals
           const normalizeText = s => s.replace(/\b(a |an |the )\b/g, '').replace(/\bsquares?\b/g, 'square').trim()
           if (normalizeText(ua) === normalizeText(ca)) {
@@ -2767,11 +2797,6 @@ export default function App() {
 
   // Landing Page
   if (mode === 'landing') {
-    const olympiadCurriculum = {
-      year: 'Olympiad Mathematics',
-      skills: []
-    }
-
     const selectedYearData = curriculumData.years.find(y => y.year === curriculumMapYear)
     const activeYearData = isOlympiadMode ? olympiadCurriculum : selectedYearData
 
