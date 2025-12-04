@@ -26,7 +26,8 @@
               },
               "answer": "sides",
               "difficulty": 5,
-              "phase": 10.12
+              "phase": 10.12,
+              "hint": "The order of rotational symmetry equals the number of identical positions when rotating."
             },
             {
               "id": "Y6.G.ROTATIONAL_SYMMETRY.T2",
@@ -58,7 +59,8 @@
               },
               "answer": "shape[1]",
               "difficulty": 4,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "The order of rotational symmetry equals the number of identical positions when rotating."
             }
           ]
         },
@@ -111,7 +113,8 @@
                 },
                 "key": "8 | 0 = 80"
               },
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Count the leaves in the row that matches your target stem."
             },
             {
               "id": "Y6.S.STEM_AND_LEAF.T2",
@@ -154,7 +157,8 @@
                 },
                 "key": "5 | 2 = 52"
               },
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Count the leaves in the row that matches your target stem."
             },
             {
               "id": "Y6.S.STEM_AND_LEAF.T3",
@@ -189,7 +193,8 @@
                   ]
                 },
                 "key": "5 | 2 = 52"
-              }
+              },
+              "hint": "Count the leaves in the row that matches your target stem."
             },
             {
               "id": "Y6.S.STEM_AND_LEAF.T4",
@@ -224,7 +229,8 @@
                   ]
                 },
                 "key": "5 | 2 = 52"
-              }
+              },
+              "hint": "Count the leaves in the row that matches your target stem."
             },
             {
               "id": "Y6.S.STEM_AND_LEAF.T5",
@@ -259,7 +265,8 @@
                   ]
                 },
                 "key": "5 | 2 = 52"
-              }
+              },
+              "hint": "Count the leaves in the row that matches your target stem."
             },
             {
               "id": "Y6.S.STEM_AND_LEAF.T6",
@@ -294,7 +301,8 @@
                   ]
                 },
                 "key": "5 | 2 = 52"
-              }
+              },
+              "hint": "Count the leaves in the row that matches your target stem."
             },
             {
               "id": "Y6.S.STEM_AND_LEAF.T7",
@@ -329,7 +337,8 @@
                   ]
                 },
                 "key": "5 | 2 = 52"
-              }
+              },
+              "hint": "Count the leaves in the row that matches your target stem."
             }
           ]
         },
@@ -388,7 +397,8 @@
                   "v4"
                 ]
               },
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "The height of each bar represents the frequency (how many times that value appears)."
             },
             {
               "id": "Y6.S.HISTOGRAMS.T2",
@@ -432,7 +442,8 @@
                   "v3",
                   "v4"
                 ]
-              }
+              },
+              "hint": "The height of each bar represents the frequency (how many times that value appears)."
             },
             {
               "id": "Y6.S.HISTOGRAMS.T3",
@@ -476,7 +487,8 @@
                   "v3",
                   "v4"
                 ]
-              }
+              },
+              "hint": "The height of each bar represents the frequency (how many times that value appears)."
             },
             {
               "id": "Y6.S.HISTOGRAMS.T4",
@@ -520,7 +532,8 @@
                   "v3",
                   "v4"
                 ]
-              }
+              },
+              "hint": "The height of each bar represents the frequency (how many times that value appears)."
             },
             {
               "id": "Y6.S.HISTOGRAMS.T5",
@@ -564,7 +577,8 @@
                   "v3",
                   "v4"
                 ]
-              }
+              },
+              "hint": "The height of each bar represents the frequency (how many times that value appears)."
             }
           ]
         },
@@ -590,9 +604,10 @@
                   8
                 ]
               },
-              "answer": "round((r / (r+b)) * (r / (r+b)), 3)",
+              "answer": "Math.round((r / (r+b)) * (r / (r+b)), 3)",
               "difficulty": 4,
-              "phase": 10.6
+              "phase": 10.6,
+              "hint": "P(A and B) = P(A) * P(B)"
             },
             {
               "id": "Y6.S.PROBABILITY_REPLACEMENT.T2",
@@ -609,9 +624,10 @@
                   8
                 ]
               },
-              "answer": "round((red/(red+green)) * (red/(red+green)), 3)",
+              "answer": "Math.round((red/(red+green)) * (red/(red+green)), 3)",
               "difficulty": 4,
-              "phase": 10.6
+              "phase": 10.6,
+              "hint": "P(A and B) = P(A) * P(B)"
             }
           ]
         },
@@ -631,7 +647,8 @@
                 "type": "net",
                 "shape_type": "cube"
               },
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Unfold the 3D shape mentally to see all the 2D faces."
             },
             {
               "id": "Y6.G.NETS.T2",
@@ -643,7 +660,8 @@
                 "type": "net",
                 "shape_type": "cube"
               },
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Unfold the 3D shape mentally to see all the 2D faces."
             },
             {
               "id": "Y6.G.NETS.T3",
@@ -655,7 +673,8 @@
                 "type": "net",
                 "shape_type": "cube"
               },
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Unfold the 3D shape mentally to see all the 2D faces."
             },
             {
               "id": "Y6.G.NETS.T4",
@@ -667,7 +686,8 @@
                 "type": "net",
                 "shape_type": "rectangular_prism"
               },
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Unfold the 3D shape mentally to see all the 2D faces."
             },
             {
               "id": "Y6.G.NETS.T5",
@@ -679,7 +699,8 @@
                 "type": "net",
                 "shape_type": "triangular_prism"
               },
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Unfold the 3D shape mentally to see all the 2D faces."
             },
             {
               "id": "Y6.G.NETS.T6",
@@ -691,7 +712,8 @@
                 "type": "net",
                 "shape_type": "square_pyramid"
               },
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Unfold the 3D shape mentally to see all the 2D faces."
             },
             {
               "id": "Y6.G.NETS.T7",
@@ -703,7 +725,8 @@
                 "type": "net",
                 "shape_type": "tetrahedron"
               },
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Unfold the 3D shape mentally to see all the 2D faces."
             }
           ]
         },
@@ -744,7 +767,8 @@
                 "valB": 7,
                 "valOverlap": 5
               },
-              "phase": 10.6
+              "phase": 10.6,
+              "hint": "Review the key concepts and try breaking the problem into smaller steps."
             },
             {
               "id": "Y6.S.VENN_DIAGRAMS.T2",
@@ -758,7 +782,8 @@
               },
               "answer": "28 - (15 + 17 - both)",
               "difficulty": 5,
-              "phase": 10.6
+              "phase": 10.6,
+              "hint": "Review the key concepts and try breaking the problem into smaller steps."
             }
           ]
         },
@@ -781,7 +806,8 @@
               },
               "answer": "minutes * 60",
               "difficulty": 2,
-              "phase": 10.9
+              "phase": 10.9,
+              "hint": "1 hour = 60 minutes"
             },
             {
               "id": "Y6.M.TIME.T3",
@@ -795,7 +821,8 @@
               },
               "answer": "hours * 60",
               "difficulty": 2,
-              "phase": 10.9
+              "phase": 10.9,
+              "hint": "1 hour = 60 minutes"
             }
           ]
         },
@@ -823,7 +850,8 @@
               },
               "answer": "Math.floor(length * 100 / piece)",
               "difficulty": 5,
-              "phase": 10.6
+              "phase": 10.6,
+              "hint": "1 metre (m) = 100 centimetres (cm) = 1000 millimetres (mm)"
             },
             {
               "id": "Y6.M.MEASUREMENT.T3",
@@ -838,7 +866,8 @@
               },
               "answer": "km * 1000",
               "difficulty": 2,
-              "phase": 10.9
+              "phase": 10.9,
+              "hint": "1 metre (m) = 100 centimetres (cm) = 1000 millimetres (mm)"
             },
             {
               "id": "Y6.M.MEASUREMENT.T4",
@@ -857,7 +886,8 @@
               },
               "answer": "temp1 + rise",
               "difficulty": 3,
-              "phase": 10.9
+              "phase": 10.9,
+              "hint": "1 metre (m) = 100 centimetres (cm) = 1000 millimetres (mm)"
             },
             {
               "id": "Y6.M.MEASUREMENT.T5",
@@ -871,7 +901,8 @@
               },
               "answer": "g / 1000",
               "difficulty": 3,
-              "phase": 10.9
+              "phase": 10.9,
+              "hint": "1 metre (m) = 100 centimetres (cm) = 1000 millimetres (mm)"
             }
           ]
         },
@@ -909,7 +940,8 @@
               },
               "answer": "2*(a + b) + 2*(c + d)",
               "difficulty": 6,
-              "phase": 10.6
+              "phase": 10.6,
+              "hint": "Area of rectangle = length * width"
             }
           ]
         },
@@ -944,7 +976,8 @@
                 "height": "h",
                 "canvasWidth": 400,
                 "canvasHeight": 300
-              }
+              },
+              "hint": "Volume of any prism = Area of Base * Height"
             },
             {
               "id": "Y6.G.VOLUME_PRISMS.T2",
@@ -977,7 +1010,8 @@
                 "h": "d",
                 "canvasWidth": 400,
                 "canvasHeight": 300
-              }
+              },
+              "hint": "Volume of any prism = Area of Base * Height"
             }
           ]
         }
@@ -1019,7 +1053,8 @@
               },
               "answer": "simplify(a*c, b*d)",
               "difficulty": 5,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "To multiply fractions: (a/b) * (c/d) = (a*c) / (b*d)"
             },
             {
               "id": "Y7.N.FRACTIONS_RATIONAL_OPS.T2",
@@ -1048,7 +1083,8 @@
               },
               "answer": "simplify(a*d, b*c)",
               "difficulty": 6,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "To multiply fractions: (a/b) * (c/d) = (a*c) / (b*d)"
             }
           ]
         },
@@ -1076,7 +1112,8 @@
               },
               "answer": "'1/' + (b**p)",
               "difficulty": 5,
-              "phase": 10.6
+              "phase": 10.6,
+              "hint": "b^-p = 1 / b^p"
             },
             {
               "id": "Y7.N.EXPONENTS_NEGATIVE.T2",
@@ -1101,7 +1138,8 @@
               },
               "answer": "'1/' + (base**exp)",
               "difficulty": 5,
-              "phase": 10.6
+              "phase": 10.6,
+              "hint": "b^-p = 1 / b^p"
             }
           ]
         },
@@ -1131,7 +1169,8 @@
               },
               "answer": "Math.sqrt(n)",
               "difficulty": 6,
-              "phase": 10.6
+              "phase": 10.6,
+              "hint": "x^(1/2) = sqrt(x)"
             },
             {
               "id": "Y7.N.EXPONENTS_FRACTIONAL.T2",
@@ -1152,7 +1191,8 @@
               },
               "answer": "base**(1/3)",
               "difficulty": 6,
-              "phase": 10.6
+              "phase": 10.6,
+              "hint": "x^(1/2) = sqrt(x)"
             }
           ]
         },
@@ -1172,9 +1212,10 @@
                   20
                 ]
               },
-              "answer": "round(2 * 3.14 * r, 2)",
+              "answer": "Math.round(2 * 3.14 * r, 2)",
               "difficulty": 5,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Circumference (C) = 2 * π * radius (r)  OR  C = π * diameter (d)"
             },
             {
               "id": "Y7.G.CIRCLES.T2",
@@ -1186,9 +1227,10 @@
                   20
                 ]
               },
-              "answer": "round(3.14 * r * r, 2)",
+              "answer": "Math.round(3.14 * r * r, 2)",
               "difficulty": 6,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Circumference (C) = 2 * π * radius (r)  OR  C = π * diameter (d)"
             }
           ]
         },
@@ -1214,14 +1256,15 @@
                   5
                 ]
               },
-              "answer": "round(d / t, 2)",
+              "answer": "Math.round(d / t, 2)",
               "visualData": {
                 "type": "car_on_road",
                 "speed": "round(d / t, 2)",
                 "showSpeed": false
               },
               "difficulty": 5,
-              "phase": 10.6
+              "phase": 10.6,
+              "hint": "Speed = Distance / Time"
             },
             {
               "id": "Y7.N.RATES.T2",
@@ -1238,9 +1281,10 @@
                   300
                 ]
               },
-              "answer": "round(volume / rate, 1)",
+              "answer": "Math.round(volume / rate, 1)",
               "difficulty": 5,
-              "phase": 10.6
+              "phase": 10.6,
+              "hint": "Speed = Distance / Time"
             },
             {
               "id": "Y7.N.RATES.T3",
@@ -1258,9 +1302,10 @@
                   70
                 ]
               },
-              "answer": "round(price * volume, 2)",
+              "answer": "Math.round(price * volume, 2)",
               "difficulty": 5,
-              "phase": 10.6
+              "phase": 10.6,
+              "hint": "Speed = Distance / Time"
             }
           ]
         },
@@ -1282,7 +1327,8 @@
               },
               "answer": "'1/12'",
               "difficulty": 6,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "P(A and B) = P(A) * P(B)"
             },
             {
               "id": "Y7.S.COMPOUND_PROBABILITY.T3",
@@ -1318,7 +1364,8 @@
               },
               "answer": "condition[1]",
               "difficulty": 6,
-              "phase": 10.12
+              "phase": 10.12,
+              "hint": "P(A and B) = P(A) * P(B)"
             }
           ]
         },
@@ -1340,7 +1387,8 @@
               },
               "answer": "h * 60",
               "difficulty": 2,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "1 km = 1000 m"
             },
             {
               "id": "Y7.M.MEASUREMENT_TIME_MONEY.T2",
@@ -1355,7 +1403,8 @@
               },
               "answer": "dollars * 100",
               "difficulty": 2,
-              "phase": 10.9
+              "phase": 10.9,
+              "hint": "1 km = 1000 m"
             },
             {
               "id": "Y7.M.MEASUREMENT_TIME_MONEY.T3",
@@ -1369,7 +1418,8 @@
               },
               "answer": "ml / 1000",
               "difficulty": 2,
-              "phase": 10.9
+              "phase": 10.9,
+              "hint": "1 km = 1000 m"
             },
             {
               "id": "Y7.M.MEASUREMENT_TIME_MONEY.T4",
@@ -1388,7 +1438,8 @@
               },
               "answer": "hours * 60 + mins",
               "difficulty": 3,
-              "phase": 10.9
+              "phase": 10.9,
+              "hint": "1 km = 1000 m"
             },
             {
               "id": "Y7.M.MEASUREMENT_TIME_MONEY.T5",
@@ -1410,7 +1461,8 @@
               },
               "answer": "paid - p",
               "difficulty": 3,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "1 km = 1000 m"
             }
           ]
         },
@@ -1438,7 +1490,8 @@
               },
               "answer": "Math.ceil(total / per_box)",
               "difficulty": 4,
-              "phase": 10.9
+              "phase": 10.9,
+              "hint": "Review the key concepts and try breaking the problem into smaller steps."
             },
             {
               "id": "Y7.N.PROBLEM_SOLVING.T2",
@@ -1453,7 +1506,8 @@
               },
               "answer": "flourCups * 2",
               "difficulty": 3,
-              "phase": 10.9
+              "phase": 10.9,
+              "hint": "Review the key concepts and try breaking the problem into smaller steps."
             }
           ]
         }
@@ -1490,7 +1544,8 @@
               },
               "answer": "(c/a) - b",
               "difficulty": 7,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Balance Method: Whatever operation you apply to one side of the equation, you must apply to the other side."
             },
             {
               "id": "Y8.A.MULTI_STEP_EQUATIONS.T2",
@@ -1519,7 +1574,8 @@
               },
               "answer": "(d - b) / (a - c)",
               "difficulty": 8,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Balance Method: Whatever operation you apply to one side of the equation, you must apply to the other side."
             }
           ]
         },
@@ -1546,7 +1602,8 @@
                 "relation": "alternate_interior"
               },
               "difficulty": 6,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Corresponding angles are equal, alternate angles are equal."
             },
             {
               "id": "Y8.G.TRANSVERSALS.T2",
@@ -1565,7 +1622,8 @@
                 "relation": "corresponding"
               },
               "difficulty": 6,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Corresponding angles are equal, alternate angles are equal."
             },
             {
               "id": "Y8.G.TRANSVERSALS.T3",
@@ -1584,7 +1642,8 @@
                 "relation": "alternate_exterior"
               },
               "difficulty": 6,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Corresponding angles are equal, alternate angles are equal."
             },
             {
               "id": "Y8.G.TRANSVERSALS.T4",
@@ -1603,7 +1662,8 @@
                 "relation": "consecutive_interior"
               },
               "difficulty": 6,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Corresponding angles are equal, alternate angles are equal."
             },
             {
               "id": "Y8.G.TRANSVERSALS.T5",
@@ -1622,7 +1682,8 @@
                 "relation": "vertical"
               },
               "difficulty": 6,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Review the key concepts and try breaking the problem into smaller steps."
             }
           ]
         },
@@ -1659,7 +1720,8 @@
                 ],
                 "showPoint": true
               },
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Reflection across x-axis: (x, y) -> (x, -y)"
             },
             {
               "id": "Y8.G.TRANSFORMATIONS_COORDINATE.T2",
@@ -1692,7 +1754,8 @@
                 ],
                 "showLine": true
               },
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Reflection across x-axis: (x, y) -> (x, -y)"
             }
           ]
         },
@@ -1724,7 +1787,8 @@
               },
               "answer": "surface_area_rectangular_prism(l,w,h)",
               "difficulty": 7,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Surface Area of Rectangular Prism = 2(lw + lh + wh)"
             },
             {
               "id": "Y8.G.SURFACE_AREA.T2",
@@ -1741,9 +1805,10 @@
                   20
                 ]
               },
-              "answer": "round(surface_area_cylinder(r,h), 2)",
+              "answer": "Math.round(surface_area_cylinder(r,h), 2)",
               "difficulty": 8,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Surface Area of Rectangular Prism = 2(lw + lh + wh)"
             }
           ]
         },
@@ -1809,7 +1874,8 @@
                 ],
                 "trend": true
               },
-              "phase": 10.12
+              "phase": 10.12,
+              "hint": "Review the key concepts and try breaking the problem into smaller steps."
             },
             {
               "id": "Y8.S.SCATTER_PLOTS.T2",
@@ -1871,7 +1937,8 @@
                 ],
                 "trend": true
               },
-              "phase": 10.12
+              "phase": 10.12,
+              "hint": "Review the key concepts and try breaking the problem into smaller steps."
             }
           ]
         },
@@ -1908,784 +1975,8 @@
               },
               "answer": "{m1*m2} x 10^{e1+e2}",
               "difficulty": 7,
-              "phase": 10.1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "year": 7,
-      "skills": [
-        {
-          "id": "Y7.S.DATA_STATS_PROB",
-          "strand": "Statistics & Probability",
-          "templates": [
-            {
-              "id": "Y7.S.DATA_STATS_PROB.T2",
-              "stem": "A bag has {r} red and {b} blue counters. What is the probability of picking a red counter?",
-              "params": {
-                "r": [
-                  "int",
-                  2,
-                  20
-                ],
-                "b": [
-                  "int",
-                  2,
-                  20
-                ]
-              },
-              "answer": "r / (r + b)",
-              "difficulty": 5,
-              "phase": 10.1
-            },
-            {
-              "id": "Y7.S.DATA_STATS_PROB.T3",
-              "stem": "What is the mean of {a}, {b}, and {c}?",
-              "params": {
-                "a": [
-                  "int",
-                  0,
-                  100
-                ],
-                "b": [
-                  "int",
-                  0,
-                  100
-                ],
-                "c": [
-                  "int",
-                  0,
-                  100
-                ]
-              },
-              "answer": "(a + b + c) / 3",
-              "difficulty": 5,
-              "phase": 10.1
-            },
-            {
-              "id": "Y7.S.DATA_STATS_PROB.T4",
-              "stem": "The ages of students are {a}, {b}, {c}, {d}, {e}. What is the median age?",
-              "params": {
-                "a": [
-                  "int",
-                  10,
-                  18
-                ],
-                "b": [
-                  "int",
-                  10,
-                  18
-                ],
-                "c": [
-                  "int",
-                  10,
-                  18
-                ],
-                "d": [
-                  "int",
-                  10,
-                  18
-                ],
-                "e": [
-                  "int",
-                  10,
-                  18
-                ]
-              },
-              "answer": "{[a,b,c,d,e].sort((x,y) => x-y)[2]}",
-              "difficulty": 5,
-              "phase": 10.9
-            },
-            {
-              "id": "Y7.S.DATA_STATS_PROB.T5",
-              "stem": "In a survey, {yes} people said Yes and {no} people said No. What percentage said Yes? (Round to 1 decimal place)",
-              "params": {
-                "yes": [
-                  "int",
-                  10,
-                  90
-                ],
-                "no": [
-                  "int",
-                  10,
-                  90
-                ]
-              },
-              "answer": "round((yes / (yes + no)) * 100, 1)",
-              "difficulty": 5,
-              "phase": 10.9
-            }
-          ]
-        },
-        {
-          "id": "Y7.N.DECIMALS",
-          "strand": "Number & Algebra",
-          "templates": [
-            {
-              "id": "Y7.N.DECIMALS.T3",
-              "stem": "Calculate: {x} + {y}.",
-              "params": {
-                "x": [
-                  "decimal",
-                  0,
-                  200,
-                  2
-                ],
-                "y": [
-                  "decimal",
-                  0,
-                  200,
-                  2
-                ]
-              },
-              "answer": "{x + y}",
-              "difficulty": 5,
-              "phase": 10.1
-            },
-            {
-              "id": "Y7.N.DECIMALS.T4",
-              "stem": "Convert the decimal {x} to a fraction in simplest form.",
-              "params": {
-                "x": [
-                  "decimal",
-                  0,
-                  20,
-                  3
-                ]
-              },
-              "answer": "{decimal_to_fraction_simplified(x)}",
-              "difficulty": 6,
-              "phase": 10.1
-            }
-          ]
-        },
-        {
-          "id": "Y7.N.INTEGERS",
-          "strand": "Number & Algebra",
-          "templates": [
-            {
-              "id": "Y7.N.INTEGERS.T3",
-              "stem": "Calculate: {a} - {b}.",
-              "params": {
-                "a": [
-                  "int",
-                  -40,
-                  40
-                ],
-                "b": [
-                  "int",
-                  -40,
-                  40
-                ]
-              },
-              "answer": "a - b",
-              "difficulty": 5,
-              "phase": 10.1
-            }
-          ]
-        },
-        {
-          "id": "Y7.N.FRACTIONS_RATIONAL",
-          "strand": "Number & Algebra",
-          "templates": [
-            {
-              "id": "Y7.N.FRACTIONS_RATIONAL.T3",
-              "stem": "Calculate: {w1} {a}/{b} - {w2} {c}/{b}.",
-              "params": {
-                "w1": [
-                  "int",
-                  1,
-                  10
-                ],
-                "w2": [
-                  "int",
-                  0,
-                  9
-                ],
-                "a": [
-                  "int",
-                  1,
-                  9
-                ],
-                "b": [
-                  "int",
-                  2,
-                  12
-                ],
-                "c": [
-                  "int",
-                  1,
-                  9
-                ]
-              },
-              "answer": "mixed_subtract(w1,a,b,w2,c,b)",
-              "difficulty": 6,
-              "phase": 10.1
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "year": 8,
-      "skills": [
-        {
-          "id": "Y8.S.DATA_STATS_PROB",
-          "strand": "Statistics & Probability",
-          "templates": [
-            {
-              "id": "Y8.S.DATA_STATS_PROB.T2",
-              "stem": "A bag has {r} red and {b} blue counters. What is the probability of picking a red counter?",
-              "params": {
-                "r": [
-                  "int",
-                  5,
-                  25
-                ],
-                "b": [
-                  "int",
-                  5,
-                  25
-                ]
-              },
-              "answer": "r / (r + b)",
-              "difficulty": 6,
-              "phase": 10.1
-            },
-            {
-              "id": "Y8.S.DATA_STATS_PROB.T3",
-              "stem": "What is the mean of {a}, {b}, and {c}?",
-              "params": {
-                "a": [
-                  "int",
-                  0,
-                  200
-                ],
-                "b": [
-                  "int",
-                  0,
-                  200
-                ],
-                "c": [
-                  "int",
-                  0,
-                  200
-                ]
-              },
-              "answer": "(a + b + c) / 3",
-              "difficulty": 6,
-              "phase": 10.1
-            },
-            {
-              "id": "Y8.S.DATA_STATS_PROB.T2B",
-              "stem": "A data set has values {a}, {b}, {c}, {d}. What is the median?",
-              "params": {
-                "a": [
-                  "int",
-                  0,
-                  100
-                ],
-                "b": [
-                  "int",
-                  0,
-                  100
-                ],
-                "c": [
-                  "int",
-                  0,
-                  100
-                ],
-                "d": [
-                  "int",
-                  0,
-                  100
-                ]
-              },
-              "answer": "median([a,b,c,d])",
-              "difficulty": 7,
-              "phase": 10.1
-            }
-          ]
-        },
-        {
-          "id": "Y8.N.INTEGERS",
-          "strand": "Number & Algebra",
-          "templates": [
-            {
-              "id": "Y8.N.INTEGERS.T2",
-              "stem": "Calculate: {a} + {b}.",
-              "params": {
-                "a": [
-                  "int",
-                  -80,
-                  80
-                ],
-                "b": [
-                  "int",
-                  -80,
-                  80
-                ]
-              },
-              "answer": "a + b",
-              "difficulty": 6,
-              "phase": 10.1
-            },
-            {
-              "id": "Y8.N.INTEGERS.T3",
-              "stem": "Order these integers from least to greatest: {a}, {b}, {c}.",
-              "params": {
-                "a": [
-                  "int",
-                  -40,
-                  40
-                ],
-                "b": [
-                  "int",
-                  -40,
-                  40
-                ],
-                "c": [
-                  "int",
-                  -40,
-                  40
-                ]
-              },
-              "answer": "sort([a,b,c])",
-              "difficulty": 6,
-              "phase": 10.1
-            },
-            {
-              "id": "Y8.N.INTEGERS.T4",
-              "stem": "A submarine descends {a} metres every minute for {b} minutes. What is its change in elevation?",
-              "params": {
-                "a": [
-                  "int",
-                  5,
-                  50
-                ],
-                "b": [
-                  "int",
-                  2,
-                  10
-                ]
-              },
-              "answer": "-(a * b)",
-              "difficulty": 6,
-              "phase": 8
-            }
-          ]
-        },
-        {
-          "id": "Y8.N.DECIMALS",
-          "strand": "Number & Algebra",
-          "templates": [
-            {
-              "id": "Y8.N.DECIMALS.T2",
-              "stem": "Put these decimals in order from least to greatest: {x}, {y}, {z}.",
-              "params": {
-                "x": [
-                  "decimal",
-                  -100,
-                  100,
-                  3
-                ],
-                "y": [
-                  "decimal",
-                  -100,
-                  100,
-                  3
-                ],
-                "z": [
-                  "decimal",
-                  -100,
-                  100,
-                  3
-                ]
-              },
-              "answer": "{sort([x,y,z])}",
-              "difficulty": 6,
-              "phase": 10.1
-            },
-            {
-              "id": "Y8.N.DECIMALS.T3",
-              "stem": "Calculate: {x} + {y}.",
-              "params": {
-                "x": [
-                  "decimal",
-                  -200,
-                  200,
-                  2
-                ],
-                "y": [
-                  "decimal",
-                  -200,
-                  200,
-                  2
-                ]
-              },
-              "answer": "{x + y}",
-              "difficulty": 6,
-              "phase": 10.1
-            },
-            {
-              "id": "Y8.N.DECIMALS.T4",
-              "stem": "Convert the decimal {x} to a fraction in simplest form.",
-              "params": {
-                "x": [
-                  "decimal",
-                  0,
-                  50,
-                  3
-                ]
-              },
-              "answer": "{decimal_to_fraction_simplified(x)}",
-              "difficulty": 7,
-              "phase": 10.1
-            }
-          ]
-        },
-        {
-          "id": "Y8.N.FRACTIONS_RATIONAL",
-          "strand": "Number & Algebra",
-          "templates": [
-            {
-              "id": "Y8.N.FRACTIONS_RATIONAL.T2",
-              "stem": "Convert the improper fraction {num}/{den} to a mixed number.",
-              "params": {
-                "num": [
-                  "int",
-                  5,
-                  60
-                ],
-                "den": [
-                  "int",
-                  2,
-                  15
-                ]
-              },
-              "answer": "improper_to_mixed(num, den)",
-              "difficulty": 7,
-              "phase": 10.1
-            },
-            {
-              "id": "Y8.N.FRACTIONS_RATIONAL.T3",
-              "stem": "Calculate: {a}/{b} + {c}/{d}.",
-              "params": {
-                "a": [
-                  "int",
-                  1,
-                  12
-                ],
-                "b": [
-                  "int",
-                  2,
-                  15
-                ],
-                "c": [
-                  "int",
-                  1,
-                  12
-                ],
-                "d": [
-                  "int",
-                  2,
-                  15
-                ]
-              },
-              "answer": "simplify(a*d + c*b, b*d)",
-              "difficulty": 7,
-              "phase": 10.1
-            }
-          ]
-        },
-        {
-          "id": "Y8.N.EXPONENTS_ROOTS",
-          "strand": "Number & Algebra",
-          "name": "Exponents and roots",
-          "description": "Work with integer, fractional and negative exponents.",
-          "templates": [
-            {
-              "id": "Y8.N.EXPONENTS_ROOTS.T2",
-              "stem": "Evaluate ({a}/{b})^-2.",
-              "params": {
-                "a": [
-                  "int",
-                  1,
-                  5
-                ],
-                "b": [
-                  "int",
-                  2,
-                  6
-                ]
-              },
-              "answer": "(b*b) / (a*a)",
-              "difficulty": 7,
-              "phase": 8
-            }
-          ]
-        },
-        {
-          "id": "Y8.G.PYTHAGORAS",
-          "strand": "Geometry & Measurement",
-          "name": "Pythagoras' theorem",
-          "description": "Use Pythagoras' theorem to find unknown side lengths in right-angled triangles.",
-          "templates": [
-            {
-              "id": "Y8.G.PYTHAGORAS.T1",
-              "stem": "A right-angled triangle has two shorter sides of length {a} cm and {b} cm. What is the length of the hypotenuse, rounded to one decimal place?",
-              "params": {
-                "a": [
-                  "int",
-                  3,
-                  20
-                ],
-                "b": [
-                  "int",
-                  3,
-                  20
-                ]
-              },
-              "answer": "round(sqrt(a*a + b*b), 1)",
-              "difficulty": 7,
-              "phase": 8
-            }
-          ]
-        },
-        {
-          "id": "Y8.A.INEQUALITIES",
-          "strand": "Number & Algebra",
-          "name": "Multi-step inequalities",
-          "description": "Solve one- and two-step linear inequalities.",
-          "templates": [
-            {
-              "id": "Y8.A.INEQUALITIES.T1",
-              "stem": "Solve for x: {a}x + {b} > {c}",
-              "params": {
-                "a": [
-                  "int",
-                  2,
-                  5
-                ],
-                "b": [
-                  "int",
-                  1,
-                  10
-                ],
-                "c": [
-                  "int",
-                  11,
-                  40
-                ]
-              },
-              "answer": "{'x > ' + round((c - b) / a, 2)}",
-              "difficulty": 7,
-              "phase": 8
-            },
-            {
-              "id": "Y8.A.INEQUALITIES.T2",
-              "stem": "Solve the inequality: -{a}x + {b} ≤ {c}",
-              "params": {
-                "a": [
-                  "int",
-                  2,
-                  6
-                ],
-                "b": [
-                  "int",
-                  5,
-                  30
-                ],
-                "c": [
-                  "int",
-                  1,
-                  20
-                ]
-              },
-              "answer": "{'x ≥ ' + round((b - c) / a, 2)}",
-              "difficulty": 7,
-              "phase": 10.11
-            }
-          ]
-        },
-        {
-          "id": "Y8.M.MEASUREMENT",
-          "strand": "Measurement",
-          "name": "Measurement conversions",
-          "description": "Convert between metric units including area.",
-          "phase": 10.7,
-          "templates": [
-            {
-              "id": "Y8.M.MEASUREMENT.T2",
-              "stem": "Convert {value} km² to hectares.",
-              "params": {
-                "value": [
-                  "decimal",
-                  0.5,
-                  50,
-                  1
-                ]
-              },
-              "answer": "value * 100",
-              "difficulty": 6,
-              "phase": 10.7
-            }
-          ]
-        },
-        {
-          "id": "Y8.G.COORDINATE_PLANE",
-          "strand": "Geometry & Measurement",
-          "name": "Coordinate plane",
-          "description": "Distance, midpoint on coordinate plane.",
-          "phase": 10.7,
-          "templates": [
-            {
-              "id": "Y8.G.COORDINATE_PLANE.T2",
-              "stem": "What is the midpoint of the line segment joining ({x1},{y1}) and ({x2},{y2})?",
-              "params": {
-                "x1": [
-                  "int",
-                  -10,
-                  10
-                ],
-                "y1": [
-                  "int",
-                  -10,
-                  10
-                ],
-                "x2": [
-                  "int",
-                  -10,
-                  10
-                ],
-                "y2": [
-                  "int",
-                  -10,
-                  10
-                ]
-              },
-              "answer": "(({x1+x2}/2, {y1+y2}/2))",
-              "difficulty": 6,
-              "phase": 10.7
-            }
-          ]
-        },
-        {
-          "id": "Y8.A.SEQUENCES",
-          "strand": "Number & Algebra",
-          "name": "Sequences",
-          "description": "Arithmetic and geometric sequences.",
-          "phase": 10.7,
-          "templates": [
-            {
-              "id": "Y8.A.SEQUENCES.T2",
-              "stem": "A geometric sequence has first term {first} and common ratio {r}. What is the 5th term?",
-              "params": {
-                "first": [
-                  "int",
-                  1,
-                  20
-                ],
-                "r": [
-                  "choice",
-                  2,
-                  3,
-                  4,
-                  5,
-                  0.5,
-                  0.25
-                ]
-              },
-              "answer": "first * r**4",
-              "difficulty": 6,
-              "phase": 10.7
-            }
-          ]
-        },
-        {
-          "id": "Y8.A.EXPRESSIONS_EQUATIONS",
-          "strand": "Number & Algebra",
-          "name": "Expressions and equations",
-          "description": "Expand, factorize, solve equations.",
-          "phase": 10.7,
-          "templates": [
-            {
-              "id": "Y8.A.EXPRESSIONS_EQUATIONS.T2",
-              "stem": "Expand: {a}(x + {b}).",
-              "params": {
-                "a": [
-                  "int",
-                  -8,
-                  8
-                ],
-                "b": [
-                  "int",
-                  -10,
-                  10
-                ]
-              },
-              "answer": "{(a === 1 ? '' : a === -1 ? '-' : a) + 'x' + (a*b >= 0 ? ' + ' + a*b : ' - ' + Math.abs(a*b))}",
-              "difficulty": 5,
-              "phase": 10.7
-            }
-          ]
-        },
-        {
-          "id": "Y8.G.GEOMETRY",
-          "strand": "Geometry & Measurement",
-          "name": "Geometry properties",
-          "description": "Angles, polygons, properties.",
-          "phase": 10.7,
-          "templates": [
-            {
-              "id": "Y8.G.GEOMETRY.T2",
-              "stem": "The exterior angle of a regular polygon is {ext}°. How many sides does it have?",
-              "params": {
-                "ext": [
-                  "choice",
-                  60,
-                  45,
-                  36,
-                  30,
-                  20,
-                  18,
-                  15,
-                  10
-                ]
-              },
-              "answer": "360 / ext",
-              "difficulty": 7,
-              "phase": 10.7
-            }
-          ]
-        },
-        {
-          "id": "Y8.G.PYTHAGORAS",
-          "strand": "Geometry & Measurement",
-          "name": "Pythagoras theorem",
-          "description": "Apply Pythagoras theorem to find missing sides.",
-          "phase": 10.7,
-          "templates": [
-            {
-              "id": "Y8.G.PYTHAGORAS.T2",
-              "stem": "A ladder {hyp} m long leans against a wall. The base is {base} m from the wall. How high up the wall does it reach? (1 decimal place)",
-              "params": {
-                "hyp": [
-                  "int",
-                  5,
-                  20
-                ],
-                "base": [
-                  "int",
-                  3,
-                  15
-                ]
-              },
-              "answer": "round(Math.sqrt(hyp*hyp - base*base), 1)",
-              "difficulty": 6,
-              "phase": 10.7
+              "phase": 10.1,
+              "hint": "(A x 10^m) * (B x 10^n) = (A * B) x 10^(m+n)"
             }
           ]
         }
@@ -2730,7 +2021,8 @@
               },
               "answer": "solve_linear_system(m, c, m2, c2)",
               "difficulty": 8,
-              "phase": 8
+              "phase": 8,
+              "hint": "Do the same operation to both sides of the equation."
             }
           ]
         },
@@ -2753,7 +2045,8 @@
               },
               "answer": "simplify_radical(n)",
               "difficulty": 8,
-              "phase": 8
+              "phase": 8,
+              "hint": "sqrt(a * b) = sqrt(a) * sqrt(b)"
             }
           ]
         },
@@ -2788,7 +2081,8 @@
                 "inequality": "<"
               },
               "difficulty": 8,
-              "phase": 8
+              "phase": 8,
+              "hint": "For < or >: use a dashed boundary line (points on the line are NOT included)."
             }
           ]
         },
@@ -2826,7 +2120,8 @@
               },
               "answer": "'(' + ((x1 + x2) / 2) + ', ' + ((y1 + y2) / 2) + ')'",
               "difficulty": 7,
-              "phase": 8
+              "phase": 8,
+              "hint": "Midpoint (x, y) = ((x1 + x2)/2, (y1 + y2)/2)"
             }
           ]
         },
@@ -2857,9 +2152,10 @@
                   15
                 ]
               },
-              "answer": "round(volume_cone(r, h_cone) + volume_cylinder(r, h_cyl), 2)",
+              "answer": "Math.round(volume_cone(r, h_cone) + volume_cylinder(r, h_cyl), 2)",
               "difficulty": 8,
-              "phase": 8
+              "phase": 8,
+              "hint": "Volume of Cylinder = π * r² * h"
             }
           ]
         },
@@ -2891,7 +2187,8 @@
               },
               "answer": "x < {(c - b) / a}",
               "difficulty": 8,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "For ax + b > c, ax + b ≥ c, ax + b < c, or ax + b ≤ c"
             },
             {
               "id": "Y9.A.INEQUALITIES.T2",
@@ -2915,7 +2212,8 @@
               },
               "answer": "x ≤ {(b - c) / a}",
               "difficulty": 9,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "For ax + b > c, ax + b ≥ c, ax + b < c, or ax + b ≤ c"
             }
           ]
         },
@@ -2942,7 +2240,8 @@
               },
               "answer": "v*v + a",
               "difficulty": 8,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Quadratic: y = ax² + bx + c"
             },
             {
               "id": "Y9.A.NONLINEAR_FUNCTIONS.T2",
@@ -2966,7 +2265,8 @@
               },
               "answer": "b * (a**v)",
               "difficulty": 9,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Quadratic: y = ax² + bx + c"
             }
           ]
         },
@@ -2994,7 +2294,8 @@
               },
               "answer": "{'x² + ' + (b-a) + 'x − ' + (a*b)}",
               "difficulty": 7,
-              "phase": 10.11
+              "phase": 10.11,
+              "hint": "Monomial, binomial, trinomial"
             }
           ]
         },
@@ -3025,9 +2326,10 @@
                   30
                 ]
               },
-              "answer": "{'x ≤ ' + round((c - b) / a, 2)}",
+              "answer": "{'x ≤ ' + Math.round((c - b) / a, 2)}",
               "difficulty": 7,
-              "phase": 10.12
+              "phase": 10.12,
+              "hint": "Substitution, elimination methods"
             }
           ]
         },
@@ -3060,7 +2362,8 @@
               },
               "answer": "{a*b}x² + {a*c}x",
               "difficulty": 8,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "(a + b)(c + d) = ac + ad + bc + bd"
             },
             {
               "id": "Y9.A.POLYNOMIAL_OPS.T2",
@@ -3084,7 +2387,8 @@
               },
               "answer": "{'x² + ' + b + 'x − ' + c}",
               "difficulty": 8,
-              "phase": 10.12
+              "phase": 10.12,
+              "hint": "(a + b)(c + d) = ac + ad + bc + bd"
             }
           ]
         },
@@ -3111,7 +2415,8 @@
               },
               "answer": "m * d",
               "difficulty": 8,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Total ways = n₁ × n₂ × … × nₖ"
             }
           ]
         },
@@ -3131,9 +2436,10 @@
                   10
                 ]
               },
-              "answer": "round(volume_sphere(r), 2)",
+              "answer": "Math.round(volume_sphere(r), 2)",
               "difficulty": 9,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Cone volume: V = (1/3)πr²h"
             },
             {
               "id": "Y9.G.CONES_SPHERES.T2",
@@ -3145,9 +2451,10 @@
                   10
                 ]
               },
-              "answer": "round(surface_area_sphere(r), 2)",
+              "answer": "Math.round(surface_area_sphere(r), 2)",
               "difficulty": 9,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Cone volume: V = (1/3)πr²h"
             },
             {
               "id": "Y9.G.CONES_SPHERES.T3",
@@ -3164,9 +2471,10 @@
                   15
                 ]
               },
-              "answer": "round(volume_cone(r,h), 2)",
+              "answer": "Math.round(volume_cone(r,h), 2)",
               "difficulty": 9,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Cone volume: V = (1/3)πr²h"
             }
           ]
         },
@@ -3223,7 +2531,8 @@
                 "max": "five[4]",
                 "label": "Test Scores"
               },
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "IQR = Q3 - Q1"
             }
           ]
         },
@@ -3253,7 +2562,8 @@
               },
               "answer": "r / (r + b + g)",
               "difficulty": 7,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Probability = favorable / total"
             },
             {
               "id": "Y9.S.DATA_STATS_PROB.T3",
@@ -3277,7 +2587,8 @@
               },
               "answer": "(a + b + c) / 3",
               "difficulty": 7,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Probability = favorable / total"
             },
             {
               "id": "Y9.S.DATA_STATS_PROB.T4",
@@ -3306,7 +2617,8 @@
               },
               "answer": "median([a,b,c,d])",
               "difficulty": 8,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Probability = favorable / total"
             },
             {
               "id": "Y9.S.DATA_STATS_PROB.T5",
@@ -3340,7 +2652,8 @@
               },
               "answer": "max([a,b,c,d,e]) - min([a,b,c,d,e])",
               "difficulty": 8,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "Probability = favorable / total"
             }
           ]
         },
@@ -3367,7 +2680,8 @@
               },
               "answer": "geometric_sequence_nth_term(a, r, 4)",
               "difficulty": 8,
-              "phase": 10.1
+              "phase": 10.1,
+              "hint": "aₙ = a₁ × r^(n-1)"
             }
           ]
         },
@@ -3395,7 +2709,8 @@
               },
               "answer": "Math.floor(a/b) + ' r ' + (a % b)",
               "difficulty": 5,
-              "phase": 10.7
+              "phase": 10.7,
+              "hint": "Negative × negative = positive"
             }
           ]
         },
@@ -3426,9 +2741,10 @@
                   20
                 ]
               },
-              "answer": "round(cost * b / a, 2)",
+              "answer": "Math.round(cost * b / a, 2)",
               "difficulty": 6,
-              "phase": 10.7
+              "phase": 10.7,
+              "hint": "a/b = c/d → a×d = b×c"
             }
           ]
         },
@@ -3459,9 +2775,10 @@
                   25
                 ]
               },
-              "answer": "round(price * (1 - d1/100) * (1 - d2/100), 2)",
+              "answer": "Math.round(price * (1 - d1/100) * (1 - d2/100), 2)",
               "difficulty": 7,
-              "phase": 10.7
+              "phase": 10.7,
+              "hint": "Discount = original × (percent/100)"
             }
           ]
         },
@@ -3495,7 +2812,8 @@
               },
               "answer": "l * w * h * 1000",
               "difficulty": 6,
-              "phase": 10.7
+              "phase": 10.7,
+              "hint": "1 cubic metre (m³) = 1000 litres (L)"
             }
           ]
         },
@@ -3522,9 +2840,10 @@
                   1
                 ]
               },
-              "answer": "round(d / t, 1)",
+              "answer": "Math.round(d / t, 1)",
               "difficulty": 5,
-              "phase": 10.7
+              "phase": 10.7,
+              "hint": "Review the key concepts and try breaking the problem into smaller steps."
             }
           ]
         },
@@ -3560,9 +2879,10 @@
                   10
                 ]
               },
-              "answer": "round(Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)), 1)",
+              "answer": "Math.round(Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)), 1)",
               "difficulty": 6,
-              "phase": 10.7
+              "phase": 10.7,
+              "hint": "Distance formula: d = sqrt((x2 - x1)² + (y2 - y1)²)"
             }
           ]
         },
@@ -3585,7 +2905,8 @@
               },
               "answer": "a",
               "difficulty": 4,
-              "phase": 10.7
+              "phase": 10.7,
+              "hint": "Sum of interior angles of a polygon with n sides = (n - 2) * 180 degrees."
             }
           ]
         },
@@ -3613,7 +2934,8 @@
               },
               "answer": "{'(' + y + ',' + (-x) + ')'}",
               "difficulty": 6,
-              "phase": 10.7
+              "phase": 10.7,
+              "hint": "Translation: (x,y) → (x+a, y+b)"
             }
           ]
         },
@@ -3644,9 +2966,10 @@
                   12
                 ]
               },
-              "answer": "round(Math.sqrt(l*l + w*w + h*h), 1)",
+              "answer": "Math.round(Math.sqrt(l*l + w*w + h*h), 1)",
               "difficulty": 7,
-              "phase": 10.7
+              "phase": 10.7,
+              "hint": "Face diagonal: √(l² + w²)"
             }
           ]
         },
@@ -3679,7 +3002,8 @@
               },
               "answer": "a + (n - 1) * d",
               "difficulty": 6,
-              "phase": 10.7
+              "phase": 10.7,
+              "hint": "Arithmetic: aₙ = a₁ + (n-1)d"
             }
           ]
         }
@@ -3717,7 +3041,8 @@
               },
               "answer": "{solve_quadratic_formula(a, b, c)}",
               "difficulty": 9,
-              "phase": 8
+              "phase": 8,
+              "hint": "The formula: x = [-b ± sqrt(b² - 4ac)] / (2a)"
             }
           ]
         },
@@ -3752,7 +3077,8 @@
                 "c": "c"
               },
               "difficulty": 8,
-              "phase": 8
+              "phase": 8,
+              "hint": "For y = ax² + bx + c: Vertex x-coordinate = -b / (2a)"
             }
           ]
         },
@@ -3783,9 +3109,10 @@
                   160
                 ]
               },
-              "answer": "round(cosine_rule_side(a, b, C), 1)",
+              "answer": "Math.round(cosine_rule_side(a, b, C), 1)",
               "difficulty": 9,
-              "phase": 8
+              "phase": 8,
+              "hint": "Sine Rule: a/sin(A) = b/sin(B) = c/sin(C) (Use when you have a 'matching pair' of a side and its opposite angle)."
             }
           ]
         },
@@ -3809,7 +3136,8 @@
               },
               "answer": "{'x + ' + a}",
               "difficulty": 8,
-              "phase": 8
+              "phase": 8,
+              "hint": "Review the key concepts and try breaking the problem into smaller steps."
             }
           ]
         },
@@ -3836,7 +3164,8 @@
                 "angle": "a"
               },
               "difficulty": 8,
-              "phase": 8
+              "phase": 8,
+              "hint": "Angle at the centre is twice the angle at the circumference."
             }
           ]
         },
@@ -3864,7 +3193,8 @@
               },
               "answer": "simplify(r*(r-1), (r+b)*(r+b-1))",
               "difficulty": 9,
-              "phase": 8
+              "phase": 8,
+              "hint": "P(A and B) = P(A) * P(B) (for independent events)"
             }
           ]
         },
@@ -3892,7 +3222,8 @@
               },
               "answer": "solve_linear_parabola_system(a, c)",
               "difficulty": 9,
-              "phase": 8
+              "phase": 8,
+              "hint": "Substitution is the most common method."
             }
           ]
         },
@@ -3923,9 +3254,10 @@
                   15
                 ]
               },
-              "answer": "round(Math.atan(h / sqrt(l*l + w*w)) * (180/Math.PI), 1)",
+              "answer": "Math.round(Math.atan(h / Math.sqrt(l*l + w*w)) * (180/Math.PI), 1)",
               "difficulty": 9,
-              "phase": 8
+              "phase": 8,
+              "hint": "Pythagoras' Theorem (repeated application to find diagonals)."
             }
           ]
         },
@@ -3948,7 +3280,8 @@
               },
               "answer": "{'x >= ' + a}",
               "difficulty": 8,
-              "phase": 8
+              "phase": 8,
+              "hint": "For square root functions, the expression under the root must be >= 0."
             }
           ]
         },
@@ -3983,7 +3316,8 @@
               },
               "answer": "m * x_val + c",
               "difficulty": 8,
-              "phase": 8
+              "phase": 8,
+              "hint": "Review the key concepts and try breaking the problem into smaller steps."
             }
           ]
         },
@@ -4009,9 +3343,10 @@
                   9
                 ]
               },
-              "answer": "round(volume_cone(r, sqrt(s*s - r*r)), 2)",
+              "answer": "Math.round(volume_cone(r, Math.sqrt(s*s - r*r)), 2)",
               "difficulty": 9,
-              "phase": 8
+              "phase": 8,
+              "hint": "Pythagoras' Theorem: a² + b² = c² (often needed to find heights or radii)"
             }
           ]
         },
@@ -4034,7 +3369,1514 @@
               },
               "answer": "180 - a",
               "difficulty": 8,
-              "phase": 8
+              "phase": 8,
+              "hint": "Opposite angles in a cyclic quadrilateral add up to 180 degrees."
+            }
+          ]
+        },
+        {
+          "id": "N.FINANCIAL_RATES",
+          "strand": "Numbers & Algebra",
+          "name": "Financial Rates",
+          "description": "Financial Rates questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.N.FINANCIAL_RATES.T1",
+              "stem": "A laptop originally costs ${price}. It is on sale with a {percent}% discount. What is the sale price?",
+              "params": {
+                "price": [
+                  "int",
+                  300,
+                  2500,
+                  50
+                ],
+                "percent": [
+                  "int",
+                  5,
+                  45,
+                  5
+                ]
+              },
+              "answer": "{Math.round(price * (1 - percent/100), 2)}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "Rate = amount / time or amount / quantity"
+            }
+          ]
+        },
+        {
+          "id": "N.FINANCIAL_COMPOUND",
+          "strand": "Numbers & Algebra",
+          "name": "Financial Compound",
+          "description": "Financial Compound questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.N.FINANCIAL_COMPOUND.T1",
+              "stem": "${p} is invested at {r}% p.a. compounded annually for {t} years. Find the final amount to the nearest cent.",
+              "params": {
+                "p": [
+                  "int",
+                  500,
+                  20000,
+                  500
+                ],
+                "r": [
+                  "int",
+                  1,
+                  12,
+                  1
+                ],
+                "t": [
+                  "int",
+                  2,
+                  15,
+                  1
+                ]
+              },
+              "answer": "{Math.round(p * (1 + r/100)**t, 2)}",
+              "difficulty": 8,
+              "phase": 10.15,
+              "hint": "A = P(1 + r/n)^(nt)"
+            }
+          ]
+        },
+        {
+          "id": "M.PRECISION_ERROR",
+          "strand": "Measurement & Geometry",
+          "name": "Precision Error",
+          "description": "Precision Error questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.M.PRECISION_ERROR.T1",
+              "stem": "A length is measured as {m} cm, correct to the nearest {unit} cm. What is the greatest possible error?",
+              "params": {
+                "m": [
+                  "decimal",
+                  1,
+                  150,
+                  0.1
+                ],
+                "unit": [
+                  "choice",
+                  0.001,
+                  0.01,
+                  0.1,
+                  1
+                ]
+              },
+              "answer": "{unit / 2} cm",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "Relative error = |error| / true value"
+            }
+          ]
+        },
+        {
+          "id": "M.VOLUME_SIMILAR",
+          "strand": "Measurement & Geometry",
+          "name": "Volume Similar",
+          "description": "Volume Similar questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.M.VOLUME_SIMILAR.T1",
+              "stem": "Two similar cones have heights in the ratio {ratio1} : {ratio2}. The smaller cone has volume {v} cm³. Find the volume of the larger cone.",
+              "params": {
+                "ratio1": [
+                  "int",
+                  2,
+                  8
+                ],
+                "ratio2": [
+                  "int",
+                  10,
+                  20
+                ],
+                "v": [
+                  "int",
+                  50,
+                  2000,
+                  50
+                ]
+              },
+              "answer": "{Math.round(v * (ratio2 / ratio1)**3, 1)}",
+              "difficulty": 8,
+              "phase": 10.15,
+              "hint": "Volume ratio = k³"
+            }
+          ]
+        },
+        {
+          "id": "C.COORD_DISTANCE",
+          "strand": "Calculus & Coordinates",
+          "name": "Coord Distance",
+          "description": "Coord Distance questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.C.COORD_DISTANCE.T1",
+              "stem": "Find the distance between the points ({x1}, {y1}) and ({x2}, {y2}). Give your answer to 1 decimal place.",
+              "params": {
+                "x1": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "y1": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "x2": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "y2": [
+                  "int",
+                  -15,
+                  15
+                ]
+              },
+              "answer": "{round(Math.sqrt((x2-x1)**2 + (y2-y1)**2), 1)}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "Distance: √((x₂-x₁)² + (y₂-y₁)²)"
+            }
+          ]
+        },
+        {
+          "id": "C.COORD_GRADIENT",
+          "strand": "Calculus & Coordinates",
+          "name": "Coord Gradient",
+          "description": "Coord Gradient questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.C.COORD_GRADIENT.T1",
+              "stem": "Find the gradient of the line passing through ({x1}, {y1}) and ({x2}, {y2}). Simplify fully.",
+              "params": {
+                "x1": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "y1": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "dx": [
+                  "int",
+                  1,
+                  10
+                ],
+                "dy": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "x2": "{x1 + dx}",
+                "y2": "{y1 + dy}"
+              },
+              "answer": "{dy}/{dx}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "m = (y₂ - y₁)/(x₂ - x₁)"
+            }
+          ]
+        },
+        {
+          "id": "L.NONLINEAR_GRAPH",
+          "strand": "Algebra & Functions",
+          "name": "Nonlinear Graph",
+          "description": "Nonlinear Graph questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.L.NONLINEAR_GRAPH.T1",
+              "stem": "The quadratic y = x² + {b}x + {c} has two x-intercepts. What is their sum?",
+              "params": {
+                "b": [
+                  "int",
+                  -15,
+                  15,
+                  1
+                ],
+                "c": [
+                  "int",
+                  -100,
+                  100
+                ]
+              },
+              "answer": "{-b}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "Quadratic: vertex form y = a(x-h)² + k"
+            }
+          ]
+        },
+        {
+          "id": "G.SIMILAR_TRIANGLES",
+          "strand": "Geometry & Trigonometry",
+          "name": "Similar Triangles",
+          "description": "Similar Triangles questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.G.SIMILAR_TRIANGLES.T1",
+              "stem": "Two similar triangles have corresponding sides {s1} cm and {s2} cm. A side of {len} cm on the smaller triangle corresponds to what length on the larger triangle? (1 decimal place)",
+              "params": {
+                "s1": [
+                  "int",
+                  3,
+                  12
+                ],
+                "s2": [
+                  "int",
+                  10,
+                  30
+                ],
+                "len": [
+                  "int",
+                  4,
+                  25
+                ]
+              },
+              "answer": "{Math.round(len * s2 / s1, 1)}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "Side ratio = scale factor k"
+            }
+          ]
+        },
+        {
+          "id": "G.CONGRUENT_SSS",
+          "strand": "Geometry & Trigonometry",
+          "name": "Congruent Sss",
+          "description": "Congruent Sss questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.G.CONGRUENT_SSS.T1",
+              "stem": "Triangle ABC has sides {a}, {b}, {c} cm. Triangle DEF has sides {d}, {e}, {f} cm. Are the triangles congruent by SSS?",
+              "params": {
+                "a": [
+                  "int",
+                  11,
+                  15
+                ],
+                "b": [
+                  "int",
+                  13,
+                  18
+                ],
+                "c": [
+                  "int",
+                  14,
+                  20
+                ],
+                "d": [
+                  "int",
+                  11,
+                  15
+                ],
+                "e": [
+                  "int",
+                  13,
+                  18
+                ],
+                "f": [
+                  "int",
+                  14,
+                  20
+                ]
+              },
+              "answer": "{(a==d && b==e && c==f) ? 'Yes' : 'No'}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "SSS, SAS, ASA, AAS, RHS (right-angle hypotenuse-side)"
+            }
+          ]
+        },
+        {
+          "id": "S.UNIVARIATE_BOXPLOT",
+          "strand": "Statistics & Probability",
+          "name": "Univariate Boxplot",
+          "description": "Univariate Boxplot questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.S.UNIVARIATE_BOXPLOT.T1",
+              "stem": "A data set has Q1 = {q1} and Q3 = {q3}. What is the interquartile range (IQR)?",
+              "params": {
+                "q1": [
+                  "int",
+                  10,
+                  50
+                ],
+                "q3": [
+                  "int",
+                  30,
+                  120
+                ]
+              },
+              "answer": "{q3 - q1}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "Outlier if > Q3 + 1.5×IQR or < Q1 - 1.5×IQR"
+            }
+          ]
+        },
+        {
+          "id": "S.BIVARIATE_CORRELATION",
+          "strand": "Statistics & Probability",
+          "name": "Bivariate Correlation",
+          "description": "Bivariate Correlation questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.S.BIVARIATE_CORRELATION.T1",
+              "stem": "What type of correlation does this scatter plot show? Select from: strong positive, moderate positive, weak positive, no correlation, weak negative, moderate negative, strong negative",
+              "params": {
+                "dataset": [
+                  "choice",
+                  {
+                    "label": "strong positive",
+                    "points": [
+                      [
+                        1,
+                        1
+                      ],
+                      [
+                        2,
+                        2.1
+                      ],
+                      [
+                        3,
+                        3
+                      ],
+                      [
+                        4,
+                        4.1
+                      ],
+                      [
+                        5,
+                        5
+                      ],
+                      [
+                        6,
+                        6.1
+                      ]
+                    ]
+                  },
+                  {
+                    "label": "moderate positive",
+                    "points": [
+                      [
+                        1,
+                        1.2
+                      ],
+                      [
+                        2,
+                        1.9
+                      ],
+                      [
+                        3,
+                        3.1
+                      ],
+                      [
+                        4,
+                        3.8
+                      ],
+                      [
+                        5,
+                        5.2
+                      ],
+                      [
+                        6,
+                        5.9
+                      ]
+                    ]
+                  },
+                  {
+                    "label": "weak positive",
+                    "points": [
+                      [
+                        1,
+                        1.5
+                      ],
+                      [
+                        2,
+                        1.8
+                      ],
+                      [
+                        3,
+                        3.2
+                      ],
+                      [
+                        4,
+                        3.5
+                      ],
+                      [
+                        5,
+                        5.1
+                      ],
+                      [
+                        6,
+                        5.3
+                      ]
+                    ]
+                  },
+                  {
+                    "label": "no correlation",
+                    "points": [
+                      [
+                        1,
+                        3
+                      ],
+                      [
+                        2,
+                        5
+                      ],
+                      [
+                        3,
+                        1.5
+                      ],
+                      [
+                        4,
+                        4.5
+                      ],
+                      [
+                        5,
+                        2
+                      ],
+                      [
+                        6,
+                        5.8
+                      ]
+                    ]
+                  },
+                  {
+                    "label": "weak negative",
+                    "points": [
+                      [
+                        1,
+                        5
+                      ],
+                      [
+                        2,
+                        4.8
+                      ],
+                      [
+                        3,
+                        4
+                      ],
+                      [
+                        4,
+                        3.2
+                      ],
+                      [
+                        5,
+                        2.5
+                      ],
+                      [
+                        6,
+                        1.9
+                      ]
+                    ]
+                  },
+                  {
+                    "label": "moderate negative",
+                    "points": [
+                      [
+                        1,
+                        4.9
+                      ],
+                      [
+                        2,
+                        4.2
+                      ],
+                      [
+                        3,
+                        3.9
+                      ],
+                      [
+                        4,
+                        3.1
+                      ],
+                      [
+                        5,
+                        2.8
+                      ],
+                      [
+                        6,
+                        2.1
+                      ]
+                    ]
+                  },
+                  {
+                    "label": "strong negative",
+                    "points": [
+                      [
+                        1,
+                        6
+                      ],
+                      [
+                        2,
+                        5.9
+                      ],
+                      [
+                        3,
+                        5
+                      ],
+                      [
+                        4,
+                        3.9
+                      ],
+                      [
+                        5,
+                        3
+                      ],
+                      [
+                        6,
+                        1.9
+                      ]
+                    ]
+                  }
+                ]
+              },
+              "answer": "dataset.label",
+              "visualData": {
+                "type": "scatter_plot",
+                "width": 360,
+                "height": 240,
+                "points": "dataset.points"
+              },
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "r ≈ 1 strong positive, r ≈ -1 strong negative"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 11,
+      "skills": [
+        {
+          "id": "A.QUADRATICS_COMPLETE_SQUARE",
+          "strand": "Algebra & Sequences",
+          "name": "Quadratics Complete Square",
+          "description": "Quadratics Complete Square questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.A.QUADRATICS_COMPLETE_SQUARE.T1",
+              "stem": "Write in completed-square form: x² + {b}x + {c}",
+              "params": {
+                "b": [
+                  "int",
+                  -14,
+                  14,
+                  2
+                ],
+                "c": [
+                  "int",
+                  -30,
+                  30
+                ]
+              },
+              "answer": "(x + {b/2})² + {c - (b/2)**2}",
+              "difficulty": 8,
+              "phase": 10.15,
+              "hint": "x² + bx → (x + b/2)² - (b/2)²"
+            }
+          ]
+        },
+        {
+          "id": "M.SURFACE_AREA_PYRAMID",
+          "strand": "Measurement & Geometry",
+          "name": "Surface Area Pyramid",
+          "description": "Surface Area Pyramid questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.M.SURFACE_AREA_PYRAMID.T1",
+              "stem": "A square pyramid has base side {s} cm and triangular face slant height {l} cm. Find the total surface area.",
+              "params": {
+                "s": [
+                  "int",
+                  5,
+                  20
+                ],
+                "l": [
+                  "int",
+                  7,
+                  30
+                ]
+              },
+              "answer": "{s*s + 4*(s*l/2)}",
+              "difficulty": 8,
+              "phase": 10.15,
+              "hint": "Lateral area = (1/2) × perimeter × slant height"
+            }
+          ]
+        },
+        {
+          "id": "M.VOLUME_SPHERE",
+          "strand": "Measurement & Geometry",
+          "name": "Volume Sphere",
+          "description": "Volume Sphere questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.M.VOLUME_SPHERE.T1",
+              "stem": "Find the volume of a sphere with radius {r} cm. Use π ≈ 3.14 and round to the nearest whole number.",
+              "params": {
+                "r": [
+                  "int",
+                  3,
+                  25
+                ]
+              },
+              "answer": "{Math.round(4/3 * 3.14 * r**3)}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "V = (4/3)πr³"
+            }
+          ]
+        },
+        {
+          "id": "T.TRIG_GRAPH",
+          "strand": "Trigonometry",
+          "name": "Trig Graph",
+          "description": "Trig Graph questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.T.TRIG_GRAPH.T1",
+              "stem": "How many solutions does sin(x) = {k} have in the interval 0° ≤ x < 360°?",
+              "params": {
+                "k": [
+                  "decimal",
+                  -1.2,
+                  1.2,
+                  0.05
+                ]
+              },
+              "answer": "{abs(k) > 1 ? 0 : abs(k) == 1 ? 1 : 2}",
+              "difficulty": 8,
+              "phase": 10.15,
+              "hint": "y = a sin(b(x-c)) + d"
+            }
+          ]
+        },
+        {
+          "id": "M.MATRIX_ADD",
+          "strand": "Measurement & Geometry",
+          "name": "Matrix Add",
+          "description": "Matrix Add questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.M.MATRIX_ADD.T1",
+              "stem": "A = [[{a11},{a12}],[{a21},{a22}]] and B = [[{b11},{b12}],[{b21},{b22}]]. Find A + B.",
+              "params": {
+                "a11": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "a12": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "a21": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "a22": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "b11": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "b12": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "b21": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "b22": [
+                  "int",
+                  -8,
+                  8
+                ]
+              },
+              "answer": "[[{a11+b11},{a12+b12}],[{a21+b21},{a22+b22}]]",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "[a b; c d] + [e f; g h] = [a+e b+f; c+g d+h]"
+            }
+          ]
+        },
+        {
+          "id": "M.MATRIX_MULTIPLY_2X2",
+          "strand": "Measurement & Geometry",
+          "name": "Matrix Multiply 2x2",
+          "description": "Matrix Multiply 2x2 questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.M.MATRIX_MULTIPLY_2X2.T1",
+              "stem": "Calculate AB where A = [[{a},{b}],[{c},{d}]] and B = [[{e},{f}],[{g},{h}]].",
+              "params": {
+                "a": [
+                  "int",
+                  -4,
+                  6
+                ],
+                "b": [
+                  "int",
+                  -4,
+                  6
+                ],
+                "c": [
+                  "int",
+                  -4,
+                  6
+                ],
+                "d": [
+                  "int",
+                  -4,
+                  6
+                ],
+                "e": [
+                  "int",
+                  -4,
+                  6
+                ],
+                "f": [
+                  "int",
+                  -4,
+                  6
+                ],
+                "g": [
+                  "int",
+                  -4,
+                  6
+                ],
+                "h": [
+                  "int",
+                  -4,
+                  6
+                ]
+              },
+              "answer": "[[{a*e + b*g},{a*f + b*h}],[{c*e + d*g},{c*f + d*h}]]",
+              "difficulty": 8,
+              "phase": 10.15,
+              "hint": "[a b; c d] × [e f; g h] = [ae+bg af+bh; ce+dg cf+dh]"
+            }
+          ]
+        },
+        {
+          "id": "A.QUADRATIC_EQS",
+          "strand": "Algebra & Sequences",
+          "name": "Quadratic Eqs",
+          "description": "Quadratic Eqs questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.A.QUADRATIC_EQS.T3",
+              "stem": "Complete the square for the equation x^2 + {a}x + {b} = 0",
+              "params": {
+                "a": [
+                  "int",
+                  -12,
+                  12,
+                  2
+                ],
+                "b": [
+                  "int",
+                  -30,
+                  30
+                ]
+              },
+              "answer": "(x + {a/2})^2 = {(a/2)*(a/2) - b}",
+              "difficulty": 9,
+              "phase": 10.15,
+              "hint": "x = [-b ± √(b²-4ac)] / 2a"
+            }
+          ]
+        },
+        {
+          "id": "A.POLYNOMIALS",
+          "strand": "Algebra & Sequences",
+          "name": "Polynomials",
+          "description": "Polynomials questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.A.POLYNOMIALS.T1",
+              "stem": "Expand ({a}x + {b})({c}x + {d})",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  6
+                ],
+                "b": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "c": [
+                  "int",
+                  1,
+                  6
+                ],
+                "d": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "correctExpr": "{formatQuadraticExpression(a*c, a*d + b*c, b*d)}",
+                "foilInnerOnly": "{formatQuadraticExpression(a*c, a*d, b*d)}",
+                "foilOuterOnly": "{formatQuadraticExpression(a*c, b*c, b*d)}",
+                "foilNoMiddle": "{formatQuadraticExpression(a*c, 0, b*d)}"
+              },
+              "answer": "{correctExpr}",
+              "choices": [
+                "correctExpr",
+                "foilInnerOnly",
+                "foilOuterOnly",
+                "foilNoMiddle"
+              ],
+              "difficulty": 6,
+              "phase": 10.15,
+              "hint": "Even degree positive leading coeff → up on both sides"
+            },
+            {
+              "id": "Y11.A.POLYNOMIALS.T3",
+              "stem": "Simplify ({a}x² + {b}x + {c}) + ({d}x² + {e}x + {f})",
+              "params": {
+                "a": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "b": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "c": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "d": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "e": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "f": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "aSum": "{a + d}",
+                "bSum": "{b + e}",
+                "cSum": "{c + f}"
+              },
+              "answer": "{formatQuadraticExpression(aSum, bSum, cSum)}",
+              "choices": [
+                "{formatQuadraticExpression(aSum, bSum, cSum)}",
+                "{formatQuadraticExpression(aSum, b, c)}",
+                "{formatQuadraticExpression(a, bSum, cSum)}",
+                "{formatQuadraticExpression(aSum, bSum, 0)}"
+              ],
+              "difficulty": 5,
+              "phase": 10.15,
+              "hint": "Even degree positive leading coeff → up on both sides"
+            }
+          ]
+        },
+        {
+          "id": "G.TRIG_RATIOS",
+          "strand": "Geometry & Trigonometry",
+          "name": "Trig Ratios",
+          "description": "Trig Ratios questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.G.TRIG_RATIOS.T1",
+              "stem": "In a right-angled triangle, opposite side = {opp} cm, adjacent side = {adj} cm. Find tan θ exactly.",
+              "params": {
+                "opp": [
+                  "int",
+                  3,
+                  20
+                ],
+                "adj": [
+                  "int",
+                  3,
+                  20
+                ]
+              },
+              "answer": "{opp}/{adj}",
+              "difficulty": 6,
+              "phase": 10.15,
+              "hint": "sin θ = opp/hyp, cos θ = adj/hyp, tan θ = opp/adj"
+            },
+            {
+              "id": "Y11.G.TRIG_RATIOS.T3",
+              "stem": "A right triangle has hypotenuse {hyp} cm and opposite side {opp} cm. Find sin θ exactly.",
+              "params": {
+                "hyp": [
+                  "int",
+                  5,
+                  25
+                ],
+                "opp": [
+                  "int",
+                  3,
+                  24
+                ]
+              },
+              "answer": "{opp}/{hyp}",
+              "difficulty": 6,
+              "phase": 10.15,
+              "hint": "sin θ = opp/hyp, cos θ = adj/hyp, tan θ = opp/adj"
+            }
+          ]
+        },
+        {
+          "id": "G.TRIG_IDENTITIES",
+          "strand": "Geometry & Trigonometry",
+          "name": "Trig Identities",
+          "description": "Trig Identities questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.G.TRIG_IDENTITIES.T1",
+              "stem": "Simplify {identity.expr}, expressing your answer using only {identity.showOnly}.",
+              "params": {
+                "identity": [
+                  "choice",
+                  {
+                    "expr": "sin^2(theta) + cos^2(theta)",
+                    "showOnly": "numbers",
+                    "answer": "1"
+                  },
+                  {
+                    "expr": "1 - cos^2(theta)",
+                    "showOnly": "sin(theta)",
+                    "answer": "sin^2(theta)"
+                  },
+                  {
+                    "expr": "1 - sin^2(theta)",
+                    "showOnly": "cos(theta)",
+                    "answer": "cos^2(theta)"
+                  }
+                ]
+              },
+              "answer": "{identity.answer}",
+              "difficulty": 8,
+              "phase": 10.15,
+              "hint": "sin²θ + cos²θ = 1"
+            }
+          ]
+        },
+        {
+          "id": "G.COORDINATE_GEOMETRY",
+          "strand": "Geometry & Trigonometry",
+          "name": "Coordinate Geometry",
+          "description": "Coordinate Geometry questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.G.COORDINATE_GEOMETRY.T1",
+              "stem": "Find the gradient of the line passing through ({x1},{y1}) and ({x2},{y2}).",
+              "params": {
+                "x1": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "y1": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "dx": [
+                  "int",
+                  1,
+                  10
+                ],
+                "dy": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "x2": "{x1 + dx}",
+                "y2": "{y1 + dy}"
+              },
+              "answer": "{dy}/{dx}",
+              "difficulty": 6,
+              "phase": 10.15,
+              "hint": "(x-h)² + (y-k)² = r²"
+            },
+            {
+              "id": "Y11.G.COORDINATE_GEOMETRY.T2",
+              "stem": "Find the distance between ({x1},{y1}) and ({x2},{y2}). Give exact simplified form.",
+              "params": {
+                "x1": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "y1": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "dx": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "dy": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "x2": "{x1 + dx}",
+                "y2": "{y1 + dy}"
+              },
+              "answer": "{sqrtExact((dx)**2 + (dy)**2)}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "(x-h)² + (y-k)² = r²"
+            }
+          ]
+        },
+        {
+          "id": "S.DESCRIPTIVE_STATS",
+          "strand": "Statistics & Probability",
+          "name": "Descriptive Stats",
+          "description": "Descriptive Stats questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.S.DESCRIPTIVE_STATS.T1",
+              "stem": "Find the mean of the numbers {a}, {b}, {c}, {d}, {e}.",
+              "params": {
+                "a": [
+                  "int",
+                  0,
+                  200
+                ],
+                "b": [
+                  "int",
+                  0,
+                  200
+                ],
+                "c": [
+                  "int",
+                  0,
+                  200
+                ],
+                "d": [
+                  "int",
+                  0,
+                  200
+                ],
+                "e": [
+                  "int",
+                  0,
+                  200
+                ]
+              },
+              "answer": "{(a+b+c+d+e)/5}",
+              "difficulty": 5,
+              "phase": 10.15,
+              "hint": "Variance = Σ(x - μ)² / n"
+            }
+          ]
+        },
+        {
+          "id": "C.CALCULUS_DIFF",
+          "strand": "Calculus & Coordinates",
+          "name": "Calculus Diff",
+          "description": "Calculus Diff questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.C.CALCULUS_DIFF.T1",
+              "stem": "Differentiate f(x) = {a}x² + {b}x + {c}",
+              "params": {
+                "a": [
+                  "int",
+                  -6,
+                  6,
+                  1
+                ],
+                "b": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "c": [
+                  "int",
+                  -20,
+                  20
+                ]
+              },
+              "answer": "{2*a}x + {b}",
+              "difficulty": 10,
+              "phase": 10.15,
+              "hint": "Power rule: d/dx(xⁿ) = nx^(n-1)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 12,
+      "skills": [
+        {
+          "id": "Y12.G.2",
+          "name": "Add and subtract complex numbers",
+          "strand": "Complex numbers",
+          "description": "Complex number operations",
+          "templates": [
+            {
+              "id": "Y12.C.COMPLEX_ADD.T1",
+              "stem": "Simplify ({a} + {b}i) + ({c} + {d}i).",
+              "params": {
+                "a": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "b": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "c": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "d": [
+                  "int",
+                  -15,
+                  15
+                ]
+              },
+              "answer": "{a+c} + {b+d}i",
+              "difficulty": 7,
+              "phase": 10.14,
+              "hint": "(a + bi) + (c + di) = (a + c) + (b + d)i"
+            }
+          ]
+        },
+        {
+          "id": "Y12.G.3",
+          "name": "Dot product",
+          "strand": "Vectors & Matrices",
+          "description": "Vector dot product",
+          "templates": [
+            {
+              "id": "Y12.V.VECTOR_DOT.T1",
+              "stem": "Find the dot product of <{a},{b}> and <{c},{d}>.",
+              "params": {
+                "a": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "c": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "d": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "{a*c + b*d}",
+              "difficulty": 7,
+              "phase": 10.14,
+              "hint": "u · v = u₁v₁ + u₂v₂ + u₃v₃"
+            }
+          ]
+        },
+        {
+          "id": "Y12.G.4",
+          "name": "Angle between vectors",
+          "strand": "Vectors & Matrices",
+          "description": "Find angle between vectors",
+          "templates": [
+            {
+              "id": "Y12.V.VECTOR_ANGLE.T1",
+              "stem": "Find the angle between <{a},{b}> and <{c},{d}> to the nearest degree.",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  12
+                ],
+                "b": [
+                  "int",
+                  2,
+                  12
+                ],
+                "c": [
+                  "int",
+                  2,
+                  12
+                ],
+                "d": [
+                  "int",
+                  2,
+                  12
+                ]
+              },
+              "answer": "{Math.round(Math.acos((a*c + b*d)/(Math.sqrt(a*a + b*b)*Math.sqrt(c*c + d*d))) * 180 / Math.PI)}°",
+              "difficulty": 9,
+              "phase": 10.14,
+              "hint": "cos θ = (u · v) / (|u||v|)"
+            }
+          ]
+        },
+        {
+          "id": "Y12.G.5",
+          "name": "Matrix operations",
+          "strand": "Vectors & Matrices",
+          "description": "Matrix operations",
+          "templates": [
+            {
+              "id": "Y12.A.MATRIX_OPS.T2",
+              "stem": "Find the determinant of the matrix [[{a},{b}],[{c},{d}]]",
+              "params": {
+                "a": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "c": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "d": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "{a*d - b*c}",
+              "difficulty": 8,
+              "phase": 10.14,
+              "hint": "A + B (same dimensions): add corresponding entries"
+            }
+          ]
+        },
+        {
+          "id": "Y12.G.6",
+          "name": "Vector operations",
+          "strand": "Vectors & Matrices",
+          "description": "Vector operations",
+          "templates": [
+            {
+              "id": "Y12.G.VECTOR_OPS.T3",
+              "stem": "Calculate the dot product <{a},{b}> · <{c},{d}>",
+              "params": {
+                "a": [
+                  "int",
+                  -10,
+                  10,
+                  1
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10,
+                  1
+                ],
+                "c": [
+                  "int",
+                  -10,
+                  10,
+                  1
+                ],
+                "d": [
+                  "int",
+                  -10,
+                  10,
+                  1
+                ]
+              },
+              "answer": "{a*c + b*d}",
+              "difficulty": 8,
+              "phase": 10.14,
+              "hint": "u + v = <u₁ + v₁, u₂ + v₂>"
+            }
+          ]
+        },
+        {
+          "id": "Y12.AA.4",
+          "name": "Find terms of a recursive sequence",
+          "strand": "Sequences and series",
+          "description": "Recursive sequences",
+          "templates": [
+            {
+              "id": "Y12.ALG.RECURSION.T1",
+              "stem": "A sequence is defined by T(1) = {t1}, T(n) = {a}·T(n-1) + {b} for n ≥ 2. Find T({n}).",
+              "params": {
+                "t1": [
+                  "int",
+                  1,
+                  20
+                ],
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  0,
+                  15
+                ],
+                "n": [
+                  "int",
+                  3,
+                  8
+                ]
+              },
+              "answer": "{a == 1 ? t1 + b*(n-1) : t1 * a**(n-1) + b*(a**(n-1) - 1)/(a - 1)}",
+              "difficulty": 9,
+              "phase": 10.14,
+              "hint": "a₁ = initial value"
+            }
+          ]
+        },
+        {
+          "id": "Y12.P.8",
+          "name": "Product property of logarithms",
+          "strand": "Logarithms",
+          "description": "Logarithm properties",
+          "templates": [
+            {
+              "id": "Y12.A.EXPONENTIALS_LOGS.T2",
+              "stem": "Simplify log({a}) + log({b}) where the logarithm has the same base",
+              "params": {
+                "base_num": [
+                  2,
+                  3,
+                  5,
+                  10,
+                  0
+                ],
+                "a": [
+                  "int",
+                  2,
+                  30
+                ],
+                "b": [
+                  "int",
+                  2,
+                  30
+                ]
+              },
+              "answer": "{base_num == 0 ? 'ln(' + (a*b) + ')' : 'log(' + (a*b) + ')'}",
+              "difficulty": 7,
+              "phase": 10.14,
+              "hint": "log₆ (xy) = log₆ x + log₆ y"
+            }
+          ]
+        },
+        {
+          "id": "Y12.EE.1",
+          "name": "Sum and difference rules",
+          "strand": "Introduction to derivatives",
+          "description": "Derivative rules",
+          "templates": [
+            {
+              "id": "Y12.C.CALCULUS_APPLICATIONS.T2",
+              "stem": "A particle moves according to s(t) = {a}t² + {b}t + {c}. Find its velocity at t = {t}.",
+              "params": {
+                "a": [
+                  "int",
+                  -5,
+                  5,
+                  1
+                ],
+                "b": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "c": [
+                  "int",
+                  -50,
+                  50
+                ],
+                "t": [
+                  "int",
+                  0,
+                  10
+                ]
+              },
+              "answer": "{2*a*t + b}",
+              "difficulty": 9,
+              "phase": 10.14,
+              "hint": "d/dx [f(x) + g(x)] = f'(x) + g'(x)"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 13,
+      "skills": [
+        {
+          "id": "A.COMPLEX_NUMBERS",
+          "strand": "Algebra & Sequences",
+          "name": "Complex Numbers",
+          "description": "Complex Numbers questions for Year 13",
+          "templates": [
+            {
+              "id": "Y13.A.COMPLEX_NUMBERS.T6",
+              "stem": "Find the complex conjugate of {a} + {b}i",
+              "params": {
+                "a": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "b": [
+                  "int",
+                  -15,
+                  15,
+                  1
+                ]
+              },
+              "answer": "{a} - {b}i",
+              "difficulty": 6,
+              "phase": 10.15,
+              "hint": "i² = -1"
             }
           ]
         }

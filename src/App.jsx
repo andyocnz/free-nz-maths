@@ -90,6 +90,7 @@ export default function App() {
   const [history, setHistory] = useState([])
   const [currentIndex, setCurrentIndex] = useState(-1)
   const [answer, setAnswer] = useState('')
+  const [selectedChoiceIndex, setSelectedChoiceIndex] = useState(null)
   const [feedback, setFeedback] = useState('')
   const [testScopeAllYears, setTestScopeAllYears] = useState(false)
   const [onlyNewInTest, setOnlyNewInTest] = useState(false)
@@ -547,6 +548,7 @@ export default function App() {
     setIsGroupMode(true)
     setSelectedSkill(null)
     setAnswer('')
+    setSelectedChoiceIndex(null)
     setFeedback('')
     setGroupStartTime(new Date())
     setGroupScoreStatus({ state: 'idle', message: '' })
@@ -809,6 +811,9 @@ export default function App() {
   }, [isGroupMode, clientIp])
 
   const question = history[currentIndex]
+  const isWordsQuestion = question?.skillId?.includes('PLACE_VALUE') &&
+    (question?.question || '').toLowerCase().includes('in words')
+  const isMultipleChoice = Array.isArray(question?.choices) && question.choices.length > 0
   const availableYears = getAvailableYears(curriculumData)
   const lastQuestionIndexRef = useRef(-1)
 
@@ -1129,6 +1134,12 @@ export default function App() {
         elem.innerHTML = html
       }
       setAnswer(question.userAnswer || '')
+      if (Array.isArray(question.choices) && question.choices.length > 0) {
+        const idx = question.choices.findIndex(choice => choice === (question.userAnswer || ''))
+        setSelectedChoiceIndex(idx >= 0 ? idx : null)
+      } else {
+        setSelectedChoiceIndex(null)
+      }
       setFeedback(question.userFeedback || '')
     }
   }, [currentIndex, question])
@@ -1144,11 +1155,17 @@ export default function App() {
     if (currentIndex < history.length - 1) {
       setCurrentIndex(prev => prev + 1)
       setAnswer('')
+      setSelectedChoiceIndex(null)
       setFeedback('')
     } else {
       // No more questions, optionally generate more or go back to menu
       backToMenu()
     }
+  }
+
+  const appendSymbol = (symbol) => {
+    setSelectedChoiceIndex(null)
+    setAnswer(prev => prev + symbol)
   }
 
   // Internal function that actually starts practice (called after login decision)
@@ -1188,6 +1205,7 @@ export default function App() {
     setHistory(questions)
     setCurrentIndex(0)
     setAnswer('')
+    setSelectedChoiceIndex(null)
     setFeedback('')
 
     // Only change mode if not already in practice
@@ -1243,6 +1261,7 @@ export default function App() {
     setIsTestMode(true)
     setSelectedSkill(null)
     setAnswer('')
+    setSelectedChoiceIndex(null)
     setFeedback('')
     initialized.current = true
     setMode('test')
@@ -1578,7 +1597,7 @@ export default function App() {
 
         if (!answer.trim()) {
         // For number-to-words questions, gently prompt the student to build an answer
-        if (question?.skillId?.includes('PLACE_VALUE') && (question?.question || '').toLowerCase().includes('in words')) {
+        if (isWordsQuestion) {
           setFeedback('Please click words above to build your answer first.')
         }
         return
@@ -1588,8 +1607,14 @@ export default function App() {
       let newFeedback = ''
       let isCorrect = false
 
-      // Word-based place-value questions ("Write the number ... in words")
-      if (question?.skillId?.includes('PLACE_VALUE') && (question?.question || '').toLowerCase().includes('in words')) {
+      if (isMultipleChoice) {
+        const userChoice = answer.trim()
+        const correctChoice = String(question.answer || '').trim()
+        if (userChoice && userChoice === correctChoice) {
+          newFeedback = 'Correct! ✅.'
+          isCorrect = true
+        }
+      } else if (question?.skillId?.includes('PLACE_VALUE') && (question?.question || '').toLowerCase().includes('in words')) {
         const userNorm = normalizeNumberWords(answer.trim())
         const correctNorm = normalizeNumberWords(question.answer)
         if (userNorm === correctNorm) {
@@ -2200,6 +2225,7 @@ export default function App() {
             setSelectedSkill(null)
             setSelectedYear(null) // keep separate from normal curriculum tracking
             setAnswer('')
+            setSelectedChoiceIndex(null)
             setFeedback('')
             initialized.current = true
             setActiveNceaPaperId(paper.id || `${paper.standard}-${paper.year}`)
@@ -3413,6 +3439,7 @@ export default function App() {
                                 setIsTestMode(true)
                                 setSelectedSkill(null)
                                 setAnswer('')
+                                setSelectedChoiceIndex(null)
                                 setFeedback('')
                                 initialized.current = true
                                 setMode('test')
@@ -4314,12 +4341,37 @@ export default function App() {
               )}
               <div id="math-question" style={{fontSize:'1.8em', margin: '30px 0', minHeight:'50px'}}></div>
 
-              {/* Show WordDropdown for "write in words" questions, regular input for others */}
-                {question?.skillId?.includes('PLACE_VALUE') && question?.question?.toLowerCase().includes('in words') ? (
+              {/* Show WordDropdown for "write in words" questions, multiple choice when applicable, regular input for others */}
+                {isMultipleChoice ? (
+                  <div className="space-y-3 w-full max-w-2xl mx-auto">
+                    <p className="text-sm font-semibold text-slate-600 text-left">Choose one:</p>
+                    {question.choices.map((choice, idx) => {
+                      const isSelected = selectedChoiceIndex === idx
+                      return (
+                        <button
+                          type="button"
+                          key={`${choice}-${idx}`}
+                          className={`w-full text-left px-4 py-3 border rounded-2xl transition ${
+                            isSelected
+                              ? 'bg-blue-600 text-white border-blue-600 shadow'
+                              : 'bg-white text-slate-800 border-slate-200 hover:border-blue-300 hover:shadow'
+                          }`}
+                          onClick={() => {
+                            setAnswer(choice)
+                            setSelectedChoiceIndex(idx)
+                          }}
+                        >
+                          {choice}
+                        </button>
+                      )
+                    })}
+                  </div>
+                ) : isWordsQuestion ? (
                   <WordDropdown
                     key={question.templateId || currentIndex}
                     number={question.params?.n || 0}
                     onAnswer={(selectedAnswer) => {
+                      setSelectedChoiceIndex(null)
                       setAnswer(selectedAnswer)
                     }}
                   />
@@ -4328,7 +4380,10 @@ export default function App() {
                     <input
                       className="input-primary"
                       value={answer}
-                      onChange={e=>setAnswer(e.target.value)}
+                      onChange={e=>{
+                        setSelectedChoiceIndex(null)
+                        setAnswer(e.target.value)
+                      }}
                       onKeyPress={e => e.key === 'Enter' && checkAnswer()}
                       placeholder="Your answer"
                     />
@@ -4338,35 +4393,35 @@ export default function App() {
                       <button
                         type="button"
                         className="px-2 py-1 rounded border border-gray-300 bg-gray-50 hover:bg-gray-100"
-                        onClick={() => setAnswer(prev => prev + '×')}
+                        onClick={() => appendSymbol('×')}
                       >
                         ×
                       </button>
                       <button
                         type="button"
                         className="px-2 py-1 rounded border border-gray-300 bg-gray-50 hover:bg-gray-100"
-                        onClick={() => setAnswer(prev => prev + '÷')}
+                        onClick={() => appendSymbol('÷')}
                       >
                         ÷
                       </button>
                       <button
                         type="button"
                         className="px-2 py-1 rounded border border-gray-300 bg-gray-50 hover:bg-gray-100"
-                        onClick={() => setAnswer(prev => prev + '√')}
+                        onClick={() => appendSymbol('√')}
                       >
                         √
                       </button>
                       <button
                         type="button"
                         className="px-2 py-1 rounded border border-gray-300 bg-gray-50 hover:bg-gray-100"
-                        onClick={() => setAnswer(prev => prev + '^2')}
+                        onClick={() => appendSymbol('^2')}
                       >
                         x²
                       </button>
                       <button
                         type="button"
                         className="px-2 py-1 rounded border border-gray-300 bg-gray-50 hover:bg-gray-100"
-                        onClick={() => setAnswer(prev => prev + '^')}
+                        onClick={() => appendSymbol('^')}
                       >
                         ^
                       </button>

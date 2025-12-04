@@ -111,9 +111,40 @@ function generateParamValue(spec, year, difficulty) {
 // Generate all parameters for a template
 function generateParams(paramsSpec, year, difficulty) {
   const params = {}
+  const deferred = []
 
   for (const [paramName, spec] of Object.entries(paramsSpec)) {
-    params[paramName] = generateParamValue(spec, year, difficulty)
+    if (typeof spec === 'string') {
+      deferred.push([paramName, spec])
+    } else {
+      params[paramName] = generateParamValue(spec, year, difficulty)
+    }
+  }
+
+  const evalInContext = (expr) => {
+    const context = { ...params, ...mathHelpers, Math, round: mathHelpers.round }
+    const keys = Object.keys(context)
+    const values = Object.values(context)
+    const fn = new Function(...keys, `return (${expr})`)
+    return fn(...values)
+  }
+
+  for (const [paramName, spec] of deferred) {
+    if (typeof spec === 'string') {
+      const trimmed = spec.trim()
+      if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+        const inner = trimmed.slice(1, -1)
+        try {
+          params[paramName] = evalInContext(inner)
+          continue
+        } catch (e) {
+          console.error(`Error evaluating param expression for ${paramName}: ${inner}`, e)
+        }
+      }
+      params[paramName] = spec
+    } else {
+      params[paramName] = spec
+    }
   }
 
   return params
@@ -154,17 +185,59 @@ export function estimateDifficulty(params) {
 function substituteStem(stem, params) {
   let result = stem
 
-  for (const [key, value] of Object.entries(params)) {
-    let displayValue = value
-    // If the param is an array (e.g., ['pentagon', 5]), use the first element for display in the stem.
-    if (Array.isArray(displayValue)) {
-      displayValue = displayValue[0]
+  const getDisplayValue = (val) => {
+    if (Array.isArray(val)) {
+      return val[0]
     }
-    const regex = new RegExp(`\\{${key}\\}`, 'g')
-    result = result.replace(regex, displayValue)
+    return val
   }
 
+  for (const [key, value] of Object.entries(params)) {
+    const regex = new RegExp(`\\{${key}\\}`, 'g')
+    result = result.replace(regex, getDisplayValue(value))
+  }
+
+  const dottedPattern = /\{([a-zA-Z0-9_]+(?:\.[a-zA-Z0-9_]+)+)\}/g
+  result = result.replace(dottedPattern, (match, path) => {
+    const parts = path.split('.')
+    let current = params
+    for (const part of parts) {
+      if (current && Object.prototype.hasOwnProperty.call(current, part)) {
+        current = current[part]
+      } else {
+        return match
+      }
+    }
+    const displayValue = getDisplayValue(current)
+    return displayValue !== undefined ? displayValue : match
+  })
+
   return result
+}
+
+function renderTemplateString(str, params) {
+  if (typeof str !== 'string') return str
+  return str.replace(/\{([^}]+)\}/g, (m, inner) => {
+    const expr = inner.trim()
+    try {
+      if (Object.prototype.hasOwnProperty.call(params, expr)) {
+        return params[expr]
+      }
+      const context = { ...params, ...mathHelpers, Math, round: mathHelpers.round }
+      const keys = Object.keys(context)
+      const values = Object.values(context)
+      const fn = new Function(...keys, `return (${expr})`)
+      const result = fn(...values)
+      if (typeof result === 'number') {
+        if (Number.isInteger(result)) return result
+        return mathHelpers.round(result, 2)
+      }
+      return result
+    } catch (e) {
+      console.error('Error evaluating template string:', expr, e)
+      return m
+    }
+  })
 }
 
 // Evaluate answer expression with parameters
@@ -707,37 +780,11 @@ export function generateQuestionFromTemplate(template, skill, year) {
   const looksAlgebraic = /(?<![=!<>])=(?!=)/.test(rawAnswer) || /\bx\b/.test(rawAnswer) || /\by\b/.test(rawAnswer)
 
   if (!hasBraces && !looksAlgebraic) {
-    // Pure expression (numeric/probability style) – use existing evaluator
+    // Pure expression (numeric/probability style) - use existing evaluator
     answer = evaluateAnswer(rawAnswer, params)
   } else {
     // Treat as a display template and evaluate each { ... } placeholder safely
-    let answerStr = rawAnswer.replace(/\{([^}]+)\}/g, (m, inner) => {
-      const expr = inner.trim()
-      try {
-        // Simple param name
-        if (Object.prototype.hasOwnProperty.call(params, expr)) {
-          return params[expr]
-        }
-        // Allow small expressions using params and math helpers, e.g. a/b, a*d + b*c
-        const context = { ...params, ...mathHelpers, Math, round: mathHelpers.round }
-        const keys = Object.keys(context)
-        const values = Object.values(context)
-        const fn = new Function(...keys, `return (${expr})`)
-        const result = fn(...values)
-        if (typeof result === 'number') {
-          if (Number.isInteger(result)) {
-            return result
-          }
-          // Round non‑integers to 2 decimal places for display consistency
-          return mathHelpers.round(result, 2)
-        }
-        return result
-      } catch (e) {
-        console.error('Error evaluating answer placeholder:', expr, e)
-        // Fall back to the original {expr} text so at least something displays
-        return m
-      }
-    })
+    const answerStr = renderTemplateString(rawAnswer, params)
     answer = String(answerStr)
   }
 
@@ -819,6 +866,30 @@ export function generateQuestionFromTemplate(template, skill, year) {
     visualData = generateVisualData(template, params, skill)
   }
 
+  let choices = null
+  if (Array.isArray(template.choices) && template.choices.length > 0) {
+    choices = template.choices.map(choice => {
+      if (typeof choice === 'string' && Object.prototype.hasOwnProperty.call(params, choice)) {
+        return params[choice]
+      }
+      if (typeof choice === 'string') {
+        return renderTemplateString(choice, params)
+      }
+      if (choice && typeof choice.text === 'string') {
+        return renderTemplateString(choice.text, params)
+      }
+      return choice
+    })
+    if (template.shuffleChoices !== false) {
+      for (let i = choices.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1))
+        const temp = choices[i]
+        choices[i] = choices[j]
+        choices[j] = temp
+      }
+    }
+  }
+
   return {
     question: question,
     answer: answer,
@@ -826,7 +897,8 @@ export function generateQuestionFromTemplate(template, skill, year) {
     templateId: template.id,
     skill: skill,
     params: params,
-    visualData: visualData
+    visualData: visualData,
+    choices: choices
   }
 }
 

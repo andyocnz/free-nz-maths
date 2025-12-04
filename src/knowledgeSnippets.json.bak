@@ -819,14 +819,16 @@
     ]
   },
   "Y9.N.INTEGERS_RATIONAL": {
-    "title": "Operations with Integers and Rational Numbers",
-    "summary": "Adding, subtracting, multiplying, dividing integers and fractions.",
+    "title": "Integers and Rational Number Operations",
+    "summary": "This topic provides further practice with integer operations (including absolute value) and extends to performing all four operations with rational numbers (fractions and decimals). It emphasizes careful handling of signs and efficient calculation.",
+    "where_to_look": "NCEA Level 1 > Number & Algebra > Number Operations",
     "key_formulas": [
-      "Negative × negative = positive"
+      "Absolute value |x|: The distance of x from zero (always non-negative)."
     ],
-    "example": "-3/4 × -8/9 = 24/36 = 2/3.",
+    "example": "Calculate |-5 + 2|. First, -5 + 2 = -3. Then |-3| = 3.",
     "common_misconceptions": [
-      "Sign errors with multiplication/division of negatives."
+      "Making sign errors in multi-step calculations with negative numbers.",
+      "Forgetting the order of operations in complex expressions."
     ]
   },
   "Y9.N.EXPONENTS_ROOTS_STANDARD": {
@@ -845,26 +847,30 @@
     ]
   },
   "Y9.N.RATIOS_PROPORTIONS": {
-    "title": "Ratios and Proportions",
-    "summary": "Solving problems involving ratios, rates, and direct proportion.",
+    "title": "Ratios, Rates, and Proportional Relationships",
+    "summary": "This topic extends understanding of ratios, rates, and proportions, including calculating population estimates and working with scale. It connects these concepts to proportional relationships represented in graphs.",
+    "where_to_look": "NCEA Level 1 > Number & Algebra > Proportional Reasoning",
     "key_formulas": [
-      "a/b = c/d → a×d = b×c"
+      "For proportional relationships, the graph is a straight line through the origin."
     ],
-    "example": "If 3:5 = x:25 → 5x = 75 → x = 15.",
+    "example": "If a graph shows y = 2x, then y is proportional to x with a constant of proportionality of 2.",
     "common_misconceptions": [
-      "Mixing up which numbers to cross-multiply."
+      "Assuming a relationship is proportional just because it's a straight line (it must also pass through the origin).",
+      "Errors in converting between different ratio forms (e.g., a:b to fractions)."
     ]
   },
   "Y9.N.PERCENTS_CONSUMER": {
-    "title": "Percents in Consumer Math",
-    "summary": "Calculating discounts, tax, tips, percent increase/decrease, simple interest.",
+    "title": "Percents, Percent Change, and Consumer Math",
+    "summary": "This topic builds on percentages, covering percent change (increase/decrease) and applying these skills to complex consumer math problems involving GST, discounts, mark-ups, and interest calculations.",
+    "where_to_look": "NCEA Level 1 > Number & Algebra > Financial Literacy",
     "key_formulas": [
-      "Discount = original × (percent/100)",
-      "Simple interest I = Prt"
+      "Percent Change = [(New Value - Old Value) / Old Value] * 100",
+      "Simple Interest = Principal * Rate * Time"
     ],
-    "example": "20% off $80 → discount $16, sale price $64.",
+    "example": "If a price increases from $50 to $60, the percent change is [($60-$50)/$50] * 100 = ($10/$50) * 100 = 20% increase.",
     "common_misconceptions": [
-      "Confusing percent increase vs decrease calculations."
+      "Confusing percentage increase with percentage decrease.",
+      "Errors in calculating compound interest over multiple periods."
     ]
   },
   "Y9.M.MEASUREMENT": {
@@ -919,50 +925,59 @@
     ]
   },
   "Y9.G.TRANSFORMATIONS": {
-    "title": "Geometric Transformations",
-    "summary": "Translations, reflections, rotations, and dilations on the coordinate plane.",
+    "title": "Transformations, Congruence, and Similarity",
+    "summary": "This topic involves performing and describing geometric transformations (reflections, rotations, translations, dilations). It also covers the concepts of congruence (same shape and size) and similarity (same shape, different size) between figures.",
+    "where_to_look": "NCEA Level 1 > Geometry & Measurement > Transformation Geometry",
     "key_formulas": [
-      "Translation: (x,y) → (x+a, y+b)",
-      "Reflection over x-axis: (x,y) → (x,-y)"
+      "Dilation with scale factor k: (x, y) -> (kx, ky)",
+      "Reflection across x-axis: (x, y) -> (x, -y)"
     ],
-    "example": "Rotation 90° counterclockwise: (x,y) → (-y,x).",
+    "example": "If a line segment of length 5 is dilated by a scale factor of 3, its new length is 5 * 3 = 15.",
     "common_misconceptions": [
-      "Mixing clockwise vs counterclockwise rotation rules."
+      "Confusing the effect of different transformations, especially rotations.",
+      "Mixing up the rules for positive and negative scale factors in dilations."
     ]
   },
   "Y9.A.SEQUENCES": {
-    "title": "Arithmetic and Geometric Sequences",
-    "summary": "Recognizing, extending, and finding the nth term of arithmetic and geometric sequences.",
+    "title": "Sequences and Series",
+    "summary": "This topic involves identifying and representing arithmetic and geometric sequences, and writing algebraic expressions (formulas) to find any term in the sequence (the nth term).",
+    "where_to_look": "NCEA Level 1 > Number & Algebra > Patterns and Algebra",
     "key_formulas": [
-      "Arithmetic: aₙ = a₁ + (n-1)d",
-      "Geometric: aₙ = a₁ × r^(n-1)"
+      "Arithmetic Sequence: T_n = a + (n-1)d",
+      "Geometric Sequence: T_n = a * r^(n-1)"
     ],
-    "example": "Arithmetic: 5, 8, 11… (d=3); Geometric: 2, 6, 18… (r=3).",
+    "example": "An arithmetic sequence starts at 5 with a common difference of 2. The nth term is T_n = 5 + (n-1)2 = 2n + 3.",
     "common_misconceptions": [
-      "Confusing the formulas for arithmetic vs geometric."
+      "Incorrectly identifying the first term 'a' or the common difference/ratio.",
+      "Errors when substituting 'n' into the formula."
     ]
   },
   "Y9.A.EXPRESSIONS_POLYNOMIALS": {
-    "title": "Polynomial Expressions",
-    "summary": "Polynomials are algebraic expressions with multiple terms involving non-negative integer powers of x.",
+    "title": "Expressions, Polynomials, and Properties",
+    "summary": "This topic covers writing and evaluating complex algebraic expressions, working with polynomials (expressions with multiple terms), and simplifying them using properties and combining like terms. It also includes adding, subtracting, and multiplying polynomials.",
+    "where_to_look": "NCEA Level 1 > Number & Algebra > Algebraic Manipulation",
     "key_formulas": [
-      "Monomial, binomial, trinomial",
-      "Degree = highest power"
+      "Distributive Property: a(b + c) = ab + ac",
+      "Combining like terms: Only terms with the exact same variable and power can be added/subtracted."
     ],
-    "example": "3x⁴ - 2x² + 5 is a degree-4 trinomial.",
+    "example": "To simplify (3x + 2) + (5x - 7): Combine like terms (3x + 5x) and (2 - 7), giving 8x - 5.",
     "common_misconceptions": [
-      "Thinking expressions with fractions or negative exponents are polynomials."
+      "Making sign errors when subtracting polynomials.",
+      "Incorrectly combining terms that are not 'like terms'."
     ]
   },
   "Y9.A.EQUATIONS_INEQUALITIES": {
-    "title": "Systems of Equations and Inequalities",
-    "summary": "Solving simultaneous linear equations and representing solution sets of inequalities on graphs.",
+    "title": "Equations and Inequalities",
+    "summary": "This topic focuses on solving linear equations and inequalities, ranging from one-step to multi-step problems. It covers equations with like terms and word problems that translate into equations or inequalities.",
+    "where_to_look": "NCEA Level 1 > Number & Algebra > Equations and Inequalities",
     "key_formulas": [
-      "Substitution, elimination methods"
+      "Equations: Whatever you do to one side, do to the other.",
+      "Inequalities: When multiplying or dividing by a negative number, flip the inequality sign."
     ],
-    "example": "Solve y = 2x + 1 and y = -x + 4 → 2x + 1 = -x + 4 → 3x = 3 → x = 1, y = 3.",
+    "example": "To solve 2x + 5 < 11: Subtract 5 from both sides (2x < 6). Then divide by 2 (x < 3).",
     "common_misconceptions": [
-      "Mixing up solution of system vs single equation."
+      "Forgetting to flip the inequality sign when multiplying or dividing by a negative number.",
+      "Making errors when collecting like terms on different sides of the equation."
     ]
   },
   "Y9.A.FUNCTIONS": {
@@ -980,14 +995,17 @@
     ]
   },
   "Y9.S.DATA_STATS_PROB": {
-    "title": "Data, Statistics and Probability Overview",
-    "summary": "Introduction to measures of center, spread, and basic probability concepts.",
+    "title": "Data, Graphs, Statistics, and Probability",
+    "summary": "This topic covers interpreting and creating various graphs, calculating and interpreting measures of center and spread, and working with box plots and scatter plots. It also includes calculating probabilities for independent and dependent events.",
+    "where_to_look": "NCEA Level 1 > Statistics & Probability > Statistical Investigation",
     "key_formulas": [
-      "Probability = favorable / total"
+      "Interquartile Range (IQR) = Q3 - Q1 (Q3 = upper quartile, Q1 = lower quartile)",
+      "P(A and B) = P(A) * P(B|A) (for dependent events)"
     ],
-    "example": "Mean, median, mode, range, simple probability calculations.",
+    "example": "In a data set, if the upper quartile (Q3) is 70 and the lower quartile (Q1) is 50, the IQR is 70 - 50 = 20.",
     "common_misconceptions": [
-      "Confusing mean and median in skewed distributions."
+      "Confusing the median with the mean or mode.",
+      "Errors in calculating probabilities for dependent events (e.g., not changing the total number of outcomes for the second event)."
     ]
   },
   "Y9.A.SYSTEMS_LINEAR": {
@@ -1219,506 +1237,6 @@
     "common_misconceptions": [
       "Assuming properties without being able to state the relevant theorem.",
       "Making logical jumps in a proof without justification."
-    ]
-  },
-  "Y9.A.INEQUALITIES": {
-    "title": "Solving Linear Inequalities",
-    "summary": "Linear inequalities are solved similarly to linear equations, but flipping the inequality sign when multiplying or dividing by a negative number.",
-    "key_formulas": [
-      "For ax + b > c, ax + b ≥ c, ax + b < c, or ax + b ≤ c",
-      "Reverse inequality when multiplying/dividing by negative"
-    ],
-    "example": "Solve -2x + 5 > 11 → -2x > 6 → x < -3 (sign flipped).",
-    "common_misconceptions": [
-      "Forgetting to flip the inequality sign when multiplying/dividing by negatives.",
-      "Thinking inequalities work exactly like equations in all steps."
-    ]
-  },
-  "Y9.A.NONLINEAR_FUNCTIONS": {
-    "title": "Introduction to Nonlinear Functions",
-    "summary": "Nonlinear functions (typically quadratic) do not produce straight-line graphs and have variable rates of change.",
-    "key_formulas": [
-      "Quadratic: y = ax² + bx + c"
-    ],
-    "example": "y = x² + 2x - 3 produces a parabola, not a straight line.",
-    "common_misconceptions": [
-      "Assuming all functions are linear.",
-      "Confusing the shape of a parabola with a linear graph."
-    ]
-  },
-  "Y9.A.POLYNOMIAL_OPS": {
-    "title": "Operations with Polynomials",
-    "summary": "Adding, subtracting, multiplying, and simple factoring of polynomials.",
-    "key_formulas": [
-      "(a + b)(c + d) = ac + ad + bc + bd"
-    ],
-    "example": "(x + 3)(x - 5) = x² - 5x + 3x - 15 = x² - 2x - 15.",
-    "common_misconceptions": [
-      "Forgetting to distribute properly when multiplying binomials (FOIL errors)."
-    ]
-  },
-  "Y9.S.COUNTING_PRINCIPLE": {
-    "title": "Fundamental Counting Principle",
-    "summary": "If one event can occur in m ways and another in n ways, together they can occur in m × n ways (when independent).",
-    "key_formulas": [
-      "Total ways = n₁ × n₂ × … × nₖ"
-    ],
-    "example": "A menu with 4 starters, 5 mains, 3 desserts → 4×5×3 = 60 possible meals.",
-    "common_misconceptions": [
-      "Double-counting or missing restrictions on choices."
-    ]
-  },
-  "Y9.G.CONES_SPHERES": {
-    "title": "Volume and Surface Area of Cones and Spheres",
-    "summary": "Formulas for volume and surface area of cones and spheres.",
-    "key_formulas": [
-      "Cone volume: V = (1/3)πr²h",
-      "Cone surface area: πrl + πr²",
-      "Sphere volume: V = (4/3)πr³",
-      "Sphere surface area: 4πr²"
-    ],
-    "example": "Sphere with r=6 → V = (4/3)π×216 = 288π.",
-    "common_misconceptions": [
-      "Confusing cone and pyramid formulas.",
-      "Forgetting the 4/3 factor for sphere volume."
-    ]
-  },
-  "Y9.S.BOX_PLOTS": {
-    "title": "Box-and-Whisker Plots",
-    "summary": "Graphical representation showing minimum, Q1, median, Q3, and maximum of a data set.",
-    "key_formulas": [
-      "IQR = Q3 - Q1"
-    ],
-    "example": "A box plot helps compare distributions quickly.",
-    "common_misconceptions": [
-      "Thinking the box represents the middle 100% of data (it’s 50%)."
-    ]
-  },
-  "Y9.A.GEOMETRIC_SEQUENCES": {
-    "title": "Geometric Sequences",
-    "summary": "Sequences where each term is multiplied by a constant ratio r.",
-    "key_formulas": [
-      "aₙ = a₁ × r^(n-1)"
-    ],
-    "example": "3, 12, 48, 192… (first term 3, ratio 4).",
-    "common_misconceptions": [
-      "Confusing geometric with arithmetic sequences."
-    ]
-  },
-  "Y9.G.PYTHAGORAS_SOLIDS": {
-    "title": "Pythagorean Theorem in 3D Solids",
-    "summary": "Using Pythagoras to find space diagonals or distances in rectangular prisms and other solids.",
-    "key_formulas": [
-      "Face diagonal: √(l² + w²)",
-      "Space diagonal: √(l² + w² + h²)"
-    ],
-    "example": "Box 3×4×12 → space diagonal √(9+16+144) = √169 = 13.",
-    "common_misconceptions": [
-      "Using only two dimensions for space diagonal."
-    ]
-  },
-  "N.FINANCIAL_RATES": {
-    "title": "Financial Rates and Ratios",
-    "summary": "Unit rates, exchange rates, best buy problems, speed, density.",
-    "key_formulas": [
-      "Rate = amount / time or amount / quantity"
-    ],
-    "example": "$4.50 for 3 lbs → $1.50 per lb.",
-    "common_misconceptions": [
-      "Incorrectly setting up unit rate division."
-    ]
-  },
-  "N.FINANCIAL_COMPOUND": {
-    "title": "Compound Interest",
-    "summary": "Interest calculated on the initial principal and accumulated interest.",
-    "key_formulas": [
-      "A = P(1 + r/n)^(nt)"
-    ],
-    "example": "$1000 at 5% compounded annually for 3 years → $1157.63.",
-    "common_misconceptions": [
-      "Using simple interest formula instead."
-    ]
-  },
-  "M.PRECISION_ERROR": {
-    "title": "Measurement Precision and Error",
-    "summary": "Significant figures, rounding error, absolute/relative error, bounds.",
-    "key_formulas": [
-      "Relative error = |error| / true value"
-    ],
-    "example": "Measured 12.4 cm (true 12.0 cm) → absolute error 0.4 cm.",
-    "common_misconceptions": [
-      "Confusing precision with accuracy."
-    ]
-  },
-  "M.VOLUME_SIMILAR": {
-    "title": "Volume of Similar Solids",
-    "summary": "Volumes of similar figures scale with the cube of the linear scale factor.",
-    "key_formulas": [
-      "Volume ratio = k³"
-    ],
-    "example": "Scale factor 2 → volume ×8.",
-    "common_misconceptions": [
-      "Using k² instead of k³ for volume."
-    ]
-  },
-  "C.COORD_DISTANCE": {
-    "title": "Coordinate Geometry - Distance and Midpoint",
-    "summary": "Distance formula and midpoint formula on the coordinate plane.",
-    "key_formulas": [
-      "Distance: √((x₂-x₁)² + (y₂-y₁)²)",
-      "Midpoint: ((x₁+x₂)/2, (y₁+y₂)/2)"
-    ],
-    "example": "Points (1,2) and (5,5) → distance 5, midpoint (3, 3.5).",
-    "common_misconceptions": [
-      "Forgetting to square root for distance."
-    ]
-  },
-  "C.COORD_GRADIENT": {
-    "title": "Gradient and Equation of a Line",
-    "summary": "Slope (gradient), parallel/perpendicular lines, forms of linear equations.",
-    "key_formulas": [
-      "m = (y₂ - y₁)/(x₂ - x₁)",
-      "Perpendicular: m₁ × m₂ = -1"
-    ],
-    "example": "Line through (2,3) and (4,7) → m = 2.",
-    "common_misconceptions": [
-      "Confusing rise/run direction."
-    ]
-  },
-  "L.NONLINEAR_GRAPH": {
-    "title": "Graphs of Nonlinear Functions",
-    "summary": "Recognizing and sketching parabolas, exponential, and simple rational graphs.",
-    "key_formulas": [
-      "Quadratic: vertex form y = a(x-h)² + k"
-    ],
-    "example": "y = -2(x+1)² + 3 → vertex (-1,3), opens down.",
-    "common_misconceptions": [
-      "Misidentifying vertex or direction of opening."
-    ]
-  },
-  "G.SIMILAR_TRIANGLES": {
-    "title": "Similar Triangles",
-    "summary": "Triangles with equal corresponding angles and proportional sides (AA, SSS, SAS similarity).",
-    "key_formulas": [
-      "Side ratio = scale factor k"
-    ],
-    "example": "Triangles with angles 40°,60°,80° are similar regardless of size.",
-    "common_misconceptions": [
-      "Thinking AAA is a congruence criterion instead of similarity."
-    ]
-  },
-  "G.CONGRUENT_SSS": {
-    "title": "Congruent Triangles - SSS, SAS, ASA, AAS, RHS",
-    "summary": "Criteria for triangle congruence.",
-    "key_formulas": [
-      "SSS, SAS, ASA, AAS, RHS (right-angle hypotenuse-side)"
-    ],
-    "example": "Two triangles with sides 5,7,9 are congruent by SSS.",
-    "common_misconceptions": [
-      "Believing SSA or AAA guarantee congruence."
-    ]
-  },
-  "S.UNIVARIATE_BOXPLOT": {
-    "title": "Univariate Data and Boxplots",
-    "summary": "Constructing and interpreting boxplots, identifying outliers, comparing distributions.",
-    "key_formulas": [
-      "Outlier if > Q3 + 1.5×IQR or < Q1 - 1.5×IQR"
-    ],
-    "example": "Data set with Q1=10, Q3=20 → IQR=10, upper fence=35.",
-    "common_misconceptions": [
-      "Including outliers inside the box."
-    ]
-  },
-  "S.BIVARIATE_CORRELATION": {
-    "title": "Bivariate Data and Correlation",
-    "summary": "Scatter plots, correlation coefficient, line of best fit.",
-    "key_formulas": [
-      "r ≈ 1 strong positive, r ≈ -1 strong negative"
-    ],
-    "example": "Height vs weight usually shows positive correlation.",
-    "common_misconceptions": [
-      "Thinking correlation implies causation."
-    ]
-  },
-  "A.QUADRATICS_COMPLETE_SQUARE": {
-    "title": "Completing the Square",
-    "summary": "Rewriting quadratic expressions in vertex form by completing the square.",
-    "key_formulas": [
-      "x² + bx → (x + b/2)² - (b/2)²"
-    ],
-    "example": "x² + 6x + 7 = (x+3)² - 9 + 7 = (x+3)² - 2.",
-    "common_misconceptions": [
-      "Forgetting to adjust the constant term after completing square."
-    ]
-  },
-  "M.SURFACE_AREA_PYRAMID": {
-    "title": "Surface Area of Pyramids",
-    "summary": "Lateral surface area plus base area for regular pyramids.",
-    "key_formulas": [
-      "Lateral area = (1/2) × perimeter × slant height"
-    ],
-    "example": "Square pyramid base side 10, slant height 13 → lateral 260, total with base 360.",
-    "common_misconceptions": [
-      "Using height instead of slant height."
-    ]
-  },
-  "M.VOLUME_SPHERE": {
-    "title": "Volume and Surface Area of Spheres",
-    "summary": "Standard sphere formulas.",
-    "key_formulas": [
-      "V = (4/3)πr³",
-      "SA = 4πr²"
-    ],
-    "example": "r=3 → V=36π, SA=36π.",
-    "common_misconceptions": [
-      "Using 4πr³ or (1/3)πr³ by mistake."
-    ]
-  },
-  "T.TRIG_GRAPH": {
-    "title": "Graphs of Trigonometric Functions",
-    "summary": "Sine, cosine, tangent graphs; amplitude, period, phase shift.",
-    "key_formulas": [
-      "y = a sin(b(x-c)) + d"
-    ],
-    "example": "y = 2 sin(3x) → amplitude 2, period 2π/3.",
-    "common_misconceptions": [
-      "Confusing period formula for tan (π vs 2π)."
-    ]
-  },
-  "M.MATRIX_ADD": {
-    "title": "Matrix Addition and Subtraction",
-    "summary": "Adding/subtracting matrices of same dimensions element-wise.",
-    "key_formulas": [
-      "[a b; c d] + [e f; g h] = [a+e b+f; c+g d+h]"
-    ],
-    "example": "Simple 2×2 addition.",
-    "common_misconceptions": [
-      "Trying to add matrices of different sizes."
-    ]
-  },
-  "M.MATRIX_MULTIPLY_2X2": {
-    "title": "2×2 Matrix Multiplication",
-    "summary": "Row-by-column multiplication for 2×2 matrices.",
-    "key_formulas": [
-      "[a b; c d] × [e f; g h] = [ae+bg af+bh; ce+dg cf+dh]"
-    ],
-    "example": "Standard 2×2 multiplication example.",
-    "common_misconceptions": [
-      "Multiplying element-wise instead of row×column."
-    ]
-  },
-  "A.QUADRATIC_EQS": {
-    "title": "Solving Quadratic Equations",
-    "summary": "Factoring, quadratic formula, completing the square, graphing.",
-    "key_formulas": [
-      "x = [-b ± √(b²-4ac)] / 2a"
-    ],
-    "example": "x² - 5x + 6 = 0 → (x-2)(x-3)=0 → x=2 or 3.",
-    "common_misconceptions": [
-      "Forgetting the ± in quadratic formula."
-    ]
-  },
-  "A.POLYNOMIALS": {
-    "title": "Polynomial Functions",
-    "summary": "Behavior, end behavior, zeros, factoring higher-degree polynomials.",
-    "key_formulas": [
-      "Even degree positive leading coeff → up on both sides"
-    ],
-    "example": "x⁴ - 4x² + 3 = (x²-1)(x²-3).",
-    "common_misconceptions": [
-      "Misidentifying number of roots."
-    ]
-  },
-  "G.TRIG_RATIOS": {
-    "title": "Trigonometric Ratios",
-    "summary": "Sin, cos, tan, csc, sec, cot in right-angled triangles.",
-    "key_formulas": [
-      "sin θ = opp/hyp, cos θ = adj/hyp, tan θ = opp/adj"
-    ],
-    "example": "30-60-90 triangle sides 1, √3, 2.",
-    "common_misconceptions": [
-      "Mixing up which side is opposite/adjacent."
-    ]
-  },
-  "G.TRIG_IDENTITIES": {
-    "title": "Trigonometric Identities",
-    "summary": "Pythagorean, reciprocal, quotient, co-function identities.",
-    "key_formulas": [
-      "sin²θ + cos²θ = 1",
-      "tanθ = sinθ/cosθ"
-    ],
-    "example": "Proving simple identities.",
-    "common_misconceptions": [
-      "Thinking identities only hold for certain angles."
-    ]
-  },
-  "G.COORDINATE_GEOMETRY": {
-    "title": "Coordinate Geometry Advanced",
-    "summary": "Equation of circle, parabolas, distance, midpoint, partitioning.",
-    "key_formulas": [
-      "(x-h)² + (y-k)² = r²"
-    ],
-    "example": "Circle center (2,-3), radius 5.",
-    "common_misconceptions": [
-      "Wrong sign in circle equation."
-    ]
-  },
-  "S.DESCRIPTIVE_STATS": {
-    "title": "Descriptive Statistics",
-    "summary": "Mean, median, mode, range, IQR, standard deviation, variance.",
-    "key_formulas": [
-      "Variance = Σ(x - μ)² / n"
-    ],
-    "example": "Calculating standard deviation from data set.",
-    "common_misconceptions": [
-      "Using n instead of n-1 for sample standard deviation."
-    ]
-  },
-  "C.CALCULUS_DIFF": {
-    "title": "Introduction to Differentiation",
-    "summary": "Limits, derivative as slope/instantaneous rate, basic rules.",
-    "key_formulas": [
-      "Power rule: d/dx(xⁿ) = nx^(n-1)"
-    ],
-    "example": "f(x)=3x⁴ - 2x → f'(x)=12x³ - 2.",
-    "common_misconceptions": [
-      "Forgetting chain rule in early applications."
-    ]
-  },
-  "Y12.G.2": {
-    "title": "Add and Subtract Complex Numbers",
-    "summary": "Complex numbers are added and subtracted by combining real parts and imaginary parts separately.",
-    "key_formulas": [
-      "(a + bi) + (c + di) = (a + c) + (b + d)i",
-      "(a + bi) - (c + di) = (a - c) + (b - d)i"
-    ],
-    "example": "(5 + 3i) + (2 - 7i) = 7 - 4i\n(5 + 3i) - (2 - 7i) = 3 + 10i",
-    "common_misconceptions": [
-      "Treating the imaginary unit i like a variable that can be added to real numbers without separating parts.",
-      "Forgetting to distribute the negative sign across both real and imaginary parts when subtracting."
-    ]
-  },
-  "Y12.G.3": {
-    "title": "Dot Product",
-    "summary": "The dot product of two vectors is a scalar obtained by multiplying corresponding components and summing the results.",
-    "key_formulas": [
-      "u · v = u₁v₁ + u₂v₂ + u₃v₃",
-      "u · v = |u||v| cos θ"
-    ],
-    "example": "u = <2, -3, 1>, v = <4, 0, 5> → u · v = 2×4 + (-3)×0 + 1×5 = 8 + 0 + 5 = 13",
-    "common_misconceptions": [
-      "Thinking the dot product results in a vector instead of a scalar.",
-      "Confusing dot product with cross product (which produces a vector)."
-    ]
-  },
-  "Y12.G.4": {
-    "title": "Angle Between Vectors",
-    "summary": "The angle θ between two vectors can be found using the dot product formula.",
-    "key_formulas": [
-      "cos θ = (u · v) / (|u||v|)",
-      "θ = cos⁻¹((u · v) / (|u||v|))"
-    ],
-    "example": "u = <1, 2>, v = <3, 4>\nu · v = 1×3 + 2×4 = 11\n|u| = √5, |v| = 5\ncos θ = 11 / (√5 × 5) ≈ 0.9839 → θ ≈ 10.3°",
-    "common_misconceptions": [
-      "Forgetting to take the inverse cosine after calculating cos θ.",
-      "Using the formula when one vector is zero (division by zero)."
-    ]
-  },
-  "Y12.G.5": {
-    "title": "Matrix Operations",
-    "summary": "Addition, subtraction, scalar multiplication, and matrix multiplication of compatible matrices.",
-    "key_formulas": [
-      "A + B (same dimensions): add corresponding entries",
-      "kA: multiply every entry by scalar k",
-      "AB: row-by-column multiplication (columns of A = rows of B)"
-    ],
-    "example": "A = [[1, 2], [3, 4]], B = [[5, 6], [7, 8]]\nA + B = [[6, 8], [10, 12]]\n2A = [[2, 4], [6, 8]]\nAB = [[19, 22], [43, 50]]",
-    "common_misconceptions": [
-      "Believing matrix multiplication is commutative (AB ≠ BA in general).",
-      "Trying to multiply matrices with incompatible dimensions."
-    ]
-  },
-  "Y12.G.6": {
-    "title": "Vector Operations",
-    "summary": "Addition, subtraction, scalar multiplication, magnitude, unit vectors, and position vectors in 2D and 3D.",
-    "key_formulas": [
-      "u + v = <u₁ + v₁, u₂ + v₂>",
-      "ku = <ku₁, ku₂>",
-      "|u| = √(u₁² + u₂² + u₃²)",
-      "Unit vector = u / |u|"
-    ],
-    "example": "u = <3, -4>, v = <1, 2>\nu + v = <4, -2>\n2u = <6, -8>\n|u| = 5\nUnit vector = <3/5, -4/5>",
-    "common_misconceptions": [
-      "Confusing scalar multiplication with dot product.",
-      "Forgetting the magnitude formula requires a square root."
-    ]
-  },
-  "Y12.AA.4": {
-    "title": "Find Terms of a Recursive Sequence",
-    "summary": "A recursive sequence defines each term using previous terms. Calculate terms step-by-step or find closed-form expressions when possible.",
-    "key_formulas": [
-      "a₁ = initial value",
-      "aₙ = f(aₙ₋₁) or aₙ = f(aₙ₋₁, aₙ₋₂) etc."
-    ],
-    "example": "a₁ = 2, aₙ = 3aₙ₋₁ - 1\na₂ = 3×2 - 1 = 5\na₃ = 3×5 - 1 = 14\na₄ = 3×14 - 1 = 41",
-    "common_misconceptions": [
-      "Starting calculations from the wrong term (forgetting a₁ is given).",
-      "Thinking all recursive sequences have simple closed forms."
-    ]
-  },
-  "Y12.P.8": {
-    "title": "Product Property of Logarithms",
-    "summary": "The logarithm of a product is the sum of the logarithms of the factors.",
-    "key_formulas": [
-      "log₆ (xy) = log₆ x + log₆ y",
-      "Also works for quotients: log₆ (x/y) = log₆ x - log₆ y"
-    ],
-    "example": "log₂ (8 × 32) = log₂ 8 + log₂ 32 = 3 + 5 = 8\nlog₁₀ (500) = log₁₀ (5 × 100) = log₁₀ 5 + log₁₀ 100 ≈ 0.699 + 2 = 2.699",
-    "common_misconceptions": [
-      "Thinking log(xy) = (log x)(log y) instead of sum.",
-      "Applying the property when arguments are added instead of multiplied."
-    ]
-  },
-  "Y12.EE.1": {
-    "title": "Sum and Difference Rules",
-    "summary": "The derivative of a sum (or difference) is the sum (or difference) of the derivatives.",
-    "key_formulas": [
-      "d/dx [f(x) + g(x)] = f'(x) + g'(x)",
-      "d/dx [f(x) - g(x)] = f'(x) - g'(x)",
-      "d/dx [k f(x)] = k f'(x) (constant multiple rule)"
-    ],
-    "example": "f(x) = 3x⁴ - 5x² + 7x - 2\nf'(x) = 12x³ - 10x + 7",
-    "common_misconceptions": [
-      "Forgetting to distribute the constant multiple when a coefficient is present.",
-      "Applying product/quotient rules when only adding or subtracting."
-    ]
-  },
-  "A.COMPLEX_NUMBERS": {
-    "title": "Complex Numbers",
-    "summary": "Operations with complex numbers, Argand diagram, modulus, argument, polar form.",
-    "key_formulas": [
-      "i² = -1",
-      "|a+bi| = √(a²+b²)",
-      "Polar: z = r(cosθ + i sinθ)"
-    ],
-    "example": "(3+2i)(1-4i) = 3-12i +2i -8i² = 11 -10i.",
-    "common_misconceptions": [
-      "Treating i like a real variable in ordering.",
-      "Forgetting i² = -1 in expansion."
-    ]
-  },
-  "Y9.G.PYTHAGORAS": {
-    "title": "Pythagorean Theorem",
-    "summary": "In any right-angled triangle, the square of the length of the hypotenuse (the side opposite the right angle) is equal to the sum of the squares of the lengths of the other two sides (legs).",
-    "key_formulas": [
-      "a² + b² = c²",
-      "c = √(a² + b²)"
-    ],
-    "example": "If a right-angled triangle has legs of length a=3 and b=4, the hypotenuse c can be found using c² = 3² + 4² = 9 + 16 = 25. Therefore, c = √25 = 5.",
-    "common_misconceptions": [
-      "The theorem only applies to right-angled triangles.",
-      "Forgetting to take the square root to find the final length of the hypotenuse.",
-      "Incorrectly identifying which side is the hypotenuse (it is always the longest side, opposite the right angle)."
     ]
   }
 }

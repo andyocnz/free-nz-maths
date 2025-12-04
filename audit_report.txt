@@ -1,0 +1,1028 @@
+====================================================================================================
+COMPREHENSIVE CURRICULUM AUDIT REPORT
+Matching NZ Curriculum Templates to Official Topics (Years 10-12)
+====================================================================================================
+
+
+====================================================================================================
+YEAR 10 ANALYSIS
+====================================================================================================
+
+Total templates in curriculum: 23
+Total official NZ topics: 223
+
+
+----------------------------------------------------------------------------------------------------
+TEMPLATE -> OFFICIAL TOPIC MAPPING
+----------------------------------------------------------------------------------------------------
+
+[MATCH] Y10.A.QUADRATIC_FORMULA.T1
+  Skill: Quadratic formula
+  -> Official Topic: Y10.V.3 - Factorise quadratics with leading coefficient 1
+  Section: Factorising
+
+[MATCH] Y10.A.GRAPH_QUADRATIC.T1
+  Skill: Graphing quadratics
+  -> Official Topic: Y10.V.3 - Factorise quadratics with leading coefficient 1
+  Section: Factorising
+
+[MATCH] Y10.G.TRIG_RULES.T1
+  Skill: Sine and cosine rules
+  -> Official Topic: Y10.J.1 - Model and solve equations using algebra tiles
+  Section: Solve equations
+
+[MATCH] Y10.G.CIRCLE_THEOREMS.T1
+  Skill: Circle theorems
+  -> Official Topic: Y10.L.3 - Interpret circle graphs
+  Section: Data and graphs
+
+[MATCH] Y10.S.PROB_ADVANCED.T1
+  Skill: Conditional probability and tree diagrams
+  -> Official Topic: Y10.AA.5 - Probability of independent and dependent events
+  Section: Probability
+
+[MATCH] Y10.A.SYSTEMS_ADVANCED.T1
+  Skill: Systems of equations (advanced)
+  -> Official Topic: Y10.V.3 - Factorise quadratics with leading coefficient 1
+  Section: Factorising
+
+[MATCH] Y10.G.TRIG_3D.T1
+  Skill: Trigonometry in 3D
+  -> Official Topic: Y10.F.16 - Perimeter, area and volume: changes in scale
+  Section: Geometry
+
+[MATCH] Y10.A.FUNCTIONS_ADVANCED.T1
+  Skill: Functions, domain and range
+  -> Official Topic: Y10.O.14 - Compare linear functions: graphs, tables and equations
+  Section: Linear functions
+
+[MATCH] Y10.S.BIVARIATE.T1
+  Skill: Bivariate statistics
+  -> Official Topic: Y10.J.1 - Model and solve equations using algebra tiles
+  Section: Solve equations
+
+[MATCH] Y10.G.SA_VOLUME_ADVANCED.T1
+  Skill: Surface area and volume (multi-step)
+  -> Official Topic: Y10.F.15 - Volume and surface area of similar solids
+  Section: Geometry
+
+[MATCH] Y10.N.FINANCIAL_RATES.T1
+  Skill: Financial Rates
+  -> Official Topic: Y10.G.3 - Distance between two points
+  Section: Coordinate plane
+
+[MATCH] Y10.N.FINANCIAL_COMPOUND.T1
+  Skill: Financial Compound
+  -> Official Topic: Y10.D.7 - Compound interest
+  Section: Percents
+
+[MATCH] Y10.M.VOLUME_SIMILAR.T1
+  Skill: Volume Similar
+  -> Official Topic: Y10.F.15 - Volume and surface area of similar solids
+  Section: Geometry
+
+[MATCH] Y10.C.COORD_DISTANCE.T1
+  Skill: Coord Distance
+  -> Official Topic: Y10.G.3 - Distance between two points
+  Section: Coordinate plane
+
+[MATCH] Y10.C.COORD_GRADIENT.T1
+  Skill: Coord Gradient
+  -> Official Topic: Y10.O.4 - Find a missing coordinate using gradient
+  Section: Linear functions
+
+[MATCH] Y10.L.NONLINEAR_GRAPH.T1
+  Skill: Nonlinear Graph
+  -> Official Topic: Y10.V.3 - Factorise quadratics with leading coefficient 1
+  Section: Factorising
+
+[MATCH] Y10.G.SIMILAR_TRIANGLES.T1
+  Skill: Similar Triangles
+  -> Official Topic: Y10.F.10 - Similar triangles and indirect measurement
+  Section: Geometry
+
+[MATCH] Y10.G.CONGRUENT_SSS.T1
+  Skill: Congruent Sss
+  -> Official Topic: Y10.F.8 - Congruent figures: side lengths and angle measures
+  Section: Geometry
+
+[MATCH] Y10.S.UNIVARIATE_BOXPLOT.T1
+  Skill: Univariate Boxplot
+  -> Official Topic: Y10.J.1 - Model and solve equations using algebra tiles
+  Section: Solve equations
+
+
+----------------------------------------------------------------------------------------------------
+TEMPLATES WITHOUT CLEAR MATCH (4 templates)
+----------------------------------------------------------------------------------------------------
+
+[NO MATCH] Y10.A.ALGEBRAIC_FRACTIONS.T1
+  Skill: Algebraic fractions
+  Strand: Number & Algebra
+  Stem: Simplify the expression: (x^2 - {a*a}) / (x - {a}).
+
+[NO MATCH] Y10.G.GEOMETRIC_REASONING.T1
+  Skill: Geometric reasoning and proofs
+  Strand: Geometry & Measurement
+  Stem: In a cyclic quadrilateral, one angle is {a}°. What is the measure of the opposite angle?
+
+[NO MATCH] Y10.M.PRECISION_ERROR.T1
+  Skill: Precision Error
+  Strand: Measurement & Geometry
+  Stem: A length is measured as {m} cm, correct to the nearest {unit} cm. What is the greatest possible error?
+
+[NO MATCH] Y10.S.BIVARIATE_CORRELATION.T1
+  Skill: Bivariate Correlation
+  Strand: Statistics & Probability
+  Stem: {desc}
+
+
+----------------------------------------------------------------------------------------------------
+OFFICIAL NZ TOPICS WITH NO TEMPLATES
+----------------------------------------------------------------------------------------------------
+
+
+Numbers:
+  - Y10.A.1 - Classify numbers
+  - Y10.A.2 - Compare and order rational numbers
+  - Y10.A.3 - Number lines
+  - Y10.A.4 - Convert between decimals and fractions
+  - Y10.A.5 - Square roots
+  - Y10.A.6 - Cube roots
+
+Operations:
+  - Y10.B.1 - Add, subtract, multiply and divide integers
+  - Y10.B.2 - Evaluate numerical expressions involving integers
+  - Y10.B.3 - Evaluate variable expressions involving integers
+  - Y10.B.4 - Add and subtract rational numbers
+  - Y10.B.5 - Multiply and divide rational numbers
+  - Y10.B.6 - Evaluate numerical expressions involving rational numbers
+  - Y10.B.7 - Evaluate variable expressions involving rational numbers
+
+Ratios, rates and proportions:
+  - Y10.C.1 - Identify equivalent ratios
+  - Y10.C.2 - Write an equivalent ratio
+  - Y10.C.3 - Unit rates
+  - Y10.C.4 - Unit prices
+  - Y10.C.5 - Solve proportions
+  - Y10.C.6 - Solve proportions: word problems
+  - Y10.C.7 - Scale drawings: word problems
+
+Percents:
+  - Y10.D.1 - Convert between percents, fractions and decimals
+  - Y10.D.2 - Solve percent equations
+  - Y10.D.3 - Percent word problems
+  - Y10.D.4 - Percent of change
+  - Y10.D.5 - Percent of change: word problems
+  - Y10.D.6 - Simple interest
+  - Y10.D.8 - Percent of a number: GST, discount and more
+  - Y10.D.9 - Find the percent: discount and mark-up
+  - Y10.D.10 - Multi-step problems with percents
+
+Measurement:
+  - Y10.E.1 - Convert rates and measurements
+  - Y10.E.2 - Precision
+  - Y10.E.3 - Greatest possible error
+  - Y10.E.4 - Minimum and maximum area and volume
+  - Y10.E.5 - Percent error
+  - Y10.E.6 - Percent error: area and volume
+
+Geometry:
+  - Y10.F.1 - Perimeter
+  - Y10.F.2 - Area
+  - Y10.F.3 - Area of compound figures
+  - Y10.F.4 - Interior angles of polygons
+  - Y10.F.5 - Transversal of parallel lines
+  - Y10.F.6 - Volume
+  - Y10.F.7 - Surface area
+  - Y10.F.9 - Similar figures: side lengths and angle measures
+  - Y10.F.11 - Dilations and scale factors
+  - Y10.F.12 - Area and perimeter of similar figures
+  - Y10.F.13 - Area between two shapes
+  - Y10.F.14 - Similar solids
+  - Y10.F.17 - Pythagoras' theorem
+  - Y10.F.18 - Pythagoras' theorem: word problems
+  - Y10.F.19 - Converse of Pythagoras' theorem: is it a right triangle?
+  - Y10.F.20 - Special right triangles
+
+Coordinate plane:
+  - Y10.G.1 - Coordinate plane review
+  - Y10.G.2 - Midpoints
+
+Properties:
+  - Y10.H.1 - Properties of addition and multiplication
+  - Y10.H.2 - Distributive property
+  - Y10.H.3 - Simplify variable expressions using properties
+  - Y10.H.4 - Properties of equality
+
+Variable expressions and equations:
+  - Y10.I.1 - Write variable expressions
+  - Y10.I.2 - Simplify variable expressions involving like terms and the distributive property
+  - Y10.I.3 - Identify equivalent linear expressions
+  - Y10.I.4 - Write variable equations
+  - Y10.I.5 - Does x satisfy the equation?
+  - Y10.I.6 - Solve equations using order of operations
+
+Solve equations:
+  - Y10.J.2 - Write and solve equations that represent diagrams
+  - Y10.J.3 - Solve one-step linear equations
+  - Y10.J.4 - Solve two-step linear equations
+  - Y10.J.5 - Solve advanced linear equations
+  - Y10.J.6 - Solve equations with variables on both sides
+  - Y10.J.7 - Solve equations: complete the solution
+  - Y10.J.8 - Find the number of solutions
+  - Y10.J.9 - Create equations with no solutions or infinitely many solutions
+  - Y10.J.10 - Solve linear equations: word problems
+  - Y10.J.11 - Solve linear equations: mixed review
+
+Single-variable inequalities:
+  - Y10.K.1 - Graph inequalities
+  - Y10.K.2 - Write inequalities from graphs
+  - Y10.K.3 - Identify solutions to inequalities
+  - Y10.K.4 - Solve one-step linear inequalities: addition and subtraction
+  - Y10.K.5 - Solve one-step linear inequalities: multiplication and division
+  - Y10.K.6 - Solve one-step linear inequalities
+  - Y10.K.7 - Graph solutions to one-step linear inequalities
+  - Y10.K.8 - Solve two-step linear inequalities
+  - Y10.K.9 - Graph solutions to two-step linear inequalities
+  - Y10.K.10 - Solve advanced linear inequalities
+  - Y10.K.11 - Graph solutions to advanced linear inequalities
+
+Data and graphs:
+  - Y10.L.1 - Interpret bar graphs, line graphs and histograms
+  - Y10.L.2 - Create bar graphs, line graphs and histograms
+  - Y10.L.4 - Interpret stem-and-leaf plots
+  - Y10.L.5 - Interpret box-and-whisker plots
+  - Y10.L.6 - Interpret a scatter plot
+  - Y10.L.7 - Scatter plots: line of best fit
+
+Relations and functions:
+  - Y10.M.1 - Relations: convert between tables, graphs, mappings and lists of points
+  - Y10.M.2 - Identify independent and dependent variables
+  - Y10.M.3 - Identify functions
+  - Y10.M.4 - Identify functions: vertical line test
+  - Y10.M.5 - Find values using function graphs
+  - Y10.M.6 - Evaluate a function
+  - Y10.M.7 - Evaluate a function: plug in an expression
+  - Y10.M.8 - Complete a function table from a graph
+  - Y10.M.9 - Complete a function table from an equation
+  - Y10.M.10 - Interpret the graph of a function: word problems
+
+Direct variation:
+  - Y10.N.1 - Identify proportional relationships
+  - Y10.N.2 - Find the constant of variation
+  - Y10.N.3 - Graph a proportional relationship
+  - Y10.N.4 - Write direct variation equations
+  - Y10.N.5 - Write and solve direct variation equations
+
+Linear functions:
+  - Y10.O.1 - Identify linear functions
+  - Y10.O.2 - Find the gradient of a graph
+  - Y10.O.3 - Find the gradient from two points
+  - Y10.O.5 - Find the gradient and y-intercept of a linear equation
+  - Y10.O.6 - Graph an equation in y=mx+c form
+  - Y10.O.7 - Write an equation in y=mx+c form from a graph
+  - Y10.O.8 - Write an equation in y=mx+c form
+  - Y10.O.9 - Write an equation in y=mx+c form from a table
+  - Y10.O.10 - Write an equation in y=mx+c form from a word problem
+  - Y10.O.11 - Linear equations: solve for y
+  - Y10.O.12 - Write linear functions to solve word problems
+  - Y10.O.13 - Complete a table and graph a linear function
+  - Y10.O.15 - Write equations in standard form
+  - Y10.O.16 - Standard form: find x- and y-intercepts
+  - Y10.O.17 - Standard form: graph an equation
+  - Y10.O.18 - Equations of horizontal and vertical lines
+  - Y10.O.19 - Graph a horizontal or vertical line
+  - Y10.O.20 - Point-gradient form: graph an equation
+  - Y10.O.21 - Point-gradient form: write an equation
+  - Y10.O.22 - Point-gradient form: write an equation from a graph
+  - Y10.O.23 - Gradients of parallel and perpendicular lines
+  - Y10.O.24 - Write an equation for a parallel or perpendicular line
+  - Y10.O.25 - Transformations of linear functions
+
+Linear inequalities:
+  - Y10.P.1 - Does (x, y) satisfy the inequality?
+  - Y10.P.2 - Linear inequalities: solve for y
+  - Y10.P.3 - Graph a linear inequality in the coordinate plane
+  - Y10.P.4 - Linear inequalities: word problems
+  - Y10.P.5 - Is (x, y) a solution to the simultaneous inequalities?
+
+Simultaneous equations:
+  - Y10.Q.1 - Is (x, y) a solution to the simultaneous equations?
+  - Y10.Q.2 - Solve simultaneous equations by graphing
+  - Y10.Q.3 - Solve simultaneous equations by graphing: word problems
+  - Y10.Q.4 - Find the number of solutions to simultaneous equations by graphing
+  - Y10.Q.5 - Find the number of solutions to simultaneous equations
+  - Y10.Q.6 - Solve simultaneous equations using substitution
+  - Y10.Q.7 - Solve simultaneous equations using substitution: word problems
+  - Y10.Q.8 - Solve simultaneous equations using elimination
+  - Y10.Q.9 - Solve simultaneous equations using elimination: word problems
+
+Exponents:
+  - Y10.R.1 - Powers with integer bases
+  - Y10.R.2 - Powers with decimal and fractional bases
+  - Y10.R.3 - Negative exponents
+  - Y10.R.4 - Multiplication with exponents
+  - Y10.R.5 - Division with exponents
+  - Y10.R.6 - Multiplication and division with exponents
+  - Y10.R.7 - Power rule
+  - Y10.R.8 - Evaluate expressions using properties of exponents
+  - Y10.R.9 - Identify equivalent expressions involving exponents
+
+Standard form:
+  - Y10.S.1 - Convert between ordinary numbers and standard form
+  - Y10.S.2 - Compare numbers written in standard form
+  - Y10.S.3 - Multiply numbers written in standard form
+  - Y10.S.4 - Divide numbers written in standard form
+
+Monomials:
+  - Y10.T.1 - Identify monomials
+  - Y10.T.2 - Multiply monomials
+  - Y10.T.3 - Divide monomials
+  - Y10.T.4 - Multiply and divide monomials
+  - Y10.T.5 - Powers of monomials
+
+Polynomials:
+  - Y10.U.1 - Polynomial vocabulary
+  - Y10.U.2 - Model polynomials with algebra tiles
+  - Y10.U.3 - Add and subtract polynomials using algebra tiles
+  - Y10.U.4 - Add and subtract polynomials
+  - Y10.U.5 - Add polynomials to find perimeter
+  - Y10.U.6 - Multiply a polynomial by a monomial
+  - Y10.U.7 - Multiply two polynomials using algebra tiles
+  - Y10.U.8 - Multiply two binomials
+  - Y10.U.9 - Multiply two binomials: special cases
+  - Y10.U.10 - Multiply polynomials
+
+Factorising:
+  - Y10.V.1 - HCF of monomials
+  - Y10.V.2 - Factorise out a monomial
+  - Y10.V.4 - Factorise quadratics with other leading coefficients
+  - Y10.V.5 - Factorise quadratics: special cases
+  - Y10.V.6 - Factorise quadratics using algebra tiles
+  - Y10.V.7 - Factorise by grouping
+  - Y10.V.8 - Factorise polynomials
+
+Radical expressions:
+  - Y10.W.1 - Simplify radical expressions
+  - Y10.W.2 - Simplify radical expressions with variables
+  - Y10.W.3 - Simplify radical expressions involving fractions
+  - Y10.W.4 - Multiply radical expressions
+  - Y10.W.5 - Add and subtract radical expressions
+  - Y10.W.6 - Simplify radical expressions using the distributive property
+  - Y10.W.7 - Divide radical expressions
+  - Y10.W.8 - Simplify radical expressions: mixed review
+
+Rational exponents:
+  - Y10.X.1 - Evaluate rational exponents
+  - Y10.X.2 - Multiplication with rational exponents
+  - Y10.X.3 - Division with rational exponents
+  - Y10.X.4 - Power rule with rational exponents
+  - Y10.X.5 - Simplify expressions involving rational exponents I
+  - Y10.X.6 - Simplify expressions involving rational exponents II
+
+Rational functions and expressions:
+  - Y10.Y.1 - Simplify complex fractions
+  - Y10.Y.2 - Simplify rational expressions
+  - Y10.Y.3 - Multiply and divide rational expressions
+  - Y10.Y.4 - Divide polynomials
+  - Y10.Y.5 - Add and subtract rational expressions
+  - Y10.Y.6 - Solve rational equations
+
+Problem solving:
+  - Y10.Z.1 - Word problems: mixed review
+  - Y10.Z.2 - Word problems with money
+  - Y10.Z.3 - Consecutive integer problems
+  - Y10.Z.4 - Rate of travel: word problems
+  - Y10.Z.5 - Weighted averages: word problems
+
+Probability:
+  - Y10.AA.1 - Theoretical probability
+  - Y10.AA.2 - Experimental probability
+  - Y10.AA.3 - Compound events: find the number of outcomes
+  - Y10.AA.4 - Identify independent and dependent events
+
+Statistics:
+  - Y10.BB.1 - Calculate mean, median, mode and range
+  - Y10.BB.2 - Interpret charts to find mean, median, mode and range
+  - Y10.BB.3 - Mean, median, mode and range: find the missing number
+  - Y10.BB.4 - Quartiles
+  - Y10.BB.5 - Identify biased samples
+
+----------------------------------------------------------------------------------------------------
+YEAR 10 SUMMARY
+----------------------------------------------------------------------------------------------------
+
+Templates matched to official topics: 19 / 23 (82%)
+Templates without clear match: 4
+Official topics covered: 12 / 223 (5%)
+Official topics missing templates: 211
+
+
+====================================================================================================
+YEAR 11 ANALYSIS
+====================================================================================================
+
+Total templates in curriculum: 16
+Total official NZ topics: 336
+
+
+----------------------------------------------------------------------------------------------------
+TEMPLATE -> OFFICIAL TOPIC MAPPING
+----------------------------------------------------------------------------------------------------
+
+[MATCH] Y11.A.QUADRATICS_COMPLETE_SQUARE.T1
+  Skill: Quadratics Complete Square
+  -> Official Topic: Y11.P.3 - Factorise quadratics with leading coefficient 1
+  Section: Factorising
+
+[MATCH] Y11.M.SURFACE_AREA_PYRAMID.T1
+  Skill: Surface Area Pyramid
+  -> Official Topic: Y11.JJ.1 - Introduction to surface area and volume
+  Section: Surface area and volume
+
+[MATCH] Y11.M.VOLUME_SPHERE.T1
+  Skill: Volume Sphere
+  -> Official Topic: Y11.Y.4 - Minimum and maximum area and volume
+  Section: Measurement
+
+[MATCH] Y11.T.TRIG_GRAPH.T1
+  Skill: Trig Graph
+  -> Official Topic: Y11.I.16 - Standard form: graph an equation
+  Section: Linear functions
+
+[MATCH] Y11.A.QUADRATIC_EQS.T3
+  Skill: Quadratic Eqs
+  -> Official Topic: Y11.Q.1 - Characteristics of quadratic functions
+  Section: Quadratic equations
+
+[MATCH] Y11.A.POLYNOMIALS.T1
+  Skill: Polynomials
+  -> Official Topic: Y11.O.2 - Model polynomials with algebra tiles
+  Section: Polynomials
+
+[MATCH] Y11.A.POLYNOMIALS.T3
+  Skill: Polynomials
+  -> Official Topic: Y11.O.2 - Model polynomials with algebra tiles
+  Section: Polynomials
+
+[MATCH] Y11.G.TRIG_RATIOS.T1
+  Skill: Trig Ratios
+  -> Official Topic: Y11.GG.1 - Trigonometric ratios: sin, cos and tan
+  Section: Trigonometry
+
+[MATCH] Y11.G.TRIG_RATIOS.T3
+  Skill: Trig Ratios
+  -> Official Topic: Y11.GG.1 - Trigonometric ratios: sin, cos and tan
+  Section: Trigonometry
+
+[MATCH] Y11.G.TRIG_IDENTITIES.T1
+  Skill: Trig Identities
+  -> Official Topic: Y11.NN.5 - Variance and standard deviation
+  Section: Statistics
+
+[MATCH] Y11.G.COORDINATE_GEOMETRY.T1
+  Skill: Coordinate Geometry
+  -> Official Topic: Y11.I.4 - Find a missing coordinate using gradient
+  Section: Linear functions
+
+[MATCH] Y11.G.COORDINATE_GEOMETRY.T2
+  Skill: Coordinate Geometry
+  -> Official Topic: Y11.D.3 - Distance between two points
+  Section: Coordinate plane
+
+[MATCH] Y11.S.DESCRIPTIVE_STATS.T1
+  Skill: Descriptive Stats
+  -> Official Topic: Y11.NN.1 - Mean, median, mode and range
+  Section: Statistics
+
+
+----------------------------------------------------------------------------------------------------
+TEMPLATES WITHOUT CLEAR MATCH (3 templates)
+----------------------------------------------------------------------------------------------------
+
+[NO MATCH] Y11.M.MATRIX_ADD.T1
+  Skill: Matrix Add
+  Strand: Measurement & Geometry
+  Stem: A = [[{a11},{a12}],[{a21},{a22}]] and B = [[{b11},{b12}],[{b21},{b22}]]. Find A + B.
+
+[NO MATCH] Y11.M.MATRIX_MULTIPLY_2X2.T1
+  Skill: Matrix Multiply 2x2
+  Strand: Measurement & Geometry
+  Stem: Calculate AB where A = [[{a},{b}],[{c},{d}]] and B = [[{e},{f}],[{g},{h}]].
+
+[NO MATCH] Y11.C.CALCULUS_DIFF.T1
+  Skill: Calculus Diff
+  Strand: Calculus & Coordinates
+  Stem: Differentiate f(x) = {a}x² + {b}x + {c}
+
+
+----------------------------------------------------------------------------------------------------
+OFFICIAL NZ TOPICS WITH NO TEMPLATES
+----------------------------------------------------------------------------------------------------
+
+
+Statistics:
+  - Y11.A.1 - Identify rational and irrational numbers
+  - Y11.A.2 - Compare and order rational numbers
+  - Y11.A.3 - Square roots
+  - Y11.A.4 - Cube roots
+  - Y11.NN.2 - Quartiles
+  - Y11.NN.3 - Identify biased samples
+  - Y11.NN.4 - Mean absolute deviation
+
+Ratios, rates and proportions:
+  - Y11.B.1 - Identify equivalent ratios
+  - Y11.B.2 - Write an equivalent ratio
+  - Y11.B.3 - Unit rates
+  - Y11.B.4 - Unit prices
+  - Y11.B.5 - Solve proportions
+  - Y11.B.6 - Solve proportions: word problems
+  - Y11.B.7 - Scale drawings: word problems
+
+Consumer maths:
+  - Y11.C.1 - Simple interest
+  - Y11.C.2 - Compound interest
+  - Y11.C.3 - Continuously compounded interest
+  - Y11.C.4 - Percent of a number: GST, discount and more
+  - Y11.C.5 - Find the percent: discount and mark-up
+  - Y11.C.6 - Multi-step problems with percents
+
+Coordinate plane:
+  - Y11.D.1 - Coordinate plane review
+  - Y11.D.2 - Midpoints
+
+Solve equations:
+  - Y11.E.1 - Model and solve equations using algebra tiles
+  - Y11.E.2 - Write and solve equations that represent diagrams
+  - Y11.E.3 - Solve one-step linear equations
+  - Y11.E.4 - Solve two-step linear equations
+  - Y11.E.5 - Solve advanced linear equations
+  - Y11.E.6 - Solve equations with variables on both sides
+  - Y11.E.7 - Solve equations: complete the solution
+  - Y11.E.8 - Find the number of solutions
+  - Y11.E.9 - Create equations with no solutions or infinitely many solutions
+  - Y11.E.10 - Solve linear equations: word problems
+  - Y11.E.11 - Solve linear equations: mixed review
+
+Single-variable inequalities:
+  - Y11.F.1 - Graph inequalities
+  - Y11.F.2 - Write inequalities from graphs
+  - Y11.F.3 - Identify solutions to inequalities
+  - Y11.F.4 - Solve one-step linear inequalities: addition and subtraction
+  - Y11.F.5 - Solve one-step linear inequalities: multiplication and division
+  - Y11.F.6 - Solve one-step linear inequalities
+  - Y11.F.7 - Graph solutions to one-step linear inequalities
+  - Y11.F.8 - Solve two-step linear inequalities
+  - Y11.F.9 - Graph solutions to two-step linear inequalities
+  - Y11.F.10 - Solve advanced linear inequalities
+  - Y11.F.11 - Graph solutions to advanced linear inequalities
+
+Relations and functions:
+  - Y11.G.1 - Relations: convert between tables, graphs, mappings and lists of points
+  - Y11.G.2 - Domain and range of relations
+  - Y11.G.3 - Identify independent and dependent variables
+  - Y11.G.4 - Identify functions
+  - Y11.G.5 - Find values using function graphs
+  - Y11.G.6 - Evaluate a function
+  - Y11.G.7 - Complete a function table from a graph
+  - Y11.G.8 - Complete a function table from an equation
+  - Y11.G.9 - Interpret the graph of a function: word problems
+
+Direct and inverse variation:
+  - Y11.H.1 - Identify proportional relationships
+  - Y11.H.2 - Find the constant of variation
+  - Y11.H.3 - Graph a proportional relationship
+  - Y11.H.4 - Write direct variation equations
+  - Y11.H.5 - Write and solve direct variation equations
+  - Y11.H.6 - Write inverse variation equations
+  - Y11.H.7 - Write and solve inverse variation equations
+  - Y11.H.8 - Identify direct variation and inverse variation
+
+Linear functions:
+  - Y11.I.1 - Identify linear functions
+  - Y11.I.2 - Find the gradient of a graph
+  - Y11.I.3 - Find the gradient from two points
+  - Y11.I.5 - Find the gradient and y-intercept of a linear equation
+  - Y11.I.6 - Graph an equation in y=mx+c form
+  - Y11.I.7 - Write an equation in y=mx+c form from a graph
+  - Y11.I.8 - Write an equation in y=mx+c form
+  - Y11.I.9 - Write an equation in y=mx+c form from a table
+  - Y11.I.10 - Write an equation in y=mx+c form from a word problem
+  - Y11.I.11 - Write linear functions to solve word problems
+  - Y11.I.12 - Complete a table and graph a linear function
+  - Y11.I.13 - Compare linear functions: graphs, tables and equations
+  - Y11.I.14 - Write equations in standard form
+  - Y11.I.15 - Standard form: find x- and y-intercepts
+  - Y11.I.17 - Equations of horizontal and vertical lines
+  - Y11.I.18 - Graph a horizontal or vertical line
+  - Y11.I.19 - Point-gradient form: graph an equation
+  - Y11.I.20 - Point-gradient form: write an equation
+  - Y11.I.21 - Point-gradient form: write an equation from a graph
+  - Y11.I.22 - Gradients of parallel and perpendicular lines
+  - Y11.I.23 - Write an equation for a parallel or perpendicular line
+  - Y11.I.24 - Find the distance between a point and a line
+  - Y11.I.25 - Find the distance between two parallel lines
+  - Y11.I.26 - Transformations of linear functions
+
+Simultaneous equations:
+  - Y11.J.1 - Is (x, y) a solution to the simultaneous equations?
+  - Y11.J.2 - Solve simultaneous equations by graphing
+  - Y11.J.3 - Solve simultaneous equations by graphing: word problems
+  - Y11.J.4 - Find the number of solutions to simultaneous equations by graphing
+  - Y11.J.5 - Find the number of solutions to simultaneous equations
+  - Y11.J.6 - Solve simultaneous equations using substitution
+  - Y11.J.7 - Solve simultaneous equations using substitution: word problems
+  - Y11.J.8 - Solve simultaneous equations using elimination
+  - Y11.J.9 - Solve simultaneous equations using elimination: word problems
+  - Y11.J.10 - Solve simultaneous equations using any method
+  - Y11.J.11 - Solve simultaneous equations using any method: word problems
+
+Exponents:
+  - Y11.K.1 - Powers with integer bases
+  - Y11.K.2 - Powers with decimal and fractional bases
+  - Y11.K.3 - Negative exponents
+  - Y11.K.4 - Multiplication with exponents
+  - Y11.K.5 - Division with exponents
+  - Y11.K.6 - Multiplication and division with exponents
+  - Y11.K.7 - Power rule
+  - Y11.K.8 - Evaluate expressions using properties of exponents
+  - Y11.K.9 - Identify equivalent expressions involving exponents
+
+Logarithms:
+  - Y11.L.1 - Convert between exponential and logarithmic form: rational bases
+  - Y11.L.2 - Evaluate logarithms
+  - Y11.L.3 - Change of base formula
+  - Y11.L.4 - Identify properties of logarithms
+  - Y11.L.5 - Product property of logarithms
+  - Y11.L.6 - Quotient property of logarithms
+  - Y11.L.7 - Power property of logarithms
+  - Y11.L.8 - Properties of logarithms: mixed review
+  - Y11.L.9 - Evaluate logarithms: mixed review
+
+Exponential and logarithmic functions:
+  - Y11.M.1 - Domain and range of exponential and logarithmic functions
+  - Y11.M.2 - Evaluate an exponential function
+  - Y11.M.3 - Match exponential functions and graphs
+  - Y11.M.4 - Solve exponential equations by rewriting the base
+  - Y11.M.5 - Solve exponential equations using common logarithms
+  - Y11.M.6 - Solve logarithmic equations I
+  - Y11.M.7 - Solve logarithmic equations II
+  - Y11.M.8 - Exponential growth and decay: word problems
+
+Monomials:
+  - Y11.N.1 - Identify monomials
+  - Y11.N.2 - Multiply monomials
+  - Y11.N.3 - Divide monomials
+  - Y11.N.4 - Multiply and divide monomials
+  - Y11.N.5 - Powers of monomials
+
+Polynomials:
+  - Y11.O.1 - Polynomial vocabulary
+  - Y11.O.3 - Add and subtract polynomials using algebra tiles
+  - Y11.O.4 - Add and subtract polynomials
+  - Y11.O.5 - Add polynomials to find perimeter
+  - Y11.O.6 - Multiply a polynomial by a monomial
+  - Y11.O.7 - Multiply two polynomials using algebra tiles
+  - Y11.O.8 - Multiply two binomials
+  - Y11.O.9 - Multiply two binomials: special cases
+  - Y11.O.10 - Multiply polynomials
+
+Factorising:
+  - Y11.P.1 - HCF of monomials
+  - Y11.P.2 - Factorise out a monomial
+  - Y11.P.4 - Factorise quadratics with other leading coefficients
+  - Y11.P.5 - Factorise quadratics: special cases
+  - Y11.P.6 - Factorise quadratics using algebra tiles
+  - Y11.P.7 - Factorise by grouping
+  - Y11.P.8 - Factorise polynomials
+
+Quadratic equations:
+  - Y11.Q.2 - Complete a function table: quadratic functions
+  - Y11.Q.3 - Solve a quadratic equation using square roots
+  - Y11.Q.4 - Solve a quadratic equation using the zero product property
+  - Y11.Q.5 - Solve a quadratic equation by factorising
+  - Y11.Q.6 - Complete the square
+  - Y11.Q.7 - Solve a quadratic equation by completing the square
+  - Y11.Q.8 - Solve a quadratic equation using the quadratic formula
+  - Y11.Q.9 - Using the discriminant
+  - Y11.R.1 - Identify linear, quadratic and exponential functions from graphs
+  - Y11.R.2 - Identify linear, quadratic and exponential functions from tables
+  - Y11.R.3 - Write linear, quadratic and exponential functions
+  - Y11.R.4 - Linear functions over unit intervals
+  - Y11.R.5 - Exponential functions over unit intervals
+  - Y11.R.6 - Describe linear and exponential growth and decay
+
+Parabolas:
+  - Y11.S.1 - Identify the direction a parabola opens
+  - Y11.S.2 - Find the vertex of a parabola
+  - Y11.S.3 - Find the focus or directrix of a parabola
+  - Y11.S.4 - Find the axis of symmetry of a parabola
+  - Y11.S.5 - Write equations of parabolas in vertex form from graphs
+  - Y11.S.6 - Write equations of parabolas in vertex form using properties
+  - Y11.S.7 - Convert equations of parabolas from general to vertex form
+  - Y11.S.8 - Find properties of a parabola from equations in general form
+  - Y11.S.9 - Graph parabolas
+
+Ellipses:
+  - Y11.T.1 - Find the centre, vertices or co-vertices of an ellipse
+  - Y11.T.2 - Find the length of the major or minor axis of an ellipse
+  - Y11.T.3 - Find the foci of an ellipse
+  - Y11.T.4 - Write equations of ellipses in standard form from graphs
+  - Y11.T.5 - Write equations of ellipses in standard form using properties
+  - Y11.T.6 - Convert equations of ellipses from general to standard form
+  - Y11.T.7 - Find properties of ellipses from equations in general form
+
+Radical expressions:
+  - Y11.U.1 - Simplify radical expressions
+  - Y11.U.2 - Simplify radical expressions involving fractions
+  - Y11.U.3 - Multiply radical expressions
+  - Y11.U.4 - Add and subtract radical expressions
+  - Y11.U.5 - Simplify radical expressions using the distributive property
+  - Y11.U.6 - Simplify radical expressions: mixed review
+
+Rational exponents:
+  - Y11.V.1 - Evaluate rational exponents
+  - Y11.V.2 - Multiplication with rational exponents
+  - Y11.V.3 - Division with rational exponents
+  - Y11.V.4 - Power rule with rational exponents
+  - Y11.V.5 - Simplify expressions involving rational exponents I
+  - Y11.V.6 - Simplify expressions involving rational exponents II
+
+Rational functions and expressions:
+  - Y11.W.1 - Rational functions: asymptotes and excluded values
+  - Y11.W.2 - Simplify complex fractions
+  - Y11.W.3 - Simplify rational expressions
+  - Y11.W.4 - Multiply and divide rational expressions
+  - Y11.W.5 - Divide polynomials
+  - Y11.W.6 - Add and subtract rational expressions
+  - Y11.W.7 - Solve rational equations
+
+Number sequences:
+  - Y11.X.1 - Identify arithmetic and geometric sequences
+  - Y11.X.2 - Arithmetic sequences
+  - Y11.X.3 - Geometric sequences
+  - Y11.X.4 - Evaluate variable expressions for number sequences
+  - Y11.X.5 - Write variable expressions for arithmetic sequences
+  - Y11.X.6 - Write variable expressions for geometric sequences
+  - Y11.X.7 - Number sequences: mixed review
+
+Measurement:
+  - Y11.Y.1 - Convert rates and measurements
+  - Y11.Y.2 - Precision
+  - Y11.Y.3 - Greatest possible error
+  - Y11.Y.5 - Percent error
+  - Y11.Y.6 - Percent error: area and volume
+
+Problem solving:
+  - Y11.Z.1 - Word problems: mixed review
+  - Y11.Z.2 - Word problems with money
+  - Y11.Z.3 - Consecutive integer problems
+  - Y11.Z.4 - Rate of travel: word problems
+  - Y11.Z.5 - Weighted averages: word problems
+
+Two-dimensional figures:
+  - Y11.AA.1 - Classify triangles
+  - Y11.AA.2 - Polygon vocabulary
+  - Y11.AA.3 - Triangle Angle-Sum Theorem
+  - Y11.AA.4 - Midsegments of triangles
+  - Y11.AA.5 - Triangles and bisectors
+  - Y11.AA.6 - Identify medians, altitudes, angle bisectors and perpendicular bisectors
+  - Y11.AA.7 - Perimeter
+  - Y11.AA.8 - Area of triangles and quadrilaterals
+  - Y11.AA.9 - Area and perimeter in the coordinate plane I
+  - Y11.AA.10 - Area and perimeter in the coordinate plane II
+  - Y11.AA.11 - Area and circumference of circles
+  - Y11.AA.12 - Area of compound figures
+  - Y11.AA.13 - Area between two shapes
+  - Y11.AA.14 - Area and perimeter of similar figures
+
+Introduction to congruent figures:
+  - Y11.BB.1 - Congruence statements and corresponding parts
+  - Y11.BB.2 - Solve problems involving corresponding parts
+  - Y11.BB.3 - Identify congruent figures
+
+Congruent triangles:
+  - Y11.CC.1 - SSS and SAS Theorems
+  - Y11.CC.2 - ASA and AAS Theorems
+  - Y11.CC.3 - SSS, SAS, ASA and AAS Theorems
+  - Y11.CC.4 - SSS Theorem in the coordinate plane
+  - Y11.CC.5 - Congruency in isosceles and equilateral triangles
+  - Y11.CC.6 - Hypotenuse-Leg Theorem
+
+Similarity:
+  - Y11.DD.1 - Identify similar figures
+  - Y11.DD.2 - Ratios in similar figures
+  - Y11.DD.3 - Similarity statements
+  - Y11.DD.4 - Side lengths and angle measures in similar figures
+  - Y11.DD.5 - Similar triangles and indirect measurement
+  - Y11.DD.6 - Perimeters of similar figures
+  - Y11.DD.7 - Similarity rules for triangles
+  - Y11.DD.8 - Similar triangles and similarity transformations
+  - Y11.DD.9 - Areas of similar figures
+
+Right triangles:
+  - Y11.EE.1 - Pythagoras' Theorem
+  - Y11.EE.2 - Converse of Pythagoras' theorem
+  - Y11.EE.3 - Pythagoras' Inequality Theorems
+  - Y11.EE.4 - Special right triangles
+
+Angle measures:
+  - Y11.FF.1 - Quadrants
+  - Y11.FF.2 - Graphs of angles
+  - Y11.FF.3 - Coterminal angles
+  - Y11.FF.4 - Reference angles
+
+Trigonometry:
+  - Y11.GG.2 - Trigonometric ratios: csc, sec and cot
+  - Y11.GG.3 - Trigonometric ratios in similar right triangles
+  - Y11.GG.4 - Find trigonometric ratios using the unit circle
+  - Y11.GG.5 - Trigonometric functions of complementary angles
+  - Y11.GG.6 - Sin, cos and tan of special angles
+  - Y11.GG.7 - Csc, sec and cot of special angles
+  - Y11.GG.8 - Find trigonometric functions using a calculator
+  - Y11.GG.9 - Symmetry and periodicity of trigonometric functions
+  - Y11.GG.10 - Inverses of sin, cos and tan
+  - Y11.GG.11 - Inverses of csc, sec and cot
+  - Y11.GG.12 - Solve trigonometric equations I
+  - Y11.GG.13 - Solve trigonometric equations II
+  - Y11.GG.14 - Trigonometric ratios: find a side length
+  - Y11.GG.15 - Trigonometric ratios: find an angle measure
+  - Y11.GG.16 - Solve a right triangle
+  - Y11.GG.17 - Law of Sines
+  - Y11.GG.18 - Law of Cosines
+  - Y11.GG.19 - Solve a triangle
+
+Circles:
+  - Y11.HH.1 - Parts of a circle
+  - Y11.HH.2 - Central angles
+  - Y11.HH.3 - Arc measure and arc length
+  - Y11.HH.4 - Area of sectors
+  - Y11.HH.5 - Circle measurements: mixed review
+  - Y11.HH.6 - Arcs and chords
+  - Y11.HH.7 - Tangent lines
+  - Y11.HH.8 - Perimeter of polygons with an inscribed circle
+  - Y11.HH.9 - Inscribed angles
+  - Y11.HH.10 - Angles in inscribed right triangles
+  - Y11.HH.11 - Angles in inscribed quadrilaterals
+
+Circles in the coordinate plane:
+  - Y11.II.1 - Find the centre of a circle
+  - Y11.II.2 - Find the radius or diameter of a circle
+  - Y11.II.3 - Write equations of circles in standard form from graphs
+  - Y11.II.4 - Write equations of circles in standard form using properties
+  - Y11.II.5 - Convert equations of circles from general to standard form
+  - Y11.II.6 - Find properties of circles from equations in general form
+  - Y11.II.7 - Graph circles
+
+Surface area and volume:
+  - Y11.JJ.2 - Surface area of prisms and cylinders
+  - Y11.JJ.3 - Surface area of pyramids and cones
+  - Y11.JJ.4 - Volume of prisms and cylinders
+  - Y11.JJ.5 - Volume of pyramids and cones
+  - Y11.JJ.6 - Surface area and volume of spheres
+  - Y11.JJ.7 - Introduction to similar solids
+  - Y11.JJ.8 - Surface area and volume of similar solids
+  - Y11.JJ.9 - Surface area and volume review
+
+Transformations:
+  - Y11.KK.1 - Translations: graph the image
+  - Y11.KK.2 - Translations: find the coordinates
+  - Y11.KK.3 - Translations: write the rule
+  - Y11.KK.4 - Reflections: graph the image
+  - Y11.KK.5 - Reflections: find the coordinates
+  - Y11.KK.6 - Rotate polygons about a point
+  - Y11.KK.7 - Rotations: graph the image
+  - Y11.KK.8 - Rotations: find the coordinates
+  - Y11.KK.9 - Classify congruence transformations
+  - Y11.KK.10 - Compositions of congruence transformations: graph the image
+  - Y11.KK.11 - Transformations that carry a polygon onto itself
+  - Y11.KK.12 - Congruence transformations: mixed review
+  - Y11.KK.13 - Dilations: graph the image
+  - Y11.KK.14 - Dilations: find the coordinates
+  - Y11.KK.15 - Dilations: scale factor and classification
+  - Y11.KK.16 - Dilations and parallel lines
+
+Symmetry:
+  - Y11.LL.1 - Line symmetry
+  - Y11.LL.2 - Rotational symmetry
+  - Y11.LL.3 - Count lines of symmetry
+  - Y11.LL.4 - Draw lines of symmetry
+
+Probability:
+  - Y11.MM.1 - Theoretical probability
+  - Y11.MM.2 - Experimental probability
+  - Y11.MM.3 - Compound events: find the number of outcomes
+  - Y11.MM.4 - Identify independent and dependent events
+  - Y11.MM.5 - Probability of independent and dependent events
+  - Y11.MM.6 - Geometric probability
+
+Data and graphs:
+  - Y11.OO.1 - Interpret histograms
+  - Y11.OO.2 - Create histograms
+  - Y11.OO.3 - Interpret stem-and-leaf plots
+  - Y11.OO.4 - Interpret box-and-whisker plots
+  - Y11.OO.5 - Interpret a scatter plot
+  - Y11.OO.6 - Scatter plots: line of best fit
+
+----------------------------------------------------------------------------------------------------
+YEAR 11 SUMMARY
+----------------------------------------------------------------------------------------------------
+
+Templates matched to official topics: 13 / 16 (81%)
+Templates without clear match: 3
+Official topics covered: 11 / 336 (3%)
+Official topics missing templates: 325
+
+
+====================================================================================================
+YEAR 12 ANALYSIS
+====================================================================================================
+
+Total templates in curriculum: 8
+Total official NZ topics: 0
+
+
+----------------------------------------------------------------------------------------------------
+TEMPLATE -> OFFICIAL TOPIC MAPPING
+----------------------------------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------------------------------
+TEMPLATES WITHOUT CLEAR MATCH (8 templates)
+----------------------------------------------------------------------------------------------------
+
+[NO MATCH] Y12.C.COMPLEX_ADD.T1
+  Skill: Complex Add
+  Strand: Calculus & Coordinates
+  Stem: Simplify ({a} + {b}i) + ({c} + {d}i).
+
+[NO MATCH] Y12.V.VECTOR_DOT.T1
+  Skill: Vector Dot
+  Strand: Vectors & Matrices
+  Stem: Find the dot product of <{a},{b}> and <{c},{d}>.
+
+[NO MATCH] Y12.V.VECTOR_ANGLE.T1
+  Skill: Vector Angle
+  Strand: Vectors & Matrices
+  Stem: Find the angle between <{a},{b}> and <{c},{d}> to the nearest degree.
+
+[NO MATCH] Y12.ALG.RECURSION.T1
+  Skill: Recursion
+  Strand: General
+  Stem: A sequence is defined by T(1) = {t1}, T(n) = {a}·T(n-1) + {b} for n ≥ 2. Find T({n}).
+
+[NO MATCH] Y12.A.MATRIX_OPS.T2
+  Skill: Matrix Ops
+  Strand: Algebra & Sequences
+  Stem: Find the determinant of the matrix [[{a},{b}],[{c},{d}]]
+
+[NO MATCH] Y12.A.EXPONENTIALS_LOGS.T2
+  Skill: Exponentials Logs
+  Strand: Algebra & Sequences
+  Stem: Simplify {log}({a}) + {log}({b}) where the logarithm has the same base
+
+[NO MATCH] Y12.C.CALCULUS_APPLICATIONS.T2
+  Skill: Calculus Applications
+  Strand: Calculus & Coordinates
+  Stem: A particle moves according to s(t) = {a}t² + {b}t + {c}. Find its velocity at t = {t}.
+
+[NO MATCH] Y12.G.VECTOR_OPS.T3
+  Skill: Vector Ops
+  Strand: Geometry & Trigonometry
+  Stem: Calculate the dot product <{a},{b}> · <{c},{d}>
+
+
+----------------------------------------------------------------------------------------------------
+OFFICIAL NZ TOPICS WITH NO TEMPLATES
+----------------------------------------------------------------------------------------------------
+
+
+----------------------------------------------------------------------------------------------------
+YEAR 12 SUMMARY
+----------------------------------------------------------------------------------------------------
+
+Templates matched to official topics: 0 / 8 (0%)
+Templates without clear match: 8
+Official topics covered: 0 / 0 (0%)
+Official topics missing templates: 0
+
+
+====================================================================================================
+OVERALL SUMMARY (Years 10-12)
+====================================================================================================
+
+Total curriculum templates: 47
+Total official NZ topics: 559
+Templates matched: 32
+Templates unmatched: 15
+Topics without templates: 536
+Coverage gap: 536 official topics need templates
+
+RECOMMENDATIONS:
+1. Create templates for all missing official topics
+2. Update skill IDs to match official NZ curriculum codes (e.g., Y10.A.1, Y10.B.2)
+3. Review unmatched templates and either:
+   - Map them to existing official topics with better keywords
+   - Remove them if they don't align with NZ curriculum
+

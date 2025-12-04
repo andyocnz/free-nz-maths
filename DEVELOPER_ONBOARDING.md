@@ -77,6 +77,15 @@ node scripts/sample_generate.mjs | Select-String "Y6.N.MY_SKILL"
 # Or run the dev server to test in the UI
 npm run dev
 ```
+
+#### Multiple-Choice Templates
+Some skills (like polynomial expansion/simplification) use button-style choices instead of free-form text. To set one up:
+- Compute any helper params (e.g., `correctExpr`) in the `params` block and keep `answer` pointed at the canonical expression.
+- Add a `choices` array. Each entry can be a param name (e.g., `"correctExpr"`) or a string containing `{...}` expressions (e.g., `"{formatQuadraticExpression(aSum, bSum, cSum)}"`). The engine evaluates every entry, clones the values, and shuffles them automatically.
+- No extra UI wiring is needed—the practice view shows a “Choose one:” prompt above the options.
+
+See `Y11.A.POLYNOMIALS.T1`/`T3` in `src/curriculumDataNew.json` for reference.
+
 ---
 
 ## 2. Core Workflows

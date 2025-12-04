@@ -1,0 +1,207 @@
+[
+  {
+    "id": "Y11.A.QUADRATIC_EQS.T3",
+    "topic_note": "Year 11 / Complete the square (equation form)",
+    "stem": "Complete the square for the equation x² + {a}x + {b} = 0",
+    "params": {
+      "a": ["int", -12, 12, 2],
+      "b": ["int", -30, 30]
+    },
+    "answer": "(x + {a/2})² = {(a/2)^2 - b}",
+    "difficulty": 9,
+    "phase": 10.1
+  },
+  {
+    "id": "Y11.A.POLYNOMIALS.T1",
+    "topic_note": "Year 11 / Expand binomial",
+    "stem": "Expand ({a}x + {b})({c}x + {d})",
+    "params": {
+      "a": ["int", 1, 6],
+      "b": ["int", -12, 12],
+      "c": ["int", 1, 6],
+      "d": ["int", -12, 12]
+    },
+    "answer": "{a*c}x² + {a*d + b*c}x + {b*d}",
+    "difficulty": 6,
+    "phase": 10.1
+  },
+  {
+    "id": "Y11.A.POLYNOMIALS.T3",
+    "topic_note": "Year 11 / Add polynomials",
+    "stem": "Simplify ({a}x² + {b}x + {c}) + ({d}x² + {e}x + {f})",
+    "params": {
+      "a": ["int", -8, 8], "b": ["int", -15, 15], "c": ["int", -20, 20],
+      "d": ["int", -8, 8], "e": ["int", -15, 15], "f": ["int", -20, 20]
+    },
+    "answer": "{a+d}x² + {b+e}x + {c+f}",
+    "difficulty": 5,
+    "phase": 10.1
+  },
+  {
+    "id": "Y11.G.TRIG_RATIOS.T1",
+    "topic_note": "Year 11 / tan θ = opp/adj",
+    "stem": "In a right-angled triangle, opposite side = {opp} cm, adjacent side = {adj} cm. Find tan θ exactly.",
+    "params": {
+      "opp": ["int", 3, 20],
+      "adj": ["int", 3, 20]
+    },
+    "answer": "{opp}/{adj}",
+    "difficulty": 6,
+    "phase": 10.1
+  },
+  {
+    "id": "Y11.G.TRIG_RATIOS.T3",
+    "topic_note": "Year 11 / sin θ = opp/hyp (real triangle guaranteed)",
+    "stem": "A right triangle has hypotenuse {hyp} cm and opposite side {opp} cm. Find sin θ exactly.",
+    "params": {
+      "hyp": ["int", 5, 25],
+      "opp": ["int", 3, 24]
+    },
+    "answer": "{opp}/{hyp}",
+    "difficulty": 6,
+    "phase": 10.1
+  },
+  {
+    "id": "Y11.G.TRIG_IDENTITIES.T1",
+    "topic_note": "Year 11 / Pythagorean identity (now randomized)",
+    "stem": "Simplify {expr}",
+    "params": {
+      "type": [0,1,2]
+    },
+    "expr": [
+      "sin²θ + cos²θ",
+      "1 - cos²θ",
+      "1 - sin²θ"
+    ],
+    "answer": "{type==0?'1':type==1?'sin²θ':'cos²θ'}",
+    "difficulty": 8,
+    "phase": 10.1
+  },
+  {
+    "id": "Y11.G.COORDINATE_GEOMETRY.T1",
+    "topic_note": "Year 11 / Gradient (safe from division by zero)",
+    "stem": "Find the gradient of the line passing through ({x1},{y1}) and ({x2},{y2}).",
+    "params": {
+      "x1": ["int", -10, 10],
+      "y1": ["int", -15, 15],
+      "dx": ["int", 1, 10],
+      "dy": ["int", -12, 12],
+      "x2": "{x1 + dx}",
+      "y2": "{y1 + dy}"
+    },
+    "answer": "{dy}/{dx}",
+    "difficulty": 6,
+    "phase": 10.1
+  },
+  {
+    "id": "Y11.G.COORDINATE_GEOMETRY.T2",
+    "topic_note": "Year 11 / Distance formula",
+    "stem": "Find the distance between ({x1},{y1}) and ({x2},{y2}). Give exact simplified form.",
+    "params": {
+      "x1": ["int", -12, 12],
+      "y1": ["int", -12, 12],
+      "dx": ["int", -10, 10],
+      "dy": ["int", -10, 10],
+      "x2": "{x1 + dx}",
+      "y2": "{y1 + dy}"
+    },
+    "answer": "√({dx}² + {dy}²)",
+    "difficulty": 7,
+    "phase": 10.1
+  },
+  {
+    "id": "Y11.S.DESCRIPTIVE_STATS.T1",
+    "topic_note": "Year 11 / Mean of five numbers",
+    "stem": "Find the mean of the numbers {a}, {b}, {c}, {d}, {e}.",
+    "params": {
+      "a": ["int", 0, 200],
+      "b": ["int", 0, 200],
+      "c": ["int", 0, 200],
+      "d": ["int", 0, 200],
+      "e": ["int", 0, 200]
+    },
+    "answer": "{(a+b+c+d+e)/5}",
+    "difficulty": 5,
+    "phase": 10.1
+  },
+  {
+    "id": "Y11.C.CALCULUS_DIFF.T1",
+    "topic_note": "Year 11 / Differentiate quadratic",
+    "stem": "Differentiate f(x) = {a}x² + {b}x + {c}",
+    "params": {
+      "a": ["int", -6, 6, 1],
+      "b": ["int", -15, 15],
+      "c": ["int", -20, 20]
+    },
+    "answer": "{2*a}x + {b}",
+    "difficulty": 10,
+    "phase": 10.1
+  },
+  {
+    "id": "Y12.A.MATRIX_OPS.T2",
+    "topic_note": "Year 12 / 2×2 determinant",
+    "stem": "Find the determinant of the matrix [[{a},{b}],[{c},{d}]]",
+    "params": {
+      "a": ["int", -10, 10],
+      "b": ["int", -10, 10],
+      "c": ["int", -10, 10],
+      "d": ["int", -10, 10]
+    },
+    "answer": "{a*d - b*c}",
+    "difficulty": 8,
+    "phase": 10.1
+  },
+  {
+    "id": "Y12.A.EXPONENTIALS_LOGS.T2",
+    "topic_note": "Year 12 / Logarithm addition rule (randomized bases)",
+    "stem": "Simplify log({a}) + log({b}) where the logarithm has the same base",
+    "params": {
+      "base_num": [2, 3, 5, 10, 0],
+      "a": ["int", 2, 30],
+      "b": ["int", 2, 30]
+    },
+    "answer": "{base_num == 0 ? 'ln(' + (a*b) + ')' : 'log(' + (a*b) + ')'}",
+    "difficulty": 7,
+    "phase": 10.1
+  },
+  {
+    "id": "Y12.C.CALCULUS_APPLICATIONS.T2",
+    "topic_note": "Year 12 / Velocity from position",
+    "stem": "A particle moves according to s(t) = {a}t² + {b}t + {c}. Find its velocity at t = {t}.",
+    "params": {
+      "a": ["int", -5, 5, 1],
+      "b": ["int", -20, 20],
+      "c": ["int", -50, 50],
+      "t": ["int", 0, 10]
+    },
+    "answer": "{2*a*t + b}",
+    "difficulty": 9,
+    "phase": 10.1
+  },
+  {
+    "id": "Y12.G.VECTOR_OPS.T3",
+    "topic_note": "Year 12 / Dot product (non-zero vectors)",
+    "stem": "Calculate the dot product <{a},{b}> · <{c},{d}>",
+    "params": {
+      "a": ["int", -10, 10, 1],
+      "b": ["int", -10, 10, 1],
+      "c": ["int", -10, 10, 1],
+      "d": ["int", -10, 10, 1]
+    },
+    "answer": "{a*c + b*d}",
+    "difficulty": 8,
+    "phase": 10.1
+  },
+  {
+    "id": "Y13.A.COMPLEX_NUMBERS.T6",
+    "topic_note": "Year 13 / Complex conjugate (non-real guaranteed half the time)",
+    "stem": "Find the complex conjugate of {a} + {b}i",
+    "params": {
+      "a": ["int", -15, 15],
+      "b": ["int", -15, 15, 1]
+    },
+    "answer": "{a} - {b}i",
+    "difficulty": 6,
+    "phase": 10.1
+  }
+]

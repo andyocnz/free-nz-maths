@@ -60,6 +60,10 @@ function merge() {
   applyNewData(year11Data)
   applyNewData(year12Data)
   applyNewData(year13Data)
+
+  // Sort years in ascending order
+  merged.years.sort((a, b) => a.year - b.year)
+
   return merged
 }
 

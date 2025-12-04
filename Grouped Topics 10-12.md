@@ -1,0 +1,1006 @@
+# Grouped Topic Overview for Years 10-12
+
+This document consolidates the detailed topic list from `full year 10-12 topics.txt` into broader, more manageable categories for easier curriculum planning.
+
+---
+
+## Year 10 Topics
+
+### 1. Number & Operations
+- Classify numbers
+- Compare and order rational numbers
+- Number lines
+- Convert between decimals and fractions
+- Square roots
+- Cube roots
+- Add, subtract, multiply and divide integers
+- Evaluate numerical expressions involving integers
+- Evaluate variable expressions involving integers
+- Add and subtract rational numbers
+- Multiply and divide rational numbers
+- Evaluate numerical expressions involving rational numbers
+- Evaluate variable expressions involving rational numbers
+
+### 2. Ratios, Proportions & Percents
+- Identify equivalent ratios
+- Write an equivalent ratio
+- Unit rates
+- Unit prices
+- Solve proportions
+- Solve proportions: word problems
+- Scale drawings: word problems
+- Convert between percents, fractions and decimals
+- Solve percent equations
+- Percent word problems
+- Percent of change
+- Percent of change: word problems
+- Simple interest
+- Compound interest
+- Percent of a number: GST, discount and more
+- Find the percent: discount and mark-up
+- Multi-step problems with percents
+
+### 3. Measurement
+- Convert rates and measurements
+- Precision
+- Greatest possible error
+- Minimum and maximum area and volume
+- Percent error
+- Percent error: area and volume
+
+### 4. Algebra
+- **Properties:**
+  - Properties of addition and multiplication
+  - Distributive property
+  - Simplify variable expressions using properties
+  - Properties of equality
+- **Variable Expressions & Equations:**
+  - Write variable expressions
+  - Simplify variable expressions involving like terms and the distributive property
+  - Identify equivalent linear expressions
+  - Write variable equations
+  - Does x satisfy the equation?
+  - Solve equations using order of operations
+- **Solving Equations:**
+  - Model and solve equations using algebra tiles
+  - Write and solve equations that represent diagrams
+  - Solve one-step linear equations
+  - Solve two-step linear equations
+  - Solve advanced linear equations
+  - Solve equations with variables on both sides
+  - Solve equations: complete the solution
+  - Find the number of solutions
+  - Create equations with no solutions or infinitely many solutions
+  - Solve linear equations: word problems
+  - Solve linear equations: mixed review
+- **Exponents, Radicals & Standard Form:**
+  - Powers with integer bases
+  - Powers with decimal and fractional bases
+  - Negative exponents
+  - Multiplication with exponents
+  - Division with exponents
+  - Multiplication and division with exponents
+  - Power rule
+  - Evaluate expressions using properties of exponents
+  - Identify equivalent expressions involving exponents
+  - Convert between ordinary numbers and standard form
+  - Compare numbers written in standard form
+  - Multiply numbers written in standard form
+  - Divide numbers written in standard form
+  - Simplify radical expressions
+  - Simplify radical expressions with variables
+  - Simplify radical expressions involving fractions
+  - Multiply radical expressions
+  - Add and subtract radical expressions
+  - Simplify radical expressions using the distributive property
+  - Divide radical expressions
+  - Simplify radical expressions: mixed review
+  - Evaluate rational exponents
+  - Multiplication with rational exponents
+  - Division with rational exponents
+  - Power rule with rational exponents
+  - Simplify expressions involving rational exponents I
+  - Simplify expressions involving rational exponents II
+- **Polynomials & Factorising:**
+  - Identify monomials
+  - Multiply monomials
+  - Divide monomials
+  - Multiply and divide monomials
+  - Powers of monomials
+  - Polynomial vocabulary
+  - Model polynomials with algebra tiles
+  - Add and subtract polynomials using algebra tiles
+  - Add and subtract polynomials
+  - Add polynomials to find perimeter
+  - Multiply a polynomial by a monomial
+  - Multiply two polynomials using algebra tiles
+  - Multiply two binomials
+  - Multiply two binomials: special cases
+  - Multiply polynomials
+  - HCF of monomials
+  - Factorise out a monomial
+  - Factorise quadratics with leading coefficient 1
+  - Factorise quadratics with other leading coefficients
+  - Factorise quadratics: special cases
+  - Factorise quadratics using algebra tiles
+  - Factorise by grouping
+  - Factorise polynomials
+- **Rational Functions & Expressions:**
+  - Simplify complex fractions
+  - Simplify rational expressions
+  - Multiply and divide rational expressions
+  - Divide polynomials
+  - Add and subtract rational expressions
+  - Solve rational equations
+
+### 5. Linear Inequalities
+- Graph inequalities
+- Write inequalities from graphs
+- Identify solutions to inequalities
+- Solve one-step linear inequalities: addition and subtraction
+- Solve one-step linear inequalities: multiplication and division
+- Solve one-step linear inequalities
+- Graph solutions to one-step linear inequalities
+- Solve two-step linear inequalities
+- Graph solutions to two-step linear inequalities
+- Solve advanced linear inequalities
+- Graph solutions to advanced linear inequalities
+
+### 6. Functions & Coordinate Geometry
+- **Relations & Functions:**
+  - Relations: convert between tables, graphs, mappings and lists of points
+  - Identify independent and dependent variables
+  - Identify functions
+  - Identify functions: vertical line test
+  - Find values using function graphs
+  - Evaluate a function
+  - Evaluate a function: plug in an expression
+  - Complete a function table from a graph
+  - Complete a function table from an equation
+  - Interpret the graph of a function: word problems
+- **Direct Variation:**
+  - Identify proportional relationships
+  - Find the constant of variation
+  - Graph a proportional relationship
+  - Write direct variation equations
+  - Write and solve direct variation equations
+- **Linear Functions & Equations:**
+  - Identify linear functions
+  - Find the gradient of a graph
+  - Find the gradient from two points
+  - Find a missing coordinate using gradient
+  - Find the gradient and y-intercept of a linear equation
+  - Graph an equation in y=mx+c form
+  - Write an equation in y=mx+c form from a graph
+  - Write an equation in y=mx+c form
+  - Write an equation in y=mx+c form from a table
+  - Write an equation in y=mx+c form from a word problem
+  - Linear equations: solve for y
+  - Write linear functions to solve word problems
+  - Complete a table and graph a linear function
+  - Compare linear functions: graphs, tables and equations
+  - Write equations in standard form
+  - Standard form: find x- and y-intercepts
+  - Standard form: graph an equation
+  - Equations of horizontal and vertical lines
+  - Graph a horizontal or vertical line
+  - Point-gradient form: graph an equation
+  - Point-gradient form: write an equation
+  - Point-gradient form: write an equation from a graph
+  - Gradients of parallel and perpendicular lines
+  - Write an equation for a parallel or perpendicular line
+  - Transformations of linear functions
+- **Coordinate Plane:**
+  - Coordinate plane review
+  - Midpoints
+  - Distance between two points
+
+### 7. Geometry
+- Perimeter
+- Area
+- Area of compound figures
+- Interior angles of polygons
+- Transversal of parallel lines
+- Volume
+- Surface area
+- Congruent figures: side lengths and angle measures
+- Similar figures: side lengths and angle measures
+- Similar triangles and indirect measurement
+- Dilations and scale factors
+- Area and perimeter of similar figures
+- Area between two shapes
+- Similar solids
+- Volume and surface area of similar solids
+- Perimeter, area and volume: changes in scale
+- Pythagoras' theorem
+- Pythagoras' theorem: word problems
+- Converse of Pythagoras' theorem: is it a right triangle?
+- Special right triangles
+
+### 8. Statistics & Probability
+- **Data & Graphs:**
+  - Interpret bar graphs, line graphs and histograms
+  - Create bar graphs, line graphs and histograms
+  - Interpret circle graphs
+  - Interpret stem-and-leaf plots
+  - Interpret box-and-whisker plots
+  - Interpret a scatter plot
+  - Scatter plots: line of best fit
+- **Statistics:**
+  - Calculate mean, median, mode and range
+  - Interpret charts to find mean, median, mode and range
+  - Mean, median, mode and range: find the missing number
+  - Quartiles
+  - Identify biased samples
+- **Probability:**
+  - Theoretical probability
+  - Experimental probability
+  - Compound events: find the number of outcomes
+  - Identify independent and dependent events
+  - Probability of independent and dependent events
+- **Problem Solving:**
+  - Word problems: mixed review
+  - Word problems with money
+  - Consecutive integer problems
+  - Rate of travel: word problems
+  - Weighted averages: word problems
+
+---
+
+## Year 11 Topics
+
+### 1. Number & Operations
+- Identify rational and irrational numbers
+- Compare and order rational numbers
+- Square roots
+- Cube roots
+
+### 2. Ratios, Proportions & Percents
+- Identify equivalent ratios
+- Write an equivalent ratio
+- Unit rates
+- Unit prices
+- Solve proportions
+- Solve proportions: word problems
+- Scale drawings: word problems
+- Simple interest
+- Compound interest
+- Continuously compounded interest
+- Percent of a number: GST, discount and more
+- Find the percent: discount and mark-up
+- Multi-step problems with percents
+
+### 3. Algebra
+- **Solving Equations:**
+  - Model and solve equations using algebra tiles
+  - Write and solve equations that represent diagrams
+  - Solve one-step linear equations
+  - Solve two-step linear equations
+  - Solve advanced linear equations
+  - Solve equations with variables on both sides
+  - Solve equations: complete the solution
+  - Find the number of solutions
+  - Create equations with no solutions or infinitely many solutions
+  - Solve linear equations: word problems
+  - Solve linear equations: mixed review
+- **Single-Variable Inequalities:**
+  - Graph inequalities
+  - Write inequalities from graphs
+  - Identify solutions to inequalities
+  - Solve one-step linear inequalities: addition and subtraction
+  - Solve one-step linear inequalities: multiplication and division
+  - Solve one-step linear inequalities
+  - Graph solutions to one-step linear inequalities
+  - Solve two-step linear inequalities
+  - Graph solutions to two-step linear inequalities
+  - Solve advanced linear inequalities
+  - Graph solutions to advanced linear inequalities
+- **Relations & Functions:**
+  - Relations: convert between tables, graphs, mappings and lists of points
+  - Domain and range of relations
+  - Identify independent and dependent variables
+  - Identify functions
+  - Find values using function graphs
+  - Evaluate a function
+  - Complete a function table from a graph
+  - Complete a function table from an equation
+  - Interpret the graph of a function: word problems
+- **Direct & Inverse Variation:**
+  - Identify proportional relationships
+  - Find the constant of variation
+  - Graph a proportional relationship
+  - Write direct variation equations
+  - Write and solve direct variation equations
+  - Write inverse variation equations
+  - Write and solve inverse variation equations
+  - Identify direct variation and inverse variation
+- **Linear Functions:**
+  - Identify linear functions
+  - Find the gradient of a graph
+  - Find the gradient from two points
+  - Find a missing coordinate using gradient
+  - Find the gradient and y-intercept of a linear equation
+  - Graph an equation in y=mx+c form
+  - Write an equation in y=mx+c form from a graph
+  - Write an equation in y=mx+c form
+  - Write an equation in y=mx+c form from a table
+  - Write an equation in y=mx+c form from a word problem
+  - Write linear functions to solve word problems
+  - Complete a table and graph a linear function
+  - Compare linear functions: graphs, tables and equations
+  - Write equations in standard form
+  - Standard form: find x- and y-intercepts
+  - Standard form: graph an equation
+  - Equations of horizontal and vertical lines
+  - Graph a horizontal or vertical line
+  - Point-gradient form: graph an equation
+  - Point-gradient form: write an equation
+  - Point-gradient form: write an equation from a graph
+  - Gradients of parallel and perpendicular lines
+  - Write an equation for a parallel or perpendicular line
+  - Transformations of linear functions
+- **Simultaneous Equations:**
+  - Is (x, y) a solution to the simultaneous equations?
+  - Solve simultaneous equations by graphing
+  - Solve simultaneous equations by graphing: word problems
+  - Find the number of solutions to simultaneous equations by graphing
+  - Find the number of solutions to simultaneous equations
+  - Solve simultaneous equations using substitution
+  - Solve simultaneous equations using substitution: word problems
+  - Solve simultaneous equations using elimination
+  - Solve simultaneous equations using elimination: word problems
+  - Solve simultaneous equations using any method
+  - Solve simultaneous equations using any method: word problems
+- **Exponents & Logarithms:**
+  - Powers with integer bases
+  - Powers with decimal and fractional bases
+  - Negative exponents
+  - Multiplication with exponents
+  - Division with exponents
+  - Multiplication and division with exponents
+  - Power rule
+  - Evaluate expressions using properties of exponents
+  - Identify equivalent expressions involving exponents
+  - Convert between exponential and logarithmic form: rational bases
+  - Evaluate logarithms
+  - Change of base formula
+  - Identify properties of logarithms
+  - Product property of logarithms
+  - Quotient property of logarithms
+  - Power property of logarithms
+  - Properties of logarithms: mixed review
+  - Evaluate logarithms: mixed review
+  - Domain and range of exponential and logarithmic functions
+  - Evaluate an exponential function
+  - Match exponential functions and graphs
+  - Solve exponential equations by rewriting the base
+  - Solve exponential equations using common logarithms
+  - Solve logarithmic equations I
+  - Solve logarithmic equations II
+  - Exponential growth and decay: word problems
+  - Identify linear and exponential functions
+  - Exponential functions over unit intervals
+  - Describe linear and exponential growth and decay
+  - Exponential growth and decay: word problems
+  - Compound interest: word problems
+  - Continuously compounded interest: word problems
+- **Polynomials & Factorising:**
+  - Identify monomials
+  - Multiply monomials
+  - Divide monomials
+  - Multiply and divide monomials
+  - Powers of monomials
+  - Polynomial vocabulary
+  - Model polynomials with algebra tiles
+  - Add and subtract polynomials using algebra tiles
+  - Add and subtract polynomials
+  - Add polynomials to find perimeter
+  - Multiply a polynomial by a monomial
+  - Multiply two polynomials using algebra tiles
+  - Multiply two binomials
+  - Multiply two binomials: special cases
+  - Multiply polynomials
+  - HCF of monomials
+  - Factorise out a monomial
+  - Factorise quadratics with leading coefficient 1
+  - Factorise quadratics with other leading coefficients
+  - Factorise quadratics: special cases
+  - Factorise quadratics using algebra tiles
+  - Factorise by grouping
+  - Factorise polynomials
+- **Quadratic Equations:**
+  - Characteristics of quadratic functions
+  - Complete a function table: quadratic functions
+  - Solve a quadratic equation using square roots
+  - Solve a quadratic equation using the zero product property
+  - Solve a quadratic equation by factorising
+  - Complete the square
+  - Solve a quadratic equation by completing the square
+  - Solve a quadratic equation using the quadratic formula
+  - Using the discriminant
+- **Functions (Linear, Quadratic, Exponential):**
+  - Identify linear, quadratic and exponential functions from graphs
+  - Identify linear, quadratic and exponential functions from tables
+  - Write linear, quadratic and exponential functions
+  - Linear functions over unit intervals
+  - Exponential functions over unit intervals
+  - Describe linear and exponential growth and decay
+- **Parabolas:**
+  - Identify the direction a parabola opens
+  - Find the vertex of a parabola
+  - Find the focus or directrix of a parabola
+  - Find the axis of symmetry of a parabola
+  - Write equations of parabolas in vertex form from graphs
+  - Write equations of parabolas in vertex form using properties
+  - Convert equations of parabolas from general to vertex form
+  - Find properties of a parabola from equations in general form
+  - Graph parabolas
+- **Ellipses:**
+  - Find the centre, vertices or co-vertices of an ellipse
+  - Find the length of the major or minor axis of an ellipse
+  - Find the foci of an ellipse
+  - Write equations of ellipses in standard form from graphs
+  - Write equations of ellipses in standard form using properties
+  - Convert equations of ellipses from general to standard form
+  - Find properties of ellipses from equations in general form
+- **Radical Expressions:**
+  - Simplify radical expressions
+  - Simplify radical expressions involving fractions
+  - Multiply radical expressions
+  - Add and subtract radical expressions
+  - Simplify radical expressions using the distributive property
+  - Simplify radical expressions: mixed review
+- **Rational Exponents:**
+  - Evaluate rational exponents
+  - Multiplication with rational exponents
+  - Division with rational exponents
+  - Power rule with rational exponents
+  - Simplify expressions involving rational exponents I
+  - Simplify expressions involving rational exponents II
+- **Rational Functions & Expressions:**
+  - Rational functions: asymptotes and excluded values
+  - Evaluate rational expressions
+  - Simplify rational expressions
+  - Multiply and divide rational expressions
+  - Divide polynomials
+  - Add and subtract rational expressions
+  - Solve rational equations
+- **Number Sequences:**
+  - Identify arithmetic and geometric sequences
+  - Arithmetic sequences
+  - Geometric sequences
+  - Evaluate variable expressions for number sequences
+  - Write variable expressions for arithmetic sequences
+  - Write variable expressions for geometric sequences
+  - Number sequences: mixed review
+- **Problem Solving:**
+  - Word problems: mixed review
+  - Word problems with money
+  - Consecutive integer problems
+  - Rate of travel: word problems
+  - Weighted averages: word problems
+
+### 4. Geometry & Trigonometry
+- **Coordinate Plane:**
+  - Coordinate plane review
+  - Midpoints
+  - Distance between two points
+  - Find the distance between a point and a line
+  - Find the distance between two parallel lines
+- **2D & 3D Figures:**
+  - Convert rates and measurements
+  - Precision
+  - Greatest possible error
+  - Minimum and maximum area and volume
+  - Percent error
+  - Percent error: area and volume
+  - Classify triangles
+  - Polygon vocabulary
+  - Triangle Angle-Sum Theorem
+  - Midsegments of triangles
+  - Triangles and bisectors
+  - Identify medians, altitudes, angle bisectors and perpendicular bisectors
+  - Perimeter
+  - Area of triangles and quadrilaterals
+  - Area and perimeter in the coordinate plane I
+  - Area and perimeter in the coordinate plane II
+  - Area and circumference of circles
+  - Area of compound figures
+  - Area between two shapes
+  - Area and perimeter of similar figures
+  - Introduction to surface area and volume
+  - Surface area of prisms and cylinders
+  - Surface area of pyramids and cones
+  - Volume of prisms and cylinders
+  - Volume of pyramids and cones
+  - Surface area and volume of spheres
+  - Introduction to similar solids
+  - Surface area and volume of similar solids
+  - Surface area and volume review
+- **Congruence & Similarity:**
+  - Congruence statements and corresponding parts
+  - Solve problems involving corresponding parts
+  - Identify congruent figures
+  - SSS and SAS Theorems
+  - ASA and AAS Theorems
+  - SSS, SAS, ASA and AAS Theorems
+  - SSS Theorem in the coordinate plane
+  - Congruency in isosceles and equilateral triangles
+  - Hypotenuse-Leg Theorem
+  - Identify similar figures
+  - Ratios in similar figures
+  - Similarity statements
+  - Side lengths and angle measures in similar figures
+  - Similar triangles and indirect measurement
+  - Perimeters of similar figures
+  - Similarity rules for triangles
+  - Similar triangles and similarity transformations
+  - Areas of similar figures
+- **Trigonometry:**
+  - Pythagoras' Theorem
+  - Converse of Pythagoras' theorem
+  - Pythagoras' Inequality Theorems
+  - Special right triangles
+  - Trigonometric ratios: sin, cos and tan
+  - Trigonometric ratios: csc, sec and cot
+  - Trigonometric ratios in similar right triangles
+  - Find trigonometric ratios using the unit circle
+  - Trigonometric functions of complementary angles
+  - Sin, cos and tan of special angles
+  - Csc, sec and cot of special angles
+  - Find trigonometric functions using a calculator
+  - Symmetry and periodicity of trigonometric functions
+  - Inverses of sin, cos and tan
+  - Inverses of csc, sec and cot
+  - Solve trigonometric equations I
+  - Solve trigonometric equations II
+  - Trigonometric ratios: find a side length
+  - Trigonometric ratios: find an angle measure
+  - Solve a right triangle
+  - Law of Sines
+  - Law of Cosines
+  - Solve a triangle
+  - Area of a triangle: sine formula
+  - Area of a triangle: Law of Sines
+- **Circles:**
+  - Parts of a circle
+  - Central angles
+  - Arc measure and arc length
+  - Area of sectors
+  - Circle measurements: mixed review
+  - Arcs and chords
+  - Tangent lines
+  - Perimeter of polygons with an inscribed circle
+  - Inscribed angles
+  - Angles in inscribed right triangles
+  - Angles in inscribed quadrilaterals
+  - Find the centre of a circle
+  - Find the radius or diameter of a circle
+  - Write equations of circles in standard form from graphs
+  - Write equations of circles in standard form using properties
+  - Convert equations of circles from general to standard form
+  - Find properties of circles from equations in general form
+  - Graph circles
+- **Transformations & Symmetry:**
+  - Translations: graph the image
+  - Translations: find the coordinates
+  - Translations: write the rule
+  - Reflections: graph the image
+  - Reflections: find the coordinates
+  - Rotate polygons about a point
+  - Rotations: graph the image
+  - Rotations: find the coordinates
+  - Classify congruence transformations
+  - Compositions of congruence transformations: graph the image
+  - Transformations that carry a polygon onto itself
+  - Congruence transformations: mixed review
+  - Dilations: graph the image
+  - Dilations: find the coordinates
+  - Dilations: scale factor and classification
+  - Dilations and parallel lines
+  - Line symmetry
+  - Rotational symmetry
+  - Count lines of symmetry
+  - Draw lines of symmetry
+- **Angle Measures:**
+  - Quadrants
+  - Graphs of angles
+  - Coterminal angles
+  - Reference angles
+
+### 5. Statistics & Probability
+- **Probability:**
+  - Theoretical probability
+  - Experimental probability
+  - Compound events: find the number of outcomes
+  - Calculate probabilities of events
+  - Permutations
+  - Counting principle
+  - Permutation and combination notation
+  - Find probabilities using permutations and combinations
+  - Find probabilities using two-way frequency tables
+  - Identify independent events
+  - Probability of independent and dependent events
+  - Geometric probability
+  - Find conditional probabilities
+  - Independence and conditional probability
+  - Find conditional probabilities using two-way frequency tables
+  - Find probabilities using the addition rule
+  - Find probabilities using the normal distribution
+- **Statistics:**
+  - Mean, median, mode and range
+  - Quartiles
+  - Identify biased samples
+  - Mean absolute deviation
+  - Variance and standard deviation
+- **Data & Graphs:**
+  - Interpret histograms
+  - Create histograms
+  - Interpret stem-and-leaf plots
+  - Interpret box-and-whisker plots
+  - Interpret a scatter plot
+  - Scatter plots: line of best fit
+- **Problem Solving:**
+  - Word problems: mixed review
+  - Word problems with money
+  - Consecutive integer problems
+  - Rate of travel: word problems
+  - Weighted averages: word problems
+- **Sequences & Series:**
+  - Classify formulas and sequences
+  - Find terms of an arithmetic sequence
+  - Find terms of a geometric sequence
+  - Find terms of a recursive sequence
+  - Evaluate formulas for sequences
+  - Write a formula for an arithmetic sequence
+  - Write a formula for a geometric sequence
+  - Write a formula for a recursive sequence
+  - Sequences: mixed review
+  - Introduction to sigma notation
+  - Identify arithmetic and geometric series
+  - Find the sum of a finite arithmetic or geometric series
+  - Introduction to partial sums
+  - Partial sums of arithmetic series
+  - Partial sums of geometric series
+  - Partial sums: mixed review
+  - Convergent and divergent geometric series
+  - Find the value of an infinite geometric series
+  - Write a repeating decimal as a fraction
+
+---
+
+## Year 12 Topics
+
+### 1. Advanced Algebra
+- **Complex Numbers:**
+  - Introduction to complex numbers
+  - Add and subtract complex numbers
+  - Complex conjugates
+  - Multiply complex numbers
+  - Divide complex numbers
+  - Add, subtract, multiply and divide complex numbers
+  - Absolute values of complex numbers
+  - Powers of i
+- **Polynomials:**
+  - Polynomial vocabulary
+  - Add and subtract polynomials
+  - Multiply polynomials
+  - Divide polynomials using long division
+  - Write a polynomial from its roots
+  - Find the roots of factorised polynomials
+  - Complex conjugate theorem
+  - Conjugate root theorems
+  - Descartes' Rule of Signs
+  - Fundamental Theorem of Algebra
+  - Match polynomials and graphs
+- **Factorising:**
+  - Factorise out a monomial
+  - Factorise quadratics
+  - Factorise quadratics using algebra tiles
+  - Factorise using a quadratic pattern
+  - Factorise by grouping
+  - Factorise sums and differences of cubes
+  - Factorise polynomials
+- **Radical Functions & Expressions:**
+  - Roots of integers
+  - Roots of rational numbers
+  - Find roots using a calculator
+  - Nth roots
+  - Simplify radical expressions with variables I
+  - Simplify radical expressions with variables II
+  - Multiply radical expressions
+  - Divide radical expressions
+  - Add and subtract radical expressions
+  - Simplify radical expressions using the distributive property
+  - Simplify radical expressions using conjugates
+  - Domain and range of radical functions
+  - Solve radical equations
+- **Rational Exponents:**
+  - Evaluate rational exponents
+  - Multiplication with rational exponents
+  - Division with rational exponents
+  - Power rule
+  - Simplify expressions involving rational exponents I
+  - Simplify expressions involving rational exponents II
+- **Rational Functions & Expressions:**
+  - Rational functions: asymptotes and excluded values
+  - Evaluate rational expressions I
+  - Evaluate rational expressions II
+  - Simplify rational expressions
+  - Multiply and divide rational expressions
+  - Add and subtract rational expressions
+  - Solve rational equations
+- **Function Operations:**
+  - Add and subtract functions
+  - Multiply functions
+  - Divide functions
+  - Composition of linear functions: find a value
+  - Composition of linear functions: find an equation
+  - Composition of linear and quadratic functions: find a value
+  - Composition of linear and quadratic functions: find an equation
+  - Find values of inverse functions from tables
+  - Find values of inverse functions from graphs
+  - Find inverse functions and relations
+- **Families of Functions:**
+  - Translations of functions
+  - Reflections of functions
+  - Dilations of functions
+  - Transformations of functions
+- **Logarithms:**
+  - Convert between exponential and logarithmic form: rational bases
+  - Convert between natural exponential and logarithmic form
+  - Convert between exponential and logarithmic form: all bases
+  - Evaluate logarithms
+  - Evaluate natural logarithms
+  - Change of base formula
+  - Identify properties of logarithms
+  - Product property of logarithms
+  - Quotient property of logarithms
+  - Power property of logarithms
+  - Properties of logarithms: mixed review
+  - Evaluate logarithms: mixed review
+- **Exponential & Logarithmic Functions:**
+  - Domain and range of exponential and logarithmic functions
+  - Evaluate exponential functions
+  - Match exponential functions and graphs
+  - Solve exponential equations by rewriting the base
+  - Solve exponential equations using common logarithms
+  - Solve exponential equations using natural logarithms
+  - Solve logarithmic equations I
+  - Solve logarithmic equations II
+  - Identify linear and exponential functions
+  - Exponential functions over unit intervals
+  - Describe linear and exponential growth and decay
+  - Exponential growth and decay: word problems
+  - Compound interest: word problems
+  - Continuously compounded interest: word problems
+- **Quadratic Functions:**
+  - Characteristics of quadratic functions
+  - Complete a function table: quadratic functions
+  - Find a quadratic function
+  - Graph a quadratic function
+  - Match quadratic functions and graphs
+  - Solve a quadratic equation using square roots
+  - Solve a quadratic equation using the zero product property
+  - Solve a quadratic equation by factorising
+  - Complete the square
+  - Solve a quadratic equation by completing the square
+  - Solve a quadratic equation using the quadratic formula
+  - Using the discriminant
+
+### 2. Equations & Inequalities
+- **Linear Equations:**
+  - Solve linear equations
+  - Solve linear equations: word problems
+- **Linear Inequalities:**
+  - Graph a linear inequality in one variable
+  - Graph a linear inequality in the coordinate plane
+  - Write inequalities from graphs
+  - Write a linear inequality: word problems
+  - Solve linear inequalities
+  - Graph solutions to linear inequalities
+- **Quadratic Inequalities:**
+  - Graph solutions to quadratic inequalities
+  - Solve quadratic inequalities
+- **Simultaneous Equations:**
+  - Is (x, y) a solution to the simultaneous equations?
+  - Solve simultaneous equations by graphing
+  - Solve simultaneous equations by graphing: word problems
+  - Find the number of solutions to simultaneous equations
+  - Classify simultaneous equations
+  - Solve simultaneous equations using substitution
+  - Solve simultaneous equations using substitution: word problems
+  - Solve simultaneous equations using elimination
+  - Solve simultaneous equations using elimination: word problems
+  - Solve simultaneous equations using any method
+  - Solve simultaneous equations using any method: word problems
+  - Solve simultaneous equations in three variables using substitution
+  - Solve simultaneous equations in three variables using elimination
+  - Determine the number of solutions to simultaneous equations in three variables
+  - Solve nonlinear simultaneous equations
+- **Simultaneous Inequalities & Linear Programming:**
+  - Is (x, y) a solution to the simultaneous inequalities?
+  - Solve simultaneous inequalities by graphing
+  - Find the vertices of a solution set
+  - Linear programming
+
+### 3. Geometry & Trigonometry
+- **Coordinate Geometry:**
+  - Coordinate plane review
+  - Midpoints
+  - Distance between two points
+  - Dilations and parallel lines
+- **Conic Sections:**
+  - **Parabolas:**
+    - Identify the direction a parabola opens
+    - Find the vertex of a parabola
+    - Find the focus or directrix of a parabola
+    - Find the axis of symmetry of a parabola
+    - Write equations of parabolas in vertex form from graphs
+    - Write equations of parabolas in vertex form using properties
+    - Convert equations of parabolas from general to vertex form
+    - Find properties of a parabola from equations in general form
+    - Graph parabolas
+  - **Circles:**
+    - Find the centre of a circle
+    - Find the radius or diameter of a circle
+    - Write equations of circles in standard form from graphs
+    - Write equations of circles in standard form using properties
+    - Convert equations of circles from general to standard form
+    - Find properties of circles from equations in general form
+    - Graph circles
+  - **Ellipses:**
+    - Find the centre, vertices or co-vertices of an ellipse
+    - Find the length of the major or minor axis of an ellipse
+    - Find the foci of an ellipse
+    - Write equations of ellipses in standard form from graphs
+    - Write equations of ellipses in standard form using properties
+    - Convert equations of ellipses from general to standard form
+    - Find properties of ellipses from equations in general form
+  - **Hyperbolas:**
+    - Find the centre of a hyperbola
+    - Find the vertices of a hyperbola
+    - Find the length of the transverse or conjugate axes of a hyperbola
+    - Find the equations for the asymptotes of a hyperbola
+    - Find the foci of a hyperbola
+    - Write equations of hyperbolas in standard form from graphs
+    - Write equations of hyperbolas in standard form using properties
+    - Convert equations of hyperbolas from general to standard form
+    - Find properties of hyperbolas from equations in general form
+- **Trigonometry:**
+  - **Angle Measures:**
+    - Convert between radians and degrees
+    - Radians and arc length
+    - Quadrants
+    - Graphs of angles
+    - Coterminal angles
+    - Reference angles
+  - **Trigonometric Ratios & Laws:**
+    - Pythagoras' Theorem and its converse
+    - Special right triangles
+    - Trigonometric ratios: sin, cos and tan
+    - Trigonometric ratios: csc, sec and cot
+    - Trigonometric ratios in similar right triangles
+    - Find trigonometric ratios using the unit circle
+    - Trigonometric functions of complementary angles
+    - Sin, cos and tan of special angles
+    - Csc, sec and cot of special angles
+    - Find trigonometric functions using a calculator
+    - Symmetry and periodicity of trigonometric functions
+    - Inverses of sin, cos and tan
+    - Inverses of csc, sec and cot
+    - Solve trigonometric equations I
+    - Solve trigonometric equations II
+    - Trigonometric ratios: find a side length
+    - Trigonometric ratios: find an angle measure
+    - Solve a right triangle
+    - Law of Sines
+    - Law of Cosines
+    - Solve a triangle
+    - Area of a triangle: sine formula
+    - Area of a triangle: Law of Sines
+  - **Trigonometric Functions & Identities:**
+    - Find properties of sine functions
+    - Write equations of sine functions from graphs
+    - Write equations of sine functions using properties
+    - Graph sine functions
+    - Find properties of cosine functions
+    - Write equations of cosine functions from graphs
+    - Write equations of cosine functions using properties
+    - Graph cosine functions
+    - Graph sine and cosine functions
+    - Complementary angle identities
+    - Symmetry and periodicity of trigonometric functions
+    - Find trigonometric ratios using a Pythagorean or reciprocal identity
+    - Find trigonometric ratios using multiple identities
+- **Surface Area & Volume:**
+  - Introduction to surface area and volume
+  - Surface area of prisms and cylinders
+  - Surface area of pyramids and cones
+  - Volume of prisms and cylinders
+  - Volume of pyramids and cones
+  - Surface area and volume of spheres
+  - Introduction to similar solids
+  - Surface area and volume of similar solids
+  - Surface area and volume review
+- **Transformations:**
+  - Translations: graph the image
+  - Translations: find the coordinates
+  - Translations: write the rule
+  - Reflections: graph the image
+  - Reflections: find the coordinates
+  - Rotate polygons about a point
+  - Rotations: graph the image
+  - Rotations: find the coordinates
+  - Classify congruence transformations
+  - Compositions of congruence transformations: graph the image
+  - Transformations that carry a polygon onto itself
+  - Congruence transformations: mixed review
+  - Dilations: graph the image
+  - Dilations: find the coordinates
+  - Dilations: scale factor and classification
+  - Dilations and parallel lines
+- **Symmetry:**
+  - Line symmetry
+  - Rotational symmetry
+  - Count lines of symmetry
+  - Draw lines of symmetry
+
+### 4. Statistics & Probability
+- **Probability:**
+  - Introduction to probability
+  - Theoretical and experimental probability
+  - Compound events: find the number of outcomes
+  - Calculate probabilities of events
+  - Permutations
+  - Counting principle
+  - Permutation and combination notation
+  - Find probabilities using permutations and combinations
+  - Find probabilities using two-way frequency tables
+  - Identify independent events
+  - Probability of independent and dependent events
+  - Geometric probability
+  - Find conditional probabilities
+  - Independence and conditional probability
+  - Find conditional probabilities using two-way frequency tables
+  - Find probabilities using the addition rule
+  - Find probabilities using the normal distribution
+- **Statistics:**
+  - Mean, median, mode and range
+  - Quartiles
+  - Identify biased samples
+  - Mean absolute deviation
+  - Variance and standard deviation
+- **Data & Graphs:**
+  - Interpret histograms
+  - Create histograms
+  - Interpret stem-and-leaf plots
+  - Interpret box-and-whisker plots
+  - Interpret a scatter plot
+  - Scatter plots: line of best fit
+- **Sequences & Series:**
+  - Classify formulas and sequences
+  - Find terms of an arithmetic sequence
+  - Find terms of a geometric sequence
+  - Find terms of a recursive sequence
+  - Evaluate formulas for sequences
+  - Write a formula for an arithmetic sequence
+  - Write a formula for a geometric sequence
+  - Write a formula for a recursive sequence
+  - Sequences: mixed review
+  - Introduction to sigma notation
+  - Identify arithmetic and geometric series
+  - Find the sum of a finite arithmetic or geometric series
+  - Introduction to partial sums
+  - Partial sums of arithmetic series
+  - Partial sums of geometric series
+  - Partial sums: mixed review
+  - Convergent and divergent geometric series
+  - Find the value of an infinite geometric series
+  - Write a repeating decimal as a fraction
+
+### 5. Calculus
+- **Introduction to Derivatives:**
+  - Sum and difference rules
+  - Power rule for derivatives
+  - Find derivatives of polynomials

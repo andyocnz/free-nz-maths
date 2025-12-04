@@ -109,6 +109,71 @@ export function round(num, decimals) {
   }
 }
 
+export function formatQuadraticExpression(aCoeff, bCoeff, cCoeff) {
+  const formatTerm = (coef, suffix) => {
+    if (coef === 0) return ''
+    const abs = Math.abs(coef)
+    let termValue = ''
+    if (suffix) {
+      if (abs === 1) {
+        termValue = suffix
+      } else {
+        termValue = `${abs}${suffix}`
+      }
+    } else {
+      termValue = `${abs}`
+    }
+    return coef < 0 ? `- ${termValue}` : termValue
+  }
+
+  const parts = []
+  const pushTerm = (coef, suffix) => {
+    const formatted = formatTerm(coef, suffix)
+    if (!formatted) return
+    if (parts.length === 0) {
+      parts.push(coef < 0 && formatted.startsWith('- ') ? `-${formatted.slice(2)}` : formatted)
+    } else {
+      parts.push(coef < 0 ? ` - ${formatted.slice(2)}` : ` + ${formatted}`)
+    }
+  }
+
+  pushTerm(aCoeff, 'x^2')
+  pushTerm(bCoeff, 'x')
+  pushTerm(cCoeff, '')
+
+  if (!parts.length) return '0'
+  return parts.join('')
+}
+
+export function formatLinearExpression(aCoeff, bCoeff) {
+  const formatTerm = (coef, suffix) => {
+    if (coef === 0) return ''
+    const abs = Math.abs(coef)
+    if (suffix) {
+      if (abs === 1) return suffix
+      return `${abs}${suffix}`
+    }
+    return `${abs}`
+  }
+
+  const parts = []
+  const pushTerm = (coef, suffix) => {
+    const formatted = formatTerm(coef, suffix)
+    if (!formatted) return
+    if (parts.length === 0) {
+      parts.push(coef < 0 && formatted.startsWith('- ') ? `-${formatted.slice(2)}` : (coef < 0 ? `-${formatted}` : formatted))
+    } else {
+      parts.push(coef < 0 ? ` - ${formatted.replace(/^- /, '')}` : ` + ${formatted}`)
+    }
+  }
+
+  pushTerm(aCoeff, 'x')
+  pushTerm(bCoeff, '')
+
+  if (!parts.length) return '0'
+  return parts.join('')
+}
+
 export function isPrime(n) {
   if (n < 2) return false
   if (n === 2) return true
@@ -147,6 +212,14 @@ export function prime_factorisation(n) {
 // Basic square root helper for templates that use sqrt(...)
 export function sqrt(x) {
   return Math.sqrt(x)
+}
+
+export function sqrtExact(n) {
+  const value = Number(n)
+  if (!Number.isFinite(value) || value < 0) return `√${value}`
+  const root = Math.sqrt(value)
+  if (Number.isInteger(root)) return root
+  return `√${value}`
 }
 
 // Estimate the square root of n (to nearest whole number)
