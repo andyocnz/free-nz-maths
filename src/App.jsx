@@ -204,26 +204,33 @@ export default function App() {
       }
     }
     const replacements = [
-      { pattern: /ù/g, replacement: '×' },
-      { pattern: /Ã—/g, replacement: '×' },
-      { pattern: /Â×/g, replacement: '×' },
-      { pattern: /Ã·/g, replacement: '÷' },
-      { pattern: /Â·/g, replacement: '·' },
-      { pattern: /Â°/g, replacement: '°' },
-      { pattern: /ΓêÜ/g, replacement: '√' },
-      { pattern: /Γêû/g, replacement: '≤' },
-      { pattern: /Γêì/g, replacement: '≥' },
-      { pattern: /ΓÇô/g, replacement: '–' },
-      { pattern: /ΓÇö/g, replacement: '–' },
-      { pattern: /ΓÇó/g, replacement: '•' },
-      { pattern: /ΓÇ£/g, replacement: '“' },
-      { pattern: /ΓÇ¥/g, replacement: '”' },
-      { pattern: /ΓÇÖ/g, replacement: '’' },
-      { pattern: /ΓÇª/g, replacement: '…' }
-    ]
-    replacements.forEach(({ pattern, replacement }) => {
-      result = result.replace(pattern, replacement)
-    })
+    { pattern: /ΓêÜ/g, replacement: '√' },
+    { pattern: /Γêû/g, replacement: '≤' },
+    { pattern: /Γêì/g, replacement: '≥' },
+    { pattern: /ΓêÆ/g, replacement: '−' },
+    { pattern: /ΓëÑ/g, replacement: '≥' },
+    { pattern: /ΓëÁ/g, replacement: '≤' },
+    { pattern: /Γëê/g, replacement: '≈' },
+    { pattern: /ΓÇô/g, replacement: '–' },
+    { pattern: /ΓÇö/g, replacement: '–' },
+    { pattern: /ΓÇó/g, replacement: '•' },
+    { pattern: /ΓÇ£/g, replacement: '“' },
+    { pattern: /ΓÇ¥/g, replacement: '”' },
+    { pattern: /ΓÇÖ/g, replacement: '’' },
+    { pattern: /ΓÇª/g, replacement: '…' },
+    { pattern: /Ã×/g, replacement: '×' },
+    { pattern: /Ã·/g, replacement: '÷' },
+    { pattern: /Ã±/g, replacement: '±' },
+    { pattern: /Ã°/g, replacement: '°' },
+    { pattern: /Â±/g, replacement: '±' },
+    { pattern: /Â·/g, replacement: '·' },
+    { pattern: /Â°/g, replacement: '°' },
+    { pattern: /Â²/g, replacement: '²' },
+    { pattern: /Â³/g, replacement: '³' },
+    { pattern: /Â×/g, replacement: '×' },
+    { pattern: /Â÷/g, replacement: '÷' },
+    { pattern: /Ç/g, replacement: 'π' }
+  ]
     return result
   }
 
