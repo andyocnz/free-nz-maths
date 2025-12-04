@@ -145,6 +145,44 @@ export function formatQuadraticExpression(aCoeff, bCoeff, cCoeff) {
   return parts.join('')
 }
 
+export function formatRoots(r1, r2) {
+  const a = Number(r1)
+  const b = Number(r2)
+  if (a === b) {
+    return `x = ${a}`
+  }
+  const [low, high] = a < b ? [a, b] : [b, a]
+  return `x = ${low} or x = ${high}`
+}
+
+export function formatOrderedPair(xVal, yVal) {
+  return `x = ${xVal}, y = ${yVal}`
+}
+
+export function formatLinearFactor(coeff, constant) {
+  const c = Number(coeff)
+  const k = Number(constant)
+  const coeffPart =
+    c === 1 ? 'x' : c === -1 ? '-x' : `${c}x`
+
+  if (k === 0) {
+    return `(${coeffPart})`
+  }
+
+  const sign = k > 0 ? ' + ' : ' - '
+  return `(${coeffPart}${sign}${Math.abs(k)})`
+}
+
+export function describeDiscriminant(value) {
+  if (value > 0) return 'two distinct real roots'
+  if (value === 0) return 'one repeated real root'
+  return 'no real roots'
+}
+
+export function formatDiscriminantNature(value) {
+  return `D = ${value}, ${describeDiscriminant(value)}`
+}
+
 export function formatLinearExpression(aCoeff, bCoeff) {
   const formatTerm = (coef, suffix) => {
     if (coef === 0) return ''

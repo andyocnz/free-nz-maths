@@ -61,6 +61,118 @@
               "difficulty": 4,
               "phase": 10.1,
               "hint": "The order of rotational symmetry equals the number of identical positions when rotating."
+            },
+            {
+              "id": "Y11.G.TRIG_IDENTITIES.T2",
+              "stem": "Which identity correctly expresses tanθ in terms of sinθ and cosθ?",
+              "params": {},
+              "answer": "tanθ = sinθ / cosθ",
+              "choices": [
+                "tanθ = sinθ / cosθ",
+                "tanθ = cosθ / sinθ",
+                "tanθ = sinθ · cosθ",
+                "tanθ = cosθ - sinθ"
+              ],
+              "difficulty": 6,
+              "phase": 10.16,
+              "hint": "tanθ is defined as sinθ divided by cosθ."
+            }
+          ]
+        },
+        {
+          "id": "A.LINEAR_SYSTEMS",
+          "strand": "Algebra & Sequences",
+          "name": "Simultaneous equations",
+          "description": "Solve systems of linear equations",
+          "templates": [
+            {
+              "id": "Y11.A.LINEAR_SYSTEMS.T1",
+              "stem": "Solve: x + {m}y = {c1}, {n}x + y = {c2}.",
+              "params": {
+                "xSolution": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "ySolution": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "m": [
+                  "int",
+                  2,
+                  6
+                ],
+                "n": [
+                  "int",
+                  2,
+                  6
+                ],
+                "c1": "{xSolution + m * ySolution}",
+                "c2": "{n * xSolution + ySolution}",
+                "correctAnswer": "{formatOrderedPair(xSolution, ySolution)}",
+                "choiceSwap": "{formatOrderedPair(ySolution, xSolution)}",
+                "choiceNegX": "{formatOrderedPair(-xSolution, ySolution)}",
+                "choiceNegY": "{formatOrderedPair(xSolution, -ySolution)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceSwap}",
+                "{choiceNegX}",
+                "{choiceNegY}"
+              ],
+              "difficulty": 8,
+              "phase": 10.16,
+              "hint": "Use elimination: subtract a multiple of one equation from the other to isolate a variable."
+            },
+            {
+              "id": "Y11.A.LINEAR_SYSTEMS.T2",
+              "stem": "Solve by substitution: y = {aCoeff}x + {bConst}, {cCoeff}x + {dCoeff}y = {eConst}.",
+              "params": {
+                "xSolution": [
+                  "int",
+                  -6,
+                  6
+                ],
+                "aCoeff": [
+                  "int",
+                  -3,
+                  3
+                ],
+                "bConst": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "ySolution": "{aCoeff * xSolution + bConst}",
+                "cCoeff": [
+                  "int",
+                  1,
+                  5
+                ],
+                "dCoeff": [
+                  "int",
+                  1,
+                  5
+                ],
+                "eConst": "{cCoeff * xSolution + dCoeff * ySolution}",
+                "correctAnswer": "{formatOrderedPair(xSolution, ySolution)}",
+                "choiceSwap": "{formatOrderedPair(ySolution, xSolution)}",
+                "choiceNegX": "{formatOrderedPair(-xSolution, ySolution)}",
+                "choiceNegY": "{formatOrderedPair(xSolution, -ySolution)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceSwap}",
+                "{choiceNegX}",
+                "{choiceNegY}"
+              ],
+              "difficulty": 7,
+              "phase": 10.16,
+              "hint": "Substitute y into the second equation, solve for x, then back-substitute for y."
             }
           ]
         },
@@ -4183,6 +4295,112 @@
           "description": "Quadratic Eqs questions for Year 11",
           "templates": [
             {
+              "id": "Y11.A.QUADRATIC_EQS.T1",
+              "stem": "Solve x^2 + {aCoeff}x + {bCoeff} = 0 by factoring.",
+              "params": {
+                "root1": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "root2": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "aCoeff": "{-(root1 + root2)}",
+                "bCoeff": "{root1 * root2}",
+                "correctAnswer": "{formatRoots(root1, root2)}",
+                "choiceFlipSigns": "{formatRoots(-root1, -root2)}",
+                "choiceFlipSecond": "{formatRoots(root1, -root2)}",
+                "choiceFlipFirst": "{formatRoots(-root1, root2)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceFlipSigns}",
+                "{choiceFlipSecond}",
+                "{choiceFlipFirst}"
+              ],
+              "difficulty": 7,
+              "phase": 10.16,
+              "hint": "Write the quadratic as (x - r1)(x - r2) = 0 and set each factor to zero."
+            },
+            {
+              "id": "Y11.A.QUADRATIC_EQS.T2",
+              "stem": "Solve {aCoeff}x^2 + {bCoeff}x + {cCoeff} = 0 using the quadratic formula.",
+              "params": {
+                "root1": [
+                  "int",
+                  -7,
+                  7
+                ],
+                "root2": [
+                  "int",
+                  -7,
+                  7
+                ],
+                "leadingCoeff": [
+                  "int",
+                  1,
+                  4
+                ],
+                "aCoeff": "{leadingCoeff}",
+                "bCoeff": "{-leadingCoeff * (root1 + root2)}",
+                "cCoeff": "{leadingCoeff * root1 * root2}",
+                "correctAnswer": "{formatRoots(root1, root2)}",
+                "choiceFlipSigns": "{formatRoots(-root1, -root2)}",
+                "choiceFlipSecond": "{formatRoots(root1, -root2)}",
+                "choiceFlipFirst": "{formatRoots(-root1, root2)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceFlipSigns}",
+                "{choiceFlipSecond}",
+                "{choiceFlipFirst}"
+              ],
+              "difficulty": 8,
+              "phase": 10.16,
+              "hint": "Use x = [-b ± √(b^2 - 4ac)] / 2a."
+            },
+            {
+              "id": "Y11.A.QUADRATIC_EQS.T4",
+              "stem": "Find the discriminant of {a}x^2 + {b}x + {c} = 0 and describe the nature of its roots.",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "c": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "discriminant": "{b*b - 4*a*c}",
+                "nature": "{describeDiscriminant(discriminant)}",
+                "wrongNatureA": "{nature === 'two distinct real roots' ? 'one repeated real root' : 'two distinct real roots'}",
+                "wrongNatureB": "{nature === 'no real roots' ? 'two distinct real roots' : 'no real roots'}",
+                "offsetDiscriminant": "{discriminant + a * 4}"
+              },
+              "answer": "{formatDiscriminantNature(discriminant)}",
+              "choices": [
+                "{formatDiscriminantNature(discriminant)}",
+                "{'D = ' + discriminant + ', ' + wrongNatureA}",
+                "{'D = ' + discriminant + ', ' + wrongNatureB}",
+                "{formatDiscriminantNature(offsetDiscriminant)}"
+              ],
+              "difficulty": 8,
+              "phase": 10.16,
+              "hint": "The discriminant is b^2 - 4ac: positive (two roots), zero (one repeated root), negative (no real roots)."
+            },
+            {
               "id": "Y11.A.QUADRATIC_EQS.T3",
               "stem": "Complete the square for the equation x^2 + {a}x + {b} = 0",
               "params": {
@@ -4252,7 +4470,77 @@
               "hint": "Even degree positive leading coeff → up on both sides"
             },
             {
-              "id": "Y11.A.POLYNOMIALS.T3",
+            {
+              "id": "Y11.A.POLYNOMIALS.T2",
+              "stem": "Factor {aCoeff}x^2 + {bCoeff}x + {cCoeff}.",
+              "params": {
+                "u": [
+                  "int",
+                  1,
+                  4
+                ],
+                "w": [
+                  "int",
+                  1,
+                  4
+                ],
+                "v": [
+                  "choice",
+                  -8,
+                  -7,
+                  -6,
+                  -5,
+                  -4,
+                  -3,
+                  -2,
+                  -1,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ],
+                "z": [
+                  "choice",
+                  -8,
+                  -7,
+                  -6,
+                  -5,
+                  -4,
+                  -3,
+                  -2,
+                  -1,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ],
+                "aCoeff": "{u * w}",
+                "bCoeff": "{u * z + v * w}",
+                "cCoeff": "{v * z}",
+                "correctFactor": "{formatLinearFactor(u, v) + formatLinearFactor(w, z)}",
+                "choiceFlipFirst": "{formatLinearFactor(u, -v) + formatLinearFactor(w, z)}",
+                "choiceFlipSecond": "{formatLinearFactor(u, v) + formatLinearFactor(w, -z)}",
+                "choiceSwap": "{formatLinearFactor(w, v) + formatLinearFactor(u, z)}"
+              },
+              "answer": "{correctFactor}",
+              "choices": [
+                "{correctFactor}",
+                "{choiceFlipFirst}",
+                "{choiceFlipSecond}",
+                "{choiceSwap}"
+              ],
+              "difficulty": 8,
+              "phase": 10.16,
+              "hint": "Work backwards from (mx + p)(nx + q) so the product matches the original quadratic."
+            },              "id": "Y11.A.POLYNOMIALS.T3",
               "stem": "Simplify ({a}x² + {b}x + {c}) + ({d}x² + {e}x + {f})",
               "params": {
                 "a": [
@@ -4884,3 +5172,4 @@
     }
   ]
 }
+
