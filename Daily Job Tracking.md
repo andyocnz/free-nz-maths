@@ -49,4 +49,11 @@ For every batch:
 - Update `DEVELOPER_ONBOARDING.md` with any new helper pattern.
 - Remove rows from this document once merged; add new ones if additional helper work appears.
 
+### Open Items / Next Up
+- ✅ Helper Batch A (surds, ratios, parabola-line helpers) merged and live; continue QA to ensure the new helper-driven templates are sampled in dev view.
+- ✅ Olympiad curriculum split into `src/olympiadCurriculum.json`; dev UI now toggles between Year views and Olympiad, but verify remaining math symbols render cleanly in the QA export (extend `normalizeMathDisplay` if needed).
+- 🔄 **Year 13 clean-up:** many Year 13 templates (e.g. calculus, vectors) still need style/encoding pass and helper verification—review `phase/phase 10 year 11-13.json` entries tagged `phase: 10.18` before moving to Olympiad backlog.
+- 🔄 **Olympiad QA**: dev/QA pipeline still shows mojibake for some symbols (`ΓêÆ`, `Ç Γëê`). Continue augmenting the sanitizer so QA JSON and tables are human-readable.
+- 🔜 After Year 13 and Olympiad QA stabilise, resume helper batches B/C (normal distribution/trig exact, matrix ops/inverse) and ensure Year 12/13 curriculum JSON stays in sync.
+
 ---
