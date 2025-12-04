@@ -74,7 +74,7 @@
                 "tanθ = cosθ - sinθ"
               ],
               "difficulty": 6,
-              "phase": 10.16,
+              "phase": 10.17,
               "hint": "tanθ is defined as sinθ divided by cosθ."
             }
           ]
@@ -124,7 +124,7 @@
                 "{choiceNegY}"
               ],
               "difficulty": 8,
-              "phase": 10.16,
+              "phase": 10.17,
               "hint": "Use elimination: subtract a multiple of one equation from the other to isolate a variable."
             },
             {
@@ -171,7 +171,7 @@
                 "{choiceNegY}"
               ],
               "difficulty": 7,
-              "phase": 10.16,
+              "phase": 10.17,
               "hint": "Substitute y into the second equation, solve for x, then back-substitute for y."
             }
           ]
@@ -4323,7 +4323,7 @@
                 "{choiceFlipFirst}"
               ],
               "difficulty": 7,
-              "phase": 10.16,
+              "phase": 10.17,
               "hint": "Write the quadratic as (x - r1)(x - r2) = 0 and set each factor to zero."
             },
             {
@@ -4361,7 +4361,7 @@
                 "{choiceFlipFirst}"
               ],
               "difficulty": 8,
-              "phase": 10.16,
+              "phase": 10.17,
               "hint": "Use x = [-b ± √(b^2 - 4ac)] / 2a."
             },
             {
@@ -4397,7 +4397,7 @@
                 "{formatDiscriminantNature(offsetDiscriminant)}"
               ],
               "difficulty": 8,
-              "phase": 10.16,
+              "phase": 10.17,
               "hint": "The discriminant is b^2 - 4ac: positive (two roots), zero (one repeated root), negative (no real roots)."
             },
             {
@@ -4538,7 +4538,7 @@
                 "{choiceSwap}"
               ],
               "difficulty": 8,
-              "phase": 10.16,
+              "phase": 10.17,
               "hint": "Work backwards from (mx + p)(nx + q) so the product matches the original quadratic."
             },              "id": "Y11.A.POLYNOMIALS.T3",
               "stem": "Simplify ({a}x² + {b}x + {c}) + ({d}x² + {e}x + {f})",
@@ -5172,4 +5172,5 @@
     }
   ]
 }
+
 
