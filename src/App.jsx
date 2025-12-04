@@ -186,9 +186,50 @@ export default function App() {
   }
 
   const textDecoder = typeof TextDecoder !== 'undefined' ? new TextDecoder('utf-8') : null
+
+  // Math symbol replacements - defined once outside function for performance
+  const MATH_REPLACEMENTS = [
+    { pattern: /ΓêÜ/g, replacement: '√' },
+    { pattern: /Γêû/g, replacement: '≤' },
+    { pattern: /Γêì/g, replacement: '≥' },
+    { pattern: /ΓêÆ/g, replacement: '−' },
+    { pattern: /ΓëÑ/g, replacement: '≥' },
+    { pattern: /ΓëÁ/g, replacement: '≤' },
+    { pattern: /Γëê/g, replacement: '≈' },
+    { pattern: /Γëñ/g, replacement: '≥' },
+    { pattern: /ΓÇô/g, replacement: '–' },
+    { pattern: /ΓÇö/g, replacement: '–' },
+    { pattern: /ΓÇó/g, replacement: '•' },
+    { pattern: /ΓÇ£/g, replacement: '"' },
+    { pattern: /ΓÇ¥/g, replacement: '"' },
+    { pattern: /ΓÇÖ/g, replacement: "'" },
+    { pattern: /ΓÇª/g, replacement: '…' },
+    { pattern: /Ã×/g, replacement: '×' },
+    { pattern: /Ã·/g, replacement: '÷' },
+    { pattern: /Ã±/g, replacement: '±' },
+    { pattern: /Ã°/g, replacement: '°' },
+    { pattern: /Â±/g, replacement: '±' },
+    { pattern: /Â·/g, replacement: '·' },
+    { pattern: /Â°/g, replacement: '°' },
+    { pattern: /Â²/g, replacement: '²' },
+    { pattern: /Â³/g, replacement: '³' },
+    { pattern: /Â×/g, replacement: '×' },
+    { pattern: /Â÷/g, replacement: '÷' },
+    { pattern: /├ù/g, replacement: '×' },
+    { pattern: /╧Ç/g, replacement: 'π' },
+    { pattern: /┬▓/g, replacement: '²' },
+    { pattern: /┬│/g, replacement: '³' },
+    { pattern: /┬╖/g, replacement: '·' },
+    { pattern: /┬░/g, replacement: '°' },
+    { pattern: /╬╕/g, replacement: 'θ' },
+    { pattern: /Ç/g, replacement: 'π' }
+  ]
+
   function normalizeMathDisplay(str) {
     if (!str) return ''
     let result = String(str)
+
+    // Try UTF-8 decoding first if corrupted bytes detected
     if (/[ÃΓùÂ]/.test(result) && textDecoder) {
       try {
         const bytes = new Uint8Array(result.length)
@@ -203,34 +244,12 @@ export default function App() {
         // ignore decoding errors
       }
     }
-    const replacements = [
-    { pattern: /ΓêÜ/g, replacement: '√' },
-    { pattern: /Γêû/g, replacement: '≤' },
-    { pattern: /Γêì/g, replacement: '≥' },
-    { pattern: /ΓêÆ/g, replacement: '−' },
-    { pattern: /ΓëÑ/g, replacement: '≥' },
-    { pattern: /ΓëÁ/g, replacement: '≤' },
-    { pattern: /Γëê/g, replacement: '≈' },
-    { pattern: /ΓÇô/g, replacement: '–' },
-    { pattern: /ΓÇö/g, replacement: '–' },
-    { pattern: /ΓÇó/g, replacement: '•' },
-    { pattern: /ΓÇ£/g, replacement: '“' },
-    { pattern: /ΓÇ¥/g, replacement: '”' },
-    { pattern: /ΓÇÖ/g, replacement: '’' },
-    { pattern: /ΓÇª/g, replacement: '…' },
-    { pattern: /Ã×/g, replacement: '×' },
-    { pattern: /Ã·/g, replacement: '÷' },
-    { pattern: /Ã±/g, replacement: '±' },
-    { pattern: /Ã°/g, replacement: '°' },
-    { pattern: /Â±/g, replacement: '±' },
-    { pattern: /Â·/g, replacement: '·' },
-    { pattern: /Â°/g, replacement: '°' },
-    { pattern: /Â²/g, replacement: '²' },
-    { pattern: /Â³/g, replacement: '³' },
-    { pattern: /Â×/g, replacement: '×' },
-    { pattern: /Â÷/g, replacement: '÷' },
-    { pattern: /Ç/g, replacement: 'π' }
-  ]
+
+    // Apply all replacement patterns
+    for (const { pattern, replacement } of MATH_REPLACEMENTS) {
+      result = result.replace(pattern, replacement)
+    }
+
     return result
   }
 
@@ -1110,7 +1129,8 @@ export default function App() {
 
     const rows = []
     if (isOlympiadMode) {
-      const skills = olympiadCurriculum.skills || []
+      const olympiadYear = olympiadCurriculum.years?.[0]
+      const skills = olympiadYear?.skills || []
       skills.forEach(skill => {
         const templates = skill.templates || []
         templates.forEach(template => {
@@ -1223,7 +1243,7 @@ export default function App() {
     if (question) {
       const elem = document.getElementById('math-question')
       if (elem) {
-        let cleanQuestion = question.question
+        let cleanQuestion = normalizeMathDisplay(question.question)
         // Replace LaTeX commands with proper math symbols
         cleanQuestion = cleanQuestion.replace(/\\text\{([^}]*)\}/g, '$1')
         cleanQuestion = cleanQuestion.replace(/\\times/g, '×')
@@ -1314,7 +1334,9 @@ export default function App() {
 
   // Internal function that actually starts practice (called after login decision)
   const startPracticeInternal = (skillId) => {
-    const yearData = curriculumData.years.find(y => y.year === selectedYear)
+    const activeCurriculum = isOlympiadMode ? olympiadCurriculum : curriculumData
+    const yearToFind = isOlympiadMode ? 'Olympiad' : selectedYear
+    const yearData = activeCurriculum.years.find(y => y.year === yearToFind)
     if (yearData) {
       const skill = yearData.skills.find(s => s.id === skillId)
       if (skill) {
@@ -1337,7 +1359,7 @@ export default function App() {
     const questions = []
     for (let i = 0; i < 20; i++) {
       const newQ = {
-        ...generateQuestionForSkill(curriculumData, skillId),
+        ...generateQuestionForSkill(activeCurriculum, skillId),
         userAnswer: '',
         userFeedback: '',
         isCorrect: false,
@@ -1397,8 +1419,9 @@ export default function App() {
       onePerTemplate: typeof opts.onePerTemplate !== 'undefined' ? opts.onePerTemplate : auditOnePerTemplate
     }
     const totalQ = typeof opts.totalQuestions !== 'undefined' ? opts.totalQuestions : 60
-    const yearForTest = selectedYear || 6 // Always have a valid year for generator
-    const testQuestions = generateTest(yearForTest, totalQ, options)  // Generate requested number of questions
+    const yearForTest = isOlympiadMode ? 'Olympiad' : (selectedYear || 6) // Always have a valid year for generator
+    const activeCurriculum = isOlympiadMode ? olympiadCurriculum : null
+    const testQuestions = generateTest(yearForTest, totalQ, options, activeCurriculum)  // Generate requested number of questions
     setHistory(testQuestions)
     setCurrentIndex(0)
     setScore(0)
@@ -1489,7 +1512,7 @@ export default function App() {
 
       // Update history with the checked answer
       const updatedHistory = [...history]
-      const feedbackMsg = isCorrect ? 'Correct! ✅' : (isGroupMode && !isDevMode ? 'Wrong ❌' : `Wrong ❌ Answer: ${question.formattedAnswer || question.answer}`)
+      const feedbackMsg = isCorrect ? 'Correct! ✅' : (isGroupMode && !isDevMode ? 'Wrong ❌' : `Wrong ❌ Answer: ${normalizeMathDisplay(question.formattedAnswer || question.answer)}`)
       updatedHistory[currentIndex] = {
         ...updatedHistory[currentIndex],
         userAnswer: answer,
@@ -1802,7 +1825,7 @@ export default function App() {
         const newAttempts = attempts + 1
         setAttempts(newAttempts)
 
-        const displayAnswer = question.formattedAnswer || question.answer
+        const displayAnswer = normalizeMathDisplay(question.formattedAnswer || question.answer)
         if (isTestMode) {
           // In group mode, hide answers unless dev mode is enabled (teacher can add &dev=true to URL)
           if (isGroupMode && !isDevMode) {
@@ -1888,7 +1911,7 @@ export default function App() {
 
     const reportData = {
       question: question.question || 'N/A',
-      answer: `User: ${answer || 'N/A'}, Correct: ${question.answer || 'N/A'}`,
+      answer: `User: ${answer || 'N/A'}, Correct: ${normalizeMathDisplay(question.answer || 'N/A')}`,
       year: yearField,
       topic: topicField
     }
@@ -2901,7 +2924,7 @@ export default function App() {
   // Landing Page
   if (mode === 'landing') {
     const selectedYearData = curriculumData.years.find(y => y.year === curriculumMapYear)
-    const activeYearData = isOlympiadMode ? olympiadCurriculum : selectedYearData
+    const activeYearData = isOlympiadMode ? olympiadCurriculum.years?.[0] : selectedYearData
 
     // Build strands for the active curriculum (standard year or Olympiad)
     const strands = {}
@@ -3583,6 +3606,49 @@ export default function App() {
                         <svg className="w-20 h-20 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                         </svg>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                )}
+
+                {/* Olympiad Test Button */}
+                {isOlympiadMode && (
+                <div className="mb-12">
+                  <div className="max-w-3xl mx-auto bg-white/90 p-6 rounded-xl border-2 border-amber-400 card-shadow transition-all">
+                    <div className="flex items-center justify-between gap-6">
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-bold text-amber-600 mb-2">Olympiad Challenge</h3>
+                        <p className="text-gray-700 mb-1">Test yourself on elite-level mathematics problems from {activeYearData?.skills?.length || 28} different skills</p>
+                        <p className="text-sm text-gray-500 mb-4">~20 questions • Advanced difficulty • See how you compare</p>
+
+                        <div className="flex gap-3 items-center">
+                          <button
+                            onClick={() => {
+                              const olympiadYear = olympiadCurriculum.years?.[0]
+                              const allSkills = olympiadYear?.skills || []
+                              const selectedSkillIds = allSkills.map(s => s.id)
+                              const options = { focusedSkills: selectedSkillIds, totalQuestions: 20 }
+                              const testQuestions = generateTest('Olympiad', 20, options, olympiadCurriculum)
+                              setHistory(testQuestions)
+                              setCurrentIndex(0)
+                              setScore(0)
+                              setIsTestMode(true)
+                              setSelectedSkill(null)
+                              setAnswer('')
+                              setSelectedChoiceIndex(null)
+                              setFeedback('')
+                              initialized.current = true
+                              setMode('test')
+                            }}
+                            className="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105"
+                          >
+                            Start Olympiad Test →
+                          </button>
+                        </div>
+                      </div>
+                      <div className="hidden md:block" style={{fontSize: '4rem', lineHeight: 1}}>
+                        🏆
                       </div>
                     </div>
                   </div>
@@ -4295,7 +4361,9 @@ export default function App() {
   }
 
   if (mode === 'topic-select' && selectedStrand) {
-    const strands = getStrandsForYear(curriculumData, selectedYear)
+    const activeCurriculum = isOlympiadMode ? olympiadCurriculum : curriculumData
+    const yearToFind = isOlympiadMode ? 'Olympiad' : selectedYear
+    const strands = getStrandsForYear(activeCurriculum, yearToFind)
     const currentStrandData = strands.find(s => s.strand === selectedStrand)
 
     return (
@@ -4512,6 +4580,7 @@ export default function App() {
               onSelectSkill={!isTestMode ? startPractice : null}
               collapsed={sidebarCollapsed}
               year={isTestMode ? (question?.year || selectedYear || 6) : selectedYear}
+              activeCurriculum={isOlympiadMode || (isTestMode && question?.year === 'Olympiad') ? olympiadCurriculum : null}
             />
             <CurriculumMapToggle
               collapsed={sidebarCollapsed}
@@ -4762,7 +4831,7 @@ export default function App() {
                         className="btn-secondary"
                         onClick={() => {
                           setShowCorrectAnswer(true)
-                          setFeedback(`Answer: ${question?.answer || 'N/A'}`)
+                          setFeedback(`Answer: ${normalizeMathDisplay(question?.answer || 'N/A')}`)
                         }}
                         style={{marginLeft: '8px'}}
                       >
@@ -4832,7 +4901,7 @@ export default function App() {
                   fontSize: '1.05em',
                   fontWeight: '600'
                 }}>
-                  Correct answer: <span style={{color: '#0b6'}}>{question.answer}</span>
+                  Correct answer: <span style={{color: '#0b6'}}>{normalizeMathDisplay(question.answer)}</span>
                 </div>
               )}
 
