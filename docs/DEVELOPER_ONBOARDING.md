@@ -45,6 +45,23 @@ free-nz-maths/
 - **notes/** contains working reference materials
 - **phase/** contains input data used for processing (not live app data)
 
+---
+
+## 🚀 Quick Start: Adding Templates
+
+**👉 See `CURRICULUM_GUIDE.md` in the main folder for step-by-step instructions on where to add templates for each year.**
+
+**TL;DR - Template Files by Year:**
+| Year | File | Size |
+|------|------|------|
+| Y6-Y9 | `src/curriculumDataNew.json` | ~1700 lines |
+| Y10 | `src/curriculumDataNew_Y10.json` | ~1100 lines |
+| Y11 | `src/curriculumDataNew_Y11.json` | ~1480 lines |
+| Y12 | `src/curriculumDataNew_Y12.json` | ~1000 lines |
+| Y13 | `src/curriculumDataNew_Y13.json` | ~750 lines |
+
+**Pro Tip:** Keep `CURRICULUM_GUIDE.md` open as reference when adding templates!
+
 ## Table of Contents
 
 1.  [**Quick Start & Setup**](#1-quick-start--setup)
