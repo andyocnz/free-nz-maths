@@ -1,0 +1,181 @@
+╔════════════════════════════════════════════════════════════════════╗
+║         FOLDER CLEANUP PROPOSAL - ZERO RISK                        ║
+╚════════════════════════════════════════════════════════════════════╝
+
+CURRENT STATE
+═════════════
+Root folder: 35+ files (cluttered)
+  - 20+ .md documentation files
+  - 7 PowerShell scripts
+  - 5 text files
+  - 3 Node scripts
+  - 1 temporary file
+
+src/ folder: 9 JSON files
+  ✓ 7 ACTIVE (used by app)
+  ✗ 2 BACKUP (not used, safe to delete)
+
+phase/ folder: Mix of input + working docs
+  - 2 JSON input files
+  - 4 .txt reference files
+  - 4 .md documentation files
+
+
+PROPOSED STRUCTURE
+══════════════════
+
+free-nz-maths/
+│
+├── src/                          ← App code (NO CHANGES)
+│   └── *.json (7 active only)
+│
+├── phase/                        ← Input folder (NO CHANGES)
+│   ├── phase 10 year 11-13.json
+│   └── phase 13 olymics.json
+│
+├── docs/                         ← NEW: All documentation
+│   ├── *.md files (20+)
+│   └── audit_reports/
+│       └── *.txt audit files
+│
+├── scripts/                      ← NEW: Utility scripts
+│   ├── sample_generate.mjs
+│   ├── validate_template.cjs
+│   ├── check_recent_templates.cjs
+│   └── *.ps1 PowerShell scripts
+│
+└── notes/                        ← NEW: Working reference
+    ├── *.txt working notes
+    └── reference materials
+
+
+MIGRATION STEPS
+═══════════════
+Step 1: Create folders          (mkdir - SAFE)
+Step 2: Move .md files to docs/ (git mv - SAFE, preserves history)
+Step 3: Move scripts            (git mv - SAFE)
+Step 4: Move reference notes    (git mv - SAFE)
+Step 5: Delete backups          (git rm - SAFE, not imported)
+Step 6: Create README files     (new files - SAFE)
+Step 7: Update .gitignore       (safe defaults - SAFE)
+Step 8: Verify build works      (test - SAFE)
+
+
+WHAT GETS MOVED
+═══════════════
+
+📄 Documentation (20+ files)
+   DEVELOPER_ONBOARDING.md        → docs/
+   DEVELOPER.md                   → docs/
+   QUICK_START_TEMPLATES.md       → docs/
+   CURRICULUM_AUDIT_REPORT.md     → docs/
+   CURRICULUM_STRUCTURE_RECOMMENDATION.md → docs/
+   ... and 15 more .md files
+
+📝 Scripts (3 new + existing)
+   check_recent_templates.cjs     → scripts/
+   check_repo.ps1                 → scripts/
+   create_github_repo.ps1         → scripts/
+   sample_generate.mjs            → scripts/ (organize existing)
+   validate_template.cjs          → scripts/ (organize existing)
+
+📋 Reference Notes (5 files)
+   new_templates_and_explanation.txt → notes/
+   one_template_topics.txt            → notes/
+   full year 10-12 topics.txt         → notes/ (from phase/)
+   full year 13.txt                   → notes/ (from phase/)
+   q11-13.txt                         → notes/ (from phase/)
+
+🗑️  Audit Logs (3 files - in subdirectory)
+   hint_audit_log.txt             → docs/audit_reports/
+   knowledge_audit_log.txt        → docs/audit_reports/
+   audit_report.txt               → docs/audit_reports/
+
+
+WHAT GETS DELETED
+══════════════════
+✗ temp_before.txt           (temporary, never imported)
+✗ src/curriculumDataNew.prod.json      (backup, not imported)
+✗ src/curriculumDataNew.remerge.json   (backup, not imported)
+
+
+WHAT STAYS UNCHANGED
+═════════════════════
+✓ src/ folder (all app code)
+✓ phase/ folder (input folder)
+✓ Root README.md
+✓ package.json, vite.config.js
+✓ All imports and code
+✓ Build process
+
+
+RISK ASSESSMENT
+═══════════════
+Risk Level: ✅ ZERO
+
+Why?
+  • No code changes
+  • No import changes
+  • All moves use git mv (preserves history)
+  • Easily rollback-able
+  • Just file organization
+
+Rollback?
+  • git revert <commit-hash>
+  • or git reset --hard <commit-hash>
+  • Complete undo in 1 command
+
+
+TIME ESTIMATE
+═════════════
+Setup:        2 min
+Moves:        5 min
+Verification: 5 min
+Documentation: 3 min
+─────────────────
+TOTAL:       ~15 minutes
+
+
+VERIFICATION CHECKLIST
+══════════════════════
+Before committing:
+
+□ npm run build          → Should succeed
+□ npm run dev            → Should open browser
+□ grep imports          → Same as before
+□ git log               → History preserved
+□ sample_generate.mjs   → Still works
+
+
+BENEFITS
+════════
+┌─────────────────────────────────────────────────────────┐
+│ BEFORE                     │ AFTER                       │
+├─────────────────────────────────────────────────────────┤
+│ 35+ files in root           │ Only app configs in root │
+│ Hard to find docs           │ All docs in docs/       │
+│ Scripts scattered           │ Scripts organized       │
+│ Input/output mixed          │ Clear separation        │
+│ New dev confusion           │ Obvious structure       │
+│ Hard to navigate            │ Easy to navigate        │
+└─────────────────────────────────────────────────────────┘
+
+
+IMPLEMENTATION
+═══════════════
+Ready to proceed? The process is:
+
+1. Run cleanup commands (15 min)
+2. Verify build/dev (5 min)
+3. Commit with git history
+4. Done!
+
+All tracked in git, zero risk.
+
+
+QUESTIONS?
+══════════
+1. Keep temp_before.txt?      → Recommend: DELETE
+2. Archive old phase folders? → Recommend: MOVE to archive/
+3. Any other files unclear?   → Check FOLDER_CLEANUP_PROPOSAL.md
+
