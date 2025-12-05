@@ -78,7 +78,7 @@
                                                            },
                                                            {
                                                                "id":  "Y6.N.WHOLE_OPERATIONS.T2",
-                                                               "stem":  "Estimate: {a} × {b} by rounding each number to the nearest ten.",
+                                                               "stem":  "Estimate: {a} * {b} by rounding each number to the nearest ten.",
                                                                "params":  {
                                                                               "a":  [
                                                                                         "int",
@@ -603,7 +603,7 @@
                                          "templates":  [
                                                            {
                                                                "id":  "Y6.G.COMPOSITE_SHAPES.T1",
-                                                               "stem":  "Find the area of a composite shape made of a rectangle {l}×{w} cm and a triangle with base {b} cm and height {h} cm.",
+                                                               "stem":  "Find the area of a composite shape made of a rectangle {l}*{w} cm and a triangle with base {b} cm and height {h} cm.",
                                                                "params":  {
                                                                               "l":  [
                                                                                         "int",
@@ -729,7 +729,7 @@
                                                            },
                                                            {
                                                                "id":  "Y7.N.WHOLE_NUMBER_SENSE.T2",
-                                                               "stem":  "Calculate: {a} × {b} ÷ {c}.",
+                                                               "stem":  "Calculate: {a} * {b} ÷ {c}.",
                                                                "params":  {
                                                                               "a":  [
                                                                                         "int",
@@ -763,7 +763,7 @@
                                          "templates":  [
                                                            {
                                                                "id":  "Y7.N.EXPONENTS_NUMBER_THEORY.T1",
-                                                               "stem":  "Write {a} × {a} × {a} using an exponent.",
+                                                               "stem":  "Write {a} * {a} * {a} using an exponent.",
                                                                "params":  {
                                                                               "a":  [
                                                                                         "int",
@@ -825,7 +825,7 @@
                                                            },
                                                            {
                                                                "id":  "Y7.N.DECIMALS.T2",
-                                                               "stem":  "Calculate: {x} × {y}.",
+                                                               "stem":  "Calculate: {x} * {y}.",
                                                                "params":  {
                                                                               "x":  [
                                                                                         "decimal",
@@ -1326,7 +1326,7 @@
                                          "templates":  [
                                                            {
                                                                "id":  "Y8.N.DECIMALS.T1",
-                                                               "stem":  "Evaluate: {x} + {y} × {z}.",
+                                                               "stem":  "Evaluate: {x} + {y} * {z}.",
                                                                "params":  {
                                                                               "x":  [
                                                                                         "decimal",
@@ -1364,7 +1364,7 @@
                                          "templates":  [
                                                            {
                                                                "id":  "Y8.N.FRACTIONS_RATIONAL.T1",
-                                                               "stem":  "Calculate: {a}/{b} × {c}/{d}.",
+                                                               "stem":  "Calculate: {a}/{b} * {c}/{d}.",
                                                                "params":  {
                                                                               "a":  [
                                                                                         "int",
@@ -1496,7 +1496,7 @@
                                          "templates":  [
                                                            {
                                                                "id":  "Y8.N.PROBLEM_SOLVING_ESTIMATION.T1",
-                                                               "stem":  "Estimate the result of {a} × {b} by rounding both numbers to one significant figure.",
+                                                               "stem":  "Estimate the result of {a} * {b} by rounding both numbers to one significant figure.",
                                                                "params":  {
                                                                               "a":  [
                                                                                         "decimal",
@@ -1932,7 +1932,7 @@
                                          "templates":  [
                                                            {
                                                                "id":  "Y9.N.EXPONENTS_ROOTS_STANDARD.T1",
-                                                               "stem":  "Simplify: {a}^{p} × {a}^{q}.",
+                                                               "stem":  "Simplify: {a}^{p} * {a}^{q}.",
                                                                "params":  {
                                                                               "a":  [
                                                                                         "int",
@@ -2212,7 +2212,13 @@
                                                                                         10
                                                                                     ]
                                                                           },
-                                                               "answer":  "arithmetic_sequence_nth_term_formula(a1, d)"
+                                                               "answer":  "{a1} + (n - 1) * {d}",
+                                                               "choices":  [
+                                                                              "{a1} + (n - 1) * {d}",
+                                                                              "{a1} + n * {d}",
+                                                                              "{a1} - (n - 1) * {d}",
+                                                                              "{d} + (n - 1) * {a1}"
+                                                                          ]
                                                            }
                                                        ]
                                      },

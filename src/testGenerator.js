@@ -14,19 +14,20 @@ function shuffle(array) {
   return arr
 }
 
-export function generateTest(year = 7, totalQuestions = 60, options = {}) {
+export function generateTest(year = 7, totalQuestions = 60, options = {}, activeCurriculum = null) {
   const { onlyNew = false, allYears = false, onePerTemplate = false } = options
+  const curriculum = activeCurriculum || curriculumData
   const testQuestions = []
 
   // Collect skills either for a single year or across all years
   let skills = []
   if (allYears) {
-    curriculumData.years.forEach(y => {
-      const s = getSkillsForYear(curriculumData, y.year)
+    curriculum.years.forEach(y => {
+      const s = getSkillsForYear(curriculum, y.year)
       skills = skills.concat(s)
     })
   } else {
-    skills = getSkillsForYear(curriculumData, year)
+    skills = getSkillsForYear(curriculum, year)
   }
 
   // Filter to only new skills if requested
@@ -40,7 +41,7 @@ export function generateTest(year = 7, totalQuestions = 60, options = {}) {
   if (onePerTemplate) {
     for (const skill of skills) {
       if (!skill) continue
-      const q = generateQuestionForSkill(curriculumData, skill.id)
+      const q = generateQuestionForSkill(curriculum, skill.id)
       if (!q) continue
       testQuestions.push({
         ...q,
@@ -61,7 +62,7 @@ export function generateTest(year = 7, totalQuestions = 60, options = {}) {
     const numQuestions = Math.max(1, questionsPerSkill)
     for (let i = 0; i < numQuestions; i++) {
       if (testQuestions.length >= totalQuestions) break
-      const question = generateQuestionForSkill(curriculumData, skill.id)
+      const question = generateQuestionForSkill(curriculum, skill.id)
       if (!question) continue
       testQuestions.push({
         ...question,

@@ -589,6 +589,22 @@ export function generateQuestionFromTemplate(template, skill, year) {
 
   const params = generateParams(template.params, year, templateDifficulty)
 
+  // Validate params if validateParams constraint is specified
+  if (template.validateParams) {
+    try {
+      const keys = Object.keys(params)
+      const values = Object.values(params)
+      const fn = new Function(...keys, `return (${template.validateParams})`)
+      const isValid = fn(...values)
+      if (!isValid) {
+        // Parameters don't meet constraint, regenerate recursively
+        return generateQuestionFromTemplate(template, skill, year)
+      }
+    } catch (e) {
+      // Ignore validation errors and continue
+    }
+  }
+
   // Special handling: keep Y6 time questions realistic by generating start/end
   // from a reasonable movie duration (rather than independent random times).
   if ((template.id || '') === 'Y6.M.TIME.T1') {

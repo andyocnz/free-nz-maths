@@ -159,7 +159,7 @@
             },
             {
               "id": "Y13.A.COMPLEX_NUMBERS.T2",
-              "stem": "({a} + {b}i) × ({c} + {d}i)",
+              "stem": "({a} + {b}i) * ({c} + {d}i)",
               "params": {
                 "a": ["int", -8, 8],
                 "b": ["int", -8, 8],
