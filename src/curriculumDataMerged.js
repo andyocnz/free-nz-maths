@@ -1,4 +1,7 @@
 import base from './curriculumDataFull.json'
+// Year 6-9: Still in combined file (smaller volume)
+import newDataY6to9 from './curriculumDataNew.json'
+// Year 10-13: Split into separate files (easier to work on)
 import newDataY10 from './curriculumDataNew_Y10.json'
 import newDataY11 from './curriculumDataNew_Y11.json'
 import newDataY12 from './curriculumDataNew_Y12.json'
@@ -59,7 +62,10 @@ function applyNewData(source) {
 }
 
 function merge() {
-  // Apply new curriculum data split by year
+  // Apply new curriculum data for Years 6-9 (combined file)
+  applyNewData(newDataY6to9)
+
+  // Apply new curriculum data split by year for Years 10-13
   applyNewData(newDataY10)
   applyNewData(newDataY11)
   applyNewData(newDataY12)
