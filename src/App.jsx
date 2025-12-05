@@ -1027,19 +1027,11 @@ export default function App() {
       filtered = filtered.filter(t => t.skillId === devTemplateFilterSkill)
     }
 
-    const sanitized = filtered.map(entry => {
-      const tpl = entry.template || {}
-      return {
-        ...entry,
-        template: {
-          ...tpl,
-          stem: normalizeMathDisplay(tpl.stem),
-          hint: normalizeMathDisplay(tpl.hint),
-          answer: normalizeMathDisplay(tpl.answer),
-          explanation: normalizeMathDisplay(tpl.explanation)
-        }
-      }
-    })
+    const sanitized = filtered.map(entry => ({
+      templateId: entry.template?.id || '',
+      sampleQuestion: devTemplateSamples.find(s => s.templateId === entry.template?.id)?.question || '',
+      expectedAnswer: devTemplateSamples.find(s => s.templateId === entry.template?.id)?.answer || ''
+    }))
 
     return JSON.stringify(sanitized, null, 2)
   }
@@ -1126,6 +1118,9 @@ export default function App() {
       setDevTemplateSamples([])
       return
     }
+
+    // Reset topic filter when year changes to avoid stale filter buttons
+    setDevTemplateFilterSkill(null)
 
     const rows = []
     if (isOlympiadMode) {
@@ -3706,53 +3701,50 @@ export default function App() {
                               }
                             }
                             return (
-                              <div className="flex flex-wrap gap-2 items-center">
-                                <span className="font-semibold text-slate-700">Loaded phases (all years):</span>
-                                <button
-                                  type="button"
-                                  onClick={() => handlePhaseClick(null)}
-                                  className={`px-2 py-1 rounded-full border text-[0.7rem] font-semibold ${
-                                    !phaseFilter
-                                      ? 'bg-slate-900 text-white border-slate-900'
-                                      : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100'
-                                  }`}
-                                >
-                                  All phases
-                                </button>
-                                <table className="min-w-max text-[0.7rem] border border-slate-200 bg-white rounded-md overflow-hidden">
-                                  <thead className="bg-slate-50">
-                                    <tr>
-                                      <th className="px-2 py-1 border-b border-slate-200 text-left">Phase</th>
-                                      <th className="px-2 py-1 border-b border-slate-200 text-left">Years / Topics</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
+                              <div>
+                                <div className="flex gap-3 items-center mb-3">
+                                  <label className="font-semibold text-slate-700">Filter by phase:</label>
+                                  <select
+                                    value={phaseFilter ? String(phaseFilter) : ''}
+                                    onChange={(e) => {
+                                      const val = e.target.value
+                                      handlePhaseClick(val ? parseFloat(val) : null)
+                                    }}
+                                    className="px-3 py-1 border border-slate-300 rounded-md bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 cursor-pointer"
+                                  >
+                                    <option value="">All phases</option>
                                     {items.map(([label, info]) => (
-                                      <tr key={label} className="border-t border-slate-100">
-                                        <td className="px-2 py-1 font-semibold text-slate-700">{label}</td>
-                                          <td className="px-2 py-1">
-                                            {Array.from(info.years).sort((a, b) => a - b).map(year => (
-                                              <button
-                                                key={`${label}-${year}`}
-                                                type="button"
-                                                onClick={() => {
-                                                  handlePhaseClick(info.phaseNumber)
-                                                  setCurriculumMapYear(year)
-                                                  setSelectedYear(year)
-                                                }}
-                                                className="inline-flex items-center px-2 py-0.5 mr-1 mb-1 rounded-full border border-slate-300 bg-white hover:bg-slate-100"
-                                              >
-                                                <span className="mr-1">Year {year}</span>
-                                                <span className="inline-flex items-center justify-center px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[0.65rem]">
-                                                  {info.perYear[year] || 0}
-                                                </span>
-                                              </button>
-                                            ))}
-                                        </td>
-                                      </tr>
+                                      <option key={label} value={String(info.phaseNumber)}>
+                                        {label}
+                                      </option>
                                     ))}
-                                  </tbody>
-                                </table>
+                                  </select>
+                                </div>
+                                <div className="flex flex-wrap gap-2">
+                                  {items.map(([label, info]) => {
+                                    // Only show buttons for selected phase (or all if no phase filter)
+                                    if (phaseFilter && info.phaseNumber !== phaseFilter) {
+                                      return null
+                                    }
+                                    return Array.from(info.years).sort((a, b) => a - b).map(year => (
+                                      <button
+                                        key={`${label}-${year}`}
+                                        type="button"
+                                        onClick={() => {
+                                          handlePhaseClick(info.phaseNumber)
+                                          setCurriculumMapYear(year)
+                                          setSelectedYear(year)
+                                        }}
+                                        className="inline-flex items-center px-2 py-0.5 rounded-full border border-slate-300 bg-white hover:bg-slate-100 text-[0.7rem]"
+                                      >
+                                        <span className="mr-1 font-medium">Year {year}</span>
+                                        <span className="inline-flex items-center justify-center px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[0.65rem] font-semibold">
+                                          {info.perYear[year] || 0}
+                                        </span>
+                                      </button>
+                                    ))
+                                  })}
+                                </div>
                               </div>
                             )
                           } catch {
@@ -3766,67 +3758,89 @@ export default function App() {
                         Template Samples ({mapHeading})
                       </h3>
                       <span className="text-sm text-slate-500">
-                        Total generated: {devTemplateSamples.length}
+                        Total generated: {devTemplateSamples.filter(row => devTemplateFilterSkill === null || row.skillId === devTemplateFilterSkill).length} / {devTemplateSamples.length}
                       </span>
                     </div>
                     <p className="text-sm text-slate-500 mb-3">
                       Dev view: one generated sample question and expected answer per template for the selected year.
                     </p>
-                    <div className="overflow-x-auto bg-white rounded-xl border border-gray-200 shadow-sm max-h-[500px]">
+                    <div className="bg-blue-50 border border-blue-200 rounded p-3 mb-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <div><strong>DEBUG INFO:</strong></div>
+                          <div className="text-xs font-mono">Year: {curriculumMapYear} | Filter: {devTemplateFilterSkill || 'null'}</div>
+                          <div className="text-xs font-mono">Total samples: {devTemplateSamples.length}</div>
+                          <div className="text-xs font-mono">Years in data: {curriculumData?.years?.map(y => y.year).join(', ')}</div>
+                          <div className="text-xs font-mono">Curriculum years sample: {devTemplateSamples.slice(0, 10).map(r => r.year).join(', ')}</div>
+                        </div>
+                        <button
+                          onClick={() => {
+                            const debugJson = {
+                              curriculumMapYear,
+                              yearFilter: devTemplateFilterSkill || null,
+                              totalSamples: devTemplateSamples.length,
+                              yearsInSamples: [...new Set(devTemplateSamples.map(r => r.year))],
+                              templateIds: devTemplateSamples.map(r => r.templateId),
+                              fullData: devTemplateSamples.map(r => ({
+                                templateId: r.templateId,
+                                skillId: r.skillId,
+                                year: r.year
+                              }))
+                            };
+                            const jsonStr = JSON.stringify(debugJson, null, 2);
+                            navigator.clipboard.writeText(jsonStr).then(() => {
+                              alert('Debug JSON copied to clipboard!');
+                            }).catch(err => {
+                              console.error('Failed to copy:', err);
+                              alert('Failed to copy. Check console.');
+                            });
+                          }}
+                          className="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600"
+                        >
+                          Copy JSON Debug
+                        </button>
+                      </div>
+                      <div className="text-xs font-mono mt-2">
+                        Sample IDs: {devTemplateSamples.slice(0, 5).map(r => r.templateId).join(', ')}{devTemplateSamples.length > 5 ? '...' : ''}
+                      </div>
+                    </div>
+                    <div className="overflow-x-auto bg-white rounded-lg border border-gray-200 shadow-sm mt-4 max-h-[600px]">
                       <table className="min-w-full text-left text-sm">
                         <thead className="bg-gray-50 sticky top-0 z-10">
                           <tr>
                             <th className="px-4 py-2 font-semibold text-gray-700">Template ID</th>
-                            <th className="px-4 py-2 font-semibold text-gray-700">Skill</th>
                             <th className="px-4 py-2 font-semibold text-gray-700">Sample Question</th>
                             <th className="px-4 py-2 font-semibold text-gray-700">Expected Answer</th>
                           </tr>
                         </thead>
-                        <tbody>
-                          {devTemplateSamples.map(row => (
-                            <tr key={row.templateId || `${row.skillId}-${row.question}`} className="border-t border-gray-100 align-top">
-                              <td className="px-4 py-2 whitespace-nowrap text-xs md:text-sm text-gray-800">
-
-
-                                <div className="flex items-center gap-2">                                                                                                                                       
-    {row.skillId ? (                                                                                                                                                              
-      <button                                                                                                                                                                     
-        type="button"
-        onClick={() => {                                                                                                                                                          
-          setSelectedYear(row.year)                                                                                                                                               
-          setMode('practice')                                                                                                                                                     
-          startPractice(row.skillId)                                                                                                                                              
-        }}                                                                                                                                                                        
-        className="text-blue-600 hover:text-blue-800 hover:underline"                                                                                                             
-      >                                                                                                                                                                           
-        {row.templateId || '—'}                                                                                                                                                   
-      </button>                                                                                                                                                                   
-    ) : (                                                                                                                                                                         
-      <span>{row.templateId || '—'}</span>                                                                                                                                        
-    )}                                                                                                                                                                            
-    {row.isNew && (                                                                                                                                                               
-      <span className="inline-flex items-center px-2 py-0.5 text-[0.65rem] font-semibold rounded-full bg-emerald-100 text-emerald-700 uppercase tracking-wide">                   
-        New
-      </span>                                                                                                                                                                     
-    )}                                                                                                                                                                            
-  </div>                                                                                                                                                                          
-  <div className="text-[0.7rem] text-gray-500 mt-0.5">{row.skillId}</div>         
-
-
-
-
-                              </td>
-                              <td className="px-4 py-2 text-xs md:text-sm text-gray-700 whitespace-nowrap">
-                                {row.skillName}
-                              </td>
-                              <td className="px-4 py-2 text-xs md:text-sm text-gray-800 max-w-md">
-                                {row.question}
-                              </td>
-                              <td className="px-4 py-2 text-xs md:text-sm text-gray-800 max-w-xs">
-                                {row.answer}
-                              </td>
-                            </tr>
-                          ))}
+                        <tbody key={`table-${curriculumMapYear}-${devTemplateFilterSkill}`}>
+                          {(() => {
+                            const filtered = devTemplateSamples.filter(row =>
+                              devTemplateFilterSkill === null || row.skillId === devTemplateFilterSkill
+                            );
+                            if (filtered.length === 0) {
+                              return (
+                                <tr>
+                                  <td colSpan="3" className="px-4 py-4 text-center text-sm text-gray-500">
+                                    {devTemplateSamples.length === 0 ? 'No templates for this year' : 'No templates match the selected topic filter'}
+                                  </td>
+                                </tr>
+                              );
+                            }
+                            return filtered.map((row, idx) => (
+                              <tr key={`${curriculumMapYear}-${row.templateId}-${idx}`} className="border-t border-gray-100 hover:bg-gray-50">
+                                <td className="px-4 py-2 whitespace-nowrap text-xs md:text-sm font-mono text-gray-700">
+                                  {row.templateId}
+                                </td>
+                                <td className="px-4 py-2 text-xs md:text-sm text-gray-800">
+                                  {row.question}
+                                </td>
+                                <td className="px-4 py-2 text-xs md:text-sm text-gray-800">
+                                  {row.answer}
+                                </td>
+                              </tr>
+                            ));
+                          })()}
                         </tbody>
                       </table>
                     </div>

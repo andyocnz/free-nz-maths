@@ -990,6 +990,34 @@
               "difficulty": 7,
               "phase": 10.18,
               "hint": "Multiply the radicands first, then extract any perfect square factors."
+            },
+            {
+              "id": "Y10.N.SURDS_SIMPLIFY.T3",
+              "stem": "Simplify {coeff1}√{n} + {coeff2}√{n}.",
+              "params": {
+                "coeff1": [
+                  "int",
+                  1,
+                  4
+                ],
+                "coeff2": [
+                  "int",
+                  1,
+                  4
+                ],
+                "n": [
+                  "choice",
+                  3,
+                  5,
+                  6,
+                  7,
+                  10
+                ]
+              },
+              "answer": "{(coeff1 + coeff2) + '√' + n}",
+              "difficulty": 6,
+              "phase": 10.16,
+              "hint": "Combine like surds by adding the coefficients and keeping the radicand the same."
             }
           ]
         },
@@ -1067,6 +1095,40 @@
               "difficulty": 6,
               "phase": 10.18,
               "hint": "Find the unit price (cost per gram) for each brand and compare."
+            },
+            {
+              "id": "Y10.N.RATIOS_BESTBUY.T2",
+              "stem": "Store A sells {volumeA} mL for ${priceA}, while Store B sells {volumeB} mL for ${priceB}. Which option is the better value per mL?",
+              "params": {
+                "volumeA": [
+                  "int",
+                  300,
+                  1500,
+                  50
+                ],
+                "volumeB": [
+                  "int",
+                  300,
+                  1500,
+                  50
+                ],
+                "priceA": [
+                  "decimal",
+                  2,
+                  12,
+                  0.5
+                ],
+                "priceB": [
+                  "decimal",
+                  2,
+                  12,
+                  0.5
+                ]
+              },
+              "answer": "{bestValue(volumeA, priceA, volumeB, priceB)}",
+              "difficulty": 6,
+              "phase": 10.16,
+              "hint": "Calculate cost per mL for each store and choose the smaller unit price."
             }
           ]
         },
@@ -1100,6 +1162,31 @@
               "difficulty": 8,
               "phase": 10.18,
               "hint": "Set x^2 - {k} equal to {m}x + {c} and solve the resulting quadratic."
+            },
+            {
+              "id": "Y10.L.SIMULTANEOUS_GRAPH.T2",
+              "stem": "The parabola y = x^2 - {k} intersects the line y = {c}. Find the positive x-value of their intersection, giving your answer to 2 decimal places.",
+              "params": {
+                "m": [
+                  "int",
+                  0,
+                  0
+                ],
+                "c": [
+                  "int",
+                  2,
+                  10
+                ],
+                "k": [
+                  "int",
+                  1,
+                  6
+                ]
+              },
+              "answer": "{solveParabolaLine(m, c, k)}",
+              "difficulty": 7,
+              "phase": 10.16,
+              "hint": "Set x^2 - {k} equal to {c} and solve the resulting quadratic for x."
             }
           ]
         }
