@@ -596,7 +596,7 @@
           "description": "An Olympiad-level question in the strand of Competition about Vector displacement.",
           "templates": [
             {
-              "id": "Y9.OLYMP.VECTORS.T1.T1",
+              "id": "Y13.OLY.VECTORS.T1",
               "stem": "A spider crawls {a} units east, then {b} units north, then {c} units west, then {d} units south. How many units is it from the starting point?",
               "params": {
                 "a": [
@@ -633,7 +633,7 @@
           "description": "An Olympiad-level question in the strand of Competition about Least common multiple.",
           "templates": [
             {
-              "id": "Y9.OLYMP.LCM.T1.T1",
+              "id": "Y13.OLY.LCM.T1",
               "stem": "What is the smallest positive integer divisible by all integers from 1 to {n}?",
               "params": {
                 "n": [
@@ -658,7 +658,7 @@
           "description": "An Olympiad-level question in the strand of Competition about Counting squares in a grid.",
           "templates": [
             {
-              "id": "Y9.OLYMP.GRID.T1.T1",
+              "id": "Y13.OLY.GRID.T1",
               "stem": "In an {n}x{n} grid of small squares, how many {k}x{k} squares are there?",
               "params": {
                 "n": [
@@ -688,7 +688,7 @@
           "description": "An Olympiad-level question in the strand of Competition about Units digit of large powers.",
           "templates": [
             {
-              "id": "Y10.OLYMP.UNITS_DIGIT.T1.T1",
+              "id": "Y13.OLY.UNITS_DIGIT.T1",
               "stem": "What is the units digit of {base}^{exp}?",
               "params": {
                 "base": [
@@ -720,7 +720,7 @@
           "description": "An Olympiad-level question in the strand of Competition about Sum of first n odd numbers.",
           "templates": [
             {
-              "id": "Y9.OLYMP.SUM_ODD.T1.T1",
+              "id": "Y13.OLY.SUM_ODD.T1",
               "stem": "What is the sum of the first {n} odd positive integers?",
               "params": {
                 "n": [
@@ -747,7 +747,7 @@
           "description": "An Olympiad-level question in the strand of Competition about Permutations with order restriction.",
           "templates": [
             {
-              "id": "Y10.UKMT.PERM_ORDER.T1.T1",
+              "id": "Y13.OLY.PERM_ORDER.T1",
               "stem": "How many ways are there to arrange the letters of the word {word} such that {let1} appears before {let2} in the arrangement?",
               "params": {
                 "word": [
@@ -772,7 +772,7 @@
           "description": "An Olympiad-level question in the strand of Competition about Counting primes.",
           "templates": [
             {
-              "id": "Y9.OLYMP.PRIMES.T1.T1",
+              "id": "Y13.OLY.PRIMES.T1",
               "stem": "How many prime numbers are there less than {n}?",
               "params": {
                 "n": [
@@ -798,7 +798,7 @@
           "description": "An Olympiad-level question in the strand of Competition about Resultant displacement.",
           "templates": [
             {
-              "id": "Y10.OLYMP.PYTHAG_TRIPLE.T1.T1",
+              "id": "Y13.OLY.PYTHAG_TRIPLE.T1",
               "stem": "A frog jumps {a} m up, {b} m north, {c} m east, then {a} m down. What is the straight-line distance from start to finish?",
               "params": {
                 "a": [
