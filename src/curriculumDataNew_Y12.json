@@ -1,0 +1,1005 @@
+{
+  "years": [
+    {
+      "year": 12,
+      "skills": [
+        {
+          "id": "Y12.G.2",
+          "name": "Add and subtract complex numbers",
+          "strand": "Complex numbers",
+          "description": "Complex number operations",
+          "templates": [
+            {
+              "id": "Y12.C.COMPLEX_ADD.T1",
+              "stem": "Simplify ({a} + {b}i) + ({c} + {d}i).",
+              "params": {
+                "a": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "b": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "c": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "d": [
+                  "int",
+                  -15,
+                  15
+                ]
+              },
+              "answer": "{a+c} + {b+d}i",
+              "difficulty": 7,
+              "phase": 10.14,
+              "hint": "(a + bi) + (c + di) = (a + c) + (b + d)i"
+            }
+          ]
+        },
+        {
+          "id": "Y12.G.3",
+          "name": "Dot product",
+          "strand": "Vectors & Matrices",
+          "description": "Vector dot product",
+          "templates": [
+            {
+              "id": "Y12.V.VECTOR_DOT.T1",
+              "stem": "Find the dot product of <{a},{b}> and <{c},{d}>.",
+              "params": {
+                "a": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "c": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "d": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "{a*c + b*d}",
+              "difficulty": 7,
+              "phase": 10.14,
+              "hint": "u ┬╖ v = uΓéüvΓéü + uΓéévΓéé + uΓéâvΓéâ"
+            }
+          ]
+        },
+        {
+          "id": "Y12.G.4",
+          "name": "Angle between vectors",
+          "strand": "Vectors & Matrices",
+          "description": "Find angle between vectors",
+          "templates": [
+            {
+              "id": "Y12.V.VECTOR_ANGLE.T1",
+              "stem": "Find the angle between <{a},{b}> and <{c},{d}> to the nearest degree.",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  12
+                ],
+                "b": [
+                  "int",
+                  2,
+                  12
+                ],
+                "c": [
+                  "int",
+                  2,
+                  12
+                ],
+                "d": [
+                  "int",
+                  2,
+                  12
+                ]
+              },
+              "answer": "{Math.round(Math.acos((a*c + b*d)/(Math.sqrt(a*a + b*b)*Math.sqrt(c*c + d*d))) * 180 / Math.PI)}°",
+              "difficulty": 9,
+              "phase": 10.14,
+              "hint": "cos θ = (u · v) / (|u||v|)"
+            }
+          ]
+        },
+        {
+          "id": "Y12.G.5",
+          "name": "Matrix operations",
+          "strand": "Vectors & Matrices",
+          "description": "Matrix operations",
+          "templates": [
+            {
+              "id": "Y12.A.MATRIX_OPS.T2",
+              "stem": "Find the determinant of the matrix [[{a},{b}],[{c},{d}]]",
+              "params": {
+                "a": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "c": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "d": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "{a*d - b*c}",
+              "difficulty": 8,
+              "phase": 10.14,
+              "hint": "A + B (same dimensions): add corresponding entries"
+            }
+          ]
+        },
+        {
+          "id": "Y12.G.6",
+          "name": "Vector operations",
+          "strand": "Vectors & Matrices",
+          "description": "Vector operations",
+          "templates": [
+            {
+              "id": "Y12.G.VECTOR_OPS.T3",
+              "stem": "Calculate the dot product <{a},{b}> ┬╖ <{c},{d}>",
+              "params": {
+                "a": [
+                  "int",
+                  -10,
+                  10,
+                  1
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10,
+                  1
+                ],
+                "c": [
+                  "int",
+                  -10,
+                  10,
+                  1
+                ],
+                "d": [
+                  "int",
+                  -10,
+                  10,
+                  1
+                ]
+              },
+              "answer": "{a*c + b*d}",
+              "difficulty": 8,
+              "phase": 10.14,
+              "hint": "u + v = <uΓéü + vΓéü, uΓéé + vΓéé>"
+            }
+          ]
+        },
+        {
+          "id": "Y12.AA.4",
+          "name": "Find terms of a recursive sequence",
+          "strand": "Sequences and series",
+          "description": "Recursive sequences",
+          "templates": [
+            {
+              "id": "Y12.ALG.RECURSION.T1",
+              "stem": "A sequence is defined by T(1) = {t1}, T(n) = {a}┬╖T(n-1) + {b} for n ΓëÑ 2. Find T({n}).",
+              "params": {
+                "t1": [
+                  "int",
+                  1,
+                  20
+                ],
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  0,
+                  15
+                ],
+                "n": [
+                  "int",
+                  3,
+                  8
+                ]
+              },
+              "answer": "{a == 1 ? t1 + b*(n-1) : t1 * a**(n-1) + b*(a**(n-1) - 1)/(a - 1)}",
+              "difficulty": 9,
+              "phase": 10.14,
+              "hint": "aΓéü = initial value"
+            }
+          ]
+        },
+        {
+          "id": "Y12.P.8",
+          "name": "Product property of logarithms",
+          "strand": "Logarithms",
+          "description": "Logarithm properties",
+          "templates": [
+            {
+              "id": "Y12.A.EXPONENTIALS_LOGS.T2",
+              "stem": "Simplify log({a}) + log({b}) where the logarithm has the same base",
+              "params": {
+                "base_num": [
+                  2,
+                  3,
+                  5,
+                  10,
+                  0
+                ],
+                "a": [
+                  "int",
+                  2,
+                  30
+                ],
+                "b": [
+                  "int",
+                  2,
+                  30
+                ]
+              },
+              "answer": "{base_num == 0 ? 'ln(' + (a*b) + ')' : 'log(' + (a*b) + ')'}",
+              "difficulty": 7,
+              "phase": 10.14,
+              "hint": "logΓéå (xy) = logΓéå x + logΓéå y"
+            }
+          ]
+        },
+        {
+          "id": "Y12.EE.1",
+          "name": "Sum and difference rules",
+          "strand": "Introduction to derivatives",
+          "description": "Derivative rules",
+          "templates": [
+            {
+              "id": "Y12.C.CALCULUS_APPLICATIONS.T2",
+              "stem": "A particle moves according to s(t) = {a}t^2 + {b}t + {c}. Find its velocity at t = {t}.",
+              "params": {
+                "a": [
+                  "int",
+                  -5,
+                  5,
+                  1
+                ],
+                "b": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "c": [
+                  "int",
+                  -50,
+                  50
+                ],
+                "t": [
+                  "int",
+                  0,
+                  10
+                ]
+              },
+              "answer": "{2*a*t + b}",
+              "difficulty": 9,
+              "phase": 10.14,
+              "hint": "d/dx [f(x) + g(x)] = f'(x) + g'(x)"
+            }
+          ]
+        },
+        {
+          "id": "Y12.A.MATRIX_OPS",
+          "strand": "Number & Algebra",
+          "name": "Matrix operations",
+          "description": "Addition, multiplication, determinants",
+          "phase": 10,
+          "phase_tag": "phase10_year12_1",
+          "templates": [
+            {
+              "id": "Y12.A.MATRIX_OPS.T1",
+              "stem": "Multiply matrices [[{a},{b}],[{c},{d}]] * [[{e},{f}],[{g},{h}]]",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  1,
+                  5
+                ],
+                "c": [
+                  "int",
+                  1,
+                  5
+                ],
+                "d": [
+                  "int",
+                  1,
+                  5
+                ],
+                "e": [
+                  "int",
+                  1,
+                  5
+                ],
+                "f": [
+                  "int",
+                  1,
+                  5
+                ],
+                "g": [
+                  "int",
+                  1,
+                  5
+                ],
+                "h": [
+                  "int",
+                  1,
+                  5
+                ]
+              },
+              "answer": "[[{a*e + b*g}, {a*f + b*h}], [{c*e + d*g}, {c*f + d*h}]]",
+              "visualData": {
+                "type": "matrix_2x2",
+                "matrix1": [
+                  [
+                    "a",
+                    "b"
+                  ],
+                  [
+                    "c",
+                    "d"
+                  ]
+                ],
+                "matrix2": [
+                  [
+                    "e",
+                    "f"
+                  ],
+                  [
+                    "g",
+                    "h"
+                  ]
+                ],
+                "op": "*",
+                "width": 400,
+                "height": 260
+              },
+              "difficulty": 9
+            },
+            {
+              "id": "Y12.A.MATRIX_OPS.T2",
+              "stem": "Find the determinant of [[{a},{b}],[{c},{d}]]",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  9
+                ],
+                "b": [
+                  "int",
+                  1,
+                  9
+                ],
+                "c": [
+                  "int",
+                  1,
+                  9
+                ],
+                "d": [
+                  "int",
+                  1,
+                  9
+                ]
+              },
+              "answer": "{a*d - b*c}",
+              "visualData": {
+                "type": "matrix_2x2",
+                "matrix1": [
+                  [
+                    "a",
+                    "b"
+                  ],
+                  [
+                    "c",
+                    "d"
+                  ]
+                ],
+                "op": "det",
+                "width": 400,
+                "height": 260
+              },
+              "difficulty": 8
+            },
+            {
+              "id": "Y12.A.MATRIX_OPS.T3",
+              "stem": "Add matrices [[{a},{b}],[{c},{d}]] + [[{e},{f}],[{g},{h}]]",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  9
+                ],
+                "b": [
+                  "int",
+                  1,
+                  9
+                ],
+                "c": [
+                  "int",
+                  1,
+                  9
+                ],
+                "d": [
+                  "int",
+                  1,
+                  9
+                ],
+                "e": [
+                  "int",
+                  1,
+                  9
+                ],
+                "f": [
+                  "int",
+                  1,
+                  9
+                ],
+                "g": [
+                  "int",
+                  1,
+                  9
+                ],
+                "h": [
+                  "int",
+                  1,
+                  9
+                ]
+              },
+              "answer": "[[{a+e}, {b+f}], [{c+g}, {d+h}]]",
+              "visualData": {
+                "type": "matrix_2x2",
+                "matrix1": [
+                  [
+                    "a",
+                    "b"
+                  ],
+                  [
+                    "c",
+                    "d"
+                  ]
+                ],
+                "matrix2": [
+                  [
+                    "e",
+                    "f"
+                  ],
+                  [
+                    "g",
+                    "h"
+                  ]
+                ],
+                "op": "+",
+                "width": 400,
+                "height": 260
+              },
+              "difficulty": 7
+            },
+            {
+              "id": "Y12.A.MATRIX_OPS.T4",
+              "stem": "Find the inverse of [[{a},{b}],[{c},{d}]]",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  0,
+                  5
+                ],
+                "c": [
+                  "int",
+                  0,
+                  5
+                ],
+                "d": [
+                  "int",
+                  1,
+                  5
+                ]
+              },
+              "answer": "1/({a*d - b*c}) * [[{d}, {-b}], [{-c}, {a}]]",
+              "visualData": {
+                "type": "matrix_2x2",
+                "matrix1": [
+                  [
+                    "a",
+                    "b"
+                  ],
+                  [
+                    "c",
+                    "d"
+                  ]
+                ],
+                "op": "inv",
+                "width": 400,
+                "height": 260
+              },
+              "difficulty": 10
+            }
+          ]
+        },
+        {
+          "id": "Y12.C.CALCULUS_INTEGRAL",
+          "strand": "Calculus",
+          "name": "Integration",
+          "description": "Indefinite integrals, area under curve",
+          "phase": 10,
+          "phase_tag": "phase10_year12_1",
+          "templates": [
+            {
+              "id": "Y12.C.CALCULUS_INTEGRAL.T1",
+              "stem": "Integrate ∫({a}x^2 + {b}x + {c}) dx",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "c": [
+                  "int",
+                  -5,
+                  5
+                ]
+              },
+              "answer": "{a/3}x^3 + {b/2}x^2 + {c}x + C",
+              "difficulty": 10
+            },
+            {
+              "id": "Y12.C.CALCULUS_INTEGRAL.T2",
+              "stem": "Evaluate ∫ from {lower} to {upper} of {a}x dx",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "lower": [
+                  "int",
+                  0,
+                  3
+                ],
+                "upper": [
+                  "int",
+                  4,
+                  8
+                ]
+              },
+              "answer": "{a/2 * (upper*upper - lower*lower)}",
+              "difficulty": 9
+            },
+            {
+              "id": "Y12.C.CALCULUS_INTEGRAL.T3",
+              "stem": "Find ∫{a}x^{n} dx",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "n": [
+                  "int",
+                  2,
+                  5
+                ]
+              },
+              "answer": "{a/(n+1)}x^{n+1} + C",
+              "difficulty": 9
+            }
+          ]
+        },
+        {
+          "id": "Y12.C.CALCULUS_APPLICATIONS",
+          "strand": "Calculus",
+          "name": "Calculus applications",
+          "description": "Optimization, rates of change",
+          "phase": 10,
+          "phase_tag": "phase10_year12_1",
+          "templates": [
+            {
+              "id": "Y12.C.CALCULUS_APPLICATIONS.T1",
+              "stem": "Find stationary points of f(x) = {a}x^2 + {b}x + {c}",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "c": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "{-b/(2*a)}",
+              "visualData": {
+                "type": "graph_parabola",
+                "a": "a",
+                "b": "b",
+                "c": "c",
+                "width": 400,
+                "height": 300
+              },
+              "difficulty": 9
+            },
+            {
+              "id": "Y12.C.CALCULUS_APPLICATIONS.T2",
+              "stem": "A particle's position is s(t) = {a}t^2 + {b}t. Find velocity at t = {t0}",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "t0": [
+                  "int",
+                  1,
+                  5
+                ]
+              },
+              "answer": "{2*a*t0 + b}",
+              "difficulty": 9
+            }
+          ]
+        },
+        {
+          "id": "Y12.G.VECTOR_OPS",
+          "strand": "Geometry & Measurement",
+          "name": "Vector operations",
+          "description": "Addition, scalar multiplication, dot product",
+          "phase": 10,
+          "phase_tag": "phase10_year12_1",
+          "templates": [
+            {
+              "id": "Y12.G.VECTOR_OPS.T1",
+              "stem": "Vector A = <{a},{b}>, B = <{c},{d}>. Find A + B",
+              "params": {
+                "a": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "c": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "d": [
+                  "int",
+                  -5,
+                  5
+                ]
+              },
+              "answer": "<{a+c}, {b+d}>",
+              "visualData": {
+                "type": "coordinate_grid",
+                "points": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    "a",
+                    "b"
+                  ],
+                  [
+                    "c",
+                    "d"
+                  ]
+                ],
+                "width": 400,
+                "height": 300
+              },
+              "difficulty": 7
+            },
+            {
+              "id": "Y12.G.VECTOR_OPS.T2",
+              "stem": "Find the magnitude of vector <{a},{b}>",
+              "params": {
+                "a": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "sqrt({a*a + b*b})",
+              "difficulty": 7
+            },
+            {
+              "id": "Y12.G.VECTOR_OPS.T3",
+              "stem": "Find dot product of <{a},{b}> · <{c},{d}>",
+              "params": {
+                "a": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "c": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "d": [
+                  "int",
+                  -5,
+                  5
+                ]
+              },
+              "answer": "{a*c + b*d}",
+              "difficulty": 8
+            },
+            {
+              "id": "Y12.G.VECTOR_OPS.T4",
+              "stem": "Find {k} * <{a},{b}>",
+              "params": {
+                "k": [
+                  "int",
+                  2,
+                  5
+                ],
+                "a": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "<{k*a}, {k*b}>",
+              "visualData": {
+                "type": "coordinate_grid",
+                "points": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    "a",
+                    "b"
+                  ]
+                ],
+                "width": 400,
+                "height": 300
+              },
+              "difficulty": 6
+            }
+          ]
+        },
+        {
+          "id": "Y12.G.CIRCLE_GEOMETRY",
+          "strand": "Geometry & Measurement",
+          "name": "Circle geometry",
+          "description": "Equations, properties, theorems",
+          "phase": 10,
+          "phase_tag": "phase10_year12_1",
+          "templates": [
+            {
+              "id": "Y12.G.CIRCLE_GEOMETRY.T1",
+              "stem": "Write equation of circle center ({h},{k}), radius {r}",
+              "params": {
+                "h": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "k": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "r": [
+                  "int",
+                  2,
+                  8
+                ]
+              },
+              "answer": "(x - {h})^2 + (y - {k})^2 = {r*r}",
+              "visualData": {
+                "type": "circle",
+                "radius": "r"
+              },
+              "difficulty": 8
+            }
+          ]
+        },
+        {
+          "id": "Y12.S.BIVARIATE_DATA",
+          "strand": "Statistics & Probability",
+          "name": "Bivariate data analysis",
+          "description": "Correlation, regression lines",
+          "phase": 10,
+          "phase_tag": "phase10_year12_1",
+          "templates": [
+            {
+              "id": "Y12.S.BIVARIATE_DATA.T2",
+              "stem": "Given regression line y = {a}x + {b}, predict y when x = {x0}",
+              "params": {
+                "a": [
+                  "decimal",
+                  0.5,
+                  3,
+                  1
+                ],
+                "b": [
+                  "int",
+                  -5,
+                  10
+                ],
+                "x0": [
+                  "int",
+                  5,
+                  20
+                ]
+              },
+              "answer": "{a*x0 + b}",
+              "visualData": {
+                "type": "scatter_plot",
+                "points": [
+                  [
+                    1,
+                    "a*1 + b"
+                  ],
+                  [
+                    2,
+                    "a*2 + b"
+                  ],
+                  [
+                    3,
+                    "a*3 + b"
+                  ]
+                ],
+                "width": 360,
+                "height": 240
+              },
+              "difficulty": 8
+            }
+          ]
+        },
+        {
+          "id": "Y12.S.PROBABILITY_DISTRIBUTIONS",
+          "strand": "Statistics & Probability",
+          "name": "Probability distributions",
+          "description": "Binomial and normal distributions.",
+          "phase": 10.7,
+          "phase_tag": "phase10.7_year12",
+          "templates": [
+            {
+              "id": "Y12.S.PROBABILITY_DISTRIBUTIONS.T2",
+              "stem": "A biased coin has P(heads) = {p}. What is the probability of getting exactly {k} heads in {n} flips? (Round to 2 decimal places)",
+              "params": {
+                "p": [
+                  "decimal",
+                  0.3,
+                  0.7,
+                  1
+                ],
+                "n": [
+                  "choice",
+                  3,
+                  4,
+                  5
+                ],
+                "k": [
+                  "int",
+                  1,
+                  3
+                ]
+              },
+              "answer": "round(binomial_coeff(n, k) * (p ** k) * ((1 - p) ** (n - k)), 2)",
+              "difficulty": 9,
+              "phase": 10.7
+            }
+          ]
+        },
+        {
+          "id": "Y12.A.POLYNOMIALS",
+          "strand": "Number & Algebra",
+          "name": "Polynomial operations",
+          "description": "Factoring, division, remainder theorem.",
+          "phase": 10.7,
+          "phase_tag": "phase10.7_year12",
+          "templates": [
+            {
+              "id": "Y12.A.POLYNOMIALS.T2",
+              "stem": "Use the factor theorem to determine if (x - {a}) is a factor of x^3 + {b}x^2 + {c}x + {d}",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  4
+                ],
+                "b": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "c": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "d": [
+                  "int",
+                  -20,
+                  20
+                ]
+              },
+              "answer": "(a*a*a + b*a*a + c*a + d === 0 ? 'Yes' : 'No')",
+              "difficulty": 9,
+              "phase": 10.7
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

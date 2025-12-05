@@ -1,5 +1,8 @@
 import base from './curriculumDataFull.json'
-import newData from './curriculumDataNew.json'
+import newDataY10 from './curriculumDataNew_Y10.json'
+import newDataY11 from './curriculumDataNew_Y11.json'
+import newDataY12 from './curriculumDataNew_Y12.json'
+import newDataY13 from './curriculumDataNew_Y13.json'
 import year11Data from './year11Curriculum.json'
 import year12Data from './year12Curriculum.json'
 import year13Data from './year13Curriculum.json'
@@ -56,7 +59,13 @@ function applyNewData(source) {
 }
 
 function merge() {
-  applyNewData(newData)
+  // Apply new curriculum data split by year
+  applyNewData(newDataY10)
+  applyNewData(newDataY11)
+  applyNewData(newDataY12)
+  applyNewData(newDataY13)
+
+  // Apply legacy year-specific curriculum files
   applyNewData(year11Data)
   applyNewData(year12Data)
   applyNewData(year13Data)
