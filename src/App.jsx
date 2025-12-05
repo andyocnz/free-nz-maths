@@ -1206,6 +1206,14 @@ export default function App() {
       })
     }
 
+    // Sort rows by skillId, then by templateId for consistent display
+    rows.sort((a, b) => {
+      if (a.skillId !== b.skillId) {
+        return a.skillId.localeCompare(b.skillId)
+      }
+      return a.templateId.localeCompare(b.templateId)
+    })
+
     setDevTemplateSamples(rows)
   }, [isDevMode, curriculumMapYear, isOlympiadMode])
 
@@ -3867,6 +3875,8 @@ export default function App() {
                             topicCounts[row.skillId].count += 1
                           })
                           const topics = Object.values(topicCounts)
+                          // Sort topics by skillId for consistent display
+                          topics.sort((a, b) => a.skillId.localeCompare(b.skillId))
                           if (!topics.length) return null
 
                           return (

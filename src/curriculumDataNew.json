@@ -1,4 +1,4 @@
-﻿{
+{
   "years": [
     {
       "year": 6,
@@ -871,7 +871,7 @@
             },
             {
               "id": "Y6.M.MEASUREMENT.T4",
-              "stem": "The temperature was {temp1}┬░C and increased by {rise}┬░C. What is the new temperature?",
+              "stem": "The temperature was {temp1}\u252c\u2591C and increased by {rise}\u252c\u2591C. What is the new temperature?",
               "params": {
                 "temp1": [
                   "int",
@@ -915,7 +915,7 @@
           "templates": [
             {
               "id": "Y6.G.COMPOSITE_SHAPES.T2",
-              "stem": "Find the perimeter of an L-shaped figure made from a {a}├ù{b} rectangle with a {c}├ù{d} rectangle cut out from one corner.",
+              "stem": "Find the perimeter of an L-shaped figure made from a {a}\u251c\u00f9{b} rectangle with a {c}\u251c\u00f9{d} rectangle cut out from one corner.",
               "params": {
                 "a": [
                   "int",
@@ -954,7 +954,7 @@
           "templates": [
             {
               "id": "Y6.G.VOLUME_PRISMS.T1",
-              "stem": "Find the volume of a triangular prism with base area {a} cm┬▓ and height {h} cm.",
+              "stem": "Find the volume of a triangular prism with base area {a} cm\u252c\u2593 and height {h} cm.",
               "params": {
                 "a": [
                   "int",
@@ -981,7 +981,7 @@
             },
             {
               "id": "Y6.G.VOLUME_PRISMS.T2",
-              "stem": "A swimming pool is {l} m long, {w} m wide and {d} m deep. How many litres of water does it hold when full? (1 m┬│ = 1000 litres)",
+              "stem": "A swimming pool is {l} m long, {w} m wide and {d} m deep. How many litres of water does it hold when full? (1 m\u252c\u2502 = 1000 litres)",
               "params": {
                 "l": [
                   "int",
@@ -1028,7 +1028,7 @@
           "templates": [
             {
               "id": "Y7.N.FRACTIONS_RATIONAL_OPS.T1",
-              "stem": "Calculate: {a}/{b} ├ù {c}/{d}. Give the answer in simplest form.",
+              "stem": "Calculate: {a}/{b} \u251c\u00f9 {c}/{d}. Give the answer in simplest form.",
               "params": {
                 "a": [
                   "int",
@@ -1058,7 +1058,7 @@
             },
             {
               "id": "Y7.N.FRACTIONS_RATIONAL_OPS.T2",
-              "stem": "Calculate: ({a}/{b}) ├╖ ({c}/{d}). Give the answer in simplest form.",
+              "stem": "Calculate: ({a}/{b}) \u251c\u2556 ({c}/{d}). Give the answer in simplest form.",
               "params": {
                 "a": [
                   "int",
@@ -1200,11 +1200,11 @@
           "id": "Y7.G.CIRCLES",
           "strand": "Geometry & Measurement",
           "name": "Circle Area and Circumference",
-          "description": "Calculate circumference and area of circles using ╧Ç Γëê 3.14.",
+          "description": "Calculate circumference and area of circles using \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
           "templates": [
             {
               "id": "Y7.G.CIRCLES.T1",
-              "stem": "Find the circumference of a circle with radius {r} cm. Use ╧Ç Γëê 3.14.",
+              "stem": "Find the circumference of a circle with radius {r} cm. Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
               "params": {
                 "r": [
                   "int",
@@ -1215,11 +1215,11 @@
               "answer": "Math.round(2 * 3.14 * r, 2)",
               "difficulty": 5,
               "phase": 10.1,
-              "hint": "Circumference (C) = 2 * ╧Ç * radius (r)  OR  C = ╧Ç * diameter (d)"
+              "hint": "Circumference (C) = 2 * \u2567\u00c7 * radius (r)  OR  C = \u2567\u00c7 * diameter (d)"
             },
             {
               "id": "Y7.G.CIRCLES.T2",
-              "stem": "Find the area of a circle with radius {r} cm. Use ╧Ç Γëê 3.14.",
+              "stem": "Find the area of a circle with radius {r} cm. Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
               "params": {
                 "r": [
                   "int",
@@ -1230,7 +1230,7 @@
               "answer": "Math.round(3.14 * r * r, 2)",
               "difficulty": 6,
               "phase": 10.1,
-              "hint": "Circumference (C) = 2 * ╧Ç * radius (r)  OR  C = ╧Ç * diameter (d)"
+              "hint": "Circumference (C) = 2 * \u2567\u00c7 * radius (r)  OR  C = \u2567\u00c7 * diameter (d)"
             }
           ]
         },
@@ -1587,7 +1587,7 @@
           "templates": [
             {
               "id": "Y8.G.TRANSVERSALS.T1",
-              "stem": "Two parallel lines are cut by a transversal. If an alternate interior angle is {a}┬░, what is its corresponding angle?",
+              "stem": "Two parallel lines are cut by a transversal. If an alternate interior angle is {a}\u252c\u2591, what is its corresponding angle?",
               "params": {
                 "a": [
                   "int",
@@ -1607,7 +1607,7 @@
             },
             {
               "id": "Y8.G.TRANSVERSALS.T2",
-              "stem": "Two parallel lines are cut by a transversal. If a corresponding angle is {a}┬░, what is its matching angle?",
+              "stem": "Two parallel lines are cut by a transversal. If a corresponding angle is {a}\u252c\u2591, what is its matching angle?",
               "params": {
                 "a": [
                   "int",
@@ -1627,7 +1627,7 @@
             },
             {
               "id": "Y8.G.TRANSVERSALS.T3",
-              "stem": "Two parallel lines are cut by a transversal. If an alternate exterior angle is {a}┬░, what is its equal angle?",
+              "stem": "Two parallel lines are cut by a transversal. If an alternate exterior angle is {a}\u252c\u2591, what is its equal angle?",
               "params": {
                 "a": [
                   "int",
@@ -1647,7 +1647,7 @@
             },
             {
               "id": "Y8.G.TRANSVERSALS.T4",
-              "stem": "Two parallel lines are cut by a transversal. If one same-side interior (consecutive interior) angle is {a}┬░, what is the measure of its supplementary partner?",
+              "stem": "Two parallel lines are cut by a transversal. If one same-side interior (consecutive interior) angle is {a}\u252c\u2591, what is the measure of its supplementary partner?",
               "params": {
                 "a": [
                   "int",
@@ -1667,7 +1667,7 @@
             },
             {
               "id": "Y8.G.TRANSVERSALS.T5",
-              "stem": "At the intersection of two lines, one angle measures {a}┬░. What is the measure of the vertically opposite angle?",
+              "stem": "At the intersection of two lines, one angle measures {a}\u252c\u2591. What is the measure of the vertically opposite angle?",
               "params": {
                 "a": [
                   "int",
@@ -1725,7 +1725,7 @@
             },
             {
               "id": "Y8.G.TRANSFORMATIONS_COORDINATE.T2",
-              "stem": "Rotate the point ({x},{y}) 90┬░ clockwise around the origin (0,0).",
+              "stem": "Rotate the point ({x},{y}) 90\u252c\u2591 clockwise around the origin (0,0).",
               "params": {
                 "x": [
                   "int",
@@ -1792,7 +1792,7 @@
             },
             {
               "id": "Y8.G.SURFACE_AREA.T2",
-              "stem": "Find the surface area of a cylinder with radius {r} cm and height {h} cm. Use ╧Ç Γëê 3.14.",
+              "stem": "Find the surface area of a cylinder with radius {r} cm and height {h} cm. Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
               "params": {
                 "r": [
                   "int",
@@ -1950,7 +1950,7 @@
           "templates": [
             {
               "id": "Y8.N.STANDARD_FORM_OPS.T1",
-              "stem": "Calculate ({m1} x 10^{e1}) ├ù ({m2} x 10^{e2}). Write in standard form.",
+              "stem": "Calculate ({m1} x 10^{e1}) \u251c\u00f9 ({m2} x 10^{e2}). Write in standard form.",
               "params": {
                 "m1": [
                   "int",
@@ -2035,7 +2035,7 @@
           "templates": [
             {
               "id": "Y9.N.RADICALS.T1",
-              "stem": "Simplify the following radical expression: ΓêÜ{n}.",
+              "stem": "Simplify the following radical expression: \u0393\u00ea\u00dc{n}.",
               "params": {
                 "n": [
                   "int",
@@ -2134,7 +2134,7 @@
           "templates": [
             {
               "id": "Y9.G.COMPOSITE_SOLIDS.T1",
-              "stem": "A solid is formed by placing a cone with radius {r} cm and height {h_cone} cm on top of a cylinder with the same radius and height {h_cyl} cm. What is the total volume of the solid? Use ╧Ç Γëê 3.14.",
+              "stem": "A solid is formed by placing a cone with radius {r} cm and height {h_cone} cm on top of a cylinder with the same radius and height {h_cyl} cm. What is the total volume of the solid? Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
               "params": {
                 "r": [
                   "int",
@@ -2155,7 +2155,7 @@
               "answer": "Math.round(volume_cone(r, h_cone) + volume_cylinder(r, h_cyl), 2)",
               "difficulty": 8,
               "phase": 8,
-              "hint": "Volume of Cylinder = ╧Ç * r┬▓ * h"
+              "hint": "Volume of Cylinder = \u2567\u00c7 * r\u252c\u2593 * h"
             }
           ]
         },
@@ -2188,11 +2188,11 @@
               "answer": "x < {(c - b) / a}",
               "difficulty": 8,
               "phase": 10.1,
-              "hint": "For ax + b > c, ax + b ΓëÑ c, ax + b < c, or ax + b Γëñ c"
+              "hint": "For ax + b > c, ax + b \u0393\u00eb\u00d1 c, ax + b < c, or ax + b \u0393\u00eb\u00f1 c"
             },
             {
               "id": "Y9.A.INEQUALITIES.T2",
-              "stem": "Solve for x: {b} - {a}x ΓëÑ {c}",
+              "stem": "Solve for x: {b} - {a}x \u0393\u00eb\u00d1 {c}",
               "params": {
                 "a": [
                   "int",
@@ -2210,10 +2210,10 @@
                   20
                 ]
               },
-              "answer": "x Γëñ {(b - c) / a}",
+              "answer": "x \u0393\u00eb\u00f1 {(b - c) / a}",
               "difficulty": 9,
               "phase": 10.1,
-              "hint": "For ax + b > c, ax + b ΓëÑ c, ax + b < c, or ax + b Γëñ c"
+              "hint": "For ax + b > c, ax + b \u0393\u00eb\u00d1 c, ax + b < c, or ax + b \u0393\u00eb\u00f1 c"
             }
           ]
         },
@@ -2225,7 +2225,7 @@
           "templates": [
             {
               "id": "Y9.A.NONLINEAR_FUNCTIONS.T1",
-              "stem": "If f(x) = x┬▓ + {a}, find f({v}).",
+              "stem": "If f(x) = x\u252c\u2593 + {a}, find f({v}).",
               "params": {
                 "a": [
                   "int",
@@ -2241,7 +2241,7 @@
               "answer": "v*v + a",
               "difficulty": 8,
               "phase": 10.1,
-              "hint": "Quadratic: y = ax┬▓ + bx + c"
+              "hint": "Quadratic: y = ax\u252c\u2593 + bx + c"
             },
             {
               "id": "Y9.A.NONLINEAR_FUNCTIONS.T2",
@@ -2266,7 +2266,7 @@
               "answer": "b * (a**v)",
               "difficulty": 9,
               "phase": 10.1,
-              "hint": "Quadratic: y = ax┬▓ + bx + c"
+              "hint": "Quadratic: y = ax\u252c\u2593 + bx + c"
             }
           ]
         },
@@ -2279,7 +2279,7 @@
           "templates": [
             {
               "id": "Y9.A.EXPRESSIONS_POLYNOMIALS.T2",
-              "stem": "Expand and simplify: (x ΓêÆ {a})(x + {b}).",
+              "stem": "Expand and simplify: (x \u0393\u00ea\u00c6 {a})(x + {b}).",
               "params": {
                 "a": [
                   "int",
@@ -2292,7 +2292,7 @@
                   10
                 ]
               },
-              "answer": "{'x┬▓ + ' + (b-a) + 'x ΓêÆ ' + (a*b)}",
+              "answer": "{'x\u252c\u2593 + ' + (b-a) + 'x \u0393\u00ea\u00c6 ' + (a*b)}",
               "difficulty": 7,
               "phase": 10.11,
               "hint": "Monomial, binomial, trinomial"
@@ -2308,7 +2308,7 @@
           "templates": [
             {
               "id": "Y9.A.EQUATIONS_INEQUALITIES.T2",
-              "stem": "Solve the inequality: {a}x + {b} ΓëÑ {c}",
+              "stem": "Solve the inequality: {a}x + {b} \u0393\u00eb\u00d1 {c}",
               "params": {
                 "a": [
                   "int",
@@ -2326,7 +2326,7 @@
                   30
                 ]
               },
-              "answer": "{'x Γëñ ' + Math.round((c - b) / a, 2)}",
+              "answer": "{'x \u0393\u00eb\u00f1 ' + Math.round((c - b) / a, 2)}",
               "difficulty": 7,
               "phase": 10.12,
               "hint": "Substitution, elimination methods"
@@ -2360,14 +2360,14 @@
                   1
                 ]
               },
-              "answer": "{a*b}x┬▓ + {a*c}x",
+              "answer": "{a*b}x\u252c\u2593 + {a*c}x",
               "difficulty": 8,
               "phase": 10.1,
               "hint": "(a + b)(c + d) = ac + ad + bc + bd"
             },
             {
               "id": "Y9.A.POLYNOMIAL_OPS.T2",
-              "stem": "Divide {a}x┬│ + {a*b}x┬▓ ΓêÆ {a*c}x by {a}x.",
+              "stem": "Divide {a}x\u252c\u2502 + {a*b}x\u252c\u2593 \u0393\u00ea\u00c6 {a*c}x by {a}x.",
               "params": {
                 "a": [
                   "int",
@@ -2385,7 +2385,7 @@
                   5
                 ]
               },
-              "answer": "{'x┬▓ + ' + b + 'x ΓêÆ ' + c}",
+              "answer": "{'x\u252c\u2593 + ' + b + 'x \u0393\u00ea\u00c6 ' + c}",
               "difficulty": 8,
               "phase": 10.12,
               "hint": "(a + b)(c + d) = ac + ad + bc + bd"
@@ -2416,7 +2416,7 @@
               "answer": "m * d",
               "difficulty": 8,
               "phase": 10.1,
-              "hint": "Total ways = nΓéü ├ù nΓéé ├ù ΓÇª ├ù nΓéû"
+              "hint": "Total ways = n\u0393\u00e9\u00fc \u251c\u00f9 n\u0393\u00e9\u00e9 \u251c\u00f9 \u0393\u00c7\u00aa \u251c\u00f9 n\u0393\u00e9\u00fb"
             }
           ]
         },
@@ -2428,7 +2428,7 @@
           "templates": [
             {
               "id": "Y9.G.CONES_SPHERES.T1",
-              "stem": "Find the volume of a sphere with radius {r} cm. Use ╧Ç Γëê 3.14.",
+              "stem": "Find the volume of a sphere with radius {r} cm. Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
               "params": {
                 "r": [
                   "int",
@@ -2439,11 +2439,11 @@
               "answer": "Math.round(volume_sphere(r), 2)",
               "difficulty": 9,
               "phase": 10.1,
-              "hint": "Cone volume: V = (1/3)╧Çr┬▓h"
+              "hint": "Cone volume: V = (1/3)\u2567\u00c7r\u252c\u2593h"
             },
             {
               "id": "Y9.G.CONES_SPHERES.T2",
-              "stem": "Find the surface area of a sphere with radius {r} cm. Use ╧Ç Γëê 3.14.",
+              "stem": "Find the surface area of a sphere with radius {r} cm. Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
               "params": {
                 "r": [
                   "int",
@@ -2454,11 +2454,11 @@
               "answer": "Math.round(surface_area_sphere(r), 2)",
               "difficulty": 9,
               "phase": 10.1,
-              "hint": "Cone volume: V = (1/3)╧Çr┬▓h"
+              "hint": "Cone volume: V = (1/3)\u2567\u00c7r\u252c\u2593h"
             },
             {
               "id": "Y9.G.CONES_SPHERES.T3",
-              "stem": "Find the volume of a cone with radius {r} cm and height {h} cm. Use ╧Ç Γëê 3.14.",
+              "stem": "Find the volume of a cone with radius {r} cm and height {h} cm. Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
               "params": {
                 "r": [
                   "int",
@@ -2474,7 +2474,7 @@
               "answer": "Math.round(volume_cone(r,h), 2)",
               "difficulty": 9,
               "phase": 10.1,
-              "hint": "Cone volume: V = (1/3)╧Çr┬▓h"
+              "hint": "Cone volume: V = (1/3)\u2567\u00c7r\u252c\u2593h"
             }
           ]
         },
@@ -2681,7 +2681,7 @@
               "answer": "geometric_sequence_nth_term(a, r, 4)",
               "difficulty": 8,
               "phase": 10.1,
-              "hint": "aΓéÖ = aΓéü ├ù r^(n-1)"
+              "hint": "a\u0393\u00e9\u00d6 = a\u0393\u00e9\u00fc \u251c\u00f9 r^(n-1)"
             }
           ]
         },
@@ -2710,7 +2710,7 @@
               "answer": "Math.floor(a/b) + ' r ' + (a % b)",
               "difficulty": 5,
               "phase": 10.7,
-              "hint": "Negative ├ù negative = positive"
+              "hint": "Negative \u251c\u00f9 negative = positive"
             }
           ]
         },
@@ -2744,7 +2744,7 @@
               "answer": "Math.round(cost * b / a, 2)",
               "difficulty": 6,
               "phase": 10.7,
-              "hint": "a/b = c/d ΓåÆ a├ùd = b├ùc"
+              "hint": "a/b = c/d \u0393\u00e5\u00c6 a\u251c\u00f9d = b\u251c\u00f9c"
             }
           ]
         },
@@ -2778,7 +2778,7 @@
               "answer": "Math.round(price * (1 - d1/100) * (1 - d2/100), 2)",
               "difficulty": 7,
               "phase": 10.7,
-              "hint": "Discount = original ├ù (percent/100)"
+              "hint": "Discount = original \u251c\u00f9 (percent/100)"
             }
           ]
         },
@@ -2813,7 +2813,7 @@
               "answer": "l * w * h * 1000",
               "difficulty": 6,
               "phase": 10.7,
-              "hint": "1 cubic metre (m┬│) = 1000 litres (L)"
+              "hint": "1 cubic metre (m\u252c\u2502) = 1000 litres (L)"
             }
           ]
         },
@@ -2882,7 +2882,7 @@
               "answer": "Math.round(Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)), 1)",
               "difficulty": 6,
               "phase": 10.7,
-              "hint": "Distance formula: d = sqrt((x2 - x1)┬▓ + (y2 - y1)┬▓)"
+              "hint": "Distance formula: d = sqrt((x2 - x1)\u252c\u2593 + (y2 - y1)\u252c\u2593)"
             }
           ]
         },
@@ -2895,7 +2895,7 @@
           "templates": [
             {
               "id": "Y9.G.GEOMETRY.T2",
-              "stem": "Two parallel lines are cut by a transversal. One angle is {a}┬░. What is the corresponding angle?",
+              "stem": "Two parallel lines are cut by a transversal. One angle is {a}\u252c\u2591. What is the corresponding angle?",
               "params": {
                 "a": [
                   "int",
@@ -2919,7 +2919,7 @@
           "templates": [
             {
               "id": "Y9.G.TRANSFORMATIONS.T2",
-              "stem": "Point ({x},{y}) is rotated 90┬░ clockwise about the origin. What are the new coordinates?",
+              "stem": "Point ({x},{y}) is rotated 90\u252c\u2591 clockwise about the origin. What are the new coordinates?",
               "params": {
                 "x": [
                   "int",
@@ -2935,7 +2935,7 @@
               "answer": "{'(' + y + ',' + (-x) + ')'}",
               "difficulty": 6,
               "phase": 10.7,
-              "hint": "Translation: (x,y) ΓåÆ (x+a, y+b)"
+              "hint": "Translation: (x,y) \u0393\u00e5\u00c6 (x+a, y+b)"
             }
           ]
         },
@@ -2948,7 +2948,7 @@
           "templates": [
             {
               "id": "Y9.G.PYTHAGORAS_SOLIDS.T2",
-              "stem": "A rectangular box has dimensions {l} ├ù {w} ├ù {h}. What is the length of the space diagonal? (Round to 1 decimal place)",
+              "stem": "A rectangular box has dimensions {l} \u251c\u00f9 {w} \u251c\u00f9 {h}. What is the length of the space diagonal? (Round to 1 decimal place)",
               "params": {
                 "l": [
                   "int",
@@ -2969,7 +2969,7 @@
               "answer": "Math.round(Math.sqrt(l*l + w*w + h*h), 1)",
               "difficulty": 7,
               "phase": 10.7,
-              "hint": "Face diagonal: ΓêÜ(l┬▓ + w┬▓)"
+              "hint": "Face diagonal: \u0393\u00ea\u00dc(l\u252c\u2593 + w\u252c\u2593)"
             }
           ]
         },
@@ -3003,7 +3003,7 @@
               "answer": "a + (n - 1) * d",
               "difficulty": 6,
               "phase": 10.7,
-              "hint": "Arithmetic: aΓéÖ = aΓéü + (n-1)d"
+              "hint": "Arithmetic: a\u0393\u00e9\u00d6 = a\u0393\u00e9\u00fc + (n-1)d"
             }
           ]
         }
@@ -3042,7 +3042,7 @@
               "answer": "{solve_quadratic_formula(a, b, c)}",
               "difficulty": 9,
               "phase": 8,
-              "hint": "The formula: x = [-b ┬▒ sqrt(b┬▓ - 4ac)] / (2a)"
+              "hint": "The formula: x = [-b \u252c\u2592 sqrt(b\u252c\u2593 - 4ac)] / (2a)"
             }
           ]
         },
@@ -3078,7 +3078,7 @@
               },
               "difficulty": 8,
               "phase": 8,
-              "hint": "For y = ax┬▓ + bx + c: Vertex x-coordinate = -b / (2a)"
+              "hint": "For y = ax\u252c\u2593 + bx + c: Vertex x-coordinate = -b / (2a)"
             }
           ]
         },
@@ -3091,7 +3091,7 @@
           "templates": [
             {
               "id": "Y10.G.TRIG_RULES.T1",
-              "stem": "In a triangle, side a = {a}, side b = {b}, and the angle between them is C = {C}┬░. Find the length of side c using the Cosine Rule. Give your answer to 1 decimal place.",
+              "stem": "In a triangle, side a = {a}, side b = {b}, and the angle between them is C = {C}\u252c\u2591. Find the length of side c using the Cosine Rule. Give your answer to 1 decimal place.",
               "params": {
                 "a": [
                   "int",
@@ -3150,7 +3150,7 @@
           "templates": [
             {
               "id": "Y10.G.CIRCLE_THEOREMS.T1",
-              "stem": "An angle at the circumference subtended by an arc is {a}┬░. What is the angle at the centre subtended by the same arc?",
+              "stem": "An angle at the circumference subtended by an arc is {a}\u252c\u2591. What is the angle at the centre subtended by the same arc?",
               "params": {
                 "a": [
                   "int",
@@ -3330,7 +3330,7 @@
           "templates": [
             {
               "id": "Y10.G.SA_VOLUME_ADVANCED.T1",
-              "stem": "A cone has a slant height of {s} cm and a radius of {r} cm. What is its volume? Use ╧Ç Γëê 3.14.",
+              "stem": "A cone has a slant height of {s} cm and a radius of {r} cm. What is its volume? Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
               "params": {
                 "s": [
                   "int",
@@ -3346,7 +3346,7 @@
               "answer": "Math.round(volume_cone(r, Math.sqrt(s*s - r*r)), 2)",
               "difficulty": 9,
               "phase": 8,
-              "hint": "Pythagoras' Theorem: a┬▓ + b┬▓ = c┬▓ (often needed to find heights or radii)"
+              "hint": "Pythagoras' Theorem: a\u252c\u2593 + b\u252c\u2593 = c\u252c\u2593 (often needed to find heights or radii)"
             }
           ]
         },
@@ -3359,7 +3359,7 @@
           "templates": [
             {
               "id": "Y10.G.GEOMETRIC_REASONING.T1",
-              "stem": "In a cyclic quadrilateral, one angle is {a}┬░. What is the measure of the opposite angle?",
+              "stem": "In a cyclic quadrilateral, one angle is {a}\u252c\u2591. What is the measure of the opposite angle?",
               "params": {
                 "a": [
                   "int",
@@ -3479,7 +3479,7 @@
           "templates": [
             {
               "id": "Y10.M.VOLUME_SIMILAR.T1",
-              "stem": "Two similar cones have heights in the ratio {ratio1} : {ratio2}. The smaller cone has volume {v} cm┬│. Find the volume of the larger cone.",
+              "stem": "Two similar cones have heights in the ratio {ratio1} : {ratio2}. The smaller cone has volume {v} cm\u252c\u2502. Find the volume of the larger cone.",
               "params": {
                 "ratio1": [
                   "int",
@@ -3501,7 +3501,7 @@
               "answer": "{Math.round(v * (ratio2 / ratio1)**3, 1)}",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "Volume ratio = k┬│"
+              "hint": "Volume ratio = k\u252c\u2502"
             }
           ]
         },
@@ -3539,7 +3539,7 @@
               "answer": "{round(Math.sqrt((x2-x1)**2 + (y2-y1)**2), 1)}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "Distance: ΓêÜ((xΓéé-xΓéü)┬▓ + (yΓéé-yΓéü)┬▓)"
+              "hint": "Distance: \u0393\u00ea\u00dc((x\u0393\u00e9\u00e9-x\u0393\u00e9\u00fc)\u252c\u2593 + (y\u0393\u00e9\u00e9-y\u0393\u00e9\u00fc)\u252c\u2593)"
             }
           ]
         },
@@ -3579,7 +3579,7 @@
               "answer": "{dy}/{dx}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "m = (yΓéé - yΓéü)/(xΓéé - xΓéü)"
+              "hint": "m = (y\u0393\u00e9\u00e9 - y\u0393\u00e9\u00fc)/(x\u0393\u00e9\u00e9 - x\u0393\u00e9\u00fc)"
             }
           ]
         },
@@ -3591,7 +3591,7 @@
           "templates": [
             {
               "id": "Y10.L.NONLINEAR_GRAPH.T1",
-              "stem": "The quadratic y = x┬▓ + {b}x + {c} has two x-intercepts. What is their sum?",
+              "stem": "The quadratic y = x\u252c\u2593 + {b}x + {c} has two x-intercepts. What is their sum?",
               "params": {
                 "b": [
                   "int",
@@ -3608,7 +3608,7 @@
               "answer": "{-b}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "Quadratic: vertex form y = a(x-h)┬▓ + k"
+              "hint": "Quadratic: vertex form y = a(x-h)\u252c\u2593 + k"
             }
           ]
         },
@@ -3717,7 +3717,7 @@
               "answer": "{q3 - q1}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "Outlier if > Q3 + 1.5├ùIQR or < Q1 - 1.5├ùIQR"
+              "hint": "Outlier if > Q3 + 1.5\u251c\u00f9IQR or < Q1 - 1.5\u251c\u00f9IQR"
             }
           ]
         },
@@ -3947,7 +3947,7 @@
               },
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "r Γëê 1 strong positive, r Γëê -1 strong negative"
+              "hint": "r \u0393\u00eb\u00ea 1 strong positive, r \u0393\u00eb\u00ea -1 strong negative"
             }
           ]
         },
@@ -3959,7 +3959,7 @@
           "templates": [
             {
               "id": "Y10.N.SURDS_SIMPLIFY.T1",
-              "stem": "Simplify √{n}.",
+              "stem": "Simplify \u221a{n}.",
               "params": {
                 "square": [
                   "choice",
@@ -3982,7 +3982,7 @@
             },
             {
               "id": "Y10.N.SURDS_SIMPLIFY.T2",
-              "stem": "Simplify √{n1} * √{n2}.",
+              "stem": "Simplify \u221a{n1} * \u221a{n2}.",
               "params": {
                 "n1": [
                   "int",
@@ -4010,7 +4010,7 @@
           "templates": [
             {
               "id": "Y10.N.SURDS_RATIONALISE.T1",
-              "stem": "Rationalise the denominator of 1 / (√{larger} - √{smaller}). Give your answer in simplest form.",
+              "stem": "Rationalise the denominator of 1 / (\u221a{larger} - \u221a{smaller}). Give your answer in simplest form.",
               "params": {
                 "larger": [
                   "choice",
@@ -4033,7 +4033,7 @@
               "answer": "{rationaliseSurd(larger, smaller)}",
               "difficulty": 7,
               "phase": 10.18,
-              "hint": "Multiply numerator and denominator by √{larger} + √{smaller} to form a rational denominator."
+              "hint": "Multiply numerator and denominator by \u221a{larger} + \u221a{smaller} to form a rational denominator."
             }
           ]
         },
@@ -4118,14 +4118,14 @@
       "year": 11,
       "skills": [
         {
-          "id": "A.QUADRATICS_COMPLETE_SQUARE",
+          "id": "Y11.A.QUADRATICS_COMPLETE_SQUARE",
           "strand": "Algebra & Sequences",
           "name": "Quadratics Complete Square",
           "description": "Quadratics Complete Square questions for Year 11",
           "templates": [
             {
               "id": "Y11.A.QUADRATICS_COMPLETE_SQUARE.T1",
-              "stem": "Write in completed-square form: x┬▓ + {b}x + {c}",
+              "stem": "Write in completed-square form: x\u252c\u2593 + {b}x + {c}",
               "params": {
                 "b": [
                   "int",
@@ -4139,15 +4139,15 @@
                   30
                 ]
               },
-              "answer": "(x + {b/2})┬▓ + {c - (b/2)**2}",
+              "answer": "(x + {b/2})\u252c\u2593 + {c - (b/2)**2}",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "x┬▓ + bx ΓåÆ (x + b/2)┬▓ - (b/2)┬▓"
+              "hint": "x\u252c\u2593 + bx \u0393\u00e5\u00c6 (x + b/2)\u252c\u2593 - (b/2)\u252c\u2593"
             }
           ]
         },
         {
-          "id": "A.LINEAR_SYSTEMS",
+          "id": "Y11.A.LINEAR_SYSTEMS",
           "strand": "Algebra & Sequences",
           "name": "Simultaneous equations",
           "description": "Solve systems of linear equations",
@@ -4244,7 +4244,7 @@
           ]
         },
         {
-          "id": "M.SURFACE_AREA_PYRAMID",
+          "id": "Y11.M.SURFACE_AREA_PYRAMID",
           "strand": "Measurement & Geometry",
           "name": "Surface Area Pyramid",
           "description": "Surface Area Pyramid questions for Year 11",
@@ -4267,19 +4267,19 @@
               "answer": "{s*s + 4*(s*l/2)}",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "Lateral area = (1/2) ├ù perimeter ├ù slant height"
+              "hint": "Lateral area = (1/2) \u251c\u00f9 perimeter \u251c\u00f9 slant height"
             }
           ]
         },
         {
-          "id": "M.VOLUME_SPHERE",
+          "id": "Y11.M.VOLUME_SPHERE",
           "strand": "Measurement & Geometry",
           "name": "Volume Sphere",
           "description": "Volume Sphere questions for Year 11",
           "templates": [
             {
               "id": "Y11.M.VOLUME_SPHERE.T1",
-              "stem": "Find the volume of a sphere with radius {r} cm. Use ╧Ç Γëê 3.14 and round to the nearest whole number.",
+              "stem": "Find the volume of a sphere with radius {r} cm. Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14 and round to the nearest whole number.",
               "params": {
                 "r": [
                   "int",
@@ -4290,19 +4290,19 @@
               "answer": "{Math.round(4/3 * 3.14 * r**3)}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "V = (4/3)╧Çr┬│"
+              "hint": "V = (4/3)\u2567\u00c7r\u252c\u2502"
             }
           ]
         },
         {
-          "id": "T.TRIG_GRAPH",
+          "id": "Y11.T.TRIG_GRAPH",
           "strand": "Trigonometry",
           "name": "Trig Graph",
           "description": "Trig Graph questions for Year 11",
           "templates": [
             {
               "id": "Y11.T.TRIG_GRAPH.T1",
-              "stem": "How many solutions does sin(x) = {k} have in the interval 0┬░ Γëñ x < 360┬░?",
+              "stem": "How many solutions does sin(x) = {k} have in the interval 0\u252c\u2591 \u0393\u00eb\u00f1 x < 360\u252c\u2591?",
               "params": {
                 "k": [
                   "decimal",
@@ -4319,7 +4319,7 @@
           ]
         },
         {
-          "id": "M.MATRIX_ADD",
+          "id": "Y11.M.MATRIX_ADD",
           "strand": "Measurement & Geometry",
           "name": "Matrix Add",
           "description": "Matrix Add questions for Year 11",
@@ -4377,7 +4377,7 @@
           ]
         },
         {
-          "id": "M.MATRIX_MULTIPLY_2X2",
+          "id": "Y11.M.MATRIX_MULTIPLY_2X2",
           "strand": "Measurement & Geometry",
           "name": "Matrix Multiply 2x2",
           "description": "Matrix Multiply 2x2 questions for Year 11",
@@ -4430,12 +4430,12 @@
               "answer": "[[{a*e + b*g},{a*f + b*h}],[{c*e + d*g},{c*f + d*h}]]",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "[a b; c d] ├ù [e f; g h] = [ae+bg af+bh; ce+dg cf+dh]"
+              "hint": "[a b; c d] \u251c\u00f9 [e f; g h] = [ae+bg af+bh; ce+dg cf+dh]"
             }
           ]
         },
         {
-          "id": "A.QUADRATIC_EQS",
+          "id": "Y11.A.QUADRATIC_EQS",
           "strand": "Algebra & Sequences",
           "name": "Quadratic Eqs",
           "description": "Quadratic Eqs questions for Year 11",
@@ -4508,7 +4508,7 @@
               ],
               "difficulty": 8,
               "phase": 10.17,
-              "hint": "Use x = [-b ┬▒ ΓêÜ(b^2 - 4ac)] / 2a."
+              "hint": "Use x = [-b \u252c\u2592 \u0393\u00ea\u00dc(b^2 - 4ac)] / 2a."
             },
             {
               "id": "Y11.A.QUADRATIC_EQS.T4",
@@ -4565,12 +4565,12 @@
               "answer": "(x + {a/2})^2 = {(a/2)*(a/2) - b}",
               "difficulty": 9,
               "phase": 10.15,
-              "hint": "x = [-b ┬▒ ΓêÜ(b┬▓-4ac)] / 2a"
+              "hint": "x = [-b \u252c\u2592 \u0393\u00ea\u00dc(b\u252c\u2593-4ac)] / 2a"
             }
           ]
         },
         {
-          "id": "A.POLYNOMIALS",
+          "id": "Y11.A.POLYNOMIALS",
           "strand": "Algebra & Sequences",
           "name": "Polynomials",
           "description": "Polynomials questions for Year 11",
@@ -4613,7 +4613,7 @@
               ],
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "Even degree positive leading coeff ΓåÆ up on both sides"
+              "hint": "Even degree positive leading coeff \u0393\u00e5\u00c6 up on both sides"
             },
             {
               "id": "Y11.A.POLYNOMIALS.T2",
@@ -4688,7 +4688,7 @@
             },
             {
               "id": "Y11.A.POLYNOMIALS.T3",
-              "stem": "Simplify ({a}x┬▓ + {b}x + {c}) + ({d}x┬▓ + {e}x + {f})",
+              "stem": "Simplify ({a}x\u252c\u2593 + {b}x + {c}) + ({d}x\u252c\u2593 + {e}x + {f})",
               "params": {
                 "a": [
                   "int",
@@ -4733,19 +4733,19 @@
               ],
               "difficulty": 5,
               "phase": 10.15,
-              "hint": "Even degree positive leading coeff ΓåÆ up on both sides"
+              "hint": "Even degree positive leading coeff \u0393\u00e5\u00c6 up on both sides"
             }
           ]
         },
         {
-          "id": "G.TRIG_RATIOS",
+          "id": "Y11.G.TRIG_RATIOS",
           "strand": "Geometry & Trigonometry",
           "name": "Trig Ratios",
           "description": "Trig Ratios questions for Year 11",
           "templates": [
             {
               "id": "Y11.G.TRIG_RATIOS.T1",
-              "stem": "In a right-angled triangle, opposite side = {opp} cm, adjacent side = {adj} cm. Find tan ╬╕ exactly.",
+              "stem": "In a right-angled triangle, opposite side = {opp} cm, adjacent side = {adj} cm. Find tan \u256c\u2555 exactly.",
               "params": {
                 "opp": [
                   "int",
@@ -4761,11 +4761,11 @@
               "answer": "{opp}/{adj}",
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "sin ╬╕ = opp/hyp, cos ╬╕ = adj/hyp, tan ╬╕ = opp/adj"
+              "hint": "sin \u256c\u2555 = opp/hyp, cos \u256c\u2555 = adj/hyp, tan \u256c\u2555 = opp/adj"
             },
             {
               "id": "Y11.G.TRIG_RATIOS.T3",
-              "stem": "A right triangle has hypotenuse {hyp} cm and opposite side {opp} cm. Find sin ╬╕ exactly.",
+              "stem": "A right triangle has hypotenuse {hyp} cm and opposite side {opp} cm. Find sin \u256c\u2555 exactly.",
               "params": {
                 "hyp": [
                   "int",
@@ -4781,12 +4781,12 @@
               "answer": "{opp}/{hyp}",
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "sin ╬╕ = opp/hyp, cos ╬╕ = adj/hyp, tan ╬╕ = opp/adj"
+              "hint": "sin \u256c\u2555 = opp/hyp, cos \u256c\u2555 = adj/hyp, tan \u256c\u2555 = opp/adj"
             }
           ]
         },
         {
-          "id": "G.TRIG_IDENTITIES",
+          "id": "Y11.G.TRIG_IDENTITIES",
           "strand": "Geometry & Trigonometry",
           "name": "Trig Identities",
           "description": "Trig Identities questions for Year 11",
@@ -4817,7 +4817,7 @@
               "answer": "{identity.answer}",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "sin┬▓╬╕ + cos┬▓╬╕ = 1"
+              "hint": "sin\u252c\u2593\u256c\u2555 + cos\u252c\u2593\u256c\u2555 = 1"
             },
             {
               "id": "Y11.G.TRIG_IDENTITIES.T2",
@@ -4837,7 +4837,7 @@
           ]
         },
         {
-          "id": "G.COORDINATE_GEOMETRY",
+          "id": "Y11.G.COORDINATE_GEOMETRY",
           "strand": "Geometry & Trigonometry",
           "name": "Coordinate Geometry",
           "description": "Coordinate Geometry questions for Year 11",
@@ -4872,7 +4872,7 @@
               "answer": "{dy}/{dx}",
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "(x-h)┬▓ + (y-k)┬▓ = r┬▓"
+              "hint": "(x-h)\u252c\u2593 + (y-k)\u252c\u2593 = r\u252c\u2593"
             },
             {
               "id": "Y11.G.COORDINATE_GEOMETRY.T2",
@@ -4904,12 +4904,12 @@
               "answer": "{sqrtExact((dx)**2 + (dy)**2)}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "(x-h)┬▓ + (y-k)┬▓ = r┬▓"
+              "hint": "(x-h)\u252c\u2593 + (y-k)\u252c\u2593 = r\u252c\u2593"
             }
           ]
         },
         {
-          "id": "S.DESCRIPTIVE_STATS",
+          "id": "Y11.S.DESCRIPTIVE_STATS",
           "strand": "Statistics & Probability",
           "name": "Descriptive Stats",
           "description": "Descriptive Stats questions for Year 11",
@@ -4947,19 +4947,19 @@
               "answer": "{(a+b+c+d+e)/5}",
               "difficulty": 5,
               "phase": 10.15,
-              "hint": "Variance = ╬ú(x - ╬╝)┬▓ / n"
+              "hint": "Variance = \u256c\u00fa(x - \u256c\u255d)\u252c\u2593 / n"
             }
           ]
         },
         {
-          "id": "C.CALCULUS_DIFF",
+          "id": "Y11.C.CALCULUS_DIFF",
           "strand": "Calculus & Coordinates",
           "name": "Calculus Diff",
           "description": "Calculus Diff questions for Year 11",
           "templates": [
             {
               "id": "Y11.C.CALCULUS_DIFF.T1",
-              "stem": "Differentiate f(x) = {a}x┬▓ + {b}x + {c}",
+              "stem": "Differentiate f(x) = {a}x\u252c\u2593 + {b}x + {c}",
               "params": {
                 "a": [
                   "int",
@@ -4981,7 +4981,7 @@
               "answer": "{2*a}x + {b}",
               "difficulty": 10,
               "phase": 10.15,
-              "hint": "Power rule: d/dx(xΓü┐) = nx^(n-1)"
+              "hint": "Power rule: d/dx(x\u0393\u00fc\u2510) = nx^(n-1)"
             }
           ]
         },
@@ -5059,7 +5059,7 @@
               ],
               "difficulty": 8,
               "phase": 10.17,
-              "hint": "Use x = [-b ± √(b^2 - 4ac)] / 2a."
+              "hint": "Use x = [-b \u00b1 \u221a(b^2 - 4ac)] / 2a."
             },
             {
               "id": "Y11.A.QUADRATIC_EQS.T4",
@@ -5116,7 +5116,7 @@
               "answer": "(x + {a/2})^2 = {(a/2)*(a/2) - b}",
               "difficulty": 9,
               "phase": 10.15,
-              "hint": "x = [-b ± √(b²-4ac)] / 2a"
+              "hint": "x = [-b \u00b1 \u221a(b\u00b2-4ac)] / 2a"
             }
           ]
         },
@@ -5261,7 +5261,7 @@
               ],
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "Even degree positive leading coeff → up on both sides"
+              "hint": "Even degree positive leading coeff \u2192 up on both sides"
             },
             {
               "id": "Y11.A.POLYNOMIALS.T2",
@@ -5336,7 +5336,7 @@
             },
             {
               "id": "Y11.A.POLYNOMIALS.T3",
-              "stem": "Simplify ({a}x² + {b}x + {c}) + ({d}x² + {e}x + {f})",
+              "stem": "Simplify ({a}x\u00b2 + {b}x + {c}) + ({d}x\u00b2 + {e}x + {f})",
               "params": {
                 "a": [
                   "int",
@@ -5381,7 +5381,7 @@
               ],
               "difficulty": 5,
               "phase": 10.15,
-              "hint": "Even degree positive leading coeff → up on both sides"
+              "hint": "Even degree positive leading coeff \u2192 up on both sides"
             }
           ]
         },
@@ -5417,7 +5417,7 @@
               "answer": "{identity.answer}",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "sin²θ + cos²θ = 1"
+              "hint": "sin\u00b2\u03b8 + cos\u00b2\u03b8 = 1"
             },
             {
               "id": "Y11.G.TRIG_IDENTITIES.T2",
@@ -5477,7 +5477,7 @@
           "templates": [
             {
               "id": "Y11.T.TRIG_EXACT.T1",
-              "stem": "Find the exact value of sin({angle}°).",
+              "stem": "Find the exact value of sin({angle}\u00b0).",
               "params": {
                 "angle": [
                   "choice",
@@ -5489,7 +5489,7 @@
               "answer": "{exactSin(angle)}",
               "difficulty": 7,
               "phase": 10.18,
-              "hint": "Recall sin(30°)=1/2, sin(45°)=sqrt(2)/2, sin(60°)=sqrt(3)/2."
+              "hint": "Recall sin(30\u00b0)=1/2, sin(45\u00b0)=sqrt(2)/2, sin(60\u00b0)=sqrt(3)/2."
             }
           ]
         },
@@ -5528,7 +5528,7 @@
               "answer": "{formatInverse2x2(a, b, c, d)}",
               "difficulty": 9,
               "phase": 10.18,
-              "hint": "For [[a,b],[c,d]], inverse = (1/(ad-bc))[[d,-b],[-c,a]]. Ensure ad - bc ≠ 0."
+              "hint": "For [[a,b],[c,d]], inverse = (1/(ad-bc))[[d,-b],[-c,a]]. Ensure ad - bc \u2260 0."
             }
           ]
         },
@@ -5667,7 +5667,7 @@
               "answer": "{a*c + b*d}",
               "difficulty": 7,
               "phase": 10.14,
-              "hint": "u ┬╖ v = uΓéüvΓéü + uΓéévΓéé + uΓéâvΓéâ"
+              "hint": "u \u252c\u2556 v = u\u0393\u00e9\u00fcv\u0393\u00e9\u00fc + u\u0393\u00e9\u00e9v\u0393\u00e9\u00e9 + u\u0393\u00e9\u00e2v\u0393\u00e9\u00e2"
             }
           ]
         },
@@ -5702,10 +5702,10 @@
                   12
                 ]
               },
-              "answer": "{Math.round(Math.acos((a*c + b*d)/(Math.sqrt(a*a + b*b)*Math.sqrt(c*c + d*d))) * 180 / Math.PI)}°",
+              "answer": "{Math.round(Math.acos((a*c + b*d)/(Math.sqrt(a*a + b*b)*Math.sqrt(c*c + d*d))) * 180 / Math.PI)}\u00b0",
               "difficulty": 9,
               "phase": 10.14,
-              "hint": "cos θ = (u · v) / (|u||v|)"
+              "hint": "cos \u03b8 = (u \u00b7 v) / (|u||v|)"
             }
           ]
         },
@@ -5755,7 +5755,7 @@
           "templates": [
             {
               "id": "Y12.G.VECTOR_OPS.T3",
-              "stem": "Calculate the dot product <{a},{b}> ┬╖ <{c},{d}>",
+              "stem": "Calculate the dot product <{a},{b}> \u252c\u2556 <{c},{d}>",
               "params": {
                 "a": [
                   "int",
@@ -5785,7 +5785,7 @@
               "answer": "{a*c + b*d}",
               "difficulty": 8,
               "phase": 10.14,
-              "hint": "u + v = <uΓéü + vΓéü, uΓéé + vΓéé>"
+              "hint": "u + v = <u\u0393\u00e9\u00fc + v\u0393\u00e9\u00fc, u\u0393\u00e9\u00e9 + v\u0393\u00e9\u00e9>"
             }
           ]
         },
@@ -5797,7 +5797,7 @@
           "templates": [
             {
               "id": "Y12.ALG.RECURSION.T1",
-              "stem": "A sequence is defined by T(1) = {t1}, T(n) = {a}┬╖T(n-1) + {b} for n ΓëÑ 2. Find T({n}).",
+              "stem": "A sequence is defined by T(1) = {t1}, T(n) = {a}\u252c\u2556T(n-1) + {b} for n \u0393\u00eb\u00d1 2. Find T({n}).",
               "params": {
                 "t1": [
                   "int",
@@ -5823,7 +5823,7 @@
               "answer": "{a == 1 ? t1 + b*(n-1) : t1 * a**(n-1) + b*(a**(n-1) - 1)/(a - 1)}",
               "difficulty": 9,
               "phase": 10.14,
-              "hint": "aΓéü = initial value"
+              "hint": "a\u0393\u00e9\u00fc = initial value"
             }
           ]
         },
@@ -5858,7 +5858,7 @@
               "answer": "{base_num == 0 ? 'ln(' + (a*b) + ')' : 'log(' + (a*b) + ')'}",
               "difficulty": 7,
               "phase": 10.14,
-              "hint": "logΓéå (xy) = logΓéå x + logΓéå y"
+              "hint": "log\u0393\u00e9\u00e5 (xy) = log\u0393\u00e9\u00e5 x + log\u0393\u00e9\u00e5 y"
             }
           ]
         },
@@ -6157,7 +6157,7 @@
           "templates": [
             {
               "id": "Y12.C.CALCULUS_INTEGRAL.T1",
-              "stem": "Integrate ∫({a}x^2 + {b}x + {c}) dx",
+              "stem": "Integrate \u222b({a}x^2 + {b}x + {c}) dx",
               "params": {
                 "a": [
                   "int",
@@ -6180,7 +6180,7 @@
             },
             {
               "id": "Y12.C.CALCULUS_INTEGRAL.T2",
-              "stem": "Evaluate ∫ from {lower} to {upper} of {a}x dx",
+              "stem": "Evaluate \u222b from {lower} to {upper} of {a}x dx",
               "params": {
                 "a": [
                   "int",
@@ -6203,7 +6203,7 @@
             },
             {
               "id": "Y12.C.CALCULUS_INTEGRAL.T3",
-              "stem": "Find ∫{a}x^{n} dx",
+              "stem": "Find \u222b{a}x^{n} dx",
               "params": {
                 "a": [
                   "int",
@@ -6360,7 +6360,7 @@
             },
             {
               "id": "Y12.G.VECTOR_OPS.T3",
-              "stem": "Find dot product of <{a},{b}> · <{c},{d}>",
+              "stem": "Find dot product of <{a},{b}> \u00b7 <{c},{d}>",
               "params": {
                 "a": [
                   "int",
@@ -6621,7 +6621,7 @@
               "answer": "{a} - {b}i",
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "i┬▓ = -1"
+              "hint": "i\u252c\u2593 = -1"
             }
           ]
         },
@@ -6689,7 +6689,7 @@
           "templates": [
             {
               "id": "Y13.C.CALCULUS_INTEGRAL.T2",
-              "stem": "Integrate ∫e^({a}x) dx",
+              "stem": "Integrate \u222be^({a}x) dx",
               "params": {
                 "a": [
                   "int",
@@ -6702,7 +6702,7 @@
             },
             {
               "id": "Y13.C.CALCULUS_INTEGRAL.T4",
-              "stem": "Integrate ∫sin({a}x) dx",
+              "stem": "Integrate \u222bsin({a}x) dx",
               "params": {
                 "a": [
                   "int",
@@ -6715,7 +6715,7 @@
             },
             {
               "id": "Y13.C.CALCULUS_INTEGRAL.T5",
-              "stem": "Evaluate ∫ from 0 to {b} of {a}x dx",
+              "stem": "Evaluate \u222b from 0 to {b} of {a}x dx",
               "params": {
                 "a": [
                   "int",
@@ -7072,7 +7072,7 @@
             },
             {
               "id": "Y13.A.SEQUENCES_SERIES.T5",
-              "stem": "Find the {n}th term of arithmetic sequence: a₁={a}, d={d}",
+              "stem": "Find the {n}th term of arithmetic sequence: a\u2081={a}, d={d}",
               "params": {
                 "a": [
                   "int",
@@ -7129,7 +7129,7 @@
           "templates": [
             {
               "id": "Y13.L.LOGARITHMS.T1",
-              "stem": "Solve log₂(x) = {n}",
+              "stem": "Solve log\u2082(x) = {n}",
               "params": {
                 "n": [
                   "int",
