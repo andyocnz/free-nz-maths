@@ -2,6 +2,49 @@
 
 This guide provides a comprehensive overview of the codebase, workflows, and best practices for adding new content and features.
 
+## 📁 Project Folder Structure
+
+The project is organized into logical folders for easy navigation:
+
+```
+free-nz-maths/
+├── src/                          ← App code (React, components, logic)
+│   ├── *.jsx, *.js              (Components and utilities)
+│   └── *.json                   (7 active curriculum files)
+│
+├── docs/                         ← All documentation
+│   ├── DEVELOPER_ONBOARDING.md  (This file)
+│   ├── *.md                     (20+ guides and references)
+│   └── audit_reports/           (Audit logs and reports)
+│
+├── scripts/                      ← Utility scripts
+│   ├── sample_generate.mjs      (Generate sample questions)
+│   ├── validate_template.cjs    (Validate template syntax)
+│   ├── check_recent_templates.cjs
+│   ├── *.ps1 files              (PowerShell utilities)
+│   └── README.md                (Scripts documentation)
+│
+├── notes/                        ← Working reference materials
+│   ├── *.txt files              (Topic lists, curriculum references)
+│   └── README.md                (Reference guide)
+│
+├── phase/                        ← Input data for processing
+│   ├── phase 10 year 11-13.json (Template definitions)
+│   ├── phase 13 olymics.json    (Olympiad templates)
+│   └── README.md                (Input folder notes)
+│
+├── README.md                     ← Main project documentation
+├── package.json                  ← Node dependencies
+└── [other config files]          (vite.config.js, .gitignore, etc)
+```
+
+**Key Points:**
+- **src/** contains the live app code - this is what runs
+- **docs/** is all documentation for developers
+- **scripts/** has utility scripts for development tasks
+- **notes/** contains working reference materials
+- **phase/** contains input data used for processing (not live app data)
+
 ## Table of Contents
 
 1.  [**Quick Start & Setup**](#1-quick-start--setup)
