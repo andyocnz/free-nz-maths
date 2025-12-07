@@ -1018,6 +1018,34 @@
               "difficulty": 6,
               "phase": 10.16,
               "hint": "Combine like surds by adding the coefficients and keeping the radicand the same."
+            },
+            {
+              "id": "Y10.N.SURDS_SIMPLIFY.T4",
+              "stem": "Simplify {coeff1}√{n} - {coeff2}√{n}.",
+              "params": {
+                "coeff1": [
+                  "int",
+                  3,
+                  6
+                ],
+                "coeff2": [
+                  "int",
+                  1,
+                  3
+                ],
+                "n": [
+                  "choice",
+                  2,
+                  3,
+                  5,
+                  6,
+                  7
+                ]
+              },
+              "answer": "{(coeff1 - coeff2) + '√' + n}",
+              "difficulty": 6,
+              "phase": 10.16,
+              "hint": "Subtract the coefficients of like surds and keep the radicand the same."
             }
           ]
         },
@@ -1053,6 +1081,30 @@
               "difficulty": 7,
               "phase": 10.18,
               "hint": "Multiply numerator and denominator by √{larger} + √{smaller} to form a rational denominator."
+            },
+            {
+              "id": "Y10.N.SURDS_RATIONALISE.T2",
+              "stem": "Rationalise the denominator of {num}/√{den}. Give your answer in simplest form.",
+              "params": {
+                "num": [
+                  "int",
+                  2,
+                  9
+                ],
+                "den": [
+                  "choice",
+                  2,
+                  3,
+                  5,
+                  6,
+                  7,
+                  8
+                ]
+              },
+              "answer": "{num + '√' + den + '/' + den}",
+              "difficulty": 6,
+              "phase": 10.16,
+              "hint": "Multiply top and bottom by √{den} so the denominator becomes {den}."
             }
           ]
         },
@@ -1129,6 +1181,48 @@
               "difficulty": 6,
               "phase": 10.16,
               "hint": "Calculate cost per mL for each store and choose the smaller unit price."
+            },
+            {
+              "id": "Y10.N.RATIOS_BESTBUY.T3",
+              "stem": "Item A weighs {massA} g and is {discount}% off its original price ${priceA}. Item B weighs {massB} g for ${priceB}. Which is the better value per gram?",
+              "params": {
+                "massA": [
+                  "int",
+                  200,
+                  900,
+                  50
+                ],
+                "massB": [
+                  "int",
+                  200,
+                  900,
+                  50
+                ],
+                "priceA": [
+                  "decimal",
+                  4,
+                  12,
+                  0.5
+                ],
+                "priceB": [
+                  "decimal",
+                  3,
+                  12,
+                  0.5
+                ],
+                "discount": [
+                  "choice",
+                  10,
+                  15,
+                  20,
+                  25,
+                  30
+                ]
+              },
+              "answer": "{bestValue(massA, priceA * (1 - discount/100), massB, priceB)}",
+              "difficulty": 6,
+              "phase": 10.16,
+              "hint": "Apply the discount to Item A first, then compare unit prices."
             }
           ]
         },
@@ -1187,6 +1281,159 @@
               "difficulty": 7,
               "phase": 10.16,
               "hint": "Set x^2 - {k} equal to {c} and solve the resulting quadratic for x."
+            }
+          ]
+        },
+        {
+          "id": "Y10.N.LINEAR_EQUATIONS",
+          "strand": "Number & Algebra",
+          "name": "Linear equations",
+          "description": "Solve one-variable linear equations",
+          "templates": [
+            {
+              "id": "Y10.N.LINEAR_EQUATIONS.T1",
+              "stem": "Solve {a}x + {b} = {c}.",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  9
+                ],
+                "b": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "c": [
+                  "int",
+                  -12,
+                  24
+                ]
+              },
+              "answer": "{(c - b)/a}",
+              "difficulty": 5,
+              "phase": 10.16,
+              "hint": "Isolate x by subtracting {b} then dividing by {a}."
+            }
+          ]
+        },
+        {
+          "id": "Y10.G.SIMILAR_SCALE",
+          "strand": "Geometry & Measurement",
+          "name": "Similar triangles scaling",
+          "description": "Scale side lengths in similar triangles",
+          "templates": [
+            {
+              "id": "Y10.G.SIMILAR_SCALE.T1",
+              "stem": "Triangle A has a side of {sideA} cm. Triangle B is similar with scale factor {scale}. Find the matching side length in Triangle B (cm).",
+              "params": {
+                "sideA": [
+                  "int",
+                  5,
+                  20
+                ],
+                "scale": [
+                  "choice",
+                  1.5,
+                  2,
+                  2.5,
+                  3
+                ]
+              },
+              "answer": "{round(sideA * scale, 1)}",
+              "difficulty": 6,
+              "phase": 10.16,
+              "hint": "Multiply the original side by the scale factor."
+            }
+          ]
+        },
+        {
+          "id": "Y10.G.PYTHAG_TRIPLE",
+          "strand": "Geometry & Measurement",
+          "name": "Pythagoras check",
+          "description": "Identify right triangles from side lengths",
+          "templates": [
+            {
+              "id": "Y10.G.PYTHAG_TRIPLE.T1",
+              "stem": "Do lengths {a}, {b}, {c} cm form a right triangle?",
+              "params": {
+                "a": [
+                  "choice",
+                  3,
+                  5,
+                  8
+                ],
+                "b": "{a == 3 ? 4 : (a == 5 ? 12 : 15)}",
+                "cBase": "{a == 3 ? 5 : (a == 5 ? 13 : 17)}",
+                "offset": [
+                  "choice",
+                  0,
+                  1
+                ],
+                "c": "{cBase + offset}"
+              },
+              "answer": "{offset === 0 ? 'Yes' : 'No'}",
+              "difficulty": 5,
+              "phase": 10.16,
+              "hint": "Check if a^2 + b^2 equals c^2."
+            }
+          ]
+        },
+        {
+          "id": "Y10.S.STATS_IQR",
+          "strand": "Statistics & Probability",
+          "name": "Interquartile range",
+          "description": "Calculate IQR from quartiles",
+          "templates": [
+            {
+              "id": "Y10.S.STATS_IQR.T1",
+              "stem": "A data set has Q1 = {q1} and Q3 = {q3}. What is the interquartile range?",
+              "params": {
+                "q1": [
+                  "int",
+                  5,
+                  30
+                ],
+                "q3": [
+                  "int",
+                  35,
+                  70
+                ]
+              },
+              "answer": "{q3 - q1}",
+              "difficulty": 4,
+              "phase": 10.16,
+              "hint": "IQR = Q3 - Q1."
+            }
+          ]
+        },
+        {
+          "id": "Y10.S.PROB_TWO_SPINS",
+          "strand": "Statistics & Probability",
+          "name": "Two-spin probability",
+          "description": "Find probability of two successes in a row",
+          "templates": [
+            {
+              "id": "Y10.S.PROB_TWO_SPINS.T1",
+              "stem": "A spinner lands on blue with probability {num}/{den} on each spin. What is the probability of two blues in a row?",
+              "params": {
+                "num": [
+                  "choice",
+                  1,
+                  2,
+                  3
+                ],
+                "den": [
+                  "choice",
+                  4,
+                  5,
+                  6
+                ]
+              },
+              "answer": "{round((num/den)*(num/den), 3)}",
+              "difficulty": 5,
+              "phase": 10.16,
+              "hint": "Multiply the single-spin probability by itself for two independent spins."
             }
           ]
         }

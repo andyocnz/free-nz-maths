@@ -9,6 +9,7 @@ import newDataY13 from './curriculumDataNew_Y13.json'
 import year11Data from './year11Curriculum.json'
 import year12Data from './year12Curriculum.json'
 import year13Data from './year13Curriculum.json'
+import algoCurriculum from './algoCurriculum.json'
 
 // Deep clone base to avoid mutating imported object
 const merged = JSON.parse(JSON.stringify(base))
@@ -75,6 +76,9 @@ function merge() {
   applyNewData(year11Data)
   applyNewData(year12Data)
   applyNewData(year13Data)
+
+  // Apply algorithm curriculum (phase 10.22 - extra/supplementary content)
+  applyNewData(algoCurriculum)
 
   // Sort years in ascending order
   merged.years.sort((a, b) => a.year - b.year)

@@ -1,0 +1,493 @@
+{
+  "years": [
+    {
+      "year": 6,
+      "skills": [
+        {
+          "id": "Y6.ALGO.SEQUENCES_PATTERNS",
+          "strand": "Digital Technologies",
+          "name": "Algorithms – Sequences & Patterns",
+          "description": "Introduction to algorithmic thinking through sequences and patterns",
+          "templates": [
+            {
+              "id": "ALGO.Y6.1",
+              "stem": "A teacher writes a sequence of numbers on the board. Each number is {diff} more than the previous one. The sequence starts: {a}, {b}, {c}, {d}, ___. What is the next number in the pattern?",
+              "params": {
+                "diff": ["int", 1, 5],
+                "a": ["int", 1, 10],
+                "b": "{a + diff}",
+                "c": "{b + diff}",
+                "d": "{c + diff}"
+              },
+              "answer": "{d + diff}",
+              "difficulty": 1,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y6.2",
+              "stem": "A computer program uses a repeat loop to print a greeting. The code says 'repeat {n} [ print 'Hello' ]'. This means the program will print the word 'Hello' ___ times. How many times will 'Hello' appear on the screen?",
+              "params": {
+                "n": ["int", 3, 10]
+              },
+              "answer": "{n}",
+              "difficulty": 1,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y6.3",
+              "stem": "A programmer needs to write a for loop that counts from 1 to {limit}. The code is: 'for i = 1 to ___ [ print i ]'. What number should replace the blank to make the loop count up to {limit}?",
+              "params": {
+                "limit": ["int", 5, 20]
+              },
+              "answer": "{limit}",
+              "difficulty": 1,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y6.4",
+              "stem": "A video game has a scoring system. If a player's score is greater than {threshold}, the program prints 'Pass', otherwise it prints 'Fail'. A player's score is {score}. What will the program print?",
+              "params": {
+                "threshold": ["int", 40, 60],
+                "score": ["int", 20, 100]
+              },
+              "answer": "{score > threshold ? 'Pass' : 'Fail'}",
+              "difficulty": 1,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y6.5",
+              "stem": "A scientist notices that bacteria in a petri dish doubles every hour. Starting with 1 bacterium, after 1 hour there are {mult}, after 2 hours there are {mult2}, and after 3 hours there are {mult3}. If the pattern continues (multiplying by {factor} each time), how many bacteria will there be after 4 hours?",
+              "params": {
+                "factor": ["int", 2, 4],
+                "mult": "{factor}",
+                "mult2": "{mult * factor}",
+                "mult3": "{mult2 * factor}"
+              },
+              "answer": "{mult3 * factor}",
+              "difficulty": 1,
+              "phase": 10.22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 7,
+      "skills": [
+        {
+          "id": "Y7.ALGO.LOGIC_CONDITIONS",
+          "strand": "Digital Technologies",
+          "name": "Algorithms – Logic & Conditions",
+          "description": "Boolean logic, conditional statements, and simple program control flow",
+          "templates": [
+            {
+              "id": "ALGO.Y7.1",
+              "stem": "A website has age restrictions. The program uses conditional logic: if age < {threshold} then display 'child' else display 'teen'. A visitor is {age} years old. What will the website display for this visitor?",
+              "params": {
+                "threshold": ["int", 10, 16],
+                "age": ["int", 5, 25]
+              },
+              "answer": "{age < threshold ? 'child' : 'teen'}",
+              "difficulty": 2,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y7.2",
+              "stem": "A counter program initializes a variable 'count' to 0, then uses a repeat loop: 'count = 0; repeat {n} [ count = count + 1 ]'. This loop adds 1 to count each time it runs. After the loop finishes, what is the final value of count?",
+              "params": {
+                "n": ["int", 5, 15]
+              },
+              "answer": "{n}",
+              "difficulty": 2,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y7.3",
+              "stem": "In digital circuits, AND gates combine two inputs. An AND gate outputs TRUE only if BOTH inputs are TRUE. If input A = {a} AND input B = {b}, what is the output?",
+              "params": {
+                "a": ["choice", "true", "false"],
+                "b": ["choice", "true", "false"]
+              },
+              "answer": "{a == 'true' && b == 'true' ? 'true' : 'false'}",
+              "difficulty": 2,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y7.4",
+              "stem": "An OR gate is used in computer circuits. An OR gate outputs TRUE if AT LEAST ONE input is TRUE. If input A = {a} OR input B = {b}, what is the output?",
+              "params": {
+                "a": ["choice", "true", "false"],
+                "b": ["choice", "true", "false"]
+              },
+              "answer": "{a == 'true' || b == 'true' ? 'true' : 'false'}",
+              "difficulty": 2,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y7.5",
+              "stem": "A NOT gate is a logic gate that reverses (flips) its input. If the input is TRUE, the output becomes FALSE, and vice versa. If the input = {a}, what is the output of the NOT gate?",
+              "params": {
+                "a": ["choice", "true", "false"]
+              },
+              "answer": "{a == 'true' ? 'false' : 'true'}",
+              "difficulty": 2,
+              "phase": 10.22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 8,
+      "skills": [
+        {
+          "id": "Y8.ALGO.FUNCTIONS_VARIABLES",
+          "strand": "Digital Technologies",
+          "name": "Algorithms – Functions & Variables",
+          "description": "Function definitions, variable assignment, iteration, and simple recursion patterns",
+          "templates": [
+            {
+              "id": "ALGO.Y8.1",
+              "stem": "A programmer defines a function called 'add' that takes two numbers and returns their sum. The function is: 'function add(a, b) returns a + b'. If the programmer calls this function with add({x}, {y}), what value will the function return?",
+              "params": {
+                "x": ["int", 1, 20],
+                "y": ["int", 1, 20]
+              },
+              "answer": "{x + y}",
+              "difficulty": 3,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y8.2",
+              "stem": "In a program, a variable x stores a number. First, x is assigned the value {initial}. Then the program executes: 'x = x + {increment}'. This takes the current value of x and adds {increment} to it. What is the new value of x?",
+              "params": {
+                "initial": ["int", 5, 15],
+                "increment": ["int", 1, 10]
+              },
+              "answer": "{initial + increment}",
+              "difficulty": 3,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y8.3",
+              "stem": "A programmer writes a simple function: 'function double(n) returns n × 2'. This function takes one input number and multiplies it by 2. If the function is called with double({n}), what is the result?",
+              "params": {
+                "n": ["int", 1, 15]
+              },
+              "answer": "{n * 2}",
+              "difficulty": 3,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y8.4",
+              "stem": "A loop in a program adds numbers together. The code is: 'for i = 1 to {limit} [ sum = sum + i ]' with sum starting at 0. This loop adds 1, then 2, then 3, and so on up to {limit}. What is the final value of sum?",
+              "params": {
+                "limit": ["int", 3, 8]
+              },
+              "answer": "{limit * (limit + 1) / 2}",
+              "difficulty": 3,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y8.5",
+              "stem": "The Fibonacci sequence is a famous pattern where each number is the sum of the two before it: 1, 1, 2, 3, 5, 8, 13, ___. This sequence is used in algorithms and nature. What is the next number in the Fibonacci sequence after 13?",
+              "params": {
+                "fib7": ["choice", 13, 13]
+              },
+              "answer": "21",
+              "difficulty": 3,
+              "phase": 10.22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 9,
+      "skills": [
+        {
+          "id": "Y9.ALGO.SEARCHING_SORTING",
+          "strand": "Digital Technologies",
+          "name": "Algorithms – Searching & Sorting",
+          "description": "Linear and binary search, bubble sort, selection sort, and insertion sort concepts",
+          "templates": [
+            {
+              "id": "ALGO.Y9.1",
+              "stem": "Linear search checks items one by one to find a value. In a list of {n} items, what is the maximum number of checks needed in the worst case?",
+              "params": {
+                "n": ["int", 5, 20]
+              },
+              "answer": "{n}",
+              "difficulty": 4,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y9.2",
+              "stem": "Binary search is faster than linear search because it divides the list in half each time. For a list of {n} items, approximately how many checks are needed? (Hint: it's log₂(n))",
+              "params": {
+                "n": ["choice", 8, 16, 32]
+              },
+              "answer": "{Math.ceil(Math.log2(n))}",
+              "difficulty": 4,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y9.3",
+              "stem": "Bubble sort compares adjacent pairs and swaps them if needed. To sort a list of {n} items completely, approximately how many comparisons are made?",
+              "params": {
+                "n": ["int", 4, 10]
+              },
+              "answer": "{n * n}",
+              "difficulty": 4,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y9.4",
+              "stem": "Selection sort finds the minimum element and moves it to the front, then repeats. To sort a list of {n} items, how many times do you repeat this process?",
+              "params": {
+                "n": ["int", 3, 8]
+              },
+              "answer": "{n}",
+              "difficulty": 4,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y9.5",
+              "stem": "Insertion sort builds a sorted list by inserting one element at a time. If you have {n} unsorted elements, how many elements need to be inserted into the sorted list?",
+              "params": {
+                "n": ["int", 3, 10]
+              },
+              "answer": "{n}",
+              "difficulty": 4,
+              "phase": 10.22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 10,
+      "skills": [
+        {
+          "id": "Y10.ALGO.SIMPLE_ALGORITHMS",
+          "strand": "Digital Technologies",
+          "name": "Algorithms – Simple Searches & Loops",
+          "description": "Introduction to simple searching and basic iteration concepts",
+          "templates": [
+            {
+              "id": "ALGO.Y10.1",
+              "stem": "An algorithm counts from 1 to {n}. How many numbers does it count?",
+              "params": {
+                "n": ["int", 5, 20]
+              },
+              "answer": "{n}",
+              "difficulty": 5,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y10.2",
+              "stem": "A program checks each item in a list of {n} items one at a time. How many checks does it make?",
+              "params": {
+                "n": ["int", 3, 15]
+              },
+              "answer": "{n}",
+              "difficulty": 5,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y10.3",
+              "stem": "A loop runs {n} times. Each time it runs, it checks {m} items. How many total checks are made?",
+              "params": {
+                "n": ["int", 2, 5],
+                "m": ["int", 3, 8]
+              },
+              "answer": "{n * m}",
+              "difficulty": 5,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y10.4",
+              "stem": "To find the biggest number in a list of {n} items, how many comparisons must be made?",
+              "params": {
+                "n": ["int", 4, 12]
+              },
+              "answer": "{n - 1}",
+              "difficulty": 5,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y10.5",
+              "stem": "A sorting algorithm makes {passes} passes through a list of {n} items. Each pass checks all items. How many total checks?",
+              "params": {
+                "passes": ["int", 1, 4],
+                "n": ["int", 4, 10]
+              },
+              "answer": "{passes * n}",
+              "difficulty": 5,
+              "phase": 10.22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 11,
+      "skills": [
+        {
+          "id": "Y11.ALGO.BASIC_RECURSION",
+          "strand": "Digital Technologies",
+          "name": "Algorithms – Basic Recursion & Data Structures",
+          "description": "Introduction to recursion, basic calculations, and simple data structure operations",
+          "templates": [
+            {
+              "id": "ALGO.Y11.1",
+              "stem": "A recursive factorial function is defined as fact(n) = n × fact(n−1) with fact(0) = 1. How many recursive calls (including the initial call) are made when computing fact({n})?",
+              "params": { "n": ["int", 5, 12] },
+              "answer": "{n + 1}",
+              "difficulty": 6,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y11.2",
+              "stem": "A recursive function to compute a^n is: pow(n) = a × pow(n−1), pow(0)=1. When computing a^{n}, how many multiplication operations are performed?",
+              "params": { "a": ["int", 2, 5], "n": ["int", 6, 10] },
+              "answer": "{n}",
+              "difficulty": 6,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y11.3",
+              "stem": "A stack starts empty. {push} items are pushed, then {pop} items are popped. How many items remain?",
+              "params": { "push": ["int", 8, 20], "pop": ["int", 0, 7], "pop": ["range", 0, "{push}"] },
+              "answer": "{push - pop}",
+              "difficulty": 6,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y11.4",
+              "stem": "Binary search on a sorted list of {size} items divides the search space in half each step. After {steps} successful divisions, how many items are left to check?",
+              "params": { "size": ["choice", 128, 256, 512, 1024], "steps": ["int", 1, 8] },
+              "answer": "{size / Math.pow(2, steps)}",
+              "difficulty": 6,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y11.5",
+              "stem": "The recursive function solve(n) makes one recursive call on n−{dec} until n ≤ 0. How many calls are made when starting with solve({n})?",
+              "params": { "n": ["int", 10, 30], "dec": ["choice", 1, 2, 3] },
+              "answer": "{Math.ceil(n / dec) + 1}",
+              "difficulty": 6,
+              "phase": 10.22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 12,
+      "skills": [
+        {
+          "id": "Y12.ALGO.BASIC_PATHS",
+          "strand": "Digital Technologies",
+          "name": "Algorithms – Paths & Connections",
+          "description": "Introduction to graphs, connections, and basic path finding",
+          "templates": [
+            {
+              "id": "ALGO.Y12.1",
+              "stem": "An undirected graph has {v} vertices and each vertex has degree {d}. How many edges does the graph have?",
+              "params": { "v": ["int", 6, 20], "d": ["int", 2, 6] },
+              "answer": "{v * d / 2}",
+              "difficulty": 6,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y12.2",
+              "stem": "Breadth-First Search (BFS) starts at a node and explores level by level. A node is first reached at level {level}. What is the shortest path length (in edges) from the start node?",
+              "params": { "level": ["int", 1, 7] },
+              "answer": "{level}",
+              "difficulty": 6,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y12.3",
+              "stem": "A queue starts empty. {add} items are enqueued, then {remove} items are dequeued. How many items remain in the queue?",
+              "params": { "add": ["int", 10, 25], "remove": ["int", 0, 8], "remove": ["range", 0, "{add}"] },
+              "answer": "{add - remove}",
+              "difficulty": 6,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y12.4",
+              "stem": "A complete binary tree of height {h} (root height = 0) has the maximum possible nodes. How many nodes does it contain?",
+              "params": { "h": ["int", 2, 7] },
+              "answer": "{Math.pow(2, h + 1) - 1}",
+              "difficulty": 7,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y12.5",
+              "stem": "A recursive divide-and-conquer algorithm splits a problem of size {n} into two subproblems of size {n}/2. How many subproblems are created at level 2 of the recursion tree?",
+              "params": { "n": ["choice", 16, 32, 64, 128] },
+              "answer": "4",
+              "difficulty": 6,
+              "phase": 10.22
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 13,
+      "skills": [
+        {
+          "id": "Y13.ALGO.OPTIMIZATION",
+          "strand": "Digital Technologies",
+          "name": "Algorithms – Optimization & Efficiency",
+          "description": "Introduction to algorithm optimization, comparing methods, and solving problems efficiently",
+          "templates": [
+            {
+              "id": "ALGO.Y13.1",
+              "stem": "An algorithm has time complexity 3n² + 5n + 10. For n = {n}, exactly how many operations does it perform?",
+              "params": { "n": ["int", 100, 1000] },
+              "answer": "{3*n*n + 5*n + 10}",
+              "difficulty": 8,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y13.2",
+              "stem": "MergeSort divides an array of size {n} = 2^k until size 1. How many levels of recursion are there (including the base case)?",
+              "params": { "n": ["choice", 64, 128, 256, 512, 1024] },
+              "answer": "{Math.log2(n) + 1}",
+              "difficulty": 8,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y13.3",
+              "stem": "Quicksort with random pivot has expected O(n log n) comparisons. For n = {n}, approximately how many comparisons are expected (n log₂n, rounded)?",
+              "params": { "n": ["choice", 1000, 10000, 100000] },
+              "answer": "{Math.round(n * Math.log2(n))}",
+              "difficulty": 8,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y13.4",
+              "stem": "An algorithm runs in O(n³). If n doubles, by what factor does the running time increase?",
+              "params": {},
+              "answer": "8",
+              "difficulty": 8,
+              "phase": 10.22
+            },
+            {
+              "id": "ALGO.Y13.5",
+              "stem": "Binary search runs in O(log n) time. Starting with {start} items, how many times can the search space be halved before ≤ 1 item remains?",
+              "params": { "start": ["choice", 1000000, 2000000] },
+              "answer": "{Math.ceil(Math.log2(start))}",
+              "difficulty": 8,
+              "phase": 10.22
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "id": "ALGO.ALL",
+  "name": "Algorithms – Years 6 to 13 (No Directional Graphics)",
+  "strand": "Digital Technologies",
+  "description": "40 clear algorithmic questions - sequences, patterns, logic, searching, sorting",
+  "phase": 6.0,
+  "templates": [
+
+    // YEAR 6 – Sequences & Patterns (no direction needed)
+    {"id":"ALGO.Y6.1","stem":"Pattern: 2, 4, 6, 8, ___","answer":"10","difficulty":1,"hint":"Add 2 each time"},
+    {"id":"ALGO.Y6.2","stem":"repeat 5 [ print 'Hello' ] outputs 'Hello' ___ times.","answer":"5","difficulty":1,"hint":"Count the repeats"},
+    {"id":"ALGO.Y6.3","stem":"To count from 1 to 10: for i = 1 to ___ [ print i ]","answer":"10","difficulty":1,"hint":"The ending number"},
+    {"id":"ALGO.Y6.4","stem":"if score > 50 then print 'Pass'. A score of 60 will print: ___","answer":"Pass","difficulty":1,"hint":"Is 60 > 50?"},
+    {"id":"ALGO.Y6.5","stem":"Pattern: 1, 2, 4, 8, ___ (doubling)","answer":"16","difficulty":1,"hint":"Multiply by 2"},
+
+    // YEAR 7 – Simple Logic & Conditions
+    {"id":"ALGO.Y7.1","stem":"if age < 13 then 'child' else ___. For age=15, output is: ___","answer":"else output","difficulty":2,"hint":"15 is not less than 13"},
+    {"id":"ALGO.Y7.2","stem":"count = 0; repeat 8 [ count = count + 1 ]; Final count = ___","answer":"8","difficulty":2},
+    {"id":"ALGO.Y7.3","stem":"AND gate: true AND false = ___","answer":"false","difficulty":2,"hint":"Both must be true"},
+    {"id":"ALGO.Y7.4","stem":"OR gate: true OR false = ___","answer":"true","difficulty":2,"hint":"At least one must be true"},
+    {"id":"ALGO.Y7.5","stem":"NOT gate: NOT true = ___","answer":"false","difficulty":2,"hint":"Flips the value"},
+
+    // YEAR 8 – Functions & Variables
+    {"id":"ALGO.Y8.1","stem":"function add(a, b) returns a + b. add(5, 3) = ___","answer":"8","difficulty":3},
+    {"id":"ALGO.Y8.2","stem":"x = 10; x = x + 5; x = ___","answer":"15","difficulty":3,"hint":"Add 5 to original value"},
+    {"id":"ALGO.Y8.3","stem":"function double(n) returns n × 2. double(7) = ___","answer":"14","difficulty":3},
+    {"id":"ALGO.Y8.4","stem":"for i = 1 to 5 [ sum = sum + i ]; sum = 0 initially. Final sum = ___","answer":"15","difficulty":3,"hint":"1+2+3+4+5"},
+    {"id":"ALGO.Y8.5","stem":"Fibonacci: 1, 1, 2, 3, 5, 8, ___","answer":"13","difficulty":3,"hint":"Add previous two numbers"},
+
+    // YEAR 9 – Searching & Sorting Basics
+    {"id":"ALGO.Y9.1","stem":"Find 7 in list [3,5,7,9,11] using linear search. Position (1-indexed) = ___","answer":"3","difficulty":4},
+    {"id":"ALGO.Y9.2","stem":"Binary search on sorted list [1,2,3,4,5,6,7,8]. Middle element is position ___","answer":"4","difficulty":4,"hint":"8 items, middle is 4th or 5th"},
+    {"id":"ALGO.Y9.3","stem":"Bubble sort one pass on [5,3,8,1]: compare pairs and swap if needed. Result: ___","answer":"3,5,1,8","difficulty":4,"hint":"5>3 swap, 5<8 no, 8>1 swap"},
+    {"id":"ALGO.Y9.4","stem":"Selection sort finds minimum. In [9,2,7,4], minimum is ___","answer":"2","difficulty":4},
+    {"id":"ALGO.Y9.5","stem":"Insert 6 into sorted list [3,5,8,9]: ___","answer":"3,5,6,8,9","difficulty":4},
+
+    // YEAR 10 – Algorithm Efficiency
+    {"id":"ALGO.Y10.1","stem":"Linear search worst case for n items = ___ comparisons","answer":"n","difficulty":5},
+    {"id":"ALGO.Y10.2","stem":"Binary search divides in half each time. 1024 items takes at most ___ comparisons.","answer":"10","difficulty":5,"hint":"2^10 = 1024"},
+    {"id":"ALGO.Y10.3","stem":"Algorithm runs in 5n + 3 steps. Big-O notation = ___","answer":"O(n)","difficulty":5,"hint":"Drop constants and coefficients"},
+    {"id":"ALGO.Y10.4","stem":"Nested loops: for i=1 to n, for j=1 to n. Total iterations = ___","answer":"n²","difficulty":5},
+    {"id":"ALGO.Y10.5","stem":"Selection sort compares all remaining items each pass. Time complexity = ___","answer":"O(n²)","difficulty":5},
+
+    // YEAR 11 – Recursion & Advanced Concepts
+    {"id":"ALGO.Y11.1","stem":"function fact(n): if n=1 return 1 else return n × fact(n-1). fact(4) = ___","answer":"24","difficulty":6,"hint":"4×3×2×1"},
+    {"id":"ALGO.Y11.2","stem":"Fibonacci recursive: fib(0)=0, fib(1)=1, fib(n)=fib(n-1)+fib(n-2). fib(5) = ___","answer":"5","difficulty":6,"hint":"0,1,1,2,3,5"},
+    {"id":"ALGO.Y11.3","stem":"Hash function: h(x) = x mod 10. h(47) = ___","answer":"7","difficulty":6,"hint":"Remainder when dividing by 10"},
+    {"id":"ALGO.Y11.4","stem":"Tower of Hanoi: 3 discs need ___ minimum moves.","answer":"7","difficulty":6,"hint":"2^3 - 1"},
+    {"id":"ALGO.Y11.5","stem":"Stack: push(5), push(3), pop(), push(7), pop(). Final popped value = ___","answer":"7","difficulty":6,"hint":"Last in, first out"},
+
+    // YEAR 12 – Graph & Dynamic Programming
+    {"id":"ALGO.Y12.1","stem":"Graph with 5 vertices, each connected to all others. Number of edges = ___","answer":"10","difficulty":7,"hint":"n(n-1)/2 for complete graph"},
+    {"id":"ALGO.Y12.2","stem":"Dijkstra's algorithm finds ___ path in weighted graph.","answer":"shortest","difficulty":7},
+    {"id":"ALGO.Y12.3","stem":"Breadth-first search uses a ___ data structure.","answer":"queue","difficulty":7,"hint":"FIFO - First In First Out"},
+    {"id":"ALGO.Y12.4","stem":"Depth-first search uses a ___ data structure.","answer":"stack","difficulty":7,"hint":"LIFO - Last In First Out"},
+    {"id":"ALGO.Y12.5","stem":"Dynamic programming: fibonacci with memoization has time complexity ___","answer":"O(n)","difficulty":7,"hint":"Calculate each number only once"},
+
+    // YEAR 13 – Advanced Algorithms
+    {"id":"ALGO.Y13.1","stem":"Merge sort divides array in half recursively. Time complexity = ___","answer":"O(n log n)","difficulty":8},
+    {"id":"ALGO.Y13.2","stem":"Quick sort worst case (already sorted with bad pivot) = ___","answer":"O(n²)","difficulty":8},
+    {"id":"ALGO.Y13.3","stem":"AVL tree maintains balance. Height difference between subtrees ≤ ___","answer":"1","difficulty":8},
+    {"id":"ALGO.Y13.4","stem":"Traveling salesman visits n cities. Brute force checks ___ routes.","answer":"n!","difficulty":8,"hint":"Factorial - all permutations"},
+    {"id":"ALGO.Y13.5","stem":"P vs NP: P problems are solvable in ___ time.","answer":"polynomial","difficulty":8,"hint":"O(n^k) for some constant k"}
+  ]
+}

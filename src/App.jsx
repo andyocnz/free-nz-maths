@@ -111,7 +111,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(null)
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showLoginRecommendation, setShowLoginRecommendation] = useState(false)
-  const [pendingAction, setPendingAction] = useState(null) // Store {type: 'practice'|'test', skillId: string}
+  const [pendingAction, setPendingAction] = useState(null) // Store {type: 'practice'|'test', skillId: string, options?: object}
   const [practiceResults, setPracticeResults] = useState(null) // Store practice session results
   const [activeNceaPaperId, setActiveNceaPaperId] = useState(null)
   const [activeNceaPaper, setActiveNceaPaper] = useState(null)
@@ -313,7 +313,7 @@ export default function App() {
 
         setTimeout(() => {
           if (action.type === 'practice') {
-            startPracticeInternal(action.skillId)
+            startPracticeInternal(action.skillId, action.options || {})
           } else if (action.type === 'test') {
             // pass through any options supplied when the action was queued
             startTestInternal(action.options || {})
@@ -345,7 +345,7 @@ export default function App() {
       setPendingAction(null)
 
       if (action.type === 'practice') {
-        startPracticeInternal(action.skillId)
+        startPracticeInternal(action.skillId, action.options || {})
       } else if (action.type === 'test') {
         startTestInternal(action.options || {})
       }
@@ -989,17 +989,22 @@ export default function App() {
 
   // Dev helper: build JSON for template inspector (respects current filter)
   const buildDevTemplatesJson = () => {
+    const activeCurriculum = isOlympiadMode ? olympiadCurriculum : curriculumData
+    const targetYear = isOlympiadMode
+      ? (olympiadCurriculum.years?.[0]?.year || 'Olympiad')
+      : curriculumMapYear
+
     const skillMap = new Map()
-    curriculumData.years
-      .filter(y => y.year === curriculumMapYear)
+    activeCurriculum.years
+      .filter(y => y.year === targetYear)
       .forEach(y => {
         y.skills?.forEach(skill => {
           skillMap.set(skill.id, skill)
         })
       })
 
-    const allTemplates = curriculumData.years
-      .filter(y => y.year === curriculumMapYear)
+    const allTemplates = activeCurriculum.years
+      .filter(y => y.year === targetYear)
       .flatMap(y =>
         (y.skills || []).flatMap(skill =>
           (skill.templates || []).map(t => ({
@@ -1027,11 +1032,16 @@ export default function App() {
       filtered = filtered.filter(t => t.skillId === devTemplateFilterSkill)
     }
 
-    const sanitized = filtered.map(entry => ({
-      templateId: entry.template?.id || '',
-      sampleQuestion: devTemplateSamples.find(s => s.templateId === entry.template?.id)?.question || '',
-      expectedAnswer: devTemplateSamples.find(s => s.templateId === entry.template?.id)?.answer || ''
-    }))
+    const sanitized = filtered.map(entry => {
+      const row = devTemplateSamples.find(s => s.templateId === entry.template?.id)
+      return {
+        templateId: entry.template?.id || '',
+        sampleQuestion: row?.question || '',
+        expectedAnswer: row?.answer || '',
+        answerTemplate: entry.template?.answer || '',
+        multipleChoice: !!row?.isMultipleChoice
+      }
+    })
 
     return JSON.stringify(sanitized, null, 2)
   }
@@ -1145,7 +1155,8 @@ export default function App() {
               year: 'Olympiad',
               question: questionText,
               answer: answerText,
-              isNew: !!(template.isNew || skill.isNew)
+              isNew: !!(template.isNew || skill.isNew),
+              isMultipleChoice: Array.isArray(q.choices) && q.choices.length > 0
             })
           } catch (e) {
             rows.push({
@@ -1155,7 +1166,8 @@ export default function App() {
               year: 'Olympiad',
               question: 'Error generating question',
               answer: '0',
-              isNew: !!(template.isNew || skill.isNew)
+              isNew: !!(template.isNew || skill.isNew),
+              isMultipleChoice: false
             })
           }
         })
@@ -1183,18 +1195,20 @@ export default function App() {
               year: year.year,
               question: questionText,
               answer: answerText,
-              isNew: !!(template.isNew || skill.isNew)
+              isNew: !!(template.isNew || skill.isNew),
+              isMultipleChoice: Array.isArray(q.choices) && q.choices.length > 0
             })
-            } catch (e) {
-              rows.push({
-                templateId: template.id || '',
-                skillId: skill.id,
-                skillName: skill.name,
-                year: year.year,
-                question: 'Error generating question',
-                answer: '0',
-                isNew: !!(template.isNew || skill.isNew)
-              })
+          } catch (e) {
+            rows.push({
+              templateId: template.id || '',
+              skillId: skill.id,
+              skillName: skill.name,
+              year: year.year,
+              question: 'Error generating question',
+              answer: '0',
+              isNew: !!(template.isNew || skill.isNew),
+              isMultipleChoice: false
+            })
             }
           })
         })
@@ -1335,17 +1349,53 @@ export default function App() {
     setAnswer(prev => prev + symbol)
   }
 
+  const resolveTemplatePracticeContext = (templateId, skillId, yearValue) => {
+    if (!templateId || !skillId) return null
+
+    const isOlympiadTemplate = yearValue === 'Olympiad'
+    let normalizedYear = yearValue
+    if (!isOlympiadTemplate && typeof yearValue === 'string') {
+      const parsed = parseInt(yearValue, 10)
+      normalizedYear = isNaN(parsed) ? yearValue : parsed
+    }
+
+    const yearLabel = isOlympiadTemplate ? 'Olympiad' : normalizedYear
+    const sourceCurriculum = isOlympiadTemplate ? olympiadCurriculum : curriculumData
+    const yearData = sourceCurriculum.years.find(y => y.year === yearLabel)
+    if (!yearData) return null
+
+    const skill = yearData.skills.find(s => s.id === skillId)
+    if (!skill) return null
+
+    const template = (skill.templates || []).find(t => (t.id || '') === templateId)
+    if (!template) return null
+
+    return {
+      template,
+      skill,
+      yearLabel,
+      yearData,
+      isOlympiad: isOlympiadTemplate
+    }
+  }
+
   // Internal function that actually starts practice (called after login decision)
-  const startPracticeInternal = (skillId) => {
-    const activeCurriculum = isOlympiadMode ? olympiadCurriculum : curriculumData
-    const yearToFind = isOlympiadMode ? 'Olympiad' : selectedYear
-    const yearData = activeCurriculum.years.find(y => y.year === yearToFind)
-    if (yearData) {
-      const skill = yearData.skills.find(s => s.id === skillId)
-      if (skill) {
-        setSelectedStrand(skill.strand)
-        setSelectedTopic(skill.name)
+  const startPracticeInternal = (skillId, options = {}) => {
+    const templateOverride = options.templateOverride || null
+    const useOlympiadData = templateOverride?.isOlympiad ?? isOlympiadMode
+    const activeCurriculum = useOlympiadData ? olympiadCurriculum : curriculumData
+    const yearToFind = templateOverride?.yearLabel || (useOlympiadData ? 'Olympiad' : selectedYear)
+    const yearData = templateOverride?.yearData || activeCurriculum.years.find(y => y.year === yearToFind)
+    let activeSkill = templateOverride?.skill || null
+    if (!activeSkill && yearData) {
+      activeSkill = yearData.skills.find(s => s.id === skillId)
+    }
+    if (activeSkill) {
+      if (!templateOverride?.isOlympiad && typeof yearToFind === 'number') {
+        setSelectedYear(yearToFind)
       }
+      setSelectedStrand(activeSkill.strand)
+      setSelectedTopic(templateOverride?.template ? `${activeSkill.name} (${templateOverride.template.id || 'template'})` : activeSkill.name)
     }
 
     setSelectedSkill(skillId)
@@ -1360,9 +1410,23 @@ export default function App() {
 
     // Generate 20 questions for this skill
     const questions = []
+    const questionYearLabel = templateOverride?.yearLabel || yearToFind || selectedYear
     for (let i = 0; i < 20; i++) {
+      const baseQuestion = (templateOverride?.template && activeSkill)
+        ? {
+            ...generateQuestionFromTemplate(
+              templateOverride.template,
+              activeSkill.name,
+              questionYearLabel
+            ),
+            strand: activeSkill.strand,
+            topic: activeSkill.name,
+            skillId: activeSkill.id,
+            year: questionYearLabel
+          }
+        : generateQuestionForSkill(activeCurriculum, skillId)
       const newQ = {
-        ...generateQuestionForSkill(activeCurriculum, skillId),
+        ...baseQuestion,
         userAnswer: '',
         userFeedback: '',
         isCorrect: false,
@@ -1384,22 +1448,29 @@ export default function App() {
   }
 
   // Public function to start practice (shows login recommendation if needed)
-  const startPractice = (skillId) => {
+  const startPractice = (skillId, practiceOptions = null) => {
+    const templateOverride = practiceOptions?.templateOverride || null
     // Check if user is logged in
     if (!currentUser) {
       // Set skill info to show in practice page
-      const yearData = curriculumData.years.find(y => y.year === selectedYear)
-      if (yearData) {
-        const skill = yearData.skills.find(s => s.id === skillId)
-        if (skill) {
-          setSelectedStrand(skill.strand)
-          setSelectedTopic(skill.name)
-          setSelectedSkill(skillId)
+      if (templateOverride?.skill) {
+        setSelectedStrand(templateOverride.skill.strand)
+        setSelectedTopic(templateOverride.template ? `${templateOverride.skill.name} (${templateOverride.template.id || 'template'})` : templateOverride.skill.name)
+        setSelectedSkill(skillId)
+      } else {
+        const yearData = curriculumData.years.find(y => y.year === selectedYear)
+        if (yearData) {
+          const skill = yearData.skills.find(s => s.id === skillId)
+          if (skill) {
+            setSelectedStrand(skill.strand)
+            setSelectedTopic(skill.name)
+            setSelectedSkill(skillId)
+          }
         }
       }
 
       // Set pending action
-      setPendingAction({ type: 'practice', skillId })
+      setPendingAction({ type: 'practice', skillId, options: practiceOptions || {} })
       // Prevent auto-generation of questions
       initialized.current = true
       // Navigate to practice page
@@ -1410,7 +1481,20 @@ export default function App() {
     }
 
     // User is logged in, start practice directly
-    startPracticeInternal(skillId)
+    startPracticeInternal(skillId, practiceOptions || {})
+  }
+
+  const startTemplatePractice = (row) => {
+    if (!row || !row.templateId || !row.skillId) return
+    const context = resolveTemplatePracticeContext(row.templateId, row.skillId, row.year)
+    if (!context) {
+      window.alert('Unable to locate that template in the curriculum data.')
+      return
+    }
+    if (!context.isOlympiad && typeof context.yearLabel === 'number' && selectedYear !== context.yearLabel) {
+      setSelectedYear(context.yearLabel)
+    }
+    startPractice(row.skillId, { templateOverride: context })
   }
 
   // Internal function that actually starts test (called after login decision)
@@ -3807,11 +3891,12 @@ export default function App() {
                     <div className="overflow-x-auto bg-white rounded-lg border border-gray-200 shadow-sm mt-4 max-h-[600px]">
                       <table className="min-w-full text-left text-sm">
                         <thead className="bg-gray-50 sticky top-0 z-10">
-                          <tr>
-                            <th className="px-4 py-2 font-semibold text-gray-700">Template ID</th>
-                            <th className="px-4 py-2 font-semibold text-gray-700">Sample Question</th>
-                            <th className="px-4 py-2 font-semibold text-gray-700">Expected Answer</th>
-                          </tr>
+                        <tr>
+                          <th className="px-4 py-2 font-semibold text-gray-700">Template ID</th>
+                          <th className="px-4 py-2 font-semibold text-gray-700">Multiple choice</th>
+                          <th className="px-4 py-2 font-semibold text-gray-700">Sample Question</th>
+                          <th className="px-4 py-2 font-semibold text-gray-700">Expected Answer</th>
+                        </tr>
                         </thead>
                         <tbody key={`table-${curriculumMapYear}-${devTemplateFilterSkill}`}>
                           {(() => {
@@ -3821,7 +3906,7 @@ export default function App() {
                             if (filtered.length === 0) {
                               return (
                                 <tr>
-                                  <td colSpan="3" className="px-4 py-4 text-center text-sm text-gray-500">
+                                  <td colSpan="4" className="px-4 py-4 text-center text-sm text-gray-500">
                                     {devTemplateSamples.length === 0 ? 'No templates for this year' : 'No templates match the selected topic filter'}
                                   </td>
                                 </tr>
@@ -3830,7 +3915,17 @@ export default function App() {
                             return filtered.map((row, idx) => (
                               <tr key={`${curriculumMapYear}-${row.templateId}-${idx}`} className="border-t border-gray-100 hover:bg-gray-50">
                                 <td className="px-4 py-2 whitespace-nowrap text-xs md:text-sm font-mono text-gray-700">
-                                  {row.templateId}
+                                  <button
+                                    type="button"
+                                    className="text-blue-600 hover:underline focus:underline"
+                                    onClick={() => startTemplatePractice(row)}
+                                    title="Practice this template"
+                                  >
+                                    {row.templateId}
+                                  </button>
+                                </td>
+                                <td className="px-4 py-2 text-xs md:text-sm text-gray-700">
+                                  {row.isMultipleChoice ? 'True' : 'False'}
                                 </td>
                                 <td className="px-4 py-2 text-xs md:text-sm text-gray-800">
                                   {row.question}

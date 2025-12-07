@@ -34,28 +34,17 @@
           "templates": [
             {
               "id": "OLYMP.NT.LCM_HCF_PRODUCT.T1",
-              "stem": "The LCM of two positive integers is {lcm} and their HCF is {hcf}. If one of the numbers is {a}, what is the other number?",
+              "stem": "The LCM of two positive integers is {lcm} and their HCF is {hcf_value}. If one of the numbers is {num1}, what is the other number?",
               "params": {
-                "hcf": [
-                  "int",
-                  12,
-                  48,
-                  6
-                ],
-                "f1": [
-                  "int",
-                  3,
-                  10
-                ],
-                "f2": [
-                  "int",
-                  5,
-                  15
-                ],
-                "a": "{hcf * f1}",
-                "lcm": "{hcf * f1 * f2}"
+                "hcf_value": [ "int", 2, 50 ],
+                "f1": [ "int", 1, 40 ],
+                "f2": [ "int", 1, 40 ],
+                "num1": "{hcf_value * f1}",
+                "num2": "{hcf_value * f2}",
+                "lcm": "{hcf_value * f1 * f2}"
               },
-              "answer": "{hcf * f2}",
+              "validateParams": "f1 != f2 && hcf(f1, f2) == 1",
+              "answer": "{num2}",
               "difficulty": 13,
               "phase": 13
             }
@@ -98,7 +87,7 @@
           "templates": [
             {
               "id": "OLYMP.NT.BASE_CONVERSION.T1",
-              "stem": "The number {value} in base 10 is written as '{digits}' in base b (where each digit is less than b). Find b.",
+              "stem": "The number {value} in base 10 is written as '{d2}{d1}{d0}' in base b (where each digit is less than b). Find b.",
               "params": {
                 "b": [
                   "int",
@@ -108,21 +97,22 @@
                 "d2": [
                   "int",
                   1,
-                  "{b-1}"
+                  10
                 ],
                 "d1": [
                   "int",
                   0,
-                  "{b-1}"
+                  10
                 ],
                 "d0": [
                   "int",
                   1,
-                  "{b-1}"
+                  10
                 ],
                 "digits": "{d2}{d1}{d0}",
                 "value": "{d2*b*b + d1*b + d0}"
               },
+              "validateParams": "d2 < b && d1 < b && d0 < b",
               "answer": "{b}",
               "difficulty": 13,
               "phase": 13
@@ -203,7 +193,7 @@
                 "num": [
                   "int",
                   1,
-                  "{den-1}"
+                  11
                 ],
                 "term": [
                   "int",
@@ -212,6 +202,7 @@
                   50
                 ]
               },
+              "validateParams": "num < den",
               "answer": "{tanRecurrenceValue(den, num, term)}",
               "difficulty": 13,
               "phase": 13
@@ -255,16 +246,15 @@
           "templates": [
             {
               "id": "OLYMP.ALG.PRIME_ROOTS_QUADRATIC.T1",
-              "stem": "The roots of x^2 - {sum}x + k = 0 are both prime numbers. Find the value of k.",
+              "stem": "The roots of the quadratic equation x^2 - {sum}x + c = 0 are both prime numbers. Find c.",
               "params": {
-                "p2": [
-                  "prime",
-                  50,
-                  200
-                ],
-                "sum": "{2 + p2}"
+                "p": [ "prime", 2, 100 ],
+                "q": [ "prime", 2, 100 ],
+                "sum": "{p + q}",
+                "c": "{p * q}"
               },
-              "answer": "{2 * p2}",
+              "validateParams": "p <= q",
+              "answer": "{c}",
               "difficulty": 13,
               "phase": 13
             }
@@ -319,7 +309,7 @@
                   50
                 ]
               },
-              "answer": "{n / (n + 1)}",
+              "answer": "{simplify(n, n + 1)}",
               "difficulty": 13,
               "phase": 13
             }
@@ -345,18 +335,20 @@
                   6,
                   10
                 ],
-                "ra": [
+                "c_int": [
                   "int",
-                  -20,
-                  20
+                  -5,
+                  5
                 ],
-                "rb": [
+                "d_int": [
                   "int",
-                  -20,
-                  20
-                ]
+                  -10,
+                  10
+                ],
+                "ra": "{c_int * a + d_int}",
+                "rb": "{c_int * b + d_int}"
               },
-              "answer": "{polyLinearRemainderSum(a, b, ra, rb)}",
+              "answer": "{c_int + d_int}",
               "difficulty": 13,
               "phase": 13
             }
@@ -402,12 +394,13 @@
                 "n": [
                   "int",
                   1,
-                  "{m-1}"
+                  9
                 ],
                 "a": "{m*m - n*n}",
                 "b": "{2*m*n}",
                 "c": "{m*m + n*n}"
               },
+              "validateParams": "n < m",
               "answer": "{(a + b - c) / 2}",
               "difficulty": 13,
               "phase": 13
@@ -510,7 +503,7 @@
                   10
                 ]
               },
-              "answer": "{size * women / (men + women)}",
+              "answer": "{simplify(size * women, men + women)}",
               "difficulty": 13,
               "phase": 13
             }

@@ -102,6 +102,9 @@ function generateParamValue(spec, year, difficulty) {
       // Random choice from array
       return args[randInt(0, args.length - 1)]
 
+    case 'prime':
+      return mathHelpers.randPrime(args[0], args[1])
+
     default:
       console.warn(`Unknown parameter type: ${type}`)
       return 0

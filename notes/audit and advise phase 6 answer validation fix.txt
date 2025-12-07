@@ -1,0 +1,62 @@
+AUDIT AND ADVISE - PHASE 6: ANSWER VALIDATION FIX
+==================================================
+
+ISSUE IDENTIFIED:
+The number-to-words answer checking system was failing despite users entering correct answers.
+When a user typed "eight thousand two hundred and eighty-eight" for the question "Write 8288 in words",
+the system marked it WRONG even though it was correct.
+
+ROOT CAUSE ANALYSIS:
+1. The checkAnswer() function in App.jsx was using parseFloat() on all answer types
+2. parseFloat("eight thousand...") returns NaN
+3. Comparing NaN === NaN always returns false, so all word-based answers failed
+4. No distinction was made between numeric answers (decimals/fractions) and text answers (words)
+
+SOLUTION IMPLEMENTED:
+
+1. CREATED normalizeFraction() FUNCTION (mathHelpers.js)
+   - Parses numeric answers into decimal values
+   - Handles decimal format: "0.5" → 0.5
+   - Handles fraction format: "3/4" → 0.75
+   - Handles mixed numbers: "1 3/4" → 1.75
+   - Exports as: export function normalizeFraction(answer)
+
+2. IMPORTED ANSWER VALIDATORS (App.jsx line 5)
+   - Added: import { normalizeFraction, normalizeNumberWords } from './mathHelpers.js'
+   - normalizeFraction: For numeric/fraction answers
+   - normalizeNumberWords: For text-based number-to-words answers (already existed)
+
+3. UPDATED checkAnswer() FUNCTION (App.jsx ~line 376)
+   - Added conditional logic to detect question type
+   - Detection: if (question?.skillId?.includes('PLACE_VALUE') && question?.question?.includes('words'))
+   - Routes word-based answers through normalizeNumberWords() for text comparison
+   - Routes numeric answers through normalizeFraction() for numeric comparison
+   - Uses strict equality for words: userAnswerNorm === correctAnswerNorm
+   - Uses tolerance for numbers: Math.abs(userAnswer - correctAnswer) < 0.01
+
+TESTING NOTES:
+- Test on Year 6 PLACE_VALUE questions asking to "Write ... in words"
+- User should now be able to enter answers with or without hyphens
+- Should accept: "eight thousand two hundred eighty eight"
+- Should accept: "eight thousand two hundred and eighty eight"
+- Should accept: "eight thousand two hundred eighty-eight"
+- All variations should match the normalized expected answer
+
+FILES MODIFIED:
+1. src/mathHelpers.js
+   - Added: normalizeFraction() function (lines 272-302)
+   
+2. src/App.jsx
+   - Updated: Line 5 import to include normalizeFraction
+   - Updated: checkAnswer() function (~line 376) with conditional routing
+
+IMPLEMENTATION EFFORT: ~30 minutes
+COMPLEXITY LEVEL: Medium
+PRIORITY: High (blocks number-to-words feature functionality)
+
+RECOMMENDATIONS FOR OTHER DEVELOPERS:
+1. Test all answer types: decimals, fractions, mixed numbers, word-based
+2. Consider expanding normalizeNumberWords() to handle more variations (alternate phrasings)
+3. Monitor for any edge cases with unusual answer formats
+4. Consider adding unit tests for both normalizeFraction() and normalizeNumberWords()
+5. If adding new answer types (e.g., coordinates, expressions), extend checkAnswer() with additional routing logic

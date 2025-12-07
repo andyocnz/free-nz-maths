@@ -1625,7 +1625,7 @@
           "templates": [
             {
               "id": "Y13.C.CALCULUS_INTEGRAL.T2",
-              "stem": "Integrate ∫e^({a}x) dx",
+              "stem": "Integrate e^{ {a}x } dx",
               "params": {
                 "a": [
                   "int",
@@ -1638,7 +1638,7 @@
             },
             {
               "id": "Y13.C.CALCULUS_INTEGRAL.T4",
-              "stem": "Integrate ∫sin({a}x) dx",
+              "stem": "Integrate sin({a}x) dx",
               "params": {
                 "a": [
                   "int",
@@ -1651,7 +1651,7 @@
             },
             {
               "id": "Y13.C.CALCULUS_INTEGRAL.T5",
-              "stem": "Evaluate ∫ from 0 to {b} of {a}x dx",
+              "stem": "Evaluate the integral from 0 to {b} of {a}x dx",
               "params": {
                 "a": [
                   "int",
@@ -2008,7 +2008,7 @@
             },
             {
               "id": "Y13.A.SEQUENCES_SERIES.T5",
-              "stem": "Find the {n}th term of arithmetic sequence: a₁={a}, d={d}",
+              "stem": "Find the {n}th term of an arithmetic sequence with a1 = {a} and d = {d}.",
               "params": {
                 "a": [
                   "int",
@@ -2065,7 +2065,7 @@
           "templates": [
             {
               "id": "Y13.L.LOGARITHMS.T1",
-              "stem": "Solve log₂(x) = {n}",
+              "stem": "Solve log_{base}(x) = {n}.",
               "params": {
                 "n": [
                   "int",

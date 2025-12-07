@@ -998,6 +998,929 @@
               "phase": 10.7
             }
           ]
+        },
+        {
+          "id": "Y12.COMPLEX.CONJUGATES_ARG",
+          "name": "Complex Conjugates Arg",
+          "strand": "Algebra & Functions",
+          "description": "Practice problems for Complex Conjugates Arg.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.COMPLEX.CONJUGATES_ARG.T2",
+              "stem": "Given |z| = {r} and arg(z) = {angle}π, which is z in rectangular form?",
+              "params": {
+                "r": [
+                  "int",
+                  3,
+                  8
+                ],
+                "angle": [
+                  "choice",
+                  "1/6",
+                  "1/4",
+                  "1/3",
+                  "2/3",
+                  "5/6",
+                  "-1/4",
+                  "-1/3"
+                ]
+              },
+              "answer": "{polarToRectExact(r, angle)}",
+              "choices": [
+                "{polarToRectExact(r, angle)}",
+                "{polarToRectExact(r, -angle)}",
+                "{polarToRectExact(r, angle + 1)}",
+                "{r} + {r}i"
+              ],
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "z = r(cos(θπ) + i sin(θπ)). Evaluate cos and sin at the given angle."
+            }
+          ]
+        },
+        {
+          "id": "Y12.MATRICES.OPERATIONS",
+          "name": "Matrices Operations",
+          "strand": "Algebra & Functions",
+          "description": "Practice problems for Matrices Operations.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.MATRICES.OPERATIONS.T1",
+              "stem": "Calculate the determinant of the 2×2 matrix [[{a}, {b}], [{c}, {d}]]. (det = ad - bc)",
+              "params": {
+                "a": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "c": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "d": [
+                  "int",
+                  -5,
+                  5
+                ]
+              },
+              "answer": "{a*d - b*c}",
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "det = ad − bc."
+            },
+            {
+              "id": "Y12.MATRICES.OPERATIONS.T2",
+              "stem": "For the matrix A = [[{a}, {b}], [{c}, {d}]], calculate: 2×determinant + trace. (Where trace = sum of diagonal)",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  4
+                ],
+                "b": [
+                  "int",
+                  -3,
+                  3
+                ],
+                "c": [
+                  "int",
+                  -3,
+                  3
+                ],
+                "d": [
+                  "int",
+                  1,
+                  4
+                ]
+              },
+              "answer": "{2*(a*d-b*c) + (a+d)}",
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "det = ad-bc, trace = a+d"
+            }
+          ]
+        },
+        {
+          "id": "Y12.GEOMETRY.CIRCLE_THEOREMS",
+          "name": "Geometry Circle Theorems",
+          "strand": "Geometry & Trigonometry",
+          "description": "Practice problems for Geometry Circle Theorems.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.GEOMETRY.CIRCLE_THEOREMS.T1",
+              "stem": "A chord subtends an angle of {theta}° at the centre. Find the angle subtended at the circumference.",
+              "params": {
+                "theta": [
+                  "choice",
+                  60,
+                  72,
+                  90,
+                  100,
+                  120,
+                  144
+                ]
+              },
+              "answer": "{theta/2}°",
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "Angle at circumference is half the angle at centre."
+            },
+            {
+              "id": "Y12.GEOMETRY.CIRCLE_THEOREMS.T2",
+              "stem": "A tangent and chord form an angle of {alpha}°. Find the angle in the alternate segment.",
+              "params": {
+                "alpha": [
+                  "choice",
+                  35,
+                  42,
+                  58,
+                  70
+                ]
+              },
+              "answer": "{alpha}°",
+              "difficulty": 7,
+              "phase": 10.21,
+              "hint": "Tangent-chord theorem: angle = angle in alternate segment."
+            }
+          ]
+        },
+        {
+          "id": "Y12.STATS.BIVARIATE",
+          "name": "Stats Bivariate",
+          "strand": "Statistics & Probability",
+          "description": "Practice problems for Stats Bivariate.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.STATS.BIVARIATE.T1",
+              "stem": "The least-squares regression line is y = {a}x + {b}. What does the gradient {a} mean?",
+              "params": {
+                "a": [
+                  "decimal",
+                  0.5,
+                  3.5,
+                  0.5
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "{a}",
+              "multipleChoice": true,
+              "choices": ["For each increase of 1 in x, y increases by {a} (on average)", "For each increase of 1 in y, x increases by {a}", "The y-intercept is {a}", "The x-intercept is {a}"],
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "Gradient = average change in y per unit increase in x."
+            }
+          ]
+        },
+        {
+          "id": "Y12.MATRICES.MULT_DET3",
+          "name": "Matrices Mult Det3",
+          "strand": "Algebra & Functions",
+          "description": "Practice problems for Matrices Mult Det3.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.MATRICES.MULT_DET3.T1",
+              "stem": "For a 3×3 matrix with first row [1, {a}, {b}], second row [0, {c}, {d}], third row [{e}, {f}, 2], the determinant = 1*(c*2-d*f) - a*(0-d*{e}) + {b}*(0-c*{e}). Calculate the determinant.",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  3
+                ],
+                "b": [
+                  "int",
+                  1,
+                  3
+                ],
+                "c": [
+                  "int",
+                  1,
+                  3
+                ],
+                "d": [
+                  "int",
+                  1,
+                  3
+                ],
+                "e": [
+                  "int",
+                  1,
+                  2
+                ],
+                "f": [
+                  "int",
+                  1,
+                  3
+                ]
+              },
+              "answer": "{2*c - d*f + a*d*e - b*c*e}",
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "Determinant formula for 3×3 matrix."
+            },
+            {
+              "id": "Y12.MATRICES.MULT_DET3.T2",
+              "stem": "For matrices A = [[{a}, {b}], [{c}, {d}]] and B = [[{e}, {f}], [{g}, {h}]], what is element [1,1] of A×B? (Element [1,1] = row1·col1 = a*e + b*g)",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  3
+                ],
+                "b": [
+                  "int",
+                  1,
+                  3
+                ],
+                "c": [
+                  "int",
+                  1,
+                  3
+                ],
+                "d": [
+                  "int",
+                  1,
+                  3
+                ],
+                "e": [
+                  "int",
+                  1,
+                  3
+                ],
+                "f": [
+                  "int",
+                  1,
+                  3
+                ],
+                "g": [
+                  "int",
+                  1,
+                  3
+                ],
+                "h": [
+                  "int",
+                  1,
+                  3
+                ]
+              },
+              "answer": "{a*e+b*g}",
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "Element [1,1] = a*e + b*g"
+            }
+          ]
+        },
+        {
+          "id": "Y12.VECTORS.FULL",
+          "name": "Vectors Full",
+          "strand": "Geometry & Trigonometry",
+          "description": "Practice problems for Vectors Full.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.VECTORS.FULL.T2",
+              "stem": "Find k such that v + k*u is perpendicular to u, given u = ({a},{b}) and v = ({c},{d}). (Perpendicular means dot product = 0)",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  6
+                ],
+                "b": [
+                  "int",
+                  -5,
+                  5,
+                  1
+                ],
+                "c": [
+                  "int",
+                  -4,
+                  4,
+                  1
+                ],
+                "d": [
+                  "int",
+                  -4,
+                  4,
+                  1
+                ]
+              },
+              "answer": "{-(a*c+b*d)/(a*a+b*b)}",
+              "difficulty": 8,
+              "phase": 10.21,
+              "hint": "Dot product = 0 → k(a c + b d) = 0."
+            }
+          ]
+        },
+        {
+          "id": "Y12.RATIONAL.FULL",
+          "name": "Rational Full",
+          "strand": "Number & Algebra",
+          "description": "Practice problems for Rational Full.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.RATIONAL.FULL.T1",
+              "stem": "For the fraction ({a}x^2 + {b}x + {c}) / ({d}x^2 + {e}x + {f}), what is the GCD of the numerator coefficients {a}, {b}, {c}?",
+              "params": {
+                "a": [
+                  "choice",
+                  2,
+                  3,
+                  4,
+                  6
+                ],
+                "b": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "c": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "d": [
+                  "int",
+                  1,
+                  3
+                ],
+                "e": [
+                  "int",
+                  -6,
+                  6
+                ],
+                "f": [
+                  "int",
+                  -8,
+                  8
+                ]
+              },
+              "answer": "{a}",
+              "difficulty": 5,
+              "phase": 10.21,
+              "hint": "Find the greatest common divisor of {a}, {b}, {c}."
+            },
+            {
+              "id": "Y12.RATIONAL.FULL.T2",
+              "stem": "What is the common denominator for: {a}/(x+{b}) + {c}/(x-{d}) = {e}?",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  5
+                ],
+                "b": [
+                  "int",
+                  1,
+                  4
+                ],
+                "c": [
+                  "int",
+                  2,
+                  5
+                ],
+                "d": [
+                  "int",
+                  1,
+                  4
+                ],
+                "e": [
+                  "int",
+                  1,
+                  3
+                ]
+              },
+              "answer": "(x+{b})(x-{d})",
+              "choices": [
+                "(x+{b})(x-{d})",
+                "(x+{b})+(x-{d})",
+                "(x+{b})·{d}",
+                "x²-({b}+{d})x-{b*d}"
+              ],
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "Multiply the two denominators to find the common denominator."
+            }
+          ]
+        },
+        {
+          "id": "Y12.LOG.PROPERTIES_EQ",
+          "name": "Log Properties Eq",
+          "strand": "Algebra & Functions",
+          "description": "Practice problems for Log Properties Eq.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.LOG.PROPERTIES_EQ.T1",
+              "stem": "Simplify: log_2({a}) + log_2({b}) = log_2(x). Find x.",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  16
+                ],
+                "b": [
+                  "int",
+                  2,
+                  16
+                ]
+              },
+              "answer": "{a*b}",
+              "difficulty": 5,
+              "phase": 10.21,
+              "hint": "log(a) + log(b) = log(ab)"
+            },
+            {
+              "id": "Y12.LOG.PROPERTIES_EQ.T2",
+              "stem": "Solve: {a}^(log_base_{a}(x+{b})) = {c}",
+              "params": {
+                "a": [
+                  "choice",
+                  2,
+                  3,
+                  5
+                ],
+                "b": [
+                  "int",
+                  1,
+                  8
+                ],
+                "c": [
+                  "int",
+                  4,
+                  25
+                ]
+              },
+              "answer": "{c - b}",
+              "difficulty": 7,
+              "phase": 10.21,
+              "hint": "Take log base a of both sides."
+            }
+          ]
+        },
+        {
+          "id": "Y12.EXP.GROWTH_INTEREST",
+          "name": "Exp Growth Interest",
+          "strand": "Algebra & Functions",
+          "description": "Practice problems for Exp Growth Interest.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.EXP.GROWTH_INTEREST.T1",
+              "stem": "An investment grows at {r}% per year compounded annually. How many full years until it exceeds {target} times the initial amount?",
+              "params": {
+                "r": [
+                  "choice",
+                  5,
+                  6,
+                  8,
+                  10
+                ],
+                "target": [
+                  "choice",
+                  2,
+                  3,
+                  5
+                ]
+              },
+              "answer": "{Math.ceil(Math.log(target)/Math.log(1 + r/100))}",
+              "difficulty": 7,
+              "phase": 10.21,
+              "hint": "A(1 + r/100)^n > target A → n > log(target)/log(1+r/100)."
+            },
+            {
+              "id": "Y12.EXP.GROWTH_INTEREST.T2",
+              "stem": "Find the value after {t} years of £{p} at {r}% p.a. compounded continuously.",
+              "params": {
+                "p": [
+                  "int",
+                  1000,
+                  5000,
+                  1000
+                ],
+                "r": [
+                  "choice",
+                  3,
+                  4,
+                  5
+                ],
+                "t": [
+                  "int",
+                  5,
+                  20
+                ]
+              },
+              "answer": "{(p*Math.exp(r/100*t)).toFixed(2)}",
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "A = P e^{rt} with r as decimal."
+            }
+          ]
+        },
+        {
+          "id": "Y12.TRIG.EXACT_SOLVE",
+          "name": "Trig Exact Solve",
+          "strand": "Geometry & Trigonometry",
+          "description": "Practice problems for Trig Exact Solve.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.TRIG.EXACT_SOLVE.T1",
+              "stem": "Find all angles θ in 0° ≤ θ ≤ 360° where sin(θ) = {numerator}/{denominator}.",
+              "params": {
+                "numerator": ["choice", 1, "√2", "√3"],
+                "denominator": ["choice", 2, 2, 2],
+                "angle1": "{numerator === 1 ? 30 : numerator === '√2' ? 45 : 60}",
+                "angle2": "{numerator === 1 ? 150 : numerator === '√2' ? 135 : 120}",
+                "wrong1": "{angle1 + 90}",
+                "wrong2": "{angle2 + 90}"
+              },
+              "answer": "{angle1}°, {angle2}°",
+              "choices": [
+                "{angle1}°, {angle2}°",
+                "{wrong1}°, {wrong2}°",
+                "{angle1}°, {angle1 + 180}°",
+                "{angle2}°, {angle2 + 180}°"
+              ],
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "Recall: sin(30°) = 1/2, sin(45°) = √2/2, sin(60°) = √3/2. In [0°, 360°], if sin(θ) = k, then θ and 180° - θ."
+            }
+          ]
+        },
+        {
+          "id": "Y12.SEQUENCES.FULL",
+          "name": "Sequences Full",
+          "strand": "Number & Algebra",
+          "description": "Practice problems for Sequences Full.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.SEQUENCES.FULL.T1",
+              "stem": "For an arithmetic sequence where u_n = {a} + ({b}-1)d, what is the common difference d = u_2 - u_1 = {b} - {a} = ?",
+              "params": {
+                "a": [
+                  "int",
+                  3,
+                  15
+                ],
+                "b": [
+                  "int",
+                  5,
+                  12
+                ]
+              },
+              "answer": "{b-a}",
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "Common difference d = u_2 − u_1."
+            },
+            {
+              "id": "Y12.SEQUENCES.FULL.T2",
+              "stem": "Evaluate: sum from k=1 to {n} of ({a}k + {b}). (Use sum formulas: sum(k) = n(n+1)/2, sum(1) = n)",
+              "params": {
+                "a": ["int", 2, 6],
+                "b": ["int", -5, 5],
+                "n": ["int", 15, 25]
+              },
+              "answer": "{a*n*(n+1)/2 + b*n}",
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "Split into {a}*sum(k) + {b}*sum(1) = {a}*n(n+1)/2 + {b}*n"
+            }
+          ]
+        },
+        {
+          "id": "Y12.POLYNOMIALS.FACTOR_THEOREM",
+          "name": "Polynomials Factor Theorem",
+          "strand": "Number & Algebra",
+          "description": "Practice problems for Polynomials Factor Theorem.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.POLYNOMIALS.FACTOR_THEOREM.T1",
+              "stem": "Which quadratic factor results from dividing {a}x³ + {b}x² + {c}x + {d} by (x − {k})?",
+              "params": {
+                "k": [
+                  "int",
+                  -3,
+                  4
+                ],
+                "a": [
+                  "int",
+                  1,
+                  3
+                ],
+                "b": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "c": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "d": [
+                  "int",
+                  -18,
+                  18
+                ],
+                "ensure": "polyEval(a,b,c,d,k)==0"
+              },
+              "answer": "{syntheticDivisionFull(a,b,c,d,k)}",
+              "choices": [
+                "{syntheticDivisionFull(a,b,c,d,k)}",
+                "{a}x² + {a*k+b}x + {a*k*k+b*k+c}",
+                "{a}x² + {b}x + {c}",
+                "{a}x² - {a*k+b}x + {a*k*k+b*k+c}"
+              ],
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "Use Factor Theorem: if (x − k) is a factor, then P(k) = 0. Apply synthetic division."
+            },
+            {
+              "id": "Y12.POLYNOMIALS.FACTOR_THEOREM.T2",
+              "stem": "Find the value of k so that (x + {r}) is a factor of x³ + kx² + {c}x + {d}. (Use Factor Theorem: P({neg_r}) = 0)",
+              "params": {
+                "r": ["int", 1, 4],
+                "c": ["int", -6, 6],
+                "d": ["int", 2, 12],
+                "neg_r": "{-r}"
+              },
+              "answer": "{-(neg_r*neg_r*neg_r + c*neg_r + d) / (neg_r*neg_r)}",
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "Substitute x = {neg_r} into polynomial and solve for k: P({neg_r}) = 0"
+            }
+          ]
+        },
+        {
+          "id": "Y12.EXPONENTIAL_WORD_PROBLEMS",
+          "name": "Exponential Word Problems",
+          "strand": "Number & Algebra",
+          "description": "Practice problems for Exponential Word Problems.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.EXPONENTIAL_WORD_PROBLEMS.T1",
+              "stem": "A population grows according to P(t) = P₀ × {r}^t. How long (nearest year) to triple?",
+              "params": {
+                "r": [
+                  "choice",
+                  1.05,
+                  1.08,
+                  1.12,
+                  1.2
+                ]
+              },
+              "answer": "{Math.ceil(Math.log(3)/Math.log(r))}",
+              "difficulty": 7,
+              "phase": 10.21,
+              "hint": "3 = r^t → t = ln3 / ln r."
+            },
+            {
+              "id": "Y12.EXPONENTIAL_WORD_PROBLEMS.T2",
+              "stem": "Radioactive substance decays at 4% per year. What percentage remains after {t} years?",
+              "params": {
+                "t": [
+                  "choice",
+                  10,
+                  20,
+                  25,
+                  50
+                ]
+              },
+              "answer": "{(100*Math.pow(0.96,t)).toFixed(1)}%",
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "Remaining = 100 × (0.96)^t."
+            }
+          ]
+        },
+        {
+          "id": "Y12.RATIONAL.ASYMPTOTES_HOLES",
+          "name": "Rational Asymptotes Holes",
+          "strand": "Number & Algebra",
+          "description": "Practice problems for Rational Asymptotes Holes.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.RATIONAL.ASYMPTOTES_HOLES.T1",
+              "stem": "For f(x) = (x+{a})(x-{b}) / ((x+{a})(x-{c})), the hole is at x = ?",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  2,
+                  6
+                ],
+                "c": [
+                  "int",
+                  -5,
+                  -1
+                ]
+              },
+              "answer": "{-a}",
+              "difficulty": 7,
+              "phase": 10.21,
+              "hint": "Cancelled factor → hole; remaining denominator → asymptote."
+            },
+            {
+              "id": "Y12.RATIONAL.ASYMPTOTES_HOLES.T2",
+              "stem": "Find horizontal asymptote of f(x) = ({a}x^2 + {b}x + {c}) / ({d}x^2 + {e}x + {f}). (Same degree numerator/denominator: y = leading coeff ratio)",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  4
+                ],
+                "b": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "c": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "d": [
+                  "int",
+                  1,
+                  4
+                ],
+                "e": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "f": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "{a/d}",
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "Same degree → ratio of leading coefficients."
+            }
+          ]
+        },
+        {
+          "id": "Y12.STATISTICS.NORMAL",
+          "name": "Statistics Normal",
+          "strand": "Statistics & Probability",
+          "description": "Practice problems for Statistics Normal.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.STATISTICS.NORMAL.T1",
+              "stem": "X ~ N({mean}, {sd}²). Find P(X > {x_val}) to 3 decimal places. (Standardize: z = (X - mean) / sd)",
+              "params": {
+                "mean": ["choice", 80, 100, 120],
+                "sd": ["choice", 10, 12, 15],
+                "x_val": "{mean + sd}"
+              },
+              "answer": "{(1 - normalCdfApprox((x_val - mean) / sd)).toFixed(3)}",
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "z-score = ({x_val} - {mean}) / {sd}, then use normal CDF table"
+            }
+          ]
+        },
+        {
+          "id": "Y12.SEQUENCES.SIGMA",
+          "name": "Sequences Sigma",
+          "strand": "Number & Algebra",
+          "description": "Practice problems for Sequences Sigma.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.SEQUENCES.SIGMA.T1",
+              "stem": "Evaluate: sum from k=1 to n of k^2, where n = {n}. (Use formula: n(n+1)(2n+1)/6)",
+              "params": {
+                "n": [
+                  "choice",
+                  10,
+                  15,
+                  20
+                ]
+              },
+              "answer": "{n*(n+1)*(2*n+1)/6}",
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "Standard formula for sum of squares."
+            },
+            {
+              "id": "Y12.SEQUENCES.SIGMA.T2",
+              "stem": "Write in sigma notation: {a} + {b} + {c} + … + {last}. (Arithmetic sequence with common difference {d})",
+              "params": {
+                "a": ["int", 2, 5],
+                "d": ["int", 2, 4],
+                "num_terms": ["int", 8, 12],
+                "b": "{a + d}",
+                "c": "{a + 2*d}",
+                "last": "{a + (num_terms-1)*d}"
+              },
+              "answer": "sum from k=1 to {num_terms} of ({a} + (k-1)*{d})",
+              "choices": [
+                "sum from k=1 to {num_terms} of ({a} + (k-1)*{d})",
+                "sum from k=0 to {num_terms-1} of ({a} + k*{d})",
+                "sum from k=1 to {num_terms} of ({b} + (k-1)*{d})",
+                "sum from k=1 to {num_terms+1} of ({a} + (k-1)*{d})"
+              ],
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "Arithmetic sequence: first term = {a}, common difference = {d}, num_terms = {num_terms}"
+            }
+          ]
+        },
+        {
+          "id": "Y12.CIRCLE_EQUATIONS",
+          "name": "Circle Equations",
+          "strand": "Geometry & Trigonometry",
+          "description": "Practice problems for Circle Equations.",
+          "phase": 10.21,
+          "templates": [
+            {
+              "id": "Y12.CIRCLE_EQUATIONS.T1",
+              "stem": "Find the radius² of a circle with centre ({h},{k}) passing through ({p},{q}).",
+              "params": {
+                "h": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "k": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "p": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "q": [
+                  "int",
+                  -8,
+                  8
+                ]
+              },
+              "answer": "{(p-h)*(p-h)+(q-k)*(q-k)}",
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "r² = (x-h)² + (y-k)² using distance formula"
+            },
+            {
+              "id": "Y12.CIRCLE_EQUATIONS.T2",
+              "stem": "For the circle x² + y² + {d}x + {e}y + {f} = 0, find the centre x-coordinate. (Complete the square: x² + dx = (x + d/2)² - (d/2)²)",
+              "params": {
+                "d": [
+                  "int",
+                  -8,
+                  8,
+                  2
+                ],
+                "e": [
+                  "int",
+                  -8,
+                  8,
+                  2
+                ],
+                "f": [
+                  "int",
+                  -20,
+                  20
+                ]
+              },
+              "answer": "{-d/2}",
+              "difficulty": 6,
+              "phase": 10.21,
+              "hint": "Centre x-coord = -d/2"
+            }
+          ]
         }
       ]
     }
