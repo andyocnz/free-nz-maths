@@ -149,7 +149,7 @@
                   80
                 ]
               },
-              "answer": "2 * a",
+              "answer": "{2 * a}",
               "visualData": {
                 "type": "circle_theorem_angle_center",
                 "angle": "a"
@@ -182,7 +182,7 @@
                   10
                 ]
               },
-              "answer": "simplify(r*(r-1), (r+b)*(r+b-1))",
+              "answer": "{simplify(r*(r-1), (r+b)*(r+b-1))}",
               "difficulty": 9,
               "phase": 8,
               "hint": "P(A and B) = P(A) * P(B) (for independent events)"
@@ -211,7 +211,7 @@
                   30
                 ]
               },
-              "answer": "solve_linear_parabola_system(a, c)",
+              "answer": "{solve_linear_parabola_system(a, c)}",
               "difficulty": 9,
               "phase": 8,
               "hint": "Substitution is the most common method."
@@ -305,7 +305,7 @@
                   25
                 ]
               },
-              "answer": "m * x_val + c",
+              "answer": "{m * x_val + c}",
               "difficulty": 8,
               "phase": 8,
               "hint": "Review the key concepts and try breaking the problem into smaller steps."
@@ -358,7 +358,7 @@
                   120
                 ]
               },
-              "answer": "180 - a",
+              "answer": "{180 - a}",
               "difficulty": 8,
               "phase": 8,
               "hint": "Opposite angles in a cyclic quadrilateral add up to 180 degrees."
@@ -929,7 +929,7 @@
                   }
                 ]
               },
-              "answer": "dataset.label",
+              "answer": "{dataset.label}",
               "visualData": {
                 "type": "scatter_plot",
                 "width": 360,
