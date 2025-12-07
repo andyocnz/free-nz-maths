@@ -871,7 +871,7 @@
             },
             {
               "id": "Y6.M.MEASUREMENT.T4",
-              "stem": "The temperature was {temp1}\u252c\u2591C and increased by {rise}\u252c\u2591C. What is the new temperature?",
+              "stem": "The temperature was {temp1}°C and increased by {rise}°C. What is the new temperature?",
               "params": {
                 "temp1": [
                   "int",
@@ -915,7 +915,7 @@
           "templates": [
             {
               "id": "Y6.G.COMPOSITE_SHAPES.T2",
-              "stem": "Find the perimeter of an L-shaped figure made from a {a}\u251c\u00f9{b} rectangle with a {c}\u251c\u00f9{d} rectangle cut out from one corner.",
+              "stem": "Find the perimeter of an L-shaped figure made from a {a}×{b} rectangle with a {c}×{d} rectangle cut out from one corner.",
               "params": {
                 "a": [
                   "int",
@@ -954,7 +954,7 @@
           "templates": [
             {
               "id": "Y6.G.VOLUME_PRISMS.T1",
-              "stem": "Find the volume of a triangular prism with base area {a} cm\u252c\u2593 and height {h} cm.",
+              "stem": "Find the volume of a triangular prism with base area {a} cm² and height {h} cm.",
               "params": {
                 "a": [
                   "int",
@@ -981,7 +981,7 @@
             },
             {
               "id": "Y6.G.VOLUME_PRISMS.T2",
-              "stem": "A swimming pool is {l} m long, {w} m wide and {d} m deep. How many litres of water does it hold when full? (1 m\u252c\u2502 = 1000 litres)",
+              "stem": "A swimming pool is {l} m long, {w} m wide and {d} m deep. How many litres of water does it hold when full? (1 m³ = 1000 litres)",
               "params": {
                 "l": [
                   "int",
@@ -1028,7 +1028,7 @@
           "templates": [
             {
               "id": "Y7.N.FRACTIONS_RATIONAL_OPS.T1",
-              "stem": "Calculate: {a}/{b} \u251c\u00f9 {c}/{d}. Give the answer in simplest form.",
+              "stem": "Calculate: {a}/{b} × {c}/{d}. Give the answer in simplest form.",
               "params": {
                 "a": [
                   "int",
@@ -1058,7 +1058,7 @@
             },
             {
               "id": "Y7.N.FRACTIONS_RATIONAL_OPS.T2",
-              "stem": "Calculate: ({a}/{b}) \u251c\u2556 ({c}/{d}). Give the answer in simplest form.",
+              "stem": "Calculate: ({a}/{b}) ÷ ({c}/{d}). Give the answer in simplest form.",
               "params": {
                 "a": [
                   "int",
@@ -1200,11 +1200,11 @@
           "id": "Y7.G.CIRCLES",
           "strand": "Geometry & Measurement",
           "name": "Circle Area and Circumference",
-          "description": "Calculate circumference and area of circles using \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
+          "description": "Calculate circumference and area of circles using π ≈ 3.14.",
           "templates": [
             {
               "id": "Y7.G.CIRCLES.T1",
-              "stem": "Find the circumference of a circle with radius {r} cm. Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
+              "stem": "Find the circumference of a circle with radius {r} cm. Use π ≈ 3.14.",
               "params": {
                 "r": [
                   "int",
@@ -1215,11 +1215,11 @@
               "answer": "Math.round(2 * 3.14 * r, 2)",
               "difficulty": 5,
               "phase": 10.1,
-              "hint": "Circumference (C) = 2 * \u2567\u00c7 * radius (r)  OR  C = \u2567\u00c7 * diameter (d)"
+              "hint": "Circumference (C) = 2 * π * radius (r)  OR  C = π * diameter (d)"
             },
             {
               "id": "Y7.G.CIRCLES.T2",
-              "stem": "Find the area of a circle with radius {r} cm. Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
+              "stem": "Find the area of a circle with radius {r} cm. Use π ≈ 3.14.",
               "params": {
                 "r": [
                   "int",
@@ -1230,7 +1230,7 @@
               "answer": "Math.round(3.14 * r * r, 2)",
               "difficulty": 6,
               "phase": 10.1,
-              "hint": "Circumference (C) = 2 * \u2567\u00c7 * radius (r)  OR  C = \u2567\u00c7 * diameter (d)"
+              "hint": "Circumference (C) = 2 * π * radius (r)  OR  C = π * diameter (d)"
             }
           ]
         },
@@ -1256,7 +1256,7 @@
                   5
                 ]
               },
-              "answer": "Math.round(d / t, 2)",
+              "answer": "{round(d / t, 2)}",
               "visualData": {
                 "type": "car_on_road",
                 "speed": "round(d / t, 2)",
@@ -1281,7 +1281,7 @@
                   300
                 ]
               },
-              "answer": "Math.round(volume / rate, 1)",
+              "answer": "{round(volume / rate, 1)}",
               "difficulty": 5,
               "phase": 10.6,
               "hint": "Speed = Distance / Time"
@@ -1302,7 +1302,7 @@
                   70
                 ]
               },
-              "answer": "Math.round(price * volume, 2)",
+              "answer": "{round(price * volume, 2)}",
               "difficulty": 5,
               "phase": 10.6,
               "hint": "Speed = Distance / Time"
@@ -1587,7 +1587,7 @@
           "templates": [
             {
               "id": "Y8.G.TRANSVERSALS.T1",
-              "stem": "Two parallel lines are cut by a transversal. If an alternate interior angle is {a}\u252c\u2591, what is its corresponding angle?",
+              "stem": "Two parallel lines are cut by a transversal. If an alternate interior angle is {a}°, what is its corresponding angle?",
               "params": {
                 "a": [
                   "int",
@@ -1607,7 +1607,7 @@
             },
             {
               "id": "Y8.G.TRANSVERSALS.T2",
-              "stem": "Two parallel lines are cut by a transversal. If a corresponding angle is {a}\u252c\u2591, what is its matching angle?",
+              "stem": "Two parallel lines are cut by a transversal. If a corresponding angle is {a}°, what is its matching angle?",
               "params": {
                 "a": [
                   "int",
@@ -1627,7 +1627,7 @@
             },
             {
               "id": "Y8.G.TRANSVERSALS.T3",
-              "stem": "Two parallel lines are cut by a transversal. If an alternate exterior angle is {a}\u252c\u2591, what is its equal angle?",
+              "stem": "Two parallel lines are cut by a transversal. If an alternate exterior angle is {a}°, what is its equal angle?",
               "params": {
                 "a": [
                   "int",
@@ -1647,7 +1647,7 @@
             },
             {
               "id": "Y8.G.TRANSVERSALS.T4",
-              "stem": "Two parallel lines are cut by a transversal. If one same-side interior (consecutive interior) angle is {a}\u252c\u2591, what is the measure of its supplementary partner?",
+              "stem": "Two parallel lines are cut by a transversal. If one same-side interior (consecutive interior) angle is {a}°, what is the measure of its supplementary partner?",
               "params": {
                 "a": [
                   "int",
@@ -1667,7 +1667,7 @@
             },
             {
               "id": "Y8.G.TRANSVERSALS.T5",
-              "stem": "At the intersection of two lines, one angle measures {a}\u252c\u2591. What is the measure of the vertically opposite angle?",
+              "stem": "At the intersection of two lines, one angle measures {a}°. What is the measure of the vertically opposite angle?",
               "params": {
                 "a": [
                   "int",
@@ -1725,7 +1725,7 @@
             },
             {
               "id": "Y8.G.TRANSFORMATIONS_COORDINATE.T2",
-              "stem": "Rotate the point ({x},{y}) 90\u252c\u2591 clockwise around the origin (0,0).",
+              "stem": "Rotate the point ({x},{y}) 90° clockwise around the origin (0,0).",
               "params": {
                 "x": [
                   "int",
@@ -1792,7 +1792,7 @@
             },
             {
               "id": "Y8.G.SURFACE_AREA.T2",
-              "stem": "Find the surface area of a cylinder with radius {r} cm and height {h} cm. Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
+              "stem": "Find the surface area of a cylinder with radius {r} cm and height {h} cm. Use π ≈ 3.14.",
               "params": {
                 "r": [
                   "int",
@@ -1950,7 +1950,7 @@
           "templates": [
             {
               "id": "Y8.N.STANDARD_FORM_OPS.T1",
-              "stem": "Calculate ({m1} x 10^{e1}) \u251c\u00f9 ({m2} x 10^{e2}). Write in standard form.",
+              "stem": "Calculate ({m1} x 10^{e1}) × ({m2} x 10^{e2}). Write in standard form.",
               "params": {
                 "m1": [
                   "int",
@@ -2035,7 +2035,7 @@
           "templates": [
             {
               "id": "Y9.N.RADICALS.T1",
-              "stem": "Simplify the following radical expression: \u0393\u00ea\u00dc{n}.",
+              "stem": "Simplify the following radical expression: √{n}.",
               "params": {
                 "n": [
                   "int",
@@ -2134,7 +2134,7 @@
           "templates": [
             {
               "id": "Y9.G.COMPOSITE_SOLIDS.T1",
-              "stem": "A solid is formed by placing a cone with radius {r} cm and height {h_cone} cm on top of a cylinder with the same radius and height {h_cyl} cm. What is the total volume of the solid? Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
+              "stem": "A solid is formed by placing a cone with radius {r} cm and height {h_cone} cm on top of a cylinder with the same radius and height {h_cyl} cm. What is the total volume of the solid? Use π ≈ 3.14.",
               "params": {
                 "r": [
                   "int",
@@ -2155,7 +2155,7 @@
               "answer": "Math.round(volume_cone(r, h_cone) + volume_cylinder(r, h_cyl), 2)",
               "difficulty": 8,
               "phase": 8,
-              "hint": "Volume of Cylinder = \u2567\u00c7 * r\u252c\u2593 * h"
+              "hint": "Volume of Cylinder = π * r² * h"
             }
           ]
         },
@@ -2188,11 +2188,11 @@
               "answer": "x < {(c - b) / a}",
               "difficulty": 8,
               "phase": 10.1,
-              "hint": "For ax + b > c, ax + b \u0393\u00eb\u00d1 c, ax + b < c, or ax + b \u0393\u00eb\u00f1 c"
+              "hint": "For ax + b > c, ax + b ≥ c, ax + b < c, or ax + b ≤ c"
             },
             {
               "id": "Y9.A.INEQUALITIES.T2",
-              "stem": "Solve for x: {b} - {a}x \u0393\u00eb\u00d1 {c}",
+              "stem": "Solve for x: {b} - {a}x ≥ {c}",
               "params": {
                 "a": [
                   "int",
@@ -2210,10 +2210,10 @@
                   20
                 ]
               },
-              "answer": "x \u0393\u00eb\u00f1 {(b - c) / a}",
+              "answer": "x ≤ {(b - c) / a}",
               "difficulty": 9,
               "phase": 10.1,
-              "hint": "For ax + b > c, ax + b \u0393\u00eb\u00d1 c, ax + b < c, or ax + b \u0393\u00eb\u00f1 c"
+              "hint": "For ax + b > c, ax + b ≥ c, ax + b < c, or ax + b ≤ c"
             }
           ]
         },
@@ -2225,7 +2225,7 @@
           "templates": [
             {
               "id": "Y9.A.NONLINEAR_FUNCTIONS.T1",
-              "stem": "If f(x) = x\u252c\u2593 + {a}, find f({v}).",
+              "stem": "If f(x) = x² + {a}, find f({v}).",
               "params": {
                 "a": [
                   "int",
@@ -2241,7 +2241,7 @@
               "answer": "v*v + a",
               "difficulty": 8,
               "phase": 10.1,
-              "hint": "Quadratic: y = ax\u252c\u2593 + bx + c"
+              "hint": "Quadratic: y = ax² + bx + c"
             },
             {
               "id": "Y9.A.NONLINEAR_FUNCTIONS.T2",
@@ -2266,7 +2266,7 @@
               "answer": "b * (a**v)",
               "difficulty": 9,
               "phase": 10.1,
-              "hint": "Quadratic: y = ax\u252c\u2593 + bx + c"
+              "hint": "Quadratic: y = ax² + bx + c"
             }
           ]
         },
@@ -2279,7 +2279,7 @@
           "templates": [
             {
               "id": "Y9.A.EXPRESSIONS_POLYNOMIALS.T2",
-              "stem": "Expand and simplify: (x \u0393\u00ea\u00c6 {a})(x + {b}).",
+              "stem": "Expand and simplify: (x − {a})(x + {b}).",
               "params": {
                 "a": [
                   "int",
@@ -2292,7 +2292,7 @@
                   10
                 ]
               },
-              "answer": "{'x\u252c\u2593 + ' + (b-a) + 'x \u0393\u00ea\u00c6 ' + (a*b)}",
+              "answer": "{'x² + ' + (b-a) + 'x − ' + (a*b)}",
               "difficulty": 7,
               "phase": 10.11,
               "hint": "Monomial, binomial, trinomial"
@@ -2308,7 +2308,7 @@
           "templates": [
             {
               "id": "Y9.A.EQUATIONS_INEQUALITIES.T2",
-              "stem": "Solve the inequality: {a}x + {b} \u0393\u00eb\u00d1 {c}",
+              "stem": "Solve the inequality: {a}x + {b} ≥ {c}",
               "params": {
                 "a": [
                   "int",
@@ -2326,7 +2326,7 @@
                   30
                 ]
               },
-              "answer": "{'x \u0393\u00eb\u00f1 ' + Math.round((c - b) / a, 2)}",
+              "answer": "{'x ≤ ' + Math.round((c - b) / a, 2)}",
               "difficulty": 7,
               "phase": 10.12,
               "hint": "Substitution, elimination methods"
@@ -2360,14 +2360,14 @@
                   1
                 ]
               },
-              "answer": "{a*b}x\u252c\u2593 + {a*c}x",
+              "answer": "{a*b}x² + {a*c}x",
               "difficulty": 8,
               "phase": 10.1,
               "hint": "(a + b)(c + d) = ac + ad + bc + bd"
             },
             {
               "id": "Y9.A.POLYNOMIAL_OPS.T2",
-              "stem": "Divide {a}x\u252c\u2502 + {a*b}x\u252c\u2593 \u0393\u00ea\u00c6 {a*c}x by {a}x.",
+              "stem": "Divide {a}x³ + {a*b}x² − {a*c}x by {a}x.",
               "params": {
                 "a": [
                   "int",
@@ -2385,7 +2385,7 @@
                   5
                 ]
               },
-              "answer": "{'x\u252c\u2593 + ' + b + 'x \u0393\u00ea\u00c6 ' + c}",
+              "answer": "{'x² + ' + b + 'x − ' + c}",
               "difficulty": 8,
               "phase": 10.12,
               "hint": "(a + b)(c + d) = ac + ad + bc + bd"
@@ -2416,7 +2416,7 @@
               "answer": "m * d",
               "difficulty": 8,
               "phase": 10.1,
-              "hint": "Total ways = n\u0393\u00e9\u00fc \u251c\u00f9 n\u0393\u00e9\u00e9 \u251c\u00f9 \u0393\u00c7\u00aa \u251c\u00f9 n\u0393\u00e9\u00fb"
+              "hint": "Total ways = n₁ × n₂ × … × nₖ"
             }
           ]
         },
@@ -2428,7 +2428,7 @@
           "templates": [
             {
               "id": "Y9.G.CONES_SPHERES.T1",
-              "stem": "Find the volume of a sphere with radius {r} cm. Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
+              "stem": "Find the volume of a sphere with radius {r} cm. Use π ≈ 3.14.",
               "params": {
                 "r": [
                   "int",
@@ -2439,11 +2439,11 @@
               "answer": "Math.round(volume_sphere(r), 2)",
               "difficulty": 9,
               "phase": 10.1,
-              "hint": "Cone volume: V = (1/3)\u2567\u00c7r\u252c\u2593h"
+              "hint": "Cone volume: V = (1/3)πr²h"
             },
             {
               "id": "Y9.G.CONES_SPHERES.T2",
-              "stem": "Find the surface area of a sphere with radius {r} cm. Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
+              "stem": "Find the surface area of a sphere with radius {r} cm. Use π ≈ 3.14.",
               "params": {
                 "r": [
                   "int",
@@ -2454,11 +2454,11 @@
               "answer": "Math.round(surface_area_sphere(r), 2)",
               "difficulty": 9,
               "phase": 10.1,
-              "hint": "Cone volume: V = (1/3)\u2567\u00c7r\u252c\u2593h"
+              "hint": "Cone volume: V = (1/3)πr²h"
             },
             {
               "id": "Y9.G.CONES_SPHERES.T3",
-              "stem": "Find the volume of a cone with radius {r} cm and height {h} cm. Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
+              "stem": "Find the volume of a cone with radius {r} cm and height {h} cm. Use π ≈ 3.14.",
               "params": {
                 "r": [
                   "int",
@@ -2474,7 +2474,7 @@
               "answer": "Math.round(volume_cone(r,h), 2)",
               "difficulty": 9,
               "phase": 10.1,
-              "hint": "Cone volume: V = (1/3)\u2567\u00c7r\u252c\u2593h"
+              "hint": "Cone volume: V = (1/3)πr²h"
             }
           ]
         },
@@ -2681,7 +2681,7 @@
               "answer": "geometric_sequence_nth_term(a, r, 4)",
               "difficulty": 8,
               "phase": 10.1,
-              "hint": "a\u0393\u00e9\u00d6 = a\u0393\u00e9\u00fc \u251c\u00f9 r^(n-1)"
+              "hint": "aₙ = a₁ × r^(n-1)"
             }
           ]
         },
@@ -2710,7 +2710,7 @@
               "answer": "Math.floor(a/b) + ' r ' + (a % b)",
               "difficulty": 5,
               "phase": 10.7,
-              "hint": "Negative \u251c\u00f9 negative = positive"
+              "hint": "Negative × negative = positive"
             }
           ]
         },
@@ -2744,7 +2744,7 @@
               "answer": "Math.round(cost * b / a, 2)",
               "difficulty": 6,
               "phase": 10.7,
-              "hint": "a/b = c/d \u0393\u00e5\u00c6 a\u251c\u00f9d = b\u251c\u00f9c"
+              "hint": "a/b = c/d → a×d = b×c"
             }
           ]
         },
@@ -2778,7 +2778,7 @@
               "answer": "Math.round(price * (1 - d1/100) * (1 - d2/100), 2)",
               "difficulty": 7,
               "phase": 10.7,
-              "hint": "Discount = original \u251c\u00f9 (percent/100)"
+              "hint": "Discount = original × (percent/100)"
             }
           ]
         },
@@ -2813,7 +2813,7 @@
               "answer": "l * w * h * 1000",
               "difficulty": 6,
               "phase": 10.7,
-              "hint": "1 cubic metre (m\u252c\u2502) = 1000 litres (L)"
+              "hint": "1 cubic metre (m³) = 1000 litres (L)"
             }
           ]
         },
@@ -2882,7 +2882,7 @@
               "answer": "Math.round(Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)), 1)",
               "difficulty": 6,
               "phase": 10.7,
-              "hint": "Distance formula: d = sqrt((x2 - x1)\u252c\u2593 + (y2 - y1)\u252c\u2593)"
+              "hint": "Distance formula: d = sqrt((x2 - x1)² + (y2 - y1)²)"
             }
           ]
         },
@@ -2895,7 +2895,7 @@
           "templates": [
             {
               "id": "Y9.G.GEOMETRY.T2",
-              "stem": "Two parallel lines are cut by a transversal. One angle is {a}\u252c\u2591. What is the corresponding angle?",
+              "stem": "Two parallel lines are cut by a transversal. One angle is {a}°. What is the corresponding angle?",
               "params": {
                 "a": [
                   "int",
@@ -2919,7 +2919,7 @@
           "templates": [
             {
               "id": "Y9.G.TRANSFORMATIONS.T2",
-              "stem": "Point ({x},{y}) is rotated 90\u252c\u2591 clockwise about the origin. What are the new coordinates?",
+              "stem": "Point ({x},{y}) is rotated 90° clockwise about the origin. What are the new coordinates?",
               "params": {
                 "x": [
                   "int",
@@ -2935,7 +2935,7 @@
               "answer": "{'(' + y + ',' + (-x) + ')'}",
               "difficulty": 6,
               "phase": 10.7,
-              "hint": "Translation: (x,y) \u0393\u00e5\u00c6 (x+a, y+b)"
+              "hint": "Translation: (x,y) → (x+a, y+b)"
             }
           ]
         },
@@ -2948,7 +2948,7 @@
           "templates": [
             {
               "id": "Y9.G.PYTHAGORAS_SOLIDS.T2",
-              "stem": "A rectangular box has dimensions {l} \u251c\u00f9 {w} \u251c\u00f9 {h}. What is the length of the space diagonal? (Round to 1 decimal place)",
+              "stem": "A rectangular box has dimensions {l} × {w} × {h}. What is the length of the space diagonal? (Round to 1 decimal place)",
               "params": {
                 "l": [
                   "int",
@@ -2969,7 +2969,7 @@
               "answer": "Math.round(Math.sqrt(l*l + w*w + h*h), 1)",
               "difficulty": 7,
               "phase": 10.7,
-              "hint": "Face diagonal: \u0393\u00ea\u00dc(l\u252c\u2593 + w\u252c\u2593)"
+              "hint": "Face diagonal: √(l² + w²)"
             }
           ]
         },
@@ -3003,7 +3003,152 @@
               "answer": "a + (n - 1) * d",
               "difficulty": 6,
               "phase": 10.7,
-              "hint": "Arithmetic: a\u0393\u00e9\u00d6 = a\u0393\u00e9\u00fc + (n-1)d"
+              "hint": "Arithmetic: aₙ = a₁ + (n-1)d"
+            }
+          ]
+        },
+        {
+          "id": "Y9.OLYMP.VECTORS.T1",
+          "strand": "Olympiad Practice",
+          "name": "Year 9-10 / Competition / Vector displacement",
+          "description": "Year 9-10 / Competition / Vector displacement",
+          "templates": [
+            {
+              "id": "Y9.OLYMP.VECTORS.T1.T1",
+              "stem": "A spider crawls {a} units east, then {b} units north, then {c} units west, then {d} units south. How many units is it from the starting point?",
+              "params": {
+                "a": [
+                  "int",
+                  3,
+                  8
+                ],
+                "b": [
+                  "int",
+                  4,
+                  9
+                ],
+                "c": [
+                  "int",
+                  1,
+                  6
+                ],
+                "d": [
+                  "int",
+                  1,
+                  5
+                ]
+              },
+              "answer": "{Math.sqrt(Math.pow(a - c, 2) + Math.pow(b - d, 2))}",
+              "difficulty": 8,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y9.OLYMP.LCM.T1",
+          "strand": "Olympiad Practice",
+          "name": "Year 9-10 / Competition / Least common multiple",
+          "description": "Year 9-10 / Competition / Least common multiple",
+          "templates": [
+            {
+              "id": "Y9.OLYMP.LCM.T1.T1",
+              "stem": "What is the smallest positive integer divisible by all integers from 1 to {n}?",
+              "params": {
+                "n": [
+                  "choice",
+                  6,
+                  7,
+                  8,
+                  9,
+                  10
+                ]
+              },
+              "answer": "{lcmRange(n)}",
+              "difficulty": 9,
+              "phase": 9
+            }
+          ]
+        },
+        {
+          "id": "Y9.OLYMP.GRID.T1",
+          "strand": "Olympiad Practice",
+          "name": "Year 9-10 / Competition / Counting squares in a grid",
+          "description": "Year 9-10 / Competition / Counting squares in a grid",
+          "templates": [
+            {
+              "id": "Y9.OLYMP.GRID.T1.T1",
+              "stem": "In an {n}x{n} grid of small squares, how many {k}x{k} squares are there?",
+              "params": {
+                "n": [
+                  "choice",
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ],
+                "k": [
+                  "choice",
+                  2,
+                  3
+                ]
+              },
+              "answer": "{Math.pow(n - k + 1, 2)}",
+              "difficulty": 7,
+              "phase": 7
+            }
+          ]
+        },
+        {
+          "id": "Y9.OLYMP.SUM_ODD.T1",
+          "strand": "Olympiad Practice",
+          "name": "Year 9-10 / Competition / Sum of first n odd numbers",
+          "description": "Year 9-10 / Competition / Sum of first n odd numbers",
+          "templates": [
+            {
+              "id": "Y9.OLYMP.SUM_ODD.T1.T1",
+              "stem": "What is the sum of the first {n} odd positive integers?",
+              "params": {
+                "n": [
+                  "choice",
+                  8,
+                  9,
+                  10,
+                  11,
+                  12,
+                  15,
+                  20
+                ]
+              },
+              "answer": "{n * n}",
+              "difficulty": 6,
+              "phase": 6
+            }
+          ]
+        },
+        {
+          "id": "Y9.OLYMP.PRIMES.T1",
+          "strand": "Olympiad Practice",
+          "name": "Year 9-10 / Competition / Counting primes",
+          "description": "Year 9-10 / Competition / Counting primes",
+          "templates": [
+            {
+              "id": "Y9.OLYMP.PRIMES.T1.T1",
+              "stem": "How many prime numbers are there less than {n}?",
+              "params": {
+                "n": [
+                  "choice",
+                  30,
+                  40,
+                  50,
+                  60,
+                  80,
+                  100
+                ]
+              },
+              "answer": "{countPrimesLessThan(n)}",
+              "difficulty": 7,
+              "phase": 7
             }
           ]
         }
@@ -3042,7 +3187,7 @@
               "answer": "{solve_quadratic_formula(a, b, c)}",
               "difficulty": 9,
               "phase": 8,
-              "hint": "The formula: x = [-b \u252c\u2592 sqrt(b\u252c\u2593 - 4ac)] / (2a)"
+              "hint": "The formula: x = [-b ± sqrt(b² - 4ac)] / (2a)"
             }
           ]
         },
@@ -3069,7 +3214,7 @@
                   10
                 ]
               },
-              "answer": "({-b/2}, {(-b/2)*(-b/2) + b*(-b/2) + c})",
+              "answer": "(' + (-b/2) + ', ' + ((-b/2)*(-b/2) + b*(-b/2) + c) + ')'",
               "visualData": {
                 "type": "graph_parabola",
                 "a": 1,
@@ -3078,7 +3223,7 @@
               },
               "difficulty": 8,
               "phase": 8,
-              "hint": "For y = ax\u252c\u2593 + bx + c: Vertex x-coordinate = -b / (2a)"
+              "hint": "For y = ax² + bx + c: Vertex x-coordinate = -b / (2a)"
             }
           ]
         },
@@ -3091,7 +3236,7 @@
           "templates": [
             {
               "id": "Y10.G.TRIG_RULES.T1",
-              "stem": "In a triangle, side a = {a}, side b = {b}, and the angle between them is C = {C}\u252c\u2591. Find the length of side c using the Cosine Rule. Give your answer to 1 decimal place.",
+              "stem": "In a triangle, side a = {a}, side b = {b}, and the angle between them is C = {C}°. Find the length of side c using the Cosine Rule. Give your answer to 1 decimal place.",
               "params": {
                 "a": [
                   "int",
@@ -3150,7 +3295,7 @@
           "templates": [
             {
               "id": "Y10.G.CIRCLE_THEOREMS.T1",
-              "stem": "An angle at the circumference subtended by an arc is {a}\u252c\u2591. What is the angle at the centre subtended by the same arc?",
+              "stem": "An angle at the circumference subtended by an arc is {a}°. What is the angle at the centre subtended by the same arc?",
               "params": {
                 "a": [
                   "int",
@@ -3330,7 +3475,7 @@
           "templates": [
             {
               "id": "Y10.G.SA_VOLUME_ADVANCED.T1",
-              "stem": "A cone has a slant height of {s} cm and a radius of {r} cm. What is its volume? Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14.",
+              "stem": "A cone has a slant height of {s} cm and a radius of {r} cm. What is its volume? Use π ≈ 3.14.",
               "params": {
                 "s": [
                   "int",
@@ -3346,7 +3491,7 @@
               "answer": "Math.round(volume_cone(r, Math.sqrt(s*s - r*r)), 2)",
               "difficulty": 9,
               "phase": 8,
-              "hint": "Pythagoras' Theorem: a\u252c\u2593 + b\u252c\u2593 = c\u252c\u2593 (often needed to find heights or radii)"
+              "hint": "Pythagoras' Theorem: a² + b² = c² (often needed to find heights or radii)"
             }
           ]
         },
@@ -3359,7 +3504,7 @@
           "templates": [
             {
               "id": "Y10.G.GEOMETRIC_REASONING.T1",
-              "stem": "In a cyclic quadrilateral, one angle is {a}\u252c\u2591. What is the measure of the opposite angle?",
+              "stem": "In a cyclic quadrilateral, one angle is {a}°. What is the measure of the opposite angle?",
               "params": {
                 "a": [
                   "int",
@@ -3479,7 +3624,7 @@
           "templates": [
             {
               "id": "Y10.M.VOLUME_SIMILAR.T1",
-              "stem": "Two similar cones have heights in the ratio {ratio1} : {ratio2}. The smaller cone has volume {v} cm\u252c\u2502. Find the volume of the larger cone.",
+              "stem": "Two similar cones have heights in the ratio {ratio1} : {ratio2}. The smaller cone has volume {v} cm³. Find the volume of the larger cone.",
               "params": {
                 "ratio1": [
                   "int",
@@ -3501,7 +3646,7 @@
               "answer": "{Math.round(v * (ratio2 / ratio1)**3, 1)}",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "Volume ratio = k\u252c\u2502"
+              "hint": "Volume ratio = k³"
             }
           ]
         },
@@ -3539,7 +3684,7 @@
               "answer": "{round(Math.sqrt((x2-x1)**2 + (y2-y1)**2), 1)}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "Distance: \u0393\u00ea\u00dc((x\u0393\u00e9\u00e9-x\u0393\u00e9\u00fc)\u252c\u2593 + (y\u0393\u00e9\u00e9-y\u0393\u00e9\u00fc)\u252c\u2593)"
+              "hint": "Distance: √((x₂-x₁)² + (y₂-y₁)²)"
             }
           ]
         },
@@ -3579,7 +3724,7 @@
               "answer": "{dy}/{dx}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "m = (y\u0393\u00e9\u00e9 - y\u0393\u00e9\u00fc)/(x\u0393\u00e9\u00e9 - x\u0393\u00e9\u00fc)"
+              "hint": "m = (y₂ - y₁)/(x₂ - x₁)"
             }
           ]
         },
@@ -3591,7 +3736,7 @@
           "templates": [
             {
               "id": "Y10.L.NONLINEAR_GRAPH.T1",
-              "stem": "The quadratic y = x\u252c\u2593 + {b}x + {c} has two x-intercepts. What is their sum?",
+              "stem": "The quadratic y = x² + {b}x + {c} has two x-intercepts. What is their sum?",
               "params": {
                 "b": [
                   "int",
@@ -3608,7 +3753,7 @@
               "answer": "{-b}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "Quadratic: vertex form y = a(x-h)\u252c\u2593 + k"
+              "hint": "Quadratic: vertex form y = a(x-h)² + k"
             }
           ]
         },
@@ -3717,7 +3862,7 @@
               "answer": "{q3 - q1}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "Outlier if > Q3 + 1.5\u251c\u00f9IQR or < Q1 - 1.5\u251c\u00f9IQR"
+              "hint": "Outlier if > Q3 + 1.5×IQR or < Q1 - 1.5×IQR"
             }
           ]
         },
@@ -3947,7 +4092,7 @@
               },
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "r \u0393\u00eb\u00ea 1 strong positive, r \u0393\u00eb\u00ea -1 strong negative"
+              "hint": "r ≈ 1 strong positive, r ≈ -1 strong negative"
             }
           ]
         },
@@ -3959,10 +4104,10 @@
           "templates": [
             {
               "id": "Y10.N.SURDS_SIMPLIFY.T1",
-              "stem": "Simplify \u221a{n}.",
+              "stem": "Simplify sqrt({n}).",
               "params": {
                 "square": [
-                  "choice",
+                  "choices",
                   4,
                   9,
                   16,
@@ -3982,7 +4127,7 @@
             },
             {
               "id": "Y10.N.SURDS_SIMPLIFY.T2",
-              "stem": "Simplify \u221a{n1} * \u221a{n2}.",
+              "stem": "Simplify sqrt({n1}) * sqrt({n2}).",
               "params": {
                 "n1": [
                   "int",
@@ -4010,30 +4155,23 @@
           "templates": [
             {
               "id": "Y10.N.SURDS_RATIONALISE.T1",
-              "stem": "Rationalise the denominator of 1 / (\u221a{larger} - \u221a{smaller}). Give your answer in simplest form.",
+              "stem": "Rationalise the denominator of 1 / (sqrt({a}) - sqrt({b})). Give your answer in simplest form.",
               "params": {
-                "larger": [
-                  "choice",
+                "a": [
+                  "int",
                   9,
-                  12,
-                  18,
-                  20,
-                  27,
-                  32
+                  20
                 ],
-                "smaller": [
-                  "choice",
+                "b": [
+                  "int",
                   2,
-                  3,
-                  5,
-                  6,
                   8
                 ]
               },
-              "answer": "{rationaliseSurd(larger, smaller)}",
+              "answer": "{rationaliseSurd(a, b)}",
               "difficulty": 7,
               "phase": 10.18,
-              "hint": "Multiply numerator and denominator by \u221a{larger} + \u221a{smaller} to form a rational denominator."
+              "hint": "Multiply numerator and denominator by sqrt({a}) + sqrt({b}) to form a rational denominator."
             }
           ]
         },
@@ -4111,6 +4249,95 @@
               "hint": "Set x^2 - {k} equal to {m}x + {c} and solve the resulting quadratic."
             }
           ]
+        },
+        {
+          "id": "Y10.UKMT.PERM_ORDER.T1",
+          "strand": "Olympiad Practice",
+          "name": "Year 9-10 / Competition / Permutations with order restriction",
+          "description": "Year 9-10 / Competition / Permutations with order restriction",
+          "templates": [
+            {
+              "id": "Y10.UKMT.PERM_ORDER.T1.T1",
+              "stem": "How many ways are there to arrange the letters of the word {word} such that {let1} appears before {let2} in the arrangement?",
+              "params": {
+                "word": [
+                  "choice",
+                  "ABCDE",
+                  "MATHS",
+                  "OLYMP"
+                ],
+                "let1": "{word[0]}",
+                "let2": "{word[word.length - 1]}"
+              },
+              "answer": "{factorial(word.length) / 2}",
+              "difficulty": 9,
+              "phase": 9
+            }
+          ]
+        },
+        {
+          "id": "Y10.OLYMP.UNITS_DIGIT.T1",
+          "strand": "Olympiad Practice",
+          "name": "Year 9-10 / Competition / Units digit of large powers",
+          "description": "Year 9-10 / Competition / Units digit of large powers",
+          "templates": [
+            {
+              "id": "Y10.OLYMP.UNITS_DIGIT.T1.T1",
+              "stem": "What is the units digit of {base}^{exp}?",
+              "params": {
+                "base": [
+                  "choice",
+                  2,
+                  3,
+                  7,
+                  9
+                ],
+                "exp": [
+                  "choice",
+                  2020,
+                  2021,
+                  2022,
+                  2023,
+                  2024
+                ]
+              },
+              "answer": "{unitsDigit(base, exp)}",
+              "difficulty": 8,
+              "phase": 8
+            }
+          ]
+        },
+        {
+          "id": "Y10.OLYMP.PYTHAG_TRIPLE.T1",
+          "strand": "Olympiad Practice",
+          "name": "Year 9-10 / Competition / Resultant displacement",
+          "description": "Year 9-10 / Competition / Resultant displacement",
+          "templates": [
+            {
+              "id": "Y10.OLYMP.PYTHAG_TRIPLE.T1.T1",
+              "stem": "A frog jumps {a} m up, {b} m north, {c} m east, then {a} m down. What is the straight-line distance from start to finish?",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  5
+                ],
+                "b": [
+                  "int",
+                  4,
+                  8
+                ],
+                "c": [
+                  "int",
+                  5,
+                  12
+                ]
+              },
+              "answer": "{Math.sqrt(b*b + c*c)}",
+              "difficulty": 8,
+              "phase": 8
+            }
+          ]
         }
       ]
     },
@@ -4118,14 +4345,14 @@
       "year": 11,
       "skills": [
         {
-          "id": "Y11.A.QUADRATICS_COMPLETE_SQUARE",
+          "id": "A.QUADRATICS_COMPLETE_SQUARE",
           "strand": "Algebra & Sequences",
           "name": "Quadratics Complete Square",
           "description": "Quadratics Complete Square questions for Year 11",
           "templates": [
             {
               "id": "Y11.A.QUADRATICS_COMPLETE_SQUARE.T1",
-              "stem": "Write in completed-square form: x\u252c\u2593 + {b}x + {c}",
+              "stem": "Write in completed-square form: x² + {b}x + {c}",
               "params": {
                 "b": [
                   "int",
@@ -4139,15 +4366,15 @@
                   30
                 ]
               },
-              "answer": "(x + {b/2})\u252c\u2593 + {c - (b/2)**2}",
+              "answer": "(x + {b/2})² + {c - (b/2)**2}",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "x\u252c\u2593 + bx \u0393\u00e5\u00c6 (x + b/2)\u252c\u2593 - (b/2)\u252c\u2593"
+              "hint": "x² + bx → (x + b/2)² - (b/2)²"
             }
           ]
         },
         {
-          "id": "Y11.A.LINEAR_SYSTEMS",
+          "id": "A.LINEAR_SYSTEMS",
           "strand": "Algebra & Sequences",
           "name": "Simultaneous equations",
           "description": "Solve systems of linear equations",
@@ -4244,7 +4471,7 @@
           ]
         },
         {
-          "id": "Y11.M.SURFACE_AREA_PYRAMID",
+          "id": "M.SURFACE_AREA_PYRAMID",
           "strand": "Measurement & Geometry",
           "name": "Surface Area Pyramid",
           "description": "Surface Area Pyramid questions for Year 11",
@@ -4267,19 +4494,19 @@
               "answer": "{s*s + 4*(s*l/2)}",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "Lateral area = (1/2) \u251c\u00f9 perimeter \u251c\u00f9 slant height"
+              "hint": "Lateral area = (1/2) × perimeter × slant height"
             }
           ]
         },
         {
-          "id": "Y11.M.VOLUME_SPHERE",
+          "id": "M.VOLUME_SPHERE",
           "strand": "Measurement & Geometry",
           "name": "Volume Sphere",
           "description": "Volume Sphere questions for Year 11",
           "templates": [
             {
               "id": "Y11.M.VOLUME_SPHERE.T1",
-              "stem": "Find the volume of a sphere with radius {r} cm. Use \u2567\u00c7 \u0393\u00eb\u00ea 3.14 and round to the nearest whole number.",
+              "stem": "Find the volume of a sphere with radius {r} cm. Use π ≈ 3.14 and round to the nearest whole number.",
               "params": {
                 "r": [
                   "int",
@@ -4290,19 +4517,19 @@
               "answer": "{Math.round(4/3 * 3.14 * r**3)}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "V = (4/3)\u2567\u00c7r\u252c\u2502"
+              "hint": "V = (4/3)πr³"
             }
           ]
         },
         {
-          "id": "Y11.T.TRIG_GRAPH",
+          "id": "T.TRIG_GRAPH",
           "strand": "Trigonometry",
           "name": "Trig Graph",
           "description": "Trig Graph questions for Year 11",
           "templates": [
             {
               "id": "Y11.T.TRIG_GRAPH.T1",
-              "stem": "How many solutions does sin(x) = {k} have in the interval 0\u252c\u2591 \u0393\u00eb\u00f1 x < 360\u252c\u2591?",
+              "stem": "How many solutions does sin(x) = {k} have in the interval 0° ≤ x < 360°?",
               "params": {
                 "k": [
                   "decimal",
@@ -4319,7 +4546,7 @@
           ]
         },
         {
-          "id": "Y11.M.MATRIX_ADD",
+          "id": "M.MATRIX_ADD",
           "strand": "Measurement & Geometry",
           "name": "Matrix Add",
           "description": "Matrix Add questions for Year 11",
@@ -4377,7 +4604,7 @@
           ]
         },
         {
-          "id": "Y11.M.MATRIX_MULTIPLY_2X2",
+          "id": "M.MATRIX_MULTIPLY_2X2",
           "strand": "Measurement & Geometry",
           "name": "Matrix Multiply 2x2",
           "description": "Matrix Multiply 2x2 questions for Year 11",
@@ -4430,12 +4657,12 @@
               "answer": "[[{a*e + b*g},{a*f + b*h}],[{c*e + d*g},{c*f + d*h}]]",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "[a b; c d] \u251c\u00f9 [e f; g h] = [ae+bg af+bh; ce+dg cf+dh]"
+              "hint": "[a b; c d] × [e f; g h] = [ae+bg af+bh; ce+dg cf+dh]"
             }
           ]
         },
         {
-          "id": "Y11.A.QUADRATIC_EQS",
+          "id": "A.QUADRATIC_EQS",
           "strand": "Algebra & Sequences",
           "name": "Quadratic Eqs",
           "description": "Quadratic Eqs questions for Year 11",
@@ -4508,7 +4735,7 @@
               ],
               "difficulty": 8,
               "phase": 10.17,
-              "hint": "Use x = [-b \u252c\u2592 \u0393\u00ea\u00dc(b^2 - 4ac)] / 2a."
+              "hint": "Use x = [-b ± √(b^2 - 4ac)] / 2a."
             },
             {
               "id": "Y11.A.QUADRATIC_EQS.T4",
@@ -4565,12 +4792,12 @@
               "answer": "(x + {a/2})^2 = {(a/2)*(a/2) - b}",
               "difficulty": 9,
               "phase": 10.15,
-              "hint": "x = [-b \u252c\u2592 \u0393\u00ea\u00dc(b\u252c\u2593-4ac)] / 2a"
+              "hint": "x = [-b ± √(b²-4ac)] / 2a"
             }
           ]
         },
         {
-          "id": "Y11.A.POLYNOMIALS",
+          "id": "A.POLYNOMIALS",
           "strand": "Algebra & Sequences",
           "name": "Polynomials",
           "description": "Polynomials questions for Year 11",
@@ -4613,7 +4840,7 @@
               ],
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "Even degree positive leading coeff \u0393\u00e5\u00c6 up on both sides"
+              "hint": "Even degree positive leading coeff → up on both sides"
             },
             {
               "id": "Y11.A.POLYNOMIALS.T2",
@@ -4688,7 +4915,7 @@
             },
             {
               "id": "Y11.A.POLYNOMIALS.T3",
-              "stem": "Simplify ({a}x\u252c\u2593 + {b}x + {c}) + ({d}x\u252c\u2593 + {e}x + {f})",
+              "stem": "Simplify ({a}x² + {b}x + {c}) + ({d}x² + {e}x + {f})",
               "params": {
                 "a": [
                   "int",
@@ -4733,19 +4960,19 @@
               ],
               "difficulty": 5,
               "phase": 10.15,
-              "hint": "Even degree positive leading coeff \u0393\u00e5\u00c6 up on both sides"
+              "hint": "Even degree positive leading coeff → up on both sides"
             }
           ]
         },
         {
-          "id": "Y11.G.TRIG_RATIOS",
+          "id": "G.TRIG_RATIOS",
           "strand": "Geometry & Trigonometry",
           "name": "Trig Ratios",
           "description": "Trig Ratios questions for Year 11",
           "templates": [
             {
               "id": "Y11.G.TRIG_RATIOS.T1",
-              "stem": "In a right-angled triangle, opposite side = {opp} cm, adjacent side = {adj} cm. Find tan \u256c\u2555 exactly.",
+              "stem": "In a right-angled triangle, opposite side = {opp} cm, adjacent side = {adj} cm. Find tan θ exactly.",
               "params": {
                 "opp": [
                   "int",
@@ -4761,11 +4988,11 @@
               "answer": "{opp}/{adj}",
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "sin \u256c\u2555 = opp/hyp, cos \u256c\u2555 = adj/hyp, tan \u256c\u2555 = opp/adj"
+              "hint": "sin θ = opp/hyp, cos θ = adj/hyp, tan θ = opp/adj"
             },
             {
               "id": "Y11.G.TRIG_RATIOS.T3",
-              "stem": "A right triangle has hypotenuse {hyp} cm and opposite side {opp} cm. Find sin \u256c\u2555 exactly.",
+              "stem": "A right triangle has hypotenuse {hyp} cm and opposite side {opp} cm. Find sin θ exactly.",
               "params": {
                 "hyp": [
                   "int",
@@ -4781,12 +5008,12 @@
               "answer": "{opp}/{hyp}",
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "sin \u256c\u2555 = opp/hyp, cos \u256c\u2555 = adj/hyp, tan \u256c\u2555 = opp/adj"
+              "hint": "sin θ = opp/hyp, cos θ = adj/hyp, tan θ = opp/adj"
             }
           ]
         },
         {
-          "id": "Y11.G.TRIG_IDENTITIES",
+          "id": "G.TRIG_IDENTITIES",
           "strand": "Geometry & Trigonometry",
           "name": "Trig Identities",
           "description": "Trig Identities questions for Year 11",
@@ -4817,7 +5044,7 @@
               "answer": "{identity.answer}",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "sin\u252c\u2593\u256c\u2555 + cos\u252c\u2593\u256c\u2555 = 1"
+              "hint": "sin²θ + cos²θ = 1"
             },
             {
               "id": "Y11.G.TRIG_IDENTITIES.T2",
@@ -4837,7 +5064,7 @@
           ]
         },
         {
-          "id": "Y11.G.COORDINATE_GEOMETRY",
+          "id": "G.COORDINATE_GEOMETRY",
           "strand": "Geometry & Trigonometry",
           "name": "Coordinate Geometry",
           "description": "Coordinate Geometry questions for Year 11",
@@ -4872,7 +5099,7 @@
               "answer": "{dy}/{dx}",
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "(x-h)\u252c\u2593 + (y-k)\u252c\u2593 = r\u252c\u2593"
+              "hint": "(x-h)² + (y-k)² = r²"
             },
             {
               "id": "Y11.G.COORDINATE_GEOMETRY.T2",
@@ -4904,12 +5131,12 @@
               "answer": "{sqrtExact((dx)**2 + (dy)**2)}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "(x-h)\u252c\u2593 + (y-k)\u252c\u2593 = r\u252c\u2593"
+              "hint": "(x-h)² + (y-k)² = r²"
             }
           ]
         },
         {
-          "id": "Y11.S.DESCRIPTIVE_STATS",
+          "id": "S.DESCRIPTIVE_STATS",
           "strand": "Statistics & Probability",
           "name": "Descriptive Stats",
           "description": "Descriptive Stats questions for Year 11",
@@ -4947,19 +5174,19 @@
               "answer": "{(a+b+c+d+e)/5}",
               "difficulty": 5,
               "phase": 10.15,
-              "hint": "Variance = \u256c\u00fa(x - \u256c\u255d)\u252c\u2593 / n"
+              "hint": "Variance = Σ(x - μ)² / n"
             }
           ]
         },
         {
-          "id": "Y11.C.CALCULUS_DIFF",
+          "id": "C.CALCULUS_DIFF",
           "strand": "Calculus & Coordinates",
           "name": "Calculus Diff",
           "description": "Calculus Diff questions for Year 11",
           "templates": [
             {
               "id": "Y11.C.CALCULUS_DIFF.T1",
-              "stem": "Differentiate f(x) = {a}x\u252c\u2593 + {b}x + {c}",
+              "stem": "Differentiate f(x) = {a}x² + {b}x + {c}",
               "params": {
                 "a": [
                   "int",
@@ -4981,7 +5208,7 @@
               "answer": "{2*a}x + {b}",
               "difficulty": 10,
               "phase": 10.15,
-              "hint": "Power rule: d/dx(x\u0393\u00fc\u2510) = nx^(n-1)"
+              "hint": "Power rule: d/dx(xⁿ) = nx^(n-1)"
             }
           ]
         },
@@ -5059,7 +5286,7 @@
               ],
               "difficulty": 8,
               "phase": 10.17,
-              "hint": "Use x = [-b \u00b1 \u221a(b^2 - 4ac)] / 2a."
+              "hint": "Use x = [-b ± √(b^2 - 4ac)] / 2a."
             },
             {
               "id": "Y11.A.QUADRATIC_EQS.T4",
@@ -5116,7 +5343,7 @@
               "answer": "(x + {a/2})^2 = {(a/2)*(a/2) - b}",
               "difficulty": 9,
               "phase": 10.15,
-              "hint": "x = [-b \u00b1 \u221a(b\u00b2-4ac)] / 2a"
+              "hint": "x = [-b ± √(b²-4ac)] / 2a"
             }
           ]
         },
@@ -5261,7 +5488,7 @@
               ],
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "Even degree positive leading coeff \u2192 up on both sides"
+              "hint": "Even degree positive leading coeff → up on both sides"
             },
             {
               "id": "Y11.A.POLYNOMIALS.T2",
@@ -5336,7 +5563,7 @@
             },
             {
               "id": "Y11.A.POLYNOMIALS.T3",
-              "stem": "Simplify ({a}x\u00b2 + {b}x + {c}) + ({d}x\u00b2 + {e}x + {f})",
+              "stem": "Simplify ({a}x² + {b}x + {c}) + ({d}x² + {e}x + {f})",
               "params": {
                 "a": [
                   "int",
@@ -5381,7 +5608,7 @@
               ],
               "difficulty": 5,
               "phase": 10.15,
-              "hint": "Even degree positive leading coeff \u2192 up on both sides"
+              "hint": "Even degree positive leading coeff → up on both sides"
             }
           ]
         },
@@ -5417,7 +5644,7 @@
               "answer": "{identity.answer}",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "sin\u00b2\u03b8 + cos\u00b2\u03b8 = 1"
+              "hint": "sin²θ + cos²θ = 1"
             },
             {
               "id": "Y11.G.TRIG_IDENTITIES.T2",
@@ -5477,7 +5704,7 @@
           "templates": [
             {
               "id": "Y11.T.TRIG_EXACT.T1",
-              "stem": "Find the exact value of sin({angle}\u00b0).",
+              "stem": "Find the exact value of sin({angle}°).",
               "params": {
                 "angle": [
                   "choice",
@@ -5489,7 +5716,7 @@
               "answer": "{exactSin(angle)}",
               "difficulty": 7,
               "phase": 10.18,
-              "hint": "Recall sin(30\u00b0)=1/2, sin(45\u00b0)=sqrt(2)/2, sin(60\u00b0)=sqrt(3)/2."
+              "hint": "Recall sin(30°)=1/2, sin(45°)=sqrt(2)/2, sin(60°)=sqrt(3)/2."
             }
           ]
         },
@@ -5497,7 +5724,7 @@
           "id": "Y11.M.MATRIX_INVERSE_2X2",
           "strand": "Number & Algebra",
           "name": "Matrix inverse",
-          "description": "Find the inverse of 2*2 matrices",
+          "description": "Find the inverse of 2×2 matrices",
           "templates": [
             {
               "id": "Y11.M.MATRIX_INVERSE_2X2.T1",
@@ -5528,7 +5755,7 @@
               "answer": "{formatInverse2x2(a, b, c, d)}",
               "difficulty": 9,
               "phase": 10.18,
-              "hint": "For [[a,b],[c,d]], inverse = (1/(ad-bc))[[d,-b],[-c,a]]. Ensure ad - bc \u2260 0."
+              "hint": "For [[a,b],[c,d]], inverse = (1/(ad-bc))[[d,-b],[-c,a]]. Ensure ad - bc ≠ 0."
             }
           ]
         },
@@ -5540,7 +5767,7 @@
           "templates": [
             {
               "id": "Y11.S.NORMAL_PERCENT.T1",
-              "stem": "IQ scores are normally distributed with mean 100 and standard deviation 15. What percentage have IQ > {score}? Give your answer to 1 decimal place.",
+              "stem": "IQ scores are normally distributed with mean 100 and standard deviation 15. What percentage have IQ > {score}? Give your answer to the nearest percent.",
               "params": {
                 "score": [
                   "int",
@@ -5549,7 +5776,7 @@
                   5
                 ]
               },
-              "answer": "{round(100 * (1 - normalCdfApprox((score - 100) / 15)), 1)}%",
+              "answer": "{round(100 * (1 - normalCdfApprox((score - 100) / 15)), 0)}%",
               "difficulty": 9,
               "phase": 10.18,
               "hint": "Standardise with z = (score - mean)/SD, then use the normal CDF."
@@ -5667,7 +5894,7 @@
               "answer": "{a*c + b*d}",
               "difficulty": 7,
               "phase": 10.14,
-              "hint": "u \u252c\u2556 v = u\u0393\u00e9\u00fcv\u0393\u00e9\u00fc + u\u0393\u00e9\u00e9v\u0393\u00e9\u00e9 + u\u0393\u00e9\u00e2v\u0393\u00e9\u00e2"
+              "hint": "u · v = u₁v₁ + u₂v₂ + u₃v₃"
             }
           ]
         },
@@ -5702,10 +5929,10 @@
                   12
                 ]
               },
-              "answer": "{Math.round(Math.acos((a*c + b*d)/(Math.sqrt(a*a + b*b)*Math.sqrt(c*c + d*d))) * 180 / Math.PI)}\u00b0",
+              "answer": "{Math.round(Math.acos((a*c + b*d)/(Math.sqrt(a*a + b*b)*Math.sqrt(c*c + d*d))) * 180 / Math.PI)}°",
               "difficulty": 9,
               "phase": 10.14,
-              "hint": "cos \u03b8 = (u \u00b7 v) / (|u||v|)"
+              "hint": "cos θ = (u · v) / (|u||v|)"
             }
           ]
         },
@@ -5755,7 +5982,7 @@
           "templates": [
             {
               "id": "Y12.G.VECTOR_OPS.T3",
-              "stem": "Calculate the dot product <{a},{b}> \u252c\u2556 <{c},{d}>",
+              "stem": "Calculate the dot product <{a},{b}> · <{c},{d}>",
               "params": {
                 "a": [
                   "int",
@@ -5785,7 +6012,7 @@
               "answer": "{a*c + b*d}",
               "difficulty": 8,
               "phase": 10.14,
-              "hint": "u + v = <u\u0393\u00e9\u00fc + v\u0393\u00e9\u00fc, u\u0393\u00e9\u00e9 + v\u0393\u00e9\u00e9>"
+              "hint": "u + v = <u₁ + v₁, u₂ + v₂>"
             }
           ]
         },
@@ -5797,7 +6024,7 @@
           "templates": [
             {
               "id": "Y12.ALG.RECURSION.T1",
-              "stem": "A sequence is defined by T(1) = {t1}, T(n) = {a}\u252c\u2556T(n-1) + {b} for n \u0393\u00eb\u00d1 2. Find T({n}).",
+              "stem": "A sequence is defined by T(1) = {t1}, T(n) = {a}·T(n-1) + {b} for n ≥ 2. Find T({n}).",
               "params": {
                 "t1": [
                   "int",
@@ -5823,7 +6050,7 @@
               "answer": "{a == 1 ? t1 + b*(n-1) : t1 * a**(n-1) + b*(a**(n-1) - 1)/(a - 1)}",
               "difficulty": 9,
               "phase": 10.14,
-              "hint": "a\u0393\u00e9\u00fc = initial value"
+              "hint": "a₁ = initial value"
             }
           ]
         },
@@ -5858,7 +6085,7 @@
               "answer": "{base_num == 0 ? 'ln(' + (a*b) + ')' : 'log(' + (a*b) + ')'}",
               "difficulty": 7,
               "phase": 10.14,
-              "hint": "log\u0393\u00e9\u00e5 (xy) = log\u0393\u00e9\u00e5 x + log\u0393\u00e9\u00e5 y"
+              "hint": "log₆ (xy) = log₆ x + log₆ y"
             }
           ]
         },
@@ -5870,7 +6097,7 @@
           "templates": [
             {
               "id": "Y12.C.CALCULUS_APPLICATIONS.T2",
-              "stem": "A particle moves according to s(t) = {a}t^2 + {b}t + {c}. Find its velocity at t = {t}.",
+              "stem": "A particle moves according to s(t) = {a}t² + {b}t + {c}. Find its velocity at t = {t}.",
               "params": {
                 "a": [
                   "int",
@@ -5911,7 +6138,7 @@
           "templates": [
             {
               "id": "Y12.A.MATRIX_OPS.T1",
-              "stem": "Multiply matrices [[{a},{b}],[{c},{d}]] * [[{e},{f}],[{g},{h}]]",
+              "stem": "Multiply matrices [[{a},{b}],[{c},{d}]] × [[{e},{f}],[{g},{h}]]",
               "params": {
                 "a": [
                   "int",
@@ -5977,7 +6204,7 @@
                     "h"
                   ]
                 ],
-                "op": "*",
+                "op": "×",
                 "width": 400,
                 "height": 260
               },
@@ -6157,7 +6384,7 @@
           "templates": [
             {
               "id": "Y12.C.CALCULUS_INTEGRAL.T1",
-              "stem": "Integrate \u222b({a}x^2 + {b}x + {c}) dx",
+              "stem": "Integrate ∫({a}x^2 + {b}x + {c}) dx",
               "params": {
                 "a": [
                   "int",
@@ -6180,7 +6407,7 @@
             },
             {
               "id": "Y12.C.CALCULUS_INTEGRAL.T2",
-              "stem": "Evaluate \u222b from {lower} to {upper} of {a}x dx",
+              "stem": "Evaluate ∫ from {lower} to {upper} of {a}x dx",
               "params": {
                 "a": [
                   "int",
@@ -6203,7 +6430,7 @@
             },
             {
               "id": "Y12.C.CALCULUS_INTEGRAL.T3",
-              "stem": "Find \u222b{a}x^{n} dx",
+              "stem": "Find ∫{a}x^{n} dx",
               "params": {
                 "a": [
                   "int",
@@ -6360,7 +6587,7 @@
             },
             {
               "id": "Y12.G.VECTOR_OPS.T3",
-              "stem": "Find dot product of <{a},{b}> \u00b7 <{c},{d}>",
+              "stem": "Find dot product of <{a},{b}> · <{c},{d}>",
               "params": {
                 "a": [
                   "int",
@@ -6388,7 +6615,7 @@
             },
             {
               "id": "Y12.G.VECTOR_OPS.T4",
-              "stem": "Find {k} * <{a},{b}>",
+              "stem": "Find {k} × <{a},{b}>",
               "params": {
                 "k": [
                   "int",
@@ -6621,7 +6848,7 @@
               "answer": "{a} - {b}i",
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "i\u252c\u2593 = -1"
+              "hint": "i² = -1"
             }
           ]
         },
@@ -6689,7 +6916,7 @@
           "templates": [
             {
               "id": "Y13.C.CALCULUS_INTEGRAL.T2",
-              "stem": "Integrate \u222be^({a}x) dx",
+              "stem": "Integrate ∫e^({a}x) dx",
               "params": {
                 "a": [
                   "int",
@@ -6702,7 +6929,7 @@
             },
             {
               "id": "Y13.C.CALCULUS_INTEGRAL.T4",
-              "stem": "Integrate \u222bsin({a}x) dx",
+              "stem": "Integrate ∫sin({a}x) dx",
               "params": {
                 "a": [
                   "int",
@@ -6715,7 +6942,7 @@
             },
             {
               "id": "Y13.C.CALCULUS_INTEGRAL.T5",
-              "stem": "Evaluate \u222b from 0 to {b} of {a}x dx",
+              "stem": "Evaluate ∫ from 0 to {b} of {a}x dx",
               "params": {
                 "a": [
                   "int",
@@ -6874,7 +7101,7 @@
             },
             {
               "id": "Y13.A.COMPLEX_NUMBERS.T2",
-              "stem": "({a} + {b}i) * ({c} + {d}i)",
+              "stem": "({a} + {b}i) × ({c} + {d}i)",
               "params": {
                 "a": [
                   "int",
@@ -7072,7 +7299,7 @@
             },
             {
               "id": "Y13.A.SEQUENCES_SERIES.T5",
-              "stem": "Find the {n}th term of arithmetic sequence: a\u2081={a}, d={d}",
+              "stem": "Find the {n}th term of arithmetic sequence: a₁={a}, d={d}",
               "params": {
                 "a": [
                   "int",
@@ -7129,7 +7356,7 @@
           "templates": [
             {
               "id": "Y13.L.LOGARITHMS.T1",
-              "stem": "Solve log\u2082(x) = {n}",
+              "stem": "Solve log₂(x) = {n}",
               "params": {
                 "n": [
                   "int",
@@ -7331,6 +7558,617 @@
               "answer": "{'(' + (x1+x2)/2 + ', ' + (y1+y2)/2 + ')'}",
               "difficulty": 6,
               "phase": 10.7
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.NT.DIVISIBILITY_SQUARE_POWER",
+          "strand": "Olympiad Number Theory",
+          "name": "Olympiad / Number Theory / When is n^n a perfect square?",
+          "description": "Olympiad / Number Theory / When is n^n a perfect square?",
+          "templates": [
+            {
+              "id": "OLYMP.NT.DIVISIBILITY_SQUARE_POWER.T1",
+              "stem": "For how many positive integers n between 1 and {limit} inclusive is n^n a perfect square?",
+              "params": {
+                "limit": [
+                  "int",
+                  500,
+                  2000,
+                  100
+                ]
+              },
+              "answer": "{Math.floor(limit / 2) + Math.floor(Math.sqrt(limit)) - Math.floor(Math.sqrt(limit) / 2)}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.NT.LCM_HCF_PRODUCT",
+          "strand": "Olympiad Number Theory",
+          "name": "Olympiad / Number Theory / HCF and LCM relation",
+          "description": "Olympiad / Number Theory / HCF and LCM relation",
+          "templates": [
+            {
+              "id": "OLYMP.NT.LCM_HCF_PRODUCT.T1",
+              "stem": "The LCM of two positive integers is {lcm} and their HCF is {hcf}. If one of the numbers is {a}, what is the other number?",
+              "params": {
+                "hcf": [
+                  "int",
+                  12,
+                  48,
+                  6
+                ],
+                "f1": [
+                  "int",
+                  3,
+                  10
+                ],
+                "f2": [
+                  "int",
+                  5,
+                  15
+                ],
+                "a": "{hcf * f1}",
+                "lcm": "{hcf * f1 * f2}"
+              },
+              "answer": "{hcf * f2}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.NT.MODULAR_BINOMIAL",
+          "strand": "Olympiad Number Theory",
+          "name": "Olympiad / Number Theory / (d-1)^n + (d+1)^n modulo d^2",
+          "description": "Olympiad / Number Theory / (d-1)^n + (d+1)^n modulo d^2",
+          "templates": [
+            {
+              "id": "OLYMP.NT.MODULAR_BINOMIAL.T1",
+              "stem": "Let a_n = ({base}-1)^n + ({base}+1)^n. Find a_{exp} modulo {mod}.",
+              "params": {
+                "base": [
+                  "choice",
+                  7,
+                  10,
+                  13
+                ],
+                "mod": "{base * base}",
+                "exp": [
+                  "int",
+                  50,
+                  150
+                ]
+              },
+              "answer": "{(powMod(base - 1, exp, mod) + powMod(base + 1, exp, mod)) % mod}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.NT.BASE_CONVERSION",
+          "strand": "Olympiad Number Theory",
+          "name": "Olympiad / Number Theory / Reverse base conversion",
+          "description": "Olympiad / Number Theory / Reverse base conversion",
+          "templates": [
+            {
+              "id": "OLYMP.NT.BASE_CONVERSION.T1",
+              "stem": "The number {value} in base 10 is written as '{digits}' in base b (where each digit is less than b). Find b.",
+              "params": {
+                "b": [
+                  "int",
+                  11,
+                  20
+                ],
+                "d2": [
+                  "int",
+                  1,
+                  "{b-1}"
+                ],
+                "d1": [
+                  "int",
+                  0,
+                  "{b-1}"
+                ],
+                "d0": [
+                  "int",
+                  1,
+                  "{b-1}"
+                ],
+                "digits": "{d2}{d1}{d0}",
+                "value": "{d2*b*b + d1*b + d0}"
+              },
+              "answer": "{b}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.NT.SUM_DIVISORS",
+          "strand": "Olympiad Number Theory",
+          "name": "Olympiad / Number Theory / Sum of divisors function",
+          "description": "Olympiad / Number Theory / Sum of divisors function",
+          "templates": [
+            {
+              "id": "OLYMP.NT.SUM_DIVISORS.T1",
+              "stem": "Find the sum of all positive divisors of {n}.",
+              "params": {
+                "n": [
+                  "int",
+                  1000,
+                  100000,
+                  1000
+                ]
+              },
+              "answer": "{sumOfDivisors(n)}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.ALG.DIOPHANTINE_COUNT",
+          "strand": "Olympiad Algebra",
+          "name": "Olympiad / Algebra / Positive solutions to linear Diophantine equations",
+          "description": "Olympiad / Algebra / Positive solutions to linear Diophantine equations",
+          "templates": [
+            {
+              "id": "OLYMP.ALG.DIOPHANTINE_COUNT.T1",
+              "stem": "How many ordered pairs of positive integers (x, y) satisfy {a}x + {b}y = {target}?",
+              "params": {
+                "a": [
+                  "int",
+                  3,
+                  15
+                ],
+                "b": [
+                  "int",
+                  4,
+                  16
+                ],
+                "target": [
+                  "int",
+                  200,
+                  1000,
+                  50
+                ]
+              },
+              "answer": "{countPositiveDiophantine(a, b, target)}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.ALG.TAN_RECURRENCE",
+          "strand": "Olympiad Algebra",
+          "name": "Olympiad / Algebra / Tangent recurrence (AIME 2001)",
+          "description": "Olympiad / Algebra / Tangent recurrence (AIME 2001)",
+          "templates": [
+            {
+              "id": "OLYMP.ALG.TAN_RECURRENCE.T1",
+              "stem": "The sequence is defined by x_0 = {num}/{den} and x_{n+1} = ({den}x_n + {num}) / ({den} - {num}x_n). Find x_{term}.",
+              "params": {
+                "den": [
+                  "int",
+                  5,
+                  12
+                ],
+                "num": [
+                  "int",
+                  1,
+                  "{den-1}"
+                ],
+                "term": [
+                  "int",
+                  100,
+                  500,
+                  50
+                ]
+              },
+              "answer": "{tanRecurrenceValue(den, num, term)}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.ALG.SCALING_FUNCTION",
+          "strand": "Olympiad Algebra",
+          "name": "Olympiad / Algebra / Homogeneous functional equation",
+          "description": "Olympiad / Algebra / Homogeneous functional equation",
+          "templates": [
+            {
+              "id": "OLYMP.ALG.SCALING_FUNCTION.T1",
+              "stem": "A function satisfies f({k}x) = {k}f(x) for all x > 0 and f(x) = 1 - |x-2| for 1 <= x <= 3. Find f({target}).",
+              "params": {
+                "k": [
+                  "choice",
+                  3,
+                  4,
+                  5
+                ],
+                "target": [
+                  "int",
+                  500,
+                  5000,
+                  100
+                ]
+              },
+              "answer": "{scalingFunctionValue(k, target)}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.ALG.PRIME_ROOTS_QUADRATIC",
+          "strand": "Olympiad Algebra",
+          "name": "Olympiad / Algebra / Quadratic with two prime roots",
+          "description": "Olympiad / Algebra / Quadratic with two prime roots",
+          "templates": [
+            {
+              "id": "OLYMP.ALG.PRIME_ROOTS_QUADRATIC.T1",
+              "stem": "The roots of x^2 - {sum}x + k = 0 are both prime numbers. Find the value of k.",
+              "params": {
+                "p2": [
+                  "prime",
+                  50,
+                  200
+                ],
+                "sum": "{2 + p2}"
+              },
+              "answer": "{2 * p2}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.ALG.FUNCTIONAL_INVERSE",
+          "strand": "Olympiad Algebra",
+          "name": "Olympiad / Algebra / Functional equation with f(1/x)",
+          "description": "Olympiad / Algebra / Functional equation with f(1/x)",
+          "templates": [
+            {
+              "id": "OLYMP.ALG.FUNCTIONAL_INVERSE.T1",
+              "stem": "f(x) + {c}f(1/x) = {d}x for all x != 0. Find f({val}).",
+              "params": {
+                "c": [
+                  "int",
+                  2,
+                  6
+                ],
+                "d": [
+                  "int",
+                  2,
+                  8
+                ],
+                "val": [
+                  "int",
+                  2,
+                  10
+                ]
+              },
+              "answer": "{solveInverseFunctional(c, d, val)}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.ALG.TELESCOPING_HARMONIC",
+          "strand": "Olympiad Algebra",
+          "name": "Olympiad / Algebra / Telescoping partial fractions",
+          "description": "Olympiad / Algebra / Telescoping partial fractions",
+          "templates": [
+            {
+              "id": "OLYMP.ALG.TELESCOPING_HARMONIC.T1",
+              "stem": "Find the exact value of 1/(1*2) + 1/(2*3) + ... + 1/({n}*({n}+1)).",
+              "params": {
+                "n": [
+                  "int",
+                  100,
+                  1000,
+                  50
+                ]
+              },
+              "answer": "{n / (n + 1)}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.ALG.POLY_REMAINDER_LINEAR",
+          "strand": "Olympiad Algebra",
+          "name": "Olympiad / Algebra / Polynomial remainder theorem",
+          "description": "Olympiad / Algebra / Polynomial remainder theorem",
+          "templates": [
+            {
+              "id": "OLYMP.ALG.POLY_REMAINDER_LINEAR.T1",
+              "stem": "When P(x) is divided by (x - {a}) the remainder is {ra}, and by (x - {b}) the remainder is {rb}. When divided by (x - {a})(x - {b}) the remainder is cx + d. Find c + d.",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  6,
+                  10
+                ],
+                "ra": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "rb": [
+                  "int",
+                  -20,
+                  20
+                ]
+              },
+              "answer": "{polyLinearRemainderSum(a, b, ra, rb)}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.GEOM.CUBE_ANT",
+          "strand": "Olympiad Geometry",
+          "name": "Olympiad / Geometry / Shortest path on a cube",
+          "description": "Olympiad / Geometry / Shortest path on a cube",
+          "templates": [
+            {
+              "id": "OLYMP.GEOM.CUBE_ANT.T1",
+              "stem": "An ant moves along the surface of a cube with side length {s} from one vertex to the opposite vertex. What is the shortest possible distance?",
+              "params": {
+                "s": [
+                  "int",
+                  2,
+                  20
+                ]
+              },
+              "answer": "{Math.sqrt(5) * s}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.GEOM.INRADIUS_RIGHT_TRIANGLE",
+          "strand": "Olympiad Geometry",
+          "name": "Olympiad / Geometry / Inradius of primitive Pythagorean triples",
+          "description": "Olympiad / Geometry / Inradius of primitive Pythagorean triples",
+          "templates": [
+            {
+              "id": "OLYMP.GEOM.INRADIUS_RIGHT_TRIANGLE.T1",
+              "stem": "A right triangle has legs {a} and {b} and hypotenuse {c}. Find the radius of its inscribed circle.",
+              "params": {
+                "m": [
+                  "int",
+                  3,
+                  10
+                ],
+                "n": [
+                  "int",
+                  1,
+                  "{m-1}"
+                ],
+                "a": "{m*m - n*n}",
+                "b": "{2*m*n}",
+                "c": "{m*m + n*n}"
+              },
+              "answer": "{(a + b - c) / 2}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.GEOM.COORDINATE_AREA",
+          "strand": "Olympiad Geometry",
+          "name": "Olympiad / Geometry / Shoelace area",
+          "description": "Olympiad / Geometry / Shoelace area",
+          "templates": [
+            {
+              "id": "OLYMP.GEOM.COORDINATE_AREA.T1",
+              "stem": "Find the area of the triangle with vertices ({x1},{y1}), ({x2},{y2}), ({x3},{y3}).",
+              "params": {
+                "x1": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "y1": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "x2": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "y2": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "x3": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "y3": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "{Math.abs(x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2)) / 2}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.PROB.BUG_TRIANGLE",
+          "strand": "Olympiad Probability",
+          "name": "Olympiad / Probability / Random walk on a triangle",
+          "description": "Olympiad / Probability / Random walk on a triangle",
+          "templates": [
+            {
+              "id": "OLYMP.PROB.BUG_TRIANGLE.T1",
+              "stem": "A bug starts at a vertex of a triangle and at each step moves to one of the two adjacent vertices with equal probability. After {steps} moves, what is the probability it is back at the start?",
+              "params": {
+                "steps": [
+                  "int",
+                  10,
+                  30,
+                  2
+                ]
+              },
+              "answer": "{triangleRandomWalkProbability(steps)}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.PROB.EXPECTED_WOMEN",
+          "strand": "Olympiad Probability",
+          "name": "Olympiad / Probability / Linearity of expectation",
+          "description": "Olympiad / Probability / Linearity of expectation",
+          "templates": [
+            {
+              "id": "OLYMP.PROB.EXPECTED_WOMEN.T1",
+              "stem": "A committee of {size} people is chosen at random from {men} men and {women} women. What is the expected number of women on the committee?",
+              "params": {
+                "men": [
+                  "int",
+                  5,
+                  15
+                ],
+                "women": [
+                  "int",
+                  8,
+                  20
+                ],
+                "size": [
+                  "int",
+                  4,
+                  10
+                ]
+              },
+              "answer": "{size * women / (men + women)}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.COMB.DERANGEMENT",
+          "strand": "Olympiad Combinatorics",
+          "name": "Olympiad / Combinatorics / No fixed points",
+          "description": "Olympiad / Combinatorics / No fixed points",
+          "templates": [
+            {
+              "id": "OLYMP.COMB.DERANGEMENT.T1",
+              "stem": "In how many ways can {n} distinct letters be placed into {n} envelopes so that no letter goes into its correct envelope?",
+              "params": {
+                "n": [
+                  "int",
+                  7,
+                  12
+                ]
+              },
+              "answer": "{derangement(n)}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.COMB.STARS_BARS",
+          "strand": "Olympiad Combinatorics",
+          "name": "Olympiad / Combinatorics / Non-negative integer solutions",
+          "description": "Olympiad / Combinatorics / Non-negative integer solutions",
+          "templates": [
+            {
+              "id": "OLYMP.COMB.STARS_BARS.T1",
+              "stem": "Find the number of non-negative integer solutions to x_1 + x_2 + ... + x_{k} = {n}.",
+              "params": {
+                "n": [
+                  "int",
+                  20,
+                  100,
+                  10
+                ],
+                "k": [
+                  "int",
+                  3,
+                  8
+                ]
+              },
+              "answer": "{binomial_coeff(n + k - 1, k - 1)}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "OLYMP.COMB.PIGEONHOLE_SUM",
+          "strand": "Olympiad Combinatorics",
+          "name": "Olympiad / Combinatorics / Pigeonhole principle",
+          "description": "Olympiad / Combinatorics / Pigeonhole principle",
+          "templates": [
+            {
+              "id": "OLYMP.COMB.PIGEONHOLE_SUM.T1",
+              "stem": "What is the smallest number of integers that must be chosen from 1..{m} to guarantee that at least two sum to {m}+1?",
+              "params": {
+                "m": [
+                  "int",
+                  10,
+                  30,
+                  2
+                ]
+              },
+              "answer": "{Math.floor(m / 2) + 1}",
+              "difficulty": 13,
+              "phase": 13
+            }
+          ]
+        },
+        {
+          "id": "Y10.UKMT.PERM_ORDER.T1",
+          "strand": "Olympiad Mixed",
+          "name": "Year 9-10 / Competition / Permutations with order restriction",
+          "description": "Year 9-10 / Competition / Permutations with order restriction",
+          "templates": [
+            {
+              "id": "Y10.UKMT.PERM_ORDER.T1.T1",
+              "stem": "How many ways are there to arrange the letters of the word {word} such that {let1} appears before {let2} in the arrangement?",
+              "params": {
+                "word": [
+                  "choice",
+                  "ABCDE",
+                  "MATHS",
+                  "OLYMP"
+                ],
+                "let1": "{word[0]}",
+                "let2": "{word[word.length - 1]}"
+              },
+              "answer": "{factorial(word.length) / 2}",
+              "difficulty": 9,
+              "phase": 9
             }
           ]
         }

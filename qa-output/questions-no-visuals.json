@@ -1,0 +1,345 @@
+{
+  "generatedAt": "2025-12-04T17:58:11.289Z",
+  "totalQuestions": 24,
+  "templatesUsed": 12,
+  "questionsPerTemplate": 2,
+  "filterApplied": {
+    "year": 6,
+    "strand": null,
+    "skillId": null
+  },
+  "questions": [
+    {
+      "topic": "Rotational symmetry",
+      "templateId": "Y6.G.ROTATIONAL_SYMMETRY.T1",
+      "year": 6,
+      "strand": "Geometry & Measurement",
+      "skillId": "Y6.G.ROTATIONAL_SYMMETRY",
+      "question": "What is the order of rotational symmetry of a regular 6-sided polygon?",
+      "answer": "6",
+      "formattedAnswer": "6",
+      "params": {
+        "sides": 6
+      }
+    },
+    {
+      "topic": "Rotational symmetry",
+      "templateId": "Y6.G.ROTATIONAL_SYMMETRY.T1",
+      "year": 6,
+      "strand": "Geometry & Measurement",
+      "skillId": "Y6.G.ROTATIONAL_SYMMETRY",
+      "question": "What is the order of rotational symmetry of a regular 10-sided polygon?",
+      "answer": "10",
+      "formattedAnswer": "10",
+      "params": {
+        "sides": 10
+      }
+    },
+    {
+      "topic": "Rotational symmetry",
+      "templateId": "Y6.G.ROTATIONAL_SYMMETRY.T2",
+      "year": 6,
+      "strand": "Geometry & Measurement",
+      "skillId": "Y6.G.ROTATIONAL_SYMMETRY",
+      "question": "What is the order of rotational symmetry of a regular hexagon?",
+      "answer": "6",
+      "formattedAnswer": "6",
+      "params": {
+        "shape": [
+          "hexagon",
+          6
+        ]
+      }
+    },
+    {
+      "topic": "Rotational symmetry",
+      "templateId": "Y6.G.ROTATIONAL_SYMMETRY.T2",
+      "year": 6,
+      "strand": "Geometry & Measurement",
+      "skillId": "Y6.G.ROTATIONAL_SYMMETRY",
+      "question": "What is the order of rotational symmetry of a regular regular heptagon?",
+      "answer": "7",
+      "formattedAnswer": "7",
+      "params": {
+        "shape": [
+          "regular heptagon",
+          7
+        ]
+      }
+    },
+    {
+      "topic": "Probability with replacement",
+      "templateId": "Y6.S.PROBABILITY_REPLACEMENT.T1",
+      "year": 6,
+      "strand": "Statistics & Probability",
+      "skillId": "Y6.S.PROBABILITY_REPLACEMENT",
+      "question": "A bag has 6 red and 6 blue marbles. You pick one, put it back, then pick another. What is P(red, then red)?",
+      "answer": "0",
+      "formattedAnswer": "1/4 ≈ 0.25",
+      "params": {
+        "r": 6,
+        "b": 6
+      }
+    },
+    {
+      "topic": "Probability with replacement",
+      "templateId": "Y6.S.PROBABILITY_REPLACEMENT.T1",
+      "year": 6,
+      "strand": "Statistics & Probability",
+      "skillId": "Y6.S.PROBABILITY_REPLACEMENT",
+      "question": "A bag has 5 red and 6 blue marbles. You pick one, put it back, then pick another. What is P(red, then red)?",
+      "answer": "0",
+      "formattedAnswer": "25/121 ≈ 0.206612",
+      "params": {
+        "r": 5,
+        "b": 6
+      }
+    },
+    {
+      "topic": "Probability with replacement",
+      "templateId": "Y6.S.PROBABILITY_REPLACEMENT.T2",
+      "year": 6,
+      "strand": "Statistics & Probability",
+      "skillId": "Y6.S.PROBABILITY_REPLACEMENT",
+      "question": "A spinner has 3 red sectors and 5 green sectors. You spin twice. What is the probability of getting red both times?",
+      "answer": "0",
+      "formattedAnswer": "9/64 ≈ 0.140625",
+      "params": {
+        "red": 3,
+        "green": 5
+      }
+    },
+    {
+      "topic": "Probability with replacement",
+      "templateId": "Y6.S.PROBABILITY_REPLACEMENT.T2",
+      "year": 6,
+      "strand": "Statistics & Probability",
+      "skillId": "Y6.S.PROBABILITY_REPLACEMENT",
+      "question": "A spinner has 3 red sectors and 5 green sectors. You spin twice. What is the probability of getting red both times?",
+      "answer": "0",
+      "formattedAnswer": "9/64 ≈ 0.140625",
+      "params": {
+        "red": 3,
+        "green": 5
+      }
+    },
+    {
+      "topic": "Venn Diagrams",
+      "templateId": "Y6.S.VENN_DIAGRAMS.T2",
+      "year": 6,
+      "strand": "Statistics & Probability",
+      "skillId": "Y6.S.VENN_DIAGRAMS",
+      "question": "In a class of 28 students, 15 like apples, 17 like bananas and 10 like both. How many students like neither fruit?",
+      "answer": "6",
+      "formattedAnswer": "6",
+      "params": {
+        "both": 10
+      }
+    },
+    {
+      "topic": "Venn Diagrams",
+      "templateId": "Y6.S.VENN_DIAGRAMS.T2",
+      "year": 6,
+      "strand": "Statistics & Probability",
+      "skillId": "Y6.S.VENN_DIAGRAMS",
+      "question": "In a class of 28 students, 15 like apples, 17 like bananas and 10 like both. How many students like neither fruit?",
+      "answer": "6",
+      "formattedAnswer": "6",
+      "params": {
+        "both": 10
+      }
+    },
+    {
+      "topic": "Time, schedules and elapsed time",
+      "templateId": "Y6.M.TIME.T2",
+      "year": 6,
+      "strand": "Geometry & Measurement",
+      "skillId": "Y6.M.TIME",
+      "question": "How many seconds are in 20 minutes?",
+      "answer": "1200",
+      "formattedAnswer": "1200",
+      "params": {
+        "minutes": 20
+      }
+    },
+    {
+      "topic": "Time, schedules and elapsed time",
+      "templateId": "Y6.M.TIME.T2",
+      "year": 6,
+      "strand": "Geometry & Measurement",
+      "skillId": "Y6.M.TIME",
+      "question": "How many seconds are in 2 minutes?",
+      "answer": "120",
+      "formattedAnswer": "120",
+      "params": {
+        "minutes": 2
+      }
+    },
+    {
+      "topic": "Time, schedules and elapsed time",
+      "templateId": "Y6.M.TIME.T3",
+      "year": 6,
+      "strand": "Geometry & Measurement",
+      "skillId": "Y6.M.TIME",
+      "question": "Convert 3 hours to minutes.",
+      "answer": "180",
+      "formattedAnswer": "180",
+      "params": {
+        "hours": 3
+      }
+    },
+    {
+      "topic": "Time, schedules and elapsed time",
+      "templateId": "Y6.M.TIME.T3",
+      "year": 6,
+      "strand": "Geometry & Measurement",
+      "skillId": "Y6.M.TIME",
+      "question": "Convert 3 hours to minutes.",
+      "answer": "180",
+      "formattedAnswer": "180",
+      "params": {
+        "hours": 3
+      }
+    },
+    {
+      "topic": "Measurement units and conversions",
+      "templateId": "Y6.M.MEASUREMENT.T2",
+      "year": 6,
+      "strand": "Measurement",
+      "skillId": "Y6.M.MEASUREMENT",
+      "question": "A rope is 27 m long. It is cut into pieces of 68 cm each. How many full pieces can be cut?",
+      "answer": "39",
+      "formattedAnswer": "39",
+      "params": {
+        "length": 27,
+        "piece": 68
+      }
+    },
+    {
+      "topic": "Measurement units and conversions",
+      "templateId": "Y6.M.MEASUREMENT.T2",
+      "year": 6,
+      "strand": "Measurement",
+      "skillId": "Y6.M.MEASUREMENT",
+      "question": "A rope is 28 m long. It is cut into pieces of 81 cm each. How many full pieces can be cut?",
+      "answer": "34",
+      "formattedAnswer": "34",
+      "params": {
+        "length": 28,
+        "piece": 81
+      }
+    },
+    {
+      "topic": "Measurement units and conversions",
+      "templateId": "Y6.M.MEASUREMENT.T3",
+      "year": 6,
+      "strand": "Measurement",
+      "skillId": "Y6.M.MEASUREMENT",
+      "question": "Convert 29.26 kilometres to metres.",
+      "answer": "29260",
+      "formattedAnswer": "29260",
+      "params": {
+        "km": 29.26
+      }
+    },
+    {
+      "topic": "Measurement units and conversions",
+      "templateId": "Y6.M.MEASUREMENT.T3",
+      "year": 6,
+      "strand": "Measurement",
+      "skillId": "Y6.M.MEASUREMENT",
+      "question": "Convert 16.07 kilometres to metres.",
+      "answer": "16070",
+      "formattedAnswer": "16070",
+      "params": {
+        "km": 16.07
+      }
+    },
+    {
+      "topic": "Measurement units and conversions",
+      "templateId": "Y6.M.MEASUREMENT.T4",
+      "year": 6,
+      "strand": "Measurement",
+      "skillId": "Y6.M.MEASUREMENT",
+      "question": "The temperature was -9°C and increased by 5°C. What is the new temperature?",
+      "answer": "-4",
+      "formattedAnswer": "-4",
+      "params": {
+        "temp1": -9,
+        "rise": 5
+      }
+    },
+    {
+      "topic": "Measurement units and conversions",
+      "templateId": "Y6.M.MEASUREMENT.T4",
+      "year": 6,
+      "strand": "Measurement",
+      "skillId": "Y6.M.MEASUREMENT",
+      "question": "The temperature was -3°C and increased by 5°C. What is the new temperature?",
+      "answer": "2",
+      "formattedAnswer": "2",
+      "params": {
+        "temp1": -3,
+        "rise": 5
+      }
+    },
+    {
+      "topic": "Measurement units and conversions",
+      "templateId": "Y6.M.MEASUREMENT.T5",
+      "year": 6,
+      "strand": "Measurement",
+      "skillId": "Y6.M.MEASUREMENT",
+      "question": "Convert 1541 grams to kilograms.",
+      "answer": "1.54",
+      "formattedAnswer": "1.54",
+      "params": {
+        "g": 1541
+      }
+    },
+    {
+      "topic": "Measurement units and conversions",
+      "templateId": "Y6.M.MEASUREMENT.T5",
+      "year": 6,
+      "strand": "Measurement",
+      "skillId": "Y6.M.MEASUREMENT",
+      "question": "Convert 2205 grams to kilograms.",
+      "answer": "2.21",
+      "formattedAnswer": "2.21",
+      "params": {
+        "g": 2205
+      }
+    },
+    {
+      "topic": "Composite shapes",
+      "templateId": "Y6.G.COMPOSITE_SHAPES.T2",
+      "year": 6,
+      "strand": "Geometry & Measurement",
+      "skillId": "Y6.G.COMPOSITE_SHAPES",
+      "question": "Find the perimeter of an L-shaped figure made from a 14×9 rectangle with a 4×5 rectangle cut out from one corner.",
+      "answer": "64",
+      "formattedAnswer": "64",
+      "params": {
+        "a": 14,
+        "b": 9,
+        "c": 4,
+        "d": 5
+      }
+    },
+    {
+      "topic": "Composite shapes",
+      "templateId": "Y6.G.COMPOSITE_SHAPES.T2",
+      "year": 6,
+      "strand": "Geometry & Measurement",
+      "skillId": "Y6.G.COMPOSITE_SHAPES",
+      "question": "Find the perimeter of an L-shaped figure made from a 13×11 rectangle with a 4×5 rectangle cut out from one corner.",
+      "answer": "66",
+      "formattedAnswer": "66",
+      "params": {
+        "a": 13,
+        "b": 11,
+        "c": 4,
+        "d": 5
+      }
+    }
+  ]
+}

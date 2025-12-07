@@ -1,8 +1,15 @@
 import base from './curriculumDataFull.json'
-import newData from './curriculumDataNew.json'
+// Year 6-9: Still in combined file (smaller volume)
+import newDataY6to9 from './curriculumDataNew.json'
+// Year 10-13: Split into separate files (easier to work on)
+import newDataY10 from './curriculumDataNew_Y10.json'
+import newDataY11 from './curriculumDataNew_Y11.json'
+import newDataY12 from './curriculumDataNew_Y12.json'
+import newDataY13 from './curriculumDataNew_Y13.json'
 import year11Data from './year11Curriculum.json'
 import year12Data from './year12Curriculum.json'
 import year13Data from './year13Curriculum.json'
+import algoCurriculum from './algoCurriculum.json'
 
 // Deep clone base to avoid mutating imported object
 const merged = JSON.parse(JSON.stringify(base))
@@ -56,10 +63,22 @@ function applyNewData(source) {
 }
 
 function merge() {
-  applyNewData(newData)
+  // Apply new curriculum data for Years 6-9 (combined file)
+  applyNewData(newDataY6to9)
+
+  // Apply new curriculum data split by year for Years 10-13
+  applyNewData(newDataY10)
+  applyNewData(newDataY11)
+  applyNewData(newDataY12)
+  applyNewData(newDataY13)
+
+  // Apply legacy year-specific curriculum files
   applyNewData(year11Data)
   applyNewData(year12Data)
   applyNewData(year13Data)
+
+  // Apply algorithm curriculum (phase 10.22 - extra/supplementary content)
+  applyNewData(algoCurriculum)
 
   // Sort years in ascending order
   merged.years.sort((a, b) => a.year - b.year)

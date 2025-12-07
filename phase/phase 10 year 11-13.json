@@ -11,24 +11,130 @@
           "templates": [
             {
               "id": "Y11.A.QUADRATIC_EQS.T1",
-              "stem": "Solve x^2 + {a}x + {b} = 0 by factoring",
-              "params": { "a": ["int", -10, 10], "b": ["int", -24, 24] },
-              "answer": "x = {solution1}, {solution2}",
-              "difficulty": 8
+              "stem": "Solve x^2 + {aCoeff}x + {bCoeff} = 0 by factoring.",
+              "params": {
+                "root1": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "root2": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "aCoeff": "{-(root1 + root2)}",
+                "bCoeff": "{root1 * root2}",
+                "correctAnswer": "{formatRoots(root1, root2)}",
+                "choiceFlipSigns": "{formatRoots(-root1, -root2)}",
+                "choiceFlipSecond": "{formatRoots(root1, -root2)}",
+                "choiceFlipFirst": "{formatRoots(-root1, root2)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceFlipSigns}",
+                "{choiceFlipSecond}",
+                "{choiceFlipFirst}"
+              ],
+              "difficulty": 7,
+              "phase": 10.17,
+              "hint": "Write the quadratic as (x - r1)(x - r2) = 0 and set each factor to zero."
             },
             {
               "id": "Y11.A.QUADRATIC_EQS.T2",
-              "stem": "Solve {a}x^2 + {b}x + {c} = 0 using quadratic formula",
-              "params": { "a": ["int", 1, 5], "b": ["int", -10, 10], "c": ["int", -25, 25] },
-              "answer": "x = {solution1}, {solution2}",
-              "difficulty": 9
+              "stem": "Solve {aCoeff}x^2 + {bCoeff}x + {cCoeff} = 0 using the quadratic formula.",
+              "params": {
+                "root1": [
+                  "int",
+                  -7,
+                  7
+                ],
+                "root2": [
+                  "int",
+                  -7,
+                  7
+                ],
+                "leadingCoeff": [
+                  "int",
+                  1,
+                  4
+                ],
+                "aCoeff": "{leadingCoeff}",
+                "bCoeff": "{-leadingCoeff * (root1 + root2)}",
+                "cCoeff": "{leadingCoeff * root1 * root2}",
+                "correctAnswer": "{formatRoots(root1, root2)}",
+                "choiceFlipSigns": "{formatRoots(-root1, -root2)}",
+                "choiceFlipSecond": "{formatRoots(root1, -root2)}",
+                "choiceFlipFirst": "{formatRoots(-root1, root2)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceFlipSigns}",
+                "{choiceFlipSecond}",
+                "{choiceFlipFirst}"
+              ],
+              "difficulty": 8,
+              "phase": 10.17,
+              "hint": "Use x = [-b ± √(b^2 - 4ac)] / 2a."
             },
             {
               "id": "Y11.A.QUADRATIC_EQS.T4",
-              "stem": "Find the discriminant of {a}x^2 + {b}x + {c} = 0 and describe the nature of roots",
-              "params": { "a": ["int", 1, 5], "b": ["int", -10, 10], "c": ["int", -25, 25] },
-              "answer": "D = {b^2 - 4ac}, {nature}",
-              "difficulty": 8
+              "stem": "Find the discriminant of {a}x^2 + {b}x + {c} = 0 and describe the nature of its roots.",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "c": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "discriminant": "{b*b - 4*a*c}",
+                "nature": "{describeDiscriminant(discriminant)}",
+                "wrongNatureA": "{nature === 'two distinct real roots' ? 'one repeated real root' : 'two distinct real roots'}",
+                "wrongNatureB": "{nature === 'no real roots' ? 'two distinct real roots' : 'no real roots'}",
+                "offsetDiscriminant": "{discriminant + a * 4}"
+              },
+              "answer": "{formatDiscriminantNature(discriminant)}",
+              "choices": [
+                "{formatDiscriminantNature(discriminant)}",
+                "{'D = ' + discriminant + ', ' + wrongNatureA}",
+                "{'D = ' + discriminant + ', ' + wrongNatureB}",
+                "{formatDiscriminantNature(offsetDiscriminant)}"
+              ],
+              "difficulty": 8,
+              "phase": 10.17,
+              "hint": "The discriminant is b^2 - 4ac: positive (two roots), zero (one repeated root), negative (no real roots)."
+            },
+            {
+              "id": "Y11.A.QUADRATIC_EQS.T3",
+              "stem": "Complete the square for the equation x^2 + {a}x + {b} = 0",
+              "params": {
+                "a": [
+                  "int",
+                  -12,
+                  12,
+                  2
+                ],
+                "b": [
+                  "int",
+                  -30,
+                  30
+                ]
+              },
+              "answer": "(x + {a/2})^2 = {(a/2)*(a/2) - b}",
+              "difficulty": 9,
+              "phase": 10.15,
+              "hint": "x = [-b ± √(b²-4ac)] / 2a"
             }
           ]
         },
@@ -40,17 +146,92 @@
           "templates": [
             {
               "id": "Y11.A.LINEAR_SYSTEMS.T1",
-              "stem": "Solve: {a}x + {b}y = {c}, {d}x + {e}y = {f}",
-              "params": { "a": ["int", 1, 5], "b": ["int", 1, 5], "c": ["int", -20, 20], "d": ["int", 1, 5], "e": ["int", 1, 5], "f": ["int", -20, 20] },
-              "answer": "x = {x_solution}, y = {y_solution}",
-              "difficulty": 8
+              "stem": "Solve: x + {m}y = {c1}, {n}x + y = {c2}.",
+              "params": {
+                "xSolution": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "ySolution": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "m": [
+                  "int",
+                  2,
+                  6
+                ],
+                "n": [
+                  "int",
+                  2,
+                  6
+                ],
+                "c1": "{xSolution + m * ySolution}",
+                "c2": "{n * xSolution + ySolution}",
+                "correctAnswer": "{formatOrderedPair(xSolution, ySolution)}",
+                "choiceSwap": "{formatOrderedPair(ySolution, xSolution)}",
+                "choiceNegX": "{formatOrderedPair(-xSolution, ySolution)}",
+                "choiceNegY": "{formatOrderedPair(xSolution, -ySolution)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceSwap}",
+                "{choiceNegX}",
+                "{choiceNegY}"
+              ],
+              "difficulty": 8,
+              "phase": 10.17,
+              "hint": "Use elimination: subtract a multiple of one equation from the other to isolate a variable."
             },
             {
               "id": "Y11.A.LINEAR_SYSTEMS.T2",
-              "stem": "Solve by substitution: y = {a}x + {b}, {c}x + {d}y = {e}",
-              "params": { "a": ["int", 1, 5], "b": ["int", -10, 10], "c": ["int", 1, 5], "d": ["int", 1, 5], "e": ["int", -20, 20] },
-              "answer": "x = {x_solution}, y = {y_solution}",
-              "difficulty": 7
+              "stem": "Solve by substitution: y = {aCoeff}x + {bConst}, {cCoeff}x + {dCoeff}y = {eConst}.",
+              "params": {
+                "xSolution": [
+                  "int",
+                  -6,
+                  6
+                ],
+                "aCoeff": [
+                  "int",
+                  -3,
+                  3
+                ],
+                "bConst": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "ySolution": "{aCoeff * xSolution + bConst}",
+                "cCoeff": [
+                  "int",
+                  1,
+                  5
+                ],
+                "dCoeff": [
+                  "int",
+                  1,
+                  5
+                ],
+                "eConst": "{cCoeff * xSolution + dCoeff * ySolution}",
+                "correctAnswer": "{formatOrderedPair(xSolution, ySolution)}",
+                "choiceSwap": "{formatOrderedPair(ySolution, xSolution)}",
+                "choiceNegX": "{formatOrderedPair(-xSolution, ySolution)}",
+                "choiceNegY": "{formatOrderedPair(xSolution, -ySolution)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceSwap}",
+                "{choiceNegX}",
+                "{choiceNegY}"
+              ],
+              "difficulty": 7,
+              "phase": 10.17,
+              "hint": "Substitute y into the second equation, solve for x, then back-substitute for y."
             }
           ]
         },
@@ -61,11 +242,164 @@
           "description": "Expand, factor, and simplify polynomials",
           "templates": [
             {
+              "id": "Y11.A.POLYNOMIALS.T1",
+              "stem": "Expand ({a}x + {b})({c}x + {d})",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  6
+                ],
+                "b": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "c": [
+                  "int",
+                  1,
+                  6
+                ],
+                "d": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "correctExpr": "{formatQuadraticExpression(a*c, a*d + b*c, b*d)}",
+                "foilInnerOnly": "{formatQuadraticExpression(a*c, a*d, b*d)}",
+                "foilOuterOnly": "{formatQuadraticExpression(a*c, b*c, b*d)}",
+                "foilNoMiddle": "{formatQuadraticExpression(a*c, 0, b*d)}"
+              },
+              "answer": "{correctExpr}",
+              "choices": [
+                "correctExpr",
+                "foilInnerOnly",
+                "foilOuterOnly",
+                "foilNoMiddle"
+              ],
+              "difficulty": 6,
+              "phase": 10.15,
+              "hint": "Even degree positive leading coeff → up on both sides"
+            },
+            {
               "id": "Y11.A.POLYNOMIALS.T2",
-              "stem": "Factor {a}x^2 + {b}x + {c}",
-              "params": { "a": ["int", 1, 5], "b": ["int", -20, 20], "c": ["int", -50, 50] },
-              "answer": "({p}x + {q})({r}x + {s})",
-              "difficulty": 8
+              "stem": "Factor {aCoeff}x^2 + {bCoeff}x + {cCoeff}.",
+              "params": {
+                "u": [
+                  "int",
+                  1,
+                  4
+                ],
+                "w": [
+                  "int",
+                  1,
+                  4
+                ],
+                "v": [
+                  "choice",
+                  -8,
+                  -7,
+                  -6,
+                  -5,
+                  -4,
+                  -3,
+                  -2,
+                  -1,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ],
+                "z": [
+                  "choice",
+                  -8,
+                  -7,
+                  -6,
+                  -5,
+                  -4,
+                  -3,
+                  -2,
+                  -1,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ],
+                "aCoeff": "{u * w}",
+                "bCoeff": "{u * z + v * w}",
+                "cCoeff": "{v * z}",
+                "correctFactor": "{formatLinearFactor(u, v) + formatLinearFactor(w, z)}",
+                "choiceFlipFirst": "{formatLinearFactor(u, -v) + formatLinearFactor(w, z)}",
+                "choiceFlipSecond": "{formatLinearFactor(u, v) + formatLinearFactor(w, -z)}",
+                "choiceSwap": "{formatLinearFactor(w, v) + formatLinearFactor(u, z)}"
+              },
+              "answer": "{correctFactor}",
+              "choices": [
+                "{correctFactor}",
+                "{choiceFlipFirst}",
+                "{choiceFlipSecond}",
+                "{choiceSwap}"
+              ],
+              "difficulty": 8,
+              "phase": 10.17,
+              "hint": "Work backwards from (mx + p)(nx + q) so the product matches the original quadratic."
+            },
+            {
+              "id": "Y11.A.POLYNOMIALS.T3",
+              "stem": "Simplify ({a}x² + {b}x + {c}) + ({d}x² + {e}x + {f})",
+              "params": {
+                "a": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "b": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "c": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "d": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "e": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "f": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "aSum": "{a + d}",
+                "bSum": "{b + e}",
+                "cSum": "{c + f}"
+              },
+              "answer": "{formatQuadraticExpression(aSum, bSum, cSum)}",
+              "choices": [
+                "{formatQuadraticExpression(aSum, bSum, cSum)}",
+                "{formatQuadraticExpression(aSum, b, c)}",
+                "{formatQuadraticExpression(a, bSum, cSum)}",
+                "{formatQuadraticExpression(aSum, bSum, 0)}"
+              ],
+              "difficulty": 5,
+              "phase": 10.15,
+              "hint": "Even degree positive leading coeff → up on both sides"
             }
           ]
         },
@@ -76,110 +410,50 @@
           "description": "Prove and use basic trig identities",
           "templates": [
             {
+              "id": "Y11.G.TRIG_IDENTITIES.T1",
+              "stem": "Simplify {identity.expr}, expressing your answer using only {identity.showOnly}.",
+              "params": {
+                "identity": [
+                  "choice",
+                  {
+                    "expr": "sin^2(theta) + cos^2(theta)",
+                    "showOnly": "numbers",
+                    "answer": "1"
+                  },
+                  {
+                    "expr": "1 - cos^2(theta)",
+                    "showOnly": "sin(theta)",
+                    "answer": "sin^2(theta)"
+                  },
+                  {
+                    "expr": "1 - sin^2(theta)",
+                    "showOnly": "cos(theta)",
+                    "answer": "cos^2(theta)"
+                  }
+                ]
+              },
+              "answer": "{identity.answer}",
+              "difficulty": 8,
+              "phase": 10.15,
+              "hint": "sin²θ + cos²θ = 1"
+            },
+            {
               "id": "Y11.G.TRIG_IDENTITIES.T2",
-              "stem": "Prove tanθ = sinθ/cosθ",
+              "stem": "Which identity correctly expresses tan(theta) in terms of sin(theta) and cos(theta)?",
               "params": {},
-              "answer": "identity",
-              "difficulty": 9
+              "answer": "tan(theta) = sin(theta) / cos(theta)",
+              "choices": [
+                "tan(theta) = sin(theta) / cos(theta)",
+                "tan(theta) = cos(theta) / sin(theta)",
+                "tan(theta) = sin(theta) * cos(theta)",
+                "tan(theta) = cos(theta) - sin(theta)"
+              ],
+              "difficulty": 6,
+              "phase": 10.17,
+              "hint": "tan(theta) is defined as sin(theta) divided by cos(theta)."
             }
           ]
         },
-
-
-{
-    "id": "Y10.N.SURDS_SIMPLIFY.T1",
-    "topic_note": "Year 10 / Radical expressions / Simplify radical expressions",
-    "stem": "Simplify √{n}.",
-    "params": { "n": ["int", 12, 200] },
-    "answer": "{simplify_surd(n)}",
-    "difficulty": 7,
-    "phase": 7
-  },
-  {
-    "id": "Y10.N.SURDS_RATIONALISE.T1",
-    "topic_note": "Year 10 / Radical expressions / Simplify radical expressions using conjugates",
-    "stem": "Rationalise the denominator of \frac{1}{\sqrt{a} - \sqrt{b}}.",
-    "params": { "a": ["int", 5, 20], "b": ["int", 2, "a-1"] },
-    "answer": "{rationalise_surd(a,b)}",
-    "difficulty": 8,
-    "phase": 8
-  },
-  {
-    "id": "Y10.N.RATIOS_BESTBUY.T1",
-    "topic_note": "Year 10 / Ratios, rates and proportions / Unit prices",
-    "stem": "Brand A: {a}g for ${pa}. Brand B: {b}g for ${pb}. Which is better value? (Answer Brand A or Brand B)",
-    "params": { "a": ["int", 200, 1000], "pa": ["decimal", 1.5, 6, 0.5], "b": ["int", 200, 1000], "pb": ["decimal", 1.5, 6, 0.5] },
-    "answer": "{best_buy(a,pa,b,pb)}",
-    "difficulty": 8,
-    "phase": 8
-  },
-  {
-    "id": "Y10.A.POLYNOMIALS_FACTOR.T1",
-    "topic_note": "Year 10 / Factorising / Factorise quadratics",
-    "stem": "Factorise {a}x² + {b}x + {c} completely.",
-    "params": { "a": ["int", 1, 4], "b": ["int", -10, 10], "c": ["int", -20, 20] },
-    "answer": "{factor_quadratic(a,b,c)}",
-    "difficulty": 8,
-    "phase": 8
-  },
-  {
-    "id": "Y10.L.SIMULTANEOUS_GRAPH.T1",
-    "topic_note": "Year 10 / Simultaneous equations / Solve nonlinear simultaneous equations",
-    "stem": "The line y = {m}x + {c} intersects y = x² - {k} at two points. Find the positive x-coordinate of intersection to 2 decimal places.",
-    "params": { "m": ["int", 1, 5], "c": ["int", 5, 20], "k": ["int", 1, 10] },
-    "answer": "{solve_parabola_line(m,c,k)}",
-    "difficulty": 9,
-    "phase": 8
-  },
-  {
-    "id": "Y11.A.QUADRATICS_DISCRIMINANT.T1",
-    "topic_note": "Year 11 / Quadratic equations / Using the discriminant",
-    "stem": "For the quadratic {a}x² + {b}x + {c} = 0, find the discriminant and state the nature of the roots.",
-    "params": { "a": ["int", 1, 5], "b": ["int", -15, 15], "c": ["int", -20, 20] },
-    "answer": "{b*b - 4*a*c} ({discriminant_nature(b*b - 4*a*c)})",
-    "difficulty": 8,
-    "phase": 7
-  },
-  {
-    "id": "Y11.S.NORMAL_PERCENT.T1",
-    "topic_note": "Year 11 / Probability / Find probabilities using the normal distribution",
-    "stem": "IQ scores are normally distributed with mean 100 and standard deviation 15. What percentage have IQ > {score}? Answer to nearest percent.",
-    "params": { "score": ["int", 115, 145, 5] },
-    "answer": "{round(100 * (1 - norm_cdf((score-100)/15)), 0)}",
-    "difficulty": 9,
-    "phase": 9
-  },
-  {
-    "id": "Y11.T.TRIG_EXACT.T1",
-    "topic_note": "Year 11 / Trigonometry / Sin, cos and tan of special angles",
-    "stem": "Find the exact value of sin({angle}°).",
-    "params": { "angle": ["choice", 30, 45, 60] },
-    "answer": "{exact_sin(angle)}",
-    "difficulty": 7,
-    "phase": 7
-  },
-  {
-    "id": "Y11.M.MATRIX_INVERSE_2X2.T1",
-    "topic_note": "Year 11 / Matrices / The inverse of a matrix",
-    "stem": "Find the inverse of the matrix [[{a},{b}],[{c},{d}]] (ad - bc ≠ 0).",
-    "params": { "a": ["int", 2, 6], "b": ["int", -4, 4], "c": ["int", -4, 4], "d": ["int", 2, 6] },
-    "answer": "{1/(a*d-b*c)}[[{d},{-b}],[{-c},{a}]]",
-    "difficulty": 9,
-    "phase": 9
-  },
-  {
-    "id": "Y12.C.COMPLEX_POLAR.T1",
-    "topic_note": "Year 12 / Complex numbers / Convert between rectangular and polar form",
-    "stem": "Convert {a} + {b}i to polar form r∠θ° (θ to nearest degree).",
-    "params": { "a": ["int", -10, 10, 2], "b": ["int", -10, 10, 2] },
-    "answer": "{round(sqrt(a*a+b*b),2)}∠{round(atan2(b,a)*180/π)}°",
-    "difficulty": 9,
-    "phase": 9
-  },
-
-
-
-
         {
           "id": "Y11.S.STATS_INFERENCE",
           "strand": "Statistics & Probability",
@@ -187,11 +461,403 @@
           "description": "Confidence intervals and hypothesis testing basics",
           "templates": [
             {
-              "id": "Y11.S.DESCRIPTIVE_STATS.T2",
-              "stem": "Find the median of: {a}, {b}, {c}, {d}, {e}",
-              "params": { "a": ["int", 10, 100], "b": ["int", 10, 100], "c": ["int", 10, 100], "d": ["int", 10, 100], "e": ["int", 10, 100] },
-              "answer": "{median}",
-              "difficulty": 5
+              "id": "Y11.S.STATS_INFERENCE.T1",
+              "stem": "A sample of size {n} has mean {mean} and standard deviation {sd}. Using z = 1.96, what is the margin of error for a 95% confidence interval for the population mean? Give your answer to 2 decimal places.",
+              "params": {
+                "mean": [
+                  "int",
+                  60,
+                  90
+                ],
+                "sd": [
+                  "int",
+                  6,
+                  15
+                ],
+                "n": [
+                  "int",
+                  25,
+                  60
+                ]
+              },
+              "answer": "{round(1.96 * sd / Math.sqrt(n), 2)}",
+              "difficulty": 8,
+              "phase": 10.18,
+              "hint": "Margin of error = z * (sd / sqrt(n)). Use z = 1.96 for 95% confidence."
+            }
+          ]
+        },
+        {
+          "id": "Y11.T.TRIG_EXACT",
+          "strand": "Geometry & Measurement",
+          "name": "Trigonometric exact values",
+          "description": "Find exact values of trig ratios for special angles",
+          "templates": [
+            {
+              "id": "Y11.T.TRIG_EXACT.T1",
+              "stem": "Find the exact value of sin({angle}°).",
+              "params": {
+                "angle": [
+                  "choice",
+                  30,
+                  45,
+                  60
+                ]
+              },
+              "answer": "{exactSin(angle)}",
+              "difficulty": 7,
+              "phase": 10.18,
+              "hint": "Recall sin(30°)=1/2, sin(45°)=sqrt(2)/2, sin(60°)=sqrt(3)/2."
+            }
+          ]
+        },
+        {
+          "id": "Y11.M.MATRIX_INVERSE_2X2",
+          "strand": "Number & Algebra",
+          "name": "Matrix inverse",
+          "description": "Find the inverse of 2×2 matrices",
+          "templates": [
+            {
+              "id": "Y11.M.MATRIX_INVERSE_2X2.T1",
+              "stem": "Find the inverse of the matrix [[{a},{b}],[{c},{d}]].",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  4
+                ],
+                "b": [
+                  "int",
+                  -3,
+                  3
+                ],
+                "c": [
+                  "int",
+                  -3,
+                  3
+                ],
+                "dRaw": [
+                  "int",
+                  1,
+                  5
+                ],
+                "d": "{a * dRaw - b * c === 0 ? dRaw + 1 : dRaw}"
+              },
+              "answer": "{formatInverse2x2(a, b, c, d)}",
+              "difficulty": 9,
+              "phase": 10.18,
+              "hint": "For [[a,b],[c,d]], inverse = (1/(ad-bc))[[d,-b],[-c,a]]. Ensure ad - bc ≠ 0."
+            }
+          ]
+        },
+        {
+          "id": "Y11.S.NORMAL_PERCENT",
+          "strand": "Statistics & Probability",
+          "name": "Normal distribution",
+          "description": "Calculate probabilities using the normal distribution",
+          "templates": [
+            {
+              "id": "Y11.S.NORMAL_PERCENT.T1",
+              "stem": "IQ scores are normally distributed with mean 100 and standard deviation 15. What percentage have IQ > {score}? Give your answer to 1 decimal place.",
+              "params": {
+                "score": [
+                  "int",
+                  115,
+                  145,
+                  5
+                ]
+              },
+              "answer": "{round(100 * (1 - normalCdfApprox((score - 100) / 15)), 1)}%",
+              "difficulty": 9,
+              "phase": 10.18,
+              "hint": "Standardise with z = (score - mean)/SD, then use the normal CDF."
+            }
+          ]
+        },
+        {
+          "id": "Y11.A.QUADRATICS_DISCRIMINANT",
+          "strand": "Number & Algebra",
+          "name": "Quadratic discriminant",
+          "description": "Use the discriminant to determine nature of roots",
+          "templates": [
+            {
+              "id": "Y11.A.QUADRATICS_DISCRIMINANT.T1",
+              "stem": "For the quadratic {a}x^2 + {b}x + {c} = 0, find the discriminant and state the nature of the roots.",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "c": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "discriminant": "{b*b - 4*a*c}"
+              },
+              "answer": "{formatDiscriminantNature(discriminant)}",
+              "difficulty": 8,
+              "phase": 10.18,
+              "hint": "Use b^2 - 4ac: >0 two real roots, =0 one repeated root, <0 no real roots."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "year": 10,
+      "skills": [
+        {
+          "id": "Y10.N.SURDS_SIMPLIFY",
+          "strand": "Number & Algebra",
+          "name": "Simplifying surds",
+          "description": "Simplify radical expressions",
+          "templates": [
+            {
+              "id": "Y10.N.SURDS_SIMPLIFY.T1",
+              "stem": "Simplify √{n}.",
+              "params": {
+                "square": [
+                  "choice",
+                  4,
+                  9,
+                  16,
+                  25
+                ],
+                "base": [
+                  "int",
+                  2,
+                  11
+                ],
+                "n": "{square * base}"
+              },
+              "answer": "{simplifySurd(n)}",
+              "difficulty": 6,
+              "phase": 10.18,
+              "hint": "Factor {n} into the largest perfect square times the remaining factor, then simplify."
+            },
+            {
+              "id": "Y10.N.SURDS_SIMPLIFY.T2",
+              "stem": "Simplify √{n1} × √{n2}.",
+              "params": {
+                "n1": [
+                  "int",
+                  8,
+                  40
+                ],
+                "n2": [
+                  "int",
+                  8,
+                  40
+                ]
+              },
+              "answer": "{simplifySurd(n1 * n2)}",
+              "difficulty": 7,
+              "phase": 10.18,
+              "hint": "Multiply the radicands first, then extract any perfect square factors."
+            },
+            {
+              "id": "Y10.N.SURDS_SIMPLIFY.T3",
+              "stem": "Simplify {coeff1}√{n} + {coeff2}√{n}.",
+              "params": {
+                "coeff1": [
+                  "int",
+                  1,
+                  4
+                ],
+                "coeff2": [
+                  "int",
+                  1,
+                  4
+                ],
+                "n": [
+                  "choice",
+                  3,
+                  5,
+                  6,
+                  7,
+                  10
+                ]
+              },
+              "answer": "{(coeff1 + coeff2) + '√' + n}",
+              "difficulty": 6,
+              "phase": 10.16,
+              "hint": "Combine like surds by adding the coefficients and keeping the radicand the same."
+            }
+          ]
+        },
+        {
+          "id": "Y10.N.SURDS_RATIONALISE",
+          "strand": "Number & Algebra",
+          "name": "Rationalising denominators",
+          "description": "Simplify radical expressions using conjugates",
+          "templates": [
+            {
+              "id": "Y10.N.SURDS_RATIONALISE.T1",
+              "stem": "Rationalise the denominator of 1 / (√{larger} - √{smaller}). Give your answer in simplest form.",
+              "params": {
+                "larger": [
+                  "choice",
+                  9,
+                  12,
+                  18,
+                  20,
+                  27,
+                  32
+                ],
+                "smaller": [
+                  "choice",
+                  2,
+                  3,
+                  5,
+                  6,
+                  8
+                ]
+              },
+              "answer": "{rationaliseSurd(larger, smaller)}",
+              "difficulty": 7,
+              "phase": 10.18,
+              "hint": "Multiply numerator and denominator by √{larger} + √{smaller} to form a rational denominator."
+            }
+          ]
+        },
+        {
+          "id": "Y10.N.RATIOS_BESTBUY",
+          "strand": "Number & Algebra",
+          "name": "Best buy problems",
+          "description": "Compare unit prices and ratios",
+          "templates": [
+            {
+              "id": "Y10.N.RATIOS_BESTBUY.T1",
+              "stem": "Brand A sells {massA} g for ${priceA}, while Brand B sells {massB} g for ${priceB}. Which option is the better value per gram?",
+              "params": {
+                "massA": [
+                  "int",
+                  200,
+                  900,
+                  50
+                ],
+                "massB": [
+                  "int",
+                  200,
+                  900,
+                  50
+                ],
+                "priceA": [
+                  "decimal",
+                  3,
+                  9,
+                  0.5
+                ],
+                "priceB": [
+                  "decimal",
+                  3,
+                  9,
+                  0.5
+                ]
+              },
+              "answer": "{bestValue(massA, priceA, massB, priceB)}",
+              "difficulty": 6,
+              "phase": 10.18,
+              "hint": "Find the unit price (cost per gram) for each brand and compare."
+            },
+            {
+              "id": "Y10.N.RATIOS_BESTBUY.T2",
+              "stem": "Store A sells {volumeA} mL for ${priceA}, while Store B sells {volumeB} mL for ${priceB}. Which option is the better value per mL?",
+              "params": {
+                "volumeA": [
+                  "int",
+                  300,
+                  1500,
+                  50
+                ],
+                "volumeB": [
+                  "int",
+                  300,
+                  1500,
+                  50
+                ],
+                "priceA": [
+                  "decimal",
+                  2,
+                  12,
+                  0.5
+                ],
+                "priceB": [
+                  "decimal",
+                  2,
+                  12,
+                  0.5
+                ]
+              },
+              "answer": "{bestValue(volumeA, priceA, volumeB, priceB)}",
+              "difficulty": 6,
+              "phase": 10.16,
+              "hint": "Calculate cost per mL for each store and choose the smaller unit price."
+            }
+          ]
+        },
+        {
+          "id": "Y10.L.SIMULTANEOUS_GRAPH",
+          "strand": "Algebra & Functions",
+          "name": "Solving nonlinear systems",
+          "description": "Solve nonlinear simultaneous equations graphically",
+          "templates": [
+            {
+              "id": "Y10.L.SIMULTANEOUS_GRAPH.T1",
+              "stem": "The parabola y = x^2 - {k} intersects the line y = {m}x + {c}. Find the positive x-value of their intersection, giving your answer to 2 decimal places.",
+              "params": {
+                "m": [
+                  "int",
+                  1,
+                  5
+                ],
+                "c": [
+                  "int",
+                  4,
+                  15
+                ],
+                "k": [
+                  "int",
+                  1,
+                  8
+                ]
+              },
+              "answer": "{solveParabolaLine(m, c, k)}",
+              "difficulty": 8,
+              "phase": 10.18,
+              "hint": "Set x^2 - {k} equal to {m}x + {c} and solve the resulting quadratic."
+            },
+            {
+              "id": "Y10.L.SIMULTANEOUS_GRAPH.T2",
+              "stem": "The parabola y = x^2 - {k} intersects the line y = {c}. Find the positive x-value of their intersection, giving your answer to 2 decimal places.",
+              "params": {
+                "m": [
+                  "int",
+                  0,
+                  0
+                ],
+                "c": [
+                  "int",
+                  2,
+                  10
+                ],
+                "k": [
+                  "int",
+                  1,
+                  6
+                ]
+              },
+              "answer": "{solveParabolaLine(m, c, k)}",
+              "difficulty": 7,
+              "phase": 10.16,
+              "hint": "Set x^2 - {k} equal to {c} and solve the resulting quadratic for x."
             }
           ]
         }
@@ -205,20 +871,523 @@
           "strand": "Number & Algebra",
           "name": "Matrix operations",
           "description": "Addition, multiplication, determinants",
+          "phase": 10,
+          "phase_tag": "phase10_year12_1",
           "templates": [
             {
               "id": "Y12.A.MATRIX_OPS.T1",
               "stem": "Multiply matrices [[{a},{b}],[{c},{d}]] × [[{e},{f}],[{g},{h}]]",
-              "params": { "a": ["int", 1, 5], "b": ["int", 1, 5], "c": ["int", 1, 5], "d": ["int", 1, 5], "e": ["int", 1, 5], "f": ["int", 1, 5], "g": ["int", 1, 5], "h": ["int", 1, 5] },
-              "answer": "[[{ae+bg}, {af+bh}], [{ce+dg}, {cf+dh}]]",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  1,
+                  5
+                ],
+                "c": [
+                  "int",
+                  1,
+                  5
+                ],
+                "d": [
+                  "int",
+                  1,
+                  5
+                ],
+                "e": [
+                  "int",
+                  1,
+                  5
+                ],
+                "f": [
+                  "int",
+                  1,
+                  5
+                ],
+                "g": [
+                  "int",
+                  1,
+                  5
+                ],
+                "h": [
+                  "int",
+                  1,
+                  5
+                ]
+              },
+              "answer": "[[{a*e + b*g}, {a*f + b*h}], [{c*e + d*g}, {c*f + d*h}]]",
+              "visualData": {
+                "type": "matrix_2x2",
+                "matrix1": [
+                  [
+                    "a",
+                    "b"
+                  ],
+                  [
+                    "c",
+                    "d"
+                  ]
+                ],
+                "matrix2": [
+                  [
+                    "e",
+                    "f"
+                  ],
+                  [
+                    "g",
+                    "h"
+                  ]
+                ],
+                "op": "×",
+                "width": 400,
+                "height": 260
+              },
               "difficulty": 9
+            },
+            {
+              "id": "Y12.A.MATRIX_OPS.T2",
+              "stem": "Find the determinant of [[{a},{b}],[{c},{d}]]",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  9
+                ],
+                "b": [
+                  "int",
+                  1,
+                  9
+                ],
+                "c": [
+                  "int",
+                  1,
+                  9
+                ],
+                "d": [
+                  "int",
+                  1,
+                  9
+                ]
+              },
+              "answer": "{a*d - b*c}",
+              "visualData": {
+                "type": "matrix_2x2",
+                "matrix1": [
+                  [
+                    "a",
+                    "b"
+                  ],
+                  [
+                    "c",
+                    "d"
+                  ]
+                ],
+                "op": "det",
+                "width": 400,
+                "height": 260
+              },
+              "difficulty": 8
+            },
+            {
+              "id": "Y12.A.MATRIX_OPS.T3",
+              "stem": "Add matrices [[{a},{b}],[{c},{d}]] + [[{e},{f}],[{g},{h}]]",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  9
+                ],
+                "b": [
+                  "int",
+                  1,
+                  9
+                ],
+                "c": [
+                  "int",
+                  1,
+                  9
+                ],
+                "d": [
+                  "int",
+                  1,
+                  9
+                ],
+                "e": [
+                  "int",
+                  1,
+                  9
+                ],
+                "f": [
+                  "int",
+                  1,
+                  9
+                ],
+                "g": [
+                  "int",
+                  1,
+                  9
+                ],
+                "h": [
+                  "int",
+                  1,
+                  9
+                ]
+              },
+              "answer": "[[{a+e}, {b+f}], [{c+g}, {d+h}]]",
+              "visualData": {
+                "type": "matrix_2x2",
+                "matrix1": [
+                  [
+                    "a",
+                    "b"
+                  ],
+                  [
+                    "c",
+                    "d"
+                  ]
+                ],
+                "matrix2": [
+                  [
+                    "e",
+                    "f"
+                  ],
+                  [
+                    "g",
+                    "h"
+                  ]
+                ],
+                "op": "+",
+                "width": 400,
+                "height": 260
+              },
+              "difficulty": 7
             },
             {
               "id": "Y12.A.MATRIX_OPS.T4",
               "stem": "Find the inverse of [[{a},{b}],[{c},{d}]]",
-              "params": { "a": ["int", 1, 5], "b": ["int", 0, 5], "c": ["int", 0, 5], "d": ["int", 1, 5] },
-              "answer": "1/{ad-bc} * [[{d},{-b}],[{-c},{a}]]",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  0,
+                  5
+                ],
+                "c": [
+                  "int",
+                  0,
+                  5
+                ],
+                "d": [
+                  "int",
+                  1,
+                  5
+                ]
+              },
+              "answer": "1/({a*d - b*c}) * [[{d}, {-b}], [{-c}, {a}]]",
+              "visualData": {
+                "type": "matrix_2x2",
+                "matrix1": [
+                  [
+                    "a",
+                    "b"
+                  ],
+                  [
+                    "c",
+                    "d"
+                  ]
+                ],
+                "op": "inv",
+                "width": 400,
+                "height": 260
+              },
               "difficulty": 10
+            }
+          ]
+        },
+        {
+          "id": "Y12.C.CALCULUS_INTEGRAL",
+          "strand": "Calculus",
+          "name": "Integration",
+          "description": "Indefinite integrals, area under curve",
+          "phase": 10,
+          "phase_tag": "phase10_year12_1",
+          "templates": [
+            {
+              "id": "Y12.C.CALCULUS_INTEGRAL.T1",
+              "stem": "Integrate ∫({a}x^2 + {b}x + {c}) dx",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "c": [
+                  "int",
+                  -5,
+                  5
+                ]
+              },
+              "answer": "{a/3}x^3 + {b/2}x^2 + {c}x + C",
+              "difficulty": 10
+            },
+            {
+              "id": "Y12.C.CALCULUS_INTEGRAL.T2",
+              "stem": "Evaluate ∫ from {lower} to {upper} of {a}x dx",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "lower": [
+                  "int",
+                  0,
+                  3
+                ],
+                "upper": [
+                  "int",
+                  4,
+                  8
+                ]
+              },
+              "answer": "{a/2 * (upper*upper - lower*lower)}",
+              "difficulty": 9
+            },
+            {
+              "id": "Y12.C.CALCULUS_INTEGRAL.T3",
+              "stem": "Find ∫{a}x^{n} dx",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "n": [
+                  "int",
+                  2,
+                  5
+                ]
+              },
+              "answer": "{a/(n+1)}x^{n+1} + C",
+              "difficulty": 9
+            }
+          ]
+        },
+        {
+          "id": "Y12.C.CALCULUS_APPLICATIONS",
+          "strand": "Calculus",
+          "name": "Calculus applications",
+          "description": "Optimization, rates of change",
+          "phase": 10,
+          "phase_tag": "phase10_year12_1",
+          "templates": [
+            {
+              "id": "Y12.C.CALCULUS_APPLICATIONS.T1",
+              "stem": "Find stationary points of f(x) = {a}x^2 + {b}x + {c}",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "c": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "{-b/(2*a)}",
+              "visualData": {
+                "type": "graph_parabola",
+                "a": "a",
+                "b": "b",
+                "c": "c",
+                "width": 400,
+                "height": 300
+              },
+              "difficulty": 9
+            },
+            {
+              "id": "Y12.C.CALCULUS_APPLICATIONS.T2",
+              "stem": "A particle's position is s(t) = {a}t^2 + {b}t. Find velocity at t = {t0}",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "t0": [
+                  "int",
+                  1,
+                  5
+                ]
+              },
+              "answer": "{2*a*t0 + b}",
+              "difficulty": 9
+            }
+          ]
+        },
+        {
+          "id": "Y12.G.VECTOR_OPS",
+          "strand": "Geometry & Measurement",
+          "name": "Vector operations",
+          "description": "Addition, scalar multiplication, dot product",
+          "phase": 10,
+          "phase_tag": "phase10_year12_1",
+          "templates": [
+            {
+              "id": "Y12.G.VECTOR_OPS.T1",
+              "stem": "Vector A = <{a},{b}>, B = <{c},{d}>. Find A + B",
+              "params": {
+                "a": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "c": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "d": [
+                  "int",
+                  -5,
+                  5
+                ]
+              },
+              "answer": "<{a+c}, {b+d}>",
+              "visualData": {
+                "type": "coordinate_grid",
+                "points": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    "a",
+                    "b"
+                  ],
+                  [
+                    "c",
+                    "d"
+                  ]
+                ],
+                "width": 400,
+                "height": 300
+              },
+              "difficulty": 7
+            },
+            {
+              "id": "Y12.G.VECTOR_OPS.T2",
+              "stem": "Find the magnitude of vector <{a},{b}>",
+              "params": {
+                "a": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "sqrt({a*a + b*b})",
+              "difficulty": 7
+            },
+            {
+              "id": "Y12.G.VECTOR_OPS.T3",
+              "stem": "Find dot product of <{a},{b}> · <{c},{d}>",
+              "params": {
+                "a": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "c": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "d": [
+                  "int",
+                  -5,
+                  5
+                ]
+              },
+              "answer": "{a*c + b*d}",
+              "difficulty": 8
+            },
+            {
+              "id": "Y12.G.VECTOR_OPS.T4",
+              "stem": "Find {k} × <{a},{b}>",
+              "params": {
+                "k": [
+                  "int",
+                  2,
+                  5
+                ],
+                "a": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "<{k*a}, {k*b}>",
+              "visualData": {
+                "type": "coordinate_grid",
+                "points": [
+                  [
+                    0,
+                    0
+                  ],
+                  [
+                    "a",
+                    "b"
+                  ]
+                ],
+                "width": 400,
+                "height": 300
+              },
+              "difficulty": 6
             }
           ]
         },
@@ -227,13 +1396,35 @@
           "strand": "Geometry & Measurement",
           "name": "Circle geometry",
           "description": "Equations, properties, theorems",
+          "phase": 10,
+          "phase_tag": "phase10_year12_1",
           "templates": [
             {
-              "id": "Y12.G.CIRCLE_GEOMETRY.T2",
-              "stem": "Find the center and radius of x^2 + y^2 + {a}x + {b}y = {c}",
-              "params": { "a": ["int", -10, 10], "b": ["int", -10, 10], "c": ["int", -20, 20] },
-              "answer": "Center: ({-a/2}, {-b/2}), r = sqrt({calculated})",
-              "difficulty": 9
+              "id": "Y12.G.CIRCLE_GEOMETRY.T1",
+              "stem": "Write equation of circle center ({h},{k}), radius {r}",
+              "params": {
+                "h": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "k": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "r": [
+                  "int",
+                  2,
+                  8
+                ]
+              },
+              "answer": "(x - {h})^2 + (y - {k})^2 = {r*r}",
+              "visualData": {
+                "type": "circle",
+                "radius": "r"
+              },
+              "difficulty": 8
             }
           ]
         },
@@ -242,13 +1433,126 @@
           "strand": "Statistics & Probability",
           "name": "Bivariate data analysis",
           "description": "Correlation, regression lines",
+          "phase": 10,
+          "phase_tag": "phase10_year12_1",
           "templates": [
             {
-              "id": "Y12.S.BIVARIATE_DATA.T1",
-              "stem": "Data: x = {x1},{x2},{x3}; y = {y1},{y2},{y3}. Find correlation coefficient",
-              "params": { "x1": ["int", 1, 10], "x2": ["int", 1, 10], "x3": ["int", 1, 10], "y1": ["int", 1, 10], "y2": ["int", 1, 10], "y3": ["int", 1, 10] },
-              "answer": "r = {correlation}",
-              "difficulty": 10
+              "id": "Y12.S.BIVARIATE_DATA.T2",
+              "stem": "Given regression line y = {a}x + {b}, predict y when x = {x0}",
+              "params": {
+                "a": [
+                  "decimal",
+                  0.5,
+                  3,
+                  1
+                ],
+                "b": [
+                  "int",
+                  -5,
+                  10
+                ],
+                "x0": [
+                  "int",
+                  5,
+                  20
+                ]
+              },
+              "answer": "{a*x0 + b}",
+              "visualData": {
+                "type": "scatter_plot",
+                "points": [
+                  [
+                    1,
+                    "a*1 + b"
+                  ],
+                  [
+                    2,
+                    "a*2 + b"
+                  ],
+                  [
+                    3,
+                    "a*3 + b"
+                  ]
+                ],
+                "width": 360,
+                "height": 240
+              },
+              "difficulty": 8
+            }
+          ]
+        },
+        {
+          "id": "Y12.S.PROBABILITY_DISTRIBUTIONS",
+          "strand": "Statistics & Probability",
+          "name": "Probability distributions",
+          "description": "Binomial and normal distributions.",
+          "phase": 10.7,
+          "phase_tag": "phase10.7_year12",
+          "templates": [
+            {
+              "id": "Y12.S.PROBABILITY_DISTRIBUTIONS.T2",
+              "stem": "A biased coin has P(heads) = {p}. What is the probability of getting exactly {k} heads in {n} flips? (Round to 2 decimal places)",
+              "params": {
+                "p": [
+                  "decimal",
+                  0.3,
+                  0.7,
+                  1
+                ],
+                "n": [
+                  "choice",
+                  3,
+                  4,
+                  5
+                ],
+                "k": [
+                  "int",
+                  1,
+                  3
+                ]
+              },
+              "answer": "round(binomial_coeff(n, k) * (p ** k) * ((1 - p) ** (n - k)), 2)",
+              "difficulty": 9,
+              "phase": 10.7
+            }
+          ]
+        },
+        {
+          "id": "Y12.A.POLYNOMIALS",
+          "strand": "Number & Algebra",
+          "name": "Polynomial operations",
+          "description": "Factoring, division, remainder theorem.",
+          "phase": 10.7,
+          "phase_tag": "phase10.7_year12",
+          "templates": [
+            {
+              "id": "Y12.A.POLYNOMIALS.T2",
+              "stem": "Use the factor theorem to determine if (x - {a}) is a factor of x^3 + {b}x^2 + {c}x + {d}",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  4
+                ],
+                "b": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "c": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "d": [
+                  "int",
+                  -20,
+                  20
+                ]
+              },
+              "answer": "(a*a*a + b*a*a + c*a + d === 0 ? 'Yes' : 'No')",
+              "difficulty": 9,
+              "phase": 10.7
             }
           ]
         }
@@ -258,17 +1562,197 @@
       "year": 13,
       "skills": [
         {
+          "id": "Y13.C.CALCULUS_DIFF",
+          "strand": "Calculus",
+          "name": "Differentiation techniques",
+          "description": "Chain rule, exponential and log derivatives, trig derivatives",
+          "phase": 10,
+          "phase_tag": "phase10_year13_1",
+          "templates": [
+            {
+              "id": "Y13.C.CALCULUS_DIFF.T4",
+              "stem": "Differentiate f(x) = e^({a}x)",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  5
+                ]
+              },
+              "answer": "{a}*e^({a}x)",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.C.CALCULUS_DIFF.T5",
+              "stem": "Differentiate f(x) = ln({a}x + {b})",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  6
+                ],
+                "b": [
+                  "int",
+                  1,
+                  8
+                ]
+              },
+              "answer": "{a}/({a}x + {b})",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.C.CALCULUS_DIFF.T6",
+              "stem": "Differentiate f(x) = sin({a}x)",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  5
+                ]
+              },
+              "answer": "{a}*cos({a}x)",
+              "difficulty": 8
+            }
+          ]
+        },
+        {
+          "id": "Y13.C.CALCULUS_INTEGRAL",
+          "strand": "Calculus",
+          "name": "Integration techniques",
+          "description": "Exponential, trig integrals, definite integrals",
+          "phase": 10,
+          "phase_tag": "phase10_year13_1",
+          "templates": [
+            {
+              "id": "Y13.C.CALCULUS_INTEGRAL.T2",
+              "stem": "Integrate e^{ {a}x } dx",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  6
+                ]
+              },
+              "answer": "e^({a}x)/{a} + C",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.C.CALCULUS_INTEGRAL.T4",
+              "stem": "Integrate sin({a}x) dx",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  5
+                ]
+              },
+              "answer": "-cos({a}x)/{a} + C",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.C.CALCULUS_INTEGRAL.T5",
+              "stem": "Evaluate the integral from 0 to {b} of {a}x dx",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  6
+                ],
+                "b": [
+                  "int",
+                  2,
+                  5
+                ]
+              },
+              "answer": "{a*b*b/2}",
+              "difficulty": 7
+            },
+            {
+              "id": "Y13.C.CALCULUS_INTEGRAL.T6",
+              "stem": "Find area under y = {a}x^2 from x = 0 to x = {b}",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  4
+                ],
+                "b": [
+                  "int",
+                  2,
+                  5
+                ]
+              },
+              "answer": "{a*b*b*b/3}",
+              "difficulty": 8
+            }
+          ]
+        },
+        {
           "id": "Y13.C.CALCULUS_APPLICATIONS",
           "strand": "Calculus",
           "name": "Applications of calculus",
           "description": "Optimization, rates of change, curve sketching",
+          "phase": 10,
+          "phase_tag": "phase10_year13_1",
           "templates": [
             {
-              "id": "Y13.C.CALCULUS_APPLICATIONS.T1",
-              "stem": "Find critical points of f(x) = x^3 - {a}x^2 + {b}x",
-              "params": { "a": ["int", 3, 9], "b": ["int", 2, 12] },
-              "answer": "solve(3x^2 - 2*{a}x + {b} = 0)",
+              "id": "Y13.C.CALCULUS_APPLICATIONS.T2",
+              "stem": "Find maximum value of f(x) = -{a}x^2 + {b}x + {c}",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  3
+                ],
+                "b": [
+                  "int",
+                  4,
+                  12
+                ],
+                "c": [
+                  "int",
+                  -5,
+                  5
+                ]
+              },
+              "answer": "{c} + {b}*{b}/(4*{a})",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.C.CALCULUS_APPLICATIONS.T3",
+              "stem": "Point of inflection for f(x) = x^3 - {a}x^2",
+              "params": {
+                "a": [
+                  "int",
+                  3,
+                  9
+                ]
+              },
+              "answer": "x = {a}/3",
               "difficulty": 9
+            },
+            {
+              "id": "Y13.C.CALCULUS_APPLICATIONS.T4",
+              "stem": "Velocity at t = {t} if s(t) = {a}t^2 + {b}t",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  5
+                ],
+                "t": [
+                  "int",
+                  2,
+                  6
+                ],
+                "b": [
+                  "int",
+                  -8,
+                  8
+                ]
+              },
+              "answer": "{2*a*t + b}",
+              "difficulty": 7
             }
           ]
         },
@@ -276,29 +1760,513 @@
           "id": "Y13.A.COMPLEX_NUMBERS",
           "strand": "Number & Algebra",
           "name": "Complex numbers",
-          "description": "Operations with complex numbers, polar form, De Moivre's theorem",
+          "description": "Operations with complex numbers and polar form basics",
+          "phase": 10,
+          "phase_tag": "phase10_year13_1",
           "templates": [
             {
-              "id": "Y13.A.COMPLEX_NUMBERS.T7",
-              "stem": "Solve z^2 = {a} + {b}i",
-              "params": { "a": ["int", -12, 12], "b": ["int", -12, 12] },
-              "answer": "±sqrt_complex({a} + {b}i)",
-              "difficulty": 10
+              "id": "Y13.A.COMPLEX_NUMBERS.T1",
+              "stem": "({a} + {b}i) + ({c} + {d}i)",
+              "params": {
+                "a": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "c": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "d": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "({a + c}) + ({b + d})i",
+              "visualData": {
+                "type": "coordinate_grid",
+                "points": [
+                  [
+                    "a",
+                    "b"
+                  ],
+                  [
+                    "c",
+                    "d"
+                  ]
+                ],
+                "showPoint": true,
+                "width": 400,
+                "height": 300
+              },
+              "difficulty": 7
+            },
+            {
+              "id": "Y13.A.COMPLEX_NUMBERS.T2",
+              "stem": "({a} + {b}i) × ({c} + {d}i)",
+              "params": {
+                "a": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "b": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "c": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "d": [
+                  "int",
+                  -8,
+                  8
+                ]
+              },
+              "answer": "({a}*{c} - {b}*{d}) + ({a}*{d} + {b}*{c})i",
+              "visualData": {
+                "type": "coordinate_grid",
+                "points": [
+                  [
+                    "a",
+                    "b"
+                  ]
+                ],
+                "showPoint": true,
+                "width": 400,
+                "height": 300
+              },
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.A.COMPLEX_NUMBERS.T3",
+              "stem": "Find modulus of {a} + {b}i",
+              "params": {
+                "a": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "sqrt({a*a + b*b})",
+              "visualData": {
+                "type": "coordinate_grid",
+                "points": [
+                  [
+                    "a",
+                    "b"
+                  ]
+                ],
+                "showPoint": true,
+                "width": 400,
+                "height": 300
+              },
+              "difficulty": 7
+            },
+            {
+              "id": "Y13.A.COMPLEX_NUMBERS.T4",
+              "stem": "Find argument of {a} + {b}i (in radians)",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  8
+                ],
+                "b": [
+                  "int",
+                  1,
+                  8
+                ]
+              },
+              "answer": "arctan({b}/{a})",
+              "visualData": {
+                "type": "coordinate_grid",
+                "points": [
+                  [
+                    "a",
+                    "b"
+                  ]
+                ],
+                "showPoint": true,
+                "width": 400,
+                "height": 300
+              },
+              "difficulty": 8
             }
           ]
         },
         {
-          "id": "Y13.A.POLYNOMIALS",
+          "id": "Y13.A.SEQUENCES_SERIES",
           "strand": "Number & Algebra",
-          "name": "Polynomial functions",
-          "description": "Remainder theorem, factor theorem, polynomial division",
+          "name": "Sequences and series",
+          "description": "Arithmetic, geometric sequences and series",
+          "phase": 10.1,
+          "phase_tag": "phase10.1_year13_sequences",
           "templates": [
             {
-              "id": "Y13.A.POLYNOMIALS.T3",
-              "stem": "If (x - {a}) is a factor of x^3 + bx^2 + {c}x + {d}, find b",
-              "params": { "a": ["int", 1, 4], "c": ["int", -6, 6], "d": ["int", -12, 12] },
-              "answer": "solve_for_b",
+              "id": "Y13.A.SEQUENCES_SERIES.T1",
+              "stem": "Find the {n}th term of arithmetic sequence: a={a}, d={d}",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  20
+                ],
+                "d": [
+                  "int",
+                  2,
+                  8
+                ],
+                "n": [
+                  "int",
+                  10,
+                  20
+                ]
+              },
+              "answer": "{a + (n-1)*d}",
+              "difficulty": 7
+            },
+            {
+              "id": "Y13.A.SEQUENCES_SERIES.T2",
+              "stem": "Sum of first {n} terms: a={a}, d={d}",
+              "params": {
+                "a": [
+                  "int",
+                  3,
+                  15
+                ],
+                "d": [
+                  "int",
+                  2,
+                  6
+                ],
+                "n": [
+                  "int",
+                  10,
+                  25
+                ]
+              },
+              "answer": "{n/2 * (2*a + (n-1)*d)}",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.A.SEQUENCES_SERIES.T3",
+              "stem": "Find the {n}th term of geometric sequence: a={a}, r={r}",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  10
+                ],
+                "r": [
+                  "int",
+                  2,
+                  4
+                ],
+                "n": [
+                  "int",
+                  5,
+                  10
+                ]
+              },
+              "answer": "{a * r**(n-1)}",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.A.SEQUENCES_SERIES.T4",
+              "stem": "Sum of infinite geometric series: a={a}, r={r}",
+              "params": {
+                "a": [
+                  "int",
+                  4,
+                  20
+                ],
+                "r": [
+                  "decimal",
+                  0.2,
+                  0.8,
+                  1
+                ]
+              },
+              "answer": "{a/(1 - r)}",
               "difficulty": 9
+            },
+            {
+              "id": "Y13.A.SEQUENCES_SERIES.T5",
+              "stem": "Find the {n}th term of an arithmetic sequence with a1 = {a} and d = {d}.",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  15
+                ],
+                "d": [
+                  "int",
+                  2,
+                  8
+                ],
+                "n": [
+                  "int",
+                  10,
+                  25
+                ]
+              },
+              "answer": "{a + (n - 1) * d}",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.A.SEQUENCES_SERIES.T6",
+              "stem": "Find the sum of the first {n} terms of an arithmetic series with first term {a} and common difference {d}",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  12
+                ],
+                "d": [
+                  "int",
+                  2,
+                  8
+                ],
+                "n": [
+                  "int",
+                  8,
+                  20
+                ]
+              },
+              "answer": "{n/2 * (2*a + (n-1)*d)}",
+              "difficulty": 8,
+              "phase": 10.7
+            }
+          ]
+        },
+        {
+          "id": "Y13.L.LOGARITHMS",
+          "strand": "Number & Algebra",
+          "name": "Logarithms",
+          "description": "Logarithm laws and equations",
+          "phase": 10.2,
+          "phase_tag": "phase10.2_year13_logarithms",
+          "templates": [
+            {
+              "id": "Y13.L.LOGARITHMS.T1",
+              "stem": "Solve log_{base}(x) = {n}.",
+              "params": {
+                "n": [
+                  "int",
+                  3,
+                  7
+                ]
+              },
+              "answer": "x = {2**n}",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.L.LOGARITHMS.T2",
+              "stem": "Simplify log({a}) + log({b})",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  9
+                ],
+                "b": [
+                  "int",
+                  2,
+                  9
+                ]
+              },
+              "answer": "log({a*b})",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.L.LOGARITHMS.T3",
+              "stem": "Solve {a}^x = {b}",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  5
+                ],
+                "b": [
+                  "int",
+                  8,
+                  50
+                ]
+              },
+              "answer": "x = {round(log(b)/log(a), 2)}",
+              "difficulty": 9
+            },
+            {
+              "id": "Y13.L.LOGARITHMS.T4",
+              "stem": "Simplify log(x^2)",
+              "params": {},
+              "answer": "{\"2*log(x)\"}",
+              "difficulty": 7
+            }
+          ]
+        },
+        {
+          "id": "Y13.G.COORDINATE_GEOMETRY",
+          "strand": "Geometry & Measurement",
+          "name": "Coordinate geometry",
+          "description": "Circles, parabolas, ellipses, hyperbolas",
+          "phase": 10.3,
+          "phase_tag": "phase10.3_year13_coordinate_geom",
+          "templates": [
+            {
+              "id": "Y13.G.COORDINATE_GEOMETRY.T1",
+              "stem": "Find center and radius of (x - {h})^2 + (y - {k})^2 = {r}^2",
+              "params": {
+                "h": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "k": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "r": [
+                  "int",
+                  3,
+                  8
+                ]
+              },
+              "answer": "center ({h}, {k}), radius {r}",
+              "difficulty": 7
+            },
+            {
+              "id": "Y13.G.COORDINATE_GEOMETRY.T2",
+              "stem": "Find equation of circle with center ({h}, {k}) and radius {r}",
+              "params": {
+                "h": [
+                  "int",
+                  -6,
+                  6
+                ],
+                "k": [
+                  "int",
+                  -6,
+                  6
+                ],
+                "r": [
+                  "int",
+                  2,
+                  7
+                ]
+              },
+              "answer": "(x - {h})^2 + (y - {k})^2 = {r*r}",
+              "difficulty": 7
+            },
+            {
+              "id": "Y13.G.COORDINATE_GEOMETRY.T3",
+              "stem": "Find vertex of parabola y = {a}(x - {h})^2 + {k}",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  4
+                ],
+                "h": [
+                  "int",
+                  -5,
+                  5
+                ],
+                "k": [
+                  "int",
+                  -8,
+                  8
+                ]
+              },
+              "answer": "({h}, {k})",
+              "difficulty": 6
+            },
+            {
+              "id": "Y13.G.COORDINATE_GEOMETRY.T4",
+              "stem": "Find focus of parabola x^2 = {a}y",
+              "params": {
+                "a": [
+                  "int",
+                  4,
+                  16
+                ]
+              },
+              "answer": "(0, {a/4})",
+              "difficulty": 8
+            },
+            {
+              "id": "Y13.G.COORDINATE_GEOMETRY.T5",
+              "stem": "Find distance between points ({x1}, {y1}) and ({x2}, {y2})",
+              "params": {
+                "x1": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "y1": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "x2": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "y2": [
+                  "int",
+                  -8,
+                  8
+                ]
+              },
+              "answer": "sqrt(({x2}-{x1})^2 + ({y2}-{y1})^2)",
+              "difficulty": 6
+            },
+            {
+              "id": "Y13.G.COORDINATE_GEOMETRY.T6",
+              "stem": "Find the midpoint of the line segment joining ({x1}, {y1}) and ({x2}, {y2})",
+              "params": {
+                "x1": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "y1": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "x2": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "y2": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "{'(' + (x1+x2)/2 + ', ' + (y1+y2)/2 + ')'}",
+              "difficulty": 6,
+              "phase": 10.7
             }
           ]
         }

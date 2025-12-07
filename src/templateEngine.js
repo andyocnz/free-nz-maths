@@ -102,6 +102,9 @@ function generateParamValue(spec, year, difficulty) {
       // Random choice from array
       return args[randInt(0, args.length - 1)]
 
+    case 'prime':
+      return mathHelpers.randPrime(args[0], args[1])
+
     default:
       console.warn(`Unknown parameter type: ${type}`)
       return 0
@@ -588,6 +591,22 @@ export function generateQuestionFromTemplate(template, skill, year) {
   }
 
   const params = generateParams(template.params, year, templateDifficulty)
+
+  // Validate params if validateParams constraint is specified
+  if (template.validateParams) {
+    try {
+      const keys = Object.keys(params)
+      const values = Object.values(params)
+      const fn = new Function(...keys, `return (${template.validateParams})`)
+      const isValid = fn(...values)
+      if (!isValid) {
+        // Parameters don't meet constraint, regenerate recursively
+        return generateQuestionFromTemplate(template, skill, year)
+      }
+    } catch (e) {
+      // Ignore validation errors and continue
+    }
+  }
 
   // Special handling: keep Y6 time questions realistic by generating start/end
   // from a reasonable movie duration (rather than independent random times).

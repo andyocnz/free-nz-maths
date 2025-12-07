@@ -13,7 +13,7 @@
           "templates": [
             {
               "id": "Y12.A.MATRIX_OPS.T1",
-              "stem": "Multiply matrices [[{a},{b}],[{c},{d}]] × [[{e},{f}],[{g},{h}]]",
+              "stem": "Multiply matrices [[{a},{b}],[{c},{d}]] * [[{e},{f}],[{g},{h}]]",
               "params": {
                 "a": ["int", 1, 5],
                 "b": ["int", 1, 5],
@@ -29,7 +29,7 @@
                 "type": "matrix_2x2",
                 "matrix1": [["a","b"],["c","d"]],
                 "matrix2": [["e","f"],["g","h"]],
-                "op": "×",
+                "op": "*",
                 "width": 400,
                 "height": 260
               },
@@ -231,7 +231,7 @@
             },
             {
               "id": "Y12.G.VECTOR_OPS.T4",
-              "stem": "Find {k} × <{a},{b}>",
+              "stem": "Find {k} * <{a},{b}>",
               "params": {
                 "k": ["int", 2, 5],
                 "a": ["int", -10, 10],

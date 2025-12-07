@@ -1,0 +1,691 @@
+{
+  "skills": [
+    {
+      "id": "Y13.F.INVERSES",
+      "name": "F Inverses",
+      "strand": "Algebra & Functions",
+      "description": "Practice problems for F Inverses.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.F.INVERSES.T1",
+          "stem": "If f(x) = {a}x + {b} with domain [{p}, {q}], find the domain and range of f⁻¹(x).",
+          "params": { "a": ["int", 2, 5], "b": ["int", -6, 6], "p": ["int", -5, 0], "q": ["int", 1, 6] },
+          "answer": "{`Domain: [${a*p + b}, ${a*q + b}], Range: [${p}, ${q}]`}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "Domain of inverse = range of f; range of inverse = domain of f."
+        },
+        {
+          "id": "Y13.F.INVERSES.T2",
+          "stem": "From the table, find f⁻¹({k}):\n\nx   | {x1} | {x2} | {x3} | {x4}\nf(x)| {y1} | {y2} | {y3} | {y4}\n",
+          "params": { 
+            "x1": ["int", -3, 0], "x2": ["int", 1, 3], "x3": ["int", 4, 6], "x4": ["int", 7, 9],
+            "y1": ["int", 2, 5], "y2": ["int", 6, 9], "y3": ["int", 10, 13], "y4": ["int", 14, 17],
+            "k": ["choice", "{y1}", "{y2}", "{y3}", "{y4}"]
+          },
+          "answer": "{k==y1 ? x1 : k==y2 ? x2 : k==y3 ? x3 : x4}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "f⁻¹(y) is the x-value where f(x) = y. Swap rows."
+        }
+      ]
+    },
+    {
+      "id": "Y13.F.TRANSFORMATIONS",
+      "name": "F Transformations",
+      "strand": "Algebra & Functions",
+      "description": "Practice problems for F Transformations.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.F.TRANSFORMATIONS.T1",
+          "stem": "Describe the transformations that map y = sin(x) onto y = {a} sin({b}(x − {c})) + {d}.",
+          "params": { 
+            "a": ["choice", 2, 3, -1, -2], 
+            "b": ["choice", 2, 3, 0.5], 
+            "c": ["decimal", -3.0, 3.0, 0.5], 
+            "d": ["int", -4, 4] 
+          },
+          "answer": "{(a<0?'Reflection in x-axis, ':'')+(Math.abs(a)!==1?'Vertical stretch scale factor '+Math.abs(a)+', ':'')+'Horizontal stretch scale factor 1/'+b+', '+'Translation '+c+' units right'+(c<0?' (left)':'')+' and '+d+' units up'+(d<0?' (down)':'')}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "Form a sin(b(x−c)) + d → amplitude |a|, period 2π/b, phase shift c, vertical shift d."
+        },
+        {
+          "id": "Y13.F.TRANSFORMATIONS.T2",
+          "stem": "The graph of y = x³ is transformed to y = −{a}(x + {h})³ + {k}. List the transformations in order.",
+          "params": { "a": ["int", 1, 3], "h": ["int", -4, 4, 1], "k": ["int", -5, 5, 1] },
+          "answer": "{`Reflection in x-axis, vertical stretch by ${a}, translation ${h>=0?h+' right':(-h)+' left'}, ${k>=0?k+' up':(-k)+' down'}`}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "Work inside-out: first translation, then stretch, then reflection."
+        }
+      ]
+    },
+    {
+      "id": "Y13.POLY.QUADRATICS_POLYDIV",
+      "name": "Poly Quadratics Polydiv",
+      "strand": "Number & Algebra",
+      "description": "Practice problems for Poly Quadratics Polydiv.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.POLY.QUADRATICS_POLYDIV.T1",
+          "stem": "For the quadratic {a}x² + {b}x + {c} = 0, state the number of distinct real roots using the discriminant (no need to solve).",
+          "params": { "a": ["int", 1, 3], "b": ["int", -8, 8], "c": ["int", -10, 10] },
+          "answer": "{b*b-4*a*c > 0 ? 'Two distinct real roots' : b*b-4*a*c == 0 ? 'One repeated real root' : 'No real roots'}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "Δ = b² − 4ac; >0 → 2 roots, =0 → 1 root, <0 → none."
+        },
+        {
+          "id": "Y13.POLY.QUADRATICS_POLYDIV.T2",
+          "stem": "Use synthetic division to divide {p}x³ + {q}x² + {r}x + {s} by (x − {t}). Give the quotient polynomial only.",
+          "params": { 
+            "p": ["int", 1, 3], 
+            "q": ["int", -8, 8], 
+            "r": ["int", -12, 12], 
+            "s": ["int", -15, 15], 
+            "t": ["int", -4, 4] 
+          },
+          "answer": "{syntheticQuotient(p,q,r,s,t)}",
+          "difficulty": 8,
+          "phase": 10.19,
+          "hint": "Bring down leading coefficient, multiply by {t}, add next coefficient, repeat."
+        }
+      ]
+    },
+    {
+      "id": "Y13.CONICS.PROPERTIES",
+      "name": "Conics Properties",
+      "strand": "Geometry & Trigonometry",
+      "description": "Practice problems for Conics Properties.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.CONICS.PROPERTIES.T1",
+          "stem": "For the circle (x − {h})² + (y + {k})² = {r}², state centre and radius.",
+          "params": { "h": ["int", -6, 6], "k": ["int", -6, 6], "r": ["int", 3, 8] },
+          "answer": "{`Centre: (${h}, ${-k}), Radius: ${r}`}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "Standard form (x−h)² + (y−k)² = r² → centre (h,k)."
+        },
+        {
+          "id": "Y13.CONICS.PROPERTIES.T2",
+          "stem": "For the parabola y = {a}(x − {h})² + {k}, state vertex, axis of symmetry, and whether it opens up or down.",
+          "params": { "a": ["choice", 1, 2, -1, -3], "h": ["int", -5, 5], "k": ["int", -6, 6] },
+          "answer": "{`Vertex: (${h}, ${k}), Axis: x = ${h}, Opens ${a>0?'upwards':'downwards'}`}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "Vertex form y = a(x−h)² + k → vertex (h,k); sign of a determines direction."
+        }
+      ]
+    },
+    {
+      "id": "Y13.COMPLEX.POLAR",
+      "name": "Complex Polar",
+      "strand": "Algebra & Functions",
+      "description": "Practice problems for Complex Polar.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.COMPLEX.POLAR.T1",
+          "stem": "Convert z = {a} + {b}i to polar form r∠θ (give r exactly, θ in radians to 2 dp).",
+          "params": { "a": ["int", -6, 6, 1], "b": ["int", -6, 6, 1] },
+          "answer": "{`\\sqrt{${a*a+b*b}} \\angle ${atan2(b,a).toFixed(2)}`}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "r = √(a²+b²), θ = atan2(b,a)."
+        },
+        {
+          "id": "Y13.COMPLEX.POLAR.T2",
+          "stem": "Convert {r}∠{theta}π to rectangular form a + bi (exact values).",
+          "params": { 
+            "r": ["int", 2, 6], 
+            "theta": ["choice", 0, "1/6", "1/4", "1/3", "1/2", "2/3", "3/4", "5/6"] 
+          },
+          "answer": "{polarToRect(r, theta)}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "x = r cos(θπ), y = r sin(θπ); use common exact values."
+        }
+      ]
+    },
+    {
+      "id": "Y13.SEQ.GEOMETRIC",
+      "name": "Seq Geometric",
+      "strand": "Algebra & Functions",
+      "description": "Practice problems for Seq Geometric.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.SEQ.GEOMETRIC.T1",
+          "stem": "Find the sum of the first {n} terms of the geometric sequence with first term {a} and common ratio {r}.",
+          "params": { 
+            "n": ["int", 5, 10], 
+            "a": ["int", 1, 8], 
+            "r": ["choice", 2, 3, 0.5, -0.5, 1.5] 
+          },
+          "answer": "{a*(1-Math.pow(r,n))/(1-r)}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "S_n = a (1 − r^n)/(1 − r)  (or a (r^n − 1)/(r − 1) if r>1)."
+        },
+        {
+          "id": "Y13.SEQ.GEOMETRIC.T2",
+          "stem": "An infinite geometric series has first term {a} and common ratio {r}. Does it converge? If yes, give the sum; if no, write 'diverges'.",
+          "params": { 
+            "a": ["int", 2, 10], 
+            "r": ["choice", 0.6, -0.7, 0.9, -1.1, 1.2, 0.3] 
+          },
+          "answer": "{Math.abs(r)<1 ? (a/(1-r)).toFixed(3) : 'diverges'}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "Converges to a/(1−r) only when |r| < 1."
+        }
+      ]
+    },
+    {
+      "id": "Y13.F.COMPOSITION",
+      "name": "F Composition",
+      "strand": "Algebra & Functions",
+      "description": "Practice problems for F Composition.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.F.COMPOSITION.T1",
+          "stem": "Given f(x) = √x and g(x) = {a}x + {b}, find (f ∘ g)(x) and state its domain.",
+          "params": { "a": ["int", 1, 4], "b": ["int", -8, 8] },
+          "answer": "{`\\sqrt{${a}x + ${b}}, \\quad x \\geqslant ${b>=0 ? 0 : -b/a}`}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "Inside the square root must be ≥ 0 after substitution."
+        },
+        {
+          "id": "Y13.F.COMPOSITION.T2",
+          "stem": "Given f(x) = {p}x² and g(x) = {q}x + {r}, find (g ∘ f)(x).",
+          "params": { "p": ["int", 1, 3], "q": ["int", 2, 5], "r": ["int", -5, 5] },
+          "answer": "{q*p*p}x^4 + {2*q*p*r}x² + {q*r*r}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "Substitute f(x) into g: g(f(x)) = q(f(x)) + r."
+        }
+      ]
+    },
+    {
+      "id": "Y13.POLY.LONG_DIVISION",
+      "name": "Poly Long Division",
+      "strand": "Number & Algebra",
+      "description": "Practice problems for Poly Long Division.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.POLY.LONG_DIVISION.T1",
+          "stem": "Divide {a}x⁴ + {b}x³ + {c}x² + {d}x + {e} by (x + {k}) using long division. Give only the quotient.",
+          "params": { 
+            "a": ["int", 1, 2], 
+            "b": ["int", -10, 10], 
+            "c": ["int", -15, 15], 
+            "d": ["int", -20, 20], 
+            "e": ["int", -20, 20], 
+            "k": ["int", 1, 4] 
+          },
+          "answer": "{longDivQuotient(a,b,c,d,e,-k)}",
+          "difficulty": 8,
+          "phase": 10.19,
+          "hint": "Divide leading terms step by step; remainder not required."
+        },
+        {
+          "id": "Y13.POLY.LONG_DIVISION.T2",
+          "stem": "Perform synthetic division on {p}x³ − {q}x² + {r}x − {s} divided by (x − {t}). State the quotient only.",
+          "params": { 
+            "p": ["int", 1, 3], 
+            "q": ["int", 2, 8], 
+            "r": ["int", 1, 10], 
+            "s": ["int", 1, 12], 
+            "t": ["int", 1, 5] 
+          },
+          "answer": "{syntheticQuotient(p,-q,r,-s,t)}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "Coefficients: {p}, −{q}, {r}, −{s}; root {t}."
+        }
+      ]
+    },
+{
+      "id": "Y13.F.DOMAIN_RANGE",
+      "name": "F Domain Range",
+      "strand": "Algebra & Functions",
+      "description": "Practice problems for F Domain Range.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.F.DOMAIN_RANGE.T1",
+          "stem": "Find the domain of f(x) = \\frac{{a}}{\\sqrt{{b}x - {c}}}.",
+          "params": { "a": ["int", 2, 5], "b": ["int", 1, 4], "c": ["int", 1, 8] },
+          "answer": "{`x > ${c/b}`}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "Denominator ≠ 0 and inside square root ≥ 0 → {b}x - {c} > 0."
+        },
+        {
+          "id": "Y13.F.DOMAIN_RANGE.T2",
+          "stem": "Find the range of f(x) = {a}x² + {b}x + {c} on the domain [-2, 3].",
+          "params": { "a": ["choice", 1, 2, -1], "b": ["int", -6, 6], "c": ["int", -5, 5] },
+          "answer": "{a > 0 ? `[${evalQuadAt(a,b,c,-2) > evalVertex(a,b,c) ? evalQuadAt(a,b,c,-2) : evalVertex(a,b,c)}, ${Math.max(evalQuadAt(a,b,c,-2), evalQuadAt(a,b,c,3))}]` : `[${Math.min(evalQuadAt(a,b,c,-2), evalQuadAt(a,b,c,3))}, ${evalVertex(a,b,c)}]`}",
+          "difficulty": 8,
+          "phase": 10.19,
+          "hint": "Vertex at x = -b/(2a); evaluate at endpoints and vertex."
+        }
+      ]
+    },
+    {
+      "id": "Y13.F.TRANSFORMATIONS_FAMILY",
+      "name": "F Transformations Family",
+      "strand": "Algebra & Functions",
+      "description": "Practice problems for F Transformations Family.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.F.TRANSFORMATIONS_FAMILY.T1",
+          "stem": "The graph of y = \\sqrt{x} is transformed to y = {a}\\sqrt{-{x - {h}}} + {k}. Describe all transformations.",
+          "params": { "a": ["choice", 2, -3], "h": ["int", -5, 5], "k": ["int", -6, 6] },
+          "answer": "{`Reflection in y-axis, ${a<0?'reflection in x-axis, ':'''}vertical stretch by ${Math.abs(a)}, translation ${h>=0?h+' right':(-h)+' left'} and ${k>=0?k+' up':(-k)+' down'}`}",
+          "difficulty": 8,
+          "phase": 10.19,
+          "hint": "Work inside-out: -x → reflect y-axis, then scale, then shift."
+        },
+        {
+          "id": "Y13.F.TRANSFORMATIONS_FAMILY.T2",
+          "stem": "Write the equation obtained by translating y = |x| {p} units left and {q} units down, then reflecting in the x-axis.",
+          "params": { "p": ["int", 1, 6], "q": ["int", 1, 7] },
+          "answer": "{`-|x + ${p}| + ${-q}`}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "Translation first: |x + p| + (-q), then reflect → negative."
+        }
+      ]
+    },
+    {
+      "id": "Y13.QUADRATICS_DISCRIMINANT",
+      "name": "Quadratics Discriminant",
+      "strand": "Algebra & Functions",
+      "description": "Practice problems for Quadratics Discriminant.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.QUADRATICS_DISCRIMINANT.T1",
+          "stem": "Find the values of k for which {a}x² + {b}x + k = 0 has exactly one real root.",
+          "params": { "a": ["int", 1, 3], "b": ["int", -7, 7, 1] },
+          "answer": "{`k = ${b*b/(4*a)}`}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "Discriminant = 0 → k = b²/(4a)."
+        },
+        {
+          "id": "Y13.QUADRATICS_DISCRIMINANT.T2",
+          "stem": "The quadratic ax² + bx + c has discriminant 36. If a = {a} and b = {b}, find possible values of c.",
+          "params": { "a": ["int", 1, 4], "b": ["int", -10, 10, 2] },
+          "answer": "{`c = ${b*b/4 - 9/a} or c = ${b*b/4 + 9/a}`}",
+          "difficulty": 8,
+          "phase": 10.19,
+          "hint": "b² − 4ac = 36 → c = (b² − 36)/(4a) or (b² + 36)/(4a) depending on sign convention."
+        }
+      ]
+    },
+    {
+      "id": "Y13.POLY_ROOTS_THEOREMS",
+      "name": "Poly Roots Theorems",
+      "strand": "Number & Algebra",
+      "description": "Practice problems for Poly Roots Theorems.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.POLY_ROOTS_THEOREMS.T1",
+          "stem": "List all possible rational roots of {a}x³ + {b}x² + {c}x + {d} = 0 using the Rational Root Theorem.",
+          "params": { "a": ["choice", 1, 2, 3], "b": ["int", -6, 6], "c": ["int", -10, 10], "d": ["choice", 4, 6, 8, 12] },
+          "answer": "{possibleRationalRoots(a,d)}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "± factors of constant term / factors of leading coefficient."
+        },
+        {
+          "id": "Y13.POLY_ROOTS_THEOREMS.T2",
+          "stem": "A cubic polynomial with real coefficients has roots 2+i and 3. State the third root and the minimal polynomial with integer coefficients.",
+          "params": {},
+          "answer": "{`Third root: 2−i, Polynomial: (x−3)(x−(2+i))(x−(2−i)) = (x−3)(x²−4x+5)`}",
+          "difficulty": 8,
+          "phase": 10.19,
+          "hint": "Complex roots come in conjugate pairs; Fundamental Theorem of Algebra."
+        }
+      ]
+    },
+    {
+      "id": "Y13.SIMULTANEOUS",
+      "name": "Simultaneous",
+      "strand": "Number & Algebra",
+      "description": "Practice problems for Simultaneous.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.SIMULTANEOUS.T1",
+          "stem": "Solve the system:\n{a}x + {b}y = {c}\n{d}x + {e}y = {f}",
+          "params": { "a": ["int", 1, 4], "b": ["int", -5, 5, 1], "c": ["int", -10, 10], "d": ["int", 1, 4], "e": ["int", -5, 5, 1], "f": ["int", -10, 10] },
+          "answer": "{solve2x2(a,b,c,d,e,f)}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "Use elimination or substitution; show x = …, y = …"
+        },
+        {
+          "id": "Y13.SIMULTANEOUS.T2",
+          "stem": "Solve for x, y, z:\nx + y + z = {a}\n2x − y + 3z = {b}\nx + 2y − z = {c}",
+          "params": { "a": ["int", 5, 12], "b": ["int", 0, 15], "c": ["int", -5, 10] },
+          "answer": "{solve3x3Simple(a,b,c)}",
+          "difficulty": 8,
+          "phase": 10.19,
+          "hint": "Eliminate variables step-by-step; consistent small integers."
+        }
+      ]
+    },
+    {
+      "id": "Y13.INEQUALITIES_LP",
+      "name": "Inequalities Lp",
+      "strand": "Number & Algebra",
+      "description": "Practice problems for Inequalities Lp.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.INEQUALITIES_LP.T1",
+          "stem": "Solve the inequality \\frac{{a}x + {b}}{{c}x - {d}} > 0. Give solution in interval notation.",
+          "params": { "a": ["int", 1, 3], "b": ["int", -5, 5], "c": ["int", 1, 3], "d": ["int", 1, 5] },
+          "answer": "{signChartSolution(a,b,c,-d)}",
+          "difficulty": 8,
+          "phase": 10.19,
+          "hint": "Critical points x = -b/a and x = d/c; test intervals."
+        },
+        {
+          "id": "Y13.INEQUALITIES_LP.T2",
+          "stem": "Maximize P = {a}x + {b}y subject to:\nx ≥ 0, y ≥ 0\nx + 2y ≤ {p}\n3x + y ≤ {q}\nState the maximum value and point.",
+          "params": { "a": ["int", 3, 8], "b": ["int", 4, 10], "p": ["int", 8, 14], "q": ["int", 10, 18] },
+          "answer": "{linearProgrammingVertex(a,b,p,q)}",
+          "difficulty": 8,
+          "phase": 10.19,
+          "hint": "Evaluate P at the three feasible vertices."
+        }
+      ]
+    },
+    {
+      "id": "Y13.PROBABILITY_BASIC",
+      "name": "Probability Basic",
+      "strand": "Statistics & Probability",
+      "description": "Practice problems for Probability Basic.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.PROBABILITY_BASIC.T1",
+          "stem": "A bag contains {r} red and {b} blue balls. Two balls are drawn without replacement. Find P(first red and second blue).",
+          "params": { "r": ["int", 3, 7], "b": ["int", 4, 8] },
+          "answer": "{`${r}/(${r+b}) \\times ${b}/(${r+b-1)} = ${r*b/((r+b)*(r+b-1))}`}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "Multiply conditional probabilities."
+        },
+        {
+          "id": "Y13.PROBABILITY_BASIC.T2",
+          "stem": "Events A and B are independent with P(A) = {p} and P(B) = {q}. Find P(A ∩ B').",
+          "params": { "p": ["choice", 0.2, 0.3, 0.4, 0.5], "q": ["choice", 0.3, 0.4, 0.6] },
+          "answer": "{p*(1-q)}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "P(A ∩ B') = P(A) × P(B') = P(A) × (1 − P(B))."
+        }
+      ]
+    },
+    {
+      "id": "Y13.LIMITS_CONTINUITY",
+      "name": "Limits Continuity",
+      "strand": "Calculus & Coordinates",
+      "description": "Practice problems for Limits Continuity.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.LIMITS_CONTINUITY.T1",
+          "stem": "Find \\lim_{x \\to {a}} \\frac{x² - {a}²}{x - {a}}.",
+          "params": { "a": ["int", -3, 3, 1] },
+          "answer": "{2*a}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "Factor numerator as difference of squares → (x + {a})(x − {a})."
+        },
+        {
+          "id": "Y13.LIMITS_CONTINUITY.T2",
+          "stem": "At which value of x is f(x) = \\frac{{a}x² + {b}x + {c}}{{d}x + {e}} discontinuous (removable or jump)? State type.",
+          "params": { "a": ["int", 1, 3], "b": ["int", -5, 5], "c": ["int", -6, 6], "d": ["int", 1, 3], "e": ["int", 1, 6] },
+          "answer": "{`x = ${-e/d}, removable discontinuity (common factor)`}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "Discontinuity where denominator = 0; check if numerator also 0."
+        }
+      ]
+    },
+    {
+      "id": "Y13.CONICS.ELLIPSE_HYPERBOLA",
+      "name": "Conics Ellipse Hyperbola",
+      "strand": "Geometry & Trigonometry",
+      "description": "Practice problems for Conics Ellipse Hyperbola.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.CONICS.ELLIPSE_HYPERBOLA.T1",
+          "stem": "Identify the conic and state its centre:\n\\frac{(x-{h})^2}{{a$^2$}} + \\frac{(y-{k})^2}{{b$^2$}} = 1 (a > b > 0).",
+          "params": { "h": ["int", -5, 5], "k": ["int", -5, 5], "a": ["int", 4, 8], "b": ["int", 2, 4] },
+          "answer": "{`Ellipse, centre (${h}, ${k})`}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "When both terms are added and =1 → ellipse."
+        },
+        {
+          "id": "Y13.CONICS.ELLIPSE_HYPERBOLA.T2",
+          "stem": "Identify the conic and state its centre:\n\\frac{(x-{h})^2}{{p$^2$}} - \\frac{(y-{k})^2}{{q$^2$}} = 1.",
+          "params": { "h": ["int", -6, 6], "k": ["int", -6, 6], "p": ["int", 3, 7], "q": ["int", 2, 5] },
+          "answer": "{`Hyperbola, centre (${h}, ${k})`}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "Subtraction and =1 → hyperbola; opens horizontally."
+        }
+      ]
+    },
+    {
+      "id": "Y13.COMPLEX.DEMOIVRE",
+      "name": "Complex Demoivre",
+      "strand": "Algebra & Functions",
+      "description": "Practice problems for Complex Demoivre.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.COMPLEX.DEMOIVRE.T1",
+          "stem": "Express in polar form and compute (√3 + i)^5 using De Moivre’s theorem. Give exact rectangular form.",
+          "params": {},
+          "answer": "{`20(\\sqrt{3} - i)`}",
+          "difficulty": 8,
+          "phase": 10.19,
+          "hint": "First write √3 + i = 2∠π/6."
+        },
+        {
+          "id": "Y13.COMPLEX.DEMOIVRE.T2",
+          "stem": "Find the three cube roots of {r}∠{θ}π in rectangular form (exact).",
+          "params": { "r": ["int", 8, 27], "θ": ["choice", 0, "1/3", "1/2", "2/3"] },
+          "answer": "{cubeRootsPolar(r,θ)}",
+          "difficulty": 8,
+          "phase": 10.19,
+          "hint": "Roots are r^{1/3} ∠ (θπ + 2kπ)/3 for k=0,1,2."
+        }
+      ]
+    },
+    {
+      "id": "Y13.SEQ.ARITHMETIC_SIGMA",
+      "name": "Seq Arithmetic Sigma",
+      "strand": "Algebra & Functions",
+      "description": "Practice problems for Seq Arithmetic Sigma.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.SEQ.ARITHMETIC_SIGMA.T1",
+          "stem": "An arithmetic sequence has first term {a} and common difference {d}. Find the sum of the first {n} terms.",
+          "params": { "a": ["int", 3, 15], "d": ["int", -4, 6, 1], "n": ["int", 10, 20] },
+          "answer": "{n/2 * (2*a + (n-1)*d)}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "S_n = n/2 [2a + (n−1)d] or n/2 (first + last)."
+        },
+        {
+          "id": "Y13.SEQ.ARITHMETIC_SIGMA.T2",
+          "stem": "Evaluate \\sum_{k=1}^{n} (3k - 1).",
+          "params": { "n": ["int", 15, 30] },
+          "answer": "{`${n*n/2 + n}`}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "Separate: 3\\sum k − \\sum 1."
+        }
+      ]
+    },
+    {
+      "id": "Y13.SIMULTANEOUS_NONLINEAR",
+      "name": "Simultaneous Nonlinear",
+      "strand": "Number & Algebra",
+      "description": "Practice problems for Simultaneous Nonlinear.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.SIMULTANEOUS_NONLINEAR.T1",
+          "stem": "Solve simultaneously:\ny = x² - {a}x + {b}\ny = {c}x + {d}",
+          "params": { "a": ["int", 2, 6], "b": ["int", 1, 8], "c": ["int", -3, 3], "d": ["int", -5, 5] },
+          "answer": "{solveQuadraticLinear(a,b,c,d)}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "Set equal → x² - {a}x + {b} - {c}x - {d} = 0."
+        },
+        {
+          "id": "Y13.SIMULTANEOUS_NONLINEAR.T2",
+          "stem": "Solve x² + y² = {r²}\nx + y = {s}",
+          "params": { "r²": ["choice", 25, 50, 13, 85], "s": ["int", 5, 12] },
+          "answer": "{solveCircleLine(r²,s)}",
+          "difficulty": 8,
+          "phase": 10.19,
+          "hint": "y = {s} - x → substitute into circle."
+        }
+      ]
+    },
+    {
+      "id": "Y13.INEQUALITIES_QUADRATIC_MODULUS",
+      "name": "Inequalities Quadratic Modulus",
+      "strand": "Number & Algebra",
+      "description": "Practice problems for Inequalities Quadratic Modulus.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.INEQUALITIES_QUADRATIC_MODULUS.T1",
+          "stem": "Solve {a}x² + {b}x + {c} < 0. Give solution in interval notation.",
+          "params": { "a": ["choice", 1, -2], "b": ["int", -6, 6], "c": ["int", -10, 10] },
+          "answer": "{quadraticInequality(a,b,c)}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "Find roots first, then test parabola direction."
+        },
+        {
+          "id": "Y13.INEQUALITIES_QUADRATIC_MODULUS.T2",
+          "stem": "Solve |x - {h}| + |x + {k}| ≤ {m}.",
+          "params": { "h": ["int", 2, 6], "k": ["int", 3, 7], "m": ["int", 10, 16] },
+          "answer": "{`[${-(k+m)/2}, ${(h+m)/2}]`}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "Sum of distances to {h} and -{k} is constant; bounded by median points."
+        }
+      ]
+    },
+    {
+      "id": "Y13.COMBINATORICS_BINOMIAL",
+      "name": "Combinatorics Binomial",
+      "strand": "Statistics & Probability",
+      "description": "Practice problems for Combinatorics Binomial.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.COMBINATORICS_BINOMIAL.T1",
+          "stem": "Calculate ^{n}C_{r} (or write in factorial form).",
+          "params": { "n": ["int", 8, 15], "r": ["int", 2, 5] },
+          "answer": "{binomial(n,r)}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "\\binom{n}{r} = n!/(r!(n-r)!)."
+        },
+        {
+          "id": "Y13.COMBINATORICS_BINOMIAL.T2",
+          "stem": "Expand (x + 2)^{5} using the binomial theorem.",
+          "params": {},
+          "answer": "{`x^5 + 10x^4 + 40x^3 + 80x^2 + 80x + 32`}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "General term \\binom{5}{k} x^{5-k} 2^k."
+        }
+      ]
+    },
+    {
+      "id": "Y13.DISTRIBUTIONS",
+      "name": "Distributions",
+      "strand": "Statistics & Probability",
+      "description": "Practice problems for Distributions.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.DISTRIBUTIONS.T1",
+          "stem": "X ~ Bin({n},{p}). Find P(X = {k}). Give exact answer.",
+          "params": { "n": ["int", 8, 12], "p": ["choice", 0.5, 0.3, 0.2], "k": ["int", 2, 5] },
+          "answer": "{`\\binom{${n}}{${k}} ${p}^${k} (1-${p})^{${n}-${k}}`}",
+          "difficulty": 7,
+          "phase": 10.19,
+          "hint": "Binomial formula."
+        },
+        {
+          "id": "Y13.DISTRIBUTIONS.T2",
+          "stem": "X ~ N(μ = {μ}, σ² = {σ²}). Find P({a} < X < {b}) using standard normal table values (give to 3 dp).",
+          "params": { "μ": ["int", 50, 100], "σ²": ["choice", 16, 25, 36], "a": ["int", 40, 90], "b": ["int", 60, 120] },
+          "answer": "{normalCDF((a-μ)/σ,(b-μ)/σ)}",
+          "difficulty": 8,
+          "phase": 10.19,
+          "hint": "Standardise to Z-scores first."
+        }
+      ]
+    },
+    {
+      "id": "Y13.LIMITS_INFINITY_IVT",
+      "name": "Limits Infinity Ivt",
+      "strand": "Calculus & Coordinates",
+      "description": "Practice problems for Limits Infinity Ivt.",
+      "phase": 10.19,
+      "templates": [
+        {
+          "id": "Y13.LIMITS_INFINITY_IVT.T1",
+          "stem": "Evaluate \\lim_{x \\to \\infty} \\frac{{a}x^3 + {b}x - {c}}{{d}x^3 - {e}x^2 + {f}}.",
+          "params": { "a": ["int", 1, 4], "b": ["int", -8, 8], "c": ["int", 1, 10], "d": ["int", 1, 4], "e": ["int", -7, 7], "f": ["int", 1, 12] },
+          "answer": "{a/d}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "Divide numerator and denominator by highest power x³."
+        },
+        {
+          "id": "Y13.LIMITS_INFINITY_IVT.T2",
+          "stem": "f(x) is continuous on [{p},{q}] with f({p}) = -{a} and f({q}) = {b} (a,b > 0). Using IVT, state a value of c where f(c) = 0.",
+          "params": { "p": ["int", -5, 0], "q": ["int", 1, 6], "a": ["int", 2, 8], "b": ["int", 3, 9] },
+          "answer": "{`Any c \\in (${p}, ${q})`}",
+          "difficulty": 6,
+          "phase": 10.19,
+          "hint": "Intermediate Value Theorem guarantees at least one root."
+        }
+      ]
+    }
+
+  ]
+}

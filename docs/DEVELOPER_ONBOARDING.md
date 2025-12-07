@@ -2,6 +2,66 @@
 
 This guide provides a comprehensive overview of the codebase, workflows, and best practices for adding new content and features.
 
+## 📁 Project Folder Structure
+
+The project is organized into logical folders for easy navigation:
+
+```
+free-nz-maths/
+├── src/                          ← App code (React, components, logic)
+│   ├── *.jsx, *.js              (Components and utilities)
+│   └── *.json                   (7 active curriculum files)
+│
+├── docs/                         ← All documentation
+│   ├── DEVELOPER_ONBOARDING.md  (This file)
+│   ├── *.md                     (20+ guides and references)
+│   └── audit_reports/           (Audit logs and reports)
+│
+├── scripts/                      ← Utility scripts
+│   ├── sample_generate.mjs      (Generate sample questions)
+│   ├── validate_template.cjs    (Validate template syntax)
+│   ├── check_recent_templates.cjs
+│   ├── *.ps1 files              (PowerShell utilities)
+│   └── README.md                (Scripts documentation)
+│
+├── notes/                        ← Working reference materials
+│   ├── *.txt files              (Topic lists, curriculum references)
+│   └── README.md                (Reference guide)
+│
+├── phase/                        ← Input data for processing
+│   ├── phase 10 year 11-13.json (Template definitions)
+│   ├── phase 13 olymics.json    (Olympiad templates)
+│   └── README.md                (Input folder notes)
+│
+├── README.md                     ← Main project documentation
+├── package.json                  ← Node dependencies
+└── [other config files]          (vite.config.js, .gitignore, etc)
+```
+
+**Key Points:**
+- **src/** contains the live app code - this is what runs
+- **docs/** is all documentation for developers
+- **scripts/** has utility scripts for development tasks
+- **notes/** contains working reference materials
+- **phase/** contains input data used for processing (not live app data)
+
+---
+
+## 🚀 Quick Start: Adding Templates
+
+**👉 See `CURRICULUM_GUIDE.md` in the main folder for step-by-step instructions on where to add templates for each year.**
+
+**TL;DR - Template Files by Year:**
+| Year | File | Size |
+|------|------|------|
+| Y6-Y9 | `src/curriculumDataNew.json` | ~1700 lines |
+| Y10 | `src/curriculumDataNew_Y10.json` | ~1100 lines |
+| Y11 | `src/curriculumDataNew_Y11.json` | ~1480 lines |
+| Y12 | `src/curriculumDataNew_Y12.json` | ~1000 lines |
+| Y13 | `src/curriculumDataNew_Y13.json` | ~750 lines |
+
+**Pro Tip:** Keep `CURRICULUM_GUIDE.md` open as reference when adding templates!
+
 ## Table of Contents
 
 1.  [**Quick Start & Setup**](#1-quick-start--setup)
@@ -15,6 +75,8 @@ This guide provides a comprehensive overview of the codebase, workflows, and bes
     *   [The Template & Answer Engine](#31-the-template--answer-engine)
     *   [NCEA Implementation](#32-ncea-implementation)
     *   [Group Test Mode](#33-group-test-mode)
+    *   [Olympiad Curriculum](#34-olympiad-curriculum)
+    *   [Math Symbol Normalization](#35-math-symbol-normalization)
 4.  [**Project Reference**](#4-project-reference)
     *   [Project File Overview](#41-project-file-overview)
     *   [Commit & PR Guidelines](#42-commit--pr-guidelines)
@@ -166,17 +228,97 @@ This regex is specifically designed to detect assignment operators (`=`), not co
 - **Workflow**: A teacher creates a test (full or focused on one topic), gets a code, and students use that code to take the deterministic test. Results are posted to a Google Sheet for the teacher to view.
 - **Features**: Includes "Focused Mode" (testing a single skill) and "Answer Hiding" (students only see "Wrong ❌" without the correct answer).
 
+### 3.4. Olympiad Curriculum
+The application now supports an elite "Olympiad Challenge" mode with advanced mathematics problems:
+
+#### File Structure
+- **Data File**: `src/olympiadCurriculum.json` contains 28 olympiad skills across 6 strands:
+  - Number Theory
+  - Algebra
+  - Geometry
+  - Combinatorics
+  - Probability
+  - Competition Mathematics
+
+#### How It Works
+- **Multiple Curriculum Support**: The app uses three curriculum files:
+  - `curriculumDataMerged.js` - Regular curriculum (Years 6-13)
+  - `olympiadCurriculum.json` - Elite olympiad skills
+  - `curriculumDataFull.json` - Legacy/backup data
+- **Mode Switching**: Users select "Olympiad" from the landing page menu to enter olympiad mode (`isOlympiadMode` state).
+- **Practice & Test**: In olympiad mode, users can practice individual skills or take a full 20-question Olympiad Challenge test.
+
+#### Key Implementation Details
+1. **Test Generator**: `src/testGenerator.js` accepts an optional `activeCurriculum` parameter. When olympiad mode is active, the olympiad curriculum is passed for question generation.
+2. **Curriculum Map Sidebar**: `src/CurriculumMap.jsx` also accepts `activeCurriculum` parameter to display the correct strands and skills.
+3. **Year Parameter**: Olympiad questions use `year: "Olympiad"` instead of numeric years. This ensures the sidebar correctly identifies olympiad mode.
+4. **Question Generation**: `generateQuestionForSkill()` in `templateEngine.js` extracts the year value from the curriculum structure, so it naturally returns "Olympiad" for olympiad questions.
+
+#### For New Developers
+- If adding olympiad skills, follow the same template structure as regular skills but add them to `src/olympiadCurriculum.json`.
+- All question validation and generation works automatically—no special handling needed beyond curriculum selection.
+
+### 3.5. Math Symbol Normalization
+The application automatically fixes corrupted mathematical symbols that may appear in questions and answers due to encoding issues (mojibake):
+
+#### What Gets Fixed
+- Corrupted fractions: `┬▓` → `²`, `┬│` → `³` (squared, cubed)
+- Corrupted operators: `├ù` → `×` (multiplication), `┬╖` → `·` (dot product)
+- Corrupted symbols: `╧Ç` → `π` (pi), `╬╕` → `θ` (theta), `┬░` → `°` (degree)
+- And 30+ more mojibake patterns
+
+#### Implementation
+- **MATH_REPLACEMENTS Array**: Defined in `src/App.jsx` (lines 190-225). Add new patterns here when discovered.
+- **normalizeMathDisplay() Function**: Applies all replacements to a given string. Called on:
+  - Question text when rendering
+  - Answer display (in practice feedback)
+  - Test results
+  - Dev mode answer reveal
+
+#### Usage in Templates
+- Use `*` for multiplication in template answers (not `×`). The frontend displays it correctly using normalization.
+- When templates contain `×`, it gets converted to `*` during preprocessing (search for places using × in curriculum files).
+
+#### Adding New Symbol Patterns
+If you discover a corrupted symbol:
+1. Note the mojibake characters (e.g., `┬▓`)
+2. Identify what symbol it should be (e.g., `²`)
+3. Add an entry to `MATH_REPLACEMENTS`: `['┬▓', '²']`
+4. Test by generating questions and checking if the symbol displays correctly
+
 ---
 
 ## 4. Project Reference
 
 ### 4.1. Project File Overview
-- `src/curriculumDataNew.json`: Where all new question templates should be added.
-- `src/templateEngine.js`: The core engine for generating questions and evaluating answers.
-- `src/QuestionVisualizer.jsx`: Contains all HTML5 Canvas rendering code for visuals.
-- `src/App.jsx`: The main application component, handling UI logic, routing, and state management.
-- `scripts/sample_generate.mjs`: A utility script for quickly generating sample questions.
-- `scripts/validate_template.cjs`: A crucial validator to check template syntax before submission.
+
+#### Core Curriculum & Generation
+- `src/curriculumDataNew.json`: Primary curriculum for Years 6-13 question templates.
+- `src/olympiadCurriculum.json`: Elite olympiad skills (28 skills across 6 strands).
+- `src/curriculumDataMerged.js`: Merged/compiled curriculum used in production.
+- `src/curriculumDataFull.json`: Legacy/backup curriculum data.
+
+#### Question Generation & Processing
+- `src/templateEngine.js`: The core engine for generating questions and evaluating answers. Key exports:
+  - `generateQuestionForSkill(curriculum, skillId)` - Generates a single question
+  - `getSkillsForYear(curriculum, year)` - Gets all skills for a year
+  - `getStrandsForYear(curriculum, year)` - Gets all strands for a year
+- `src/testGenerator.js`: Generates full test/practice question sets. Key exports:
+  - `generateTest(year, totalQuestions, options, activeCurriculum)` - Generates test questions
+
+#### UI & Display
+- `src/App.jsx`: Main application component with:
+  - `isOlympiadMode` state for switching between regular and olympiad curricula
+  - `MATH_REPLACEMENTS` array for symbol normalization (lines 190-225)
+  - `normalizeMathDisplay()` function for fixing corrupted symbols
+  - `CurriculumMap` integration with active curriculum support
+- `src/CurriculumMap.jsx`: Sidebar curriculum map showing strands and skills. Now accepts:
+  - `activeCurriculum` prop for olympiad mode display
+- `src/QuestionVisualizer.jsx`: HTML5 Canvas rendering for visuals.
+
+#### Utilities & Scripts
+- `scripts/sample_generate.mjs`: Utility script for quickly generating sample questions.
+- `scripts/validate_template.cjs`: Validator to check template syntax before submission.
 
 ### 4.2. Commit & PR Guidelines
 - Keep changes focused: one concept per Pull Request.
@@ -192,3 +334,12 @@ This regex is specifically designed to detect assignment operators (`=`), not co
 - **Last Question Not Counted**: This was a state update timing issue, fixed in `finishTest()` in `App.jsx` by checking the answer synchronously before finishing.
 - **Grade Not Displaying**: This was fixed by ensuring `gradeFromPercentage()` is called for all test modes, not just group mode.
 - **Dev Mode**: Use `?dev=true` to see answers in group tests and access other debugging features.
+- **Olympiad Navigation Issues**:
+    - **Left sidebar not showing topics in olympiad mode**: Ensure `CurriculumMap` receives the `activeCurriculum` prop (line 4585 in App.jsx).
+    - **Olympiad test not generating questions**: Verify that `generateTest()` receives the olympiad curriculum and that the year parameter is 'Olympiad'.
+    - **Year detection fails in sidebar**: Check that question objects have `year: "Olympiad"` set (automatically done by `generateQuestionForSkill()`).
+- **Corrupted Math Symbols**:
+    - **Symbols show as mojibake** (e.g., `┬▓` instead of `²`): Add the pattern to `MATH_REPLACEMENTS` in `App.jsx`.
+    - **Symbol normalization not applied**: Ensure `normalizeMathDisplay()` is called on all displayed text (question text, answers, feedback).
+- **Parameter Validation Errors**:
+    - **Vertical line in coordinate geometry**: Use `validateParams` constraint (e.g., `"validateParams": "x1 !== x2"`) to prevent invalid parameters and auto-regenerate if needed. See `templateEngine.js:592-606`.

@@ -1,0 +1,295 @@
+Functions
+A.1	Domain and range
+A.2	Identify functions
+A.3	Find the gradient of a linear function
+A.4	Graph a linear function
+A.5	Write the equation of a linear function
+A.6	Linear functions over unit intervals
+A.7	Evaluate functions
+A.8	Find values using function graphs
+A.9	Complete a table for a function graph
+A.10	Add, subtract, multiply and divide functions
+A.11	Composition of functions
+A.12	Identify inverse functions
+A.13	Find values of inverse functions from tables
+A.14	Find values of inverse functions from graphs
+A.15	Find inverse functions and relations
+Families of functions
+B.1	Function transformation rules
+B.2	Translations of functions
+B.3	Reflections of functions
+B.4	Dilations of functions
+B.5	Transformations of functions
+B.6	Describe function transformations
+Quadratic functions
+C.1	Characteristics of quadratic functions
+C.2	Find the maximum or minimum value of a quadratic function
+C.3	Graph a quadratic function
+C.4	Match quadratic functions and graphs
+C.5	Solve a quadratic equation using square roots
+C.6	Solve a quadratic equation by factorising
+C.7	Solve a quadratic equation by completing the square
+C.8	Solve a quadratic equation using the quadratic formula
+C.9	Using the discriminant
+Polynomials
+D.1	Divide polynomials using long division
+D.2	Divide polynomials using synthetic division
+D.3	Evaluate polynomials using synthetic division
+D.4	Write a polynomial from its roots
+D.5	Find the roots of factorised polynomials
+D.6	Rational root theorem
+D.7	Complex conjugate theorem
+D.8	Conjugate root theorems
+D.9	Descartes' Rule of Signs
+D.10	Fundamental Theorem of Algebra
+D.11	Match polynomials and graphs
+D.12	Factorise sums and differences of cubes
+D.13	Solve equations with sums and differences of cubes
+D.14	Factorise using a quadratic pattern
+D.15	Solve equations using a quadratic pattern
+D.16	Pascal's triangle
+D.17	Pascal's triangle and the Binomial Theorem
+D.18	Binomial Theorem I
+D.19	Binomial Theorem II
+Exponential and logarithmic functions
+E.1	Domain and range of exponential and logarithmic functions
+E.2	Convert between exponential and logarithmic form
+E.3	Evaluate logarithms
+E.4	Change of base formula
+E.5	Product property of logarithms
+E.6	Quotient property of logarithms
+E.7	Power property of logarithms
+E.8	Evaluate logarithms using properties
+E.9	Solve exponential equations by rewriting the base
+E.10	Solve exponential equations using logarithms
+E.11	Solve logarithmic equations with one logarithm
+E.12	Solve logarithmic equations with multiple logarithms
+E.13	Identify linear and exponential functions
+E.14	Exponential functions over unit intervals
+E.15	Describe linear and exponential growth and decay
+E.16	Exponential growth and decay: word problems
+E.17	Compound interest: word problems
+Simultaneous equations
+F.1	Solve simultaneous equations by graphing
+F.2	Solve simultaneous equations by graphing: word problems
+F.3	Classify simultaneous equations
+F.4	Solve simultaneous equations using substitution
+F.5	Solve simultaneous equations using substitution: word problems
+F.6	Solve simultaneous equations using elimination
+F.7	Solve simultaneous equations using elimination: word problems
+F.8	Solve simultaneous equations in three variables using substitution
+F.9	Solve simultaneous equations in three variables using elimination
+F.10	Determine the number of solutions to simultaneous equations in three variables
+Inequalities and linear programming
+G.1	Solve simultaneous inequalities by graphing
+G.2	Find the vertices of a solution set
+G.3	Linear programming
+G.4	Graph solutions to quadratic inequalities
+G.5	Solve quadratic inequalities
+G.6	Graph solutions to higher-degree inequalities
+G.7	Solve higher-degree inequalities
+Trigonometry
+H.1	Convert between radians and degrees
+H.2	Radians and arc length
+H.3	Quadrants
+H.4	Coterminal and reference angles
+H.5	Find trigonometric ratios using right triangles
+H.6	Find trigonometric ratios using the unit circle
+H.7	Find trigonometric ratios using reference angles
+H.8	Inverses of trigonometric functions
+H.9	Solve trigonometric equations
+H.10	Trigonometric ratios: find a side length
+H.11	Trigonometric ratios: find an angle measure
+H.12	Solve a right triangle
+H.13	Law of Sines
+H.14	Law of Cosines
+H.15	Solve a triangle
+H.16	Area of a triangle: sine formula
+H.17	Area of a triangle: Heron's formula
+ 
+Trigonometric functions
+I.1	Find properties of sine functions
+I.2	Write equations of sine functions from graphs
+I.3	Write equations of sine functions using properties
+I.4	Graph sine functions
+I.5	Find properties of cosine functions
+I.6	Write equations of cosine functions from graphs
+I.7	Write equations of cosine functions using properties
+I.8	Graph cosine functions
+I.9	Graph sine and cosine functions
+Trigonometric identities
+J.1	Complementary angle identities
+J.2	Symmetry and periodicity of trigonometric functions
+J.3	Find trigonometric ratios using a Pythagorean or reciprocal identity
+J.4	Find trigonometric ratios using multiple identities
+Conic sections
+K.1	Find properties of parabolas
+K.2	Write equations of parabolas in vertex form
+K.3	Graph parabolas
+K.4	Find properties of circles
+K.5	Write equations of circles in standard form
+K.6	Graph circles
+K.7	Find properties of ellipses
+K.8	Find the eccentricity of an ellipse
+K.9	Write equations of ellipses in standard form
+K.10	Find properties of hyperbolas
+K.11	Find the eccentricity of a hyperbola
+K.12	Write equations of hyperbolas in standard form
+K.13	Convert equations of conic sections from general to standard form
+Complex numbers
+L.1	Add and subtract complex numbers
+L.2	Complex conjugates
+L.3	Multiply and divide complex numbers
+L.4	Add, subtract, multiply and divide complex numbers
+L.5	Absolute values of complex numbers
+L.6	Powers of i
+Complex plane
+M.1	Introduction to the complex plane
+M.2	Graph complex numbers
+M.3	Addition in the complex plane
+M.4	Subtraction in the complex plane
+M.5	Graph complex conjugates
+M.6	Absolute value in the complex plane
+M.7	Midpoints in the complex plane
+M.8	Distance in the complex plane
+Polar form
+N.1	Find the modulus and argument of a complex number
+N.2	Convert complex numbers from rectangular to polar form
+N.3	Convert complex numbers from polar to rectangular form
+N.4	Convert complex numbers between rectangular and polar form
+N.5	Match polar equations and graphs
+Sequences and series
+O.1	Find terms of a sequence
+O.2	Find terms of a recursive sequence
+O.3	Identify a sequence as explicit or recursive
+O.4	Find a recursive formula
+O.5	Find recursive and explicit formulas
+O.6	Convert a recursive formula to an explicit formula
+O.7	Convert an explicit formula to a recursive formula
+O.8	Convert between explicit and recursive formulas
+O.9	Introduction to sigma notation
+O.10	Identify arithmetic and geometric series
+O.11	Find the sum of a finite arithmetic or geometric series
+O.12	Introduction to partial sums
+O.13	Partial sums of arithmetic series
+O.14	Partial sums of geometric series
+O.15	Partial sums: mixed review
+O.16	Convergent and divergent geometric series
+O.17	Find the value of an infinite geometric series
+O.18	Write a repeating decimal as a fraction
+Probability
+P.1	Introduction to probability
+P.2	Calculate probabilities of events
+P.3	Combinations and permutations
+P.4	Find probabilities using combinations and permutations
+P.5	Find probabilities using two-way frequency tables
+P.6	Identify independent events
+P.7	Find conditional probabilities
+P.8	Independence and conditional probability
+P.9	Find conditional probabilities using two-way frequency tables
+P.10	Find probabilities using the addition rule
+Probability distributions
+Q.1	Identify discrete and continuous random variables
+Q.2	Write a discrete probability distribution
+Q.3	Graph a discrete probability distribution
+Q.4	Expected values of random variables
+Q.5	Variance of random variables
+Q.6	Standard deviation of random variables
+Q.7	Write the probability distribution for a game of chance
+Q.8	Expected values for a game of chance
+Q.9	Choose the better bet
+Q.10	Find probabilities using the binomial distribution
+Q.11	Mean, variance and standard deviation of binomial distributions
+Q.12	Find probabilities using the normal distribution I
+Q.13	Find probabilities using the normal distribution II
+Q.14	Find z-values
+Q.15	Find values of normal variables
+Q.16	Distributions of sample means
+Q.17	The Central Limit Theorem
+Q.18	Use normal distributions to approximate binomial distributions
+ 
+Statistics
+R.1	Identify biased samples
+R.2	Variance and standard deviation
+R.3	Identify an outlier
+R.4	Identify an outlier and describe the effect of removing it
+R.5	Outliers in scatter plots
+R.6	Match correlation coefficients to scatter plots
+R.7	Calculate correlation coefficients
+R.8	Find the equation of a regression line
+R.9	Interpret regression lines
+R.10	Analyse a regression line of a data set
+R.11	Analyse a regression line using statistics of a data set
+R.12	Find confidence intervals for population means
+R.13	Find confidence intervals for population proportions
+R.14	Interpret confidence intervals for population means
+R.15	Experiment design
+Introduction to limits
+S.1	Find limits using graphs
+S.2	Find one-sided limits using graphs
+S.3	Determine if a limit exists
+Calculate limits
+T.1	Find limits using addition, subtraction and multiplication laws
+T.2	Find limits using the division law
+T.3	Find limits using power and root laws
+T.4	Find limits using limit laws
+T.5	Find limits of polynomials and rational functions
+T.6	Find limits involving factorisation and rationalisation
+T.7	Find limits involving absolute value functions
+T.8	Find limits involving trigonometric functions
+Limits involving infinity
+U.1	Find limits at vertical asymptotes using graphs
+U.2	Determine end behaviour using graphs
+U.3	Determine end behaviour of polynomial and rational functions
+Rational functions
+V.1	Find the limit at a vertical asymptote of a rational function I
+V.2	Find the limit at a vertical asymptote of a rational function II
+Continuity
+W.1	Identify graphs of continuous functions
+W.2	Determine continuity using graphs
+W.3	Determine one-sided continuity using graphs
+W.4	Find and analyse points of discontinuity using graphs
+W.5	Determine continuity on an interval using graphs
+W.6	Determine the continuity of a piecewise function at a point
+W.7	Make a piecewise function continuous
+W.8	Intermediate Value Theorem
+Introduction to derivatives
+X.1	Average rate of change I
+X.2	Average rate of change II
+X.3	Find instantaneous rates of change
+X.4	Velocity as a rate of change
+X.5	Find values of derivatives using limits
+X.6	Find the gradient of a tangent line using limits
+X.7	Find equations of tangent lines using limits
+Derivative rules
+Y.1	Sum and difference rules
+Y.2	Product rule
+Y.3	Quotient rule
+Y.4	Power rule I
+Y.5	Power rule II
+Y.6	Chain rule
+Y.7	Inverse function rule
+Calculate derivatives
+Z.1	Find derivatives of polynomials
+Z.2	Find derivatives of rational functions
+Z.3	Find derivatives of trigonometric functions I
+Z.4	Find derivatives of trigonometric functions II
+Z.5	Find derivatives of exponential functions
+Z.6	Find derivatives of logarithmic functions
+Z.7	Find derivatives of inverse trigonometric functions
+Z.8	Find derivatives of radical functions
+Z.9	Find derivatives using the product rule I
+Z.10	Find derivatives using the product rule II
+Z.11	Find derivatives using the quotient rule I
+Z.12	Find derivatives using the quotient rule II
+Z.13	Find derivatives using the chain rule I
+Z.14	Find derivatives using the chain rule II
+Derivative strategies
+AA.1	Find derivatives using implicit differentiation
+AA.2	Find tangent lines using implicit differentiation
+AA.3	Find derivatives using logarithmic differentiation
+Calculate higher derivatives
+BB.1	Find higher derivatives of polynomials
+BB.2	Find higher derivatives of rational and radical functions
+BB.3	Find second derivatives of trigonometric, exponential and logarithmic functions
+BB.4	Find higher derivatives using patterns

@@ -1,0 +1,220 @@
+{
+  "skills": [
+    {
+      "id": "Y10.RATIOS_PROPORTIONS",
+      "name": "Ratios Proportions",
+      "strand": "Number & Algebra",
+      "description": "Practice problems for Ratios Proportions.",
+      "phase": 10.16,
+      "templates": [
+        {
+          "id": "Y10.RATIOS_PROPORTIONS.T1",
+          "stem": "A map has scale 1:{s}. The distance between two towns on the map is {d} cm. Find the actual distance in kilometres.",
+          "params": { "s": ["choice", 50000, 100000, 200000, 250000], "d": ["int", 6, 14] },
+          "answer": "{(d*s/100000).toFixed(2)} km",
+          "difficulty": 6,
+          "phase": 10.16,
+          "hint": "1 cm on map = {s} cm real → divide by 100 000 to get km."
+        },
+        {
+          "id": "Y10.RATIOS_PROPORTIONS.T2",
+          "stem": "To make purple paint, red and blue are mixed in the ratio {r}:{b}. How many litres of blue are needed for {red} litres of red?",
+          "params": { "r": ["int", 2,5], "b": ["int", 3,7], "red": ["int", 10,30] },
+          "answer": "{(b*red/r).toFixed(1)} L",
+          "difficulty": 6,
+          "phase": 10.16,
+          "hint": "Blue = (b/r) × red litres."
+        }
+      ]
+    },
+    {
+      "id": "Y10.PERCENT_CHANGE_INTEREST",
+      "name": "Percent Change Interest",
+      "strand": "Number & Algebra",
+      "description": "Practice problems for Percent Change Interest.",
+      "phase": 10.16,
+      "templates": [
+        {
+          "id": "Y10.PERCENT_CHANGE_INTEREST.T1",
+          "stem": "Original price £{old}. Sale price £{new}. Find the percentage discount to nearest percent.",
+          "params": { "old": ["int", 80, 300, 20], "new": ["int", 60, 240, 10] },
+          "answer": "{Math.round(100*(old-new)/old)}%",
+          "difficulty": 6,
+          "phase": 10.16,
+          "hint": "Discount % = (decrease ÷ original) × 100."
+        },
+        {
+          "id": "Y10.PERCENT_CHANGE_INTEREST.T2",
+          "stem": "£{p} is invested at {r}% p.a. simple interest for {t} years. Find the total amount.",
+          "params": { "p": ["int", 500, 2000, 500], "r": ["choice", 3, 4, 5, 6], "t": ["int", 2, 8] },
+          "answer": "{`£${p + p*r*t/100}`}",
+          "difficulty": 7,
+          "phase": 10.16,
+          "hint": "Interest = P × r × t ÷ 100."
+        }
+      ]
+    },
+    {
+      "id": "Y10.COORDINATE_GEOMETRY",
+      "name": "Coordinate Geometry",
+      "strand": "Geometry & Trigonometry",
+      "description": "Practice problems for Coordinate Geometry.",
+      "phase": 10.16,
+      "templates": [
+        {
+          "id": "Y10.COORDINATE_GEOMETRY.T1",
+          "stem": "Find the midpoint of the line segment joining A({x1},{y1}) and B({x2},{y2}).",
+          "params": { "x1": ["int", -6,6], "y1": ["int", -6,6], "x2": ["int", -6,6], "y2": ["int", -6,6] },
+          "answer": "{`\\left( \\frac{${x1+x2}}{2}, \\frac{${y1+y2}}{2} \\right)`}",
+          "difficulty": 6,
+          "phase": 10.16,
+          "hint": "Average the x’s and average the y’s."
+        },
+        {
+          "id": "Y10.COORDINATE_GEOMETRY.T2",
+          "stem": "Find the distance between ({x1},{y1}) and ({x2},{y2}). Give exact simplified answer.",
+          "params": { "x1": ["int", -5,5], "y1": ["int", -5,5], "x2": ["int", -5,5], "y2": ["int", -5,5] },
+          "answer": "{`\\sqrt{${(x2-x1)*(x2-x1)+(y2-y1)*(y2-y1)}}`}",
+          "difficulty": 7,
+          "phase": 10.16,
+          "hint": "Distance = √[(x₂−x₁)² + (y₂−y₁)²]."
+        }
+      ]
+    },
+    {
+      "id": "Y10.LINEAR_FUNCTIONS",
+      "name": "Linear Functions",
+      "strand": "Algebra & Functions",
+      "description": "Practice problems for Linear Functions.",
+      "phase": 10.16,
+      "templates": [
+        {
+          "id": "Y10.LINEAR_FUNCTIONS.T1",
+          "stem": "Find the gradient of the line passing through ({x1},{y1}) and ({x2},{y2}).",
+          "params": { "x1": ["int", -4,4], "y1": ["int", -8,8], "x2": ["int", -4,4, {"not": x1}], "y2": ["int", -8,8] },
+          "answer": "{(y2-y1)/(x2-x1)}",
+          "difficulty": 6,
+          "phase": 10.16,
+          "hint": "m = (y₂ − y₁)/(x₂ − x₁)."
+        },
+        {
+          "id": "Y10.LINEAR_FUNCTIONS.T2",
+          "stem": "Write the equation in y = mx + c form for the line with gradient {m} passing through ({x},{y}).",
+          "params": { "m": ["choice", -3,-2,-1,1,2,3], "x": ["int", -5,5], "y": ["int", -10,10] },
+          "answer": "{`y = ${m}x + ${y - m*x}`}",
+          "difficulty": 7,
+          "phase": 10.16,
+          "hint": "Substitute point into y = mx + c to find c."
+        }
+      ]
+    },
+    {
+      "id": "Y10.EQUATIONS_ADVANCED",
+      "name": "Equations Advanced",
+      "strand": "Algebra & Functions",
+      "description": "Practice problems for Equations Advanced.",
+      "phase": 10.16,
+      "templates": [
+        {
+          "id": "Y10.EQUATIONS_ADVANCED.T1",
+          "stem": "Solve: {a}(x + {b}) = {c}x + {d}",
+          "params": { "a": ["int", 2,6], "b": ["int", 1,8], "c": ["int", 3,9], "d": ["int", -15,15] },
+          "answer": "{(d - a*b)/(a - c)}",
+          "difficulty": 7,
+          "phase": 10.16,
+          "hint": "Expand, collect x terms, solve."
+        },
+        {
+          "id": "Y10.EQUATIONS_ADVANCED.T2",
+          "stem": "Solve the inequality {a}x + {b} ≥ {c}x + {d} and graph on a number line.",
+          "params": { "a": ["int", 2,7], "b": ["int", -10,10], "c": ["int", 1,5], "d": ["int", -12,12] },
+          "answer": "{a > c ? `x \\geqslant ${(d-b)/(a-c)}` : `x \\leqslant ${(d-b)/(a-c)}`}",
+          "difficulty": 8,
+          "phase": 10.16,
+          "hint": "Move terms, divide, remember to flip sign if dividing by negative."
+        }
+      ]
+    },
+    {
+      "id": "Y10.SIMULTANEOUS",
+      "name": "Simultaneous",
+      "strand": "Number & Algebra",
+      "description": "Practice problems for Simultaneous.",
+      "phase": 10.16,
+      "templates": [
+        {
+          "id": "Y10.SIMULTANEOUS.T1",
+          "stem": "Solve by substitution:\ny = {a}x + {b}\n{c}x + y = {d}",
+          "params": { "a": ["int", -4,4,1], "b": ["int", -10,10], "c": ["int", 2,8], "d": ["int", -5,15] },
+          "answer": "{x: ((d-b)/ (c+a)).toFixed(2), y: (a*(d-b)/(c+a) + b).toFixed(2)}",
+          "difficulty": 7,
+          "phase": 10.16,
+          "hint": "Substitute y from first equation into second."
+        },
+        {
+          "id": "Y10.SIMULTANEOUS.T2",
+          "stem": "Solve using elimination:\n{a}x + {b}y = {p}\n{c}x + {d}y = {q}",
+          "params": { "a": ["int", 2,6], "b": ["int", -5,5,1], "c": ["int", 3,9], "d": ["int", -7,7,1], "p": ["int", 10,30], "q": ["int", 5,40] },
+          "answer": "{solve2x2Elim(a,b,c,d,p,q)}",
+          "difficulty": 8,
+          "phase": 10.16,
+          "hint": "Make coefficients match, add/subtract."
+        }
+      ]
+    },
+    {
+      "id": "Y10.EXPONENTS",
+      "name": "Exponents",
+      "strand": "Number & Algebra",
+      "description": "Practice problems for Exponents.",
+      "phase": 10.16,
+      "templates": [
+        {
+          "id": "Y10.EXPONENTS.T1",
+          "stem": "Simplify {a}^{m} × {a}^{n} ÷ {a}^{p}.",
+          "params": { "a": ["choice", 2,3,5,10], "m": ["int", 3,8], "n": ["int", 2,7], "p": ["int", 1,5] },
+          "answer": "{`${a}^${m+n-p}`}",
+          "difficulty": 6,
+          "phase": 10.16,
+          "hint": "Add exponents when multiplying, subtract when dividing."
+        },
+        {
+          "id": "Y10.EXPONENTS.T2",
+          "stem": "Write {n} in standard form.",
+          "params": { "n": ["choice", 4500000, 780000000, 0.0034, 0.000072] },
+          "answer": "{n.toExponential(2)}",
+          "difficulty": 6,
+          "phase": 10.16,
+          "hint": "Move decimal so one non-zero digit left of decimal."
+        }
+      ]
+    },
+    {
+      "id": "Y10.FACTORISING_QUADRATICS",
+      "name": "Factorising Quadratics",
+      "strand": "Algebra & Functions",
+      "description": "Practice problems for Factorising Quadratics.",
+      "phase": 10.16,
+      "templates": [
+        {
+          "id": "Y10.FACTORISING_QUADRATICS.T1",
+          "stem": "Factorise fully: x² + {b}x + {c}",
+          "params": { "b": ["int", -10,10], "c": ["int", 6,36], "ensure": "factors exist" },
+          "answer": "{factorQuadratic1(b,c)}",
+          "difficulty": 7,
+          "phase": 10.16,
+          "hint": "Find two numbers that multiply to {c} and add to {b}."
+        },
+        {
+          "id": "Y10.FACTORISING_QUADRATICS.T2",
+          "stem": "Factorise {a}x² + {b}x + {c} (a > 1).",
+          "params": { "a": ["int", 2,6], "b": ["int", -12,12], "c": ["int", 6,32], "ensure": "factorable" },
+          "answer": "{factorQuadraticA(a,b,c)}",
+          "difficulty": 8,
+          "phase": 10.16,
+          "hint": "Look for common factor first, then two binomials."
+        }
+      ]
+    }
+  ]
+}

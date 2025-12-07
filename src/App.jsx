@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { generateQuestionForSkill, getStrandsForYear, getAvailableYears, generateQuestionFromTemplate, getSkillsForYear } from './templateEngine.js'
 import curriculumData from './curriculumDataMerged.js'
+import olympiadCurriculum from './olympiadCurriculum.json'
 import { generateTest, calculateTestResults } from './testGenerator.js'
 import { generateGroupTest } from './groupTestEngine.js'
 import QuestionVisualizer from './QuestionVisualizer.jsx'
@@ -24,6 +25,8 @@ import { nceaExamPdfs } from './nceaPdfs.js'
 import { buildNceaTrialQuestionsForStandard } from './nceaStructuredData.js'
 import { resolveNceaResource } from './nceaResources.js'
 import { registerGroup, submitScore, getRegistry, fetchGroupScores } from './googleApi.js'
+import legalDisclaimerContent from '../phase/legal disclaimer.txt?raw'
+import footerLogo from '../favicon/favicon-32x32.png'
 
 // Alternating Text Component
 function AlternatingText() {
@@ -104,10 +107,11 @@ export default function App() {
   const [attempts, setAttempts] = useState(0)
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false)
   const [curriculumMapYear, setCurriculumMapYear] = useState(6) // Year selector for curriculum map
+  const [isOlympiadMode, setIsOlympiadMode] = useState(false) // Toggle for Olympiad content preview
   const [currentUser, setCurrentUser] = useState(null)
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showLoginRecommendation, setShowLoginRecommendation] = useState(false)
-  const [pendingAction, setPendingAction] = useState(null) // Store {type: 'practice'|'test', skillId: string}
+  const [pendingAction, setPendingAction] = useState(null) // Store {type: 'practice'|'test', skillId: string, options?: object}
   const [practiceResults, setPracticeResults] = useState(null) // Store practice session results
   const [activeNceaPaperId, setActiveNceaPaperId] = useState(null)
   const [activeNceaPaper, setActiveNceaPaper] = useState(null)
@@ -173,6 +177,82 @@ export default function App() {
       .trim()
   }
 
+  function normalizeRadicals(str) {
+    if (!str) return ''
+    let normalized = String(str).replace(/√/g, 'sqrt')
+    normalized = normalized.replace(/sqrt\s*\(\s*([^)]+?)\s*\)/g, (_, inner) => `sqrt${inner.replace(/\s+/g, '')}`)
+    normalized = normalized.replace(/sqrt\s+([A-Za-z0-9]+)/g, 'sqrt$1')
+    return normalized
+  }
+
+  const textDecoder = typeof TextDecoder !== 'undefined' ? new TextDecoder('utf-8') : null
+
+  // Math symbol replacements - defined once outside function for performance
+  const MATH_REPLACEMENTS = [
+    { pattern: /ΓêÜ/g, replacement: '√' },
+    { pattern: /Γêû/g, replacement: '≤' },
+    { pattern: /Γêì/g, replacement: '≥' },
+    { pattern: /ΓêÆ/g, replacement: '−' },
+    { pattern: /ΓëÑ/g, replacement: '≥' },
+    { pattern: /ΓëÁ/g, replacement: '≤' },
+    { pattern: /Γëê/g, replacement: '≈' },
+    { pattern: /Γëñ/g, replacement: '≥' },
+    { pattern: /ΓÇô/g, replacement: '–' },
+    { pattern: /ΓÇö/g, replacement: '–' },
+    { pattern: /ΓÇó/g, replacement: '•' },
+    { pattern: /ΓÇ£/g, replacement: '"' },
+    { pattern: /ΓÇ¥/g, replacement: '"' },
+    { pattern: /ΓÇÖ/g, replacement: "'" },
+    { pattern: /ΓÇª/g, replacement: '…' },
+    { pattern: /Ã×/g, replacement: '×' },
+    { pattern: /Ã·/g, replacement: '÷' },
+    { pattern: /Ã±/g, replacement: '±' },
+    { pattern: /Ã°/g, replacement: '°' },
+    { pattern: /Â±/g, replacement: '±' },
+    { pattern: /Â·/g, replacement: '·' },
+    { pattern: /Â°/g, replacement: '°' },
+    { pattern: /Â²/g, replacement: '²' },
+    { pattern: /Â³/g, replacement: '³' },
+    { pattern: /Â×/g, replacement: '×' },
+    { pattern: /Â÷/g, replacement: '÷' },
+    { pattern: /├ù/g, replacement: '×' },
+    { pattern: /╧Ç/g, replacement: 'π' },
+    { pattern: /┬▓/g, replacement: '²' },
+    { pattern: /┬│/g, replacement: '³' },
+    { pattern: /┬╖/g, replacement: '·' },
+    { pattern: /┬░/g, replacement: '°' },
+    { pattern: /╬╕/g, replacement: 'θ' },
+    { pattern: /Ç/g, replacement: 'π' }
+  ]
+
+  function normalizeMathDisplay(str) {
+    if (!str) return ''
+    let result = String(str)
+
+    // Try UTF-8 decoding first if corrupted bytes detected
+    if (/[ÃΓùÂ]/.test(result) && textDecoder) {
+      try {
+        const bytes = new Uint8Array(result.length)
+        for (let i = 0; i < result.length; i++) {
+          bytes[i] = result.charCodeAt(i) & 0xff
+        }
+        const decoded = textDecoder.decode(bytes)
+        if (!decoded.includes('�')) {
+          result = decoded
+        }
+      } catch {
+        // ignore decoding errors
+      }
+    }
+
+    // Apply all replacement patterns
+    for (const { pattern, replacement } of MATH_REPLACEMENTS) {
+      result = result.replace(pattern, replacement)
+    }
+
+    return result
+  }
+
   const openKnowledgeModal = () => {
     if (!question) return
     const skillId = question.skillId || selectedSkill
@@ -233,7 +313,7 @@ export default function App() {
 
         setTimeout(() => {
           if (action.type === 'practice') {
-            startPracticeInternal(action.skillId)
+            startPracticeInternal(action.skillId, action.options || {})
           } else if (action.type === 'test') {
             // pass through any options supplied when the action was queued
             startTestInternal(action.options || {})
@@ -265,7 +345,7 @@ export default function App() {
       setPendingAction(null)
 
       if (action.type === 'practice') {
-        startPracticeInternal(action.skillId)
+        startPracticeInternal(action.skillId, action.options || {})
       } else if (action.type === 'test') {
         startTestInternal(action.options || {})
       }
@@ -322,6 +402,14 @@ export default function App() {
         {copied ? 'Copied!' : '⧉'}
       </button>
     )
+  }
+
+  const scrollToCurriculumMap = () => {
+    if (typeof document === 'undefined') return
+    const el = document.getElementById('curriculum-map')
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' })
+    }
   }
 
   const handleGroupSetupChange = (field, value) => {
@@ -901,8 +989,22 @@ export default function App() {
 
   // Dev helper: build JSON for template inspector (respects current filter)
   const buildDevTemplatesJson = () => {
-    const allTemplates = curriculumData.years
-      .filter(y => y.year === curriculumMapYear)
+    const activeCurriculum = isOlympiadMode ? olympiadCurriculum : curriculumData
+    const targetYear = isOlympiadMode
+      ? (olympiadCurriculum.years?.[0]?.year || 'Olympiad')
+      : curriculumMapYear
+
+    const skillMap = new Map()
+    activeCurriculum.years
+      .filter(y => y.year === targetYear)
+      .forEach(y => {
+        y.skills?.forEach(skill => {
+          skillMap.set(skill.id, skill)
+        })
+      })
+
+    const allTemplates = activeCurriculum.years
+      .filter(y => y.year === targetYear)
       .flatMap(y =>
         (y.skills || []).flatMap(skill =>
           (skill.templates || []).map(t => ({
@@ -914,11 +1016,34 @@ export default function App() {
         )
       )
 
-    const filtered = devTemplateFilterSkill
-      ? allTemplates.filter(t => t.skillId === devTemplateFilterSkill)
-      : allTemplates
+    // Apply phase filter (same as table)
+    let filtered = allTemplates
+    if (phaseFilter) {
+      filtered = filtered.filter(t => {
+        const tmplPhase = typeof t.template.phase === 'number' ? t.template.phase : null
+        const skill = skillMap.get(t.skillId)
+        const skillPhase = typeof skill?.phase === 'number' ? skill.phase : null
+        return tmplPhase === phaseFilter || skillPhase === phaseFilter
+      })
+    }
 
-    return JSON.stringify(filtered, null, 2)
+    // Apply skill filter
+    if (devTemplateFilterSkill) {
+      filtered = filtered.filter(t => t.skillId === devTemplateFilterSkill)
+    }
+
+    const sanitized = filtered.map(entry => {
+      const row = devTemplateSamples.find(s => s.templateId === entry.template?.id)
+      return {
+        templateId: entry.template?.id || '',
+        sampleQuestion: row?.question || '',
+        expectedAnswer: row?.answer || '',
+        answerTemplate: entry.template?.answer || '',
+        multipleChoice: !!row?.isMultipleChoice
+      }
+    })
+
+    return JSON.stringify(sanitized, null, 2)
   }
 
   // Dynamic SEO: update document title and meta description based on view
@@ -1004,28 +1129,74 @@ export default function App() {
       return
     }
 
+    // Reset topic filter when year changes to avoid stale filter buttons
+    setDevTemplateFilterSkill(null)
+
     const rows = []
-    curriculumData.years.forEach(year => {
-      if (year.year !== curriculumMapYear) return
-      year.skills.forEach(skill => {
+    if (isOlympiadMode) {
+      const olympiadYear = olympiadCurriculum.years?.[0]
+      const skills = olympiadYear?.skills || []
+      skills.forEach(skill => {
         const templates = skill.templates || []
         templates.forEach(template => {
-          // Optional phase filter for dev mode (e.g., ?dev=true&phase=8)
           const tmplPhase = typeof template.phase === 'number' ? template.phase : null
           const skillPhase = typeof skill.phase === 'number' ? skill.phase : null
           if (phaseFilter && tmplPhase !== phaseFilter && skillPhase !== phaseFilter) {
             return
           }
           try {
+            const q = generateQuestionFromTemplate(template, skill.name, 'Olympiad')
+            const questionText = normalizeMathDisplay(q.question)
+            const answerText = normalizeMathDisplay(q.formattedAnswer || q.answer)
+            rows.push({
+              templateId: template.id || '',
+              skillId: skill.id,
+              skillName: skill.name,
+              year: 'Olympiad',
+              question: questionText,
+              answer: answerText,
+              isNew: !!(template.isNew || skill.isNew),
+              isMultipleChoice: Array.isArray(q.choices) && q.choices.length > 0
+            })
+          } catch (e) {
+            rows.push({
+              templateId: template.id || '',
+              skillId: skill.id,
+              skillName: skill.name,
+              year: 'Olympiad',
+              question: 'Error generating question',
+              answer: '0',
+              isNew: !!(template.isNew || skill.isNew),
+              isMultipleChoice: false
+            })
+          }
+        })
+      })
+    } else {
+      curriculumData.years.forEach(year => {
+        if (year.year !== curriculumMapYear) return
+        year.skills.forEach(skill => {
+          const templates = skill.templates || []
+          templates.forEach(template => {
+            // Optional phase filter for dev mode (e.g., ?dev=true&phase=8)
+            const tmplPhase = typeof template.phase === 'number' ? template.phase : null
+            const skillPhase = typeof skill.phase === 'number' ? skill.phase : null
+            if (phaseFilter && tmplPhase !== phaseFilter && skillPhase !== phaseFilter) {
+              return
+            }
+            try {
             const q = generateQuestionFromTemplate(template, skill.name, year.year)
+            const questionText = normalizeMathDisplay(q.question)
+            const answerText = normalizeMathDisplay(q.formattedAnswer || q.answer)
             rows.push({
               templateId: template.id || '',
               skillId: skill.id,
               skillName: skill.name,
               year: year.year,
-              question: q.question,
-              answer: q.formattedAnswer || q.answer,
-              isNew: !!(template.isNew || skill.isNew)
+              question: questionText,
+              answer: answerText,
+              isNew: !!(template.isNew || skill.isNew),
+              isMultipleChoice: Array.isArray(q.choices) && q.choices.length > 0
             })
           } catch (e) {
             rows.push({
@@ -1035,15 +1206,25 @@ export default function App() {
               year: year.year,
               question: 'Error generating question',
               answer: '0',
-              isNew: !!(template.isNew || skill.isNew)
+              isNew: !!(template.isNew || skill.isNew),
+              isMultipleChoice: false
             })
-          }
+            }
+          })
         })
       })
+    }
+
+    // Sort rows by skillId, then by templateId for consistent display
+    rows.sort((a, b) => {
+      if (a.skillId !== b.skillId) {
+        return a.skillId.localeCompare(b.skillId)
+      }
+      return a.templateId.localeCompare(b.templateId)
     })
 
     setDevTemplateSamples(rows)
-  }, [isDevMode, curriculumMapYear])
+  }, [isDevMode, curriculumMapYear, isOlympiadMode])
 
   useEffect(() => {
     if (!initialized.current && mode === 'practice') {
@@ -1079,7 +1260,7 @@ export default function App() {
     if (question) {
       const elem = document.getElementById('math-question')
       if (elem) {
-        let cleanQuestion = question.question
+        let cleanQuestion = normalizeMathDisplay(question.question)
         // Replace LaTeX commands with proper math symbols
         cleanQuestion = cleanQuestion.replace(/\\text\{([^}]*)\}/g, '$1')
         cleanQuestion = cleanQuestion.replace(/\\times/g, '×')
@@ -1168,15 +1349,53 @@ export default function App() {
     setAnswer(prev => prev + symbol)
   }
 
+  const resolveTemplatePracticeContext = (templateId, skillId, yearValue) => {
+    if (!templateId || !skillId) return null
+
+    const isOlympiadTemplate = yearValue === 'Olympiad'
+    let normalizedYear = yearValue
+    if (!isOlympiadTemplate && typeof yearValue === 'string') {
+      const parsed = parseInt(yearValue, 10)
+      normalizedYear = isNaN(parsed) ? yearValue : parsed
+    }
+
+    const yearLabel = isOlympiadTemplate ? 'Olympiad' : normalizedYear
+    const sourceCurriculum = isOlympiadTemplate ? olympiadCurriculum : curriculumData
+    const yearData = sourceCurriculum.years.find(y => y.year === yearLabel)
+    if (!yearData) return null
+
+    const skill = yearData.skills.find(s => s.id === skillId)
+    if (!skill) return null
+
+    const template = (skill.templates || []).find(t => (t.id || '') === templateId)
+    if (!template) return null
+
+    return {
+      template,
+      skill,
+      yearLabel,
+      yearData,
+      isOlympiad: isOlympiadTemplate
+    }
+  }
+
   // Internal function that actually starts practice (called after login decision)
-  const startPracticeInternal = (skillId) => {
-    const yearData = curriculumData.years.find(y => y.year === selectedYear)
-    if (yearData) {
-      const skill = yearData.skills.find(s => s.id === skillId)
-      if (skill) {
-        setSelectedStrand(skill.strand)
-        setSelectedTopic(skill.name)
+  const startPracticeInternal = (skillId, options = {}) => {
+    const templateOverride = options.templateOverride || null
+    const useOlympiadData = templateOverride?.isOlympiad ?? isOlympiadMode
+    const activeCurriculum = useOlympiadData ? olympiadCurriculum : curriculumData
+    const yearToFind = templateOverride?.yearLabel || (useOlympiadData ? 'Olympiad' : selectedYear)
+    const yearData = templateOverride?.yearData || activeCurriculum.years.find(y => y.year === yearToFind)
+    let activeSkill = templateOverride?.skill || null
+    if (!activeSkill && yearData) {
+      activeSkill = yearData.skills.find(s => s.id === skillId)
+    }
+    if (activeSkill) {
+      if (!templateOverride?.isOlympiad && typeof yearToFind === 'number') {
+        setSelectedYear(yearToFind)
       }
+      setSelectedStrand(activeSkill.strand)
+      setSelectedTopic(templateOverride?.template ? `${activeSkill.name} (${templateOverride.template.id || 'template'})` : activeSkill.name)
     }
 
     setSelectedSkill(skillId)
@@ -1191,9 +1410,23 @@ export default function App() {
 
     // Generate 20 questions for this skill
     const questions = []
+    const questionYearLabel = templateOverride?.yearLabel || yearToFind || selectedYear
     for (let i = 0; i < 20; i++) {
+      const baseQuestion = (templateOverride?.template && activeSkill)
+        ? {
+            ...generateQuestionFromTemplate(
+              templateOverride.template,
+              activeSkill.name,
+              questionYearLabel
+            ),
+            strand: activeSkill.strand,
+            topic: activeSkill.name,
+            skillId: activeSkill.id,
+            year: questionYearLabel
+          }
+        : generateQuestionForSkill(activeCurriculum, skillId)
       const newQ = {
-        ...generateQuestionForSkill(curriculumData, skillId),
+        ...baseQuestion,
         userAnswer: '',
         userFeedback: '',
         isCorrect: false,
@@ -1215,22 +1448,29 @@ export default function App() {
   }
 
   // Public function to start practice (shows login recommendation if needed)
-  const startPractice = (skillId) => {
+  const startPractice = (skillId, practiceOptions = null) => {
+    const templateOverride = practiceOptions?.templateOverride || null
     // Check if user is logged in
     if (!currentUser) {
       // Set skill info to show in practice page
-      const yearData = curriculumData.years.find(y => y.year === selectedYear)
-      if (yearData) {
-        const skill = yearData.skills.find(s => s.id === skillId)
-        if (skill) {
-          setSelectedStrand(skill.strand)
-          setSelectedTopic(skill.name)
-          setSelectedSkill(skillId)
+      if (templateOverride?.skill) {
+        setSelectedStrand(templateOverride.skill.strand)
+        setSelectedTopic(templateOverride.template ? `${templateOverride.skill.name} (${templateOverride.template.id || 'template'})` : templateOverride.skill.name)
+        setSelectedSkill(skillId)
+      } else {
+        const yearData = curriculumData.years.find(y => y.year === selectedYear)
+        if (yearData) {
+          const skill = yearData.skills.find(s => s.id === skillId)
+          if (skill) {
+            setSelectedStrand(skill.strand)
+            setSelectedTopic(skill.name)
+            setSelectedSkill(skillId)
+          }
         }
       }
 
       // Set pending action
-      setPendingAction({ type: 'practice', skillId })
+      setPendingAction({ type: 'practice', skillId, options: practiceOptions || {} })
       // Prevent auto-generation of questions
       initialized.current = true
       // Navigate to practice page
@@ -1241,7 +1481,20 @@ export default function App() {
     }
 
     // User is logged in, start practice directly
-    startPracticeInternal(skillId)
+    startPracticeInternal(skillId, practiceOptions || {})
+  }
+
+  const startTemplatePractice = (row) => {
+    if (!row || !row.templateId || !row.skillId) return
+    const context = resolveTemplatePracticeContext(row.templateId, row.skillId, row.year)
+    if (!context) {
+      window.alert('Unable to locate that template in the curriculum data.')
+      return
+    }
+    if (!context.isOlympiad && typeof context.yearLabel === 'number' && selectedYear !== context.yearLabel) {
+      setSelectedYear(context.yearLabel)
+    }
+    startPractice(row.skillId, { templateOverride: context })
   }
 
   // Internal function that actually starts test (called after login decision)
@@ -1253,8 +1506,9 @@ export default function App() {
       onePerTemplate: typeof opts.onePerTemplate !== 'undefined' ? opts.onePerTemplate : auditOnePerTemplate
     }
     const totalQ = typeof opts.totalQuestions !== 'undefined' ? opts.totalQuestions : 60
-    const yearForTest = selectedYear || 6 // Always have a valid year for generator
-    const testQuestions = generateTest(yearForTest, totalQ, options)  // Generate requested number of questions
+    const yearForTest = isOlympiadMode ? 'Olympiad' : (selectedYear || 6) // Always have a valid year for generator
+    const activeCurriculum = isOlympiadMode ? olympiadCurriculum : null
+    const testQuestions = generateTest(yearForTest, totalQ, options, activeCurriculum)  // Generate requested number of questions
     setHistory(testQuestions)
     setCurrentIndex(0)
     setScore(0)
@@ -1333,8 +1587,8 @@ export default function App() {
             isCorrect = Math.abs(userAnswerNum - correctAnswerNum) < 0.01
           } else {
             // Text comparison
-            const ua = String(answer).trim().toLowerCase().replace(/["'\s]+/g, ' ')
-            const ca = String(question.answer).trim().toLowerCase().replace(/["'\s]+/g, ' ')
+            const ua = normalizeRadicals(String(answer)).trim().toLowerCase().replace(/["'\s]+/g, ' ')
+            const ca = normalizeRadicals(String(question.answer)).trim().toLowerCase().replace(/["'\s]+/g, ' ')
             const normalizeText = s => s.replace(/\b(a |an |the )\b/g, '').replace(/\bsquares?\b/g, 'square').trim()
             isCorrect = normalizeText(ua) === normalizeText(ca)
           }
@@ -1345,7 +1599,7 @@ export default function App() {
 
       // Update history with the checked answer
       const updatedHistory = [...history]
-      const feedbackMsg = isCorrect ? 'Correct! ✅' : (isGroupMode && !isDevMode ? 'Wrong ❌' : `Wrong ❌ Answer: ${question.formattedAnswer || question.answer}`)
+      const feedbackMsg = isCorrect ? 'Correct! ✅' : (isGroupMode && !isDevMode ? 'Wrong ❌' : `Wrong ❌ Answer: ${normalizeMathDisplay(question.formattedAnswer || question.answer)}`)
       updatedHistory[currentIndex] = {
         ...updatedHistory[currentIndex],
         userAnswer: answer,
@@ -1633,8 +1887,8 @@ export default function App() {
           }
         } else {
           // Fallback: text comparison for word answers (e.g., 'Cube')
-          const ua = String(answer).trim().toLowerCase().replace(/["'\s]+/g, ' ')
-          const ca = String(question.answer).trim().toLowerCase().replace(/["'\s]+/g, ' ')
+        const ua = normalizeRadicals(String(answer)).trim().toLowerCase().replace(/["'\s]+/g, ' ')
+        const ca = normalizeRadicals(String(question.answer)).trim().toLowerCase().replace(/["'\s]+/g, ' ')
           // Accept some simple synonyms and normalize plurals
           const normalizeText = s => s.replace(/\b(a |an |the )\b/g, '').replace(/\bsquares?\b/g, 'square').trim()
           if (normalizeText(ua) === normalizeText(ca)) {
@@ -1658,7 +1912,7 @@ export default function App() {
         const newAttempts = attempts + 1
         setAttempts(newAttempts)
 
-        const displayAnswer = question.formattedAnswer || question.answer
+        const displayAnswer = normalizeMathDisplay(question.formattedAnswer || question.answer)
         if (isTestMode) {
           // In group mode, hide answers unless dev mode is enabled (teacher can add &dev=true to URL)
           if (isGroupMode && !isDevMode) {
@@ -1744,7 +1998,7 @@ export default function App() {
 
     const reportData = {
       question: question.question || 'N/A',
-      answer: `User: ${answer || 'N/A'}, Correct: ${question.answer || 'N/A'}`,
+      answer: `User: ${answer || 'N/A'}, Correct: ${normalizeMathDisplay(question.answer || 'N/A')}`,
       year: yearField,
       topic: topicField
     }
@@ -2756,15 +3010,18 @@ export default function App() {
 
   // Landing Page
   if (mode === 'landing') {
-    // Get strands for selected curriculum map year
     const selectedYearData = curriculumData.years.find(y => y.year === curriculumMapYear)
+    const activeYearData = isOlympiadMode ? olympiadCurriculum.years?.[0] : selectedYearData
+
+    // Build strands for the active curriculum (standard year or Olympiad)
     const strands = {}
-    if (selectedYearData) {
-      selectedYearData.skills.forEach(skill => {
+    if (activeYearData) {
+      activeYearData.skills.forEach(skill => {
         if (!strands[skill.strand]) strands[skill.strand] = []
-        strands[skill.strand].push({ ...skill, year: selectedYearData.year })
+        strands[skill.strand].push({ ...skill, year: activeYearData.year })
       })
     }
+    const mapHeading = isOlympiadMode ? 'Olympiad Mathematics' : `Year ${curriculumMapYear}`
     const origin = typeof window !== 'undefined' ? window.location.origin : 'https://mathx.nz'
 
     return (
@@ -3079,8 +3336,7 @@ export default function App() {
                   <p className="text-xs uppercase tracking-[0.4em] text-blue-500 font-semibold">New • Group Test Mode</p>
                   <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-1">Create a group test code</h2>
                   <p className="text-slate-600 text-sm md:text-base max-w-2xl leading-relaxed">
-                    Enter your email once and Mathx.nz will generate a 7-digit code. Every student who enters that code
-                    gets the exact same deterministic test, and we send their results back to your Google Sheet instantly.
+                    Your email creates a 7-digit test code and a direct link. Share the link or code so your class gets the same test, and use the code to see everyone’s results.
                   </p>
                 </div>
                 <button
@@ -3315,7 +3571,8 @@ export default function App() {
                       onClick={() => {
                         setSelectedYear(year)
                         setCurriculumMapYear(year)
-                        document.getElementById('curriculum-map').scrollIntoView({ behavior: 'smooth' })
+                        setIsOlympiadMode(false)
+                        scrollToCurriculumMap()
                       }}
                       className="year-card bg-white/80 p-8 rounded-2xl border-2 border-[#0077B6] card-shadow block cursor-pointer hover:scale-105 transition-transform"
                     >
@@ -3331,46 +3588,6 @@ export default function App() {
                     </div>
                   ))}
                 </div>
-            </div>
-          </div>
-
-          {/* NCEA Trial Exams preview */}
-          <div className="bg-slate-50/80 py-10 border-b border-slate-200">
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <div className="bg-white/95 text-slate-900 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-6 shadow-md border border-slate-200">
-                <div>
-                  <h2 className="text-2xl md:text-3xl font-extrabold mb-2">
-                    NCEA Trial Exams
-                  </h2>
-                  <p className="text-sm md:text-base text-slate-600 max-w-xl">
-                    Ready for NCEA? Start a trial exam built from real NZQA questions. Level 1 is
-                    available now, Level 2 and 3 are coming soon.
-                  </p>
-                </div>
-                <div className="flex flex-col sm:flex-row gap-3 flex-shrink-0">
-                  <button
-                    type="button"
-                    onClick={() => setMode('ncea-index')}
-                    className="px-5 py-3 rounded-full bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold shadow-lg text-sm md:text-base transition"
-                  >
-                    Start Level 1
-                  </button>
-                  <button
-                    type="button"
-                    disabled
-                    className="px-5 py-3 rounded-full bg-slate-100 text-slate-400 font-semibold text-sm md:text-base border border-slate-200 cursor-not-allowed"
-                  >
-                    Level 2 (coming soon)
-                  </button>
-                  <button
-                    type="button"
-                    disabled
-                    className="px-5 py-3 rounded-full bg-slate-100 text-slate-400 font-semibold text-sm md:text-base border border-slate-200 cursor-not-allowed"
-                  >
-                    Level 3 (coming soon)
-                  </button>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -3390,9 +3607,10 @@ export default function App() {
                       onClick={() => {
                         setSelectedYear(year)
                         setCurriculumMapYear(year)
+                        setIsOlympiadMode(false)
                       }}
                       className={`px-6 py-3 rounded-lg font-semibold text-lg transition-all ${
-                        curriculumMapYear === year
+                        !isOlympiadMode && curriculumMapYear === year
                           ? 'bg-[#0077B6] text-white shadow-lg scale-105'
                           : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-[#0077B6] hover:text-[#0077B6]'
                       }`}
@@ -3400,9 +3618,29 @@ export default function App() {
                       Year {year}
                     </button>
                   ))}
+                  <button
+                    onClick={() => {
+                      setIsOlympiadMode(true)
+                      scrollToCurriculumMap()
+                    }}
+                    className={`px-6 py-3 rounded-lg font-semibold text-lg transition-all ${
+                      isOlympiadMode
+                        ? 'bg-amber-400 text-slate-900 shadow-lg scale-105'
+                        : 'bg-white text-gray-700 border-2 border-gray-300 hover:border-amber-400 hover:text-amber-500'
+                    }`}
+                  >
+                    Olympiad
+                  </button>
                 </div>
 
+                {isOlympiadMode && (!activeYearData || (activeYearData.skills || []).length === 0) && (
+                  <div className="text-center text-slate-600 mb-12">
+                    Olympiad question bank incoming – templates will appear here as we migrate them from Phase 13.
+                  </div>
+                )}
+
                 {/* Take Full Assessment Button */}
+                {!isOlympiadMode && (
                 <div className="mb-12">
                   <div className="max-w-3xl mx-auto bg-white/90 p-6 rounded-xl border-2 border-red-400 card-shadow transition-all">
                     <div className="flex items-center justify-between gap-6">
@@ -3459,172 +3697,245 @@ export default function App() {
                     </div>
                   </div>
                 </div>
+                )}
 
-                {/* Dev-only: Template sampler table for current year */}
+                {/* Olympiad Test Button */}
+                {isOlympiadMode && (
+                <div className="mb-12">
+                  <div className="max-w-3xl mx-auto bg-white/90 p-6 rounded-xl border-2 border-amber-400 card-shadow transition-all">
+                    <div className="flex items-center justify-between gap-6">
+                      <div className="flex-1">
+                        <h3 className="text-2xl font-bold text-amber-600 mb-2">Olympiad Challenge</h3>
+                        <p className="text-gray-700 mb-1">Test yourself on elite-level mathematics problems from {activeYearData?.skills?.length || 28} different skills</p>
+                        <p className="text-sm text-gray-500 mb-4">~20 questions • Advanced difficulty • See how you compare</p>
+
+                        <div className="flex gap-3 items-center">
+                          <button
+                            onClick={() => {
+                              const olympiadYear = olympiadCurriculum.years?.[0]
+                              const allSkills = olympiadYear?.skills || []
+                              const selectedSkillIds = allSkills.map(s => s.id)
+                              const options = { focusedSkills: selectedSkillIds, totalQuestions: 20 }
+                              const testQuestions = generateTest('Olympiad', 20, options, olympiadCurriculum)
+                              setHistory(testQuestions)
+                              setCurrentIndex(0)
+                              setScore(0)
+                              setIsTestMode(true)
+                              setSelectedSkill(null)
+                              setAnswer('')
+                              setSelectedChoiceIndex(null)
+                              setFeedback('')
+                              initialized.current = true
+                              setMode('test')
+                            }}
+                            className="px-6 py-3 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105"
+                          >
+                            Start Olympiad Test →
+                          </button>
+                        </div>
+                      </div>
+                      <div className="hidden md:block" style={{fontSize: '4rem', lineHeight: 1}}>
+                        🏆
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                )}
+
+                {/* Dev-only: Template sampler table */}
                 {isDevMode && (
                   <div className="mt-12 mb-12">
-                    {/* Phase overview across all years (dev helper) */}
-                    <div className="mb-3 text-xs text-slate-600">
-                      {(() => {
-                        try {
-                            if (!curriculumData || !Array.isArray(curriculumData.years)) return null
-                            const summary = {}
-                            curriculumData.years.forEach(y => {
-                              (y.skills || []).forEach(skill => {
-                                const skillPhase = typeof skill.phase === 'number' ? skill.phase : null
-                                ;(skill.templates || []).forEach(t => {
-                                  const p = typeof t.phase === 'number' ? t.phase : skillPhase
-                                  const key = p != null ? `Phase ${p}` : 'Base'
-                                  if (!summary[key]) {
-                                    summary[key] = { topics: new Set(), years: new Set(), perYear: {}, phaseNumber: p }
-                                  }
-                                  summary[key].topics.add(skill.name)
-                                  summary[key].years.add(y.year)
-                                  const yr = y.year
-                                  if (!summary[key].perYear[yr]) summary[key].perYear[yr] = 0
-                                  summary[key].perYear[yr] += 1
+                    {!isOlympiadMode && (
+                      <div className="mb-3 text-xs text-slate-600">
+                        {(() => {
+                          try {
+                              if (!curriculumData || !Array.isArray(curriculumData.years)) return null
+                              const summary = {}
+                              curriculumData.years.forEach(y => {
+                                (y.skills || []).forEach(skill => {
+                                  const skillPhase = typeof skill.phase === 'number' ? skill.phase : null
+                                  ;(skill.templates || []).forEach(t => {
+                                    const p = typeof t.phase === 'number' ? t.phase : skillPhase
+                                    const key = p != null ? `Phase ${p}` : 'Base'
+                                    if (!summary[key]) {
+                                      summary[key] = { topics: new Set(), years: new Set(), perYear: {}, phaseNumber: p }
+                                    }
+                                    summary[key].topics.add(skill.name)
+                                    summary[key].years.add(y.year)
+                                    const yr = y.year
+                                    if (!summary[key].perYear[yr]) summary[key].perYear[yr] = 0
+                                    summary[key].perYear[yr] += 1
+                                  })
                                 })
                               })
-                            })
-                          const items = Object.entries(summary)
-                          if (!items.length) return null
-                          const currentPhaseLabel = phaseFilter ? `Phase ${phaseFilter}` : null
-                          const handlePhaseClick = (phaseNumber) => {
-                            try {
-                              const params = new URLSearchParams(window.location.search)
-                              if (phaseNumber != null) {
-                                params.set('phase', String(phaseNumber))
-                              } else {
-                                params.delete('phase')
+                            const items = Object.entries(summary)
+                            if (!items.length) return null
+                            const handlePhaseClick = (phaseNumber) => {
+                              try {
+                                const params = new URLSearchParams(window.location.search)
+                                if (phaseNumber != null) {
+                                  params.set('phase', String(phaseNumber))
+                                } else {
+                                  params.delete('phase')
+                                }
+                                params.set('dev', 'true')
+                                window.location.search = params.toString()
+                              } catch {
+                                // ignore navigation errors
                               }
-                              params.set('dev', 'true')
-                              window.location.search = params.toString()
-                            } catch {
-                              // ignore navigation errors
                             }
+                            return (
+                              <div>
+                                <div className="flex gap-3 items-center mb-3">
+                                  <label className="font-semibold text-slate-700">Filter by phase:</label>
+                                  <select
+                                    value={phaseFilter ? String(phaseFilter) : ''}
+                                    onChange={(e) => {
+                                      const val = e.target.value
+                                      handlePhaseClick(val ? parseFloat(val) : null)
+                                    }}
+                                    className="px-3 py-1 border border-slate-300 rounded-md bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 cursor-pointer"
+                                  >
+                                    <option value="">All phases</option>
+                                    {items.map(([label, info]) => (
+                                      <option key={label} value={String(info.phaseNumber)}>
+                                        {label}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                                <div className="flex flex-wrap gap-2">
+                                  {items.map(([label, info]) => {
+                                    // Only show buttons for selected phase (or all if no phase filter)
+                                    if (phaseFilter && info.phaseNumber !== phaseFilter) {
+                                      return null
+                                    }
+                                    return Array.from(info.years).sort((a, b) => a - b).map(year => (
+                                      <button
+                                        key={`${label}-${year}`}
+                                        type="button"
+                                        onClick={() => {
+                                          handlePhaseClick(info.phaseNumber)
+                                          setCurriculumMapYear(year)
+                                          setSelectedYear(year)
+                                        }}
+                                        className="inline-flex items-center px-2 py-0.5 rounded-full border border-slate-300 bg-white hover:bg-slate-100 text-[0.7rem]"
+                                      >
+                                        <span className="mr-1 font-medium">Year {year}</span>
+                                        <span className="inline-flex items-center justify-center px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[0.65rem] font-semibold">
+                                          {info.perYear[year] || 0}
+                                        </span>
+                                      </button>
+                                    ))
+                                  })}
+                                </div>
+                              </div>
+                            )
+                          } catch {
+                            return null
                           }
-                          return (
-                            <div className="flex flex-wrap gap-2 items-center">
-                              <span className="font-semibold text-slate-700">Loaded phases (all years):</span>
-                              <button
-                                type="button"
-                                onClick={() => handlePhaseClick(null)}
-                                className={`px-2 py-1 rounded-full border text-[0.7rem] font-semibold ${
-                                  !phaseFilter
-                                    ? 'bg-slate-900 text-white border-slate-900'
-                                    : 'bg-white text-slate-700 border-slate-300 hover:bg-slate-100'
-                                }`}
-                              >
-                                All phases
-                              </button>
-                              {/* Simple phase summary table with clickable year filters */}
-                              <table className="min-w-max text-[0.7rem] border border-slate-200 bg-white rounded-md overflow-hidden">
-                                <thead className="bg-slate-50">
-                                  <tr>
-                                    <th className="px-2 py-1 border-b border-slate-200 text-left">Phase</th>
-                                    <th className="px-2 py-1 border-b border-slate-200 text-left">Years / Topics</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  {items.map(([label, info]) => (
-                                    <tr key={label} className="border-t border-slate-100">
-                                      <td className="px-2 py-1 font-semibold text-slate-700">{label}</td>
-                                        <td className="px-2 py-1">
-                                          {Array.from(info.years).sort((a, b) => a - b).map(year => (
-                                            <button
-                                              key={`${label}-${year}`}
-                                              type="button"
-                                              onClick={() => {
-                                                handlePhaseClick(info.phaseNumber)
-                                                setCurriculumMapYear(year)
-                                                setSelectedYear(year)
-                                              }}
-                                              className="inline-flex items-center px-2 py-0.5 mr-1 mb-1 rounded-full border border-slate-300 bg-white hover:bg-slate-100"
-                                            >
-                                              <span className="mr-1">Year {year}</span>
-                                              <span className="inline-flex items-center justify-center px-1.5 py-0.5 rounded-full bg-slate-100 text-slate-700 text-[0.65rem]">
-                                                {info.perYear[year] || 0}
-                                              </span>
-                                            </button>
-                                          ))}
-                                      </td>
-                                    </tr>
-                                  ))}
-                                </tbody>
-                              </table>
-                            </div>
-                          )
-                        } catch {
-                          return null
-                        }
-                      })()}
-                    </div>
+                        })()}
+                      </div>
+                    )}
                     <div className="flex flex-wrap items-baseline justify-between gap-2 mb-2">
                       <h3 className="text-2xl font-bold text-slate-800">
-                        Template Samples (Year {curriculumMapYear})
+                        Template Samples ({mapHeading})
                       </h3>
                       <span className="text-sm text-slate-500">
-                        Total generated: {devTemplateSamples.length}
+                        Total generated: {devTemplateSamples.filter(row => devTemplateFilterSkill === null || row.skillId === devTemplateFilterSkill).length} / {devTemplateSamples.length}
                       </span>
                     </div>
                     <p className="text-sm text-slate-500 mb-3">
                       Dev view: one generated sample question and expected answer per template for the selected year.
                     </p>
-                    <div className="overflow-x-auto bg-white rounded-xl border border-gray-200 shadow-sm max-h-[500px]">
+                    <div className="bg-blue-50 border border-blue-200 rounded p-3 mb-4">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <div><strong>DEBUG INFO:</strong></div>
+                          <div className="text-xs font-mono">Year: {curriculumMapYear} | Filter: {devTemplateFilterSkill || 'null'}</div>
+                          <div className="text-xs font-mono">Total samples: {devTemplateSamples.length}</div>
+                          <div className="text-xs font-mono">Years in data: {curriculumData?.years?.map(y => y.year).join(', ')}</div>
+                          <div className="text-xs font-mono">Curriculum years sample: {devTemplateSamples.slice(0, 10).map(r => r.year).join(', ')}</div>
+                        </div>
+                        <button
+                          onClick={() => {
+                            const debugJson = {
+                              curriculumMapYear,
+                              yearFilter: devTemplateFilterSkill || null,
+                              totalSamples: devTemplateSamples.length,
+                              yearsInSamples: [...new Set(devTemplateSamples.map(r => r.year))],
+                              templateIds: devTemplateSamples.map(r => r.templateId),
+                              fullData: devTemplateSamples.map(r => ({
+                                templateId: r.templateId,
+                                skillId: r.skillId,
+                                year: r.year
+                              }))
+                            };
+                            const jsonStr = JSON.stringify(debugJson, null, 2);
+                            navigator.clipboard.writeText(jsonStr).then(() => {
+                              alert('Debug JSON copied to clipboard!');
+                            }).catch(err => {
+                              console.error('Failed to copy:', err);
+                              alert('Failed to copy. Check console.');
+                            });
+                          }}
+                          className="px-3 py-1 bg-blue-500 text-white text-xs rounded hover:bg-blue-600"
+                        >
+                          Copy JSON Debug
+                        </button>
+                      </div>
+                      <div className="text-xs font-mono mt-2">
+                        Sample IDs: {devTemplateSamples.slice(0, 5).map(r => r.templateId).join(', ')}{devTemplateSamples.length > 5 ? '...' : ''}
+                      </div>
+                    </div>
+                    <div className="overflow-x-auto bg-white rounded-lg border border-gray-200 shadow-sm mt-4 max-h-[600px]">
                       <table className="min-w-full text-left text-sm">
                         <thead className="bg-gray-50 sticky top-0 z-10">
-                          <tr>
-                            <th className="px-4 py-2 font-semibold text-gray-700">Template ID</th>
-                            <th className="px-4 py-2 font-semibold text-gray-700">Skill</th>
-                            <th className="px-4 py-2 font-semibold text-gray-700">Sample Question</th>
-                            <th className="px-4 py-2 font-semibold text-gray-700">Expected Answer</th>
-                          </tr>
+                        <tr>
+                          <th className="px-4 py-2 font-semibold text-gray-700">Template ID</th>
+                          <th className="px-4 py-2 font-semibold text-gray-700">Multiple choice</th>
+                          <th className="px-4 py-2 font-semibold text-gray-700">Sample Question</th>
+                          <th className="px-4 py-2 font-semibold text-gray-700">Expected Answer</th>
+                        </tr>
                         </thead>
-                        <tbody>
-                          {devTemplateSamples.map(row => (
-                            <tr key={row.templateId || `${row.skillId}-${row.question}`} className="border-t border-gray-100 align-top">
-                              <td className="px-4 py-2 whitespace-nowrap text-xs md:text-sm text-gray-800">
-
-
-                                <div className="flex items-center gap-2">                                                                                                                                       
-    {row.skillId ? (                                                                                                                                                              
-      <button                                                                                                                                                                     
-        type="button"
-        onClick={() => {                                                                                                                                                          
-          setSelectedYear(row.year)                                                                                                                                               
-          setMode('practice')                                                                                                                                                     
-          startPractice(row.skillId)                                                                                                                                              
-        }}                                                                                                                                                                        
-        className="text-blue-600 hover:text-blue-800 hover:underline"                                                                                                             
-      >                                                                                                                                                                           
-        {row.templateId || '—'}                                                                                                                                                   
-      </button>                                                                                                                                                                   
-    ) : (                                                                                                                                                                         
-      <span>{row.templateId || '—'}</span>                                                                                                                                        
-    )}                                                                                                                                                                            
-    {row.isNew && (                                                                                                                                                               
-      <span className="inline-flex items-center px-2 py-0.5 text-[0.65rem] font-semibold rounded-full bg-emerald-100 text-emerald-700 uppercase tracking-wide">                   
-        New
-      </span>                                                                                                                                                                     
-    )}                                                                                                                                                                            
-  </div>                                                                                                                                                                          
-  <div className="text-[0.7rem] text-gray-500 mt-0.5">{row.skillId}</div>         
-
-
-
-
-                              </td>
-                              <td className="px-4 py-2 text-xs md:text-sm text-gray-700 whitespace-nowrap">
-                                {row.skillName}
-                              </td>
-                              <td className="px-4 py-2 text-xs md:text-sm text-gray-800 max-w-md">
-                                {row.question}
-                              </td>
-                              <td className="px-4 py-2 text-xs md:text-sm text-gray-800 max-w-xs">
-                                {row.answer}
-                              </td>
-                            </tr>
-                          ))}
+                        <tbody key={`table-${curriculumMapYear}-${devTemplateFilterSkill}`}>
+                          {(() => {
+                            const filtered = devTemplateSamples.filter(row =>
+                              devTemplateFilterSkill === null || row.skillId === devTemplateFilterSkill
+                            );
+                            if (filtered.length === 0) {
+                              return (
+                                <tr>
+                                  <td colSpan="4" className="px-4 py-4 text-center text-sm text-gray-500">
+                                    {devTemplateSamples.length === 0 ? 'No templates for this year' : 'No templates match the selected topic filter'}
+                                  </td>
+                                </tr>
+                              );
+                            }
+                            return filtered.map((row, idx) => (
+                              <tr key={`${curriculumMapYear}-${row.templateId}-${idx}`} className="border-t border-gray-100 hover:bg-gray-50">
+                                <td className="px-4 py-2 whitespace-nowrap text-xs md:text-sm font-mono text-gray-700">
+                                  <button
+                                    type="button"
+                                    className="text-blue-600 hover:underline focus:underline"
+                                    onClick={() => startTemplatePractice(row)}
+                                    title="Practice this template"
+                                  >
+                                    {row.templateId}
+                                  </button>
+                                </td>
+                                <td className="px-4 py-2 text-xs md:text-sm text-gray-700">
+                                  {row.isMultipleChoice ? 'True' : 'False'}
+                                </td>
+                                <td className="px-4 py-2 text-xs md:text-sm text-gray-800">
+                                  {row.question}
+                                </td>
+                                <td className="px-4 py-2 text-xs md:text-sm text-gray-800">
+                                  {row.answer}
+                                </td>
+                              </tr>
+                            ));
+                          })()}
                         </tbody>
                       </table>
                     </div>
@@ -3632,7 +3943,7 @@ export default function App() {
                     <div className="mt-6 text-xs">
                       <div className="flex items-center justify-between mb-1">
                         <p className="text-[0.7rem] text-slate-500">
-                          JSON for templates used in practice/tests for Year {curriculumMapYear} (raw template objects, no generated questions or answers).
+                          JSON for templates used in practice/tests for {mapHeading} (raw template objects, no generated questions or answers).
                         </p>
                         <button
                           type="button"
@@ -3673,6 +3984,8 @@ export default function App() {
                             topicCounts[row.skillId].count += 1
                           })
                           const topics = Object.values(topicCounts)
+                          // Sort topics by skillId for consistent display
+                          topics.sort((a, b) => a.skillId.localeCompare(b.skillId))
                           if (!topics.length) return null
 
                           return (
@@ -3719,7 +4032,7 @@ export default function App() {
 
                 {/* Curriculum for Selected Year */}
                 <div className="space-y-8">
-                  <h3 className="text-3xl font-bold mb-6 text-[#0077B6]">Year {curriculumMapYear}</h3>
+                  <h3 className="text-3xl font-bold mb-6 text-[#0077B6]">{mapHeading}</h3>
 
                   {Object.entries(strands).map(([strandName, skills]) => (
                     <div key={strandName} className="mb-8">
@@ -3755,6 +4068,40 @@ export default function App() {
             </div>
           )}
 
+          {/* Olympiad CTA */}
+          <section className="bg-slate-900 text-white py-16">
+            <div className="max-w-4xl mx-auto px-6 text-center space-y-6">
+              <div className="text-5xl" aria-hidden="true">🥇</div>
+              <p className="text-xs uppercase tracking-[0.4em] text-amber-300">Olympiad Mathematics</p>
+              <h2 className="text-4xl md:text-5xl font-black text-white">Think You’ve Mastered It All?</h2>
+              <p className="text-base md:text-lg text-slate-200">
+                Welcome to the arena where routine problems surrender. This is Olympiad Mathematics: where the puzzles
+                are deep, the logic is king, and “obvious” is often wrong. For those who find normal math a warm-up.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsOlympiadMode(true)
+                    scrollToCurriculumMap()
+                  }}
+                  className="px-6 py-3 rounded-full bg-amber-400 hover:bg-amber-300 text-slate-900 font-semibold shadow-lg text-base"
+                >
+                  Accept the Challenge
+                </button>
+                {isOlympiadMode && (
+                  <button
+                    type="button"
+                    onClick={() => setIsOlympiadMode(false)}
+                    className="px-6 py-3 rounded-full border border-white/40 text-white hover:bg-white/10 font-semibold text-base shadow-lg"
+                  >
+                    Back to Standard Practice
+                  </button>
+                )}
+              </div>
+            </div>
+          </section>
+
           {/* Mission & Parent Note Combined Section */}
           <section className="py-16 bg-white/60 backdrop-blur-sm">
             <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -3769,13 +4116,13 @@ export default function App() {
               <div className="mt-12">
                 <div className="bg-amber-50/80 border-l-4 border-amber-500 rounded-lg p-6 text-left">
                   <p className="text-lg text-slate-700 leading-relaxed mb-4">
-                    This website is built by people who want to help. While we work hard to make sure everything is correct, there's always a small chance a mistake might slip through.
+                    This website is built by people who want to help. While we work hard to ensure everything is correct, occasional errors may occur.
                   </p>
                   <p className="text-lg text-slate-700 leading-relaxed mb-4">
-                    Please use this as an alternative tool, but always double-check with your own knowledge or the student's school materials.
+                    Please use this as a helpful practice tool, but always confirm key information with your school materials or teacher.
                   </p>
                   <p className="text-lg text-slate-700 leading-relaxed">
-                    Think of it like a practice worksheet we've made for you – it's really useful, but it's always good to have a teacher or a textbook to confirm the answers.
+                    Found something that needs correcting? Please use the <b>"Report an Issue"</b> button to <b>notify</b> us. We greatly appreciate your help in making this resource better!
                   </p>
                 </div>
               </div>
@@ -3799,6 +4146,41 @@ export default function App() {
               </div>
             </section>
           )}
+
+          {/* NCEA Trial Exams preview */}
+          <section className="py-16 bg-slate-50/80 border-b border-slate-200">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-6">
+              <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900">Preparing for NCEA Finals?</h2>
+              <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto">
+                Build confidence with deterministic trial exams made from real NZQA questions. Level 1 is ready now,
+                and Levels 2 & 3 are coming soon.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                <button
+                  type="button"
+                  onClick={() => setMode('ncea-index')}
+                  className="px-6 py-3 rounded-full bg-amber-400 hover:bg-amber-500 text-slate-900 font-semibold shadow-lg text-base transition"
+                >
+                  Start Level 1 Trial
+                </button>
+                <button
+                  type="button"
+                  disabled
+                  className="px-6 py-3 rounded-full bg-slate-100 text-slate-400 font-semibold text-base border border-slate-200 cursor-not-allowed"
+                >
+                  Level 2 (coming soon)
+                </button>
+                <button
+                  type="button"
+                  disabled
+                  className="px-6 py-3 rounded-full bg-slate-100 text-slate-400 font-semibold text-base border border-slate-200 cursor-not-allowed"
+                >
+                  Level 3 (coming soon)
+                </button>
+              </div>
+            </div>
+          </section>
+
  {/* NCEA Past Papers (PDF) */}                                                                                                                                        
             <div className="bg-white py-10 border-b border-slate-200">                                                                                                            
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">                                                                                                            
@@ -3922,18 +4304,25 @@ export default function App() {
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-xs md:text-sm grid grid-cols-1 md:grid-cols-3 gap-6">
  <div>                                                                                                                                                                                                                                                                              
         <div className="flex items-center gap-2 mb-2">                                                                                                                                                                                                                                   
- <img                                                                                                                                                                                                                                                                                 
-      src="/favicon/favicon-32x32.png"                                                                                                                                                                                                                                                   
-      alt="Mathx.nz logo"                                                                                                                                                                                                                                                                
-      className="w-6 h-6"                                                                                                                                                                                                                                                                
-    />                                                                                                                                                                                                                                                                                
+    <img
+      src={footerLogo}
+      alt="Mathx.nz logo"
+      className="w-6 h-6"
+    />
           <h3 className="font-semibold text-slate-100">mathx.nz</h3>                                                                                                                                                                                                                     
         </div>                                                                                                                                                                                                                                                                           
-        <p className="text-slate-400">                                                                                                                                                                                                                                                   
-          Free maths practice for New Zealand students. No subscriptions, no ads - just                                                                                                                                                                                                  
-          questions aligned to the NZ curriculum.                                                                                                                                                                                                                                        
-        </p>                                                                                                                                                                                                                                                                             
-      </div>                                                                                                                                                              
+        <p className="text-slate-400">
+          Free maths practice for New Zealand students. No subscriptions, no ads - just
+          questions aligned to the NZ curriculum.
+        </p>
+        <button
+          type="button"
+          onClick={() => setMode('legal')}
+          className="mt-4 text-slate-300 hover:text-white underline-offset-2 hover:underline text-sm"
+        >
+          Legal & Disclaimer
+        </button>
+      </div>
               <div>
                 <h3 className="font-semibold mb-2 text-slate-100">Practice by level</h3>
                 <div className="flex flex-col gap-1">
@@ -3976,6 +4365,58 @@ export default function App() {
             </footer>          
         </div>
       </>
+    )
+  }
+
+  if (mode === 'legal') {
+    const legalBlocks = legalDisclaimerContent
+      .split(/\r?\n\r?\n/)
+      .map(block => block.trim())
+      .filter(Boolean)
+
+    return (
+      <div className="min-h-screen bg-slate-100">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <button
+            type="button"
+            onClick={() => setMode('landing')}
+            className="text-sm text-slate-600 hover:text-slate-900 mb-6 inline-flex items-center gap-2"
+          >
+            <span aria-hidden="true">←</span> Back to Mathx.nz
+          </button>
+          <div className="bg-white rounded-3xl shadow-xl border border-slate-200 p-8 space-y-6">
+            <h1 className="text-4xl font-extrabold text-slate-900">Legal & Disclaimer</h1>
+            <p className="text-slate-500">
+              Please read these terms carefully. By using Mathx.nz you agree to the following conditions.
+            </p>
+            <div className="text-slate-700 leading-relaxed space-y-4">
+              {legalBlocks.map((block, idx) => {
+                if (block.startsWith('###')) {
+                  const text = block.replace(/^###\s*\*\*(.*?)\*\*$/, '$1')
+                  return (
+                    <h2 key={`legal-h2-${idx}`} className="text-2xl font-bold text-slate-900 mt-4">
+                      {text}
+                    </h2>
+                  )
+                }
+                if (/^\*\*(.*?)\*\*$/.test(block.split('\n')[0])) {
+                  const text = block.replace(/^\*\*(.*?)\*\*$/, '$1')
+                  return (
+                    <h3 key={`legal-h3-${idx}`} className="text-xl font-semibold text-slate-900 mt-4">
+                      {text}
+                    </h3>
+                  )
+                }
+                return (
+                  <p key={`legal-p-${idx}`}>
+                    {block.replace(/\*\*(.*?)\*\*/g, '$1')}
+                  </p>
+                )
+              })}
+            </div>
+          </div>
+        </div>
+      </div>
     )
   }
 
@@ -4039,7 +4480,9 @@ export default function App() {
   }
 
   if (mode === 'topic-select' && selectedStrand) {
-    const strands = getStrandsForYear(curriculumData, selectedYear)
+    const activeCurriculum = isOlympiadMode ? olympiadCurriculum : curriculumData
+    const yearToFind = isOlympiadMode ? 'Olympiad' : selectedYear
+    const strands = getStrandsForYear(activeCurriculum, yearToFind)
     const currentStrandData = strands.find(s => s.strand === selectedStrand)
 
     return (
@@ -4256,6 +4699,7 @@ export default function App() {
               onSelectSkill={!isTestMode ? startPractice : null}
               collapsed={sidebarCollapsed}
               year={isTestMode ? (question?.year || selectedYear || 6) : selectedYear}
+              activeCurriculum={isOlympiadMode || (isTestMode && question?.year === 'Olympiad') ? olympiadCurriculum : null}
             />
             <CurriculumMapToggle
               collapsed={sidebarCollapsed}
@@ -4506,7 +4950,7 @@ export default function App() {
                         className="btn-secondary"
                         onClick={() => {
                           setShowCorrectAnswer(true)
-                          setFeedback(`Answer: ${question?.answer || 'N/A'}`)
+                          setFeedback(`Answer: ${normalizeMathDisplay(question?.answer || 'N/A')}`)
                         }}
                         style={{marginLeft: '8px'}}
                       >
@@ -4576,7 +5020,7 @@ export default function App() {
                   fontSize: '1.05em',
                   fontWeight: '600'
                 }}>
-                  Correct answer: <span style={{color: '#0b6'}}>{question.answer}</span>
+                  Correct answer: <span style={{color: '#0b6'}}>{normalizeMathDisplay(question.answer)}</span>
                 </div>
               )}
 

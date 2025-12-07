@@ -1,0 +1,1443 @@
+{
+  "years": [
+    {
+      "year": 10,
+      "skills": [
+        {
+          "id": "Y10.A.QUADRATIC_FORMULA",
+          "strand": "Number & Algebra",
+          "name": "Quadratic formula",
+          "description": "Solve quadratic equations that cannot be factored using the quadratic formula.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.A.QUADRATIC_FORMULA.T1",
+              "stem": "Use the quadratic formula to solve {a}x^2 + {b}x + {c} = 0. Give your answers to two decimal places.",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "c": [
+                  "int",
+                  -10,
+                  -1
+                ]
+              },
+              "answer": "{solve_quadratic_formula(a, b, c)}",
+              "difficulty": 9,
+              "phase": 8,
+              "hint": "The formula: x = [-b ┬▒ sqrt(b┬▓ - 4ac)] / (2a)"
+            }
+          ]
+        },
+        {
+          "id": "Y10.A.GRAPH_QUADRATIC",
+          "strand": "Number & Algebra",
+          "name": "Graphing quadratics",
+          "description": "Identify key features of quadratic graphs such as the vertex.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.A.GRAPH_QUADRATIC.T1",
+              "stem": "What are the coordinates of the vertex of the parabola y = x^2 + {b}x + {c}?",
+              "params": {
+                "b": [
+                  "int",
+                  -10,
+                  10,
+                  2
+                ],
+                "c": [
+                  "int",
+                  -10,
+                  10
+                ]
+              },
+              "answer": "({-b/2}, {(-b/2)*(-b/2) + b*(-b/2) + c})",
+              "visualData": {
+                "type": "graph_parabola",
+                "a": 1,
+                "b": "b",
+                "c": "c"
+              },
+              "difficulty": 8,
+              "phase": 8,
+              "hint": "For y = ax┬▓ + bx + c: Vertex x-coordinate = -b / (2a)"
+            }
+          ]
+        },
+        {
+          "id": "Y10.G.TRIG_RULES",
+          "strand": "Geometry & Measurement",
+          "name": "Sine and cosine rules",
+          "description": "Use the Sine and Cosine Rules to solve non-right-angled triangles.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.G.TRIG_RULES.T1",
+              "stem": "In a triangle, side a = {a}, side b = {b}, and the angle between them is C = {C}┬░. Find the length of side c using the Cosine Rule. Give your answer to 1 decimal place.",
+              "params": {
+                "a": [
+                  "int",
+                  5,
+                  20
+                ],
+                "b": [
+                  "int",
+                  5,
+                  20
+                ],
+                "C": [
+                  "int",
+                  20,
+                  160
+                ]
+              },
+              "answer": "Math.round(cosine_rule_side(a, b, C), 1)",
+              "difficulty": 9,
+              "phase": 8,
+              "hint": "Sine Rule: a/sin(A) = b/sin(B) = c/sin(C) (Use when you have a 'matching pair' of a side and its opposite angle)."
+            }
+          ]
+        },
+        {
+          "id": "Y10.A.ALGEBRAIC_FRACTIONS",
+          "strand": "Number & Algebra",
+          "name": "Algebraic fractions",
+          "description": "Simplify algebraic fractions using factorisation and cancellation.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.A.ALGEBRAIC_FRACTIONS.T1",
+              "stem": "Simplify the expression: (x^2 - {a*a}) / (x - {a}).",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  10,
+                  1
+                ]
+              },
+              "answer": "{'x + ' + a}",
+              "difficulty": 8,
+              "phase": 8,
+              "hint": "Review the key concepts and try breaking the problem into smaller steps."
+            }
+          ]
+        },
+        {
+          "id": "Y10.G.CIRCLE_THEOREMS",
+          "strand": "Geometry & Measurement",
+          "name": "Circle theorems",
+          "description": "Apply circle theorems for angles at the centre and circumference.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.G.CIRCLE_THEOREMS.T1",
+              "stem": "An angle at the circumference subtended by an arc is {a}┬░. What is the angle at the centre subtended by the same arc?",
+              "params": {
+                "a": [
+                  "int",
+                  20,
+                  80
+                ]
+              },
+              "answer": "{2 * a}",
+              "visualData": {
+                "type": "circle_theorem_angle_center",
+                "angle": "a"
+              },
+              "difficulty": 8,
+              "phase": 8,
+              "hint": "Angle at the centre is twice the angle at the circumference."
+            }
+          ]
+        },
+        {
+          "id": "Y10.S.PROB_ADVANCED",
+          "strand": "Statistics & Probability",
+          "name": "Conditional probability and tree diagrams",
+          "description": "Solve conditional probability problems using fractions and tree diagrams.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.S.PROB_ADVANCED.T1",
+              "stem": "A bag contains {r} red and {b} blue marbles. Two marbles are drawn without replacement. What is the probability that both are red? Give your answer in simplest form.",
+              "params": {
+                "r": [
+                  "int",
+                  3,
+                  10
+                ],
+                "b": [
+                  "int",
+                  3,
+                  10
+                ]
+              },
+              "answer": "{simplify(r*(r-1), (r+b)*(r+b-1))}",
+              "difficulty": 9,
+              "phase": 8,
+              "hint": "P(A and B) = P(A) * P(B) (for independent events)"
+            }
+          ]
+        },
+        {
+          "id": "Y10.A.SYSTEMS_ADVANCED",
+          "strand": "Number & Algebra",
+          "name": "Systems of equations (advanced)",
+          "description": "Solve systems that include both linear and quadratic equations.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.A.SYSTEMS_ADVANCED.T1",
+              "stem": "Find the positive x-coordinate of the intersection points of the line y = {c} and the parabola y = x^2 - {a}. Give your answer to 2 decimal places.",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  10
+                ],
+                "c": [
+                  "int",
+                  11,
+                  30
+                ]
+              },
+              "answer": "{solve_linear_parabola_system(a, c)}",
+              "difficulty": 9,
+              "phase": 8,
+              "hint": "Substitution is the most common method."
+            }
+          ]
+        },
+        {
+          "id": "Y10.G.TRIG_3D",
+          "strand": "Geometry & Measurement",
+          "name": "Trigonometry in 3D",
+          "description": "Apply trigonometry to find angles and lengths in 3D shapes.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.G.TRIG_3D.T1",
+              "stem": "A rectangular prism has length {l}, width {w}, and height {h}. Find the angle the space diagonal makes with the base, in degrees. Give your answer to 1 decimal place.",
+              "params": {
+                "l": [
+                  "int",
+                  5,
+                  15
+                ],
+                "w": [
+                  "int",
+                  5,
+                  15
+                ],
+                "h": [
+                  "int",
+                  5,
+                  15
+                ]
+              },
+              "answer": "Math.round(Math.atan(h / Math.sqrt(l*l + w*w)) * (180/Math.PI), 1)",
+              "difficulty": 9,
+              "phase": 8,
+              "hint": "Pythagoras' Theorem (repeated application to find diagonals)."
+            }
+          ]
+        },
+        {
+          "id": "Y10.A.FUNCTIONS_ADVANCED",
+          "strand": "Number & Algebra",
+          "name": "Functions, domain and range",
+          "description": "Interpret functions and describe their domains and ranges.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.A.FUNCTIONS_ADVANCED.T1",
+              "stem": "What is the domain of the function f(x) = sqrt(x - {a})? Give your answer in the form x >= a.",
+              "params": {
+                "a": [
+                  "int",
+                  0,
+                  20
+                ]
+              },
+              "answer": "{'x >= ' + a}",
+              "difficulty": 8,
+              "phase": 8,
+              "hint": "For square root functions, the expression under the root must be >= 0."
+            }
+          ]
+        },
+        {
+          "id": "Y10.S.BIVARIATE",
+          "strand": "Statistics & Probability",
+          "name": "Bivariate statistics",
+          "description": "Interpret lines of best fit and make predictions.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.S.BIVARIATE.T1",
+              "stem": "A line of best fit for a scatter plot is y = {m}x + {c}. Predict the value of y when x = {x_val}.",
+              "params": {
+                "m": [
+                  "decimal",
+                  0.5,
+                  5,
+                  1
+                ],
+                "c": [
+                  "decimal",
+                  0,
+                  20,
+                  1
+                ],
+                "x_val": [
+                  "int",
+                  5,
+                  25
+                ]
+              },
+              "answer": "{m * x_val + c}",
+              "difficulty": 8,
+              "phase": 8,
+              "hint": "Review the key concepts and try breaking the problem into smaller steps."
+            }
+          ]
+        },
+        {
+          "id": "Y10.G.SA_VOLUME_ADVANCED",
+          "strand": "Geometry & Measurement",
+          "name": "Surface area and volume (multi-step)",
+          "description": "Solve multi-step problems involving surface area and volume.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.G.SA_VOLUME_ADVANCED.T1",
+              "stem": "A cone has a slant height of {s} cm and a radius of {r} cm. What is its volume? Use ╧Ç Γëê 3.14.",
+              "params": {
+                "s": [
+                  "int",
+                  10,
+                  25
+                ],
+                "r": [
+                  "int",
+                  3,
+                  9
+                ]
+              },
+              "answer": "Math.round(volume_cone(r, Math.sqrt(s*s - r*r)), 2)",
+              "difficulty": 9,
+              "phase": 8,
+              "hint": "Pythagoras' Theorem: a┬▓ + b┬▓ = c┬▓ (often needed to find heights or radii)"
+            }
+          ]
+        },
+        {
+          "id": "Y10.G.GEOMETRIC_REASONING",
+          "strand": "Geometry & Measurement",
+          "name": "Geometric reasoning and proofs",
+          "description": "Reason with geometric properties and angle relationships.",
+          "phase": 8,
+          "templates": [
+            {
+              "id": "Y10.G.GEOMETRIC_REASONING.T1",
+              "stem": "In a cyclic quadrilateral, one angle is {a}┬░. What is the measure of the opposite angle?",
+              "params": {
+                "a": [
+                  "int",
+                  60,
+                  120
+                ]
+              },
+              "answer": "{180 - a}",
+              "difficulty": 8,
+              "phase": 8,
+              "hint": "Opposite angles in a cyclic quadrilateral add up to 180 degrees."
+            }
+          ]
+        },
+        {
+          "id": "N.FINANCIAL_RATES",
+          "strand": "Numbers & Algebra",
+          "name": "Financial Rates",
+          "description": "Financial Rates questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.N.FINANCIAL_RATES.T1",
+              "stem": "A laptop originally costs ${price}. It is on sale with a {percent}% discount. What is the sale price?",
+              "params": {
+                "price": [
+                  "int",
+                  300,
+                  2500,
+                  50
+                ],
+                "percent": [
+                  "int",
+                  5,
+                  45,
+                  5
+                ]
+              },
+              "answer": "{Math.round(price * (1 - percent/100), 2)}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "Rate = amount / time or amount / quantity"
+            }
+          ]
+        },
+        {
+          "id": "N.FINANCIAL_COMPOUND",
+          "strand": "Numbers & Algebra",
+          "name": "Financial Compound",
+          "description": "Financial Compound questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.N.FINANCIAL_COMPOUND.T1",
+              "stem": "${p} is invested at {r}% p.a. compounded annually for {t} years. Find the final amount to the nearest cent.",
+              "params": {
+                "p": [
+                  "int",
+                  500,
+                  20000,
+                  500
+                ],
+                "r": [
+                  "int",
+                  1,
+                  12,
+                  1
+                ],
+                "t": [
+                  "int",
+                  2,
+                  15,
+                  1
+                ]
+              },
+              "answer": "{Math.round(p * (1 + r/100)**t, 2)}",
+              "difficulty": 8,
+              "phase": 10.15,
+              "hint": "A = P(1 + r/n)^(nt)"
+            }
+          ]
+        },
+        {
+          "id": "M.PRECISION_ERROR",
+          "strand": "Measurement & Geometry",
+          "name": "Precision Error",
+          "description": "Precision Error questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.M.PRECISION_ERROR.T1",
+              "stem": "A length is measured as {m} cm, correct to the nearest {unit} cm. What is the greatest possible error?",
+              "params": {
+                "m": [
+                  "decimal",
+                  1,
+                  150,
+                  0.1
+                ],
+                "unit": [
+                  "choice",
+                  0.001,
+                  0.01,
+                  0.1,
+                  1
+                ]
+              },
+              "answer": "{unit / 2} cm",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "Relative error = |error| / true value"
+            }
+          ]
+        },
+        {
+          "id": "M.VOLUME_SIMILAR",
+          "strand": "Measurement & Geometry",
+          "name": "Volume Similar",
+          "description": "Volume Similar questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.M.VOLUME_SIMILAR.T1",
+              "stem": "Two similar cones have heights in the ratio {ratio1} : {ratio2}. The smaller cone has volume {v} cm┬│. Find the volume of the larger cone.",
+              "params": {
+                "ratio1": [
+                  "int",
+                  2,
+                  8
+                ],
+                "ratio2": [
+                  "int",
+                  10,
+                  20
+                ],
+                "v": [
+                  "int",
+                  50,
+                  2000,
+                  50
+                ]
+              },
+              "answer": "{Math.round(v * (ratio2 / ratio1)**3, 1)}",
+              "difficulty": 8,
+              "phase": 10.15,
+              "hint": "Volume ratio = k┬│"
+            }
+          ]
+        },
+        {
+          "id": "C.COORD_DISTANCE",
+          "strand": "Calculus & Coordinates",
+          "name": "Coord Distance",
+          "description": "Coord Distance questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.C.COORD_DISTANCE.T1",
+              "stem": "Find the distance between the points ({x1}, {y1}) and ({x2}, {y2}). Give your answer to 1 decimal place.",
+              "params": {
+                "x1": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "y1": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "x2": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "y2": [
+                  "int",
+                  -15,
+                  15
+                ]
+              },
+              "answer": "{round(Math.sqrt((x2-x1)**2 + (y2-y1)**2), 1)}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "Distance: ΓêÜ((xΓéé-xΓéü)┬▓ + (yΓéé-yΓéü)┬▓)"
+            }
+          ]
+        },
+        {
+          "id": "C.COORD_GRADIENT",
+          "strand": "Calculus & Coordinates",
+          "name": "Coord Gradient",
+          "description": "Coord Gradient questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.C.COORD_GRADIENT.T1",
+              "stem": "Find the gradient of the line passing through ({x1}, {y1}) and ({x2}, {y2}). Simplify fully.",
+              "params": {
+                "x1": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "y1": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "dx": [
+                  "int",
+                  1,
+                  10
+                ],
+                "dy": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "x2": "{x1 + dx}",
+                "y2": "{y1 + dy}"
+              },
+              "answer": "{dy}/{dx}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "m = (yΓéé - yΓéü)/(xΓéé - xΓéü)"
+            }
+          ]
+        },
+        {
+          "id": "L.NONLINEAR_GRAPH",
+          "strand": "Algebra & Functions",
+          "name": "Nonlinear Graph",
+          "description": "Nonlinear Graph questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.L.NONLINEAR_GRAPH.T1",
+              "stem": "The quadratic y = x┬▓ + {b}x + {c} has two x-intercepts. What is their sum?",
+              "params": {
+                "b": [
+                  "int",
+                  -15,
+                  15,
+                  1
+                ],
+                "c": [
+                  "int",
+                  -100,
+                  100
+                ]
+              },
+              "answer": "{-b}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "Quadratic: vertex form y = a(x-h)┬▓ + k"
+            }
+          ]
+        },
+        {
+          "id": "G.SIMILAR_TRIANGLES",
+          "strand": "Geometry & Trigonometry",
+          "name": "Similar Triangles",
+          "description": "Similar Triangles questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.G.SIMILAR_TRIANGLES.T1",
+              "stem": "Two similar triangles have corresponding sides {s1} cm and {s2} cm. A side of {len} cm on the smaller triangle corresponds to what length on the larger triangle? (1 decimal place)",
+              "params": {
+                "s1": [
+                  "int",
+                  3,
+                  12
+                ],
+                "s2": [
+                  "int",
+                  10,
+                  30
+                ],
+                "len": [
+                  "int",
+                  4,
+                  25
+                ]
+              },
+              "answer": "{Math.round(len * s2 / s1, 1)}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "Side ratio = scale factor k"
+            }
+          ]
+        },
+        {
+          "id": "G.CONGRUENT_SSS",
+          "strand": "Geometry & Trigonometry",
+          "name": "Congruent Sss",
+          "description": "Congruent Sss questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.G.CONGRUENT_SSS.T1",
+              "stem": "Triangle ABC has sides {a}, {b}, {c} cm. Triangle DEF has sides {d}, {e}, {f} cm. Are the triangles congruent by SSS?",
+              "params": {
+                "a": [
+                  "int",
+                  11,
+                  15
+                ],
+                "b": [
+                  "int",
+                  13,
+                  18
+                ],
+                "c": [
+                  "int",
+                  14,
+                  20
+                ],
+                "d": [
+                  "int",
+                  11,
+                  15
+                ],
+                "e": [
+                  "int",
+                  13,
+                  18
+                ],
+                "f": [
+                  "int",
+                  14,
+                  20
+                ]
+              },
+              "answer": "{(a==d && b==e && c==f) ? 'Yes' : 'No'}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "SSS, SAS, ASA, AAS, RHS (right-angle hypotenuse-side)"
+            }
+          ]
+        },
+        {
+          "id": "S.UNIVARIATE_BOXPLOT",
+          "strand": "Statistics & Probability",
+          "name": "Univariate Boxplot",
+          "description": "Univariate Boxplot questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.S.UNIVARIATE_BOXPLOT.T1",
+              "stem": "A data set has Q1 = {q1} and Q3 = {q3}. What is the interquartile range (IQR)?",
+              "params": {
+                "q1": [
+                  "int",
+                  10,
+                  50
+                ],
+                "q3": [
+                  "int",
+                  30,
+                  120
+                ]
+              },
+              "answer": "{q3 - q1}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "Outlier if > Q3 + 1.5├ùIQR or < Q1 - 1.5├ùIQR"
+            }
+          ]
+        },
+        {
+          "id": "S.BIVARIATE_CORRELATION",
+          "strand": "Statistics & Probability",
+          "name": "Bivariate Correlation",
+          "description": "Bivariate Correlation questions for Year 10",
+          "templates": [
+            {
+              "id": "Y10.S.BIVARIATE_CORRELATION.T1",
+              "stem": "What type of correlation does this scatter plot show? Select from: strong positive, moderate positive, weak positive, no correlation, weak negative, moderate negative, strong negative",
+              "params": {
+                "dataset": [
+                  "choice",
+                  {
+                    "label": "strong positive",
+                    "points": [
+                      [
+                        1,
+                        1
+                      ],
+                      [
+                        2,
+                        2.1
+                      ],
+                      [
+                        3,
+                        3
+                      ],
+                      [
+                        4,
+                        4.1
+                      ],
+                      [
+                        5,
+                        5
+                      ],
+                      [
+                        6,
+                        6.1
+                      ]
+                    ]
+                  },
+                  {
+                    "label": "moderate positive",
+                    "points": [
+                      [
+                        1,
+                        1.2
+                      ],
+                      [
+                        2,
+                        1.9
+                      ],
+                      [
+                        3,
+                        3.1
+                      ],
+                      [
+                        4,
+                        3.8
+                      ],
+                      [
+                        5,
+                        5.2
+                      ],
+                      [
+                        6,
+                        5.9
+                      ]
+                    ]
+                  },
+                  {
+                    "label": "weak positive",
+                    "points": [
+                      [
+                        1,
+                        1.5
+                      ],
+                      [
+                        2,
+                        1.8
+                      ],
+                      [
+                        3,
+                        3.2
+                      ],
+                      [
+                        4,
+                        3.5
+                      ],
+                      [
+                        5,
+                        5.1
+                      ],
+                      [
+                        6,
+                        5.3
+                      ]
+                    ]
+                  },
+                  {
+                    "label": "no correlation",
+                    "points": [
+                      [
+                        1,
+                        3
+                      ],
+                      [
+                        2,
+                        5
+                      ],
+                      [
+                        3,
+                        1.5
+                      ],
+                      [
+                        4,
+                        4.5
+                      ],
+                      [
+                        5,
+                        2
+                      ],
+                      [
+                        6,
+                        5.8
+                      ]
+                    ]
+                  },
+                  {
+                    "label": "weak negative",
+                    "points": [
+                      [
+                        1,
+                        5
+                      ],
+                      [
+                        2,
+                        4.8
+                      ],
+                      [
+                        3,
+                        4
+                      ],
+                      [
+                        4,
+                        3.2
+                      ],
+                      [
+                        5,
+                        2.5
+                      ],
+                      [
+                        6,
+                        1.9
+                      ]
+                    ]
+                  },
+                  {
+                    "label": "moderate negative",
+                    "points": [
+                      [
+                        1,
+                        4.9
+                      ],
+                      [
+                        2,
+                        4.2
+                      ],
+                      [
+                        3,
+                        3.9
+                      ],
+                      [
+                        4,
+                        3.1
+                      ],
+                      [
+                        5,
+                        2.8
+                      ],
+                      [
+                        6,
+                        2.1
+                      ]
+                    ]
+                  },
+                  {
+                    "label": "strong negative",
+                    "points": [
+                      [
+                        1,
+                        6
+                      ],
+                      [
+                        2,
+                        5.9
+                      ],
+                      [
+                        3,
+                        5
+                      ],
+                      [
+                        4,
+                        3.9
+                      ],
+                      [
+                        5,
+                        3
+                      ],
+                      [
+                        6,
+                        1.9
+                      ]
+                    ]
+                  }
+                ]
+              },
+              "answer": "{dataset.label}",
+              "visualData": {
+                "type": "scatter_plot",
+                "width": 360,
+                "height": 240,
+                "points": "dataset.points"
+              },
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "r Γëê 1 strong positive, r Γëê -1 strong negative"
+            }
+          ]
+        },
+        {
+          "id": "Y10.N.SURDS_SIMPLIFY",
+          "strand": "Number & Algebra",
+          "name": "Simplifying surds",
+          "description": "Simplify radical expressions",
+          "templates": [
+            {
+              "id": "Y10.N.SURDS_SIMPLIFY.T1",
+              "stem": "Simplify √{n}.",
+              "params": {
+                "square": [
+                  "choice",
+                  4,
+                  9,
+                  16,
+                  25
+                ],
+                "base": [
+                  "int",
+                  2,
+                  11
+                ],
+                "n": "{square * base}"
+              },
+              "answer": "{simplifySurd(n)}",
+              "difficulty": 6,
+              "phase": 10.18,
+              "hint": "Factor {n} into the largest perfect square times the remaining factor, then simplify."
+            },
+            {
+              "id": "Y10.N.SURDS_SIMPLIFY.T2",
+              "stem": "Simplify √{n1} * √{n2}.",
+              "params": {
+                "n1": [
+                  "int",
+                  8,
+                  40
+                ],
+                "n2": [
+                  "int",
+                  8,
+                  40
+                ]
+              },
+              "answer": "{simplifySurd(n1 * n2)}",
+              "difficulty": 7,
+              "phase": 10.18,
+              "hint": "Multiply the radicands first, then extract any perfect square factors."
+            },
+            {
+              "id": "Y10.N.SURDS_SIMPLIFY.T3",
+              "stem": "Simplify {coeff1}√{n} + {coeff2}√{n}.",
+              "params": {
+                "coeff1": [
+                  "int",
+                  1,
+                  4
+                ],
+                "coeff2": [
+                  "int",
+                  1,
+                  4
+                ],
+                "n": [
+                  "choice",
+                  3,
+                  5,
+                  6,
+                  7,
+                  10
+                ]
+              },
+              "answer": "{(coeff1 + coeff2) + '√' + n}",
+              "difficulty": 6,
+              "phase": 10.16,
+              "hint": "Combine like surds by adding the coefficients and keeping the radicand the same."
+            },
+            {
+              "id": "Y10.N.SURDS_SIMPLIFY.T4",
+              "stem": "Simplify {coeff1}√{n} - {coeff2}√{n}.",
+              "params": {
+                "coeff1": [
+                  "int",
+                  3,
+                  6
+                ],
+                "coeff2": [
+                  "int",
+                  1,
+                  3
+                ],
+                "n": [
+                  "choice",
+                  2,
+                  3,
+                  5,
+                  6,
+                  7
+                ]
+              },
+              "answer": "{(coeff1 - coeff2) + '√' + n}",
+              "difficulty": 6,
+              "phase": 10.16,
+              "hint": "Subtract the coefficients of like surds and keep the radicand the same."
+            }
+          ]
+        },
+        {
+          "id": "Y10.N.SURDS_RATIONALISE",
+          "strand": "Number & Algebra",
+          "name": "Rationalising denominators",
+          "description": "Simplify radical expressions using conjugates",
+          "templates": [
+            {
+              "id": "Y10.N.SURDS_RATIONALISE.T1",
+              "stem": "Rationalise the denominator of 1 / (√{larger} - √{smaller}). Give your answer in simplest form.",
+              "params": {
+                "larger": [
+                  "choice",
+                  9,
+                  12,
+                  18,
+                  20,
+                  27,
+                  32
+                ],
+                "smaller": [
+                  "choice",
+                  2,
+                  3,
+                  5,
+                  6,
+                  8
+                ]
+              },
+              "answer": "{rationaliseSurd(larger, smaller)}",
+              "difficulty": 7,
+              "phase": 10.18,
+              "hint": "Multiply numerator and denominator by √{larger} + √{smaller} to form a rational denominator."
+            },
+            {
+              "id": "Y10.N.SURDS_RATIONALISE.T2",
+              "stem": "Rationalise the denominator of {num}/√{den}. Give your answer in simplest form.",
+              "params": {
+                "num": [
+                  "int",
+                  2,
+                  9
+                ],
+                "den": [
+                  "choice",
+                  2,
+                  3,
+                  5,
+                  6,
+                  7,
+                  8
+                ]
+              },
+              "answer": "{num + '√' + den + '/' + den}",
+              "difficulty": 6,
+              "phase": 10.16,
+              "hint": "Multiply top and bottom by √{den} so the denominator becomes {den}."
+            }
+          ]
+        },
+        {
+          "id": "Y10.N.RATIOS_BESTBUY",
+          "strand": "Number & Algebra",
+          "name": "Best buy problems",
+          "description": "Compare unit prices and ratios",
+          "templates": [
+            {
+              "id": "Y10.N.RATIOS_BESTBUY.T1",
+              "stem": "Brand A sells {massA} g for ${priceA}, while Brand B sells {massB} g for ${priceB}. Which option is the better value per gram?",
+              "params": {
+                "massA": [
+                  "int",
+                  200,
+                  900,
+                  50
+                ],
+                "massB": [
+                  "int",
+                  200,
+                  900,
+                  50
+                ],
+                "priceA": [
+                  "decimal",
+                  3,
+                  9,
+                  0.5
+                ],
+                "priceB": [
+                  "decimal",
+                  3,
+                  9,
+                  0.5
+                ]
+              },
+              "answer": "{bestValue(massA, priceA, massB, priceB)}",
+              "difficulty": 6,
+              "phase": 10.18,
+              "hint": "Find the unit price (cost per gram) for each brand and compare."
+            },
+            {
+              "id": "Y10.N.RATIOS_BESTBUY.T2",
+              "stem": "Store A sells {volumeA} mL for ${priceA}, while Store B sells {volumeB} mL for ${priceB}. Which option is the better value per mL?",
+              "params": {
+                "volumeA": [
+                  "int",
+                  300,
+                  1500,
+                  50
+                ],
+                "volumeB": [
+                  "int",
+                  300,
+                  1500,
+                  50
+                ],
+                "priceA": [
+                  "decimal",
+                  2,
+                  12,
+                  0.5
+                ],
+                "priceB": [
+                  "decimal",
+                  2,
+                  12,
+                  0.5
+                ]
+              },
+              "answer": "{bestValue(volumeA, priceA, volumeB, priceB)}",
+              "difficulty": 6,
+              "phase": 10.16,
+              "hint": "Calculate cost per mL for each store and choose the smaller unit price."
+            },
+            {
+              "id": "Y10.N.RATIOS_BESTBUY.T3",
+              "stem": "Item A weighs {massA} g and is {discount}% off its original price ${priceA}. Item B weighs {massB} g for ${priceB}. Which is the better value per gram?",
+              "params": {
+                "massA": [
+                  "int",
+                  200,
+                  900,
+                  50
+                ],
+                "massB": [
+                  "int",
+                  200,
+                  900,
+                  50
+                ],
+                "priceA": [
+                  "decimal",
+                  4,
+                  12,
+                  0.5
+                ],
+                "priceB": [
+                  "decimal",
+                  3,
+                  12,
+                  0.5
+                ],
+                "discount": [
+                  "choice",
+                  10,
+                  15,
+                  20,
+                  25,
+                  30
+                ]
+              },
+              "answer": "{bestValue(massA, priceA * (1 - discount/100), massB, priceB)}",
+              "difficulty": 6,
+              "phase": 10.16,
+              "hint": "Apply the discount to Item A first, then compare unit prices."
+            }
+          ]
+        },
+        {
+          "id": "Y10.L.SIMULTANEOUS_GRAPH",
+          "strand": "Algebra & Functions",
+          "name": "Solving nonlinear systems",
+          "description": "Solve nonlinear simultaneous equations graphically",
+          "templates": [
+            {
+              "id": "Y10.L.SIMULTANEOUS_GRAPH.T1",
+              "stem": "The parabola y = x^2 - {k} intersects the line y = {m}x + {c}. Find the positive x-value of their intersection, giving your answer to 2 decimal places.",
+              "params": {
+                "m": [
+                  "int",
+                  1,
+                  5
+                ],
+                "c": [
+                  "int",
+                  4,
+                  15
+                ],
+                "k": [
+                  "int",
+                  1,
+                  8
+                ]
+              },
+              "answer": "{solveParabolaLine(m, c, k)}",
+              "difficulty": 8,
+              "phase": 10.18,
+              "hint": "Set x^2 - {k} equal to {m}x + {c} and solve the resulting quadratic."
+            },
+            {
+              "id": "Y10.L.SIMULTANEOUS_GRAPH.T2",
+              "stem": "The parabola y = x^2 - {k} intersects the line y = {c}. Find the positive x-value of their intersection, giving your answer to 2 decimal places.",
+              "params": {
+                "m": [
+                  "int",
+                  0,
+                  0
+                ],
+                "c": [
+                  "int",
+                  2,
+                  10
+                ],
+                "k": [
+                  "int",
+                  1,
+                  6
+                ]
+              },
+              "answer": "{solveParabolaLine(m, c, k)}",
+              "difficulty": 7,
+              "phase": 10.16,
+              "hint": "Set x^2 - {k} equal to {c} and solve the resulting quadratic for x."
+            }
+          ]
+        },
+        {
+          "id": "Y10.N.LINEAR_EQUATIONS",
+          "strand": "Number & Algebra",
+          "name": "Linear equations",
+          "description": "Solve one-variable linear equations",
+          "templates": [
+            {
+              "id": "Y10.N.LINEAR_EQUATIONS.T1",
+              "stem": "Solve {a}x + {b} = {c}.",
+              "params": {
+                "a": [
+                  "int",
+                  2,
+                  9
+                ],
+                "b": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "c": [
+                  "int",
+                  -12,
+                  24
+                ]
+              },
+              "answer": "{(c - b)/a}",
+              "difficulty": 5,
+              "phase": 10.16,
+              "hint": "Isolate x by subtracting {b} then dividing by {a}."
+            }
+          ]
+        },
+        {
+          "id": "Y10.G.SIMILAR_SCALE",
+          "strand": "Geometry & Measurement",
+          "name": "Similar triangles scaling",
+          "description": "Scale side lengths in similar triangles",
+          "templates": [
+            {
+              "id": "Y10.G.SIMILAR_SCALE.T1",
+              "stem": "Triangle A has a side of {sideA} cm. Triangle B is similar with scale factor {scale}. Find the matching side length in Triangle B (cm).",
+              "params": {
+                "sideA": [
+                  "int",
+                  5,
+                  20
+                ],
+                "scale": [
+                  "choice",
+                  1.5,
+                  2,
+                  2.5,
+                  3
+                ]
+              },
+              "answer": "{round(sideA * scale, 1)}",
+              "difficulty": 6,
+              "phase": 10.16,
+              "hint": "Multiply the original side by the scale factor."
+            }
+          ]
+        },
+        {
+          "id": "Y10.G.PYTHAG_TRIPLE",
+          "strand": "Geometry & Measurement",
+          "name": "Pythagoras check",
+          "description": "Identify right triangles from side lengths",
+          "templates": [
+            {
+              "id": "Y10.G.PYTHAG_TRIPLE.T1",
+              "stem": "Do lengths {a}, {b}, {c} cm form a right triangle?",
+              "params": {
+                "a": [
+                  "choice",
+                  3,
+                  5,
+                  8
+                ],
+                "b": "{a == 3 ? 4 : (a == 5 ? 12 : 15)}",
+                "cBase": "{a == 3 ? 5 : (a == 5 ? 13 : 17)}",
+                "offset": [
+                  "choice",
+                  0,
+                  1
+                ],
+                "c": "{cBase + offset}"
+              },
+              "answer": "{offset === 0 ? 'Yes' : 'No'}",
+              "difficulty": 5,
+              "phase": 10.16,
+              "hint": "Check if a^2 + b^2 equals c^2."
+            }
+          ]
+        },
+        {
+          "id": "Y10.S.STATS_IQR",
+          "strand": "Statistics & Probability",
+          "name": "Interquartile range",
+          "description": "Calculate IQR from quartiles",
+          "templates": [
+            {
+              "id": "Y10.S.STATS_IQR.T1",
+              "stem": "A data set has Q1 = {q1} and Q3 = {q3}. What is the interquartile range?",
+              "params": {
+                "q1": [
+                  "int",
+                  5,
+                  30
+                ],
+                "q3": [
+                  "int",
+                  35,
+                  70
+                ]
+              },
+              "answer": "{q3 - q1}",
+              "difficulty": 4,
+              "phase": 10.16,
+              "hint": "IQR = Q3 - Q1."
+            }
+          ]
+        },
+        {
+          "id": "Y10.S.PROB_TWO_SPINS",
+          "strand": "Statistics & Probability",
+          "name": "Two-spin probability",
+          "description": "Find probability of two successes in a row",
+          "templates": [
+            {
+              "id": "Y10.S.PROB_TWO_SPINS.T1",
+              "stem": "A spinner lands on blue with probability {num}/{den} on each spin. What is the probability of two blues in a row?",
+              "params": {
+                "num": [
+                  "choice",
+                  1,
+                  2,
+                  3
+                ],
+                "den": [
+                  "choice",
+                  4,
+                  5,
+                  6
+                ]
+              },
+              "answer": "{round((num/den)*(num/den), 3)}",
+              "difficulty": 5,
+              "phase": 10.16,
+              "hint": "Multiply the single-spin probability by itself for two independent spins."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

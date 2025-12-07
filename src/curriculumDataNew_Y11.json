@@ -1,0 +1,1482 @@
+{
+  "years": [
+    {
+      "year": 11,
+      "skills": [
+        {
+          "id": "A.QUADRATICS_COMPLETE_SQUARE",
+          "strand": "Algebra & Sequences",
+          "name": "Quadratics Complete Square",
+          "description": "Quadratics Complete Square questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.A.QUADRATICS_COMPLETE_SQUARE.T1",
+              "stem": "Write in completed-square form: x┬▓ + {b}x + {c}",
+              "params": {
+                "b": [
+                  "int",
+                  -14,
+                  14,
+                  2
+                ],
+                "c": [
+                  "int",
+                  -30,
+                  30
+                ]
+              },
+              "answer": "(x + {b/2})┬▓ + {c - (b/2)**2}",
+              "difficulty": 8,
+              "phase": 10.15,
+              "hint": "x┬▓ + bx ΓåÆ (x + b/2)┬▓ - (b/2)┬▓"
+            }
+          ]
+        },
+        {
+          "id": "A.LINEAR_SYSTEMS",
+          "strand": "Algebra & Sequences",
+          "name": "Simultaneous equations",
+          "description": "Solve systems of linear equations",
+          "templates": [
+            {
+              "id": "Y11.A.LINEAR_SYSTEMS.T1",
+              "stem": "Solve: x + {m}y = {c1}, {n}x + y = {c2}.",
+              "params": {
+                "xSolution": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "ySolution": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "m": [
+                  "int",
+                  2,
+                  6
+                ],
+                "n": [
+                  "int",
+                  2,
+                  6
+                ],
+                "c1": "{xSolution + m * ySolution}",
+                "c2": "{n * xSolution + ySolution}",
+                "correctAnswer": "{formatOrderedPair(xSolution, ySolution)}",
+                "choiceSwap": "{formatOrderedPair(ySolution, xSolution)}",
+                "choiceNegX": "{formatOrderedPair(-xSolution, ySolution)}",
+                "choiceNegY": "{formatOrderedPair(xSolution, -ySolution)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceSwap}",
+                "{choiceNegX}",
+                "{choiceNegY}"
+              ],
+              "difficulty": 8,
+              "phase": 10.17,
+              "hint": "Use elimination: subtract a multiple of one equation from the other to isolate a variable."
+            },
+            {
+              "id": "Y11.A.LINEAR_SYSTEMS.T2",
+              "stem": "Solve by substitution: y = {aCoeff}x + {bConst}, {cCoeff}x + {dCoeff}y = {eConst}.",
+              "params": {
+                "xSolution": [
+                  "int",
+                  -6,
+                  6
+                ],
+                "aCoeff": [
+                  "int",
+                  -3,
+                  3
+                ],
+                "bConst": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "ySolution": "{aCoeff * xSolution + bConst}",
+                "cCoeff": [
+                  "int",
+                  1,
+                  5
+                ],
+                "dCoeff": [
+                  "int",
+                  1,
+                  5
+                ],
+                "eConst": "{cCoeff * xSolution + dCoeff * ySolution}",
+                "correctAnswer": "{formatOrderedPair(xSolution, ySolution)}",
+                "choiceSwap": "{formatOrderedPair(ySolution, xSolution)}",
+                "choiceNegX": "{formatOrderedPair(-xSolution, ySolution)}",
+                "choiceNegY": "{formatOrderedPair(xSolution, -ySolution)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceSwap}",
+                "{choiceNegX}",
+                "{choiceNegY}"
+              ],
+              "difficulty": 7,
+              "phase": 10.17,
+              "hint": "Substitute y into the second equation, solve for x, then back-substitute for y."
+            }
+          ]
+        },
+        {
+          "id": "M.SURFACE_AREA_PYRAMID",
+          "strand": "Measurement & Geometry",
+          "name": "Surface Area Pyramid",
+          "description": "Surface Area Pyramid questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.M.SURFACE_AREA_PYRAMID.T1",
+              "stem": "A square pyramid has base side {s} cm and triangular face slant height {l} cm. Find the total surface area.",
+              "params": {
+                "s": [
+                  "int",
+                  5,
+                  20
+                ],
+                "l": [
+                  "int",
+                  7,
+                  30
+                ]
+              },
+              "answer": "{s*s + 4*(s*l/2)}",
+              "difficulty": 8,
+              "phase": 10.15,
+              "hint": "Lateral area = (1/2) ├ù perimeter ├ù slant height"
+            }
+          ]
+        },
+        {
+          "id": "M.VOLUME_SPHERE",
+          "strand": "Measurement & Geometry",
+          "name": "Volume Sphere",
+          "description": "Volume Sphere questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.M.VOLUME_SPHERE.T1",
+              "stem": "Find the volume of a sphere with radius {r} cm. Use ╧Ç Γëê 3.14 and round to the nearest whole number.",
+              "params": {
+                "r": [
+                  "int",
+                  3,
+                  25
+                ]
+              },
+              "answer": "{Math.round(4/3 * 3.14 * r**3)}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "V = (4/3)╧Çr┬│"
+            }
+          ]
+        },
+        {
+          "id": "T.TRIG_GRAPH",
+          "strand": "Trigonometry",
+          "name": "Trig Graph",
+          "description": "Trig Graph questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.T.TRIG_GRAPH.T1",
+              "stem": "How many solutions does sin(x) = {k} have in the interval 0┬░ Γëñ x < 360┬░?",
+              "params": {
+                "k": [
+                  "decimal",
+                  -1.2,
+                  1.2,
+                  0.05
+                ]
+              },
+              "answer": "{abs(k) > 1 ? 0 : abs(k) == 1 ? 1 : 2}",
+              "difficulty": 8,
+              "phase": 10.15,
+              "hint": "y = a sin(b(x-c)) + d"
+            }
+          ]
+        },
+        {
+          "id": "M.MATRIX_ADD",
+          "strand": "Measurement & Geometry",
+          "name": "Matrix Add",
+          "description": "Matrix Add questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.M.MATRIX_ADD.T1",
+              "stem": "A = [[{a11},{a12}],[{a21},{a22}]] and B = [[{b11},{b12}],[{b21},{b22}]]. Find A + B.",
+              "params": {
+                "a11": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "a12": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "a21": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "a22": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "b11": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "b12": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "b21": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "b22": [
+                  "int",
+                  -8,
+                  8
+                ]
+              },
+              "answer": "[[{a11+b11},{a12+b12}],[{a21+b21},{a22+b22}]]",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "[a b; c d] + [e f; g h] = [a+e b+f; c+g d+h]"
+            }
+          ]
+        },
+        {
+          "id": "M.MATRIX_MULTIPLY_2X2",
+          "strand": "Measurement & Geometry",
+          "name": "Matrix Multiply 2x2",
+          "description": "Matrix Multiply 2x2 questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.M.MATRIX_MULTIPLY_2X2.T1",
+              "stem": "Calculate AB where A = [[{a},{b}],[{c},{d}]] and B = [[{e},{f}],[{g},{h}]].",
+              "params": {
+                "a": [
+                  "int",
+                  -4,
+                  6
+                ],
+                "b": [
+                  "int",
+                  -4,
+                  6
+                ],
+                "c": [
+                  "int",
+                  -4,
+                  6
+                ],
+                "d": [
+                  "int",
+                  -4,
+                  6
+                ],
+                "e": [
+                  "int",
+                  -4,
+                  6
+                ],
+                "f": [
+                  "int",
+                  -4,
+                  6
+                ],
+                "g": [
+                  "int",
+                  -4,
+                  6
+                ],
+                "h": [
+                  "int",
+                  -4,
+                  6
+                ]
+              },
+              "answer": "[[{a*e + b*g},{a*f + b*h}],[{c*e + d*g},{c*f + d*h}]]",
+              "difficulty": 8,
+              "phase": 10.15,
+              "hint": "[a b; c d] ├ù [e f; g h] = [ae+bg af+bh; ce+dg cf+dh]"
+            }
+          ]
+        },
+        {
+          "id": "A.QUADRATIC_EQS",
+          "strand": "Algebra & Sequences",
+          "name": "Quadratic Eqs",
+          "description": "Quadratic Eqs questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.A.QUADRATIC_EQS.T1",
+              "stem": "Solve x^2 + {aCoeff}x + {bCoeff} = 0 by factoring.",
+              "params": {
+                "root1": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "root2": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "aCoeff": "{-(root1 + root2)}",
+                "bCoeff": "{root1 * root2}",
+                "correctAnswer": "{formatRoots(root1, root2)}",
+                "choiceFlipSigns": "{formatRoots(-root1, -root2)}",
+                "choiceFlipSecond": "{formatRoots(root1, -root2)}",
+                "choiceFlipFirst": "{formatRoots(-root1, root2)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceFlipSigns}",
+                "{choiceFlipSecond}",
+                "{choiceFlipFirst}"
+              ],
+              "difficulty": 7,
+              "phase": 10.17,
+              "hint": "Write the quadratic as (x - r1)(x - r2) = 0 and set each factor to zero."
+            },
+            {
+              "id": "Y11.A.QUADRATIC_EQS.T2",
+              "stem": "Solve {aCoeff}x^2 + {bCoeff}x + {cCoeff} = 0 using the quadratic formula.",
+              "params": {
+                "root1": [
+                  "int",
+                  -7,
+                  7
+                ],
+                "root2": [
+                  "int",
+                  -7,
+                  7
+                ],
+                "leadingCoeff": [
+                  "int",
+                  1,
+                  4
+                ],
+                "aCoeff": "{leadingCoeff}",
+                "bCoeff": "{-leadingCoeff * (root1 + root2)}",
+                "cCoeff": "{leadingCoeff * root1 * root2}",
+                "correctAnswer": "{formatRoots(root1, root2)}",
+                "choiceFlipSigns": "{formatRoots(-root1, -root2)}",
+                "choiceFlipSecond": "{formatRoots(root1, -root2)}",
+                "choiceFlipFirst": "{formatRoots(-root1, root2)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceFlipSigns}",
+                "{choiceFlipSecond}",
+                "{choiceFlipFirst}"
+              ],
+              "difficulty": 8,
+              "phase": 10.17,
+              "hint": "Use x = [-b ┬▒ ΓêÜ(b^2 - 4ac)] / 2a."
+            },
+            {
+              "id": "Y11.A.QUADRATIC_EQS.T4",
+              "stem": "Find the discriminant of {a}x^2 + {b}x + {c} = 0 and describe the nature of its roots.",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "c": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "discriminant": "{b*b - 4*a*c}",
+                "nature": "{describeDiscriminant(discriminant)}",
+                "wrongNatureA": "{nature === 'two distinct real roots' ? 'one repeated real root' : 'two distinct real roots'}",
+                "wrongNatureB": "{nature === 'no real roots' ? 'two distinct real roots' : 'no real roots'}",
+                "offsetDiscriminant": "{discriminant + a * 4}"
+              },
+              "answer": "{formatDiscriminantNature(discriminant)}",
+              "choices": [
+                "{formatDiscriminantNature(discriminant)}",
+                "{'D = ' + discriminant + ', ' + wrongNatureA}",
+                "{'D = ' + discriminant + ', ' + wrongNatureB}",
+                "{formatDiscriminantNature(offsetDiscriminant)}"
+              ],
+              "difficulty": 8,
+              "phase": 10.17,
+              "hint": "The discriminant is b^2 - 4ac: positive (two roots), zero (one repeated root), negative (no real roots)."
+            },
+            {
+              "id": "Y11.A.QUADRATIC_EQS.T3",
+              "stem": "Complete the square for the equation x^2 + {a}x + {b} = 0",
+              "params": {
+                "a": [
+                  "int",
+                  -12,
+                  12,
+                  2
+                ],
+                "b": [
+                  "int",
+                  -30,
+                  30
+                ]
+              },
+              "answer": "(x + {a/2})^2 = {(a/2)*(a/2) - b}",
+              "difficulty": 9,
+              "phase": 10.15,
+              "hint": "x = [-b ┬▒ ΓêÜ(b┬▓-4ac)] / 2a"
+            }
+          ]
+        },
+        {
+          "id": "A.POLYNOMIALS",
+          "strand": "Algebra & Sequences",
+          "name": "Polynomials",
+          "description": "Polynomials questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.A.POLYNOMIALS.T1",
+              "stem": "Expand ({a}x + {b})({c}x + {d})",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  6
+                ],
+                "b": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "c": [
+                  "int",
+                  1,
+                  6
+                ],
+                "d": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "correctExpr": "{formatQuadraticExpression(a*c, a*d + b*c, b*d)}",
+                "foilInnerOnly": "{formatQuadraticExpression(a*c, a*d, b*d)}",
+                "foilOuterOnly": "{formatQuadraticExpression(a*c, b*c, b*d)}",
+                "foilNoMiddle": "{formatQuadraticExpression(a*c, 0, b*d)}"
+              },
+              "answer": "{correctExpr}",
+              "choices": [
+                "correctExpr",
+                "foilInnerOnly",
+                "foilOuterOnly",
+                "foilNoMiddle"
+              ],
+              "difficulty": 6,
+              "phase": 10.15,
+              "hint": "Even degree positive leading coeff ΓåÆ up on both sides"
+            },
+            {
+              "id": "Y11.A.POLYNOMIALS.T2",
+              "stem": "Factor {aCoeff}x^2 + {bCoeff}x + {cCoeff}.",
+              "params": {
+                "u": [
+                  "int",
+                  1,
+                  4
+                ],
+                "w": [
+                  "int",
+                  1,
+                  4
+                ],
+                "v": [
+                  "choice",
+                  -8,
+                  -7,
+                  -6,
+                  -5,
+                  -4,
+                  -3,
+                  -2,
+                  -1,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ],
+                "z": [
+                  "choice",
+                  -8,
+                  -7,
+                  -6,
+                  -5,
+                  -4,
+                  -3,
+                  -2,
+                  -1,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ],
+                "aCoeff": "{u * w}",
+                "bCoeff": "{u * z + v * w}",
+                "cCoeff": "{v * z}",
+                "correctFactor": "{formatLinearFactor(u, v) + formatLinearFactor(w, z)}",
+                "choiceFlipFirst": "{formatLinearFactor(u, -v) + formatLinearFactor(w, z)}",
+                "choiceFlipSecond": "{formatLinearFactor(u, v) + formatLinearFactor(w, -z)}",
+                "choiceSwap": "{formatLinearFactor(w, v) + formatLinearFactor(u, z)}"
+              },
+              "answer": "{correctFactor}",
+              "choices": [
+                "{correctFactor}",
+                "{choiceFlipFirst}",
+                "{choiceFlipSecond}",
+                "{choiceSwap}"
+              ],
+              "difficulty": 8,
+              "phase": 10.17,
+              "hint": "Work backwards from (mx + p)(nx + q) so the product matches the original quadratic."
+            },
+            {
+              "id": "Y11.A.POLYNOMIALS.T3",
+              "stem": "Simplify ({a}x┬▓ + {b}x + {c}) + ({d}x┬▓ + {e}x + {f})",
+              "params": {
+                "a": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "b": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "c": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "d": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "e": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "f": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "aSum": "{a + d}",
+                "bSum": "{b + e}",
+                "cSum": "{c + f}"
+              },
+              "answer": "{formatQuadraticExpression(aSum, bSum, cSum)}",
+              "choices": [
+                "{formatQuadraticExpression(aSum, bSum, cSum)}",
+                "{formatQuadraticExpression(aSum, b, c)}",
+                "{formatQuadraticExpression(a, bSum, cSum)}",
+                "{formatQuadraticExpression(aSum, bSum, 0)}"
+              ],
+              "difficulty": 5,
+              "phase": 10.15,
+              "hint": "Even degree positive leading coeff ΓåÆ up on both sides"
+            }
+          ]
+        },
+        {
+          "id": "G.TRIG_RATIOS",
+          "strand": "Geometry & Trigonometry",
+          "name": "Trig Ratios",
+          "description": "Trig Ratios questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.G.TRIG_RATIOS.T1",
+              "stem": "In a right-angled triangle, opposite side = {opp} cm, adjacent side = {adj} cm. Find tan ╬╕ exactly.",
+              "params": {
+                "opp": [
+                  "int",
+                  3,
+                  20
+                ],
+                "adj": [
+                  "int",
+                  3,
+                  20
+                ]
+              },
+              "answer": "{opp}/{adj}",
+              "difficulty": 6,
+              "phase": 10.15,
+              "hint": "sin ╬╕ = opp/hyp, cos ╬╕ = adj/hyp, tan ╬╕ = opp/adj"
+            },
+            {
+              "id": "Y11.G.TRIG_RATIOS.T3",
+              "stem": "A right triangle has hypotenuse {hyp} cm and opposite side {opp} cm. Find sin ╬╕ exactly.",
+              "params": {
+                "hyp": [
+                  "int",
+                  5,
+                  25
+                ],
+                "opp": [
+                  "int",
+                  3,
+                  24
+                ]
+              },
+              "answer": "{opp}/{hyp}",
+              "difficulty": 6,
+              "phase": 10.15,
+              "hint": "sin ╬╕ = opp/hyp, cos ╬╕ = adj/hyp, tan ╬╕ = opp/adj"
+            }
+          ]
+        },
+        {
+          "id": "G.TRIG_IDENTITIES",
+          "strand": "Geometry & Trigonometry",
+          "name": "Trig Identities",
+          "description": "Trig Identities questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.G.TRIG_IDENTITIES.T1",
+              "stem": "Simplify {identity.expr}, expressing your answer using only {identity.showOnly}.",
+              "params": {
+                "identity": [
+                  "choice",
+                  {
+                    "expr": "sin^2(theta) + cos^2(theta)",
+                    "showOnly": "numbers",
+                    "answer": "1"
+                  },
+                  {
+                    "expr": "1 - cos^2(theta)",
+                    "showOnly": "sin(theta)",
+                    "answer": "sin^2(theta)"
+                  },
+                  {
+                    "expr": "1 - sin^2(theta)",
+                    "showOnly": "cos(theta)",
+                    "answer": "cos^2(theta)"
+                  }
+                ]
+              },
+              "answer": "{identity.answer}",
+              "difficulty": 8,
+              "phase": 10.15,
+              "hint": "sin┬▓╬╕ + cos┬▓╬╕ = 1"
+            },
+            {
+              "id": "Y11.G.TRIG_IDENTITIES.T2",
+              "stem": "Which identity correctly expresses tan(theta) in terms of sin(theta) and cos(theta)?",
+              "params": {},
+              "answer": "tan(theta) = sin(theta) / cos(theta)",
+              "choices": [
+                "tan(theta) = sin(theta) / cos(theta)",
+                "tan(theta) = cos(theta) / sin(theta)",
+                "tan(theta) = sin(theta) * cos(theta)",
+                "tan(theta) = cos(theta) - sin(theta)"
+              ],
+              "difficulty": 6,
+              "phase": 10.17,
+              "hint": "tan(theta) is defined as sin(theta) divided by cos(theta)."
+            }
+          ]
+        },
+        {
+          "id": "G.COORDINATE_GEOMETRY",
+          "strand": "Geometry & Trigonometry",
+          "name": "Coordinate Geometry",
+          "description": "Coordinate Geometry questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.G.COORDINATE_GEOMETRY.T1",
+              "stem": "Find the gradient of the line passing through ({x1},{y1}) and ({x2},{y2}).",
+              "params": {
+                "x1": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "y1": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "dx": [
+                  "int",
+                  1,
+                  10
+                ],
+                "dy": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "x2": "{x1 + dx}",
+                "y2": "{y1 + dy}"
+              },
+              "answer": "{dy}/{dx}",
+              "difficulty": 6,
+              "phase": 10.15,
+              "hint": "(x-h)┬▓ + (y-k)┬▓ = r┬▓"
+            },
+            {
+              "id": "Y11.G.COORDINATE_GEOMETRY.T2",
+              "stem": "Find the distance between ({x1},{y1}) and ({x2},{y2}). Give exact simplified form.",
+              "params": {
+                "x1": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "y1": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "dx": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "dy": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "x2": "{x1 + dx}",
+                "y2": "{y1 + dy}"
+              },
+              "answer": "{sqrtExact((dx)**2 + (dy)**2)}",
+              "difficulty": 7,
+              "phase": 10.15,
+              "hint": "(x-h)┬▓ + (y-k)┬▓ = r┬▓"
+            }
+          ]
+        },
+        {
+          "id": "S.DESCRIPTIVE_STATS",
+          "strand": "Statistics & Probability",
+          "name": "Descriptive Stats",
+          "description": "Descriptive Stats questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.S.DESCRIPTIVE_STATS.T1",
+              "stem": "Find the mean of the numbers {a}, {b}, {c}, {d}, {e}.",
+              "params": {
+                "a": [
+                  "int",
+                  0,
+                  200
+                ],
+                "b": [
+                  "int",
+                  0,
+                  200
+                ],
+                "c": [
+                  "int",
+                  0,
+                  200
+                ],
+                "d": [
+                  "int",
+                  0,
+                  200
+                ],
+                "e": [
+                  "int",
+                  0,
+                  200
+                ]
+              },
+              "answer": "{(a+b+c+d+e)/5}",
+              "difficulty": 5,
+              "phase": 10.15,
+              "hint": "Variance = ╬ú(x - ╬╝)┬▓ / n"
+            }
+          ]
+        },
+        {
+          "id": "C.CALCULUS_DIFF",
+          "strand": "Calculus & Coordinates",
+          "name": "Calculus Diff",
+          "description": "Calculus Diff questions for Year 11",
+          "templates": [
+            {
+              "id": "Y11.C.CALCULUS_DIFF.T1",
+              "stem": "Differentiate f(x) = {a}x┬▓ + {b}x + {c}",
+              "params": {
+                "a": [
+                  "int",
+                  -6,
+                  6,
+                  1
+                ],
+                "b": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "c": [
+                  "int",
+                  -20,
+                  20
+                ]
+              },
+              "answer": "{2*a}x + {b}",
+              "difficulty": 10,
+              "phase": 10.15,
+              "hint": "Power rule: d/dx(xΓü┐) = nx^(n-1)"
+            }
+          ]
+        },
+        {
+          "id": "Y11.A.QUADRATIC_EQS",
+          "strand": "Number & Algebra",
+          "name": "Quadratic equations",
+          "description": "Solve quadratic equations by factoring, completing the square, and quadratic formula",
+          "templates": [
+            {
+              "id": "Y11.A.QUADRATIC_EQS.T1",
+              "stem": "Solve x^2 + {aCoeff}x + {bCoeff} = 0 by factoring.",
+              "params": {
+                "root1": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "root2": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "aCoeff": "{-(root1 + root2)}",
+                "bCoeff": "{root1 * root2}",
+                "correctAnswer": "{formatRoots(root1, root2)}",
+                "choiceFlipSigns": "{formatRoots(-root1, -root2)}",
+                "choiceFlipSecond": "{formatRoots(root1, -root2)}",
+                "choiceFlipFirst": "{formatRoots(-root1, root2)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceFlipSigns}",
+                "{choiceFlipSecond}",
+                "{choiceFlipFirst}"
+              ],
+              "difficulty": 7,
+              "phase": 10.17,
+              "hint": "Write the quadratic as (x - r1)(x - r2) = 0 and set each factor to zero."
+            },
+            {
+              "id": "Y11.A.QUADRATIC_EQS.T2",
+              "stem": "Solve {aCoeff}x^2 + {bCoeff}x + {cCoeff} = 0 using the quadratic formula.",
+              "params": {
+                "root1": [
+                  "int",
+                  -7,
+                  7
+                ],
+                "root2": [
+                  "int",
+                  -7,
+                  7
+                ],
+                "leadingCoeff": [
+                  "int",
+                  1,
+                  4
+                ],
+                "aCoeff": "{leadingCoeff}",
+                "bCoeff": "{-leadingCoeff * (root1 + root2)}",
+                "cCoeff": "{leadingCoeff * root1 * root2}",
+                "correctAnswer": "{formatRoots(root1, root2)}",
+                "choiceFlipSigns": "{formatRoots(-root1, -root2)}",
+                "choiceFlipSecond": "{formatRoots(root1, -root2)}",
+                "choiceFlipFirst": "{formatRoots(-root1, root2)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceFlipSigns}",
+                "{choiceFlipSecond}",
+                "{choiceFlipFirst}"
+              ],
+              "difficulty": 8,
+              "phase": 10.17,
+              "hint": "Use x = [-b ± √(b^2 - 4ac)] / 2a."
+            },
+            {
+              "id": "Y11.A.QUADRATIC_EQS.T4",
+              "stem": "Find the discriminant of {a}x^2 + {b}x + {c} = 0 and describe the nature of its roots.",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "c": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "discriminant": "{b*b - 4*a*c}",
+                "nature": "{describeDiscriminant(discriminant)}",
+                "wrongNatureA": "{nature === 'two distinct real roots' ? 'one repeated real root' : 'two distinct real roots'}",
+                "wrongNatureB": "{nature === 'no real roots' ? 'two distinct real roots' : 'no real roots'}",
+                "offsetDiscriminant": "{discriminant + a * 4}"
+              },
+              "answer": "{formatDiscriminantNature(discriminant)}",
+              "choices": [
+                "{formatDiscriminantNature(discriminant)}",
+                "{'D = ' + discriminant + ', ' + wrongNatureA}",
+                "{'D = ' + discriminant + ', ' + wrongNatureB}",
+                "{formatDiscriminantNature(offsetDiscriminant)}"
+              ],
+              "difficulty": 8,
+              "phase": 10.17,
+              "hint": "The discriminant is b^2 - 4ac: positive (two roots), zero (one repeated root), negative (no real roots)."
+            },
+            {
+              "id": "Y11.A.QUADRATIC_EQS.T3",
+              "stem": "Complete the square for the equation x^2 + {a}x + {b} = 0",
+              "params": {
+                "a": [
+                  "int",
+                  -12,
+                  12,
+                  2
+                ],
+                "b": [
+                  "int",
+                  -30,
+                  30
+                ]
+              },
+              "answer": "(x + {a/2})^2 = {(a/2)*(a/2) - b}",
+              "difficulty": 9,
+              "phase": 10.15,
+              "hint": "x = [-b ± √(b²-4ac)] / 2a"
+            }
+          ]
+        },
+        {
+          "id": "Y11.A.LINEAR_SYSTEMS",
+          "strand": "Number & Algebra",
+          "name": "Simultaneous equations",
+          "description": "Solve systems of linear equations",
+          "templates": [
+            {
+              "id": "Y11.A.LINEAR_SYSTEMS.T1",
+              "stem": "Solve: x + {m}y = {c1}, {n}x + y = {c2}.",
+              "params": {
+                "xSolution": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "ySolution": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "m": [
+                  "int",
+                  2,
+                  6
+                ],
+                "n": [
+                  "int",
+                  2,
+                  6
+                ],
+                "c1": "{xSolution + m * ySolution}",
+                "c2": "{n * xSolution + ySolution}",
+                "correctAnswer": "{formatOrderedPair(xSolution, ySolution)}",
+                "choiceSwap": "{formatOrderedPair(ySolution, xSolution)}",
+                "choiceNegX": "{formatOrderedPair(-xSolution, ySolution)}",
+                "choiceNegY": "{formatOrderedPair(xSolution, -ySolution)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceSwap}",
+                "{choiceNegX}",
+                "{choiceNegY}"
+              ],
+              "difficulty": 8,
+              "phase": 10.17,
+              "hint": "Use elimination: subtract a multiple of one equation from the other to isolate a variable."
+            },
+            {
+              "id": "Y11.A.LINEAR_SYSTEMS.T2",
+              "stem": "Solve by substitution: y = {aCoeff}x + {bConst}, {cCoeff}x + {dCoeff}y = {eConst}.",
+              "params": {
+                "xSolution": [
+                  "int",
+                  -6,
+                  6
+                ],
+                "aCoeff": [
+                  "int",
+                  -3,
+                  3
+                ],
+                "bConst": [
+                  "int",
+                  -10,
+                  10
+                ],
+                "ySolution": "{aCoeff * xSolution + bConst}",
+                "cCoeff": [
+                  "int",
+                  1,
+                  5
+                ],
+                "dCoeff": [
+                  "int",
+                  1,
+                  5
+                ],
+                "eConst": "{cCoeff * xSolution + dCoeff * ySolution}",
+                "correctAnswer": "{formatOrderedPair(xSolution, ySolution)}",
+                "choiceSwap": "{formatOrderedPair(ySolution, xSolution)}",
+                "choiceNegX": "{formatOrderedPair(-xSolution, ySolution)}",
+                "choiceNegY": "{formatOrderedPair(xSolution, -ySolution)}"
+              },
+              "answer": "{correctAnswer}",
+              "choices": [
+                "{correctAnswer}",
+                "{choiceSwap}",
+                "{choiceNegX}",
+                "{choiceNegY}"
+              ],
+              "difficulty": 7,
+              "phase": 10.17,
+              "hint": "Substitute y into the second equation, solve for x, then back-substitute for y."
+            }
+          ]
+        },
+        {
+          "id": "Y11.A.POLYNOMIALS",
+          "strand": "Number & Algebra",
+          "name": "Polynomial operations",
+          "description": "Expand, factor, and simplify polynomials",
+          "templates": [
+            {
+              "id": "Y11.A.POLYNOMIALS.T1",
+              "stem": "Expand ({a}x + {b})({c}x + {d})",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  6
+                ],
+                "b": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "c": [
+                  "int",
+                  1,
+                  6
+                ],
+                "d": [
+                  "int",
+                  -12,
+                  12
+                ],
+                "correctExpr": "{formatQuadraticExpression(a*c, a*d + b*c, b*d)}",
+                "foilInnerOnly": "{formatQuadraticExpression(a*c, a*d, b*d)}",
+                "foilOuterOnly": "{formatQuadraticExpression(a*c, b*c, b*d)}",
+                "foilNoMiddle": "{formatQuadraticExpression(a*c, 0, b*d)}"
+              },
+              "answer": "{correctExpr}",
+              "choices": [
+                "correctExpr",
+                "foilInnerOnly",
+                "foilOuterOnly",
+                "foilNoMiddle"
+              ],
+              "difficulty": 6,
+              "phase": 10.15,
+              "hint": "Even degree positive leading coeff → up on both sides"
+            },
+            {
+              "id": "Y11.A.POLYNOMIALS.T2",
+              "stem": "Factor {aCoeff}x^2 + {bCoeff}x + {cCoeff}.",
+              "params": {
+                "u": [
+                  "int",
+                  1,
+                  4
+                ],
+                "w": [
+                  "int",
+                  1,
+                  4
+                ],
+                "v": [
+                  "choice",
+                  -8,
+                  -7,
+                  -6,
+                  -5,
+                  -4,
+                  -3,
+                  -2,
+                  -1,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ],
+                "z": [
+                  "choice",
+                  -8,
+                  -7,
+                  -6,
+                  -5,
+                  -4,
+                  -3,
+                  -2,
+                  -1,
+                  1,
+                  2,
+                  3,
+                  4,
+                  5,
+                  6,
+                  7,
+                  8
+                ],
+                "aCoeff": "{u * w}",
+                "bCoeff": "{u * z + v * w}",
+                "cCoeff": "{v * z}",
+                "correctFactor": "{formatLinearFactor(u, v) + formatLinearFactor(w, z)}",
+                "choiceFlipFirst": "{formatLinearFactor(u, -v) + formatLinearFactor(w, z)}",
+                "choiceFlipSecond": "{formatLinearFactor(u, v) + formatLinearFactor(w, -z)}",
+                "choiceSwap": "{formatLinearFactor(w, v) + formatLinearFactor(u, z)}"
+              },
+              "answer": "{correctFactor}",
+              "choices": [
+                "{correctFactor}",
+                "{choiceFlipFirst}",
+                "{choiceFlipSecond}",
+                "{choiceSwap}"
+              ],
+              "difficulty": 8,
+              "phase": 10.17,
+              "hint": "Work backwards from (mx + p)(nx + q) so the product matches the original quadratic."
+            },
+            {
+              "id": "Y11.A.POLYNOMIALS.T3",
+              "stem": "Simplify ({a}x² + {b}x + {c}) + ({d}x² + {e}x + {f})",
+              "params": {
+                "a": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "b": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "c": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "d": [
+                  "int",
+                  -8,
+                  8
+                ],
+                "e": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "f": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "aSum": "{a + d}",
+                "bSum": "{b + e}",
+                "cSum": "{c + f}"
+              },
+              "answer": "{formatQuadraticExpression(aSum, bSum, cSum)}",
+              "choices": [
+                "{formatQuadraticExpression(aSum, bSum, cSum)}",
+                "{formatQuadraticExpression(aSum, b, c)}",
+                "{formatQuadraticExpression(a, bSum, cSum)}",
+                "{formatQuadraticExpression(aSum, bSum, 0)}"
+              ],
+              "difficulty": 5,
+              "phase": 10.15,
+              "hint": "Even degree positive leading coeff → up on both sides"
+            }
+          ]
+        },
+        {
+          "id": "Y11.G.TRIG_IDENTITIES",
+          "strand": "Geometry & Measurement",
+          "name": "Trigonometric identities",
+          "description": "Prove and use basic trig identities",
+          "templates": [
+            {
+              "id": "Y11.G.TRIG_IDENTITIES.T1",
+              "stem": "Simplify {identity.expr}, expressing your answer using only {identity.showOnly}.",
+              "params": {
+                "identity": [
+                  "choice",
+                  {
+                    "expr": "sin^2(theta) + cos^2(theta)",
+                    "showOnly": "numbers",
+                    "answer": "1"
+                  },
+                  {
+                    "expr": "1 - cos^2(theta)",
+                    "showOnly": "sin(theta)",
+                    "answer": "sin^2(theta)"
+                  },
+                  {
+                    "expr": "1 - sin^2(theta)",
+                    "showOnly": "cos(theta)",
+                    "answer": "cos^2(theta)"
+                  }
+                ]
+              },
+              "answer": "{identity.answer}",
+              "difficulty": 8,
+              "phase": 10.15,
+              "hint": "sin²θ + cos²θ = 1"
+            },
+            {
+              "id": "Y11.G.TRIG_IDENTITIES.T2",
+              "stem": "Which identity correctly expresses tan(theta) in terms of sin(theta) and cos(theta)?",
+              "params": {},
+              "answer": "tan(theta) = sin(theta) / cos(theta)",
+              "choices": [
+                "tan(theta) = sin(theta) / cos(theta)",
+                "tan(theta) = cos(theta) / sin(theta)",
+                "tan(theta) = sin(theta) * cos(theta)",
+                "tan(theta) = cos(theta) - sin(theta)"
+              ],
+              "difficulty": 6,
+              "phase": 10.17,
+              "hint": "tan(theta) is defined as sin(theta) divided by cos(theta)."
+            }
+          ]
+        },
+        {
+          "id": "Y11.S.STATS_INFERENCE",
+          "strand": "Statistics & Probability",
+          "name": "Statistical inference",
+          "description": "Confidence intervals and hypothesis testing basics",
+          "templates": [
+            {
+              "id": "Y11.S.STATS_INFERENCE.T1",
+              "stem": "A sample of size {n} has mean {mean} and standard deviation {sd}. Using z = 1.96, what is the margin of error for a 95% confidence interval for the population mean? Give your answer to 2 decimal places.",
+              "params": {
+                "mean": [
+                  "int",
+                  60,
+                  90
+                ],
+                "sd": [
+                  "int",
+                  6,
+                  15
+                ],
+                "n": [
+                  "int",
+                  25,
+                  60
+                ]
+              },
+              "answer": "{round(1.96 * sd / Math.sqrt(n), 2)}",
+              "difficulty": 8,
+              "phase": 10.18,
+              "hint": "Margin of error = z * (sd / sqrt(n)). Use z = 1.96 for 95% confidence."
+            }
+          ]
+        },
+        {
+          "id": "Y11.T.TRIG_EXACT",
+          "strand": "Geometry & Measurement",
+          "name": "Trigonometric exact values",
+          "description": "Find exact values of trig ratios for special angles",
+          "templates": [
+            {
+              "id": "Y11.T.TRIG_EXACT.T1",
+              "stem": "Find the exact value of sin({angle}°).",
+              "params": {
+                "angle": [
+                  "choice",
+                  30,
+                  45,
+                  60
+                ]
+              },
+              "answer": "{exactSin(angle)}",
+              "difficulty": 7,
+              "phase": 10.18,
+              "hint": "Recall sin(30°)=1/2, sin(45°)=sqrt(2)/2, sin(60°)=sqrt(3)/2."
+            }
+          ]
+        },
+        {
+          "id": "Y11.M.MATRIX_INVERSE_2X2",
+          "strand": "Number & Algebra",
+          "name": "Matrix inverse",
+          "description": "Find the inverse of 2*2 matrices",
+          "templates": [
+            {
+              "id": "Y11.M.MATRIX_INVERSE_2X2.T1",
+              "stem": "Find the inverse of the matrix [[{a},{b}],[{c},{d}]].",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  4
+                ],
+                "b": [
+                  "int",
+                  -3,
+                  3
+                ],
+                "c": [
+                  "int",
+                  -3,
+                  3
+                ],
+                "dRaw": [
+                  "int",
+                  1,
+                  5
+                ],
+                "d": "{a * dRaw - b * c === 0 ? dRaw + 1 : dRaw}"
+              },
+              "answer": "{formatInverse2x2(a, b, c, d)}",
+              "difficulty": 9,
+              "phase": 10.18,
+              "hint": "For [[a,b],[c,d]], inverse = (1/(ad-bc))[[d,-b],[-c,a]]. Ensure ad - bc ≠ 0."
+            }
+          ]
+        },
+        {
+          "id": "Y11.S.NORMAL_PERCENT",
+          "strand": "Statistics & Probability",
+          "name": "Normal distribution",
+          "description": "Calculate probabilities using the normal distribution",
+          "templates": [
+            {
+              "id": "Y11.S.NORMAL_PERCENT.T1",
+              "stem": "IQ scores are normally distributed with mean 100 and standard deviation 15. What percentage have IQ > {score}? Give your answer to 1 decimal place.",
+              "params": {
+                "score": [
+                  "int",
+                  115,
+                  145,
+                  5
+                ]
+              },
+              "answer": "{round(100 * (1 - normalCdfApprox((score - 100) / 15)), 1)}%",
+              "difficulty": 9,
+              "phase": 10.18,
+              "hint": "Standardise with z = (score - mean)/SD, then use the normal CDF."
+            }
+          ]
+        },
+        {
+          "id": "Y11.A.QUADRATICS_DISCRIMINANT",
+          "strand": "Number & Algebra",
+          "name": "Quadratic discriminant",
+          "description": "Use the discriminant to determine nature of roots",
+          "templates": [
+            {
+              "id": "Y11.A.QUADRATICS_DISCRIMINANT.T1",
+              "stem": "For the quadratic {a}x^2 + {b}x + {c} = 0, find the discriminant and state the nature of the roots.",
+              "params": {
+                "a": [
+                  "int",
+                  1,
+                  5
+                ],
+                "b": [
+                  "int",
+                  -15,
+                  15
+                ],
+                "c": [
+                  "int",
+                  -20,
+                  20
+                ],
+                "discriminant": "{b*b - 4*a*c}"
+              },
+              "answer": "{formatDiscriminantNature(discriminant)}",
+              "difficulty": 8,
+              "phase": 10.18,
+              "hint": "Use b^2 - 4ac: >0 two real roots, =0 one repeated root, <0 no real roots."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
