@@ -274,15 +274,18 @@
             },
             {
               "id": "ALGO.Y8.5",
-              "stem": "The Fibonacci sequence is a famous pattern where each number is the sum of the two before it: 1, 1, 2, 3, 5, 8, 13, ___. This sequence is used in algorithms and nature. What is the next number in the Fibonacci sequence after 13?",
+              "stem": "The Fibonacci sequence follows the pattern: F(n) = F(n-1) + F(n-2). Starting with F(1)={a} and F(2)={b}, calculate F({n}).",
               "params": {
-                "fib7": [
-                  "choice",
-                  13,
-                  13
-                ]
+                "a": ["choice", 1, 2],
+                "b": ["choice", 1, 1],
+                "n": ["choice", 5, 6, 7],
+                "f3": "{a + b}",
+                "f4": "{f3 + b}",
+                "f5": "{f4 + f3}",
+                "f6": "{f5 + f4}",
+                "f7": "{f6 + f5}"
               },
-              "answer": "{21}",
+              "answer": "{n === 5 ? f5 : n === 6 ? f6 : f7}",
               "difficulty": 3,
               "phase": 10.22
             }
@@ -650,17 +653,16 @@
             },
             {
               "id": "ALGO.Y12.5",
-              "stem": "A recursive divide-and-conquer algorithm splits a problem of size {n} into two subproblems of size {n}/2. How many subproblems are created at level 2 of the recursion tree?",
+              "stem": "A binary divide-and-conquer algorithm splits each subproblem into {branches} branches. At level 2 of the recursion tree, how many subproblems exist? (Level 0 = 1 problem, Level 1 = {branches} problems)",
               "params": {
-                "n": [
+                "branches": [
                   "choice",
-                  16,
-                  32,
-                  64,
-                  128
+                  2,
+                  3,
+                  4
                 ]
               },
-              "answer": "{4}",
+              "answer": "{branches * branches}",
               "difficulty": 6,
               "phase": 10.22
             }
