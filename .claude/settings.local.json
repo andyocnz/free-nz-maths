@@ -5,7 +5,8 @@
       "Bash(powershell -Command \"(Get-Content ''C:\\Users\\Andy\\free-nz-maths\\src\\curriculumDataFull.json'' | Measure-Object -Line).Lines\")",
       "Bash(powershell -Command:*)",
       "Bash(node testCurriculum.js:*)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": []

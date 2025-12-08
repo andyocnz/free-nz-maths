@@ -12,9 +12,11 @@ import KnowledgeModal from './KnowledgeModal.jsx'
 import PastPapersIndex from './PastPapersIndex.jsx'
 import CanvasBackground from './CanvasBackground.jsx'
 import DailyChallenge from './DailyChallenge.jsx'
+import GamesHub from './GamesHub.jsx'
 import LoginModal from './LoginModal.jsx'
 import LoginRecommendationModal from './LoginRecommendationModal.jsx'
 import PracticeHistory from './PracticeHistory.jsx'
+import GamesMenu from './GamesMenu.jsx'
 import { getCurrentUser, loginUser, logoutUser, saveProgress, saveTestResult, savePracticeSession } from './storage.js'
 import { config, generateReportURL } from './config.js'
 import { normalizeFraction } from './mathHelpers.js'
@@ -111,6 +113,7 @@ export default function App() {
   const [currentUser, setCurrentUser] = useState(null)
   const [showLoginModal, setShowLoginModal] = useState(false)
   const [showLoginRecommendation, setShowLoginRecommendation] = useState(false)
+  const [showGamesHub, setShowGamesHub] = useState(false)
   const [pendingAction, setPendingAction] = useState(null) // Store {type: 'practice'|'test', skillId: string, options?: object}
   const [practiceResults, setPracticeResults] = useState(null) // Store practice session results
   const [activeNceaPaperId, setActiveNceaPaperId] = useState(null)
@@ -3027,6 +3030,7 @@ export default function App() {
     return (
       <>
         {showLoginModal && <LoginModal onLogin={handleLogin} />}
+        {showGamesHub && <GamesHub onClose={() => setShowGamesHub(false)} />}
         {mode === 'landing' && <CanvasBackground />}
 
         {/* Inline PDF viewer for NCEA past papers */}
@@ -3122,7 +3126,7 @@ export default function App() {
                 </div>
               </div>
               <div className="flex justify-center items-center p-4">
-                <DailyChallenge devMode={isDevMode} />
+                <DailyChallenge devMode={isDevMode} onPlayMore={() => setShowGamesHub(true)} />
               </div>
             </div>
           </section>
@@ -4684,6 +4688,7 @@ export default function App() {
                   )
                 })
               })()}
+              <GamesMenu isCollapsed={sidebarCollapsed} />
             </div>
             <CurriculumMapToggle
               collapsed={sidebarCollapsed}
@@ -4701,6 +4706,7 @@ export default function App() {
               year={isTestMode ? (question?.year || selectedYear || 6) : selectedYear}
               activeCurriculum={isOlympiadMode || (isTestMode && question?.year === 'Olympiad') ? olympiadCurriculum : null}
             />
+            <GamesMenu isCollapsed={sidebarCollapsed} />
             <CurriculumMapToggle
               collapsed={sidebarCollapsed}
               onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}

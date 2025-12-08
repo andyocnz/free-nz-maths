@@ -243,7 +243,7 @@ function generateNumberPyramid() {
   return pyramids[Math.floor(Math.random() * pyramids.length)]
 }
 
-export default function DailyChallenge({ devMode = false }) {
+export default function DailyChallenge({ devMode = false, onPlayMore }) {
   const puzzleTypes = ['number', 'algebra', 'riddle', 'geometry', 'magicSquare', 'sudoku', 'pattern', 'pyramid', 'logicPuzzle']
 
   // Create flat array of ALL individual puzzles for dev mode
@@ -1654,6 +1654,17 @@ export default function DailyChallenge({ devMode = false }) {
             : 'bg-red-50 border-red-500 text-red-800'
         }`}>
           {feedback}
+        </div>
+      )}
+
+      {onPlayMore && (
+        <div className="text-center mt-4 pt-3 border-t border-gray-200">
+          <button
+            onClick={onPlayMore}
+            className="text-sm text-[#0077B6] hover:text-[#005fa3] font-medium transition-colors"
+          >
+            Play Interactive Games
+          </button>
         </div>
       )}
     </div>

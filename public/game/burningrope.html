@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Burning Ropes Logic Puzzle</title>
+    <style>
+        :root {
+            --bg-color: #1a1a2e;
+            --panel-color: #16213e;
+            --accent-color: #0f3460;
+            --text-color: #e94560;
+            --rope-color: #cbb26a;
+            --rope-burn-color: #333;
+            --highlight: #4cc9f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        h1 { margin-top: 0; color: var(--highlight); text-shadow: 0 0 10px rgba(76, 201, 240, 0.5); }
+
+        /* Container for the Description */
+        .info-panel {
+            background: var(--panel-color);
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            width: 100%;
+            margin-bottom: 20px;
+            border-left: 5px solid var(--text-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .info-panel h2 { margin-top: 0; color: var(--text-color); }
+        .info-panel ul { padding-left: 20px; color: #ccc; }
+        .info-panel li { margin-bottom: 5px; }
+
+        /* Game Area */
+        .game-container {
+            background: #222;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Timer Display */
+        .hud {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            background: #111;
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid #333;
+        }
+
+        .timer-display {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 2.5rem;
+            color: var(--highlight);
+            text-shadow: 0 0 5px var(--highlight);
+        }
+
+        .status-msg {
+            font-size: 0.9rem;
+            color: #aaa;
+            text-align: right;
+        }
+
+        /* Rope Visualization */
+        .rope-wrapper {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .rope-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #ddd;
+        }
+
+        .rope-container {
+            height: 40px;
+            background: #333;
+            border-radius: 20px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: visible; /* To let flames show */
+        }
+
+        /* The actual rope substance */
+        .rope-body {
+            height: 20px;
+            width: 100%; /* Represents 60 mins initially */
+            background: repeating-linear-gradient(
+                45deg,
+                #d4c48a,
+                #d4c48a 10px,
+                #cbb26a 10px,
+                #cbb26a 20px
+            );
+            border-radius: 10px;
+            position: relative;
+            transition: width 0.2s linear, margin 0.2s linear;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+        }
+
+        /* Interaction Points (Wicks) */
+        .wick {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            position: absolute;
+            top: 0;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+
+        .wick:hover { background: rgba(255, 255, 255, 0.2); border-color: #555; }
+        .wick.left { left: -20px; }
+        .wick.right { right: -20px; }
+
+        /* Flame Animation */
+        .flame {
+            display: none;
+            font-size: 24px;
+            animation: flicker 0.5s infinite alternate;
+            filter: drop-shadow(0 0 5px orange);
+        }
+
+        .wick.active .flame { display: block; }
+        .wick.active { border-color: orange; background: rgba(255, 165, 0, 0.1); }
+
+        /* Burnt out state */
+        .rope-wrapper.burnt .rope-body {
+            background: #444;
+            width: 0 !important; /* Force invisible */
+        }
+        .rope-wrapper.burnt .wick {
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.1s, box-shadow 0.2s;
+            text-transform: uppercase;
+        }
+
+        button:active { transform: scale(0.98); }
+
+        .btn-start { background: #28a745; color: white; }
+        .btn-pause { background: #ffc107; color: #222; }
+        .btn-reset { background: #dc3545; color: white; }
+
+        .btn-start:disabled, .btn-pause:disabled {
+            background: #555;
+            color: #888;
+            cursor: not-allowed;
+        }
+
+        /* Canvas for fireworks */
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @keyframes flicker {
+            0% { transform: scale(1) rotate(-5deg); opacity: 0.9; }
+            100% { transform: scale(1.2) rotate(5deg); opacity: 1; }
+        }
+
+        /* Modal Overlay */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .overlay.visible { visibility: visible; opacity: 1; }
+        .modal {
+            background: var(--panel-color);
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid var(--highlight);
+            max-width: 400px;
+        }
+        .modal h2 { color: var(--highlight); }
+        .modal p { color: #ccc; margin-bottom: 20px; line-height: 1.5; }
+
+    </style>
+</head>
+<body>
+
+    <!-- Fireworks Canvas -->
+    <canvas id="canvas"></canvas>
+
+    <h1>🔥 Burning Ropes Challenge</h1>
+
+    <!-- Puzzle Details -->
+    <div class="info-panel">
+        <h2>The Mission</h2>
+        <p>You have two ropes. Each rope takes exactly <strong>60 minutes</strong> to burn from one end to the other. However, the ropes are not uniform; they may burn fast in some parts and slow in others (uneven rate).</p>
+        <p><strong>Goal:</strong> Measure exactly <strong>45 minutes</strong>.</p>
+        <ul>
+            <li>Click the ends of the ropes (◎) to light them.</li>
+            <li>Lighting one end burns 1 min/min. Lighting both ends burns 2 min/min.</li>
+            <li><strong>Strategy:</strong> Light your fuses, then click "Start Burn".</li>
+            <li>The timer pauses automatically when a rope burns out completely so you can act.</li>
+        </ul>
+    </div>
+
+    <div class="game-container">
+        <div class="hud">
+            <div>
+                <div style="font-size: 0.8rem; color:#888; margin-bottom:5px;">ELAPSED TIME</div>
+                <div class="timer-display" id="timer">00:00</div>
+            </div>
+            <div class="status-msg" id="statusMsg">Ready to ignite...</div>
+        </div>
+
+        <!-- Rope 1 -->
+        <div class="rope-wrapper" id="rope1-wrapper">
+            <div class="rope-label">
+                <span>Rope A</span>
+                <span id="rope1-time">60m left</span>
+            </div>
+            <div class="rope-container">
+                <div class="wick left" onclick="game.toggleIgnite(0, 'left')">
+                    <div class="flame">🔥</div>
+                </div>
+                <div class="rope-body" id="rope1-body"></div>
+                <div class="wick right" onclick="game.toggleIgnite(0, 'right')">
+                    <div class="flame">🔥</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rope 2 -->
+        <div class="rope-wrapper" id="rope2-wrapper">
+            <div class="rope-label">
+                <span>Rope B</span>
+                <span id="rope2-time">60m left</span>
+            </div>
+            <div class="rope-container">
+                <div class="wick left" onclick="game.toggleIgnite(1, 'left')">
+                    <div class="flame">🔥</div>
+                </div>
+                <div class="rope-body" id="rope2-body"></div>
+                <div class="wick right" onclick="game.toggleIgnite(1, 'right')">
+                    <div class="flame">🔥</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button class="btn-start" id="btnStart" onclick="game.toggleTimer()">Start Burn</button>
+            <button class="btn-reset" onclick="game.reset()">Reset</button>
+        </div>
+    </div>
+
+    <!-- Feedback Modal -->
+    <div class="overlay" id="modalOverlay">
+        <div class="modal">
+            <h2 id="modalTitle">Title</h2>
+            <p id="modalMsg">Message goes here.</p>
+            <button class="btn-start" onclick="document.getElementById('modalOverlay').classList.remove('visible')">Close</button>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * Logic Controller
+         */
+        const game = {
+            ropes: [],
+            elapsedTime: 0,
+            intervalId: null,
+            isRunning: false,
+            gameSpeed: 100, // ms per game-minute (lower is faster)
+            
+            init() {
+                this.reset();
+            },
+
+            reset() {
+                this.stopTimer();
+                this.elapsedTime = 0;
+                this.ropes = [
+                    { id: 1, life: 60, max: 60, leftLit: false, rightLit: false, burnt: false },
+                    { id: 2, life: 60, max: 60, leftLit: false, rightLit: false, burnt: false }
+                ];
+                this.updateUI();
+                this.updateButtonState("Start Burn", "btn-start");
+                document.getElementById('statusMsg').innerText = "Ready. Ignite fuses then start.";
+                document.getElementById('modalOverlay').classList.remove('visible');
+            },
+
+            toggleIgnite(ropeIndex, side) {
+                const rope = this.ropes[ropeIndex];
+                if (rope.burnt) return;
+
+                if (side === 'left') rope.leftLit = !rope.leftLit;
+                if (side === 'right') rope.rightLit = !rope.rightLit;
+
+                this.updateUI();
+            },
+
+            toggleTimer() {
+                if (this.isRunning) {
+                    this.stopTimer();
+                    this.updateButtonState("Resume", "btn-start");
+                    document.getElementById('statusMsg').innerText = "Paused.";
+                } else {
+                    // Validation: Can't start if nothing is lit and time is 0
+                    const anyLit = this.ropes.some(r => r.leftLit || r.rightLit);
+                    if (!anyLit && this.elapsedTime === 0 && !this.ropes.every(r=>r.burnt)) {
+                        this.showModal("Nothing Lit!", "You need to light at least one end of a rope before starting.");
+                        return;
+                    }
+
+                    if(this.ropes.every(r=>r.burnt)) {
+                         this.showModal("Game Over", "Both ropes are burnt out. Reset to try again.");
+                         return;
+                    }
+
+                    this.startTimer();
+                }
+            },
+
+            startTimer() {
+                this.isRunning = true;
+                this.updateButtonState("Pause", "btn-pause");
+                document.getElementById('statusMsg').innerText = "Burning...";
+                
+                this.intervalId = setInterval(() => {
+                    this.tick();
+                }, this.gameSpeed);
+            },
+
+            stopTimer() {
+                this.isRunning = false;
+                clearInterval(this.intervalId);
+            },
+
+            updateButtonState(text, cls) {
+                const btn = document.getElementById('btnStart');
+                btn.innerText = text;
+                btn.className = cls; 
+            },
+
+            tick() {
+                // 1 tick = 1 minute of game time
+                let nothingBurning = true;
+
+                this.ropes.forEach(rope => {
+                    if (!rope.burnt) {
+                        let burnRate = 0;
+                        if (rope.leftLit) burnRate++;
+                        if (rope.rightLit) burnRate++;
+
+                        if (burnRate > 0) {
+                            nothingBurning = false;
+                            rope.life -= burnRate;
+
+                            // Check if rope just burnt out
+                            if (rope.life <= 0) {
+                                rope.life = 0;
+                                rope.burnt = true;
+                                rope.leftLit = false; // Extinguish flames visually
+                                rope.rightLit = false;
+                                
+                                // AUTO PAUSE MECHANIC
+                                this.stopTimer();
+                                this.updateButtonState("Resume", "btn-start");
+                                this.showModal("Rope Burnt Out!", `Rope ${rope.id} has finished burning. The timer is PAUSED so you can take action.`);
+                                document.getElementById('statusMsg').innerText = `Rope ${rope.id} finished. Paused.`;
+                            }
+                        }
+                    }
+                });
+
+                if (!nothingBurning) {
+                    this.elapsedTime++;
+                } else if (this.isRunning && !this.ropes.every(r => r.burnt)) {
+                    // Nothing is burning, but ropes exist? (User unlit everything while running)
+                    // Just keep timer running or pause? Usually pause implies interaction.
+                    // For this puzzle, time only passes if ropes burn.
+                }
+
+                this.updateUI();
+                this.checkWinCondition();
+            },
+
+            checkWinCondition() {
+                // Determine if game is effectively over (both ropes burnt)
+                const allBurnt = this.ropes.every(r => r.burnt);
+
+                if (allBurnt) {
+                    this.stopTimer();
+                    if (this.elapsedTime === 45) {
+                        this.showModal("CONGRATULATIONS!", "You successfully measured exactly 45 minutes!");
+                        triggerFireworks();
+                    } else {
+                        this.showModal("Failed", `Both ropes burnt out after ${this.elapsedTime} minutes. Target was 45.`);
+                    }
+                }
+            },
+
+            updateUI() {
+                // Update Timer
+                const mm = String(this.elapsedTime).padStart(2, '0');
+                document.getElementById('timer').innerText = `${mm}:00`;
+
+                // Update Ropes
+                this.ropes.forEach((rope, index) => {
+                    const id = index + 1;
+                    const wrapper = document.getElementById(`rope${id}-wrapper`);
+                    const body = document.getElementById(`rope${id}-body`);
+                    const leftWick = wrapper.querySelector('.wick.left');
+                    const rightWick = wrapper.querySelector('.wick.right');
+                    const timeLabel = document.getElementById(`rope${id}-time`);
+
+                    // Classes
+                    if (rope.burnt) wrapper.classList.add('burnt');
+                    else wrapper.classList.remove('burnt');
+
+                    if (rope.leftLit) leftWick.classList.add('active');
+                    else leftWick.classList.remove('active');
+
+                    if (rope.rightLit) rightWick.classList.add('active');
+                    else rightWick.classList.remove('active');
+
+                    // Width Calculation
+                    const pct = (rope.life / rope.max) * 100;
+                    body.style.width = `${pct}%`;
+                    timeLabel.innerText = rope.burnt ? "Ash" : `${rope.life}m left`;
+
+                    // Visualizing burn from sides (Center the bar if both lit, stick to side if one lit)
+                    // If left lit only: margin-left: auto (pushes right) -> No, standard flow is left-aligned.
+                    // If standard width reduction happens, it pulls from right.
+                    
+                    // To simulate burning from Left: we reduce width.
+                    // To simulate burning from Right: we reduce width and increase margin-left?
+                    // To simulate Both: reduce width, increase margin-left by half the reduction?
+                    
+                    // Simplified visual logic for CSS 'width':
+                    // We just shrink the bar centered if both, or to side.
+                    if (rope.leftLit && rope.rightLit) {
+                        body.style.marginLeft = `${(100 - pct)/2}%`;
+                    } else if (rope.rightLit) {
+                        body.style.marginLeft = `${100 - pct}%`;
+                    } else {
+                        body.style.marginLeft = `0%`;
+                    }
+                });
+            },
+
+            showModal(title, msg) {
+                document.getElementById('modalTitle').innerText = title;
+                document.getElementById('modalMsg').innerText = msg;
+                document.getElementById('modalOverlay').classList.add('visible');
+            }
+        };
+
+        // Initialize
+        game.init();
+
+
+        /**
+         * Simple Fireworks Engine on HTML5 Canvas
+         */
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        let cw = window.innerWidth;
+        let ch = window.innerHeight;
+        canvas.width = cw;
+        canvas.height = ch;
+
+        let particles = [];
+
+        function triggerFireworks() {
+            // Create a burst loop
+            let count = 0;
+            const burstInterval = setInterval(() => {
+                createFirework(cw / 2 + (Math.random() - 0.5) * 400, ch / 2 + (Math.random() - 0.5) * 300);
+                count++;
+                if (count > 10) clearInterval(burstInterval);
+            }, 300);
+            
+            animateFireworks();
+        }
+
+        function createFirework(x, y) {
+            const particleCount = 100;
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle(x, y));
+            }
+        }
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.speed = Math.random() * 5 + 2;
+                this.angle = Math.random() * Math.PI * 2;
+                this.vx = Math.cos(this.angle) * this.speed;
+                this.vy = Math.sin(this.angle) * this.speed;
+                this.alpha = 1;
+                this.decay = Math.random() * 0.015 + 0.005;
+                this.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                this.gravity = 0.05;
+            }
+
+            update() {
+                this.vx *= 0.95; // friction
+                this.vy *= 0.95;
+                this.vy += this.gravity;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.alpha -= this.decay;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, 3, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function animateFireworks() {
+            if (particles.length === 0) return;
+            
+            ctx.clearRect(0, 0, cw, ch);
+            
+            particles.forEach((p, index) => {
+                p.update();
+                p.draw();
+                if (p.alpha <= 0) particles.splice(index, 1);
+            });
+
+            if (particles.length > 0) {
+                requestAnimationFrame(animateFireworks);
+            } else {
+                ctx.clearRect(0, 0, cw, ch);
+            }
+        }
+
+        window.addEventListener('resize', () => {
+            cw = window.innerWidth;
+            ch = window.innerHeight;
+            canvas.width = cw;
+            canvas.height = ch;
+        });
+
+    </script>
+</body>
+</html>

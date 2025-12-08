@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Towers: With Hints</title>
+    <style>
+        :root {
+            --bg-color: #0b1121;
+            --panel-bg: #1e293b;
+            --text-color: #e2e8f0;
+            --accent-color: #06b6d4;
+            --rod-color: #475569;
+            --hint-color: #facc15; /* Yellow for hint */
+            
+            /* Disk Colors */
+            --d1: #fb7185; --d2: #f472b6; --d3: #c084fc; --d4: #818cf8;
+            --d5: #60a5fa; --d6: #34d399; --d7: #facc15; --d8: #fb923c;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            padding-bottom: 50px;
+        }
+
+        /* --- Header --- */
+        header { width: 100%; max-width: 800px; padding: 20px; text-align: center; }
+
+        h1 {
+            font-size: 2.2rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px;
+            text-shadow: 0 0 10px var(--accent-color); color: white;
+        }
+
+        .mission-brief {
+            background: rgba(30, 41, 59, 0.8); border: 1px solid #475569; border-left: 5px solid var(--accent-color);
+            padding: 15px; border-radius: 8px; text-align: left; margin-bottom: 20px; font-size: 0.9rem; color: #cbd5e1;
+        }
+
+        /* --- Controls --- */
+        .controls-bar {
+            display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; flex-wrap: wrap;
+        }
+
+        .hud-item {
+            background: var(--panel-bg); padding: 8px 20px; border-radius: 6px; border: 1px solid #475569;
+            font-weight: bold; display: flex; align-items: center; gap: 10px; justify-content: center;
+        }
+        .hud-value { color: var(--accent-color); font-size: 1.2rem; }
+
+        select {
+            background: var(--panel-bg); color: white; border: 1px solid #475569; 
+            padding: 8px; border-radius: 6px; cursor: pointer; outline: none; font-size: 1rem;
+        }
+
+        /* --- Game Board --- */
+        .game-board {
+            display: flex; justify-content: center; align-items: flex-end; gap: 20px;
+            padding: 20px; max-width: 1000px; width: 100%; height: 400px; margin-bottom: 20px;
+        }
+
+        .tower-container {
+            position: relative; flex: 1; max-width: 300px; height: 100%;
+            cursor: pointer; transition: background 0.2s, box-shadow 0.2s;
+            border-bottom: 8px solid #334155; border-radius: 0 0 8px 8px;
+        }
+
+        .tower-container:hover { background: rgba(255,255,255,0.03); }
+        .tower-container:hover .rod { background: #94a3b8; box-shadow: 0 0 10px rgba(255,255,255,0.2); }
+
+        /* HINT ANIMATIONS */
+        .tower-container.hint-source {
+            box-shadow: 0 0 30px rgba(250, 204, 21, 0.3);
+            border-bottom-color: var(--hint-color);
+        }
+        .tower-container.hint-target {
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.3);
+            border-bottom-color: #22c55e;
+        }
+
+        .rod {
+            position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+            width: 14px; height: 300px; background: var(--rod-color);
+            border-radius: 7px 7px 0 0; z-index: 0;
+        }
+
+        .disks-container {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column-reverse; align-items: center;
+            z-index: 1; pointer-events: none;
+        }
+
+        /* --- Disks --- */
+        .disk {
+            height: 45px; border-radius: 8px; margin-bottom: 4px; border: 2px solid rgba(0,0,0,0.2);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.27);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.4); display: flex; justify-content: center; align-items: center;
+            color: rgba(0,0,0,0.6); font-weight: 900; font-size: 1.2rem; user-select: none;
+        }
+
+        .disk.selected {
+            transform: translateY(-50px); box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+            border-color: white; color: white; animation: float 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes float { 0%, 100% { transform: translateY(-50px); } 50% { transform: translateY(-55px); } }
+
+        /* --- Feedback --- */
+        .message-area { height: 30px; text-align: center; font-size: 1.1rem; font-weight: 500; color: #94a3b8; margin-bottom: 20px; }
+        .error { color: #ef4444; font-weight: bold; }
+        .hint-text { color: var(--hint-color); font-weight: bold; text-shadow: 0 0 10px rgba(250, 204, 21, 0.5); }
+
+        /* --- Buttons --- */
+        .btn {
+            background: transparent; border: 1px solid #475569; color: #cbd5e1;
+            padding: 10px 24px; border-radius: 6px; cursor: pointer; font-size: 1rem;
+            transition: all 0.2s; text-transform: uppercase; font-weight: bold; margin: 0 5px;
+        }
+        .btn:hover { background: #334155; color: white; border-color: white; }
+
+        .btn-hint { border-color: var(--hint-color); color: var(--hint-color); }
+        .btn-hint:hover { background: rgba(250, 204, 21, 0.1); box-shadow: 0 0 15px rgba(250, 204, 21, 0.4); }
+
+        /* --- Modal --- */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(8px);
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none; transition: opacity 0.3s; z-index: 100;
+        }
+        .modal.active { opacity: 1; pointer-events: all; }
+        
+        .modal-content {
+            background: #1e293b; padding: 40px; border-radius: 12px;
+            text-align: center; border: 2px solid var(--accent-color);
+            box-shadow: 0 0 50px rgba(6, 182, 212, 0.5); max-width: 400px;
+        }
+        .btn-primary { background: var(--accent-color); color: #0f172a; border: none; margin-top: 20px;}
+        .btn-primary:hover { background: #67e8f9; transform: scale(1.05); }
+
+        /* Mobile */
+        @media(max-width: 600px) {
+            .game-board { gap: 10px; height: 350px; padding: 10px; }
+            .disk { height: 35px; font-size: 1rem; margin-bottom: 2px; }
+            h1 { font-size: 1.5rem; }
+            .controls-bar { gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Neon Towers</h1>
+        <div class="mission-brief">
+            <strong>Objective:</strong> Move all disks from Left to Right. <br>
+            <strong>Rules:</strong> One disk at a time. Larger disks cannot go on top of smaller ones.
+        </div>
+        <div class="controls-bar">
+            <div>
+                <select id="disk-select" onchange="game.reset()">
+                    <option value="3">3 Disks</option>
+                    <option value="4" selected>4 Disks</option>
+                    <option value="5">5 Disks</option>
+                    <option value="6">6 Disks</option>
+                </select>
+            </div>
+            <div class="hud-item">Moves: <span id="move-count" class="hud-value">0</span></div>
+            <div class="hud-item">Target: <span id="min-moves" class="hud-value">15</span></div>
+        </div>
+    </header>
+
+    <div class="message-area" id="message-area">Tap a tower to start.</div>
+
+    <div class="game-board">
+        <!-- Tower 0 -->
+        <div class="tower-container" id="tower-box-0" onclick="game.handleTowerClick(0)">
+            <div class="rod"></div>
+            <div class="disks-container" id="tower-0"></div>
+        </div>
+
+        <!-- Tower 1 -->
+        <div class="tower-container" id="tower-box-1" onclick="game.handleTowerClick(1)">
+            <div class="rod"></div>
+            <div class="disks-container" id="tower-1"></div>
+        </div>
+
+        <!-- Tower 2 -->
+        <div class="tower-container" id="tower-box-2" onclick="game.handleTowerClick(2)">
+            <div class="rod"></div>
+            <div class="disks-container" id="tower-2"></div>
+        </div>
+    </div>
+
+    <div style="text-align: center;">
+        <button class="btn" onclick="game.reset()">Restart</button>
+        <button class="btn btn-hint" onclick="game.showHint()">💡 Hint</button>
+    </div>
+
+    <!-- Win Modal -->
+    <div class="modal" id="win-modal">
+        <div class="modal-content">
+            <h2 style="color:var(--accent-color); margin-bottom:15px;">Victory!</h2>
+            <p id="win-message">Level Complete.</p>
+            <button class="btn btn-primary" onclick="game.reset()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        class TowerOfHanoi {
+            constructor() {
+                this.towers = [[], [], []];
+                this.selectedDisk = null; 
+                this.moves = 0;
+                this.diskCount = 4;
+                this.minMoves = 15;
+                
+                this.colors = [
+                    'var(--d1)', 'var(--d2)', 'var(--d3)', 
+                    'var(--d4)', 'var(--d5)', 'var(--d6)', 
+                    'var(--d7)', 'var(--d8)'
+                ];
+
+                this.dom = {
+                    towerBoxes: [
+                        document.getElementById('tower-box-0'),
+                        document.getElementById('tower-box-1'),
+                        document.getElementById('tower-box-2')
+                    ],
+                    towers: [
+                        document.getElementById('tower-0'),
+                        document.getElementById('tower-1'),
+                        document.getElementById('tower-2')
+                    ],
+                    moveCount: document.getElementById('move-count'),
+                    minMoves: document.getElementById('min-moves'),
+                    msgArea: document.getElementById('message-area'),
+                    diskSelect: document.getElementById('disk-select'),
+                    modal: document.getElementById('win-modal'),
+                    winMessage: document.getElementById('win-message')
+                };
+
+                this.init();
+            }
+
+            init() {
+                this.reset();
+            }
+
+            reset() {
+                this.diskCount = parseInt(this.dom.diskSelect.value);
+                this.minMoves = Math.pow(2, this.diskCount) - 1;
+                this.moves = 0;
+                this.selectedDisk = null;
+                this.towers = [[], [], []];
+
+                // Populate Tower 0
+                for (let i = this.diskCount; i >= 1; i--) {
+                    this.towers[0].push(i);
+                }
+
+                this.dom.modal.classList.remove('active');
+                this.clearHints();
+                this.updateUI();
+                this.setMessage("Tap a tower to pick up the top disk.");
+            }
+
+            handleTowerClick(towerIndex) {
+                const tower = this.towers[towerIndex];
+                this.clearHints(); // Clear previous hints on interaction
+
+                // 1. PICK UP
+                if (this.selectedDisk === null) {
+                    if (tower.length === 0) {
+                        this.shakeMsg("That tower is empty!");
+                        return;
+                    }
+                    const diskSize = tower[tower.length - 1];
+                    this.selectedDisk = { size: diskSize, fromTower: towerIndex };
+                    this.setMessage(`Selected Disk ${diskSize}. Tap destination.`);
+                    this.render();
+                } 
+                // 2. DROP
+                else {
+                    if (this.selectedDisk.fromTower === towerIndex) {
+                        this.selectedDisk = null;
+                        this.setMessage("Selection cancelled.");
+                        this.render();
+                        return;
+                    }
+
+                    const topDiskSize = tower.length > 0 ? tower[tower.length - 1] : 999;
+                    const movingDiskSize = this.selectedDisk.size;
+
+                    if (movingDiskSize < topDiskSize) {
+                        this.towers[towerIndex].push(movingDiskSize); 
+                        this.towers[this.selectedDisk.fromTower].pop(); 
+                        
+                        this.moves++;
+                        this.selectedDisk = null;
+                        this.setMessage("");
+                        this.render();
+                        this.checkWin();
+                    } else {
+                        this.shakeMsg(`Invalid! Disk ${movingDiskSize} is larger than Disk ${topDiskSize}.`);
+                    }
+                }
+            }
+
+            checkWin() {
+                if (this.towers[2].length === this.diskCount) {
+                    setTimeout(() => {
+                        const scoreRating = this.moves === this.minMoves ? "Perfect Score! 🌟" : "Good job!";
+                        this.dom.winMessage.innerHTML = `You moved ${this.diskCount} disks in <b>${this.moves}</b> moves.<br>${scoreRating}`;
+                        this.dom.modal.classList.add('active');
+                    }, 300);
+                }
+            }
+
+            updateUI() {
+                this.dom.moveCount.innerText = this.moves;
+                this.dom.minMoves.innerText = this.minMoves;
+                this.render();
+            }
+
+            render() {
+                this.dom.moveCount.innerText = this.moves;
+                
+                this.dom.towers.forEach((domContainer, towerIndex) => {
+                    domContainer.innerHTML = '';
+                    const towerData = this.towers[towerIndex];
+
+                    towerData.forEach((size, index) => {
+                        const el = document.createElement('div');
+                        el.className = 'disk';
+                        el.innerText = size;
+                        
+                        const isSelected = this.selectedDisk && 
+                                           this.selectedDisk.fromTower === towerIndex && 
+                                           this.selectedDisk.size === size;
+
+                        if (isSelected) el.classList.add('selected');
+
+                        const minWidth = 30; const maxWidth = 90; 
+                        let percent = 100;
+                        if(this.diskCount > 1) {
+                            percent = minWidth + ((size - 1) / (this.diskCount - 1)) * (maxWidth - minWidth);
+                        }
+                        
+                        el.style.width = `${percent}%`;
+                        el.style.background = this.colors[(size - 1) % this.colors.length];
+                        
+                        domContainer.appendChild(el);
+                    });
+                });
+            }
+
+            setMessage(text, type='neutral') {
+                this.dom.msgArea.innerText = text;
+                this.dom.msgArea.className = "message-area"; 
+                if(type === 'hint') this.dom.msgArea.classList.add('hint-text');
+            }
+
+            shakeMsg(text) {
+                this.dom.msgArea.innerText = text;
+                this.dom.msgArea.className = "message-area error";
+                const board = document.querySelector('.game-board');
+                board.style.transform = "translateX(5px)";
+                setTimeout(() => { board.style.transform = "translateX(-5px)"; }, 50);
+                setTimeout(() => { board.style.transform = "translateX(5px)"; }, 100);
+                setTimeout(() => { board.style.transform = "translateX(0)"; }, 150);
+            }
+
+            // --- HINT SYSTEM (BFS Solver) ---
+            
+            showHint() {
+                if(this.towers[2].length === this.diskCount) {
+                    this.setMessage("You already won!", "hint");
+                    return;
+                }
+
+                this.clearHints();
+                
+                // Calculate next best move using BFS
+                const move = this.calculateNextMove();
+                
+                if (move) {
+                    const diskSize = this.towers[move.from][this.towers[move.from].length - 1];
+                    this.setMessage(`Hint: Move Disk ${diskSize} to the Right (or closest valid tower).`, "hint");
+                    
+                    // Visual Highlights
+                    this.dom.towerBoxes[move.from].classList.add('hint-source');
+                    this.dom.towerBoxes[move.to].classList.add('hint-target');
+                    
+                    setTimeout(() => {
+                        this.dom.towerBoxes[move.from].classList.remove('hint-source');
+                        this.dom.towerBoxes[move.to].classList.remove('hint-target');
+                    }, 2000); // Remove highlight after 2s
+                } else {
+                    this.setMessage("Calculating...", "hint");
+                }
+            }
+
+            clearHints() {
+                this.dom.towerBoxes.forEach(el => {
+                    el.classList.remove('hint-source');
+                    el.classList.remove('hint-target');
+                });
+            }
+
+            // A robust BFS solver to find the shortest path from CURRENT state to WIN state
+            calculateNextMove() {
+                // State Representation: String "0:1,2,3|1:|2:" (Disks on towers)
+                const serialize = (towers) => {
+                    return towers.map(t => t.join(',')).join('|');
+                };
+
+                const initialState = serialize(this.towers);
+                const targetStateStr = Array(3).fill('').map((_, i) => 
+                    i === 2 ? Array.from({length: this.diskCount}, (_, k) => this.diskCount - k).join(',') : ''
+                ).join('|');
+
+                // Queue: [ { towers: [[],[],[]], firstMove: {from, to} } ]
+                let queue = [];
+                // Deep copy current towers
+                queue.push({ 
+                    towers: JSON.parse(JSON.stringify(this.towers)), 
+                    firstMove: null 
+                });
+
+                let visited = new Set();
+                visited.add(initialState);
+
+                let iterations = 0;
+                
+                while(queue.length > 0 && iterations < 5000) { // Safety break
+                    let current = queue.shift();
+                    let currentStr = serialize(current.towers);
+
+                    if (currentStr === targetStateStr) {
+                        return current.firstMove;
+                    }
+
+                    // Generate moves
+                    for (let from = 0; from < 3; from++) {
+                        if (current.towers[from].length === 0) continue;
+                        
+                        for (let to = 0; to < 3; to++) {
+                            if (from === to) continue;
+                            
+                            const disk = current.towers[from][current.towers[from].length - 1];
+                            const targetTop = current.towers[to].length > 0 
+                                ? current.towers[to][current.towers[to].length - 1] 
+                                : 999;
+
+                            if (disk < targetTop) {
+                                // Valid Move - Create new state
+                                let nextTowers = JSON.parse(JSON.stringify(current.towers));
+                                nextTowers[from].pop();
+                                nextTowers[to].push(disk);
+                                
+                                let nextStr = serialize(nextTowers);
+                                
+                                if (!visited.has(nextStr)) {
+                                    visited.add(nextStr);
+                                    queue.push({
+                                        towers: nextTowers,
+                                        firstMove: current.firstMove || { from, to }
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    iterations++;
+                }
+                return null;
+            }
+        }
+
+        const game = new TowerOfHanoi();
+    </script>
+</body>
+</html>

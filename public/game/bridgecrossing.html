@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Night Bridge</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --water-color: #1e293b;
+            --bridge-color: #3f2e18;
+            --lantern-color: #fbbf24;
+            --lantern-glow: rgba(251, 191, 36, 0.6);
+            --text-color: #e2e8f0;
+            --card-bg: #334155;
+            --card-selected: #475569;
+            --accent: #3b82f6;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --info-bg: rgba(30, 41, 59, 0.95);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            padding-bottom: 50px;
+        }
+
+        /* --- Header & Instructions --- */
+        header {
+            text-align: center;
+            padding: 20px 20px 10px 20px;
+            width: 100%;
+            z-index: 10;
+        }
+
+        h1 { font-size: 2.2rem; margin-bottom: 15px; text-shadow: 0 0 15px var(--accent); letter-spacing: 2px; text-transform: uppercase; }
+
+        .mission-brief {
+            background: var(--info-bg);
+            border: 1px solid #475569;
+            border-left: 4px solid var(--lantern-color);
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+            text-align: left;
+            position: relative;
+        }
+
+        .mission-brief h2 {
+            font-size: 1.1rem;
+            color: var(--lantern-color);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .mission-brief p { font-size: 0.95rem; margin-bottom: 8px; line-height: 1.5; color: #cbd5e1; }
+        .mission-brief ul { list-style-type: none; margin-bottom: 10px; padding-left: 10px; }
+        .mission-brief li { font-size: 0.9rem; color: #94a3b8; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+        .mission-brief li::before { content: '•'; color: var(--accent); font-weight: bold; }
+        
+        .toggle-btn {
+            background: none; border: none; color: #94a3b8; cursor: pointer; text-decoration: underline; font-size: 0.85rem; margin-top: 5px;
+        }
+        .toggle-btn:hover { color: #fff; }
+
+        /* --- HUD --- */
+        .hud {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            z-index: 10;
+        }
+
+        .timer-box {
+            background: #1e293b;
+            padding: 8px 20px;
+            border-radius: 25px;
+            border: 1px solid #475569;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timer-box span { font-weight: bold; color: var(--lantern-color); font-size: 1.3rem; }
+
+        /* --- Game Area --- */
+        .game-container {
+            width: 100%;
+            max-width: 1000px;
+            height: 400px; /* Fixed height for consistency */
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        /* Background Elements */
+        .river {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 150px;
+            background: linear-gradient(to top, #0f172a, var(--water-color));
+            z-index: 0; opacity: 0.8; overflow: hidden;
+        }
+        
+        .river::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 1%, transparent 1%);
+            background-size: 20px 20px;
+            animation: flow 4s linear infinite;
+        }
+        @keyframes flow { 0% { background-position: 0 0; } 100% { background-position: 20px 20px; } }
+
+        .moon {
+            position: absolute; top: -50px; right: 40px;
+            width: 60px; height: 60px;
+            background: #f1f5f9; border-radius: 50%;
+            box-shadow: 0 0 20px #f1f5f9; z-index: 0;
+        }
+
+        /* Banks */
+        .bank {
+            width: 250px;
+            height: 280px;
+            background: linear-gradient(to bottom, #1e293b, #0f172a);
+            border-top: 4px solid #4ade80; /* Grass */
+            border-radius: 10px;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .bank.inactive { opacity: 0.5; filter: grayscale(0.8); pointer-events: none; }
+        .bank-label { margin-bottom: 15px; font-weight: bold; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem; }
+
+        /* The Bridge */
+        .bridge {
+            position: absolute;
+            top: 60%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50%; height: 50px;
+            background: repeating-linear-gradient(90deg, #3f2e18 0px, #3f2e18 10px, #2a1e10 10px, #2a1e10 12px);
+            z-index: 1;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+            border-bottom: 4px solid #1a120a;
+        }
+
+        /* Characters */
+        .character-list {
+            display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; width: 100%;
+        }
+
+        .character {
+            background: var(--card-bg);
+            border: 2px solid transparent;
+            border-radius: 6px;
+            padding: 8px;
+            width: 70px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .character:hover { transform: translateY(-3px); background: #475569; }
+        
+        .character.selected {
+            border-color: var(--lantern-color);
+            background: var(--card-selected);
+            box-shadow: 0 0 10px var(--lantern-glow);
+            transform: translateY(-3px);
+        }
+
+        .char-icon { font-size: 1.5rem; display: block; margin-bottom: 2px; }
+        .char-name { font-size: 0.7rem; color: #94a3b8; display: block; }
+        .char-time { font-size: 0.8rem; font-weight: bold; color: #cbd5e1; }
+
+        /* Lantern */
+        .lantern-container {
+            position: absolute;
+            bottom: 65%; /* Above bridge */
+            transition: left 1s ease-in-out, top 1s ease-in-out;
+            z-index: 5;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .lantern {
+            font-size: 2.5rem;
+            filter: drop-shadow(0 0 15px var(--lantern-color));
+            animation: flicker 2s infinite;
+        }
+        .lantern-shadow {
+            width: 30px; height: 5px; background: rgba(0,0,0,0.5); border-radius: 50%; margin-top: -5px;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(0.95); }
+        }
+
+        /* Controls */
+        .controls {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.4);
+            z-index: 10;
+            border: 1px solid #334155;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 5px;
+            text-transform: uppercase;
+        }
+
+        .btn-cross {
+            background-color: var(--lantern-color);
+            color: #451a03;
+            box-shadow: 0 0 15px var(--lantern-glow);
+        }
+        .btn-cross:hover:not(:disabled) { transform: scale(1.05); background-color: #fcd34d; }
+        .btn-cross:disabled { background-color: #475569; color: #94a3b8; cursor: not-allowed; box-shadow: none; opacity: 0.5; }
+
+        .btn-reset { background-color: #334155; color: #fff; border: 1px solid #475569; }
+        .btn-reset:hover { background-color: #475569; }
+
+        .btn-hint { background-color: transparent; border: 1px solid #475569; color: #94a3b8; font-size: 0.9rem; padding: 12px 16px; }
+        .btn-hint:hover { color: #fff; border-color: #fff; }
+
+        /* Feedback / Modal */
+        .message-area {
+            min-height: 24px;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+            color: var(--text-color);
+            font-weight: 500;
+        }
+        .message-error { color: var(--danger); }
+        .message-success { color: var(--success); }
+
+        /* Modal Overlay */
+        .modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85); backdrop-filter: blur(5px);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 100; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .modal.active { opacity: 1; pointer-events: all; }
+        
+        .modal-content {
+            background: #1e293b;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid var(--lantern-color);
+            box-shadow: 0 0 30px rgba(0,0,0,0.7);
+            max-width: 90%; width: 450px;
+        }
+        .modal h2 { margin-bottom: 15px; color: var(--lantern-color); font-size: 2rem; }
+        .modal p { margin-bottom: 30px; line-height: 1.6; font-size: 1.1rem; }
+
+        /* Responsive */
+        @media (max-width: 650px) {
+            .game-container { flex-direction: column; height: auto; gap: 60px; padding: 40px 20px; }
+            .bank { width: 90%; height: auto; min-height: 140px; }
+            .bridge { width: 40px; height: 80px; transform: translate(-50%, -50%) rotate(90deg); top: 50%; }
+            
+            /* Mobile Lantern Positioning handled in JS logic, CSS just needs to allow it */
+            .lantern { font-size: 2rem; }
+            header { padding: 10px; }
+            h1 { font-size: 1.5rem; }
+            .mission-brief { font-size: 0.9rem; padding: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>The Night Bridge</h1>
+        
+        <!-- INSTRUCTIONS SECTION ADDED HERE -->
+        <div class="mission-brief">
+            <h2>📜 Mission Objective</h2>
+            <p><strong>Scenario:</strong> Four people need to cross a dark bridge at night. The bridge is old and can only hold two people at a time. It is pitch black, so they must carry the lantern to cross.</p>
+            <ul>
+                <li><strong>The Group:</strong> P1 (1 min), P2 (2 min), P3 (5 min), P4 (10 min).</li>
+                <li><strong>The Rules:</strong> 
+                    1. Max 2 people per crossing.
+                    2. The lantern must be carried back and forth.
+                    3. Crossing speed is determined by the <em>slowest</em> person in the pair.
+                </li>
+            </ul>
+            <p style="color: var(--lantern-color); margin-top: 10px;"><strong>🏆 Goal:</strong> Get everyone to the End Side in <strong>17 minutes</strong> or less.</p>
+        </div>
+
+        <div class="hud">
+            <div class="timer-box">⏱️ Time: <span id="time-display">0</span> min</div>
+            <div class="timer-box">🎯 Target: <span>17</span> min</div>
+        </div>
+    </header>
+
+    <div class="game-container">
+        <div class="moon"></div>
+        <div class="river"></div>
+
+        <!-- Start Side -->
+        <div class="bank" id="bank-start">
+            <div class="bank-label">Start Side</div>
+            <div class="character-list" id="list-start">
+                <!-- JS Injects here -->
+            </div>
+        </div>
+
+        <!-- Bridge -->
+        <div class="bridge"></div>
+
+        <!-- Lantern -->
+        <div class="lantern-container" id="lantern">
+            <div class="lantern">🏮</div>
+            <div class="lantern-shadow"></div>
+        </div>
+
+        <!-- End Side -->
+        <div class="bank" id="bank-end">
+            <div class="bank-label">End Side</div>
+            <div class="character-list" id="list-end">
+                <!-- JS Injects here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="message-area" id="message-area">Select people with the lantern to cross.</div>
+        <div>
+            <button class="btn btn-reset" onclick="game.resetGame()">Reset</button>
+            <button class="btn btn-cross" id="btn-cross" onclick="game.moveSelected()" disabled>CROSS BRIDGE</button>
+            <button class="btn btn-hint" onclick="game.showHint()">?</button>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="game-modal">
+        <div class="modal-content">
+            <h2 id="modal-title">Result</h2>
+            <p id="modal-message">Message details</p>
+            <button class="btn btn-cross" onclick="game.resetGame()">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        class BridgeGame {
+            constructor() {
+                // Character Data
+                this.people = [
+                    { id: 'p1', name: 'Sprinter', speed: 1, icon: '⚡' },
+                    { id: 'p2', name: 'Runner', speed: 2, icon: '🏃' },
+                    { id: 'p5', name: 'Walker', speed: 5, icon: '🚶' },
+                    { id: 'p10', name: 'Elder', speed: 10, icon: '👴' }
+                ];
+                
+                // State
+                this.state = {
+                    startSide: [], 
+                    endSide: [],   
+                    lanternPos: 'start', // 'start' or 'end'
+                    elapsedTime: 0,
+                    selectedIds: [] 
+                };
+
+                // DOM Cache
+                this.dom = {
+                    listStart: document.getElementById('list-start'),
+                    listEnd: document.getElementById('list-end'),
+                    bankStart: document.getElementById('bank-start'),
+                    bankEnd: document.getElementById('bank-end'),
+                    lantern: document.getElementById('lantern'),
+                    btnCross: document.getElementById('btn-cross'),
+                    timeDisplay: document.getElementById('time-display'),
+                    msgArea: document.getElementById('message-area'),
+                    modal: document.getElementById('game-modal'),
+                    modalTitle: document.getElementById('modal-title'),
+                    modalMsg: document.getElementById('modal-message')
+                };
+
+                this.init();
+            }
+
+            init() {
+                this.resetGame();
+                // Initial resize check for lantern
+                setTimeout(() => this.render(), 100);
+            }
+
+            resetGame() {
+                this.state.startSide = this.people.map(p => p.id);
+                this.state.endSide = [];
+                this.state.lanternPos = 'start';
+                this.state.elapsedTime = 0;
+                this.state.selectedIds = [];
+                
+                this.dom.modal.classList.remove('active');
+                this.updateMessage("Ready? Select people to cross.");
+                this.render();
+            }
+
+            toggleSelection(id) {
+                const person = this.people.find(p => p.id === id);
+                const currentSide = this.state.startSide.includes(id) ? 'start' : 'end';
+
+                // Check Lantern Logic
+                if (currentSide !== this.state.lanternPos) {
+                    this.shakeElement(document.getElementById(`char-${id}`));
+                    this.updateMessage("Cannot select: Lantern is on the other side!", "error");
+                    return;
+                }
+
+                if (this.state.selectedIds.includes(id)) {
+                    // Deselect
+                    this.state.selectedIds = this.state.selectedIds.filter(sid => sid !== id);
+                    this.updateMessage("");
+                } else {
+                    // Select
+                    if (this.state.selectedIds.length < 2) {
+                        this.state.selectedIds.push(id);
+                        this.updateMessage("");
+                    } else {
+                        this.updateMessage("Max 2 people can cross at once.", "error");
+                        return;
+                    }
+                }
+                this.render();
+            }
+
+            moveSelected() {
+                if (this.state.selectedIds.length === 0) return;
+
+                const selectedPeople = this.people.filter(p => this.state.selectedIds.includes(p.id));
+                const moveTime = Math.max(...selectedPeople.map(p => p.speed));
+                
+                // Logic: Move from current side to other side
+                if (this.state.lanternPos === 'start') {
+                    this.state.startSide = this.state.startSide.filter(id => !this.state.selectedIds.includes(id));
+                    this.state.endSide = [...this.state.endSide, ...this.state.selectedIds];
+                    this.state.lanternPos = 'end';
+                } else {
+                    this.state.endSide = this.state.endSide.filter(id => !this.state.selectedIds.includes(id));
+                    this.state.startSide = [...this.state.startSide, ...this.state.selectedIds];
+                    this.state.lanternPos = 'start';
+                }
+
+                this.state.elapsedTime += moveTime;
+                
+                // Feedback Text
+                const names = selectedPeople.map(p => `${p.icon} (${p.speed})`).join(' & ');
+                this.updateMessage(`Moved ${names} in ${moveTime} min.`);
+                
+                this.state.selectedIds = [];
+                this.render();
+
+                // Check Win
+                setTimeout(() => this.checkGameStatus(), 200);
+            }
+
+            checkGameStatus() {
+                if (this.state.endSide.length === 4) {
+                    if (this.state.elapsedTime <= 17) {
+                        this.showModal("🏆 Victory!", `Brilliant! You crossed everyone in exactly ${this.state.elapsedTime} minutes.`);
+                    } else {
+                        this.showModal("⚠️ Completed", `You finished, but it took ${this.state.elapsedTime} minutes. The goal is 17 minutes. Try again?`);
+                    }
+                }
+            }
+
+            render() {
+                // Timer
+                this.dom.timeDisplay.innerText = this.state.elapsedTime;
+                this.dom.timeDisplay.style.color = this.state.elapsedTime > 17 ? '#ef4444' : '#fbbf24';
+
+                // Render Characters
+                this.renderList(this.dom.listStart, this.state.startSide);
+                this.renderList(this.dom.listEnd, this.state.endSide);
+
+                // Lantern Visuals
+                const isMobile = window.innerWidth <= 650;
+                
+                if (this.state.lanternPos === 'start') {
+                    this.dom.lantern.style.left = isMobile ? '50%' : '15%'; 
+                    this.dom.lantern.style.top = isMobile ? '28%' : 'auto'; 
+                    this.dom.lantern.style.bottom = isMobile ? 'auto' : '65%';
+                    
+                    this.dom.bankStart.classList.remove('inactive');
+                    this.dom.bankEnd.classList.add('inactive');
+                } else {
+                    this.dom.lantern.style.left = isMobile ? '50%' : '85%'; 
+                    this.dom.lantern.style.top = isMobile ? '72%' : 'auto'; 
+                    this.dom.lantern.style.bottom = isMobile ? 'auto' : '65%';
+
+                    this.dom.bankStart.classList.add('inactive');
+                    this.dom.bankEnd.classList.remove('inactive');
+                }
+
+                // Button State
+                this.dom.btnCross.disabled = this.state.selectedIds.length === 0;
+            }
+
+            renderList(container, ids) {
+                container.innerHTML = '';
+                ids.forEach(id => {
+                    const p = this.people.find(x => x.id === id);
+                    const el = document.createElement('div');
+                    el.className = `character ${this.state.selectedIds.includes(id) ? 'selected' : ''}`;
+                    el.id = `char-${id}`;
+                    el.onclick = () => this.toggleSelection(id);
+                    el.innerHTML = `
+                        <span class="char-icon">${p.icon}</span>
+                        <span class="char-time">${p.speed} min</span>
+                        <span class="char-name">${p.name}</span>
+                    `;
+                    container.appendChild(el);
+                });
+            }
+
+            updateMessage(text, type = 'neutral') {
+                this.dom.msgArea.innerText = text;
+                this.dom.msgArea.className = 'message-area';
+                if(type === 'error') this.dom.msgArea.classList.add('message-error');
+                if(type === 'success') this.dom.msgArea.classList.add('message-success');
+            }
+
+            shakeElement(el) {
+                if(!el) return;
+                el.style.transform = "translateX(5px)";
+                setTimeout(() => { el.style.transform = "translateX(-5px)"; }, 50);
+                setTimeout(() => { el.style.transform = "translateX(5px)"; }, 100);
+                setTimeout(() => { el.style.transform = "translateX(0)"; }, 150);
+            }
+
+            showModal(title, msg) {
+                this.dom.modalTitle.innerText = title;
+                this.dom.modalMsg.innerText = msg;
+                this.dom.modal.classList.add('active');
+            }
+
+            showHint() {
+                alert("💡 Hint: Think about the two slowest people (5 & 10). They take up a lot of time. Is there a way to move them across TOGETHER so you only 'pay' the 10-minute penalty once? You'll need someone fast waiting on the other side to bring the lantern back.");
+            }
+        }
+
+        const game = new BridgeGame();
+        window.addEventListener('resize', () => game.render());
+    </script>
+</body>
+</html>
