@@ -28,6 +28,13 @@ export default function GamesHub({ onClose }) {
         name: 'Tower Of Hanoi',
         emoji: '🏔️',
         description: 'Classic puzzle: Move all disks from one peg to another following the rules'
+      },
+      {
+        filename: 'Riverlogic.html',
+        path: '/game/Riverlogic.html',
+        name: 'River Logic',
+        emoji: '🚣',
+        description: 'Logic puzzle: Help characters cross a river with specific constraints.'
       }
     ]
 

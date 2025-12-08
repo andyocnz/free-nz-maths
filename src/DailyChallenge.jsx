@@ -1663,7 +1663,7 @@ export default function DailyChallenge({ devMode = false, onPlayMore }) {
             onClick={onPlayMore}
             className="text-sm text-[#0077B6] hover:text-[#005fa3] font-medium transition-colors"
           >
-            Play Interactive Games
+            🎮 Play Interactive Games
           </button>
         </div>
       )}
