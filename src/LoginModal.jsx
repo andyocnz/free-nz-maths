@@ -1,8 +1,42 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { getSavedUsernames } from './storage.js'
 
 export default function LoginModal({ onLogin }) {
   const [username, setUsername] = useState('')
   const [error, setError] = useState('')
+  const [savedUsernames, setSavedUsernames] = useState([])
+
+  useEffect(() => {
+    // For testing: Add test accounts if none exist
+    const saved = getSavedUsernames()
+    console.log('Saved usernames:', saved)
+
+    // If no accounts exist, create test accounts for demo
+    if (saved.length === 0) {
+      const testAccounts = {
+        'john smith': {
+          username: 'John Smith',
+          createdAt: new Date().toISOString(),
+          progress: {},
+          testResults: [],
+          totalScore: 0,
+          questionsAnswered: 0
+        },
+        'sarah johnson': {
+          username: 'Sarah Johnson',
+          createdAt: new Date().toISOString(),
+          progress: {},
+          testResults: [],
+          totalScore: 0,
+          questionsAnswered: 0
+        }
+      }
+      localStorage.setItem('mathx_users', JSON.stringify(testAccounts))
+      setSavedUsernames(['John Smith', 'Sarah Johnson'])
+    } else {
+      setSavedUsernames(saved)
+    }
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -11,6 +45,10 @@ export default function LoginModal({ onLogin }) {
       return
     }
     onLogin(username.trim())
+  }
+
+  const handleLoadAccount = (savedUsername) => {
+    onLogin(savedUsername)
   }
 
   return (
@@ -55,6 +93,23 @@ export default function LoginModal({ onLogin }) {
           >
             Start Practicing
           </button>
+
+          {/* Load Existing Account Buttons - Right below Start Practicing */}
+          {savedUsernames.length > 0 ? (
+            <div className="mt-3 space-y-2">
+              <p className="text-xs text-gray-600 mb-2 text-center">Or load an existing account:</p>
+              {savedUsernames.map((name) => (
+                <button
+                  key={name}
+                  onClick={() => handleLoadAccount(name)}
+                  type="button"
+                  className="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-lg transition-colors text-sm border border-gray-300"
+                >
+                  📚 {name}
+                </button>
+              ))}
+            </div>
+          ) : null}
 
           <p className="text-xs text-gray-500 mt-4 text-center">
             Your progress will be saved locally in your browser

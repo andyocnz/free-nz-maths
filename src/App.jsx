@@ -16,7 +16,6 @@ import GamesHub from './GamesHub.jsx'
 import LoginModal from './LoginModal.jsx'
 import LoginRecommendationModal from './LoginRecommendationModal.jsx'
 import PracticeHistory from './PracticeHistory.jsx'
-import GamesMenu from './GamesMenu.jsx'
 import { getCurrentUser, loginUser, logoutUser, saveProgress, saveTestResult, savePracticeSession } from './storage.js'
 import { config, generateReportURL } from './config.js'
 import { normalizeFraction } from './mathHelpers.js'
@@ -4688,7 +4687,6 @@ export default function App() {
                   )
                 })
               })()}
-              <GamesMenu isCollapsed={sidebarCollapsed} />
             </div>
             <CurriculumMapToggle
               collapsed={sidebarCollapsed}
@@ -4706,7 +4704,6 @@ export default function App() {
               year={isTestMode ? (question?.year || selectedYear || 6) : selectedYear}
               activeCurriculum={isOlympiadMode || (isTestMode && question?.year === 'Olympiad') ? olympiadCurriculum : null}
             />
-            <GamesMenu isCollapsed={sidebarCollapsed} />
             <CurriculumMapToggle
               collapsed={sidebarCollapsed}
               onToggle={() => setSidebarCollapsed(!sidebarCollapsed)}

@@ -65,6 +65,13 @@ export function getAllUsers() {
   return usersJson ? JSON.parse(usersJson) : {}
 }
 
+export function getSavedUsernames() {
+  const users = getAllUsers()
+  return Object.values(users)
+    .map(user => user.username)
+    .sort()
+}
+
 export function importUserData(importedData) {
   const currentUsername = localStorage.getItem(CURRENT_USER_KEY)
   if (!currentUsername) {

@@ -1,8 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { getSavedUsernames } from './storage.js'
 
 export default function LoginRecommendationModal({ onLogin, onSkip }) {
   const [username, setUsername] = useState('')
   const [error, setError] = useState('')
+  const [savedUsernames, setSavedUsernames] = useState([])
+
+  useEffect(() => {
+    // Load saved usernames
+    const saved = getSavedUsernames()
+    setSavedUsernames(saved)
+  }, [])
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -11,6 +19,10 @@ export default function LoginRecommendationModal({ onLogin, onSkip }) {
       return
     }
     onLogin(username.trim())
+  }
+
+  const handleLoadAccount = (accountName) => {
+    onLogin(accountName)
   }
 
   return (
@@ -57,6 +69,23 @@ export default function LoginRecommendationModal({ onLogin, onSkip }) {
             >
               Save Progress
             </button>
+
+            {/* Load Existing Account Buttons */}
+            {savedUsernames.length > 0 && (
+              <div className="space-y-2">
+                <p className="text-xs text-gray-600 text-center">Or load existing account:</p>
+                {savedUsernames.map((name) => (
+                  <button
+                    key={name}
+                    onClick={() => handleLoadAccount(name)}
+                    type="button"
+                    className="w-full px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-lg transition-colors text-sm border border-gray-300"
+                  >
+                    📚 {name}
+                  </button>
+                ))}
+              </div>
+            )}
 
             <button
               type="button"
