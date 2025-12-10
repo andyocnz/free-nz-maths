@@ -2924,7 +2924,7 @@ export default function App() {
             </div>
 
             {groupScoresLoading && (
-              <div className="text-center text-slate-500 text-sm">Loading scores from Google Sheets…</div>
+              <div className="text-center text-slate-500 text-sm">Loading scores from Sheets…</div>
             )}
 
             {!groupScoresLoading && groupScoresError && (
