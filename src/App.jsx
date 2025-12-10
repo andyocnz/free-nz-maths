@@ -3168,7 +3168,7 @@ export default function App() {
                     <div>
                       <p className="text-xs uppercase tracking-[0.3em] text-amber-600 font-semibold">Teachers</p>
                       <h4 className="text-xl font-bold text-slate-900">Create Group Test</h4>
-                      <p className="text-sm text-slate-600">Generate a new code, share it instantly, and see every score in your Google Sheet.</p>
+                      <p className="text-sm text-slate-600">Generate a new code, share it instantly, then use game PIN to access the results dashboard.</p>
                     </div>
                     <button
                       type="button"
