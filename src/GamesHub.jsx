@@ -63,6 +63,20 @@ export default function GamesHub({ onClose }) {
         name: 'Maths Keeper',
         emoji: '🛡️',
         description: 'Defend your fortress by solving math challenges and protecting against attacks'
+      },
+      {
+        filename: 'shaperecognition.html',
+        path: '/game/shaperecognition.html',
+        name: 'Vector Breach',
+        emoji: '🔷',
+        description: 'Geometry defense game: Identify 2D and 3D shapes by their properties (sides, angles, symmetry)'
+      },
+      {
+        filename: 'galaxycoder.html',
+        path: '/game/galaxycoder.html',
+        name: 'Galaxy Coder',
+        emoji: '🚀',
+        description: 'Interactive coding challenges in a space-themed adventure'
       }
     ]
 

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VECTOR BREACH: Geometry Defense</title>
+    <style>
+        :root {
+            --bg-color: #050505;
+            --term-green: #00ff41;
+            --term-dim: #008F11;
+            --term-blue: #00bfff;
+            --term-red: #ff0055;
+            --glass: rgba(13, 17, 23, 0.9);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--term-green);
+            font-family: 'Courier New', Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        /* CRT Scanline Effect */
+        .scanlines {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            z-index: 999;
+        }
+
+        #game-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            aspect-ratio: 4/3;
+            border: 2px solid var(--term-green);
+            box-shadow: 0 0 30px rgba(0, 255, 65, 0.15);
+            background: #0d1117;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        #header {
+            padding: 15px;
+            background: #001f05;
+            border-bottom: 1px solid var(--term-green);
+            display: flex;
+            justify-content: space-between;
+            font-weight: bold;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* MISSION BAR */
+        #mission-bar {
+            background: #003b00;
+            color: #fff;
+            text-align: center;
+            padding: 12px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 0 0 5px #fff;
+            border-bottom: 1px solid var(--term-green);
+        }
+
+        /* CANVAS */
+        #canvas-container {
+            flex-grow: 1;
+            position: relative;
+            cursor: crosshair;
+            background: radial-gradient(circle at center, #161b22 0%, #000 100%);
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* FOOTER / CONTROLS */
+        #controls {
+            padding: 10px;
+            border-top: 1px solid var(--term-green);
+            display: flex;
+            justify-content: center;
+            background: #001f05;
+        }
+
+        button#hint-btn {
+            background: transparent;
+            border: 1px solid var(--term-blue);
+            color: var(--term-blue);
+            padding: 10px 20px;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: 0.2s;
+            box-shadow: 0 0 10px rgba(0, 191, 255, 0.2);
+        }
+
+        button#hint-btn:hover {
+            background: var(--term-blue);
+            color: #000;
+            box-shadow: 0 0 20px var(--term-blue);
+        }
+
+        /* HINT MODAL */
+        #hint-modal {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            width: 60%;
+            background: rgba(0, 10, 0, 0.95);
+            border: 2px solid var(--term-blue);
+            padding: 20px;
+            z-index: 100;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.2s;
+            box-shadow: 0 0 50px rgba(0, 191, 255, 0.3);
+        }
+
+        #hint-modal.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        #hint-title { font-size: 1.5rem; color: var(--term-blue); margin-bottom: 10px; border-bottom: 1px dashed var(--term-blue); padding-bottom: 5px;}
+        #hint-text { font-size: 1.2rem; line-height: 1.5; color: #fff; margin-bottom: 20px; }
+        #hint-close {
+            background: var(--term-blue); border: none; padding: 5px 15px; cursor: pointer; font-weight: bold;
+        }
+
+        /* FEEDBACK TEXT */
+        .feedback {
+            position: absolute;
+            font-weight: bold;
+            font-size: 1.5rem;
+            pointer-events: none;
+            text-shadow: 2px 2px 0 #000;
+            animation: floatUp 1.5s forwards;
+            z-index: 10;
+            white-space: nowrap;
+        }
+
+        .correct-txt { color: var(--term-blue); }
+        .wrong-txt { color: var(--term-red); }
+
+        @keyframes floatUp {
+            0% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: translateY(-50px) scale(1.1); }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="scanlines"></div>
+
+    <div id="game-wrapper">
+        <div id="header">
+            <span>VECTOR BREACH</span>
+            <span>SCORE: <span id="score">0</span></span>
+            <span>SEC_LEVEL: <span id="level">1</span></span>
+        </div>
+        
+        <div id="mission-bar">INITIALIZING SYSTEM...</div>
+
+        <div id="canvas-container">
+            <canvas id="gameCanvas"></canvas>
+            
+            <!-- HINT MODAL -->
+            <div id="hint-modal">
+                <div id="hint-title">💡 HINT</div>
+                <div id="hint-text">...</div>
+                <button id="hint-close" onclick="closeHint()">CLOSE</button>
+            </div>
+        </div>
+
+        <div id="controls">
+            <button id="hint-btn" onclick="requestHint()">REQUEST HINT [-50 PTS]</button>
+        </div>
+    </div>
+
+<script>
+    /**
+     * VECTOR BREACH GAME ENGINE
+     * Year 6-10 Geometry Curriculum
+     */
+
+    // --- DATA: Shapes & Properties ---
+    const ShapeDB = {
+        // Polygons
+        triangle_equi: { name: "Equilateral Triangle", type: "poly", sides: 3, parallelPairs: 0, rightAngles: 0, symLines: 3, rotSym: true },
+        triangle_right: { name: "Right-Angled Triangle", type: "poly", sides: 3, parallelPairs: 0, rightAngles: 1, symLines: 0, rotSym: false },
+        triangle_scalene: { name: "Scalene Triangle", type: "poly", sides: 3, parallelPairs: 0, rightAngles: 0, symLines: 0, rotSym: false },
+        
+        square: { name: "Square", type: "poly", sides: 4, parallelPairs: 2, rightAngles: 4, symLines: 4, rotSym: true, quadType: ['square','rectangle','rhombus','parallelogram'] },
+        rectangle: { name: "Rectangle", type: "poly", sides: 4, parallelPairs: 2, rightAngles: 4, symLines: 2, rotSym: true, quadType: ['rectangle','parallelogram'] },
+        parallelogram: { name: "Parallelogram", type: "poly", sides: 4, parallelPairs: 2, rightAngles: 0, symLines: 0, rotSym: true, quadType: ['parallelogram'] },
+        rhombus: { name: "Rhombus", type: "poly", sides: 4, parallelPairs: 2, rightAngles: 0, symLines: 2, rotSym: true, quadType: ['rhombus','parallelogram'] },
+        trapezium: { name: "Trapezium", type: "poly", sides: 4, parallelPairs: 1, rightAngles: 0, symLines: 1, rotSym: false, quadType: ['trapezium'] },
+        kite: { name: "Kite", type: "poly", sides: 4, parallelPairs: 0, rightAngles: 0, symLines: 1, rotSym: false, quadType: ['kite'] },
+        
+        pentagon: { name: "Regular Pentagon", type: "poly", sides: 5, parallelPairs: 0, rightAngles: 0, symLines: 5, rotSym: true },
+        hexagon: { name: "Regular Hexagon", type: "poly", sides: 6, parallelPairs: 3, rightAngles: 0, symLines: 6, rotSym: true },
+        octagon: { name: "Regular Octagon", type: "poly", sides: 8, parallelPairs: 4, rightAngles: 0, symLines: 8, rotSym: true },
+
+        // 3D Objects
+        cube: { name: "Cube", type: "3d", faces: 6, vertices: 8, edges: 12, prism: true },
+        cuboid: { name: "Rectangular Prism", type: "3d", faces: 6, vertices: 8, edges: 12, prism: true },
+        pyramid: { name: "Square Pyramid", type: "3d", faces: 5, vertices: 5, edges: 8, prism: false },
+        cylinder: { name: "Cylinder", type: "3d", faces: 3, vertices: 0, edges: 2, prism: true },
+        cone: { name: "Cone", type: "3d", faces: 2, vertices: 1, edges: 1, prism: false },
+        sphere: { name: "Sphere", type: "3d", faces: 1, vertices: 0, edges: 0, prism: false }
+    };
+
+    const RULES = [
+        // Level 1-2: Basic Identification
+        { txt: "Select Quadrilaterals (4 Sides)", hint: "A Quadrilateral is any 2D shape with exactly 4 straight sides.", check: (k) => ShapeDB[k].type === 'poly' && ShapeDB[k].sides === 4 },
+        { txt: "Select Triangles", hint: "Look for shapes with exactly 3 sides.", check: (k) => ShapeDB[k].type === 'poly' && ShapeDB[k].sides === 3 },
+        { txt: "Select 3D Objects", hint: "Select shapes that have volume, depth, or height (not flat).", check: (k) => ShapeDB[k].type === '3d' },
+
+        // Level 3-5: Properties (2D only)
+        { txt: "Select shapes with Parallel Sides", hint: "Parallel lines are like train tracks—they never meet. Look for shapes with at least one pair. (2D shapes only)", check: (k) => ShapeDB[k].type === 'poly' && ShapeDB[k].parallelPairs > 0 },
+        { txt: "Select shapes with Right Angles (90°)", hint: "Look for 'L' shaped corners (Perpendicular lines). (2D shapes only)", check: (k) => ShapeDB[k].type === 'poly' && ShapeDB[k].rightAngles > 0 },
+        { txt: "Select shapes with Rotational Symmetry", hint: "If you spin the shape around its center, does it look the same before you do a full 360 turn? (2D shapes only)", check: (k) => ShapeDB[k].type === 'poly' && ShapeDB[k].rotSym === true },
+
+        // Level 6+: Specific Classification
+        { txt: "Select Parallelograms", hint: "A quadrilateral with TWO pairs of parallel sides. (Note: Rectangles, Squares, and Rhombuses are technically parallelograms too!)", check: (k) => ShapeDB[k].type === 'poly' && ShapeDB[k].quadType && ShapeDB[k].quadType.includes('parallelogram') },
+        { txt: "Select Trapeziums", hint: "A quadrilateral with only ONE pair of parallel sides.", check: (k) => ShapeDB[k].type === 'poly' && ShapeDB[k].quadType && ShapeDB[k].quadType.includes('trapezium') },
+        { txt: "Select Prisms", hint: "A 3D shape with the same cross-section all along its length (e.g., if you slice it, the slice is the same shape as the end).", check: (k) => ShapeDB[k].type === '3d' && ShapeDB[k].prism === true },
+        { txt: "Select objects with 6 Faces", hint: "Imagine a standard dice. It has 6 flat sides.", check: (k) => ShapeDB[k].type === '3d' && ShapeDB[k].faces === 6 }
+    ];
+
+    // --- GAME ENGINE ---
+
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const missionBar = document.getElementById('mission-bar');
+    const scoreEl = document.getElementById('score');
+    const levelEl = document.getElementById('level');
+    const hintModal = document.getElementById('hint-modal');
+    const hintText = document.getElementById('hint-text');
+
+    let state = {
+        level: 1,
+        score: 0,
+        shapes: [],
+        currentRule: null,
+        animFrame: null,
+        hintRevealed: false
+    };
+
+    // Canvas Resizing Logic
+    function resizeCanvas() {
+        const container = document.getElementById('canvas-container');
+        canvas.width = container.clientWidth;
+        canvas.height = container.clientHeight;
+        if(state.shapes.length > 0) draw(); // Redraw if game running
+    }
+    window.addEventListener('resize', resizeCanvas);
+
+    function startLevel() {
+        state.shapes = [];
+        state.hintRevealed = false;  // Reset hint for new level
+
+        // Difficulty Logic
+        let possibleRules = RULES;
+        if(state.level < 3) possibleRules = RULES.slice(0, 3);
+        else if(state.level < 6) possibleRules = RULES.slice(0, 6);
+        
+        state.currentRule = possibleRules[Math.floor(Math.random() * possibleRules.length)];
+        missionBar.innerText = `MISSION: ${state.currentRule.txt.toUpperCase()}`;
+        
+        // Grid Logic
+        const cols = 4;
+        const rows = 3;
+        const cellW = canvas.width / cols;
+        const cellH = canvas.height / rows;
+        const keys = Object.keys(ShapeDB);
+        
+        let hasCorrect = false;
+
+        for(let r=0; r<rows; r++) {
+            for(let c=0; c<cols; c++) {
+                let key = keys[Math.floor(Math.random() * keys.length)];
+                
+                // Ensure at least one correct answer
+                if (!hasCorrect && r === rows-1 && c === cols-1) {
+                    const validKeys = keys.filter(k => state.currentRule.check(k));
+                    key = validKeys[Math.floor(Math.random() * validKeys.length)];
+                }
+
+                if(state.currentRule.check(key)) hasCorrect = true;
+
+                state.shapes.push({
+                    key: key,
+                    x: c * cellW + cellW/2,
+                    y: r * cellH + cellH/2,
+                    w: cellW, h: cellH,
+                    size: Math.min(cellW, cellH) * 0.5,
+                    color: "#00ff41", // Default Green
+                    selected: false,
+                    correct: state.currentRule.check(key),
+                    eliminated: false,
+                    showLabel: false
+                });
+            }
+        }
+        draw();
+    }
+
+    // --- DRAWING FUNCTIONS ---
+
+    function draw() {
+        // Clear
+        ctx.fillStyle = "#0d1117";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw Shapes
+        state.shapes.forEach(s => {
+            if(s.eliminated) return;
+
+            let drawColor = s.selected ? "#00bfff" : s.color;
+            drawShapeGeometry(ctx, s.key, s.x, s.y, s.size, drawColor);
+
+            // Draw Labels (only on error)
+            if(s.showLabel) {
+                ctx.fillStyle = s.color;
+                ctx.font = "bold 14px Courier New";
+                ctx.textAlign = "center";
+                ctx.fillText(ShapeDB[s.key].name.toUpperCase(), s.x, s.y + s.size/1.5 + 20);
+            }
+        });
+    }
+
+    function drawShapeGeometry(ctx, key, x, y, size, color) {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 3;
+        ctx.fillStyle = color.replace(")", ", 0.15)").replace("rgb", "rgba").replace("#", "rgba("); 
+        // Note: simplified fill logic for hex vs rgb not strictly handled here for brevity, assuming hex/named 
+        if(color.startsWith('#')) ctx.fillStyle = hexToRgba(color, 0.15);
+
+        ctx.beginPath();
+        const s = size * 0.9;
+
+        switch(key) {
+            case 'triangle_equi': drawPoly(x, y, s, 3); break;
+            case 'triangle_right': 
+                ctx.moveTo(x-s/2, y-s/2); ctx.lineTo(x-s/2, y+s/2); ctx.lineTo(x+s/2, y+s/2); ctx.closePath(); 
+                ctx.strokeRect(x-s/2+4, y+s/2-14, 10, 10);
+                break;
+            case 'triangle_scalene':
+                ctx.moveTo(x-s/3, y-s/2); ctx.lineTo(x-s/2, y+s/2); ctx.lineTo(x+s/2, y+s/3); ctx.closePath();
+                break;
+            case 'square': ctx.rect(x-s/2, y-s/2, s, s); break;
+            case 'rectangle': ctx.rect(x-s/1.5, y-s/2, s*1.33, s); break;
+            case 'parallelogram': 
+                ctx.moveTo(x-s/1.5+20, y-s/2); ctx.lineTo(x+s/1.5+20, y-s/2); 
+                ctx.lineTo(x+s/1.5-20, y+s/2); ctx.lineTo(x-s/1.5-20, y+s/2); ctx.closePath(); break;
+            case 'rhombus': 
+                ctx.moveTo(x, y-s/1.5); ctx.lineTo(x+s/1.5, y); 
+                ctx.lineTo(x, y+s/1.5); ctx.lineTo(x-s/1.5, y); ctx.closePath(); break;
+            case 'trapezium': 
+                ctx.moveTo(x-s/3, y-s/2); ctx.lineTo(x+s/3, y-s/2); 
+                ctx.lineTo(x+s/1.5, y+s/2); ctx.lineTo(x-s/1.5, y+s/2); ctx.closePath(); break;
+            case 'kite': 
+                ctx.moveTo(x, y-s/1.5); ctx.lineTo(x+s/2, y-s/4); 
+                ctx.lineTo(x, y+s); ctx.lineTo(x-s/2, y-s/4); ctx.closePath(); break;
+            case 'pentagon': drawPoly(x, y, s, 5); break;
+            case 'hexagon': drawPoly(x, y, s, 6); break;
+            case 'octagon': drawPoly(x, y, s, 8); break;
+            // 3D
+            case 'cube': drawCube(x, y, s); break;
+            case 'cuboid': drawCuboid(x, y, s); break;
+            case 'cylinder': drawCylinder(x, y, s); break;
+            case 'cone': drawCone(x, y, s); break;
+            case 'sphere': drawSphere(x, y, s); break;
+            case 'pyramid': drawPyramid(x, y, s); break;
+        }
+        ctx.stroke();
+        ctx.fill();
+    }
+
+    // Geometry Helpers
+    function drawPoly(x, y, size, sides) {
+        const step = (Math.PI * 2) / sides;
+        const shift = (Math.PI/180) * -90;
+        ctx.moveTo(x + (size/2)*Math.cos(shift), y + (size/2)*Math.sin(shift));
+        for(let i=1; i<=sides; i++) ctx.lineTo(x + (size/2)*Math.cos(shift + step*i), y + (size/2)*Math.sin(shift + step*i));
+        ctx.closePath();
+    }
+    function drawCube(x,y,s) { ctx.rect(x-s/2,y-s/2,s,s); ctx.moveTo(x-s/2,y-s/2); ctx.lineTo(x-s/2+15,y-s/2-15); ctx.lineTo(x+s/2+15,y-s/2-15); ctx.lineTo(x+s/2,y-s/2); ctx.moveTo(x+s/2+15,y-s/2-15); ctx.lineTo(x+s/2+15,y+s/2-15); ctx.lineTo(x+s/2,y+s/2); }
+    function drawCuboid(x,y,s) { let w=s*1.2, h=s*0.7; ctx.rect(x-w/2,y-h/2,w,h); ctx.moveTo(x+w/2,y-h/2); ctx.lineTo(x+w/2+15,y-h/2-15); ctx.lineTo(x+w/2+15,y+h/2-15); ctx.lineTo(x+w/2,y+h/2); ctx.moveTo(x-w/2,y-h/2); ctx.lineTo(x-w/2+15,y-h/2-15); ctx.lineTo(x+w/2+15,y-h/2-15); }
+    function drawCylinder(x,y,s) { ctx.ellipse(x,y-s/2,s/2,s/6,0,0,Math.PI*2); ctx.moveTo(x-s/2,y-s/2); ctx.lineTo(x-s/2,y+s/2); ctx.ellipse(x,y+s/2,s/2,s/6,0,0,Math.PI*2); ctx.moveTo(x+s/2,y-s/2); ctx.lineTo(x+s/2,y+s/2); }
+    function drawCone(x,y,s) { ctx.ellipse(x,y+s/2,s/2,s/6,0,0,Math.PI*2); ctx.moveTo(x-s/2,y+s/2); ctx.lineTo(x,y-s); ctx.lineTo(x+s/2,y+s/2); }
+    function drawSphere(x,y,s) { ctx.arc(x,y,s/1.8,0,Math.PI*2); ctx.moveTo(x+s/1.8,y); ctx.ellipse(x,y,s/1.8,s/6,0,0,Math.PI*2); ctx.moveTo(x,y-s/1.8); ctx.ellipse(x,y,s/6,s/1.8,0,0,Math.PI*2); }
+    function drawPyramid(x,y,s) { ctx.moveTo(x-s/2,y+s/3); ctx.lineTo(x+s/2,y+s/3); ctx.lineTo(x+s/1.5,y-s/6); ctx.lineTo(x,y-s); ctx.lineTo(x-s/2,y+s/3); ctx.moveTo(x+s/2,y+s/3); ctx.lineTo(x,y-s); ctx.moveTo(x+s/1.5,y-s/6); ctx.lineTo(x,y-s); }
+    
+    function hexToRgba(hex, alpha) {
+        let c;
+        if(/^#([A-Fa-f0-9]{3}){1,2}$/.test(hex)){
+            c= hex.substring(1).split('');
+            if(c.length== 3) c= [c[0], c[0], c[1], c[1], c[2], c[2]];
+            c= '0x'+c.join('');
+            return 'rgba('+[(c>>16)&255, (c>>8)&255, c&255].join(',')+','+alpha+')';
+        }
+        return 'rgba(0,255,65,0.2)';
+    }
+
+    // --- INTERACTION ---
+
+    function requestHint() {
+        // Only deduct points on FIRST reveal
+        if(!state.hintRevealed) {
+            if(state.score >= 50) {
+                state.score -= 50;
+                scoreEl.innerText = state.score;
+                state.hintRevealed = true;
+            } else {
+                createFeedback(canvas.width/2, canvas.height/2, "INSUFFICIENT FUNDS", false);
+                return;
+            }
+        }
+
+        // Build hint showing BOTH rule AND correct shapes
+        const correctShapes = state.shapes.filter(s => s.correct && !s.eliminated);
+        const uniqueShapeNames = [...new Set(correctShapes.map(s => ShapeDB[s.key].name))];
+
+        let hintContent = `<strong>MISSION:</strong> ${state.currentRule.txt}<br><br>`;
+        hintContent += `<strong>RULE:</strong> ${state.currentRule.hint}<br><br>`;
+        hintContent += `<strong>CORRECT SHAPES TO SELECT:</strong><br>`;
+        hintContent += uniqueShapeNames.join(", ");
+
+        hintText.innerHTML = hintContent;
+        hintModal.classList.add('active');
+    }
+
+    function closeHint() {
+        hintModal.classList.remove('active');
+    }
+
+    canvas.addEventListener('mousedown', (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const mx = e.clientX - rect.left;
+        const my = e.clientY - rect.top;
+
+        state.shapes.forEach(s => {
+            if(s.eliminated) return;
+            // Hit check
+            if(mx > s.x - s.w/2 && mx < s.x + s.w/2 && my > s.y - s.h/2 && my < s.y + s.h/2) {
+                
+                if(s.correct) {
+                    if(!s.selected) {
+                        s.selected = true;
+                        state.score += 100;
+                        createFeedback(mx, my, "SECURE", true);
+                        checkWin();
+                    }
+                } else {
+                    // Penalty
+                    state.score -= 50;
+                    s.color = "#ff0055"; // Red
+                    s.showLabel = true;
+                    createFeedback(mx, my, "ERROR", false);
+                }
+                scoreEl.innerText = state.score;
+                draw();
+            }
+        });
+    });
+
+    function checkWin() {
+        const totalCorrect = state.shapes.filter(s => s.correct).length;
+        const selectedCorrect = state.shapes.filter(s => s.correct && s.selected).length;
+        
+        if(selectedCorrect === totalCorrect) {
+            state.level++;
+            levelEl.innerText = state.level;
+            createFeedback(canvas.width/2, canvas.height/2, "ACCESS GRANTED - NEXT LEVEL", true);
+            setTimeout(startLevel, 1200);
+        }
+    }
+
+    function createFeedback(x, y, txt, isGood) {
+        const el = document.createElement('div');
+        el.className = isGood ? 'feedback correct-txt' : 'feedback wrong-txt';
+        el.innerText = txt;
+        
+        // Position relative to screen logic
+        const rect = canvas.getBoundingClientRect();
+        el.style.left = (rect.left + x) + 'px';
+        el.style.top = (rect.top + y) + 'px';
+        
+        document.body.appendChild(el);
+        setTimeout(() => el.remove(), 1500);
+    }
+
+    // INIT
+    resizeCanvas();
+    startLevel();
+
+</script>
+</body>
+</html>

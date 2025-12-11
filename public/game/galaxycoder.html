@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Neon Space Rover: Loop Edition</title>
+    <style>
+        :root {
+            --bg-color: #0b1120;
+            --grid-bg: #1e293b;
+            --accent: #0ea5e9; /* Sky blue */
+            --loop-color: #d946ef; /* Magenta for loops */
+            --success: #22c55e;
+            --danger: #ef4444;
+            --text: #f8fafc;
+            --block-bg: #475569;
+        }
+
+        body {
+            font-family: 'Courier New', Courier, monospace; /* Coding font */
+            background-color: var(--bg-color);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            user-select: none;
+        }
+
+        h1 {
+            color: var(--accent);
+            text-shadow: 0 0 15px rgba(14, 165, 233, 0.6);
+            margin: 10px 0;
+            font-family: sans-serif;
+            letter-spacing: 2px;
+        }
+
+        /* --- Game Layout --- */
+        .game-wrapper {
+            display: flex;
+            gap: 30px;
+            padding: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* --- The Grid --- */
+        .grid-container {
+            background: var(--grid-bg);
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 0 25px rgba(0,0,0,0.6);
+            border: 2px solid #334155;
+            position: relative;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 70px);
+            grid-template-rows: repeat(5, 70px);
+            gap: 5px;
+        }
+
+        .cell {
+            background-color: rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        /* --- The Robot (New & Clearer) --- */
+        .robot-container {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Smooth movement */
+            z-index: 20;
+        }
+
+        /* The Ship Body */
+        .ship-body {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+            clip-path: polygon(50% 0%, 0% 100%, 50% 80%, 100% 100%);
+            filter: drop-shadow(0 0 10px var(--accent));
+            position: relative;
+        }
+
+        /* The Headlight Beam */
+        .headlight {
+            position: absolute;
+            top: -60px; /* Projects forward */
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 25px solid transparent;
+            border-right: 25px solid transparent;
+            border-bottom: 70px solid rgba(56, 189, 248, 0.2);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Objects */
+        .goal { font-size: 35px; filter: drop-shadow(0 0 8px var(--success)); animation: spin 3s infinite linear; }
+        .obstacle { font-size: 35px; filter: drop-shadow(0 0 5px var(--danger)); }
+
+        @keyframes spin { 0% {transform: rotate(0deg);} 100% {transform: rotate(360deg);} }
+
+        /* --- Control Panel --- */
+        .control-panel {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+            width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            border: 1px solid #475569;
+        }
+
+        .section-label {
+            font-size: 12px;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .btn-group { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+        .loop-group { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 5px;}
+
+        button {
+            border: none;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-family: inherit;
+            transition: transform 0.1s;
+            color: white;
+            font-size: 14px;
+        }
+        button:active { transform: scale(0.95); }
+        button:hover { opacity: 0.9; }
+
+        .btn-move { background-color: var(--block-bg); border-bottom: 3px solid #334155; }
+        .btn-loop { background-color: var(--loop-color); border-bottom: 3px solid #a21caf; }
+        .btn-run { background-color: var(--success); color: #000; width: 100%; font-size: 18px; margin-top: 10px; padding: 15px;}
+        .btn-reset { background-color: var(--danger); }
+
+        /* --- Code Display (The IDE) --- */
+        .program-display {
+            background: #0f172a;
+            border-radius: 6px;
+            padding: 10px;
+            min-height: 250px;
+            max-height: 250px;
+            overflow-y: auto;
+            border: 2px solid #334155;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .code-line {
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            animation: slideIn 0.2s;
+        }
+
+        /* Different colors for block types */
+        .block-move { background: #334155; color: #e2e8f0; border-left: 4px solid var(--accent); }
+        .block-loop-start { background: #4a044e; color: #f0abfc; border-left: 4px solid #d946ef; margin-top: 5px;}
+        .block-loop-end { background: #4a044e; color: #f0abfc; border-left: 4px solid #d946ef; margin-bottom: 5px; }
+        
+        /* Indent items inside loops */
+        .indented { margin-left: 20px; border-left: 4px solid #64748b; }
+
+        .active-line { border: 2px solid white; box-shadow: 0 0 10px white; z-index: 10; }
+
+        /* --- Modals --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: none; justify-content: center; align-items: center; z-index: 100;
+        }
+        .modal-content {
+            background: #1e293b; padding: 30px; border-radius: 15px;
+            max-width: 450px; text-align: center;
+            border: 2px solid var(--accent);
+            box-shadow: 0 0 40px var(--accent);
+        }
+        .lesson-box {
+            background: rgba(15, 23, 42, 0.5); padding: 20px;
+            border-radius: 8px; margin: 20px 0; text-align: left;
+            border-left: 5px solid var(--accent); line-height: 1.5;
+        }
+
+        @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+        .status-bar { text-align: center; margin-bottom: 10px; color: #94a3b8; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <h1>🚀 Galaxy Coder</h1>
+    <div class="status-bar" id="levelDisplay">Level 1</div>
+
+    <div class="game-wrapper">
+        <!-- Visual Map -->
+        <div class="grid-container">
+            <div id="robot" class="robot-container">
+                <div class="headlight"></div> <!-- Visual Beam -->
+                <div class="ship-body"></div>
+            </div>
+            <div class="grid" id="grid"></div>
+        </div>
+
+        <!-- Controls -->
+        <div class="control-panel">
+            <div class="section-label">Movement</div>
+            <div class="btn-group">
+                <button class="btn-move" onclick="addCommand('FORWARD')">⬆ Forward</button>
+                <button class="btn-move" onclick="addCommand('LEFT')">⬅ Turn Left</button>
+                <button class="btn-move" onclick="addCommand('RIGHT')">➡ Turn Right</button>
+            </div>
+
+            <div class="section-label" style="margin-top: 15px;">Advanced Logic</div>
+            <div class="loop-group">
+                <button class="btn-loop" onclick="addCommand('LOOP_START')">🔁 Start Loop (3x)</button>
+                <button class="btn-loop" onclick="addCommand('LOOP_END')">🛑 End Loop</button>
+            </div>
+            
+            <div class="section-label" style="margin-top: 15px;">Your Program</div>
+            <div class="program-display" id="programList">
+                <div style="text-align: center; color: #64748b; padding-top: 20px;">
+                    // Code appears here
+                </div>
+            </div>
+
+            <div class="btn-group">
+                <button class="btn-reset" onclick="resetLevel()">🗑 Clear</button>
+                <button class="btn-run" onclick="runProgram()">▶ EXECUTE</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Victory Modal -->
+    <div class="modal-overlay" id="victoryModal">
+        <div class="modal-content">
+            <h2 style="color: var(--success); margin-top:0;">Mission Success! 🌟</h2>
+            <div class="lesson-box">
+                <h3 style="margin:0 0 10px 0; color: var(--accent);">DATA DOWNLOAD:</h3>
+                <p id="lessonText"></p>
+            </div>
+            <button class="btn-run" onclick="nextLevel()">Next Level ➡</button>
+        </div>
+    </div>
+
+    <script>
+        // --- Configuration ---
+        const GRID_SIZE = 5;
+        const CELL_SIZE = 75; // 70px cell + 5px gap
+        
+        // --- State ---
+        let robot = { x: 0, y: 0, dir: 1 }; // dir: 0=Up, 1=Right, 2=Down, 3=Left
+        let commandQueue = [];
+        let isRunning = false;
+        let currentLevel = 0;
+
+        // --- Levels ---
+        const levels = [
+            {
+                // Level 1: Basics
+                start: { x: 1, y: 3, dir: 0 }, // Facing Up
+                goal: { x: 1, y: 0 },
+                obstacles: [{x: 2, y: 1}, {x: 0, y: 1}],
+                lesson: "<strong>Sequencing:</strong><br>Coding is about giving orders in the right order. Just like a recipe, if you mix the steps up, the result won't work!"
+            },
+            {
+                // Level 2: Turning
+                start: { x: 0, y: 2, dir: 1 }, // Facing Right
+                goal: { x: 2, y: 0 },
+                obstacles: [{x: 2, y: 2}], // Block direct path
+                lesson: "<strong>Algorithms:</strong><br>An algorithm is a specific path to solve a problem. You realized you couldn't go straight, so you designed a path around the rock."
+            },
+            {
+                // Level 3: Loops Intro
+                start: { x: 0, y: 0, dir: 1 },
+                goal: { x: 4, y: 0 },
+                obstacles: [{x: 0, y: 1}, {x: 1, y: 1}, {x: 2, y: 1}, {x: 3, y: 1}, {x: 4, y: 1}], // Wall below
+                hint: "Use the Loop button!",
+                lesson: "<strong>Loops (Repetition):</strong><br>Instead of pressing 'Forward' 4 times, you can use a <strong>Loop</strong>. Loops tell the computer: 'Do these actions X times'. It makes code shorter and smarter!"
+            },
+            {
+                // Level 4: Complex Loop
+                start: { x: 0, y: 0, dir: 1 },
+                goal: { x: 4, y: 4 },
+                obstacles: [
+                    {x: 1, y: 0}, {x: 3, y: 0}, 
+                    {x: 1, y: 2}, {x: 3, y: 2},
+                    {x: 1, y: 4}, {x: 3, y: 4}
+                ],
+                // Requires zigzag: Fwd, Turn R, Fwd, Turn L...
+                lesson: "<strong>Pattern Recognition:</strong><br>Master coders look for patterns. A 'Step-Turn-Step' pattern can be put inside a loop to cross the whole map easily."
+            }
+        ];
+
+        // --- Initialization ---
+        function initGrid() {
+            const gridEl = document.getElementById('grid');
+            gridEl.innerHTML = '';
+            for(let i=0; i<GRID_SIZE*GRID_SIZE; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                cell.innerText = ``; // Coordinate debug can go here
+                gridEl.appendChild(cell);
+            }
+        }
+
+        function loadLevel(idx) {
+            if(idx >= levels.length) {
+                alert("You are a Galactic Code Master! All levels complete.");
+                currentLevel = 0;
+            }
+            const level = levels[currentLevel];
+            
+            // Reset state
+            robot = { ...level.start };
+            commandQueue = [];
+            isRunning = false;
+            
+            // UI Updates
+            updateRobotVisuals(false);
+            renderProgram();
+            document.getElementById('victoryModal').style.display = 'none';
+            document.getElementById('levelDisplay').innerText = `Level ${currentLevel + 1} / ${levels.length}`;
+
+            // Draw Grid Items
+            const cells = document.querySelectorAll('.cell');
+            cells.forEach(c => c.innerHTML = '');
+            
+            // Goal
+            const goalIdx = level.goal.y * GRID_SIZE + level.goal.x;
+            cells[goalIdx].innerHTML = '<div class="goal">🪐</div>';
+
+            // Obstacles
+            level.obstacles.forEach(obs => {
+                const oIdx = obs.y * GRID_SIZE + obs.x;
+                cells[oIdx].innerHTML = '<div class="obstacle">🪨</div>';
+            });
+        }
+
+        // --- Graphics ---
+        function updateRobotVisuals(animate = true) {
+            const robotEl = document.getElementById('robot');
+            // Calculate Position (15px padding + index * 75px)
+            const padding = 15;
+            const step = 75;
+            
+            robotEl.style.left = (padding + robot.x * step) + 'px';
+            robotEl.style.top = (padding + robot.y * step) + 'px';
+
+            // Calculate Rotation
+            // dir 0 (Up) needs to be -90deg or 0deg depending on SVG orientation.
+            // Our CSS polygon points Up by default.
+            // dir: 0=Up(0deg), 1=Right(90deg), 2=Down(180deg), 3=Left(270deg)
+            const deg = robot.dir * 90;
+            robotEl.style.transform = `rotate(${deg}deg)`;
+        }
+
+        // --- Logic: The Interpreter ---
+        function addCommand(type) {
+            if(isRunning) return;
+            commandQueue.push(type);
+            renderProgram();
+        }
+
+        function removeCommand(index) {
+            if(isRunning) return;
+            commandQueue.splice(index, 1);
+            renderProgram();
+        }
+
+        function renderProgram() {
+            const list = document.getElementById('programList');
+            list.innerHTML = '';
+            
+            let indentLevel = 0;
+
+            if(commandQueue.length === 0) {
+                 list.innerHTML = '<div style="text-align: center; color: #64748b; padding-top: 20px;">// Code appears here</div>';
+                 return;
+            }
+
+            commandQueue.forEach((cmd, idx) => {
+                const div = document.createElement('div');
+                div.id = `line-${idx}`;
+                
+                // Logic for indentation and classes
+                if (cmd === 'LOOP_END') indentLevel = Math.max(0, indentLevel - 1);
+                
+                let displayTxt = cmd;
+                let cssClass = 'block-move';
+
+                if (cmd === 'FORWARD') displayTxt = 'Move Forward';
+                if (cmd === 'LEFT') displayTxt = 'Turn Left';
+                if (cmd === 'RIGHT') displayTxt = 'Turn Right';
+                
+                if (cmd === 'LOOP_START') {
+                    displayTxt = 'REPEAT 3 TIMES DO:';
+                    cssClass = 'block-loop-start';
+                }
+                if (cmd === 'LOOP_END') {
+                    displayTxt = 'END REPEAT';
+                    cssClass = 'block-loop-end';
+                }
+
+                div.className = `code-line ${cssClass}`;
+                if (indentLevel > 0 && cmd !== 'LOOP_END' && cmd !== 'LOOP_START') {
+                    div.classList.add('indented');
+                }
+
+                div.innerHTML = `<span>${idx+1} ${displayTxt}</span> <span style="cursor:pointer" onclick="removeCommand(${idx})">✖</span>`;
+                list.appendChild(div);
+
+                if (cmd === 'LOOP_START') indentLevel++;
+            });
+            
+            list.scrollTop = list.scrollHeight;
+        }
+
+        async function runProgram() {
+            if(isRunning || commandQueue.length === 0) return;
+            isRunning = true;
+
+            // Reset Position for the run
+            const level = levels[currentLevel];
+            robot = { ...level.start };
+            updateRobotVisuals(false);
+            await sleep(500);
+
+            // --- The Execution Loop (Interpreting) ---
+            // We can't just loop array because of "LOOPS". We need a pointer.
+            let i = 0;
+            let loopStack = []; // Stores { startIndex, count }
+
+            while (i < commandQueue.length) {
+                if(!isRunning) break; // Emergency stop
+
+                // Visual Highlight
+                document.querySelectorAll('.code-line').forEach(el => el.classList.remove('active-line'));
+                const activeLine = document.getElementById(`line-${i}`);
+                if(activeLine) {
+                    activeLine.classList.add('active-line');
+                    activeLine.scrollIntoView({block:"center", behavior:"smooth"});
+                }
+
+                const cmd = commandQueue[i];
+
+                if (cmd === 'LOOP_START') {
+                    // Push to stack: index of the start command, and how many times to loop (3)
+                    loopStack.push({ startIdx: i, count: 3 });
+                    i++; // Move to next command
+                } 
+                else if (cmd === 'LOOP_END') {
+                    if (loopStack.length > 0) {
+                        let currentLoop = loopStack[loopStack.length - 1];
+                        currentLoop.count--; // Decrease remaining loops
+                        
+                        if (currentLoop.count > 0) {
+                            // Jump back to start
+                            i = currentLoop.startIdx + 1;
+                        } else {
+                            // Loop finished
+                            loopStack.pop();
+                            i++;
+                        }
+                    } else {
+                        // Syntax Error: End without Start (Ignore)
+                        i++; 
+                    }
+                } 
+                else {
+                    // Normal Movement Command
+                    performAction(cmd);
+                    updateRobotVisuals();
+                    
+                    if(checkCollision()) {
+                        shakeGrid();
+                        isRunning = false;
+                        return;
+                    }
+                    
+                    await sleep(800); // Wait for animation
+                    i++;
+                }
+                
+                await sleep(50); // Tiny buffer
+            }
+
+            // End of Code
+            document.querySelectorAll('.code-line').forEach(el => el.classList.remove('active-line'));
+            
+            if(robot.x === level.goal.x && robot.y === level.goal.y) {
+                document.getElementById('lessonText').innerHTML = level.lesson;
+                document.getElementById('victoryModal').style.display = 'flex';
+            } else {
+                alert("Program finished, but goal not reached.");
+            }
+            
+            isRunning = false;
+        }
+
+        function performAction(cmd) {
+            if (cmd === 'LEFT') robot.dir = (robot.dir + 3) % 4;
+            if (cmd === 'RIGHT') robot.dir = (robot.dir + 1) % 4;
+            if (cmd === 'FORWARD') {
+                if(robot.dir === 0) robot.y--; // Up
+                if(robot.dir === 1) robot.x++; // Right
+                if(robot.dir === 2) robot.y++; // Down
+                if(robot.dir === 3) robot.x--; // Left
+            }
+        }
+
+        function checkCollision() {
+            // Wall
+            if(robot.x < 0 || robot.x >= GRID_SIZE || robot.y < 0 || robot.y >= GRID_SIZE) return true;
+            // Obstacle
+            const level = levels[currentLevel];
+            for(let obs of level.obstacles) {
+                if(robot.x === obs.x && robot.y === obs.y) return true;
+            }
+            return false;
+        }
+
+        function shakeGrid() {
+            const g = document.querySelector('.grid-container');
+            g.style.transform = "translateX(10px)";
+            setTimeout(() => g.style.transform = "translateX(-10px)", 50);
+            setTimeout(() => g.style.transform = "translateX(10px)", 100);
+            setTimeout(() => g.style.transform = "translateX(0)", 150);
+        }
+
+        function resetLevel() {
+            if(isRunning) return;
+            loadLevel(currentLevel);
+        }
+
+        function nextLevel() {
+            currentLevel++;
+            loadLevel(currentLevel);
+        }
+
+        function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+        // Start
+        initGrid();
+        loadLevel(0);
+
+    </script>
+</body>
+</html>
