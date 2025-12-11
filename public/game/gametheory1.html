@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trust Lab: Educational Edition 🎓</title>
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
+            --primary: #6c5ce7;
+            --p1-color: #ff7675; /* Pink */
+            --p2-color: #0984e3; /* Blue */
+            --success: #00b894;
+            --danger: #d63031;
+            --text: #2d3436;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            user-select: none;
+        }
+
+        /* --- SCREENS --- */
+        .screen { display: none; width: 100%; max-width: 900px; padding: 20px; box-sizing: border-box; animation: fadeIn 0.4s; }
+        .active { display: block; }
+        @keyframes fadeIn { from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);} }
+
+        /* --- CARDS & MENUS --- */
+        .menu-card {
+            background: white; border-radius: 20px; padding: 40px; text-align: center; box-shadow: var(--card-shadow); margin-top: 30px; position: relative;
+        }
+        h1 { font-size: 2.5rem; margin: 10px 0 10px 0; color: #2d3436; }
+        
+        .mode-btn {
+            display: block; width: 100%; max-width: 400px; margin: 15px auto;
+            padding: 20px; border: none; border-radius: 15px;
+            font-size: 1.2rem; font-weight: bold; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s;
+            text-align: left; position: relative; background: white; border: 2px solid #dfe6e9;
+        }
+        .mode-btn:hover { transform: translateY(-3px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); border-color: var(--primary); }
+        .btn-campaign { border-left: 10px solid #d63031; }
+        .btn-pvp { border-left: 10px solid #0984e3; }
+        .btn-start { background: var(--primary); color: white; text-align: center; border:none; margin-top: 20px; }
+
+
+        /* --- NEW: PERMANENT TOP INFO BAR --- */
+        .game-info-panel {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        .panel-header {
+            display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f1f2f6; padding-bottom: 10px; margin-bottom: 15px;
+        }
+
+        .panel-title-group { display: flex; flex-direction: column; text-align: left; }
+        .panel-title { font-weight: 900; color: var(--primary); font-size: 1.1rem; letter-spacing: 1px; }
+        .match-badge { 
+            background: #0984e3; color: white; font-size: 0.8rem; padding: 2px 8px; border-radius: 4px; 
+            display: inline-block; margin-top: 4px; width: fit-content;
+        }
+        
+        .exit-btn {
+            background: #ff7675; color: white; border: none; padding: 5px 15px; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.8rem;
+        }
+        .exit-btn:hover { background: #d63031; }
+
+        /* NEW TEXT-BASED RULES LAYOUT */
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .rule-card {
+            background: #f8f9fa; padding: 12px; border-radius: 10px; font-size: 0.9rem; 
+            border: 1px solid #e9ecef; text-align: left;
+        }
+        .rule-title { font-weight: bold; display: block; margin-bottom: 5px; font-size: 1rem; }
+        .rule-desc { color: #636e72; line-height: 1.4; }
+
+        /* --- GAME HEADER SCORES --- */
+        .game-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; font-weight: bold; }
+        .score-box { background: white; padding: 10px 25px; border-radius: 30px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 2px solid white; }
+        
+        /* --- STAGE --- */
+        .stage {
+            background: white; border-radius: 20px; height: 300px; position: relative;
+            display: flex; justify-content: space-between; align-items: flex-end; padding: 0 50px;
+            box-shadow: var(--card-shadow); margin-bottom: 20px; overflow: hidden;
+            border-bottom: 5px solid #dfe6e9;
+        }
+
+        /* PEEPS */
+        .peep-container { text-align: center; position: relative; z-index: 10; margin-bottom: 20px; }
+        .peep {
+            width: 100px; height: 100px; border-radius: 50% 50% 10% 10%; position: relative; 
+            transition: transform 0.2s; margin: 0 auto; box-shadow: 0 5px 0 rgba(0,0,0,0.1);
+        }
+        .peep::before, .peep::after { content: ''; position: absolute; top: 40%; width: 12px; height: 12px; background: #333; border-radius: 50%; }
+        .peep::before { left: 25%; } .peep::after { right: 25%; }
+        
+        .p1-peep { background: var(--p1-color); }
+        .p2-peep { background: var(--p2-color); }
+
+        /* ACCESSORIES */
+        .halo::before { content:''; position:absolute; top:-30px; left:10px; width:80px; height:10px; border:4px solid gold; border-radius:50%; }
+        .horns::before { content:''; position:absolute; top:-25px; left:5px; border-bottom:30px solid var(--danger); border-left:10px solid transparent; border-right:10px solid transparent; transform:rotate(-20deg); width:0; height:0; }
+        .horns::after { content:''; position:absolute; top:-25px; right:5px; border-bottom:30px solid var(--danger); border-left:10px solid transparent; border-right:10px solid transparent; transform:rotate(20deg); width:0; height:0; }
+        .hat::before { content:''; position:absolute; top:-20px; left:-10px; width:120px; height:10px; background:#2d3436; border-radius:5px; }
+        .hat::after { content:''; position:absolute; top:-50px; left:20px; width:60px; height:40px; background:#2d3436; border-radius:10px 10px 0 0; }
+        .glasses::before { content:''; position:absolute; top:38%; left:15%; width:20px; height:12px; border:3px solid #333; background:rgba(255,255,255,0.5); }
+        .glasses::after { content:''; position:absolute; top:38%; right:15%; width:20px; height:12px; border:3px solid #333; background:rgba(255,255,255,0.5); }
+
+        /* ANIMATIONS */
+        .jump { animation: jump 0.4s; }
+        .shake { animation: shake 0.4s; }
+        @keyframes jump { 0% {transform:translateY(0)} 50% {transform:translateY(-30px)} 100% {transform:translateY(0)} }
+        @keyframes shake { 0%, 100% {transform:translateX(0)} 25% {transform:translateX(-10px)} 75% {transform:translateX(10px)} }
+
+        /* CONTROLS */
+        .controls-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .action-btn {
+            border: none; padding: 25px; border-radius: 15px; font-size: 1.3rem; font-weight: bold; cursor: pointer; color: white;
+            transition: transform 0.1s; box-shadow: 0 5px 0 rgba(0,0,0,0.2);
+        }
+        .action-btn:active { transform: translateY(5px); box-shadow: none; }
+        .action-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: none !important; filter: grayscale(100%); }
+        
+        .btn-coop { background: #f1c40f; color: #5a4a00; }
+        .btn-betray { background: #2d3436; }
+
+        /* SUMMARY & LESSON */
+        .summary-list { display: grid; gap: 15px; margin-top: 20px; text-align: left; }
+        .summary-item { 
+            background: white; padding: 20px; border-radius: 15px; display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05); border-left: 8px solid #ccc;
+        }
+        .win { border-color: var(--success); }
+        .lose { border-color: var(--danger); }
+        .draw { border-color: #f1c40f; }
+        
+        .lesson-box {
+            background: white; 
+            border-radius: 15px; 
+            padding: 30px; 
+            margin-top: 30px; 
+            text-align: left; 
+            border: 2px solid #e3f2fd;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .lesson-title { font-weight: bold; color: var(--primary); margin-bottom: 15px; font-size: 1.4rem; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        .lesson-section { margin-bottom: 20px; }
+        .lesson-section h4 { margin: 0 0 5px 0; color: #2d3436; }
+        .lesson-section p { margin: 0; color: #636e72; line-height: 1.6; }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85);
+            display: none; justify-content: center; align-items: center; z-index: 100;
+        }
+        .modal { background: white; padding: 40px; border-radius: 20px; text-align: center; max-width: 500px; animation: slideUp 0.3s; }
+        @keyframes slideUp { from {transform:translateY(50px);} to {transform:translateY(0);} }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. MAIN MENU -->
+    <div id="screen-menu" class="screen active">
+        <div class="menu-card">
+            <h1>Trust Lab 🧪</h1>
+            <p style="color:#636e72; margin-bottom:30px;">A Game Theory Experiment</p>
+            
+            <button class="mode-btn btn-campaign" onclick="startCampaign()">
+                🤖 <strong>Campaign Mode</strong>
+                <div style="font-size:0.9rem; margin-top:5px; color:#555;">5 Matches vs Random AI</div>
+            </button>
+
+            <button class="mode-btn btn-pvp" onclick="startPvP()">
+                👥 <strong>2 Player Duel</strong>
+                <div style="font-size:0.9rem; margin-top:5px; color:#555;">10 Rounds (Shared Keyboard)</div>
+            </button>
+        </div>
+    </div>
+
+    <!-- 2. INTRO SCREEN -->
+    <div id="screen-intro" class="screen">
+        <div class="menu-card">
+            <h2 style="color:#b2bec3; letter-spacing: 2px;" id="intro-title">MATCH 1 / 5</h2>
+            <div style="text-align: center; margin-top: 40px;">
+                <div class="peep-container">
+                    <div id="intro-visual" class="peep p2-peep"></div>
+                </div>
+                <h2>VS <span id="intro-name">???</span></h2>
+                <div id="intro-desc" style="color:#636e72; margin-bottom:30px;">Strategy Hidden...</div>
+                <button class="mode-btn btn-start" onclick="enterMatch()">🥊 START FIGHT</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. GAME SCREEN -->
+    <div id="screen-game" class="screen">
+        
+        <!-- PERMANENT INFO PANEL -->
+        <div class="game-info-panel">
+            <div class="panel-header">
+                <div class="panel-title-group">
+                    <span class="panel-title">🧬 SIMULATION ACTIVE</span>
+                    <div id="match-badge" class="match-badge">CAMPAIGN: MATCH 1 / 5</div>
+                </div>
+                <button class="exit-btn" onclick="showScreen('screen-menu')">❌ QUIT GAME</button>
+            </div>
+            
+            <!-- Clear Text Rules -->
+            <div class="rules-grid">
+                <div class="rule-card" style="border-left: 5px solid #00b894;">
+                    <span class="rule-title" style="color:#00b894">Mutual Trust (Best Group Result)</span>
+                    <span class="rule-desc">If <strong>Both Cooperate</strong>, you both get <strong>+3 Points</strong>.</span>
+                </div>
+                
+                <div class="rule-card" style="border-left: 5px solid #0984e3;">
+                    <span class="rule-title" style="color:#0984e3">Betrayal (Best Solo Result)</span>
+                    <span class="rule-desc">If <strong>You Betray</strong> while they Cooperate, you get <strong>+5 Points</strong> (they get 0).</span>
+                </div>
+
+                <div class="rule-card" style="border-left: 5px solid #d63031;">
+                    <span class="rule-title" style="color:#d63031">Mutual Failure (Worst Result)</span>
+                    <span class="rule-desc">If <strong>Both Betray</strong>, you both lose trust and only get <strong>+1 Point</strong>.</span>
+                </div>
+            </div>
+        </div>
+        <!-- END PANEL -->
+
+        <div class="game-header">
+            <div class="score-box" style="color:var(--p1-color)">YOU: <span id="score-p1">0</span></div>
+            <div style="color:#636e72">ROUND <span id="round-num">1</span> / <span id="round-max">5</span></div>
+            <div class="score-box" style="color:var(--p2-color)">OPP: <span id="score-p2">0</span></div>
+        </div>
+
+        <div class="stage">
+            <!-- Player 1 -->
+            <div class="peep-container">
+                <div id="p1-visual" class="peep p1-peep"></div>
+                <div style="margin-top:10px; font-weight:bold;">YOU</div>
+            </div>
+
+            <!-- Feedback -->
+            <div style="align-self:center; text-align:center; margin-bottom:60px;">
+                <h2 id="feedback-score" style="margin:0; font-size:2.5rem;">VS</h2>
+                <div id="feedback-text" style="color:#888;">Make your move</div>
+            </div>
+
+            <!-- Player 2 / AI -->
+            <div class="peep-container">
+                <div id="p2-visual" class="peep p2-peep"></div>
+                <div style="margin-top:10px; font-weight:bold;" id="p2-name-game">CPU</div>
+            </div>
+        </div>
+
+        <!-- Controls SP -->
+        <div id="controls-sp" class="controls-grid">
+            <button class="action-btn btn-coop" onclick="handleInput('SP', 'cooperate')">💰 Cooperate</button>
+            <button class="action-btn btn-betray" onclick="handleInput('SP', 'betray')">😈 Betray</button>
+        </div>
+
+        <!-- Controls MP -->
+        <div id="controls-mp" style="display:none; text-align:center; background:white; padding:20px; border-radius:15px;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px;">
+                <div><strong>Player 1</strong><br>Press <strong>A</strong> (Coop) / <strong>S</strong> (Betray)</div>
+                <div><strong>Player 2</strong><br>Press <strong>O</strong> (Coop) / <strong>P</strong> (Betray)</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. SUMMARY SCREEN -->
+    <div id="screen-summary" class="screen">
+        <div class="menu-card">
+            <h1>Campaign Report 📝</h1>
+            <div class="summary-list" id="summary-list"></div>
+            
+            <!-- DETAILED LESSON MODULE -->
+            <div class="lesson-box">
+                <div class="lesson-title">🎓 The Science of Trust (Game Theory)</div>
+                
+                <div class="lesson-section">
+                    <h4>1. The Trap (Selfishness)</h4>
+                    <p>The "Devil" strategy tries to get rich quickly (+5 points). It looks smart at first! But when people realize you are selfish, they stop trusting you. You end up fighting everyone and getting low scores (+1 point).</p>
+                </div>
+
+                <div class="lesson-section">
+                    <h4>2. The Mistake (Naivety)</h4>
+                    <p>The "Angel" strategy is kind, but dangerous. In the real world, if you trust <em>everyone</em> blindly, bad actors will take advantage of you. You cannot just be nice; you must be smart.</p>
+                </div>
+
+                <div class="lesson-section">
+                    <h4>3. The Solution (Reciprocity)</h4>
+                    <p>The winning mathematical strategy is <strong>"Tit-for-Tat"</strong> (The Copycat). <br>
+                    <strong>Rule A:</strong> Start by being nice (Cooperate).<br>
+                    <strong>Rule B:</strong> If someone betrays you, betray them back immediately.<br>
+                    <strong>Rule C:</strong> If they apologize (Cooperate again), forgive them immediately.<br>
+                    This builds trust without letting people bully you!</p>
+                </div>
+            </div>
+
+            <button class="mode-btn btn-start" onclick="showScreen('screen-menu')">Back to Menu</button>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="modal">
+            <h2 id="modal-title">Match Over</h2>
+            <p id="modal-content">...</p>
+            <button class="mode-btn btn-start" onclick="nextStep()">Next</button>
+        </div>
+    </div>
+
+<script>
+    // --- DATA ---
+    const BASE_OPPONENTS = [
+        { 
+            name: "The Angel", 
+            class: "halo", 
+            desc: "Always Cooperates. (Easy to trick!)",
+            logic: (hist) => 'cooperate' 
+        },
+        { 
+            name: "The Devil", 
+            class: "horns", 
+            desc: "Always Betrays. (Defend yourself!)",
+            logic: (hist) => 'betray' 
+        },
+        { 
+            name: "The Sheriff", 
+            class: "hat", 
+            desc: "Nice until you betray once. Then never forgives.",
+            logic: (hist) => hist.includes('betray') ? 'betray' : 'cooperate'
+        },
+        { 
+            name: "The Copycat", 
+            class: "glasses", 
+            desc: "Copies your last move. Best Strategy!",
+            logic: (hist) => hist.length === 0 ? 'cooperate' : hist[hist.length-1]
+        }
+    ];
+
+    // --- STATE ---
+    let state = {
+        mode: 'SP',
+        queue: [], 
+        oppIndex: 0,
+        round: 1,
+        maxRounds: 5,
+        p1Score: 0,
+        p2Score: 0,
+        p1History: [],
+        campaignResults: [],
+        mpInput: { p1: null, p2: null },
+        gameActive: false 
+    };
+
+    // --- DOM HELPERS ---
+    const dom = (id) => document.getElementById(id);
+    const screens = ['screen-menu', 'screen-intro', 'screen-game', 'screen-summary'];
+
+    function showScreen(id) {
+        screens.forEach(s => dom(s).classList.remove('active'));
+        dom(id).classList.add('active');
+    }
+
+    // --- INITIALIZATION ---
+    function startCampaign() {
+        state.mode = 'SP';
+        state.oppIndex = 0;
+        state.campaignResults = []; 
+        
+        // Deep copy opponents logic
+        let base = JSON.parse(JSON.stringify(BASE_OPPONENTS));
+        
+        // Shuffle the 4 unique ones
+        for (let i = base.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [base[i], base[j]] = [base[j], base[i]];
+        }
+        
+        // Add random boss
+        const randomBoss = base[Math.floor(Math.random() * base.length)];
+        let boss = JSON.parse(JSON.stringify(randomBoss));
+        boss.name = "Mystery Boss";
+        base.push(boss);
+
+        state.queue = base;
+        setupIntro(); 
+    }
+
+    function startPvP() {
+        state.mode = 'MP';
+        state.maxRounds = 10;
+        
+        window.removeEventListener('keydown', handleKeyMP); 
+        window.addEventListener('keydown', handleKeyMP);
+        
+        resetMatchState();
+        state.gameActive = true;
+        updateButtonsState(true);
+        
+        // Setup UI
+        dom('controls-sp').style.display = 'none';
+        dom('controls-mp').style.display = 'grid';
+        dom('p2-visual').className = 'peep p2-peep';
+        dom('p2-name-game').innerText = "PLAYER 2";
+        dom('round-max').innerText = state.maxRounds;
+        
+        dom('match-badge').innerText = "MODE: 2 PLAYER DUEL";
+        
+        showScreen('screen-game');
+    }
+
+    // --- CAMPAIGN FLOW ---
+    function setupIntro() {
+        const opp = state.queue[state.oppIndex];
+        
+        // UPDATE MATCH TITLE
+        dom('intro-title').innerText = `MATCH ${state.oppIndex + 1} OF ${state.queue.length}`;
+        
+        dom('intro-name').innerText = "???";
+        dom('intro-desc').innerText = "Analyzing strategy...";
+        dom('intro-visual').className = "peep p2-peep " + opp.class;
+        showScreen('screen-intro');
+    }
+
+    function enterMatch() {
+        const opp = state.queue[state.oppIndex];
+        resetMatchState();
+        state.gameActive = true;
+        updateButtonsState(true); // Enable buttons
+        
+        dom('controls-sp').style.display = 'grid';
+        dom('controls-mp').style.display = 'none';
+        dom('p2-visual').className = "peep p2-peep " + opp.class;
+        dom('p2-name-game').innerText = "UNKNOWN";
+        state.maxRounds = 5; 
+        dom('round-max').innerText = state.maxRounds;
+        
+        // UPDATE GAME HEADER BADGE
+        dom('match-badge').innerText = `CAMPAIGN: MATCH ${state.oppIndex + 1} / 5`;
+        
+        showScreen('screen-game');
+    }
+
+    function resetMatchState() {
+        state.round = 1;
+        state.p1Score = 0;
+        state.p2Score = 0;
+        state.p1History = [];
+        state.mpInput = { p1: null, p2: null };
+        
+        dom('score-p1').innerText = "0";
+        dom('score-p2').innerText = "0";
+        dom('round-num').innerText = "1";
+        dom('feedback-score').innerText = "VS";
+        dom('feedback-text').innerText = "Make your move";
+    }
+
+    function updateButtonsState(enabled) {
+        const btns = document.querySelectorAll('.action-btn');
+        btns.forEach(b => b.disabled = !enabled);
+    }
+
+    // --- GAMEPLAY LOGIC ---
+    window.handleInput = function(mode, move) {
+        if (!state.gameActive || state.mode !== 'SP') return;
+        
+        const opp = state.queue[state.oppIndex];
+        
+        // Re-construct logic
+        let logicFn;
+        if(opp.name.includes("Angel")) logicFn = (h) => 'cooperate';
+        else if(opp.name.includes("Devil")) logicFn = (h) => 'betray';
+        else if(opp.name.includes("Sheriff")) logicFn = (h) => h.includes('betray') ? 'betray' : 'cooperate';
+        else logicFn = (h) => h.length === 0 ? 'cooperate' : h[h.length-1];
+
+        resolveRound(move, logicFn(state.p1History));
+    };
+
+    function handleKeyMP(e) {
+        if (!state.gameActive || state.mode !== 'MP') return;
+        const k = e.key.toLowerCase();
+        
+        if (k === 'a') state.mpInput.p1 = 'cooperate';
+        if (k === 's') state.mpInput.p1 = 'betray';
+        if (k === 'o') state.mpInput.p2 = 'cooperate';
+        if (k === 'p') state.mpInput.p2 = 'betray';
+
+        if(state.mpInput.p1) dom('p1-visual').style.opacity = 0.5;
+        if(state.mpInput.p2) dom('p2-visual').style.opacity = 0.5;
+
+        if (state.mpInput.p1 && state.mpInput.p2) {
+            setTimeout(() => {
+                resolveRound(state.mpInput.p1, state.mpInput.p2);
+                state.mpInput = { p1: null, p2: null };
+                dom('p1-visual').style.opacity = 1;
+                dom('p2-visual').style.opacity = 1;
+            }, 200);
+        }
+    }
+
+    function resolveRound(m1, m2) {
+        if (!state.gameActive) return;
+
+        let s1 = 0, s2 = 0, msg = "";
+        
+        if (m1 === 'cooperate' && m2 === 'cooperate') {
+            s1 = 3; s2 = 3; msg = "Mutual Trust! (+3)";
+            anim('jump', 'jump');
+        } else if (m1 === 'cooperate' && m2 === 'betray') {
+            s1 = 0; s2 = 5; msg = "You got Exploited! (0 - 5)";
+            anim('shake', 'jump');
+        } else if (m1 === 'betray' && m2 === 'cooperate') {
+            s1 = 5; s2 = 0; msg = "You Exploited them! (5 - 0)";
+            anim('jump', 'shake');
+        } else {
+            s1 = 1; s2 = 1; msg = "Broken Trust. (+1)";
+            anim('shake', 'shake');
+        }
+
+        state.p1Score += s1;
+        state.p2Score += s2;
+        state.p1History.push(m1); 
+
+        dom('score-p1').innerText = state.p1Score;
+        dom('score-p2').innerText = state.p2Score;
+        dom('feedback-score').innerText = `${s1} - ${s2}`;
+        dom('feedback-text').innerText = msg;
+
+        // Check End condition
+        if (state.round >= state.maxRounds) {
+            state.gameActive = false; // Lock
+            updateButtonsState(false); // Visual Disable
+            setTimeout(endMatch, 1000);
+        } else {
+            state.round++;
+            dom('round-num').innerText = state.round;
+        }
+    }
+
+    function anim(a1, a2) {
+        dom('p1-visual').classList.add(a1);
+        dom('p2-visual').classList.add(a2);
+        setTimeout(() => {
+            dom('p1-visual').classList.remove(a1);
+            dom('p2-visual').classList.remove(a2);
+        }, 400);
+    }
+
+    // --- END MATCH ---
+    function endMatch() {
+        let title = "Match Finished";
+        let body = "";
+        let btnText = "Next";
+
+        if (state.mode === 'SP') {
+            const opp = state.queue[state.oppIndex];
+            
+            // Text based result for kids
+            let resultText = "";
+            let resClass = "";
+            if (state.p1Score > state.p2Score) { resultText = "You Won! 🏆"; resClass = "win"; }
+            else if (state.p1Score < state.p2Score) { resultText = "You Lost 📉"; resClass = "lose"; }
+            else { resultText = "It's a Draw 🤝"; resClass = "draw"; }
+
+            state.campaignResults.push({
+                name: opp.name,
+                p1: state.p1Score,
+                p2: state.p2Score,
+                resultText: resultText,
+                resClass: resClass
+            });
+            
+            body = `<h3>${resultText}</h3>Score: ${state.p1Score} - ${state.p2Score}<br><br>Opponent Was:<br><strong>${opp.name}</strong>`;
+        } else {
+            let winner = state.p1Score > state.p2Score ? "Player 1 Wins!" : (state.p2Score > state.p1Score ? "Player 2 Wins!" : "It's a Draw!");
+            body = `Final Score:<br><h1>${state.p1Score} - ${state.p2Score}</h1><br><h2>${winner}</h2>`;
+            btnText = "Back to Menu";
+        }
+
+        dom('modal-title').innerText = title;
+        dom('modal-content').innerHTML = body;
+        dom('modal-overlay').firstElementChild.querySelector('button').innerText = btnText;
+        dom('modal-overlay').style.display = 'flex';
+    }
+
+    function nextStep() {
+        dom('modal-overlay').style.display = 'none';
+        
+        if (state.mode === 'MP') {
+            window.removeEventListener('keydown', handleKeyMP);
+            showScreen('screen-menu');
+            return;
+        }
+
+        state.oppIndex++;
+        if (state.oppIndex < state.queue.length) {
+            setupIntro(); 
+        } else {
+            generateSummary(); 
+        }
+    }
+
+    // --- SUMMARY ---
+    function generateSummary() {
+        const container = dom('summary-list');
+        container.innerHTML = ""; 
+
+        state.campaignResults.forEach(r => {
+            const div = document.createElement('div');
+            div.className = `summary-item ${r.resClass}`;
+            div.innerHTML = `
+                <div>
+                    <strong>${r.name}</strong><br>
+                    <small style="color:#666">${r.resultText}</small>
+                </div>
+                <div style="font-size:1.2rem; font-weight:bold;">
+                    ${r.p1} - ${r.p2}
+                </div>
+            `;
+            container.appendChild(div);
+        });
+
+        showScreen('screen-summary');
+    }
+
+</script>
+</body>
+</html>

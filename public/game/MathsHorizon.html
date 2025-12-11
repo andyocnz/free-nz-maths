@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MATH HORIZON</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;700&display=swap');
+
+        body {
+            margin: 0;
+            background: #000;
+            overflow: hidden;
+            font-family: 'Rajdhani', sans-serif;
+            touch-action: none;
+            user-select: none;
+        }
+
+        #gameCanvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* --- UI LAYER --- */
+        #ui-layer {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+        }
+
+        /* TOP HUD */
+        .hud-top {
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 24px;
+            color: #0ff;
+            text-shadow: 0 0 10px #0ff;
+            font-weight: bold;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.8), transparent);
+        }
+
+        /* BOTTOM INPUT AREA (Glass effect) */
+        .hud-bottom {
+            pointer-events: auto;
+            padding: 10px;
+            padding-bottom: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.6) 80%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 500px;
+            align-self: center;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            backdrop-filter: blur(4px);
+            border-top: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        #input-display {
+            font-size: 48px;
+            color: #fff;
+            text-shadow: 0 0 10px #fff, 0 0 20px #f0f;
+            min-height: 50px;
+            margin-bottom: 5px;
+            letter-spacing: 5px;
+            font-weight: 700;
+        }
+
+        /* TRANSPARENT KEYPAD */
+        #keypad {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            width: 100%;
+        }
+
+        .key {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            color: #0ff;
+            font-size: 20px;
+            font-weight: bold;
+            padding: 15px 0;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.1s;
+        }
+        .key:active { background: rgba(0, 255, 255, 0.4); color: #000; }
+        
+        .key-fire {
+            grid-column: span 5; /* Full width fire button */
+            background: rgba(255, 0, 80, 0.2);
+            border-color: #ff0050;
+            color: #ff0050;
+            font-size: 24px;
+            margin-top: 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .key-fire:active { background: #ff0050; color: #fff; }
+
+        /* OVERLAYS */
+        .overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 50;
+            pointer-events: auto;
+            text-align: center;
+        }
+        
+        h1 { margin: 0; font-size: 50px; color: #fff; text-shadow: 4px 4px 0 #f0f; text-transform: uppercase; line-height: 1; }
+        h2 { color: #0ff; margin-bottom: 30px; }
+        .btn {
+            background: transparent;
+            color: #fff;
+            border: 2px solid #0ff;
+            padding: 15px 50px;
+            font-size: 24px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+            transition: 0.2s;
+        }
+        .btn:hover { background: #0ff; color: #000; box-shadow: 0 0 40px rgba(0, 255, 255, 0.6); }
+
+        #hidden-input { position: absolute; opacity: 0; top: -1000px; }
+    </style>
+</head>
+<body>
+
+    <canvas id="gameCanvas"></canvas>
+
+    <div id="ui-layer">
+        <div class="hud-top">
+            <span id="score-el">SCORE: 0</span>
+            <span id="wave-el">WAVE: 1</span>
+        </div>
+
+        <!-- Crosshair in center -->
+        <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:40px; height:40px; border: 2px solid rgba(255,255,255,0.3); border-radius:50%; pointer-events:none;">
+            <div style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:4px; height:4px; background:#0ff; border-radius:50%;"></div>
+        </div>
+
+        <div class="hud-bottom" id="controls" style="display:none;">
+            <div id="input-display">_</div>
+            <div id="keypad">
+                <!-- Row 1 -->
+                <div class="key" onclick="game.type(1)">1</div>
+                <div class="key" onclick="game.type(2)">2</div>
+                <div class="key" onclick="game.type(3)">3</div>
+                <div class="key" onclick="game.type(4)">4</div>
+                <div class="key" onclick="game.type(5)">5</div>
+                <!-- Row 2 -->
+                <div class="key" onclick="game.type(6)">6</div>
+                <div class="key" onclick="game.type(7)">7</div>
+                <div class="key" onclick="game.type(8)">8</div>
+                <div class="key" onclick="game.type(9)">9</div>
+                <div class="key" onclick="game.type(0)">0</div>
+                <!-- Fire -->
+                <div class="key key-fire" onclick="game.fire()">FIRE BEAM</div>
+                <!-- Hidden utility keys for layout balance if needed, or backspace on tap input display -->
+            </div>
+            <div style="margin-top: 10px; color: rgba(255,255,255,0.5); font-size: 14px;">Tap 'FIRE' or Press ENTER</div>
+        </div>
+    </div>
+
+    <!-- START SCREEN -->
+    <div id="start-screen" class="overlay">
+        <h1>NEON<br>MATH</h1>
+        <h2>DEFEND THE GRID</h2>
+        <button class="btn" onclick="game.start()">START MISSION</button>
+    </div>
+
+    <!-- GAME OVER -->
+    <div id="game-over" class="overlay" style="display:none;">
+        <h1 style="color: #ff0050; text-shadow: 0 0 20px #ff0050;">SYSTEM<br>OFFLINE</h1>
+        <p style="color: #fff; font-size: 20px;">FINAL SCORE: <span id="final-score">0</span></p>
+        <button class="btn" onclick="game.start()">REBOOT</button>
+    </div>
+
+    <input type="number" id="hidden-input" inputmode="numeric">
+
+    <script>
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let W, H;
+        function resize() {
+            W = canvas.width = window.innerWidth;
+            H = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // --- 3D SETTINGS ---
+        const FOV = 350;
+        const GRID_Y = 150; // Camera height
+        const HORIZON_Y = 0; // Will be set to H/2
+
+        // --- AUDIO ---
+        const AudioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playTone(type) {
+            if (AudioCtx.state === 'suspended') AudioCtx.resume();
+            const osc = AudioCtx.createOscillator();
+            const gain = AudioCtx.createGain();
+            osc.connect(gain);
+            gain.connect(AudioCtx.destination);
+            const t = AudioCtx.currentTime;
+
+            if (type === 'hit') {
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(200, t);
+                osc.frequency.linearRampToValueAtTime(50, t + 0.3);
+                gain.gain.setValueAtTime(0.2, t);
+                gain.gain.linearRampToValueAtTime(0, t + 0.3);
+                osc.start(t); osc.stop(t+0.3);
+            } else if (type === 'fire') {
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(600, t);
+                osc.frequency.exponentialRampToValueAtTime(100, t + 0.2);
+                gain.gain.setValueAtTime(0.1, t);
+                gain.gain.linearRampToValueAtTime(0, t + 0.2);
+                osc.start(t); osc.stop(t+0.2);
+            } else if (type === 'click') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800, t);
+                gain.gain.setValueAtTime(0.05, t);
+                gain.gain.linearRampToValueAtTime(0, t+0.05);
+                osc.start(t); osc.stop(t+0.05);
+            }
+        }
+
+        class Enemy {
+            constructor(wave) {
+                // Spawn range X: -1000 to 1000
+                this.x = (Math.random() - 0.5) * 1500;
+                this.y = -100; // Hover height
+                this.z = 3000; // Far away spawn
+                this.speed = 100 + (wave * 15);
+                
+                // Math
+                const diff = Math.min(Math.ceil(wave/2), 6);
+                let a, b, op, ans;
+
+                if (diff === 1) { a = rInt(1,9); b = rInt(1,9); op='+'; ans=a+b; }
+                else if (diff === 2) { a = rInt(5,15); b = rInt(2,9); op='+'; ans=a+b; }
+                else if (diff === 3) { a = rInt(10,20); b = rInt(2,9); op='-'; ans=a-b; }
+                else if (diff === 4) { a = rInt(2,9); b = rInt(2,5); op='x'; ans=a*b; }
+                else { a = rInt(3,11); b = rInt(3,9); op='x'; ans=a*b; }
+
+                this.txt = `${a}${op}${b}`;
+                this.ans = ans;
+                
+                // Visuals
+                this.color = `hsl(${Math.random()*60 + 180}, 100%, 50%)`; // Cyan/Blue hues
+            }
+            update(dt) {
+                this.z -= this.speed * dt;
+                // Move slightly toward center X as they approach
+                this.x = this.x * 0.999;
+                return this.z > 50; // Alive condition
+            }
+            draw() {
+                const scale = FOV / (FOV + this.z);
+                const screenX = W/2 + (this.x * scale);
+                const screenY = H/2 + ((this.y - GRID_Y) * scale); // 3D Projection
+                const size = 200 * scale;
+
+                if (scale <= 0) return;
+
+                // Wireframe Box
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = 2;
+                ctx.fillStyle = 'rgba(0,0,0,0.8)';
+                
+                ctx.beginPath();
+                ctx.rect(screenX - size/2, screenY - size/2, size, size);
+                ctx.fill();
+                ctx.stroke();
+
+                // Text
+                ctx.fillStyle = '#fff';
+                ctx.font = `bold ${Math.max(16, size * 0.5)}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(this.txt, screenX, screenY);
+                
+                // Connecting line to floor (Visual Anchor)
+                ctx.strokeStyle = 'rgba(255,255,255,0.1)';
+                ctx.beginPath();
+                ctx.moveTo(screenX, screenY + size/2);
+                ctx.lineTo(screenX, H/2 + (GRID_Y * scale)); // Ground point
+                ctx.stroke();
+            }
+        }
+
+        const game = {
+            active: false,
+            score: 0,
+            wave: 1,
+            input: "",
+            enemies: [],
+            gridOffset: 0,
+            beamTime: 0,
+            beamX: 0, // X target of beam
+            
+            start: function() {
+                document.getElementById('start-screen').style.display = 'none';
+                document.getElementById('game-over').style.display = 'none';
+                document.getElementById('controls').style.display = 'flex';
+                
+                this.active = true;
+                this.score = 0;
+                this.wave = 1;
+                this.enemies = [];
+                this.input = "";
+                this.updateUI();
+                
+                this.spawnEnemy();
+                
+                // Focus hidden input
+                const hidden = document.getElementById('hidden-input');
+                hidden.value = "";
+                hidden.focus();
+
+                requestAnimationFrame(loop);
+            },
+
+            spawnEnemy: function() {
+                this.enemies.push(new Enemy(this.wave));
+            },
+
+            type: function(n) {
+                playTone('click');
+                if (this.input.length < 5) this.input += n;
+                this.updateUI();
+            },
+            
+            fire: function() {
+                if (this.input === "") return;
+                const val = parseInt(this.input);
+                const idx = this.enemies.findIndex(e => e.ans === val);
+
+                if (idx !== -1) {
+                    // HIT
+                    playTone('fire');
+                    const target = this.enemies[idx];
+                    
+                    // Beam Effect
+                    this.beamTime = 15; // Frames
+                    // Calculate visual X for beam
+                    const scale = FOV / (FOV + target.z);
+                    this.beamX = W/2 + (target.x * scale);
+
+                    this.enemies.splice(idx, 1);
+                    this.score += 100;
+                    if (this.score % 500 === 0) this.wave++;
+                    
+                    setTimeout(() => {
+                        if(this.active) {
+                            this.spawnEnemy();
+                            if(this.wave > 3 && Math.random() > 0.6) this.spawnEnemy(); // Multi spawn later
+                        }
+                    }, 200);
+
+                    this.input = "";
+                } else {
+                    // MISS
+                    const disp = document.getElementById('input-display');
+                    disp.style.color = '#f00';
+                    setTimeout(() => disp.style.color = '#fff', 200);
+                    this.input = "";
+                }
+                this.updateUI();
+            },
+
+            updateUI: function() {
+                document.getElementById('input-display').innerText = this.input || "_";
+                document.getElementById('score-el').innerText = "SCORE: " + this.score;
+                document.getElementById('wave-el').innerText = "WAVE: " + this.wave;
+            },
+
+            over: function() {
+                this.active = false;
+                document.getElementById('final-score').innerText = this.score;
+                document.getElementById('game-over').style.display = 'flex';
+                document.getElementById('controls').style.display = 'none';
+                playTone('hit');
+            }
+        };
+
+        function rInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+
+        // --- LOOP ---
+        let lastTime = 0;
+        function loop(t) {
+            if (!game.active) return;
+            const dt = Math.min((t - lastTime)/1000, 0.1);
+            lastTime = t;
+
+            // Update
+            game.gridOffset = (game.gridOffset + 100 * dt) % 100;
+            
+            for (let i = game.enemies.length-1; i>=0; i--) {
+                const e = game.enemies[i];
+                if (!e.update(dt)) {
+                    game.over();
+                    return;
+                }
+            }
+            if (game.enemies.length === 0 && game.active) {
+                // Failsafe spawn
+               if(Math.random() > 0.95) game.spawnEnemy();
+            }
+
+            // Draw
+            ctx.fillStyle = '#050010';
+            ctx.fillRect(0, 0, W, H);
+            
+            const HorizonY = H/2;
+
+            // 1. STARS
+            ctx.fillStyle = '#fff';
+            for(let i=0; i<50; i++) {
+                ctx.fillRect(Math.random()*W, Math.random()*HorizonY, 1, 1);
+            }
+
+            // 2. GRID (Floor)
+            ctx.strokeStyle = 'rgba(200, 0, 255, 0.3)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            
+            // Vertical Perspective Lines
+            for (let x = -2000; x <= 2000; x += 200) {
+                const scaleFar = FOV / (FOV + 3000);
+                const xFar = W/2 + x * scaleFar;
+                
+                const scaleNear = FOV / (FOV + 0);
+                const xNear = W/2 + x * scaleNear;
+                
+                ctx.moveTo(xFar, HorizonY);
+                ctx.lineTo(xNear, H);
+            }
+            // Horizontal Moving Lines
+            for (let z = 0; z < 3000; z += 200) {
+                let rz = z - (game.gridOffset * 10);
+                while(rz < 0) rz += 200;
+                if (rz > 3000) rz -= 3000;
+                
+                const scale = FOV / (FOV + rz);
+                const y = HorizonY + (GRID_Y * scale);
+                
+                if (y < H) {
+                    ctx.moveTo(0, y); ctx.lineTo(W, y);
+                }
+            }
+            ctx.stroke();
+
+            // 3. BEAM FX
+            if (game.beamTime > 0) {
+                game.beamTime--;
+                ctx.save();
+                ctx.globalCompositeOperation = 'lighter';
+                ctx.beginPath();
+                ctx.moveTo(W/2, H); // Player pos
+                ctx.lineTo(game.beamX, HorizonY); // Target Pos
+                ctx.strokeStyle = `rgba(0, 255, 255, ${game.beamTime/15})`;
+                ctx.lineWidth = 10 + (Math.random() * 20);
+                ctx.stroke();
+                ctx.restore();
+            }
+
+            // 4. ENEMIES (Sort Z)
+            game.enemies.sort((a,b) => b.z - a.z);
+            game.enemies.forEach(e => e.draw());
+            
+            // 5. PLAYER (Simple vector shape)
+            // Just visual, doesn't move
+            ctx.fillStyle = '#000';
+            ctx.strokeStyle = '#0ff';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(W/2 - 50, H);
+            ctx.lineTo(W/2, H - 40);
+            ctx.lineTo(W/2 + 50, H);
+            ctx.fill();
+            ctx.stroke();
+
+            requestAnimationFrame(loop);
+        }
+
+        // Inputs
+        window.addEventListener('keydown', e => {
+            if (!game.active) return;
+            if (e.key >= '0' && e.key <= '9') game.type(parseInt(e.key));
+            if (e.key === 'Backspace') { game.input = game.input.slice(0, -1); game.updateUI(); }
+            if (e.key === 'Enter') game.fire();
+        });
+
+        // Click focus helper
+        document.addEventListener('touchstart', () => { if(game.active) document.getElementById('hidden-input').focus(); });
+        document.addEventListener('click', () => { if(game.active) document.getElementById('hidden-input').focus(); });
+
+    </script>
+</body>
+</html>

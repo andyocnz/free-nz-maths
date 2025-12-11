@@ -35,6 +35,34 @@ export default function GamesHub({ onClose }) {
         name: 'River Logic',
         emoji: '🚣',
         description: 'Logic puzzle: Help characters cross a river with specific constraints.'
+      },
+      {
+        filename: 'gametheory1.html',
+        path: '/game/gametheory1.html',
+        name: 'Game of Trust',
+        emoji: '🤝',
+        description: 'Learn game theory through interactive strategic decisions with different AI opponents and 2-player mode'
+      },
+      {
+        filename: 'Timestabletankbattle.html',
+        path: '/game/Timestabletankbattle.html',
+        name: 'Times Table Tank Battle',
+        emoji: '🎯',
+        description: 'Fast-paced multiplication game: Answer times tables questions to defeat enemies'
+      },
+      {
+        filename: 'MathsHorizon.html',
+        path: '/game/MathsHorizon.html',
+        name: 'Maths Horizon',
+        emoji: '🌅',
+        description: 'Solve math problems to discover and explore mathematical landscapes'
+      },
+      {
+        filename: 'mathskeeper.html',
+        path: '/game/mathskeeper.html',
+        name: 'Maths Keeper',
+        emoji: '🛡️',
+        description: 'Defend your fortress by solving math challenges and protecting against attacks'
       }
     ]
 

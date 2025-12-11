@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Math League: Fixed Physics</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Teko:wght@400;600&display=swap');
+
+        body { margin: 0; overflow: hidden; background: #050505; font-family: 'Teko', sans-serif; user-select: none; }
+        
+        #tv-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            display: flex; flex-direction: column; justify-content: space-between;
+        }
+
+        .scoreboard {
+            position: absolute; top: 30px; left: 30px;
+            background: linear-gradient(90deg, #004488, #002244);
+            border-left: 5px solid #00ccff;
+            display: flex; align-items: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            transform: skewX(-10deg);
+        }
+        .score-part { padding: 5px 20px; color: white; font-size: 28px; font-weight: 600; text-transform: uppercase; }
+        .score-val { background: rgba(0,0,0,0.3); font-size: 36px; color: #00ccff; min-width: 50px; text-align: center;}
+        .timer-box { background: #cc0000; color: white; padding: 5px 15px; font-weight: bold; font-size: 28px; min-width: 60px; text-align: center; }
+
+        #interaction-layer {
+            position: absolute; bottom: 0; width: 100%; height: 30%;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+            display: flex; flex-direction: column; align-items: center; justify-content: flex-end;
+            pointer-events: auto;
+            padding-bottom: 30px;
+            transition: opacity 0.3s;
+        }
+        
+        #math-problem {
+            font-size: 80px; color: #fff; text-shadow: 0 0 20px #00ccff;
+            margin-bottom: 10px; letter-spacing: 2px;
+        }
+
+        #answers-row { display: flex; gap: 20px; }
+        
+        .btn-answer {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white; font-size: 40px; padding: 10px 50px; cursor: pointer;
+            transform: skewX(-10deg); transition: all 0.2s;
+            text-shadow: 0 2px 4px black;
+        }
+        .btn-answer:hover { background: #00ccff; color: #000; transform: skewX(-10deg) scale(1.1); box-shadow: 0 0 20px #00ccff; }
+
+        #screens { position: absolute; width: 100%; height: 100%; pointer-events: none; display: flex; justify-content: center; align-items: center; z-index: 10; }
+        
+        .center-msg { 
+            position: absolute; top: 20%;
+            font-size: 120px; color: white; text-transform: uppercase; 
+            text-shadow: 0 10px 30px black; opacity: 0; transition: opacity 0.2s; 
+            background: rgba(0,0,0,0.6); padding: 10px 80px; transform: skewX(-10deg);
+            border: 2px solid white; pointer-events: none;
+        }
+        
+        #btn-start {
+            pointer-events: auto; font-size: 50px; padding: 20px 80px;
+            background: #00ccff; border: none; font-weight: bold; cursor: pointer;
+            box-shadow: 0 0 50px #00ccff; animation: pulse 1.5s infinite;
+            font-family: 'Teko'; transform: skewX(-10deg);
+        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+    </style>
+    <!-- Import Three.js -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.160.0/build/three.module.js"
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div id="tv-overlay">
+        <div class="scoreboard">
+            <div class="score-part">Live</div>
+            <div class="score-part">Saves</div>
+            <div class="score-part score-val" id="ui-score">0</div>
+            <div class="timer-box" id="ui-timer">5.0</div>
+        </div>
+
+        <div id="screens">
+            <div id="msg-center" class="center-msg">GOAL!</div>
+            <button id="btn-start" onclick="initGame()">CLICK TO START</button>
+        </div>
+
+        <div id="interaction-layer" style="opacity: 0; pointer-events: none;">
+            <div id="math-problem">4 x 5 = ?</div>
+            <div id="answers-row"></div>
+        </div>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'three';
+
+        // --- AUDIO ENGINE ---
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const Sound = {
+            kick: () => {
+                if(audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+                gain.gain.setValueAtTime(1, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+            },
+            impact: () => { // Stronger impact sound
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'square';
+                osc.frequency.setValueAtTime(80, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(10, audioCtx.currentTime + 0.2);
+                gain.gain.setValueAtTime(0.8, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.2);
+            },
+            cheer: () => {
+                const bufferSize = audioCtx.sampleRate * 2; 
+                const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+                const data = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) data[i] = Math.random() * 2 - 1;
+                const noise = audioCtx.createBufferSource();
+                noise.buffer = buffer;
+                const gain = audioCtx.createGain();
+                const filter = audioCtx.createBiquadFilter();
+                filter.type = 'lowpass'; filter.frequency.value = 1000;
+                gain.gain.setValueAtTime(0, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime + 0.5);
+                gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 2);
+                noise.connect(filter); filter.connect(gain); gain.connect(audioCtx.destination);
+                noise.start();
+            },
+            whistle: () => {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.frequency.setValueAtTime(2000, audioCtx.currentTime);
+                osc.frequency.linearRampToValueAtTime(2200, audioCtx.currentTime + 0.1);
+                osc.frequency.linearRampToValueAtTime(2000, audioCtx.currentTime + 0.2);
+                gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+                gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 0.5);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+            },
+            fail: () => {
+                 const osc = audioCtx.createOscillator();
+                 osc.type = 'sawtooth';
+                 const gain = audioCtx.createGain();
+                 osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+                 osc.frequency.linearRampToValueAtTime(50, audioCtx.currentTime + 1);
+                 gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+                 gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + 1);
+                 osc.connect(gain); gain.connect(audioCtx.destination);
+                 osc.start(); osc.stop(audioCtx.currentTime + 1);
+            }
+        };
+
+        // --- ASSETS ---
+        function createGrassTexture() {
+            const canvas = document.createElement('canvas'); canvas.width = 512; canvas.height = 512;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#1a3c1a'; ctx.fillRect(0,0,512,512);
+            for(let i=0; i<80000; i++) {
+                ctx.fillStyle = Math.random()>0.5?'#255525':'#112211';
+                ctx.fillRect(Math.random()*512, Math.random()*512, 2, 4);
+            }
+            ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 5;
+            ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(0,512); ctx.stroke();
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        function createBallTexture() {
+            const canvas = document.createElement('canvas'); canvas.width = 256; canvas.height = 128;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#eee'; ctx.fillRect(0,0,256,128);
+            ctx.fillStyle = '#111';
+            for(let i=0; i<8; i++) { ctx.beginPath(); ctx.arc(Math.random()*256, Math.random()*128, 25, 0, 7); ctx.fill(); }
+            return new THREE.CanvasTexture(canvas);
+        }
+
+        // --- SCENE ---
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x020205);
+        scene.fog = new THREE.Fog(0x020205, 10, 60);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth/window.innerHeight, 0.1, 100);
+        camera.position.set(0, 3, 14);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
+        renderer.toneMapping = THREE.ACESFilmicToneMapping;
+        document.body.appendChild(renderer.domElement);
+
+        const ambient = new THREE.HemisphereLight(0xffffff, 0x000000, 0.4);
+        scene.add(ambient);
+        const spot = new THREE.SpotLight(0xffffff, 400);
+        spot.position.set(10, 30, 10);
+        spot.castShadow = true;
+        scene.add(spot);
+
+        const grassTex = createGrassTexture(); grassTex.wrapS=grassTex.wrapT=THREE.RepeatWrapping; grassTex.repeat.set(10,10);
+        const floor = new THREE.Mesh(new THREE.PlaneGeometry(100, 100), new THREE.MeshStandardMaterial({ map: grassTex }));
+        floor.rotation.x = -Math.PI/2; floor.receiveShadow = true; scene.add(floor);
+
+        const goalGroup = new THREE.Group();
+        goalGroup.position.z = -20;
+        scene.add(goalGroup);
+        const postMat = new THREE.MeshStandardMaterial({ color: 'white', roughness: 0.1 });
+        const p1 = new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.1,2.5), postMat); p1.position.set(-3.7,1.25,0);
+        const p2 = new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.1,2.5), postMat); p2.position.set(3.7,1.25,0);
+        const bar = new THREE.Mesh(new THREE.CylinderGeometry(0.1,0.1,7.6), postMat); bar.rotation.z=1.57; bar.position.set(0,2.5,0);
+        goalGroup.add(p1,p2,bar);
+        const net = new THREE.Mesh(new THREE.BoxGeometry(7.6, 2.5, 2), new THREE.MeshBasicMaterial({color:0x555555, wireframe:true, transparent:true, opacity:0.3}));
+        net.position.set(0,1.25,-1); goalGroup.add(net);
+
+        const keeper = new THREE.Group();
+        keeper.position.set(0, 0, -19);
+        scene.add(keeper);
+        const kMat = new THREE.MeshStandardMaterial({ color: '#ff8800' });
+        const kBody = new THREE.Mesh(new THREE.BoxGeometry(0.6, 1.2, 0.3), kMat); kBody.position.y=1; kBody.castShadow=true;
+        const kHead = new THREE.Mesh(new THREE.SphereGeometry(0.25), new THREE.MeshStandardMaterial({color:'#333'})); kHead.position.y=1.8;
+        const kArmL = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.8, 0.15), kMat); kArmL.position.set(-0.45, 1.2, 0);
+        const kArmR = new THREE.Mesh(new THREE.BoxGeometry(0.15, 0.8, 0.15), kMat); kArmR.position.set(0.45, 1.2, 0);
+        keeper.add(kBody, kHead, kArmL, kArmR);
+
+        const ball = new THREE.Mesh(new THREE.SphereGeometry(0.22, 32, 32), new THREE.MeshStandardMaterial({ map: createBallTexture() }));
+        ball.castShadow = true;
+        scene.add(ball);
+
+        // --- GAME LOGIC ---
+        const STATE = {
+            phase: 'menu',
+            score: 0,
+            timer: 5,
+            equation: null,
+            targetX: 0,
+            isCorrect: false,
+            velocity: new THREE.Vector3(),
+            keeperDiveStart: 0,
+            hasCollided: false
+        };
+
+        window.initGame = () => {
+            document.getElementById('btn-start').style.display = 'none';
+            document.getElementById('interaction-layer').style.opacity = 1;
+            document.getElementById('interaction-layer').style.pointerEvents = 'auto';
+            audioCtx.resume();
+            Sound.whistle();
+            startRound();
+        };
+
+        function generateMath() {
+            const a = Math.floor(Math.random()*9)+2;
+            const b = Math.floor(Math.random()*9)+2;
+            const ans = a*b;
+            let opts = [ans];
+            while(opts.length<3) {
+                let f = ans + (Math.random()>0.5?1:-1)*Math.floor(Math.random()*5+1);
+                if(f>0 && !opts.includes(f)) opts.push(f);
+            }
+            return { text: `${a} x ${b}`, ans, opts: opts.sort(()=>Math.random()-0.5) };
+        }
+
+        function startRound() {
+            STATE.phase = 'aim';
+            STATE.timer = 5;
+            STATE.hasCollided = false;
+            STATE.equation = generateMath();
+            
+            document.getElementById('math-problem').innerText = `${STATE.equation.text} = ?`;
+            const row = document.getElementById('answers-row');
+            row.innerHTML = '';
+            STATE.equation.opts.forEach(o => {
+                const b = document.createElement('div');
+                b.className = 'btn-answer'; b.innerText = o;
+                b.onclick = () => shoot(o);
+                row.appendChild(b);
+            });
+            document.getElementById('msg-center').style.opacity = 0;
+            
+            ball.position.set(0, 0.22, 10);
+            ball.rotation.set(0,0,0);
+            keeper.position.set(0,0,-19);
+            keeper.rotation.set(0,0,0);
+            keeper.children[2].rotation.z = 0; keeper.children[3].rotation.z = 0;
+        }
+
+        function shoot(val) {
+            if(STATE.phase !== 'aim') return;
+            STATE.phase = 'flight';
+            STATE.isCorrect = (val === STATE.equation.ans);
+            
+            Sound.kick();
+
+            let shotX = (Math.random()-0.5) * 5; 
+            STATE.targetX = shotX;
+
+            const time = 0.8; // Faster shot
+            const distZ = -30;
+            
+            STATE.velocity.set(
+                (shotX - 0) / time,
+                (1.8 - 0.22 + 4.9*time*time) / time, 
+                distZ / time
+            );
+
+            STATE.keeperDiveStart = Date.now();
+        }
+
+        const clock = new THREE.Clock();
+        
+        function animate() {
+            requestAnimationFrame(animate);
+            const dt = Math.min(clock.getDelta(), 0.1);
+
+            if(STATE.phase === 'aim') {
+                STATE.timer -= dt;
+                document.getElementById('ui-timer').innerText = Math.max(0, STATE.timer).toFixed(1);
+                keeper.position.y = Math.sin(Date.now()/500)*0.05;
+                if(STATE.timer <= 0) shoot(-999);
+            }
+
+            if(STATE.phase === 'flight') {
+                STATE.velocity.y -= 9.8 * dt;
+                ball.position.addScaledVector(STATE.velocity, dt);
+                ball.rotation.x += 15*dt;
+
+                // --- KEEPER MOVE ---
+                const kTime = (Date.now() - STATE.keeperDiveStart) / 1000;
+                if(kTime < 1.0) {
+                    const diveDir = STATE.isCorrect ? 1 : -1;
+                    const keeperDestX = STATE.targetX * diveDir; 
+                    
+                    // Increased Speed to ensure visual contact
+                    keeper.position.x += (keeperDestX - keeper.position.x) * 10 * dt;
+                    keeper.position.y = Math.sin(kTime * Math.PI) * 1.5;
+                    const rot = (keeperDestX>0?-1:1) * 1.2;
+                    keeper.rotation.z += (rot - keeper.rotation.z) * 10 * dt;
+                    keeper.children[2].rotation.z = 2.5; 
+                    keeper.children[3].rotation.z = -2.5; 
+                }
+
+                // --- FIXED LOGIC: PRIORITY ON MATH CORRECTNESS ---
+                
+                // If correct, check if ball is simply passing the keeper plane
+                if(STATE.isCorrect && !STATE.hasCollided && ball.position.z < -18.5) {
+                    // FORCE SAVE
+                    STATE.hasCollided = true;
+                    
+                    // PUNCH EFFECT: Reverse ball velocity strongly
+                    STATE.velocity.z = 20; // Fly back to field
+                    STATE.velocity.y = 10; // High arc
+                    STATE.velocity.x = (Math.random()-0.5)*10;
+                    
+                    Sound.impact();
+                    Sound.cheer();
+                    STATE.score++;
+                    document.getElementById('ui-score').innerText = STATE.score;
+                    
+                    showMsg("SAVE!", "#00ccff");
+                    setTimeout(startRound, 3000);
+                }
+
+                // GOAL condition only if NOT correct
+                if(!STATE.isCorrect && ball.position.z < -20 && !STATE.hasCollided) {
+                    STATE.hasCollided = true;
+                    Sound.fail();
+                    showMsg("GOAL!", "#cc0000");
+                    STATE.velocity.set(0,0,0);
+                    setTimeout(startRound, 3000);
+                }
+                
+                if(ball.position.y < 0.22) {
+                    ball.position.y = 0.22;
+                    STATE.velocity.y *= -0.6;
+                    STATE.velocity.z *= 0.8;
+                }
+            }
+
+            if(STATE.phase === 'flight') {
+                camera.position.x += (ball.position.x*0.3 - camera.position.x) * dt;
+            } else {
+                camera.position.x += (0 - camera.position.x) * dt;
+            }
+            
+            renderer.render(scene, camera);
+        }
+
+        function showMsg(txt, col) {
+            const el = document.getElementById('msg-center');
+            el.innerText = txt; el.style.color = col; el.style.borderColor = col;
+            el.style.opacity = 1;
+        }
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth/window.innerHeight; camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        animate();
+    </script>
+</body>
+</html>
