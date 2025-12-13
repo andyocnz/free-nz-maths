@@ -60,21 +60,22 @@
                                                                "params":  {
                                                                               "a":  [
                                                                                         "int",
-                                                                                        10,
-                                                                                        999999
+                                                                                        -99,
+                                                                                        99
                                                                                     ],
                                                                               "b":  [
                                                                                         "int",
-                                                                                        10,
-                                                                                        999999
+                                                                                        -99,
+                                                                                        999
                                                                                     ],
                                                                               "c":  [
                                                                                         "int",
-                                                                                        1,
-                                                                                        9999
+                                                                                        -99,
+                                                                                        19
                                                                                     ]
                                                                           },
-                                                               "answer":  "a + b - c"
+                                                               "answer":  "a + b - c",
+                                                               "hint":  "Remember the order of operations: work from left to right for addition and subtraction. Also remember: subtracting a negative number is the same as adding a positive number. For example, 5 - (-3) = 5 + 3 = 8."
                                                            },
                                                            {
                                                                "id":  "Y6.N.WHOLE_OPERATIONS.T2",

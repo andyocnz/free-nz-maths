@@ -2231,6 +2231,26 @@ export default function App() {
   const generateHint = () => {
     if (!question) return
 
+    // 0. Check for template-specific hint first (highest priority)
+    if (question.hint) {
+      setHintModal({
+        isOpen: true,
+        title: '💡 Hint',
+        message: question.hint
+      })
+      return
+    }
+
+    if (question.htmlHint) {
+      setHintModal({
+        isOpen: true,
+        title: '💡 Hint',
+        message: null,
+        htmlContent: question.htmlHint
+      })
+      return
+    }
+
     const qText = question.question || '';
     let hint = '';
 

@@ -917,7 +917,9 @@ export function generateQuestionFromTemplate(template, skill, year) {
     skill: skill,
     params: params,
     visualData: visualData,
-    choices: choices
+    choices: choices,
+    hint: template.hint,
+    htmlHint: template.htmlHint
   }
 }
 

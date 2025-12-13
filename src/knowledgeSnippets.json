@@ -14,13 +14,17 @@
   },
   "Y6.N.WHOLE_OPERATIONS": {
     "title": "Whole Number Operations",
-    "summary": "This topic covers the fundamental skills of adding, subtracting, multiplying, and dividing whole numbers. It also includes using estimation by rounding numbers before calculating to get a rough idea of the answer.",
+    "summary": "This topic covers the fundamental skills of adding, subtracting, multiplying, and dividing whole numbers. It also includes using estimation by rounding numbers before calculating to get a rough idea of the answer. When working with negative numbers, remember that subtracting a negative is the same as adding a positive.",
     "where_to_look": "NZ Curriculum > Number & Algebra > Whole Number Operations",
-    "key_formulas": [],
-    "example": "To estimate 192 * 28, you could round each number to the nearest ten: 190 * 30. A quick way to do this is 19*3 = 57, then add the two zeros back, giving 5700.",
+    "key_formulas": [
+      "Subtracting a negative number: a - (-b) = a + b. For example, 5 - (-3) = 5 + 3 = 8",
+      "Adding a negative number: a + (-b) = a - b. For example, 7 + (-2) = 7 - 2 = 5"
+    ],
+    "example": "To estimate 192 * 28, you could round each number to the nearest ten: 190 * 30. A quick way to do this is 19*3 = 57, then add the two zeros back, giving 5700. When working with negatives: -10 + 5 = -5, and 10 - (-5) = 10 + 5 = 15.",
     "common_misconceptions": [
       "Forgetting to carry over in addition or borrow in subtraction.",
-      "In multi-step problems, not following the correct order of operations (BEDMAS)."
+      "In multi-step problems, not following the correct order of operations (BEDMAS).",
+      "Thinking that subtracting a negative is the same as subtracting a positive. Remember: minus a negative = plus a positive!"
     ]
   },
   "Y6.N.EXPONENTS_NUMBER_THEORY": {
