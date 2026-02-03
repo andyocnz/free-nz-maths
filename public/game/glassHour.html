@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>The Alchemist's Hourglass - Logic Puzzle</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Outfit:wght@300;400;600&display=swap');
+
+        :root {
+            --gold: #d4af37;
+            --gold-glow: rgba(212, 175, 55, 0.4);
+            --cyan: #00f2ff;
+            --cyan-glow: rgba(0, 242, 255, 0.4);
+            --bg: #0a0a0c;
+            --glass: rgba(255, 255, 255, 0.05);
+            --wood: #2a1b0a;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: #ddd;
+            font-family: 'Outfit', sans-serif;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-image: radial-gradient(circle at center, #1a1a2e 0%, #0a0a0c 100%);
+        }
+
+        /* --- BACKGROUND DECOR --- */
+        .stars {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        /* --- HEADER & HUD --- */
+        #header {
+            width: 100%;
+            padding-top: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            margin: 0;
+            color: var(--gold);
+            text-shadow: 0 0 20px var(--gold-glow);
+            letter-spacing: 4px;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+
+        .timer-container {
+            margin-top: 20px;
+            padding: 10px 30px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .timer-label {
+            font-size: 0.7rem;
+            color: var(--gold);
+        }
+
+        /* --- GAME AREA --- */
+        #game-stage {
+            display: flex;
+            gap: 60px;
+            align-items: center;
+            justify-content: center;
+            perspective: 1000px;
+            margin-top: 20px;
+            flex-grow: 1;
+            /* Allow it to take available space */
+        }
+
+        .hourglass-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .hourglass {
+            width: 120px;
+            height: 200px;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .glass-part {
+            position: absolute;
+            width: 100%;
+            height: 50%;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.02) 50%, rgba(255, 255, 255, 0.05) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-sizing: border-box;
+            backdrop-filter: blur(2px);
+            overflow: hidden;
+        }
+
+        .glass-top {
+            top: 0;
+            border-radius: 60px 60px 10px 10px;
+            clip-path: polygon(0% 0%, 100% 0%, 75% 100%, 25% 100%);
+        }
+
+        .glass-bottom {
+            bottom: 0;
+            border-radius: 10px 10px 60px 60px;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
+        }
+
+        /* Sand */
+        .sand {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            transition: height 0.1s linear;
+        }
+
+        .sand-top {
+            height: 100%;
+        }
+
+        .sand-bottom {
+            height: 0%;
+        }
+
+        .hg-4 .sand {
+            background: var(--cyan);
+            box-shadow: 0 0 15px var(--cyan-glow);
+        }
+
+        .hg-7 .sand {
+            background: var(--gold);
+            box-shadow: 0 0 15px var(--gold-glow);
+        }
+
+        /* The Stream */
+        .stream {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            width: 2px;
+            height: 50%;
+            background: var(--cyan);
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .hg-7 .stream {
+            background: var(--gold);
+        }
+
+        .flowing .stream {
+            opacity: 0.8;
+            animation: flicker 0.1s infinite;
+        }
+
+        @keyframes flicker {
+            0% {
+                opacity: 0.6;
+            }
+
+            100% {
+                opacity: 0.9;
+            }
+        }
+
+        /* Bases */
+        .base {
+            width: 140px;
+            height: 10px;
+            background: var(--wood);
+            border: 1px solid #1a0f05;
+            border-radius: 5px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .hg-label {
+            font-family: 'Cinzel', serif;
+            font-size: 1.2rem;
+            color: #fff;
+            margin-top: 10px;
+        }
+
+        /* --- CONTROLS --- */
+        #controls {
+            padding-bottom: 40px;
+            display: flex;
+            gap: 20px;
+            z-index: 10;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-family: 'Cinzel', serif;
+            font-size: 1rem;
+            background: transparent;
+            color: var(--gold);
+            border: 1px solid var(--gold);
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-radius: 4px;
+        }
+
+        .btn:hover {
+            background: var(--gold);
+            color: #000;
+            box-shadow: 0 0 20px var(--gold-glow);
+        }
+
+        .btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .btn-both {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #fff;
+            color: #fff;
+        }
+
+        .btn-both:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .btn-riddle {
+            padding: 5px 15px;
+            font-size: 0.75rem;
+            margin-top: 10px;
+            border-style: dashed;
+            opacity: 0.6;
+        }
+
+        .btn-riddle:hover {
+            opacity: 1;
+        }
+
+        .btn-finish {
+            background: var(--gold);
+            color: #000;
+        }
+
+        /* --- OVERLAYS --- */
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            text-align: center;
+            padding: 40px;
+        }
+
+        #victory-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 90;
+            display: none;
+        }
+
+        .victory-glow {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 200px;
+            background: radial-gradient(ellipse at bottom, rgba(212, 175, 55, 0.3) 0%, transparent 70%);
+            display: none;
+            z-index: 80;
+        }
+
+        .result-title {
+            font-family: 'Cinzel', serif;
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .result-text {
+            font-size: 1.2rem;
+            max-width: 600px;
+            line-height: 1.6;
+            color: #aaa;
+            margin-bottom: 40px;
+        }
+
+        .btn-pause {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: #888;
+            color: #888;
+        }
+
+        .btn-pause.active {
+            background: #ef4444;
+            color: #fff;
+            border-color: #ef4444;
+        }
+
+        .paused .hourglass {
+            opacity: 0.7;
+        }
+
+        .paused .stream {
+            display: none;
+        }
+
+        /* Utility */
+        #time-val {
+            width: 80px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="header">
+        <h1>THE ALCHEMIST'S CHALLENGE</h1>
+        <div class="subtitle">Goal: Measure exactly 9 minutes</div>
+        <button class="btn btn-riddle" onclick="document.getElementById('start-overlay').style.display='flex'">View Full
+            Riddle</button>
+        <div class="timer-container">
+            <span class="timer-label">ELAPSED:</span>
+            <span id="time-val">00:00</span>
+        </div>
+    </div>
+
+    <div id="game-stage">
+        <!-- 4 Minute Glass -->
+        <div class="hourglass-wrapper">
+            <div id="hg4" class="hourglass hg-4" onclick="game.flip(4)">
+                <div class="glass-part glass-top">
+                    <div id="sand-top-4" class="sand sand-top"></div>
+                </div>
+                <div class="stream"></div>
+                <div class="glass-part glass-bottom">
+                    <div id="sand-bottom-4" class="sand sand-bottom"></div>
+                </div>
+            </div>
+            <div class="base"></div>
+            <div class="hg-label">4 MIN</div>
+        </div>
+
+        <!-- 7 Minute Glass -->
+        <div class="hourglass-wrapper">
+            <div id="hg7" class="hourglass hg-7" onclick="game.flip(7)">
+                <div class="glass-part glass-top">
+                    <div id="sand-top-7" class="sand sand-top"></div>
+                </div>
+                <div class="stream"></div>
+                <div class="glass-part glass-bottom">
+                    <div id="sand-bottom-7" class="sand sand-bottom"></div>
+                </div>
+            </div>
+            <div class="base"></div>
+            <div class="hg-label">7 MIN</div>
+        </div>
+    </div>
+
+    <div id="controls">
+        <button id="btn-start" class="btn" onclick="game.start()">Begin Experiment</button>
+        <button id="btn-pause" class="btn btn-pause" onclick="game.togglePause()" style="display:none;">Pause</button>
+        <button id="btn-both" class="btn btn-both" onclick="game.flipBoth()">Flip Both</button>
+        <button id="btn-finish" class="btn btn-finish" onclick="game.finish()" style="display:none;">Seal
+            Measurement</button>
+        <button class="btn" onclick="location.reload()">Reset</button>
+    </div>
+
+    <!-- START OVERLAY -->
+    <div id="start-overlay" class="overlay">
+        <h2 class="result-title" style="color: var(--gold);">THE RIDDLE</h2>
+        <p class="result-text">
+            You possess two magical hourglasses. One measures exactly <strong>4 minutes</strong>, the other <strong>7
+                minutes</strong>.<br><br>
+            To activate the portal, you must measure a total of <strong>9 minutes</strong> precisely.<br><br>
+            The master clock will record the time from the moment the first sand begins to flow.
+        </p>
+        <button class="btn" onclick="document.getElementById('start-overlay').style.display='none'">I Am Ready</button>
+    </div>
+
+    <!-- RESULT OVERLAY -->
+    <div id="result-overlay" class="overlay" style="display:none;">
+        <h2 id="result-status" class="result-title"></h2>
+        <p id="result-desc" class="result-text"></p>
+        <div class="timer-container" id="result-timer-box" style="margin-bottom: 40px;">
+            <span class="timer-label">YOUR TIME:</span>
+            <span id="final-time">00:00</span>
+        </div>
+        <button class="btn" onclick="location.reload()">Reset Alchemical Experiment</button>
+    </div>
+
+    <canvas id="victory-canvas"></canvas>
+    <div class="victory-glow" id="victory-glow"></div>
+
+    <script>
+        const game = {
+            active: false,
+            isPaused: false,
+            startTime: null,
+            timer: null,
+            elapsed: 0, // in seconds
+            TIME_SCALE: 12, // 1 label-minute = 5 actual-seconds (60 / 5 = 12)
+            glasses: {
+                4: { total: 4 * 60, top: 0, bottom: 4 * 60, flipped: false },
+                7: { total: 7 * 60, top: 0, bottom: 7 * 60, flipped: false }
+            },
+
+            canFlip: true,
+
+            start() {
+                if (this.active) return; // Prevent multiple starts
+                this.active = true;
+                this.isPaused = false;
+                this.startTime = Date.now();
+                document.getElementById('btn-start').style.display = 'none';
+                document.getElementById('btn-pause').style.display = 'block';
+                document.getElementById('btn-finish').style.display = 'block';
+
+                this.timer = setInterval(() => this.tick(), 100);
+            },
+
+            togglePause() {
+                if (!this.active) return;
+                this.isPaused = !this.isPaused;
+
+                const btn = document.getElementById('btn-pause');
+                const stage = document.getElementById('game-stage');
+
+                if (this.isPaused) {
+                    btn.innerText = "Resume";
+                    btn.classList.add('active');
+                    stage.classList.add('paused');
+                } else {
+                    this.startTime = Date.now(); // Reset start time to avoid jump
+                    btn.innerText = "Pause";
+                    btn.classList.remove('active');
+                    stage.classList.remove('paused');
+                }
+            },
+
+            flip(size) {
+                if (!this.canFlip) return;
+                this.canFlip = false;
+                setTimeout(() => this.canFlip = true, 500); // 0.5s cooldown
+                this._performFlip(size);
+
+                if (!this.active) this.start();
+                this.updateVisuals();
+            },
+
+            _performFlip(size) {
+                const g = this.glasses[size];
+                g.flipped = !g.flipped;
+
+                const el = document.getElementById('hg' + size);
+                el.classList.toggle('flip-active', g.flipped);
+
+                // Swap top and bottom volumes
+                const temp = g.top;
+                g.top = g.bottom;
+                g.bottom = temp;
+            },
+
+            flipBoth() {
+                if (!this.canFlip) return;
+                this.canFlip = false;
+                setTimeout(() => this.canFlip = true, 500);
+
+                this._performFlip(4);
+                this._performFlip(7);
+
+                if (!this.active) this.start();
+                this.updateVisuals();
+            },
+
+            tick() {
+                if (!this.active || this.isPaused) return;
+
+                const now = Date.now();
+                const actualDelta = (now - this.startTime) / 1000;
+                let scaledDelta = actualDelta * this.TIME_SCALE;
+
+                // Precision check: cap delta if a glass is about to finish
+                let anyFinished = false;
+                [4, 7].forEach(s => {
+                    const g = this.glasses[s];
+                    if (g.top > 0 && g.top <= scaledDelta) {
+                        scaledDelta = g.top;
+                        anyFinished = true;
+                    }
+                });
+
+                this.startTime = now;
+
+                let totalElapsed = parseFloat(localStorage.getItem('glass_total') || 0);
+                totalElapsed += scaledDelta;
+                localStorage.setItem('glass_total', totalElapsed);
+
+                // Update individual glasses
+                [4, 7].forEach(s => {
+                    const g = this.glasses[s];
+                    if (g.top > 0) {
+                        const flow = Math.min(g.top, scaledDelta);
+                        g.top -= flow;
+                        g.bottom += flow;
+                        document.getElementById('hg' + s).classList.add('flowing');
+                    } else {
+                        document.getElementById('hg' + s).classList.remove('flowing');
+                    }
+                });
+
+                if (anyFinished) {
+                    // Auto-finish if we hit exactly 9 minutes (540s)
+                    if (Math.round(totalElapsed) === 540) {
+                        this.finish();
+                    } else {
+                        this.togglePause();
+                    }
+                }
+
+                // Highlight timer if it's exactly 9:00
+                const timerVal = document.getElementById('time-val');
+                if (Math.round(totalElapsed) === 540) {
+                    timerVal.style.color = "#d4af37";
+                    timerVal.style.textShadow = "0 0 10px #d4af37";
+                } else {
+                    timerVal.style.color = "#fff";
+                    timerVal.style.textShadow = "none";
+                }
+
+                this.updateVisuals();
+            },
+
+            updateVisuals() {
+                const totalRaw = parseFloat(localStorage.getItem('glass_total') || 0);
+                const total = Math.round(totalRaw); // Avoid 7:59 display due to floats
+                const mins = Math.floor(total / 60);
+                const secs = Math.floor(total % 60);
+                document.getElementById('time-val').innerText =
+                    `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+                [4, 7].forEach(s => {
+                    const g = this.glasses[s];
+                    // Visual percentage
+                    const topH = (g.top / g.total) * 100;
+                    const botH = (g.bottom / g.total) * 100;
+
+                    document.getElementById(`sand-top-${s}`).style.height = topH + '%';
+                    document.getElementById(`sand-bottom-${s}`).style.height = botH + '%';
+                });
+            },
+
+            finish() {
+                this.active = false;
+                clearInterval(this.timer);
+
+                const totalRaw = parseFloat(localStorage.getItem('glass_total') || 0);
+                const total = Math.round(totalRaw); // Ensure precision for win check
+                const mins = Math.floor(total / 60);
+                const secs = Math.floor(total % 60);
+
+                const finalStr = `${mins}:${secs.toString().padStart(2, '0')}`;
+                document.getElementById('final-time').innerText = finalStr;
+
+                const resultOverlay = document.getElementById('result-overlay');
+                const status = document.getElementById('result-status');
+                const desc = document.getElementById('result-desc');
+
+                // Tolerance of 2 seconds for human reaction time
+                if (Math.abs(total - 540) < 3) {
+                    status.innerText = "ALCHEMIST MASTER";
+                    status.style.color = "#d4af37";
+                    status.style.textShadow = "0 0 30px #d4af37";
+                    desc.innerText = "YOU WIN! You have measured 9 minutes exactly. The alchemical fireplace blazes with success as the portal finally opens!";
+                    document.getElementById('result-timer-box').style.borderColor = "#d4af37";
+                    this.celebrate();
+                } else {
+                    status.innerText = "PORTAL UNSTABLE";
+                    status.style.color = "#ef4444";
+                    desc.innerText = `You measured ${finalStr}. The calculation was imprecise. To measure 9 minutes, think about how to use the 3-minute and 1-minute remainders...`;
+                }
+
+                resultOverlay.style.display = 'flex';
+                localStorage.removeItem('glass_total');
+            },
+
+            celebrate() {
+                const canvas = document.getElementById('victory-canvas');
+                const ctx = canvas.getContext('2d');
+                const glow = document.getElementById('victory-glow');
+
+                canvas.style.display = 'block';
+                glow.style.display = 'block';
+
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+
+                const particles = [];
+                const colors = ['#d4af37', '#ffd700', '#ff8c00', '#ff4500'];
+
+                class FireParticle {
+                    constructor() {
+                        this.reset();
+                    }
+                    reset() {
+                        this.x = Math.random() * canvas.width;
+                        this.y = canvas.height + 20;
+                        this.vx = (Math.random() - 0.5) * 2;
+                        this.vy = -Math.random() * 5 - 2;
+                        this.size = Math.random() * 5 + 2;
+                        this.life = 1;
+                        this.color = colors[Math.floor(Math.random() * colors.length)];
+                    }
+                    update() {
+                        this.x += this.vx;
+                        this.y += this.vy;
+                        this.life -= 0.01;
+                        if (this.life <= 0) this.reset();
+                    }
+                    draw() {
+                        ctx.globalAlpha = this.life;
+                        ctx.fillStyle = this.color;
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                }
+
+                for (let i = 0; i < 200; i++) {
+                    particles.push(new FireParticle());
+                }
+
+                function loop() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    particles.forEach(p => {
+                        p.update();
+                        p.draw();
+                    });
+                    requestAnimationFrame(loop);
+                }
+                loop();
+            }
+        };
+
+        // Initialize
+        localStorage.removeItem('glass_total');
+        game.updateVisuals();
+
+    </script>
+</body>
+
+</html>

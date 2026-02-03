@@ -693,7 +693,8 @@ export function normalizeFraction(answer) {
     const whole = parseFloat(mixedMatch[1])
     const num = parseFloat(mixedMatch[2])
     const den = parseFloat(mixedMatch[3]) || 1
-    return whole + num / den
+    // If whole is negative, subtract the fraction (e.g., -1 1/2 = -1.5, not -0.5)
+    return whole < 0 ? whole - num / den : whole + num / den
   }
 
   // Simple fraction: "a/b"
@@ -704,8 +705,8 @@ export function normalizeFraction(answer) {
     return num / den
   }
 
-  // Fallback: plain number
-  const numVal = parseFloat(str.replace(',', ''))
+  // Fallback: plain number (remove all commas globally)
+  const numVal = parseFloat(str.replace(/,/g, ''))
   return Number.isFinite(numVal) ? numVal : NaN
 }
 

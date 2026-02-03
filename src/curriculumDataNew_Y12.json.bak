@@ -75,7 +75,7 @@
               "answer": "{a*c + b*d}",
               "difficulty": 7,
               "phase": 10.14,
-              "hint": "u · v = u₁v₁ + u₂v₂ + u₃v₃"
+              "hint": "u ┬╖ v = uΓéüvΓéü + uΓéévΓéé + uΓéâvΓéâ"
             }
           ]
         },
@@ -163,7 +163,7 @@
           "templates": [
             {
               "id": "Y12.G.VECTOR_OPS.T3",
-              "stem": "Calculate the dot product <{a},{b}> · <{c},{d}>",
+              "stem": "Calculate the dot product <{a},{b}> ┬╖ <{c},{d}>",
               "params": {
                 "a": [
                   "int",
@@ -193,7 +193,7 @@
               "answer": "{a*c + b*d}",
               "difficulty": 8,
               "phase": 10.14,
-              "hint": "u + v = <u₁ + v₁, u₂ + v₂>"
+              "hint": "u + v = <uΓéü + vΓéü, uΓéé + vΓéé>"
             }
           ]
         },
@@ -205,7 +205,7 @@
           "templates": [
             {
               "id": "Y12.ALG.RECURSION.T1",
-              "stem": "A sequence is defined by T(1) = {t1}, T(n) = {a}·T(n-1) + {b} for n ≥ 2. Find T({n}).",
+              "stem": "A sequence is defined by T(1) = {t1}, T(n) = {a}┬╖T(n-1) + {b} for n ΓëÑ 2. Find T({n}).",
               "params": {
                 "t1": [
                   "int",
@@ -231,7 +231,7 @@
               "answer": "{a == 1 ? t1 + b*(n-1) : t1 * a**(n-1) + b*(a**(n-1) - 1)/(a - 1)}",
               "difficulty": 9,
               "phase": 10.14,
-              "hint": "a₁ = initial value"
+              "hint": "aΓéü = initial value"
             }
           ]
         },
@@ -935,7 +935,6 @@
             {
               "id": "Y12.S.PROBABILITY_DISTRIBUTIONS.T2",
               "stem": "A biased coin has P(heads) = {p}. What is the probability of getting exactly {k} heads in {n} flips? (Round to 2 decimal places)",
-              "roundDp": 2,
               "params": {
                 "p": [
                   "decimal",
@@ -1798,7 +1797,6 @@
             {
               "id": "Y12.STATISTICS.NORMAL.T1",
               "stem": "X ~ N({mean}, {sd}²). Find P(X > {x_val}) to 3 decimal places. (Standardize: z = (X - mean) / sd)",
-              "roundDp": 3,
               "params": {
                 "mean": ["choice", 80, 100, 120],
                 "sd": ["choice", 10, 12, 15],
