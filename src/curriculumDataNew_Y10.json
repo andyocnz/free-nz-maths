@@ -13,6 +13,7 @@
             {
               "id": "Y10.A.QUADRATIC_FORMULA.T1",
               "stem": "Use the quadratic formula to solve {a}x^2 + {b}x + {c} = 0. Give your answers to two decimal places.",
+              "roundDp": 2,
               "params": {
                 "a": [
                   "int",
@@ -83,6 +84,7 @@
             {
               "id": "Y10.G.TRIG_RULES.T1",
               "stem": "In a triangle, side a = {a}, side b = {b}, and the angle between them is C = {C}°. Find the length of side c using the Cosine Rule. Give your answer to 1 decimal place.",
+              "roundDp": 1,
               "params": {
                 "a": [
                   "int",
@@ -199,6 +201,7 @@
             {
               "id": "Y10.A.SYSTEMS_ADVANCED.T1",
               "stem": "Find the positive x-coordinate of the intersection points of the line y = {c} and the parabola y = x^2 - {a}. Give your answer to 2 decimal places.",
+              "roundDp": 2,
               "params": {
                 "a": [
                   "int",
@@ -228,6 +231,7 @@
             {
               "id": "Y10.G.TRIG_3D.T1",
               "stem": "A rectangular prism has length {l}, width {w}, and height {h}. Find the angle the space diagonal makes with the base, in degrees. Give your answer to 1 decimal place.",
+              "roundDp": 1,
               "params": {
                 "l": [
                   "int",
@@ -505,6 +509,7 @@
             {
               "id": "Y10.C.COORD_DISTANCE.T1",
               "stem": "Find the distance between the points ({x1}, {y1}) and ({x2}, {y2}). Give your answer to 1 decimal place.",
+              "roundDp": 1,
               "params": {
                 "x1": [
                   "int",
@@ -612,6 +617,7 @@
             {
               "id": "Y10.G.SIMILAR_TRIANGLES.T1",
               "stem": "Two similar triangles have corresponding sides {s1} cm and {s2} cm. A side of {len} cm on the smaller triangle corresponds to what length on the larger triangle? (1 decimal place)",
+              "roundDp": 1,
               "params": {
                 "s1": [
                   "int",
@@ -1235,6 +1241,7 @@
             {
               "id": "Y10.L.SIMULTANEOUS_GRAPH.T1",
               "stem": "The parabola y = x^2 - {k} intersects the line y = {m}x + {c}. Find the positive x-value of their intersection, giving your answer to 2 decimal places.",
+              "roundDp": 2,
               "params": {
                 "m": [
                   "int",
@@ -1260,6 +1267,7 @@
             {
               "id": "Y10.L.SIMULTANEOUS_GRAPH.T2",
               "stem": "The parabola y = x^2 - {k} intersects the line y = {c}. Find the positive x-value of their intersection, giving your answer to 2 decimal places.",
+              "roundDp": 2,
               "params": {
                 "m": [
                   "int",

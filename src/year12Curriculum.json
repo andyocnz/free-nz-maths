@@ -311,6 +311,7 @@
             {
               "id": "Y12.S.PROBABILITY_DISTRIBUTIONS.T2",
               "stem": "A biased coin has P(heads) = {p}. What is the probability of getting exactly {k} heads in {n} flips? (Round to 2 decimal places)",
+              "roundDp": 2,
               "params": {
                 "p": ["decimal", 0.3, 0.7, 1],
                 "n": ["choice", 3, 4, 5],

@@ -1244,6 +1244,7 @@
             {
               "id": "Y7.N.RATES.T1",
               "stem": "A car travels {d} km in {t} hours. What is its average speed in km/h? (Round your answer to 2 decimal places)",
+              "roundDp": 2,
               "params": {
                 "d": [
                   "int",
@@ -1269,6 +1270,7 @@
             {
               "id": "Y7.N.RATES.T2",
               "stem": "A machine fills bottles at a rate of {rate} litres per minute. How many minutes will it take to fill a {volume}-litre container? (Give answer to 1 decimal place if needed)",
+              "roundDp": 1,
               "params": {
                 "rate": [
                   "int",
@@ -1995,6 +1997,7 @@
             {
               "id": "Y9.A.SYSTEMS_LINEAR.T1",
               "stem": "Solve the following system of equations for x and y: y = {m}x + {c} and y = {m2}x + {c2}. Give your answer in the form x,y rounded to 2 decimal places if needed.",
+              "roundDp": 2,
               "params": {
                 "m": [
                   "int",
@@ -2857,6 +2860,7 @@
             {
               "id": "Y9.G.COORDINATE_PLANE.T2",
               "stem": "What is the distance between ({x1},{y1}) and ({x2},{y2})? (Round to 1 decimal place)",
+              "roundDp": 1,
               "params": {
                 "x1": [
                   "int",
@@ -2949,6 +2953,7 @@
             {
               "id": "Y9.G.PYTHAGORAS_SOLIDS.T2",
               "stem": "A rectangular box has dimensions {l} × {w} × {h}. What is the length of the space diagonal? (Round to 1 decimal place)",
+              "roundDp": 1,
               "params": {
                 "l": [
                   "int",
@@ -3022,6 +3027,7 @@
             {
               "id": "Y10.A.QUADRATIC_FORMULA.T1",
               "stem": "Use the quadratic formula to solve {a}x^2 + {b}x + {c} = 0. Give your answers to two decimal places.",
+              "roundDp": 2,
               "params": {
                 "a": [
                   "int",
@@ -3092,6 +3098,7 @@
             {
               "id": "Y10.G.TRIG_RULES.T1",
               "stem": "In a triangle, side a = {a}, side b = {b}, and the angle between them is C = {C}°. Find the length of side c using the Cosine Rule. Give your answer to 1 decimal place.",
+              "roundDp": 1,
               "params": {
                 "a": [
                   "int",
@@ -3208,6 +3215,7 @@
             {
               "id": "Y10.A.SYSTEMS_ADVANCED.T1",
               "stem": "Find the positive x-coordinate of the intersection points of the line y = {c} and the parabola y = x^2 - {a}. Give your answer to 2 decimal places.",
+              "roundDp": 2,
               "params": {
                 "a": [
                   "int",
@@ -3237,6 +3245,7 @@
             {
               "id": "Y10.G.TRIG_3D.T1",
               "stem": "A rectangular prism has length {l}, width {w}, and height {h}. Find the angle the space diagonal makes with the base, in degrees. Give your answer to 1 decimal place.",
+              "roundDp": 1,
               "params": {
                 "l": [
                   "int",
@@ -3514,6 +3523,7 @@
             {
               "id": "Y10.C.COORD_DISTANCE.T1",
               "stem": "Find the distance between the points ({x1}, {y1}) and ({x2}, {y2}). Give your answer to 1 decimal place.",
+              "roundDp": 1,
               "params": {
                 "x1": [
                   "int",
@@ -3621,6 +3631,7 @@
             {
               "id": "Y10.G.SIMILAR_TRIANGLES.T1",
               "stem": "Two similar triangles have corresponding sides {s1} cm and {s2} cm. A side of {len} cm on the smaller triangle corresponds to what length on the larger triangle? (1 decimal place)",
+              "roundDp": 1,
               "params": {
                 "s1": [
                   "int",
@@ -4088,6 +4099,7 @@
             {
               "id": "Y10.L.SIMULTANEOUS_GRAPH.T1",
               "stem": "The parabola y = x^2 - {k} intersects the line y = {m}x + {c}. Find the positive x-value of their intersection, giving your answer to 2 decimal places.",
+              "roundDp": 2,
               "params": {
                 "m": [
                   "int",
@@ -5445,6 +5457,7 @@
             {
               "id": "Y11.S.STATS_INFERENCE.T1",
               "stem": "A sample of size {n} has mean {mean} and standard deviation {sd}. Using z = 1.96, what is the margin of error for a 95% confidence interval for the population mean? Give your answer to 2 decimal places.",
+              "roundDp": 2,
               "params": {
                 "mean": [
                   "int",
@@ -5541,6 +5554,7 @@
             {
               "id": "Y11.S.NORMAL_PERCENT.T1",
               "stem": "IQ scores are normally distributed with mean 100 and standard deviation 15. What percentage have IQ > {score}? Give your answer to 1 decimal place.",
+              "roundDp": 1,
               "params": {
                 "score": [
                   "int",
@@ -6527,6 +6541,7 @@
             {
               "id": "Y12.S.PROBABILITY_DISTRIBUTIONS.T2",
               "stem": "A biased coin has P(heads) = {p}. What is the probability of getting exactly {k} heads in {n} flips? (Round to 2 decimal places)",
+              "roundDp": 2,
               "params": {
                 "p": [
                   "decimal",

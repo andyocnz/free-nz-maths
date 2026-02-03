@@ -951,16 +951,22 @@ export function generateQuestionFromTemplate(template, skill, year) {
 
   // Detect decimal places in the answer for precision hints
   let decimalPlaces = null
-  const answerNum = parseFloat(answer)
-  if (!isNaN(answerNum) && !Number.isInteger(answerNum)) {
-    // Count decimal places in the answer string
-    const answerStr = String(answer)
-    const decimalIndex = answerStr.indexOf('.')
-    if (decimalIndex !== -1) {
-      decimalPlaces = answerStr.length - decimalIndex - 1
-      // Add precision hint directly to the question
+  if (typeof template.roundDp === 'number' && !Number.isNaN(template.roundDp)) {
+    decimalPlaces = template.roundDp
+    const hasDpText = /decimal place/i.test(question)
+    if (!hasDpText) {
       const dpText = decimalPlaces === 1 ? '1 decimal place' : `${decimalPlaces} decimal places`
       question = question + ` (Round to ${dpText})`
+    }
+  } else {
+    const answerNum = parseFloat(answer)
+    if (!isNaN(answerNum) && !Number.isInteger(answerNum)) {
+      // Global default: round non-integer numeric answers to 2 dp when not otherwise specified.
+      decimalPlaces = 2
+      const hasDpText = /decimal place/i.test(question)
+      if (!hasDpText) {
+        question = question + ' (Round to 2 decimal places)'
+      }
     }
   }
 

@@ -52,6 +52,11 @@ export default function GamesMenu({ isCollapsed = false }) {
             name: 'Burning Rope'
           },
           {
+            filename: 'glassHour.html',
+            path: '/game/glassHour.html',
+            name: 'Glass Hour'
+          },
+          {
             filename: 'bridgecrossing.html',
             path: '/game/bridgecrossing.html',
             name: 'Bridge Crossing'

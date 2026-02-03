@@ -37,6 +37,13 @@ export default function GamesHub({ onClose }) {
         description: 'Logic puzzle: Help characters cross a river with specific constraints.'
       },
       {
+        filename: 'glassHour.html',
+        path: '/game/glassHour.html',
+        name: 'Glass Hour',
+        emoji: '⏳',
+        description: 'Timing puzzle: Flip hourglasses to measure exact time intervals.'
+      },
+      {
         filename: 'gametheory1.html',
         path: '/game/gametheory1.html',
         name: 'Game of Trust',

@@ -935,6 +935,7 @@
             {
               "id": "Y12.S.PROBABILITY_DISTRIBUTIONS.T2",
               "stem": "A biased coin has P(heads) = {p}. What is the probability of getting exactly {k} heads in {n} flips? (Round to 2 decimal places)",
+              "roundDp": 2,
               "params": {
                 "p": [
                   "decimal",
@@ -1797,6 +1798,7 @@
             {
               "id": "Y12.STATISTICS.NORMAL.T1",
               "stem": "X ~ N({mean}, {sd}²). Find P(X > {x_val}) to 3 decimal places. (Standardize: z = (X - mean) / sd)",
+              "roundDp": 3,
               "params": {
                 "mean": ["choice", 80, 100, 120],
                 "sd": ["choice", 10, 12, 15],

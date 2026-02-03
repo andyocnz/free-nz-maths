@@ -1782,6 +1782,7 @@
                                                            {
                                                                "id":  "Y8.G.TRIG_RIGHT.T1",
                                                                "stem":  "In a right triangle, opposite = {opp} cm, adjacent = {adj} cm, hypotenuse = {hyp} cm. Find sin A to 3 decimal places.",
+                                                               "roundDp": 3,
                                                                "params":  {
                                                                               "opp":  [
                                                                                           "decimal",
@@ -2171,6 +2172,7 @@
                                                            {
                                                                "id":  "Y9.G.PYTHAGORAS_SOLIDS.T1",
                                                                "stem":  "In a right triangle, the legs are {a} cm and {b} cm. Find the hypotenuse, to one decimal place.",
+                                                               "roundDp": 1,
                                                                "params":  {
                                                                               "a":  [
                                                                                         "decimal",

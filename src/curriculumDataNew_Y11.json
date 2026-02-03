@@ -1331,6 +1331,7 @@
             {
               "id": "Y11.S.STATS_INFERENCE.T1",
               "stem": "A sample of size {n} has mean {mean} and standard deviation {sd}. Using z = 1.96, what is the margin of error for a 95% confidence interval for the population mean? Give your answer to 2 decimal places.",
+              "roundDp": 2,
               "params": {
                 "mean": [
                   "int",
@@ -1427,6 +1428,7 @@
             {
               "id": "Y11.S.NORMAL_PERCENT.T1",
               "stem": "IQ scores are normally distributed with mean 100 and standard deviation 15. What percentage have IQ > {score}? Give your answer to 1 decimal place.",
+              "roundDp": 1,
               "params": {
                 "score": [
                   "int",

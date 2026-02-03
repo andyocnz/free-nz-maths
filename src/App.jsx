@@ -65,6 +65,93 @@ function generateTeacherPin() {
   return pin
 }
 
+// Practice state persistence (survives page refresh)
+const PRACTICE_STATE_KEY = 'mathx_practice_state'
+const STATE_EXPIRY_MS = 24 * 60 * 60 * 1000 // 24 hours
+
+function savePracticeState(stateData) {
+  try {
+    const data = {
+      ...stateData,
+      timestamp: Date.now()
+    }
+    sessionStorage.setItem(PRACTICE_STATE_KEY, JSON.stringify(data))
+  } catch (error) {
+    console.warn('Failed to save practice state:', error)
+  }
+}
+
+function loadPracticeState() {
+  try {
+    const saved = sessionStorage.getItem(PRACTICE_STATE_KEY)
+    if (!saved) return null
+
+    const data = JSON.parse(saved)
+
+    // Check if state is expired (older than 24 hours)
+    if (Date.now() - data.timestamp > STATE_EXPIRY_MS) {
+      clearPracticeState()
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.warn('Failed to load practice state:', error)
+    return null
+  }
+}
+
+function clearPracticeState() {
+  try {
+    sessionStorage.removeItem(PRACTICE_STATE_KEY)
+  } catch (error) {
+    console.warn('Failed to clear practice state:', error)
+  }
+}
+
+// Test state persistence (survives page refresh)
+const TEST_STATE_KEY = 'mathx_test_state'
+
+function saveTestState(stateData) {
+  try {
+    const data = {
+      ...stateData,
+      timestamp: Date.now()
+    }
+    sessionStorage.setItem(TEST_STATE_KEY, JSON.stringify(data))
+  } catch (error) {
+    console.warn('Failed to save test state:', error)
+  }
+}
+
+function loadTestState() {
+  try {
+    const saved = sessionStorage.getItem(TEST_STATE_KEY)
+    if (!saved) return null
+
+    const data = JSON.parse(saved)
+
+    // Check if state is expired (older than 24 hours)
+    if (Date.now() - data.timestamp > STATE_EXPIRY_MS) {
+      clearTestState()
+      return null
+    }
+
+    return data
+  } catch (error) {
+    console.warn('Failed to load test state:', error)
+    return null
+  }
+}
+
+function clearTestState() {
+  try {
+    sessionStorage.removeItem(TEST_STATE_KEY)
+  } catch (error) {
+    console.warn('Failed to clear test state:', error)
+  }
+}
+
 export default function App() {
   // Check URL parameters and path for deep links
   const urlParams = new URLSearchParams(window.location.search)
@@ -119,6 +206,7 @@ export default function App() {
   const [knowledgeModal, setKnowledgeModal] = useState({ isOpen: false, snippet: null })
   const [attempts, setAttempts] = useState(0)
   const [showCorrectAnswer, setShowCorrectAnswer] = useState(false)
+  const [isCheckingAnswer, setIsCheckingAnswer] = useState(false)
   const [curriculumMapYear, setCurriculumMapYear] = useState(6) // Year selector for curriculum map
   const [isOlympiadMode, setIsOlympiadMode] = useState(false) // Toggle for Olympiad content preview
   const [currentUser, setCurrentUser] = useState(null)
@@ -137,6 +225,7 @@ export default function App() {
   const [nceaPdfActive, setNceaPdfActive] = useState(null)
   const initialized = useRef(false)
   const nextLockedRef = useRef(false)
+  const checkAnswerLockedRef = useRef(false)
   const [nextLocked, setNextLocked] = useState(false)
   const [devTemplateSamples, setDevTemplateSamples] = useState([])
   const [devTemplateFilterSkill, setDevTemplateFilterSkill] = useState(null)
@@ -1257,9 +1346,24 @@ export default function App() {
   useEffect(() => {
     if (!initialized.current && mode === 'practice') {
       initialized.current = true
-      // If skill from URL, start practice with that skill
+
+      // Try to restore practice session from page refresh
+      const savedSession = loadPracticeState()
+      if (savedSession && savedSession.history && savedSession.history.length > 0) {
+        // Restore saved session
+        setHistory(savedSession.history)
+        setCurrentIndex(savedSession.currentIndex || 0)
+        setSelectedYear(savedSession.selectedYear)
+        setSelectedStrand(savedSession.selectedStrand)
+        setSelectedTopic(savedSession.selectedTopic)
+        setSelectedSkill(savedSession.selectedSkill)
+        setScore(savedSession.score || 0)
+        setAttempts(savedSession.attempts || 0)
+        return
+      }
+
+      // No saved session - if skill from URL, generate 20 questions
       if (skillFromUrl && selectedYear) {
-        // Set skill first before mode changes
         const yearData = curriculumData.years.find(y => y.year === selectedYear)
         if (yearData) {
           const skill = yearData.skills.find(s => s.id === skillFromUrl)
@@ -1267,14 +1371,20 @@ export default function App() {
             setSelectedStrand(skill.strand)
             setSelectedTopic(skill.name)
             setSelectedSkill(skillFromUrl)
-            // Generate first question
-            const newQ = {
-              ...generateQuestionForSkill(curriculumData, skillFromUrl),
-              userAnswer: '',
-              userFeedback: '',
-              isCorrect: false
+
+            // Generate 20 questions instead of 1 (fixes the bug)
+            const questions = []
+            for (let i = 0; i < 20; i++) {
+              const newQ = {
+                ...generateQuestionForSkill(curriculumData, skillFromUrl),
+                userAnswer: '',
+                userFeedback: '',
+                isCorrect: false,
+                answered: false
+              }
+              questions.push(newQ)
             }
-            setHistory([newQ])
+            setHistory(questions)
             setCurrentIndex(0)
           }
         }
@@ -1286,6 +1396,33 @@ export default function App() {
 
   useEffect(() => {
     if (!initialized.current && mode === 'test') {
+      initialized.current = true
+
+      // Try to restore test state from page refresh
+      const savedTestState = loadTestState()
+      if (savedTestState && savedTestState.history && savedTestState.history.length > 0) {
+        // Restore saved test session with all configuration
+        setHistory(savedTestState.history)
+        setCurrentIndex(savedTestState.currentIndex || 0)
+        setSelectedYear(savedTestState.selectedYear)
+        setScore(savedTestState.score || 0)
+        setIsTestMode(true)
+
+        // Restore test configuration options
+        if (typeof savedTestState.testScopeAllYears !== 'undefined') {
+          setTestScopeAllYears(savedTestState.testScopeAllYears)
+        }
+        if (typeof savedTestState.onlyNewInTest !== 'undefined') {
+          setOnlyNewInTest(savedTestState.onlyNewInTest)
+        }
+        if (typeof savedTestState.auditOnePerTemplate !== 'undefined') {
+          setAuditOnePerTemplate(savedTestState.auditOnePerTemplate)
+        }
+
+        return
+      }
+
+      // No saved test state - start new test
       startTestInternal()
     }
   }, [mode])
@@ -1382,6 +1519,91 @@ export default function App() {
     setNextLocked(false)
   }, [currentIndex, mode])
 
+  // Save practice session to sessionStorage (survives page refresh)
+  useEffect(() => {
+    // Only save if in practice mode, not test mode, not group mode, and have valid history
+    if (mode === 'practice' && !isTestMode && !isGroupMode && history.length > 0) {
+      try {
+        // Create a clean copy of history without circular references
+        const cleanHistory = history.map(q => ({
+          question: q.question,
+          answer: q.answer,
+          formattedAnswer: q.formattedAnswer,
+          templateId: q.templateId,
+          skill: q.skill,
+          skillId: q.skillId,
+          strand: q.strand,
+          topic: q.topic,
+          year: q.year,
+          userAnswer: q.userAnswer,
+          userFeedback: q.userFeedback,
+          isCorrect: q.isCorrect,
+          answered: q.answered,
+          choices: q.choices,
+          visualData: q.visualData,
+          hint: q.hint,
+          htmlHint: q.htmlHint,
+          decimalPlaces: q.decimalPlaces
+        }))
+
+        savePracticeState({
+          history: cleanHistory,
+          currentIndex,
+          selectedYear,
+          selectedStrand,
+          selectedTopic,
+          selectedSkill,
+          score,
+          attempts
+        })
+      } catch (error) {
+        console.warn('Failed to save practice state to sessionStorage:', error)
+      }
+    }
+  }, [history, currentIndex, mode, isTestMode, isGroupMode, selectedYear, selectedStrand, selectedTopic, selectedSkill, score, attempts])
+
+  // Save test state to sessionStorage (survives page refresh)
+  useEffect(() => {
+    // Only save if in test mode, not group mode, and have valid history
+    if (mode === 'test' && isTestMode && !isGroupMode && history.length > 0) {
+      try {
+        // Create a clean copy of history without circular references
+        const cleanHistory = history.map(q => ({
+          question: q.question,
+          answer: q.answer,
+          formattedAnswer: q.formattedAnswer,
+          templateId: q.templateId,
+          skill: q.skill,
+          skillId: q.skillId,
+          strand: q.strand,
+          topic: q.topic,
+          year: q.year,
+          userAnswer: q.userAnswer,
+          userFeedback: q.userFeedback,
+          isCorrect: q.isCorrect,
+          answered: q.answered,
+          choices: q.choices,
+          visualData: q.visualData,
+          hint: q.hint,
+          htmlHint: q.htmlHint,
+          decimalPlaces: q.decimalPlaces
+        }))
+
+        saveTestState({
+          history: cleanHistory,
+          currentIndex,
+          selectedYear,
+          score,
+          testScopeAllYears,
+          onlyNewInTest,
+          auditOnePerTemplate
+        })
+      } catch (error) {
+        console.warn('Failed to save test state to sessionStorage:', error)
+      }
+    }
+  }, [history, currentIndex, mode, isTestMode, isGroupMode, selectedYear, score, testScopeAllYears, onlyNewInTest, auditOnePerTemplate])
+
   const newQuestion = () => {
     // Move to next question if available
     if (currentIndex < history.length - 1) {
@@ -1432,6 +1654,9 @@ export default function App() {
 
   // Internal function that actually starts practice (called after login decision)
   const startPracticeInternal = (skillId, options = {}) => {
+    // Clear any existing practice session when starting new practice
+    clearPracticeState()
+
     const templateOverride = options.templateOverride || null
     const useOlympiadData = templateOverride?.isOlympiad ?? isOlympiadMode
     const activeCurriculum = useOlympiadData ? olympiadCurriculum : curriculumData
@@ -1551,6 +1776,10 @@ export default function App() {
   // Internal function that actually starts test (called after login decision)
   // Accepts optional overrides: { onlyNew, allYears, onePerTemplate, totalQuestions }
   const startTestInternal = (opts = {}) => {
+    // Clear any existing sessions when starting test
+    clearPracticeState()
+    clearTestState()
+
     const options = {
       onlyNew: typeof opts.onlyNew !== 'undefined' ? opts.onlyNew : onlyNewInTest,
       allYears: typeof opts.allYears !== 'undefined' ? opts.allYears : testScopeAllYears,
@@ -1719,11 +1948,17 @@ export default function App() {
       )
     }
 
+    // Clear test state when finishing
+    clearTestState()
+
     setMode('test-results')
     initialized.current = false
   }
 
   const finishPractice = () => {
+    // Clear practice session when finishing
+    clearPracticeState()
+
     // Show practice results, then save
     if (!isTestMode && history.length > 0) {
       const answeredQuestions = history.filter(q => q.answered)
@@ -1780,6 +2015,10 @@ export default function App() {
   }
 
   const backToMenu = () => {
+    // Clear all sessions when returning to menu
+    clearPracticeState()
+    clearTestState()
+
     if (isGroupMode) {
       exitGroupMode()
     }
@@ -1889,6 +2128,10 @@ export default function App() {
 
     const checkAnswer = () => {
         if (!question) return
+
+        // Prevent double-clicking while checking answer
+        if (checkAnswerLockedRef.current) return
+
         // Prevent re-answering when a question is finalised or the correct answer was already revealed,
         // except in dev mode where auditing is allowed.
         const alreadyRevealed = (question.userFeedback || '').includes('The correct answer is')
@@ -1901,6 +2144,10 @@ export default function App() {
         }
         return
       }
+
+      // Lock button during answer checking
+      checkAnswerLockedRef.current = true
+      setIsCheckingAnswer(true)
 
     try {
       let newFeedback = ''
@@ -1930,16 +2177,21 @@ export default function App() {
           // Default to 0.01 (2 decimal places) for backward compatibility
           let tolerance = 0.01
 
-          // Detect decimal places from the answer string
-          const answerStr = String(question.answer)
-          if (!Number.isInteger(correctAnswerNum)) {
+          // Prefer explicit decimal place precision when present
+          let decimalPlaces = typeof question.decimalPlaces === 'number' ? question.decimalPlaces : null
+          if (!Number.isInteger(correctAnswerNum) && decimalPlaces === null) {
+            // Detect decimal places from the answer string
+            const answerStr = String(question.answer)
             const decimalIndex = answerStr.indexOf('.')
             if (decimalIndex !== -1) {
-              const decimalPlaces = answerStr.length - decimalIndex - 1
-              // Tolerance is half of the smallest unit at the specified precision
-              // e.g., 1 dp -> 0.05, 2 dp -> 0.005, 3 dp -> 0.0005
-              tolerance = 0.5 * Math.pow(10, -decimalPlaces)
+              decimalPlaces = answerStr.length - decimalIndex - 1
             }
+          }
+
+          if (typeof decimalPlaces === 'number') {
+            // Tolerance is half of the smallest unit at the specified precision
+            // e.g., 1 dp -> 0.05, 2 dp -> 0.005, 3 dp -> 0.0005
+            tolerance = 0.5 * Math.pow(10, -decimalPlaces)
           }
 
           if (Math.abs(userAnswerNum - correctAnswerNum) < tolerance) {
@@ -1993,6 +2245,10 @@ export default function App() {
 
       setFeedback(newFeedback)
 
+      // Determine if question should be marked as answered
+      // Only mark as answered if: correct OR used both attempts in practice mode OR in test mode
+      const shouldMarkAnswered = isCorrect || (attempts + 1) >= 2 || isTestMode
+
       setHistory(prev => {
         const updated = [...prev]
         updated[currentIndex] = {
@@ -2000,15 +2256,21 @@ export default function App() {
           userAnswer: answer,
           userFeedback: newFeedback,
           isCorrect: isCorrect,
-          answered: true
+          answered: shouldMarkAnswered
         }
         return updated
       })
+
+      // Unlock button after checking
+      checkAnswerLockedRef.current = false
+      setIsCheckingAnswer(false)
 
       return isCorrect
     } catch (e) {
       const errorFeedback = 'Invalid answer format'
       setFeedback(errorFeedback)
+
+      // Don't mark as answered on error - let student retry
       setHistory(prev => {
         const updated = [...prev]
         updated[currentIndex] = {
@@ -2016,10 +2278,15 @@ export default function App() {
           userAnswer: answer,
           userFeedback: errorFeedback,
           isCorrect: false,
-          answered: true
+          answered: false
         }
         return updated
       })
+
+      // Unlock button after error
+      checkAnswerLockedRef.current = false
+      setIsCheckingAnswer(false)
+
       return false
     }
   }
@@ -2106,7 +2373,19 @@ export default function App() {
           setNextLocked(false)
         }, 1500)
       } else {
-        // Already answered or no answer, just move to next
+        // Check if trying to skip an unanswered question
+        if (!question.answered && !answer.trim() && !isWordsQuestion) {
+          // Ask for confirmation before skipping
+          const confirmSkip = window.confirm('Are you sure you want to skip this question without answering?')
+          if (!confirmSkip) {
+            // User cancelled, unlock and return
+            nextLockedRef.current = false
+            setNextLocked(false)
+            return
+          }
+        }
+
+        // Already answered or no answer (and confirmed skip), just move to next
         setAttempts(0)
         setShowCorrectAnswer(false)
         if (currentIndex < history.length - 1) {
@@ -5017,15 +5296,15 @@ export default function App() {
                     <button
                       className="btn-success"
                       onClick={checkAnswer}
-                      disabled={!isDevMode && question?.answered}
-                      aria-disabled={!isDevMode && question?.answered}
+                      disabled={(!isDevMode && question?.answered) || isCheckingAnswer}
+                      aria-disabled={(!isDevMode && question?.answered) || isCheckingAnswer}
                       style={
-                        !isDevMode && question?.answered
+                        (!isDevMode && question?.answered) || isCheckingAnswer
                           ? { opacity: 0.6, cursor: 'not-allowed' }
                           : undefined
                       }
                     >
-                      Check Answer
+                      {isCheckingAnswer ? 'Checking...' : 'Check Answer'}
                     </button>
                     {isDevMode && (
                       <button
