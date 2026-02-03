@@ -42,15 +42,23 @@ function validateExpression(expr) {
 // Safe expression evaluator - replaces dangerous new Function() usage
 function safeEvaluate(expr, context) {
   try {
+    // Shift array indexing to 1-based for mathjs (content uses 0-based like JS)
+    const transformedExpr = String(expr).replace(/([A-Za-z_]\w*)\[(\d+)\]/g, (match, name, idx) => {
+      if (context && Array.isArray(context[name])) {
+        return `${name}[${Number(idx) + 1}]`
+      }
+      return match
+    })
+
     // Validate expression first
-    validateExpression(expr)
+    validateExpression(transformedExpr)
 
     // Create a scope with the provided context
     const scope = { ...context }
 
     // Evaluate the expression safely using mathjs
     // mathjs only allows mathematical operations and rejects JavaScript code
-    const result = math.evaluate(expr, scope)
+    const result = math.evaluate(transformedExpr, scope)
     return result
   } catch (error) {
     console.error('Error evaluating expression:', expr, error)
@@ -466,7 +474,8 @@ function generateVisualData(template, params, skill) {
         c: 70,
         angle1: params.a,
         angle2: params.b,
-        angle3: 180 - params.a - params.b,
+        angle3: null,
+        missingAngleIndex: 3,
         width: 400,
         height: 300
       }

@@ -22,7 +22,8 @@
                                                                                         1000000
                                                                                     ]
                                                                           },
-                                                               "answer":  "number_to_words(n)"
+                                                               "answer":  "number_to_words(n)",
+                                                               "hint":  "Break the number into groups of three digits from right to left. Each group represents ones, thousands, millions, etc. Write each group in words followed by its place value name."
                                                            },
                                                            {
                                                                "id":  "Y6.N.PLACE_VALUE.T2",
@@ -34,7 +35,8 @@
                                                                                         999999
                                                                                     ]
                                                                           },
-                                                               "answer":  "round(n, -3)"
+                                                               "answer":  "round(n, -3)",
+                                                               "hint":  "Look at the hundreds digit. If it's 5 or more, round the thousands digit up. If it's 4 or less, keep the thousands digit the same. All digits to the right become zeros."
                                                            }
                                                        ]
                                      },
@@ -92,7 +94,8 @@
                                                                                         999
                                                                                     ]
                                                                           },
-                                                               "answer":  "round(a, -1) * round(b, -1)"
+                                                               "answer":  "round(a, -1) * round(b, -1)",
+                                                               "hint":  "Round each number to the nearest ten first (look at the ones digit: 5 or more rounds up, 4 or less rounds down). Then multiply the rounded numbers together."
                                                            }
                                                        ]
                                      },
@@ -121,7 +124,8 @@
                                                                                         4
                                                                                     ]
                                                                           },
-                                                               "answer":  "a ** p"
+                                                               "answer":  "a ** p",
+                                                               "hint":  "The exponent tells you how many times to multiply the base by itself. For example, 3^4 = 3 × 3 × 3 × 3."
                                                            },
                                                            {
                                                                "id":  "Y6.N.EXPONENTS_NUMBER_THEORY.T2",
@@ -138,7 +142,8 @@
                                                                                         100
                                                                                     ]
                                                                           },
-                                                               "answer":  "hcf(a, b)"
+                                                               "answer":  "hcf(a, b)",
+                                                               "hint":  "List all factors of both numbers. The HCF is the largest number that appears in both lists. For example, factors of 12 are 1,2,3,4,6,12 and factors of 18 are 1,2,3,6,9,18, so HCF is 6."
                                                            }
                                                        ]
                                      },
@@ -168,7 +173,8 @@
                                                                                           40
                                                                                       ]
                                                                           },
-                                                               "answer":  "simplify(num, den)"
+                                                               "answer":  "simplify(num, den)",
+                                                               "hint":  "Find the highest common factor (HCF) of the numerator and denominator. Divide both the top and bottom by this number. Keep dividing until you can't find any more common factors."
                                                            },
                                                            {
                                                                "id":  "Y6.N.FRACTIONS.T2",
@@ -190,7 +196,8 @@
                                                                                           6
                                                                                       ]
                                                                           },
-                                                               "answer":  "round(total * num / den, 0)"
+                                                               "answer":  "round(total * num / den, 0)",
+                                                               "hint":  "To find a fraction of a number, multiply the total by the numerator, then divide by the denominator. Formula: (total × numerator) ÷ denominator."
                                                            }
                                                        ]
                                      },
@@ -223,7 +230,8 @@
                                                                                         9
                                                                                     ]
                                                                           },
-                                                               "answer":  "simplify(a + c, b)"
+                                                               "answer":  "simplify(a + c, b)",
+                                                               "hint":  "When fractions have the same denominator, add the numerators and keep the denominator the same. Then simplify if possible."
                                                            },
                                                            {
                                                                "id":  "Y6.N.FRACTION_OPERATIONS.T2",
@@ -255,7 +263,8 @@
                                                                                         9
                                                                                     ]
                                                                           },
-                                                               "answer":  "mixed_subtract(w1,a,b,w2,c,b)"
+                                                               "answer":  "mixed_subtract(w1,a,b,w2,c,b)",
+                                                               "hint":  "Subtract the whole numbers first, then subtract the fractions. If the first fraction is smaller than the second, borrow 1 from the whole number and add it to the fraction."
                                                            }
                                                        ]
                                      },
@@ -291,7 +300,8 @@
                                                                                         2
                                                                                     ]
                                                                           },
-                                                               "answer":  "{x + y}"
+                                                               "answer":  "{x + y}",
+                                                               "hint":  "Line up the decimal points vertically, then add as you would with whole numbers. The decimal point in your answer goes directly below the decimal points in the question."
                                                            },
                                                            {
                                                                "id":  "Y6.N.DECIMALS.T2",
@@ -304,7 +314,8 @@
                                                                                         3
                                                                                     ]
                                                                           },
-                                                               "answer":  "{decimal_to_fraction_simplified(x)}"
+                                                               "answer":  "{decimal_to_fraction_simplified(x)}",
+                                                               "hint":  "Count the decimal places. Put the digits as the numerator, and use a denominator of 10, 100, 1000, etc. (one zero for each decimal place). Then simplify. For example: 0.75 = 75/100 = 3/4."
                                                            }
                                                        ]
                                      },
@@ -332,7 +343,8 @@
                                                                                         500
                                                                                     ]
                                                                           },
-                                                               "answer":  "n * (p / 100)"
+                                                               "answer":  "n * (p / 100)",
+                                                               "hint":  "To find a percentage of a number, multiply the number by the percent and divide by 100. Formula: (number × percent) ÷ 100."
                                                            },
                                                            {
                                                                "id":  "Y6.N.PERCENTS.T2",
@@ -344,7 +356,8 @@
                                                                                         100
                                                                                     ]
                                                                           },
-                                                               "answer":  "simplify(p, 100)"
+                                                               "answer":  "simplify(p, 100)",
+                                                               "hint":  "Percent means 'out of 100'. Write the percent as a fraction with 100 as the denominator, then simplify. For example: 25% = 25/100 = 1/4."
                                                            }
                                                        ]
                                      },
@@ -375,7 +388,8 @@
                                                                                            2
                                                                                        ]
                                                                           },
-                                                               "answer":  "paid - price"
+                                                               "answer":  "paid - price",
+                                                               "hint":  "Change = amount paid - cost of item. Subtract the price from the amount you paid."
                                                            },
                                                            {
                                                                "id":  "Y6.N.MONEY_FINLIT.T2",
@@ -394,7 +408,8 @@
                                                                                             2
                                                                                         ]
                                                                           },
-                                                               "answer":  "income - spend"
+                                                               "answer":  "income - spend",
+                                                               "hint":  "Balance = income - spending. Subtract what you spend from what you earn."
                                                            }
                                                        ]
                                      },
@@ -423,7 +438,8 @@
                                                                                             50
                                                                                         ]
                                                                           },
-                                                               "answer":  "first + 4 * step"
+                                                               "answer":  "first + 4 * step",
+                                                               "hint":  "To get from the 1st term to the 5th term, you add the step 4 times (not 5 times). Formula: 5th term = first term + (4 × step)."
                                                            },
                                                            {
                                                                "id":  "Y6.N.SEQUENCES_ALGEBRA.T2",
@@ -440,7 +456,8 @@
                                                                                         100
                                                                                     ]
                                                                           },
-                                                               "answer":  "b - a"
+                                                               "answer":  "b - a",
+                                                               "hint":  "To solve for x, do the opposite operation. If the equation is x + a = b, subtract a from both sides: x = b - a."
                                                            }
                                                        ]
                                      },
@@ -464,7 +481,8 @@
                                                                                           "time"
                                                                                       ]
                                                                           },
-                                                               "answer":  "elapsed_minutes(start, end)"
+                                                               "answer":  "elapsed_minutes(start, end)",
+                                                               "hint":  "Count the hours and minutes from start to end. Convert hours to minutes (1 hour = 60 minutes) and add the remaining minutes."
                                                            }
                                                        ]
                                      },
@@ -488,7 +506,8 @@
                                                                                          2
                                                                                      ]
                                                                           },
-                                                               "answer":  "cm / 100"
+                                                               "answer":  "cm / 100",
+                                                               "hint":  "There are 100 centimetres in 1 metre. To convert cm to m, divide by 100."
                                                            }
                                                        ]
                                      },
@@ -519,7 +538,8 @@
                                                                                         50
                                                                                     ]
                                                                           },
-                                                               "answer":  "l * w"
+                                                               "answer":  "l * w",
+                                                               "hint":  "Area of a rectangle = length × width. Multiply the length by the width."
                                                            },
                                                            {
                                                                "id":  "Y6.G.GEOMETRY.T2",
@@ -541,7 +561,8 @@
                                                                                         20
                                                                                     ]
                                                                           },
-                                                               "answer":  "l * w * h"
+                                                               "answer":  "l * w * h",
+                                                               "hint":  "Volume of a rectangular prism = length × width × height. Multiply all three dimensions together."
                                                            }
                                                        ]
                                      },
@@ -571,7 +592,8 @@
                                                                                         10
                                                                                     ]
                                                                           },
-                                                               "answer":  "r / (r + b)"
+                                                               "answer":  "r / (r + b)",
+                                                               "hint":  "Probability = (number of favorable outcomes) ÷ (total number of outcomes). Add all counters to get the total, then divide the red counters by this total."
                                                            },
                                                            {
                                                                "id":  "Y6.S.DATA_STATS_PROB.T2",
@@ -593,7 +615,8 @@
                                                                                         50
                                                                                     ]
                                                                           },
-                                                               "answer":  "(a + b + c) / 3"
+                                                               "answer":  "(a + b + c) / 3",
+                                                               "hint":  "The mean is the average. Add all the numbers together, then divide by how many numbers there are."
                                                            }
                                                        ]
                                      },
@@ -627,7 +650,8 @@
                                                                                         12
                                                                                     ]
                                                                           },
-                                                               "answer":  "l*w + (b*h/2)"
+                                                               "answer":  "l*w + (b*h/2)",
+                                                               "hint":  "Break the composite shape into simpler shapes. Calculate the area of each shape separately (rectangle = l × w, triangle = ½ × b × h), then add them together."
                                                            }
                                                        ]
                                      },
@@ -646,7 +670,8 @@
                                                                                         160
                                                                                     ]
                                                                           },
-                                                               "answer":  "a"
+                                                               "answer":  "a",
+                                                               "hint":  "Vertically opposite angles are always equal. They are formed when two lines cross, and they are across from each other."
                                                            },
                                                            {
                                                                "id":  "Y6.G.ANGLES.T2",
@@ -658,7 +683,8 @@
                                                                                         80
                                                                                     ]
                                                                           },
-                                                               "answer":  "90 - a"
+                                                               "answer":  "90 - a",
+                                                               "hint":  "Complementary angles add up to 90°. To find the complement, subtract the given angle from 90."
                                                            }
                                                        ]
                                      },
@@ -683,6 +709,7 @@
                                                                                     ]
                                                                           },
                                                                "answer":  "a * h",
+                                                               "hint":  "Volume of any prism = base area × height. Multiply the base area by the prism's height.",
                                                                "visualData":  {
                                                                               "type":  "triangular_prism",
                                                                               "baseArea":  "a",
@@ -726,7 +753,8 @@
                                                                                         9999
                                                                                     ]
                                                                           },
-                                                               "answer":  "round(a, -2) + round(b, -2)"
+                                                               "answer":  "round(a, -2) + round(b, -2)",
+                                                               "hint":  "Round each number to the nearest hundred first (look at the tens digit: 5 or more rounds up, 4 or less rounds down). Then add the rounded numbers."
                                                            },
                                                            {
                                                                "id":  "Y7.N.WHOLE_NUMBER_SENSE.T2",
@@ -748,7 +776,8 @@
                                                                                         30
                                                                                     ]
                                                                           },
-                                                               "answer":  "a * b / c"
+                                                               "answer":  "a * b / c",
+                                                               "hint":  "Work from left to right for multiplication and division. First multiply a × b, then divide the result by c."
                                                            }
                                                        ]
                                      },
@@ -772,7 +801,8 @@
                                                                                         10
                                                                                     ]
                                                                           },
-                                                               "answer":  "a + '^3'"
+                                                               "answer":  "a + '^3'",
+                                                               "hint":  "Count how many times the number is multiplied by itself. Write it as base^exponent. For example, 5 × 5 × 5 = 5^3."
                                                            },
                                                            {
                                                                "id":  "Y7.N.EXPONENTS_NUMBER_THEORY.T2",
@@ -784,7 +814,8 @@
                                                                                         200
                                                                                     ]
                                                                           },
-                                                               "answer":  "estimate_sqrt(n)"
+                                                               "answer":  "estimate_sqrt(n)",
+                                                               "hint":  "Find two perfect squares that the number falls between. The square root will be between those two whole numbers. For example, √50 is between √49=7 and √64=8, so it's between 7 and 8."
                                                            }
                                                        ]
                                      },
@@ -822,7 +853,8 @@
                                                                                         3
                                                                                     ]
                                                                           },
-                                                               "answer":  "{sort([x,y,z])}"
+                                                               "answer":  "{sort([x,y,z])}",
+                                                               "hint":  "Compare decimals place by place, starting from the left. First compare the whole numbers, then tenths, then hundredths, and so on."
                                                            },
                                                            {
                                                                "id":  "Y7.N.DECIMALS.T2",
@@ -840,7 +872,8 @@
                                                                                         20
                                                                                     ]
                                                                           },
-                                                               "answer":  "{x * y}"
+                                                               "answer":  "{x * y}",
+                                                               "hint":  "Multiply as if both numbers were whole numbers, then count the total decimal places in both numbers and put that many decimal places in your answer."
                                                            }
                                                        ]
                                      },
@@ -871,7 +904,8 @@
                                                                                           12
                                                                                       ]
                                                                           },
-                                                               "answer":  "improper_to_mixed(num, den)"
+                                                               "answer":  "improper_to_mixed(num, den)",
+                                                               "hint":  "Divide the numerator by the denominator. The quotient is the whole number, the remainder is the new numerator, and the denominator stays the same."
                                                            },
                                                            {
                                                                "id":  "Y7.N.FRACTIONS_RATIONAL.T2",
@@ -898,7 +932,8 @@
                                                                                         12
                                                                                     ]
                                                                           },
-                                                               "answer":  "simplify(a*d + c*b, b*d)"
+                                                               "answer":  "simplify(a*d + c*b, b*d)",
+                                                               "hint":  "Find a common denominator (often by multiplying the denominators together). Convert each fraction to have this common denominator, then add the numerators and simplify."
                                                            }
                                                        ]
                                      },
@@ -927,7 +962,8 @@
                                                                                         30
                                                                                     ]
                                                                           },
-                                                               "answer":  "a + b"
+                                                               "answer":  "a + b",
+                                                               "hint":  "If both numbers have the same sign, add their absolute values and keep the sign. If they have different signs, subtract the smaller absolute value from the larger and use the sign of the number with the larger absolute value."
                                                            },
                                                            {
                                                                "id":  "Y7.N.INTEGERS.T2",
@@ -949,7 +985,8 @@
                                                                                         20
                                                                                     ]
                                                                           },
-                                                               "answer":  "sort([a,b,c])"
+                                                               "answer":  "sort([a,b,c])",
+                                                               "hint":  "On a number line, numbers to the left are smaller. Negative numbers are always less than positive numbers, and for negative numbers, the one with the larger absolute value is actually smaller."
                                                            }
                                                        ]
                                      },
@@ -979,7 +1016,8 @@
                                                                                         50
                                                                                     ]
                                                                           },
-                                                               "answer":  "simplify_ratio(a, b)"
+                                                               "answer":  "simplify_ratio(a, b)",
+                                                               "hint":  "Find the highest common factor (HCF) of both numbers and divide both parts of the ratio by it. For example, 12:8 simplifies to 3:2 (divide both by 4)."
                                                            },
                                                            {
                                                                "id":  "Y7.N.RATIOS_PERCENTS.T2",
@@ -997,7 +1035,8 @@
                                                                                         50
                                                                                     ]
                                                                           },
-                                                               "answer":  "price * (1 - p/100)"
+                                                               "answer":  "price * (1 - p/100)",
+                                                               "hint":  "Calculate the discount amount (price × percent ÷ 100), then subtract it from the original price. Or use: sale price = price × (1 - percent/100)."
                                                            }
                                                        ]
                                      },
@@ -1025,7 +1064,8 @@
                                                                                         999
                                                                                     ]
                                                                           },
-                                                               "answer":  "round(a, -1) + round(b, -1)"
+                                                               "answer":  "round(a, -1) + round(b, -1)",
+                                                               "hint":  "Round each number to the nearest ten (look at the ones digit: 5 or more rounds up, 4 or less rounds down). Then add the rounded numbers."
                                                            }
                                                        ]
                                      },
@@ -1056,7 +1096,8 @@
                                                                                         10
                                                                                     ]
                                                                           },
-                                                               "answer":  "{2 * x + 3 * y}"
+                                                               "answer":  "{2 * x + 3 * y}",
+                                                               "hint":  "Substitute the given values for x and y into the expression, then calculate. First multiply (2×x and 3×y), then add the results."
                                                            },
                                                            {
                                                                "id":  "Y7.A.EXPRESSIONS_EQUATIONS.T2",
@@ -1073,7 +1114,8 @@
                                                                                         20
                                                                                     ]
                                                                           },
-                                                               "answer":  "b + a"
+                                                               "answer":  "b + a",
+                                                               "hint":  "To isolate x, do the opposite operation. Since a is being subtracted, add a to both sides: x = b + a."
                                                            }
                                                        ]
                                      },
@@ -1105,7 +1147,8 @@
                                                                                         20
                                                                                     ]
                                                                           },
-                                                               "answer":  "(b * h) / 2"
+                                                               "answer":  "(b * h) / 2",
+                                                               "hint":  "Area of a triangle = ½ × base × height. Multiply the base by the height, then divide by 2."
                                                            },
                                                            {
                                                                "id":  "Y7.G.GEOMETRY_2D_3D.T2",
@@ -1117,7 +1160,8 @@
                                                                                         20
                                                                                     ]
                                                                           },
-                                                               "answer":  "s ** 3"
+                                                               "answer":  "s ** 3",
+                                                               "hint":  "Volume of a cube = side³. Multiply the side length by itself three times: s × s × s."
                                                            }
                                                        ]
                                      },
@@ -1144,7 +1188,8 @@
                                                                                          2
                                                                                      ]
                                                                           },
-                                                               "answer":  "km * 1000"
+                                                               "answer":  "km * 1000",
+                                                               "hint":  "There are 1000 metres in 1 kilometre. To convert km to m, multiply by 1000."
                                                            }
                                                        ]
                                      },
@@ -1184,7 +1229,8 @@
                                                                                         50
                                                                                     ]
                                                                           },
-                                                               "answer":  "median([a,b,c,d])"
+                                                               "answer":  "median([a,b,c,d])",
+                                                               "hint":  "The median is the middle value. First, arrange the numbers in order from least to greatest. For an even number of values, the median is the average of the two middle numbers."
                                                            }
                                                        ]
                                      },
@@ -1213,7 +1259,8 @@
                                                                                         10
                                                                                     ]
                                                                           },
-                                                               "answer":  "{linear_eval(m, c, x)}"
+                                                               "answer":  "{linear_eval(m, c, x)}",
+                                                               "hint":  "Use the linear equation y = mx + c. Substitute the given values for m, c, and x, then calculate y."
                                                            },
                                                            {
                                                                "id":  "Y7.A.LINEAR_RELATIONS.T2",
@@ -1230,7 +1277,8 @@
                                                                                         12
                                                                                     ]
                                                                           },
-                                                               "answer":  "c"
+                                                               "answer":  "c",
+                                                               "hint":  "In the equation y = mx + c, the y-intercept is c (the constant term). It's the value of y when x = 0."
                                                            }
                                                        ]
                                      },
@@ -1254,7 +1302,8 @@
                                                                                         7
                                                                                     ]
                                                                           },
-                                                               "answer":  "simplify(r * (r - 1), (r + b) * (r + b - 1))"
+                                                               "answer":  "simplify(r * (r - 1), (r + b) * (r + b - 1))",
+                                                               "hint":  "Multiply the probabilities: (red on 1st draw) × (red on 2nd draw). First draw: r/(r+b). Second draw (one less red, one less total): (r-1)/(r+b-1). Multiply these fractions."
                                                            }
                                                        ]
                                      }
@@ -1282,7 +1331,8 @@
                                                                                         200
                                                                                     ]
                                                                           },
-                                                               "answer":  "prime_factorisation(n)"
+                                                               "answer":  "prime_factorisation(n)",
+                                                               "hint":  "Divide the number by the smallest prime (2, 3, 5, 7...) repeatedly until you can't divide evenly anymore. Then try the next prime. Continue until you reach 1. Write your answer as a product of all the primes you used."
                                                            }
                                                        ]
                                      },
@@ -1311,7 +1361,8 @@
                                                                                         50
                                                                                     ]
                                                                           },
-                                                               "answer":  "a - b"
+                                                               "answer":  "a - b",
+                                                               "hint":  "Subtracting is the same as adding the opposite. Change subtraction to addition: a - b = a + (-b). Then follow the rules for adding integers."
                                                            }
                                                        ]
                                      },
@@ -1348,7 +1399,8 @@
                                                                                         2
                                                                                     ]
                                                                           },
-                                                               "answer":  "{x + y * z}"
+                                                               "answer":  "{x + y * z}",
+                                                               "hint":  "Follow the order of operations (BEDMAS). Multiply first (y × z), then add the result to x."
                                                            }
                                                        ]
                                      },
@@ -1388,7 +1440,8 @@
                                                                                         12
                                                                                     ]
                                                                           },
-                                                               "answer":  "{simplify(a * c, b * d)}"
+                                                               "answer":  "{simplify(a * c, b * d)}",
+                                                               "hint":  "To multiply fractions: multiply the numerators together and multiply the denominators together. Then simplify. Formula: (a/b) × (c/d) = (a×c)/(b×d)."
                                                            }
                                                        ]
                                      },
@@ -1417,7 +1470,8 @@
                                                                                         4
                                                                                     ]
                                                                           },
-                                                               "answer":  "a ** p"
+                                                               "answer":  "a ** p",
+                                                               "hint":  "Multiply the base by itself the number of times indicated by the exponent. Remember: a negative number raised to an even power is positive, to an odd power is negative."
                                                            }
                                                        ]
                                      },
@@ -1452,7 +1506,8 @@
                                                                                         40
                                                                                     ]
                                                                           },
-                                                               "answer":  "a * c / b"
+                                                               "answer":  "a * c / b",
+                                                               "hint":  "Set up a proportion: original sugar/original servings = new sugar/new servings. Cross-multiply and solve: new sugar = (original sugar × new servings) ÷ original servings."
                                                            }
                                                        ]
                                      },
@@ -1482,7 +1537,8 @@
                                                                                         70
                                                                                     ]
                                                                           },
-                                                               "answer":  "price * (1 - p / 100)"
+                                                               "answer":  "price * (1 - p / 100)",
+                                                               "hint":  "Calculate the discount: price × (percent ÷ 100). Subtract this from the original price. Or use: sale price = price × (1 - percent/100)."
                                                            }
                                                        ]
                                      },
@@ -1512,7 +1568,8 @@
                                                                                         1
                                                                                     ]
                                                                           },
-                                                               "answer":  "round_to_sigfig(a,1) * round_to_sigfig(b,1)"
+                                                               "answer":  "round_to_sigfig(a,1) * round_to_sigfig(b,1)",
+                                                               "hint":  "Round each number to one significant figure (keep only the first non-zero digit, and replace the rest with zeros). Then multiply the rounded numbers. For example, 387 → 400, 52 → 50."
                                                            }
                                                        ]
                                      },
@@ -1536,7 +1593,8 @@
                                                                                          1
                                                                                      ]
                                                                           },
-                                                               "answer":  "m2 / 10000"
+                                                               "answer":  "m2 / 10000",
+                                                               "hint":  "There are 10,000 square metres in 1 hectare. To convert m² to hectares, divide by 10,000."
                                                            }
                                                        ]
                                      },
@@ -1574,7 +1632,8 @@
                                                                                          10
                                                                                      ]
                                                                           },
-                                                               "answer":  "{sqrt((x2 - x1)**2 + (y2 - y1)**2)}"
+                                                               "answer":  "{sqrt((x2 - x1)**2 + (y2 - y1)**2)}",
+                                                               "hint":  "Use the distance formula: d = √[(x₂-x₁)² + (y₂-y₁)²]. Find the differences in x and y coordinates, square them, add them together, then take the square root."
                                                            }
                                                        ]
                                      },
@@ -1602,7 +1661,8 @@
                                                                                            10
                                                                                        ]
                                                                           },
-                                                               "answer":  "first + 9 * step"
+                                                               "answer":  "first + 9 * step",
+                                                               "hint":  "Use the formula: nth term = first term + (n-1) × step. For the 10th term: first + 9 × step (you add the step 9 times, not 10 times)."
                                                            }
                                                        ]
                                      },
@@ -1631,7 +1691,8 @@
                                                                                         10
                                                                                     ]
                                                                           },
-                                                               "answer":  "{a + b}x"
+                                                               "answer":  "{a + b}x",
+                                                               "hint":  "Combine like terms by adding the coefficients. Since both terms have the same variable (x), add the numbers in front: (a + b)x."
                                                            }
                                                        ]
                                      },
@@ -1664,7 +1725,8 @@
                                                                                         10
                                                                                     ]
                                                                           },
-                                                               "answer":  "{m * x + c}"
+                                                               "answer":  "{m * x + c}",
+                                                               "hint":  "Substitute the value of x into the equation. Calculate m × x first, then add c to get y."
                                                            }
                                                        ]
                                      },
@@ -1695,7 +1757,8 @@
                                                                                         130
                                                                                     ]
                                                                           },
-                                                               "answer":  "180 - a - b"
+                                                               "answer":  "180 - a - b",
+                                                               "hint":  "The angles in a triangle always add up to 180°. Subtract the two known angles from 180 to find the missing angle."
                                                            }
                                                        ]
                                      },
@@ -1725,7 +1788,8 @@
                                                                                         1
                                                                                     ]
                                                                           },
-                                                               "answer":  "3.14 * r * r * h"
+                                                               "answer":  "3.14 * r * r * h",
+                                                               "hint":  "Use the formula V = π × r² × h where r is the radius and h is the height. Remember: r² means multiply the radius by itself. Calculate r² first, then multiply by π and h."
                                                            }
                                                        ]
                                      },
@@ -1770,7 +1834,8 @@
                                                                                         50
                                                                                     ]
                                                                           },
-                                                               "answer":  "{max([a,b,c,d,e]) - min([a,b,c,d,e])}"
+                                                               "answer":  "{max([a,b,c,d,e]) - min([a,b,c,d,e])}",
+                                                               "hint":  "The range is the difference between the largest and smallest values. Find the maximum value, find the minimum value, then subtract: range = max - min."
                                                            }
                                                        ]
                                      },
@@ -1803,7 +1868,8 @@
                                                                                           1
                                                                                       ]
                                                                           },
-                                                               "answer":  "{trig_ratio(opp, adj, hyp, 'sin')}"
+                                                               "answer":  "{trig_ratio(opp, adj, hyp, 'sin')}",
+                                                               "hint":  "Use SOH-CAH-TOA. For sine: sin A = opposite ÷ hypotenuse. Divide the length of the opposite side by the length of the hypotenuse."
                                                            },
                                                            {
                                                                "id":  "Y8.G.TRIG_RIGHT.T2",
@@ -1828,7 +1894,8 @@
                                                                                           1
                                                                                       ]
                                                                           },
-                                                               "answer":  "{trig_ratio(opp, adj, hyp, 'cos')}"
+                                                               "answer":  "{trig_ratio(opp, adj, hyp, 'cos')}",
+                                                               "hint":  "Use SOH-CAH-TOA. For cosine: cos A = adjacent ÷ hypotenuse. Divide the length of the adjacent side by the length of the hypotenuse."
                                                            }
                                                        ]
                                      },
@@ -1847,7 +1914,8 @@
                                                                                         20
                                                                                     ]
                                                                           },
-                                                               "answer":  "2 * r"
+                                                               "answer":  "2 * r",
+                                                               "hint":  "The diameter is twice the radius. Formula: diameter = 2 × radius."
                                                            },
                                                            {
                                                                "id":  "Y8.G.CIRCLE_THEOREMS.T2",
@@ -1859,7 +1927,8 @@
                                                                                         320
                                                                                     ]
                                                                           },
-                                                               "answer":  "a / 2"
+                                                               "answer":  "a / 2",
+                                                               "hint":  "The inscribed angle theorem states that an inscribed angle is half the central angle that subtends the same arc. Divide the central angle by 2."
                                                            }
                                                        ]
                                      }
@@ -1888,7 +1957,8 @@
                                                                                         200
                                                                                     ]
                                                                           },
-                                                               "answer":  "is_perfect_square(n) ? 'rational' : 'irrational'"
+                                                               "answer":  "is_perfect_square(n) ? 'rational' : 'irrational'",
+                                                               "hint":  "A square root is rational if the number is a perfect square (like 4, 9, 16, 25...). If it's not a perfect square, the square root is irrational."
                                                            }
                                                        ]
                                      },
@@ -1918,7 +1988,8 @@
                                                                                         50
                                                                                     ]
                                                                           },
-                                                               "answer":  "a - b"
+                                                               "answer":  "a - b",
+                                                               "hint":  "Subtracting is adding the opposite: a - b = a + (-b). If b is negative, subtracting it means adding a positive."
                                                            }
                                                        ]
                                      },
@@ -1952,7 +2023,8 @@
                                                                                         5
                                                                                     ]
                                                                           },
-                                                               "answer":  "a + '^' + (p+q)"
+                                                               "answer":  "a + '^' + (p+q)",
+                                                               "hint":  "When multiplying powers with the same base, add the exponents: a^p × a^q = a^(p+q)."
                                                            }
                                                        ]
                                      },
@@ -1983,7 +2055,8 @@
                                                                                         2
                                                                                     ]
                                                                           },
-                                                               "answer":  "{k * x}"
+                                                               "answer":  "{k * x}",
+                                                               "hint":  "In a proportional relationship, y = kx where k is the constant of proportionality. Multiply k by x to find y."
                                                            }
                                                        ]
                                      },
@@ -2014,7 +2087,8 @@
                                                                                           2
                                                                                       ]
                                                                           },
-                                                               "answer":  "((newPrice - old) / old) * 100"
+                                                               "answer":  "((newPrice - old) / old) * 100",
+                                                               "hint":  "Percent change = [(new - old) ÷ old] × 100. Find the difference, divide by the original amount, then multiply by 100."
                                                            }
                                                        ]
                                      },
@@ -2038,7 +2112,8 @@
                                                                                          2
                                                                                      ]
                                                                           },
-                                                               "answer":  "m3 * 1000"
+                                                               "answer":  "m3 * 1000",
+                                                               "hint":  "There are 1000 litres in 1 cubic metre. To convert m³ to litres, multiply by 1000."
                                                            }
                                                        ]
                                      },
@@ -2062,7 +2137,8 @@
                                                                                           "time"
                                                                                       ]
                                                                           },
-                                                               "answer":  "elapsed_minutes(start, end)"
+                                                               "answer":  "elapsed_minutes(start, end)",
+                                                               "hint":  "Calculate the elapsed time from start to end. Convert hours to minutes (1 hour = 60 minutes) and add any extra minutes."
                                                            }
                                                        ]
                                      },
@@ -2100,7 +2176,8 @@
                                                                                          20
                                                                                      ]
                                                                           },
-                                                               "answer":  "sqrt((x1-x2)**2 + (y1-y2)**2)"
+                                                               "answer":  "sqrt((x1-x2)**2 + (y1-y2)**2)",
+                                                               "hint":  "Use the distance formula: d = √[(x₂-x₁)² + (y₂-y₁)²]. Find the differences, square them, add them, then take the square root."
                                                            }
                                                        ]
                                      },
@@ -2123,7 +2200,8 @@
                                                                                         80
                                                                                     ]
                                                                           },
-                                                               "answer":  "90 - a"
+                                                               "answer":  "90 - a",
+                                                               "hint":  "Complementary angles add up to 90°. Subtract the given angle from 90 to find the complement."
                                                            }
                                                        ]
                                      },
@@ -2154,7 +2232,8 @@
                                                                                           2
                                                                                       ]
                                                                           },
-                                                               "answer":  "k * len"
+                                                               "answer":  "k * len",
+                                                               "hint":  "In a dilation, multiply the original length by the scale factor to get the new length. New length = scale factor × original length."
                                                            }
                                                        ]
                                      },
@@ -2187,7 +2266,8 @@
                                                                                         1
                                                                                     ]
                                                                           },
-                                                               "answer":  "round(sqrt(a*a + b*b), 1)"
+                                                               "answer":  "round(sqrt(a*a + b*b), 1)",
+                                                               "hint":  "Use Pythagoras' theorem: c² = a² + b². Calculate a² + b², then take the square root to find the hypotenuse c."
                                                            }
                                                        ]
                                      },
@@ -2216,6 +2296,7 @@
                                                                                     ]
                                                                           },
                                                                "answer":  "{a1} + (n - 1) * {d}",
+                                                               "hint":  "The nth term of an arithmetic sequence is: first term + (n-1) × common difference. Write the formula using the given values.",
                                                                "choices":  [
                                                                               "{a1} + (n - 1) * {d}",
                                                                               "{a1} + n * {d}",
@@ -2260,7 +2341,8 @@
                                                                                         10
                                                                                     ]
                                                                           },
-                                                               "answer":  "{a + c}x + {b + d}"
+                                                               "answer":  "{a + c}x + {b + d}",
+                                                               "hint":  "Combine like terms. Add the x terms together and add the constant terms together: (a + c)x + (b + d)."
                                                            }
                                                        ]
                                      },
@@ -2294,7 +2376,8 @@
                                                                                         20
                                                                                     ]
                                                                           },
-                                                               "answer":  "(c - b) / a"
+                                                               "answer":  "(c - b) / a",
+                                                               "hint":  "Isolate x using inverse operations. First subtract b from both sides, then divide both sides by a. Formula: x = (c - b) / a."
                                                            }
                                                        ]
                                      },
@@ -2325,7 +2408,8 @@
                                                                                         2
                                                                                     ]
                                                                           },
-                                                               "answer":  "y = {m}x + {c}"
+                                                               "answer":  "y = {m}x + {c}",
+                                                               "hint":  "In the equation y = mx + c, m is the gradient and c is the y-intercept (where the line crosses the y-axis at x=0). Substitute the given values."
                                                            }
                                                        ]
                                      },
@@ -2360,7 +2444,8 @@
                                                                                         5
                                                                                     ]
                                                                           },
-                                                               "answer":  "(b + c) / (a + b + c)"
+                                                               "answer":  "(b + c) / (a + b + c)",
+                                                               "hint":  "For 'or' probabilities, add the favorable outcomes. P(blue or green) = (blue + green) ÷ total. Total = red + blue + green."
                                                            }
                                                        ]
                                      },
@@ -2384,7 +2469,8 @@
                                                                                         8
                                                                                     ]
                                                                           },
-                                                               "answer":  "x² + {a+b}x + {a*b}"
+                                                               "answer":  "x² + {a+b}x + {a*b}",
+                                                               "hint":  "Use FOIL: First, Outer, Inner, Last. Multiply (x)(x), then (x)(b), then (a)(x), then (a)(b). Combine like terms to get x² + (a+b)x + ab."
                                                            },
                                                            {
                                                                "id":  "Y9.A.QUADRATICS.T2",
@@ -2401,7 +2487,8 @@
                                                                                         30
                                                                                     ]
                                                                           },
-                                                               "answer":  "factor_quadratic_monic(a, b)"
+                                                               "answer":  "factor_quadratic_monic(a, b)",
+                                                               "hint":  "Find two numbers that multiply to give b and add to give a. Write the answer as (x + first number)(x + second number)."
                                                            }
                                                        ]
                                      }

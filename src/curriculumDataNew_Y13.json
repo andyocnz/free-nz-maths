@@ -51,7 +51,8 @@
                 ]
               },
               "answer": "{a}*e^({a}x)",
-              "difficulty": 8
+              "difficulty": 8,
+              "hint": "Use chain rule: d/dx[e^(kx)] = k·e^(kx). The coefficient k stays in front."
             },
             {
               "id": "Y13.C.CALCULUS_DIFF.T5",
@@ -69,7 +70,8 @@
                 ]
               },
               "answer": "{a}/({a}x + {b})",
-              "difficulty": 8
+              "difficulty": 8,
+              "hint": "Use chain rule: d/dx[ln(f(x))] = f'(x)/f(x). Derivative of inner function goes on top."
             },
             {
               "id": "Y13.C.CALCULUS_DIFF.T6",
@@ -82,7 +84,8 @@
                 ]
               },
               "answer": "{a}*cos({a}x)",
-              "difficulty": 8
+              "difficulty": 8,
+              "hint": "Use chain rule: d/dx[sin(kx)] = k·cos(kx). Remember that derivative of sin is cos."
             }
           ]
         },
@@ -105,7 +108,8 @@
                 ]
               },
               "answer": "e^({a}x)/{a} + C",
-              "difficulty": 8
+              "difficulty": 8,
+              "hint": "∫e^(kx) dx = e^(kx)/k + C. Divide by the coefficient of x and add constant of integration."
             },
             {
               "id": "Y13.C.CALCULUS_INTEGRAL.T4",
@@ -118,7 +122,8 @@
                 ]
               },
               "answer": "-cos({a}x)/{a} + C",
-              "difficulty": 8
+              "difficulty": 8,
+              "hint": "∫sin(kx) dx = -cos(kx)/k + C. Note the negative sign and divide by coefficient."
             },
             {
               "id": "Y13.C.CALCULUS_INTEGRAL.T5",
@@ -136,7 +141,8 @@
                 ]
               },
               "answer": "{a*b*b/2}",
-              "difficulty": 7
+              "difficulty": 7,
+              "hint": "First find antiderivative ax²/2, then evaluate [ax²/2] from 0 to b using F(b) - F(0)."
             },
             {
               "id": "Y13.C.CALCULUS_INTEGRAL.T6",
@@ -154,7 +160,8 @@
                 ]
               },
               "answer": "{a*b*b*b/3}",
-              "difficulty": 8
+              "difficulty": 8,
+              "hint": "Area = ∫ax² dx from 0 to b. Use power rule to get ax³/3, then evaluate at limits."
             }
           ]
         },
@@ -187,7 +194,8 @@
                 ]
               },
               "answer": "{c} + {b}*{b}/(4*{a})",
-              "difficulty": 8
+              "difficulty": 8,
+              "hint": "Set f'(x) = 0 to find critical point, then substitute x back into f(x) for maximum value."
             },
             {
               "id": "Y13.C.CALCULUS_APPLICATIONS.T3",
@@ -200,7 +208,8 @@
                 ]
               },
               "answer": "x = {a}/3",
-              "difficulty": 9
+              "difficulty": 9,
+              "hint": "Find second derivative f''(x), set it equal to zero and solve for x. This gives inflection point."
             },
             {
               "id": "Y13.C.CALCULUS_APPLICATIONS.T4",
@@ -223,7 +232,8 @@
                 ]
               },
               "answer": "{2*a*t + b}",
-              "difficulty": 7
+              "difficulty": 7,
+              "hint": "Velocity is the derivative of position: v(t) = s'(t). Find ds/dt then substitute the given t value."
             }
           ]
         },
@@ -277,7 +287,8 @@
                 "width": 400,
                 "height": 300
               },
-              "difficulty": 7
+              "difficulty": 7,
+              "hint": "Add real parts together and imaginary parts together: (a + bi) + (c + di) = (a + c) + (b + d)i."
             },
             {
               "id": "Y13.A.COMPLEX_NUMBERS.T2",
@@ -317,7 +328,8 @@
                 "width": 400,
                 "height": 300
               },
-              "difficulty": 8
+              "difficulty": 8,
+              "hint": "Use FOIL and remember i² = -1: (a + bi)(c + di) = (ac - bd) + (ad + bc)i."
             },
             {
               "id": "Y13.A.COMPLEX_NUMBERS.T3",
@@ -347,7 +359,8 @@
                 "width": 400,
                 "height": 300
               },
-              "difficulty": 7
+              "difficulty": 7,
+              "hint": "Modulus |z| = √(a² + b²) for z = a + bi. It's the distance from origin on complex plane."
             },
             {
               "id": "Y13.A.COMPLEX_NUMBERS.T4",
@@ -377,7 +390,8 @@
                 "width": 400,
                 "height": 300
               },
-              "difficulty": 8
+              "difficulty": 8,
+              "hint": "Argument θ = arctan(b/a) for z = a + bi in first quadrant. Consider quadrant for general case."
             }
           ]
         },
@@ -410,7 +424,8 @@
                 ]
               },
               "answer": "{a + (n-1)*d}",
-              "difficulty": 7
+              "difficulty": 7,
+              "hint": "Use formula aₙ = a + (n - 1)d where a is first term and d is common difference."
             },
             {
               "id": "Y13.A.SEQUENCES_SERIES.T2",
@@ -433,7 +448,8 @@
                 ]
               },
               "answer": "{n/2 * (2*a + (n-1)*d)}",
-              "difficulty": 8
+              "difficulty": 8,
+              "hint": "Use arithmetic series formula Sₙ = n/2[2a + (n-1)d] or Sₙ = n/2(first + last)."
             },
             {
               "id": "Y13.A.SEQUENCES_SERIES.T3",
@@ -456,7 +472,8 @@
                 ]
               },
               "answer": "{a * r**(n-1)}",
-              "difficulty": 8
+              "difficulty": 8,
+              "hint": "Use formula aₙ = a·rⁿ⁻¹ where a is first term and r is common ratio."
             },
             {
               "id": "Y13.A.SEQUENCES_SERIES.T4",
@@ -475,7 +492,8 @@
                 ]
               },
               "answer": "{a/(1 - r)}",
-              "difficulty": 9
+              "difficulty": 9,
+              "hint": "For |r| < 1, infinite sum S = a/(1 - r). Series converges only when |r| < 1."
             },
             {
               "id": "Y13.A.SEQUENCES_SERIES.T5",
@@ -498,7 +516,8 @@
                 ]
               },
               "answer": "{a + (n - 1) * d}",
-              "difficulty": 8
+              "difficulty": 8,
+              "hint": "Use formula aₙ = a₁ + (n - 1)d where a₁ is first term and d is common difference."
             },
             {
               "id": "Y13.A.SEQUENCES_SERIES.T6",
@@ -522,7 +541,8 @@
               },
               "answer": "{n/2 * (2*a + (n-1)*d)}",
               "difficulty": 8,
-              "phase": 10.7
+              "phase": 10.7,
+              "hint": "Use arithmetic series formula Sₙ = n/2[2a + (n-1)d] or Sₙ = n/2(first + last)."
             }
           ]
         },
@@ -545,7 +565,8 @@
                 ]
               },
               "answer": "x = {2**n}",
-              "difficulty": 8
+              "difficulty": 8,
+              "hint": "Convert to exponential form: if log_b(x) = n, then x = bⁿ."
             },
             {
               "id": "Y13.L.LOGARITHMS.T2",
@@ -563,7 +584,8 @@
                 ]
               },
               "answer": "log({a*b})",
-              "difficulty": 8
+              "difficulty": 8,
+              "hint": "Use product rule: log(a) + log(b) = log(ab)."
             },
             {
               "id": "Y13.L.LOGARITHMS.T3",
@@ -581,14 +603,16 @@
                 ]
               },
               "answer": "x = {round(log(b)/log(a), 2)}",
-              "difficulty": 9
+              "difficulty": 9,
+              "hint": "Take log of both sides: x·log(a) = log(b), then x = log(b)/log(a)."
             },
             {
               "id": "Y13.L.LOGARITHMS.T4",
               "stem": "Simplify log(x^2)",
               "params": {},
               "answer": "{\"2*log(x)\"}",
-              "difficulty": 7
+              "difficulty": 7,
+              "hint": "Use power rule: log(xⁿ) = n·log(x). Exponent comes down as a coefficient."
             }
           ]
         },
