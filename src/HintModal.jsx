@@ -1,13 +1,18 @@
+import DOMPurify from 'dompurify'
+
 export default function HintModal({ isOpen, onClose, title, message, htmlContent }) {
   if (!isOpen) return null
+
+  // Sanitize HTML content to prevent XSS attacks
+  const sanitizedHTML = htmlContent ? DOMPurify.sanitize(htmlContent) : null
 
   return (
     <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center z-[100]">
       <div className="bg-white p-6 md:p-8 rounded-2xl shadow-2xl max-w-lg w-full mx-4 transform transition-all scale-100">
         <h3 className="text-2xl font-bold mb-4 text-gray-800">{title}</h3>
         <div className="max-h-[60vh] overflow-y-auto mb-6 pr-1">
-          {htmlContent ? (
-            <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
+          {sanitizedHTML ? (
+            <div dangerouslySetInnerHTML={{ __html: sanitizedHTML }} />
           ) : (
             <p className="text-gray-600 whitespace-pre-wrap">{message}</p>
           )}

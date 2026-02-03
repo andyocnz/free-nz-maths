@@ -1,4 +1,62 @@
 ﻿import * as mathHelpers from './mathHelpers.js'
+import { create, all } from 'mathjs'
+
+// Create a safe math.js instance with limited scope
+const math = create(all)
+
+// Validate expression before evaluation
+function validateExpression(expr) {
+  if (typeof expr !== 'string') {
+    throw new Error('Expression must be a string')
+  }
+
+  // Check for dangerous patterns
+  const dangerousPatterns = [
+    /import\s/i,
+    /require\s*\(/i,
+    /eval\s*\(/i,
+    /function\s*\(/i,
+    /=>/,
+    /\$\{/,
+    /`/, // Template literals
+    /__proto__/i,
+    /constructor/i,
+    /prototype/i,
+    /window\./i,
+    /document\./i,
+    /localStorage/i,
+    /sessionStorage/i,
+    /fetch\s*\(/i,
+    /XMLHttpRequest/i,
+  ]
+
+  for (const pattern of dangerousPatterns) {
+    if (pattern.test(expr)) {
+      throw new Error(`Invalid expression: contains forbidden pattern ${pattern}`)
+    }
+  }
+
+  return true
+}
+
+// Safe expression evaluator - replaces dangerous new Function() usage
+function safeEvaluate(expr, context) {
+  try {
+    // Validate expression first
+    validateExpression(expr)
+
+    // Create a scope with the provided context
+    const scope = { ...context }
+
+    // Evaluate the expression safely using mathjs
+    // mathjs only allows mathematical operations and rejects JavaScript code
+    const result = math.evaluate(expr, scope)
+    return result
+  } catch (error) {
+    console.error('Error evaluating expression:', expr, error)
+    throw error
+  }
+}
 
 // Random integer between min and max (inclusive)
 // Automatically caps values to reasonable ranges for educational purposes
@@ -126,10 +184,7 @@ function generateParams(paramsSpec, year, difficulty) {
 
   const evalInContext = (expr) => {
     const context = { ...params, ...mathHelpers, Math, round: mathHelpers.round }
-    const keys = Object.keys(context)
-    const values = Object.values(context)
-    const fn = new Function(...keys, `return (${expr})`)
-    return fn(...values)
+    return safeEvaluate(expr, context)
   }
 
   for (const [paramName, spec] of deferred) {
@@ -227,10 +282,7 @@ function renderTemplateString(str, params) {
         return params[expr]
       }
       const context = { ...params, ...mathHelpers, Math, round: mathHelpers.round }
-      const keys = Object.keys(context)
-      const values = Object.values(context)
-      const fn = new Function(...keys, `return (${expr})`)
-      const result = fn(...values)
+      const result = safeEvaluate(expr, context)
       if (typeof result === 'number') {
         if (Number.isInteger(result)) return result
         return mathHelpers.round(result, 2)
@@ -254,14 +306,8 @@ function evaluateAnswer(answerExpr, params) {
       round: mathHelpers.round // Ensure round is available
     }
 
-    // Create a function that evaluates the expression in the given context
-    const contextKeys = Object.keys(context)
-    const contextValues = Object.values(context)
-
-    // Create a function body that returns the evaluated expression
-    const func = new Function(...contextKeys, `return ${answerExpr}`)
-
-    const result = func(...contextValues)
+    // Safely evaluate the expression using mathjs
+    const result = safeEvaluate(answerExpr, context)
 
     // Convert to string, handle different types
     if (typeof result === 'number') {
@@ -595,10 +641,7 @@ export function generateQuestionFromTemplate(template, skill, year) {
   // Validate params if validateParams constraint is specified
   if (template.validateParams) {
     try {
-      const keys = Object.keys(params)
-      const values = Object.values(params)
-      const fn = new Function(...keys, `return (${template.validateParams})`)
-      const isValid = fn(...values)
+      const isValid = safeEvaluate(template.validateParams, params)
       if (!isValid) {
         // Parameters don't meet constraint, regenerate recursively
         return generateQuestionFromTemplate(template, skill, year)
@@ -788,7 +831,7 @@ export function generateQuestionFromTemplate(template, skill, year) {
     params.hyp = mathHelpers.round(hyp, 1)
   }
 
-  const question = substituteStem(template.stem, params)
+  let question = substituteStem(template.stem, params)
 
   const rawAnswer = String(template.answer || '')
   let answer
@@ -867,10 +910,7 @@ export function generateQuestionFromTemplate(template, skill, year) {
         if (!isNaN(num)) return num
         // Try to evaluate simple expressions using params as variables
         try {
-          const keys = Object.keys(params)
-          const values = Object.values(params)
-          const fn = new Function(...keys, `return (${obj})`)
-          const evaluated = fn(...values)
+          const evaluated = safeEvaluate(obj, params)
           if (evaluated !== undefined) return evaluated
         } catch (e) {
           // ignore and fall back to returning the raw string
@@ -909,6 +949,21 @@ export function generateQuestionFromTemplate(template, skill, year) {
     }
   }
 
+  // Detect decimal places in the answer for precision hints
+  let decimalPlaces = null
+  const answerNum = parseFloat(answer)
+  if (!isNaN(answerNum) && !Number.isInteger(answerNum)) {
+    // Count decimal places in the answer string
+    const answerStr = String(answer)
+    const decimalIndex = answerStr.indexOf('.')
+    if (decimalIndex !== -1) {
+      decimalPlaces = answerStr.length - decimalIndex - 1
+      // Add precision hint directly to the question
+      const dpText = decimalPlaces === 1 ? '1 decimal place' : `${decimalPlaces} decimal places`
+      question = question + ` (Round to ${dpText})`
+    }
+  }
+
   return {
     question: question,
     answer: answer,
@@ -919,7 +974,8 @@ export function generateQuestionFromTemplate(template, skill, year) {
     visualData: visualData,
     choices: choices,
     hint: template.hint,
-    htmlHint: template.htmlHint
+    htmlHint: template.htmlHint,
+    decimalPlaces: decimalPlaces
   }
 }
 

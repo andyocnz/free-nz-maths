@@ -33,7 +33,7 @@
               "answer": "{solve_quadratic_formula(a, b, c)}",
               "difficulty": 9,
               "phase": 8,
-              "hint": "The formula: x = [-b ┬▒ sqrt(b┬▓ - 4ac)] / (2a)"
+              "hint": "The formula: x = [-b ± sqrt(b² - 4ac)] / (2a)"
             }
           ]
         },
@@ -69,7 +69,7 @@
               },
               "difficulty": 8,
               "phase": 8,
-              "hint": "For y = ax┬▓ + bx + c: Vertex x-coordinate = -b / (2a)"
+              "hint": "For y = ax² + bx + c: Vertex x-coordinate = -b / (2a)"
             }
           ]
         },
@@ -82,7 +82,7 @@
           "templates": [
             {
               "id": "Y10.G.TRIG_RULES.T1",
-              "stem": "In a triangle, side a = {a}, side b = {b}, and the angle between them is C = {C}┬░. Find the length of side c using the Cosine Rule. Give your answer to 1 decimal place.",
+              "stem": "In a triangle, side a = {a}, side b = {b}, and the angle between them is C = {C}°. Find the length of side c using the Cosine Rule. Give your answer to 1 decimal place.",
               "params": {
                 "a": [
                   "int",
@@ -141,7 +141,7 @@
           "templates": [
             {
               "id": "Y10.G.CIRCLE_THEOREMS.T1",
-              "stem": "An angle at the circumference subtended by an arc is {a}┬░. What is the angle at the centre subtended by the same arc?",
+              "stem": "An angle at the circumference subtended by an arc is {a}°. What is the angle at the centre subtended by the same arc?",
               "params": {
                 "a": [
                   "int",
@@ -321,7 +321,7 @@
           "templates": [
             {
               "id": "Y10.G.SA_VOLUME_ADVANCED.T1",
-              "stem": "A cone has a slant height of {s} cm and a radius of {r} cm. What is its volume? Use ╧Ç Γëê 3.14.",
+              "stem": "A cone has a slant height of {s} cm and a radius of {r} cm. What is its volume? Use π ≈ 3.14.",
               "params": {
                 "s": [
                   "int",
@@ -337,7 +337,7 @@
               "answer": "Math.round(volume_cone(r, Math.sqrt(s*s - r*r)), 2)",
               "difficulty": 9,
               "phase": 8,
-              "hint": "Pythagoras' Theorem: a┬▓ + b┬▓ = c┬▓ (often needed to find heights or radii)"
+              "hint": "Pythagoras' Theorem: a² + b² = c² (often needed to find heights or radii)"
             }
           ]
         },
@@ -350,7 +350,7 @@
           "templates": [
             {
               "id": "Y10.G.GEOMETRIC_REASONING.T1",
-              "stem": "In a cyclic quadrilateral, one angle is {a}┬░. What is the measure of the opposite angle?",
+              "stem": "In a cyclic quadrilateral, one angle is {a}°. What is the measure of the opposite angle?",
               "params": {
                 "a": [
                   "int",
@@ -470,7 +470,7 @@
           "templates": [
             {
               "id": "Y10.M.VOLUME_SIMILAR.T1",
-              "stem": "Two similar cones have heights in the ratio {ratio1} : {ratio2}. The smaller cone has volume {v} cm┬│. Find the volume of the larger cone.",
+              "stem": "Two similar cones have heights in the ratio {ratio1} : {ratio2}. The smaller cone has volume {v} cm³. Find the volume of the larger cone.",
               "params": {
                 "ratio1": [
                   "int",
@@ -492,7 +492,7 @@
               "answer": "{Math.round(v * (ratio2 / ratio1)**3, 1)}",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "Volume ratio = k┬│"
+              "hint": "Volume ratio = k³"
             }
           ]
         },
@@ -530,7 +530,7 @@
               "answer": "{round(Math.sqrt((x2-x1)**2 + (y2-y1)**2), 1)}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "Distance: ΓêÜ((xΓéé-xΓéü)┬▓ + (yΓéé-yΓéü)┬▓)"
+              "hint": "Distance: √((x₂-x₁)² + (y₂-y₁)²)"
             }
           ]
         },
@@ -570,7 +570,7 @@
               "answer": "{dy}/{dx}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "m = (yΓéé - yΓéü)/(xΓéé - xΓéü)"
+              "hint": "m = (y₂ - y₁)/(x₂ - x₁)"
             }
           ]
         },
@@ -582,7 +582,7 @@
           "templates": [
             {
               "id": "Y10.L.NONLINEAR_GRAPH.T1",
-              "stem": "The quadratic y = x┬▓ + {b}x + {c} has two x-intercepts. What is their sum?",
+              "stem": "The quadratic y = x² + {b}x + {c} has two x-intercepts. What is their sum?",
               "params": {
                 "b": [
                   "int",
@@ -599,7 +599,7 @@
               "answer": "{-b}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "Quadratic: vertex form y = a(x-h)┬▓ + k"
+              "hint": "Quadratic: vertex form y = a(x-h)² + k"
             }
           ]
         },
@@ -708,7 +708,7 @@
               "answer": "{q3 - q1}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "Outlier if > Q3 + 1.5├ùIQR or < Q1 - 1.5├ùIQR"
+              "hint": "Outlier if > Q3 + 1.5×IQR or < Q1 - 1.5×IQR"
             }
           ]
         },
@@ -938,7 +938,7 @@
               },
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "r Γëê 1 strong positive, r Γëê -1 strong negative"
+              "hint": "r ≈ 1 strong positive, r ≈ -1 strong negative"
             }
           ]
         },

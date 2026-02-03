@@ -11,7 +11,7 @@
           "templates": [
             {
               "id": "Y11.A.QUADRATICS_COMPLETE_SQUARE.T1",
-              "stem": "Write in completed-square form: x┬▓ + {b}x + {c}",
+              "stem": "Write in completed-square form: x² + {b}x + {c}",
               "params": {
                 "b": [
                   "int",
@@ -25,10 +25,10 @@
                   30
                 ]
               },
-              "answer": "(x + {b/2})┬▓ + {c - (b/2)**2}",
+              "answer": "(x + {b/2})² + {c - (b/2)**2}",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "x┬▓ + bx ΓåÆ (x + b/2)┬▓ - (b/2)┬▓"
+              "hint": "x² + bx ⇒ (x + b/2)² - (b/2)²"
             }
           ]
         },
@@ -153,7 +153,7 @@
               "answer": "{s*s + 4*(s*l/2)}",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "Lateral area = (1/2) ├ù perimeter ├ù slant height"
+              "hint": "Lateral area = (1/2) × perimeter × slant height"
             }
           ]
         },
@@ -165,7 +165,7 @@
           "templates": [
             {
               "id": "Y11.M.VOLUME_SPHERE.T1",
-              "stem": "Find the volume of a sphere with radius {r} cm. Use ╧Ç Γëê 3.14 and round to the nearest whole number.",
+              "stem": "Find the volume of a sphere with radius {r} cm. Use π ≈ 3.14 and round to the nearest whole number.",
               "params": {
                 "r": [
                   "int",
@@ -176,7 +176,7 @@
               "answer": "{Math.round(4/3 * 3.14 * r**3)}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "V = (4/3)╧Çr┬│"
+              "hint": "V = (4/3)πr³"
             }
           ]
         },
@@ -188,7 +188,7 @@
           "templates": [
             {
               "id": "Y11.T.TRIG_GRAPH.T1",
-              "stem": "How many solutions does sin(x) = {k} have in the interval 0┬░ Γëñ x < 360┬░?",
+              "stem": "How many solutions does sin(x) = {k} have in the interval 0° ≤ x < 360°?",
               "params": {
                 "k": [
                   "decimal",
@@ -316,7 +316,7 @@
               "answer": "[[{a*e + b*g},{a*f + b*h}],[{c*e + d*g},{c*f + d*h}]]",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "[a b; c d] ├ù [e f; g h] = [ae+bg af+bh; ce+dg cf+dh]"
+              "hint": "[a b; c d] × [e f; g h] = [ae+bg af+bh; ce+dg cf+dh]"
             }
           ]
         },
@@ -394,7 +394,7 @@
               ],
               "difficulty": 8,
               "phase": 10.17,
-              "hint": "Use x = [-b ┬▒ ΓêÜ(b^2 - 4ac)] / 2a."
+              "hint": "Use x = [-b ± √(b^2 - 4ac)] / 2a."
             },
             {
               "id": "Y11.A.QUADRATIC_EQS.T4",
@@ -451,7 +451,7 @@
               "answer": "(x + {a/2})^2 = {(a/2)*(a/2) - b}",
               "difficulty": 9,
               "phase": 10.15,
-              "hint": "x = [-b ┬▒ ΓêÜ(b┬▓-4ac)] / 2a"
+              "hint": "x = [-b ± √(b²-4ac)] / 2a"
             }
           ]
         },
@@ -499,7 +499,7 @@
               ],
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "Even degree positive leading coeff ΓåÆ up on both sides"
+              "hint": "Even degree positive leading coeff ⇒ up on both sides"
             },
             {
               "id": "Y11.A.POLYNOMIALS.T2",
@@ -574,7 +574,7 @@
             },
             {
               "id": "Y11.A.POLYNOMIALS.T3",
-              "stem": "Simplify ({a}x┬▓ + {b}x + {c}) + ({d}x┬▓ + {e}x + {f})",
+              "stem": "Simplify ({a}x² + {b}x + {c}) + ({d}x² + {e}x + {f})",
               "params": {
                 "a": [
                   "int",
@@ -619,7 +619,7 @@
               ],
               "difficulty": 5,
               "phase": 10.15,
-              "hint": "Even degree positive leading coeff ΓåÆ up on both sides"
+              "hint": "Even degree positive leading coeff ⇒ up on both sides"
             }
           ]
         },
@@ -631,7 +631,7 @@
           "templates": [
             {
               "id": "Y11.G.TRIG_RATIOS.T1",
-              "stem": "In a right-angled triangle, opposite side = {opp} cm, adjacent side = {adj} cm. Find tan ╬╕ exactly.",
+              "stem": "In a right-angled triangle, opposite side = {opp} cm, adjacent side = {adj} cm. Find tan θ exactly.",
               "params": {
                 "opp": [
                   "int",
@@ -647,11 +647,11 @@
               "answer": "{opp}/{adj}",
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "sin ╬╕ = opp/hyp, cos ╬╕ = adj/hyp, tan ╬╕ = opp/adj"
+              "hint": "sin θ = opp/hyp, cos θ = adj/hyp, tan θ = opp/adj"
             },
             {
               "id": "Y11.G.TRIG_RATIOS.T3",
-              "stem": "A right triangle has hypotenuse {hyp} cm and opposite side {opp} cm. Find sin ╬╕ exactly.",
+              "stem": "A right triangle has hypotenuse {hyp} cm and opposite side {opp} cm. Find sin θ exactly.",
               "params": {
                 "hyp": [
                   "int",
@@ -667,7 +667,7 @@
               "answer": "{opp}/{hyp}",
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "sin ╬╕ = opp/hyp, cos ╬╕ = adj/hyp, tan ╬╕ = opp/adj"
+              "hint": "sin θ = opp/hyp, cos θ = adj/hyp, tan θ = opp/adj"
             }
           ]
         },
@@ -703,7 +703,7 @@
               "answer": "{identity.answer}",
               "difficulty": 8,
               "phase": 10.15,
-              "hint": "sin┬▓╬╕ + cos┬▓╬╕ = 1"
+              "hint": "sin²θ + cos²θ = 1"
             },
             {
               "id": "Y11.G.TRIG_IDENTITIES.T2",
@@ -758,7 +758,7 @@
               "answer": "{dy}/{dx}",
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "(x-h)┬▓ + (y-k)┬▓ = r┬▓"
+              "hint": "(x-h)² + (y-k)² = r²"
             },
             {
               "id": "Y11.G.COORDINATE_GEOMETRY.T2",
@@ -790,7 +790,7 @@
               "answer": "{sqrtExact((dx)**2 + (dy)**2)}",
               "difficulty": 7,
               "phase": 10.15,
-              "hint": "(x-h)┬▓ + (y-k)┬▓ = r┬▓"
+              "hint": "(x-h)² + (y-k)² = r²"
             }
           ]
         },
@@ -833,7 +833,7 @@
               "answer": "{(a+b+c+d+e)/5}",
               "difficulty": 5,
               "phase": 10.15,
-              "hint": "Variance = ╬ú(x - ╬╝)┬▓ / n"
+              "hint": "Variance = Σ(x - μ)² / n"
             }
           ]
         },
@@ -845,7 +845,7 @@
           "templates": [
             {
               "id": "Y11.C.CALCULUS_DIFF.T1",
-              "stem": "Differentiate f(x) = {a}x┬▓ + {b}x + {c}",
+              "stem": "Differentiate f(x) = {a}x² + {b}x + {c}",
               "params": {
                 "a": [
                   "int",

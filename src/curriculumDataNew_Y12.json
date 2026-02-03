@@ -75,7 +75,7 @@
               "answer": "{a*c + b*d}",
               "difficulty": 7,
               "phase": 10.14,
-              "hint": "u ┬╖ v = uΓéüvΓéü + uΓéévΓéé + uΓéâvΓéâ"
+              "hint": "u · v = u₁v₁ + u₂v₂ + u₃v₃"
             }
           ]
         },
@@ -163,7 +163,7 @@
           "templates": [
             {
               "id": "Y12.G.VECTOR_OPS.T3",
-              "stem": "Calculate the dot product <{a},{b}> ┬╖ <{c},{d}>",
+              "stem": "Calculate the dot product <{a},{b}> · <{c},{d}>",
               "params": {
                 "a": [
                   "int",
@@ -193,7 +193,7 @@
               "answer": "{a*c + b*d}",
               "difficulty": 8,
               "phase": 10.14,
-              "hint": "u + v = <uΓéü + vΓéü, uΓéé + vΓéé>"
+              "hint": "u + v = <u₁ + v₁, u₂ + v₂>"
             }
           ]
         },
@@ -205,7 +205,7 @@
           "templates": [
             {
               "id": "Y12.ALG.RECURSION.T1",
-              "stem": "A sequence is defined by T(1) = {t1}, T(n) = {a}┬╖T(n-1) + {b} for n ΓëÑ 2. Find T({n}).",
+              "stem": "A sequence is defined by T(1) = {t1}, T(n) = {a}·T(n-1) + {b} for n ≥ 2. Find T({n}).",
               "params": {
                 "t1": [
                   "int",
@@ -231,7 +231,7 @@
               "answer": "{a == 1 ? t1 + b*(n-1) : t1 * a**(n-1) + b*(a**(n-1) - 1)/(a - 1)}",
               "difficulty": 9,
               "phase": 10.14,
-              "hint": "aΓéü = initial value"
+              "hint": "a₁ = initial value"
             }
           ]
         },

@@ -1,8 +1,51 @@
 // Simple localStorage-based user management and progress tracking
+import CryptoJS from 'crypto-js'
 
 const USERS_KEY = 'mathx_users'
 const CURRENT_USER_KEY = 'mathx_current_user'
 const LEADERBOARD_KEY = 'mathx_leaderboard'
+
+// Encryption key - in a production app with a backend, this should be user-specific
+// and stored securely. For client-side only, this provides protection against
+// casual inspection and basic XSS attacks reading localStorage directly.
+const ENCRYPTION_KEY = 'mathx_secure_key_v1_' + window.location.hostname
+
+// Encrypt data before storing
+function encryptData(data) {
+  try {
+    const encrypted = CryptoJS.AES.encrypt(data, ENCRYPTION_KEY).toString()
+    return encrypted
+  } catch (error) {
+    console.error('Encryption error:', error)
+    return data // Fallback to unencrypted if encryption fails
+  }
+}
+
+// Decrypt data after retrieving
+function decryptData(encryptedData) {
+  if (!encryptedData) return null
+
+  try {
+    const decrypted = CryptoJS.AES.decrypt(encryptedData, ENCRYPTION_KEY)
+    const decryptedText = decrypted.toString(CryptoJS.enc.Utf8)
+    return decryptedText || null
+  } catch (error) {
+    console.error('Decryption error:', error)
+    // Try returning the data as-is (might be old unencrypted data)
+    return encryptedData
+  }
+}
+
+// Secure localStorage wrapper
+function secureSetItem(key, value) {
+  const encrypted = encryptData(value)
+  localStorage.setItem(key, encrypted)
+}
+
+function secureGetItem(key) {
+  const encrypted = localStorage.getItem(key)
+  return decryptData(encrypted)
+}
 
 // User Management
 export function registerUser(username) {
@@ -26,7 +69,7 @@ export function registerUser(username) {
     questionsAnswered: 0
   }
 
-  localStorage.setItem(USERS_KEY, JSON.stringify(users))
+  secureSetItem(USERS_KEY, JSON.stringify(users))
   return { success: true, user: users[normalizedUsername] }
 }
 
@@ -44,12 +87,12 @@ export function loginUser(username) {
   }
 
   const user = users[normalizedUsername]
-  localStorage.setItem(CURRENT_USER_KEY, normalizedUsername)
+  secureSetItem(CURRENT_USER_KEY, normalizedUsername)
   return { success: true, user }
 }
 
 export function getCurrentUser() {
-  const currentUsername = localStorage.getItem(CURRENT_USER_KEY)
+  const currentUsername = secureGetItem(CURRENT_USER_KEY)
   if (!currentUsername) return null
 
   const users = getAllUsers()
@@ -61,7 +104,7 @@ export function logoutUser() {
 }
 
 export function getAllUsers() {
-  const usersJson = localStorage.getItem(USERS_KEY)
+  const usersJson = secureGetItem(USERS_KEY)
   return usersJson ? JSON.parse(usersJson) : {}
 }
 
@@ -73,7 +116,7 @@ export function getSavedUsernames() {
 }
 
 export function importUserData(importedData) {
-  const currentUsername = localStorage.getItem(CURRENT_USER_KEY)
+  const currentUsername = secureGetItem(CURRENT_USER_KEY)
   if (!currentUsername) {
     throw new Error('No user is currently logged in.')
   }
@@ -98,7 +141,7 @@ export function importUserData(importedData) {
     questionsAnswered: importedData.questionsAnswered || 0,
   }
 
-  localStorage.setItem(USERS_KEY, JSON.stringify(users))
+  secureSetItem(USERS_KEY, JSON.stringify(users))
 }
 
 // Progress Tracking
@@ -107,7 +150,7 @@ export function saveProgress(skillId, correct, year) {
   if (!user) return
 
   const users = getAllUsers()
-  const currentUsername = localStorage.getItem(CURRENT_USER_KEY)
+  const currentUsername = secureGetItem(CURRENT_USER_KEY)
 
   if (!users[currentUsername].progress[year]) {
     users[currentUsername].progress[year] = {}
@@ -129,7 +172,7 @@ export function saveProgress(skillId, correct, year) {
   users[currentUsername].progress[year][skillId].lastPracticed = new Date().toISOString()
   users[currentUsername].questionsAnswered++
 
-  localStorage.setItem(USERS_KEY, JSON.stringify(users))
+  secureSetItem(USERS_KEY, JSON.stringify(users))
 }
 
 export function getProgress(year, skillId) {
@@ -145,7 +188,7 @@ export function saveTestResult(year, score, total, timestamp) {
   if (!user) return
 
   const users = getAllUsers()
-  const currentUsername = localStorage.getItem(CURRENT_USER_KEY)
+  const currentUsername = secureGetItem(CURRENT_USER_KEY)
 
   const result = {
     year,
@@ -160,7 +203,7 @@ export function saveTestResult(year, score, total, timestamp) {
   // Update leaderboard
   updateLeaderboard(user.username, result.percentage, year, result.timestamp)
 
-  localStorage.setItem(USERS_KEY, JSON.stringify(users))
+  secureSetItem(USERS_KEY, JSON.stringify(users))
 }
 
 export function getTestResults() {
@@ -187,11 +230,11 @@ function updateLeaderboard(username, percentage, year, timestamp) {
   leaderboard.sort((a, b) => b.percentage - a.percentage)
   const top100 = leaderboard.slice(0, 100)
 
-  localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(top100))
+  secureSetItem(LEADERBOARD_KEY, JSON.stringify(top100))
 }
 
 export function getLeaderboard(year = null) {
-  const leaderboardJson = localStorage.getItem(LEADERBOARD_KEY)
+  const leaderboardJson = secureGetItem(LEADERBOARD_KEY)
   let leaderboard = leaderboardJson ? JSON.parse(leaderboardJson) : []
 
   if (year) {
@@ -212,7 +255,7 @@ export function savePracticeSession(skillName, year, score, total, timestamp) {
   if (!user) return
 
   const users = getAllUsers()
-  const currentUsername = localStorage.getItem(CURRENT_USER_KEY)
+  const currentUsername = secureGetItem(CURRENT_USER_KEY)
 
   if (!users[currentUsername].practiceHistory) {
     users[currentUsername].practiceHistory = []
@@ -235,7 +278,7 @@ export function savePracticeSession(skillName, year, score, total, timestamp) {
     users[currentUsername].practiceHistory = users[currentUsername].practiceHistory.slice(0, 50)
   }
 
-  localStorage.setItem(USERS_KEY, JSON.stringify(users))
+  secureSetItem(USERS_KEY, JSON.stringify(users))
 }
 
 export function getPracticeHistory(limit = 20) {

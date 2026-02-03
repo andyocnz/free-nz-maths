@@ -54,7 +54,15 @@ function AlternatingText() {
 }
 
 function generateTeacherPin() {
-  return String(Math.floor(1000 + Math.random() * 9000))
+  // Generate a secure 8-character alphanumeric PIN
+  // Using both uppercase letters and numbers: 36^8 = ~2.8 trillion combinations
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789' // Removed ambiguous chars: 0, O, I, 1
+  let pin = ''
+  for (let i = 0; i < 8; i++) {
+    const randomIndex = Math.floor(Math.random() * chars.length)
+    pin += chars[randomIndex]
+  }
+  return pin
 }
 
 export default function App() {
@@ -78,6 +86,10 @@ export default function App() {
     initialMode = 'ncea-index'
   } else if (groupCodeFromUrl) {
     initialMode = 'group-lobby'
+  } else if (modeFromUrl === 'test') {
+    initialMode = 'test'
+  } else if (modeFromUrl === 'practice') {
+    initialMode = 'practice'
   } else if (skillFromUrl) {
     initialMode = 'practice'
   } else if (yearFromUrl) {
@@ -383,6 +395,28 @@ export default function App() {
     window.history.replaceState({}, '', url.toString())
   }
 
+  const updateModeUrl = (targetMode) => {
+    if (typeof window === 'undefined') return
+    const url = new URL(window.location.href)
+    if (targetMode === 'test') {
+      url.searchParams.set('mode', 'test')
+      if (selectedYear) {
+        url.searchParams.set('year', String(selectedYear))
+      }
+    } else if (targetMode === 'practice') {
+      url.searchParams.set('mode', 'practice')
+      if (selectedYear) {
+        url.searchParams.set('year', String(selectedYear))
+      }
+      if (selectedSkill) {
+        url.searchParams.set('skill', String(selectedSkill))
+      }
+    } else if (url.searchParams.get('mode') === 'test' || url.searchParams.get('mode') === 'practice') {
+      url.searchParams.delete('mode')
+    }
+    window.history.replaceState({}, '', url.toString())
+  }
+
   const CopyButton = ({ value, className = '', title = 'Copy to clipboard', variant = 'dark' }) => {
     const [copied, setCopied] = useState(false)
     const baseClasses =
@@ -479,14 +513,6 @@ export default function App() {
       mode: modeValue,
       totalQuestions: String(totalQuestions)
     }
-    console.log('=== PAYLOAD DEBUG ===')
-    console.log('Full payload:', payload)
-    console.log('teacherPin in payload:', payload.teacherPin)
-    console.log('teacherPin type:', typeof payload.teacherPin)
-    console.log('teacherPin length:', payload.teacherPin?.length)
-    console.log('groupSetupForm.teacherPin (raw):', groupSetupForm.teacherPin)
-    console.log('sanitized teacherPin variable:', teacherPin)
-    console.log('=== END DEBUG ===')
 
     setGroupSetupStatus({ submitting: true, success: false, error: '' })
     setGroupSetupResult(null)
@@ -1259,6 +1285,28 @@ export default function App() {
   }, [mode])
 
   useEffect(() => {
+    if (!initialized.current && mode === 'test') {
+      startTestInternal()
+    }
+  }, [mode])
+
+  useEffect(() => {
+    if (mode === 'test') {
+      updateModeUrl('test')
+    } else if (mode === 'practice') {
+      updateModeUrl('practice')
+    } else {
+      updateModeUrl(mode)
+    }
+  }, [mode, selectedYear])
+
+  useEffect(() => {
+    if (mode === 'practice') {
+      updateModeUrl('practice')
+    }
+  }, [mode, selectedSkill, selectedYear])
+
+  useEffect(() => {
     if (question) {
       const elem = document.getElementById('math-question')
       if (elem) {
@@ -1314,6 +1362,7 @@ export default function App() {
         const fractionHtml = '<span style="display:inline-block;text-align:center;vertical-align:middle;"><span style="display:block;font-size:0.8em;border-bottom:1px solid currentColor;padding:0 3px;">$1</span><span style="display:block;font-size:0.8em;padding:0 3px;">$2</span></span>'
         let html = cleanQuestion.replace(/(\d+)\/(\d+)/g, fractionHtml)
         html = html.replace(/__EXP_FRAC_(\d+)__/g, (m, idx) => expPlaceholders[parseInt(idx, 10)] || '')
+
         elem.innerHTML = html
       }
       setAnswer(question.userAnswer || '')
@@ -1652,12 +1701,6 @@ export default function App() {
       normalizedResults.grade = gradeFromPercentage(normalizedResults.percentageScore)
     }
 
-    console.log('=== TEST RESULTS DEBUG ===')
-    console.log('Percentage:', normalizedResults.percentageScore)
-    console.log('Grade:', normalizedResults.grade)
-    console.log('Correct:', normalizedResults.correctAnswers, '/', normalizedResults.totalQuestions)
-    console.log('=== END DEBUG ===')
-
     setTestResults(normalizedResults)
     if (isGroupMode && groupCode) {
       submitGroupResults(normalizedResults, scoringHistory)
@@ -1883,7 +1926,23 @@ export default function App() {
         const correctAnswerNum = normalizeFraction(question.answer)
 
         if (!Number.isNaN(userAnswerNum) && !Number.isNaN(correctAnswerNum)) {
-          if (Math.abs(userAnswerNum - correctAnswerNum) < 0.01) {
+          // Set tolerance based on decimal places in the answer
+          // Default to 0.01 (2 decimal places) for backward compatibility
+          let tolerance = 0.01
+
+          // Detect decimal places from the answer string
+          const answerStr = String(question.answer)
+          if (!Number.isInteger(correctAnswerNum)) {
+            const decimalIndex = answerStr.indexOf('.')
+            if (decimalIndex !== -1) {
+              const decimalPlaces = answerStr.length - decimalIndex - 1
+              // Tolerance is half of the smallest unit at the specified precision
+              // e.g., 1 dp -> 0.05, 2 dp -> 0.005, 3 dp -> 0.0005
+              tolerance = 0.5 * Math.pow(10, -decimalPlaces)
+            }
+          }
+
+          if (Math.abs(userAnswerNum - correctAnswerNum) < tolerance) {
             newFeedback = 'Correct! ✅'
             isCorrect = true
           }

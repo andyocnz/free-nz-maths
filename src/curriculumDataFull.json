@@ -5,7 +5,7 @@
                       "skills":  [
                                      {
                                          "id":  "Y6.N.PLACE_VALUE",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Place value, naming and rounding whole numbers",
                                          "description":  "Place value to millions, compare, order, word names, Roman numerals and rounding; includes even/odd rules.",
                                          "ixl_refs":  [
@@ -40,7 +40,7 @@
                                      },
                                      {
                                          "id":  "Y6.N.WHOLE_OPERATIONS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Whole number operations and estimation",
                                          "description":  "Add, subtract, multiply and divide whole numbers; properties, missing digits, inequalities, mixed operations and estimation.",
                                          "ixl_refs":  [
@@ -98,7 +98,7 @@
                                      },
                                      {
                                          "id":  "Y6.N.EXPONENTS_NUMBER_THEORY",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Exponents and number theory",
                                          "description":  "Basic exponents, powers, factors, primes, divisibility, prime factorisation, HCF and LCM.",
                                          "ixl_refs":  [
@@ -144,7 +144,7 @@
                                      },
                                      {
                                          "id":  "Y6.N.FRACTIONS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Fractions and mixed numbers",
                                          "description":  "Understand, compare and create equivalent fractions and mixed numbers; convert, round and find fractions of wholes and groups.",
                                          "ixl_refs":  [
@@ -196,7 +196,7 @@
                                      },
                                      {
                                          "id":  "Y6.N.FRACTION_OPERATIONS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Add and subtract fractions and mixed numbers",
                                          "description":  "Add and subtract fractions and mixed numbers with like and related denominators, estimate and use inequalities.",
                                          "ixl_refs":  [
@@ -261,7 +261,7 @@
                                      },
                                      {
                                          "id":  "Y6.N.DECIMALS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Decimals and decimal operations",
                                          "description":  "Understand, compare and convert decimals and fractions; add, subtract, multiply and divide decimals; estimate and compare.",
                                          "ixl_refs":  [
@@ -310,7 +310,7 @@
                                      },
                                      {
                                          "id":  "Y6.N.PERCENTS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Percents basics",
                                          "description":  "Understand percents, convert between percents and fractions, and find percent of a number.",
                                          "ixl_refs":  [
@@ -350,7 +350,7 @@
                                      },
                                      {
                                          "id":  "Y6.N.MONEY_FINLIT",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Money and financial literacy",
                                          "description":  "Work with money amounts, unit prices, change, and simple budgets and records.",
                                          "ixl_refs":  [
@@ -400,7 +400,7 @@
                                      },
                                      {
                                          "id":  "Y6.N.SEQUENCES_ALGEBRA",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Number sequences and simple equations",
                                          "description":  "Complete arithmetic and geometric sequences and solve one-step equations; use simple two-variable tables and graphs.",
                                          "ixl_refs":  [
@@ -446,7 +446,7 @@
                                      },
                                      {
                                          "id":  "Y6.M.TIME",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "Time, schedules and elapsed time",
                                          "description":  "Convert time units, find elapsed time, and interpret schedules and timelines.",
                                          "ixl_refs":  [
@@ -470,7 +470,7 @@
                                      },
                                      {
                                          "id":  "Y6.M.MEASUREMENT",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "Metric measurement and temperature",
                                          "description":  "Choose appropriate metric units and convert between length, mass and volume units; reason about temperature.",
                                          "ixl_refs":  [
@@ -494,7 +494,7 @@
                                      },
                                      {
                                          "id":  "Y6.G.GEOMETRY",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "2D and 3D shapes, symmetry and measurement",
                                          "description":  "Identify polygons and 3D shapes, work with angles, symmetry, perimeter, area and volume of cubes and rectangular prisms.",
                                          "ixl_refs":  [
@@ -547,7 +547,7 @@
                                      },
                                      {
                                          "id":  "Y6.S.DATA_STATS_PROB",
-                                         "strand":  "Statistics \u0026 Probability",
+                                         "strand":  "Statistics & Probability",
                                          "name":  "Data, graphs, statistics and probability",
                                          "description":  "Read and create common graphs, calculate mean/median/mode, and work with simple probability and combinations.",
                                          "ixl_refs":  [
@@ -599,8 +599,8 @@
                                      },
                                      {
                                          "id":  "Y6.G.COMPOSITE_SHAPES",
-                                         "strand":  "Geometry \u0026 Measurement",
-                                         "name":  "Area \u0026 perimeter of composite shapes",
+                                         "strand":  "Geometry & Measurement",
+                                         "name":  "Area & perimeter of composite shapes",
                                          "templates":  [
                                                            {
                                                                "id":  "Y6.G.COMPOSITE_SHAPES.T1",
@@ -633,7 +633,7 @@
                                      },
                                      {
                                          "id":  "Y6.G.ANGLES",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "Angles and angle relationships",
                                          "templates":  [
                                                            {
@@ -664,7 +664,7 @@
                                      },
                                      {
                                          "id":  "Y6.G.VOLUME_PRISMS",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "Volume of prisms",
                                          "templates":  [
                                                            {
@@ -700,7 +700,7 @@
                       "skills":  [
                                      {
                                          "id":  "Y7.N.WHOLE_NUMBER_SENSE",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Whole numbers, place value and properties",
                                          "description":  "Place value, naming, Roman numerals, properties of addition and multiplication, estimation and mixed operations with whole numbers.",
                                          "ixl_refs":  [
@@ -754,7 +754,7 @@
                                      },
                                      {
                                          "id":  "Y7.N.EXPONENTS_NUMBER_THEORY",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Powers of ten, exponents and number theory",
                                          "description":  "Understanding and evaluating powers of ten and other exponents; square roots; factors, primes, HCF, LCM and multiplicative inverses.",
                                          "ixl_refs":  [
@@ -772,7 +772,7 @@
                                                                                         10
                                                                                     ]
                                                                           },
-                                                               "answer":  "a + \u0027^3\u0027"
+                                                               "answer":  "a + '^3'"
                                                            },
                                                            {
                                                                "id":  "Y7.N.EXPONENTS_NUMBER_THEORY.T2",
@@ -790,7 +790,7 @@
                                      },
                                      {
                                          "id":  "Y7.N.DECIMALS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Decimals and decimal operations",
                                          "description":  "Decimal place value, ordering, rounding, number lines, and operations with decimals including estimation and maps.",
                                          "ixl_refs":  [
@@ -846,7 +846,7 @@
                                      },
                                      {
                                          "id":  "Y7.N.FRACTIONS_RATIONAL",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Fractions, mixed numbers and rational numbers",
                                          "description":  "Review and compare fractions and mixed numbers, convert between forms, add and subtract fractions and mixed numbers, and work with rational numbers.",
                                          "ixl_refs":  [
@@ -904,7 +904,7 @@
                                      },
                                      {
                                          "id":  "Y7.N.INTEGERS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Integers and integer operations",
                                          "description":  "Understanding, representing, comparing and ordering integers; adding and subtracting integers using rules and representations.",
                                          "ixl_refs":  [
@@ -955,7 +955,7 @@
                                      },
                                      {
                                          "id":  "Y7.N.RATIOS_PERCENTS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Ratios, rates, proportions and percents",
                                          "description":  "Ratios, equivalent ratios, unit rates, proportions, scale drawings, percents and percent applications including GST, discounts and interest.",
                                          "ixl_refs":  [
@@ -1003,7 +1003,7 @@
                                      },
                                      {
                                          "id":  "Y7.N.PROBLEM_SOLVING",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Problem solving and estimation",
                                          "description":  "Use estimation, multi-step reasoning, logical strategies and spatial reasoning to solve word problems.",
                                          "ixl_refs":  [
@@ -1031,7 +1031,7 @@
                                      },
                                      {
                                          "id":  "Y7.A.EXPRESSIONS_EQUATIONS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Expressions, equations and two-variable relationships",
                                          "description":  "Write and evaluate variable expressions, use properties, solve one-step equations, and work with two-variable equations and graphs.",
                                          "ixl_refs":  [
@@ -1079,7 +1079,7 @@
                                      },
                                      {
                                          "id":  "Y7.G.GEOMETRY_2D_3D",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "2D and 3D geometry, symmetry and transformations",
                                          "description":  "Work with polygons, triangles, quadrilaterals, circles, angle relationships, symmetry, transformations, congruent and similar figures, nets and views of 3D shapes, and perimeter, area, and volume.",
                                          "ixl_refs":  [
@@ -1123,7 +1123,7 @@
                                      },
                                      {
                                          "id":  "Y7.M.MEASUREMENT_TIME_MONEY",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "Units, time, money and consumer maths",
                                          "description":  "Estimate and convert metric units, work with temperature, money operations, sale prices, GST and interest, and solve time and schedule problems.",
                                          "ixl_refs":  [
@@ -1150,7 +1150,7 @@
                                      },
                                      {
                                          "id":  "Y7.S.DATA_STATS_PROB",
-                                         "strand":  "Statistics \u0026 Probability",
+                                         "strand":  "Statistics & Probability",
                                          "name":  "Data, graphs, statistics and probability",
                                          "description":  "Create and interpret a wide range of graphs and tables, calculate measures of centre and spread, and work with simple and compound probability.",
                                          "ixl_refs":  [
@@ -1190,7 +1190,7 @@
                                      },
                                      {
                                          "id":  "Y7.A.LINEAR_RELATIONS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Linear relationships and graphing",
                                          "templates":  [
                                                            {
@@ -1236,7 +1236,7 @@
                                      },
                                      {
                                          "id":  "Y7.S.PROBABILITY",
-                                         "strand":  "Statistics \u0026 Probability",
+                                         "strand":  "Statistics & Probability",
                                          "name":  "Two-step probability",
                                          "templates":  [
                                                            {
@@ -1265,7 +1265,7 @@
                       "skills":  [
                                      {
                                          "id":  "Y8.N.NUMBER_THEORY",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Number classification, factors and multiples",
                                          "description":  "Prime/composite, prime factorisation, divisibility, HCF, LCM, multiplicative inverses and classifying numbers.",
                                          "ixl_refs":  [
@@ -1288,7 +1288,7 @@
                                      },
                                      {
                                          "id":  "Y8.N.INTEGERS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Integers and integer operations",
                                          "description":  "Represent, compare and order integers; work with absolute value and perform all four operations with integers in expressions and word problems.",
                                          "ixl_refs":  [
@@ -1317,7 +1317,7 @@
                                      },
                                      {
                                          "id":  "Y8.N.DECIMALS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Decimals and decimal operations",
                                          "description":  "Review, compare and order decimals; perform all four operations with decimals including estimation, expressions, inequalities and map distances.",
                                          "ixl_refs":  [
@@ -1354,7 +1354,7 @@
                                      },
                                      {
                                          "id":  "Y8.N.FRACTIONS_RATIONAL",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Fractions, mixed numbers and rational numbers",
                                          "description":  "Compare, convert and operate with fractions and mixed numbers and extend these ideas to rational numbers, including absolute value and ordering.",
                                          "ixl_refs":  [
@@ -1394,7 +1394,7 @@
                                      },
                                      {
                                          "id":  "Y8.N.EXPONENTS_ROOTS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Exponents, standard form and roots",
                                          "description":  "Work with powers and exponents, including variable and fractional bases, standard form, square and cube roots, and estimation.",
                                          "ixl_refs":  [
@@ -1423,7 +1423,7 @@
                                      },
                                      {
                                          "id":  "Y8.N.RATIOS_PROPORTIONS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Ratios, rates, proportions and proportional reasoning",
                                          "description":  "Work with ratios, unit rates, proportions, scale drawings, population estimates and rate of change including speed and time problems.",
                                          "ixl_refs":  [
@@ -1458,7 +1458,7 @@
                                      },
                                      {
                                          "id":  "Y8.N.PERCENTS_CONSUMER",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Percents and consumer maths",
                                          "description":  "Represent and compute percents of quantities, reverse percent problems, and apply percents to real-life contexts such as GST, discounts, mark-ups, interest and budgeting.",
                                          "ixl_refs":  [
@@ -1488,7 +1488,7 @@
                                      },
                                      {
                                          "id":  "Y8.N.PROBLEM_SOLVING_ESTIMATION",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Problem solving, estimation and time",
                                          "description":  "Use estimation strategies and structured methods such as guess-and-check, Venn diagrams and schedule interpretation to solve complex word problems.",
                                          "ixl_refs":  [
@@ -1518,7 +1518,7 @@
                                      },
                                      {
                                          "id":  "Y8.M.MEASUREMENT",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "Metric units and precision",
                                          "description":  "Select appropriate metric units, convert and compare units including area and volume, and understand precision.",
                                          "ixl_refs":  [
@@ -1542,7 +1542,7 @@
                                      },
                                      {
                                          "id":  "Y8.G.COORDINATE_PLANE",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "Coordinate plane and distance",
                                          "description":  "Work with all four quadrants of the coordinate plane, follow directions and find distance between points.",
                                          "ixl_refs":  [
@@ -1580,7 +1580,7 @@
                                      },
                                      {
                                          "id":  "Y8.A.SEQUENCES",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Sequences and patterns",
                                          "description":  "Identify, extend and represent arithmetic and geometric sequences, and connect them to variable expressions.",
                                          "ixl_refs":  [
@@ -1608,7 +1608,7 @@
                                      },
                                      {
                                          "id":  "Y8.A.EXPRESSIONS_EQUATIONS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Expressions, properties and equations",
                                          "description":  "Write and evaluate expressions, use properties and like terms, and solve one- and two-step equations and related word problems.",
                                          "ixl_refs":  [
@@ -1637,7 +1637,7 @@
                                      },
                                      {
                                          "id":  "Y8.A.TWO_VARIABLE",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Two-variable equations and graphs",
                                          "description":  "Interpret, represent and graph two-variable linear relationships using equations, tables and graphs.",
                                          "ixl_refs":  [
@@ -1670,7 +1670,7 @@
                                      },
                                      {
                                          "id":  "Y8.G.GEOMETRY",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "2D figures, lines and transformations",
                                          "description":  "Classify polygons and angles, work with angle relationships and polygon sums, lines and transversals, and perform transformations, congruence and similarity.",
                                          "ixl_refs":  [
@@ -1701,7 +1701,7 @@
                                      },
                                      {
                                          "id":  "Y8.G.GEOMETRIC_MEASUREMENT",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "Perimeter, area and volume",
                                          "description":  "Calculate perimeter and area of rectangles, parallelograms and triangles, and volume of cubes, prisms and cylinders, including compound figures.",
                                          "ixl_refs":  [
@@ -1731,7 +1731,7 @@
                                      },
                                      {
                                          "id":  "Y8.S.DATA_STATS_PROB",
-                                         "strand":  "Statistics \u0026 Probability",
+                                         "strand":  "Statistics & Probability",
                                          "name":  "Data, graphs, statistics and probability",
                                          "description":  "Create and interpret many graph types, work with box plots and scatter plots, identify statistical questions, analyse samples, and calculate and interpret probabilities.",
                                          "ixl_refs":  [
@@ -1776,7 +1776,7 @@
                                      },
                                      {
                                          "id":  "Y8.G.TRIG_RIGHT",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "Trigonometry in right triangles",
                                          "templates":  [
                                                            {
@@ -1833,7 +1833,7 @@
                                      },
                                      {
                                          "id":  "Y8.G.CIRCLE_THEOREMS",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "Circle properties",
                                          "templates":  [
                                                            {
@@ -1869,7 +1869,7 @@
                       "skills":  [
                                      {
                                          "id":  "Y9.N.NUMBER_THEORY",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Number theory and classification",
                                          "description":  "Factors, divisibility, primes, HCF, LCM and classification of numbers including rational and irrational.",
                                          "ixl_refs":  [
@@ -1887,13 +1887,13 @@
                                                                                         200
                                                                                     ]
                                                                           },
-                                                               "answer":  "is_perfect_square(n) ? \u0027rational\u0027 : \u0027irrational\u0027"
+                                                               "answer":  "is_perfect_square(n) ? 'rational' : 'irrational'"
                                                            }
                                                        ]
                                      },
                                      {
                                          "id":  "Y9.N.INTEGERS_RATIONAL",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Integers and rational number operations",
                                          "description":  "Work with integers on number lines and absolute value, and perform all operations on rational numbers in context and in expressions.",
                                          "ixl_refs":  [
@@ -1923,7 +1923,7 @@
                                      },
                                      {
                                          "id":  "Y9.N.EXPONENTS_ROOTS_STANDARD",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Exponents, roots and standard form",
                                          "description":  "Evaluate and simplify expressions with integer exponents, including negative exponents and exponent rules; work with square and cube roots and convert between ordinary numbers and standard form.",
                                          "ixl_refs":  [
@@ -1951,13 +1951,13 @@
                                                                                         5
                                                                                     ]
                                                                           },
-                                                               "answer":  "a + \u0027^\u0027 + (p+q)"
+                                                               "answer":  "a + '^' + (p+q)"
                                                            }
                                                        ]
                                      },
                                      {
                                          "id":  "Y9.N.RATIOS_PROPORTIONS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Ratios, rates and proportional relationships",
                                          "description":  "Use ratios, rates and proportions, including population estimates and scale, and connect them to proportional relationships and graphs.",
                                          "ixl_refs":  [
@@ -1988,7 +1988,7 @@
                                      },
                                      {
                                          "id":  "Y9.N.PERCENTS_CONSUMER",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Percents, percent change and consumer maths",
                                          "description":  "Convert and compare percents, compute and interpret percents and percent change, and apply them to GST, discounts, mark-up, and interest.",
                                          "ixl_refs":  [
@@ -2019,7 +2019,7 @@
                                      },
                                      {
                                          "id":  "Y9.M.MEASUREMENT",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "Metric units, rates and precision",
                                          "description":  "Convert rates and measurements including area and volume, and reason about precision and appropriate units.",
                                          "ixl_refs":  [
@@ -2043,7 +2043,7 @@
                                      },
                                      {
                                          "id":  "Y9.N.PROBLEM_SOLVING",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Problem solving with word problems and time",
                                          "description":  "Solve multi-step and structured word problems, including Venn diagrams and elapsed time problems.",
                                          "ixl_refs":  [
@@ -2067,7 +2067,7 @@
                                      },
                                      {
                                          "id":  "Y9.G.COORDINATE_PLANE",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "Coordinate plane and distance",
                                          "description":  "Review and use the coordinate plane in all quadrants and find distances between points.",
                                          "ixl_refs":  [
@@ -2105,7 +2105,7 @@
                                      },
                                      {
                                          "id":  "Y9.G.GEOMETRY",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "2D geometry, angle relationships and circles",
                                          "description":  "Classify polygons and quadrilaterals, use angle relationships, work with transversals and circle parts.",
                                          "ixl_refs":  [
@@ -2128,7 +2128,7 @@
                                      },
                                      {
                                          "id":  "Y9.G.TRANSFORMATIONS",
-                                         "strand":  "Geometry \u0026 Measurement",
+                                         "strand":  "Geometry & Measurement",
                                          "name":  "Transformations, congruence and similarity",
                                          "description":  "Perform and describe reflections, rotations, translations and dilations, and reason with congruent and similar figures.",
                                          "ixl_refs":  [
@@ -2159,9 +2159,9 @@
                                      },
                                      {
                                          "id":  "Y9.G.PYTHAGORAS_SOLIDS",
-                                         "strand":  "Geometry \u0026 Measurement",
-                                         "name":  "Pythagoras\u0027 theorem, area, surface area and volume",
-                                         "description":  "Apply Pythagoras\u0027 theorem and its converse and compute perimeter, area, surface area and volume for a range of 2D and 3D shapes including spheres and similar solids.",
+                                         "strand":  "Geometry & Measurement",
+                                         "name":  "Pythagoras' theorem, area, surface area and volume",
+                                         "description":  "Apply Pythagoras' theorem and its converse and compute perimeter, area, surface area and volume for a range of 2D and 3D shapes including spheres and similar solids.",
                                          "ixl_refs":  [
                                                           "R",
                                                           "S",
@@ -2191,7 +2191,7 @@
                                      },
                                      {
                                          "id":  "Y9.A.SEQUENCES",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Sequences and series",
                                          "description":  "Identify and represent arithmetic and geometric sequences, including writing expressions for terms.",
                                          "ixl_refs":  [
@@ -2225,7 +2225,7 @@
                                      },
                                      {
                                          "id":  "Y9.A.EXPRESSIONS_POLYNOMIALS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Expressions, polynomials and properties",
                                          "description":  "Write and evaluate expressions, work with radicals and rationals, simplify linear expressions using properties and like terms, and add, subtract and multiply polynomials.",
                                          "ixl_refs":  [
@@ -2264,7 +2264,7 @@
                                      },
                                      {
                                          "id":  "Y9.A.EQUATIONS_INEQUALITIES",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Equations and inequalities",
                                          "description":  "Solve one-step to multi-step linear equations and inequalities, including equations with like terms and word problems.",
                                          "ixl_refs":  [
@@ -2298,7 +2298,7 @@
                                      },
                                      {
                                          "id":  "Y9.A.FUNCTIONS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Linear and nonlinear functions",
                                          "description":  "Work with linear functions including gradient and graphing, compare linear models, and recognise and evaluate nonlinear functions.",
                                          "ixl_refs":  [
@@ -2329,7 +2329,7 @@
                                      },
                                      {
                                          "id":  "Y9.S.DATA_STATS_PROB",
-                                         "strand":  "Statistics \u0026 Probability",
+                                         "strand":  "Statistics & Probability",
                                          "name":  "Data, graphs, statistics and probability",
                                          "description":  "Interpret and create a variety of graphs, calculate and interpret measures of centre and spread, work with box plots and scatter plots, and calculate probabilities including independent and dependent events.",
                                          "ixl_refs":  [
@@ -2364,7 +2364,7 @@
                                      },
                                      {
                                          "id":  "Y9.A.QUADRATICS",
-                                         "strand":  "Number \u0026 Algebra",
+                                         "strand":  "Number & Algebra",
                                          "name":  "Quadratic expressions",
                                          "templates":  [
                                                            {

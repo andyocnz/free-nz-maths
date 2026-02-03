@@ -28,7 +28,7 @@
               "answer": "{a} - {b}i",
               "difficulty": 6,
               "phase": 10.15,
-              "hint": "i┬▓ = -1"
+              "hint": "i² = -1"
             }
           ]
         },
@@ -842,7 +842,7 @@
               ],
               "difficulty": 6,
               "phase": 10.19,
-              "hint": "Amplitude = |A|, period = 2?/B."
+              "hint": "Amplitude = |A|, period = 2π/B."
             },
             {
               "id": "Y13.F.TRANSFORMATIONS.T2",
