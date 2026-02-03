@@ -246,9 +246,30 @@ function drawCarOnRoad(ctx, data) {
   }
 }
 
-// Draw a triangle with labeled sides
+// Draw a triangle with labeled sides or angles (if provided)
 function drawTriangle(ctx, data) {
-  let { a, b, c } = data
+  let { a, b, c, angle1, angle2, angle3, missingAngleIndex } = data
+  const toNumber = (v) => {
+    if (typeof v === 'number') return v
+    if (typeof v === 'string' && v.trim() !== '') return Number(v)
+    return v
+  }
+  angle1 = toNumber(angle1)
+  angle2 = toNumber(angle2)
+  angle3 = toNumber(angle3)
+  missingAngleIndex = toNumber(missingAngleIndex)
+  if (!Number.isFinite(missingAngleIndex)) {
+    const sum = (Number.isFinite(angle1) ? angle1 : 0) +
+      (Number.isFinite(angle2) ? angle2 : 0) +
+      (Number.isFinite(angle3) ? angle3 : 0)
+    if (Number.isFinite(angle1) && Number.isFinite(angle2) && Number.isFinite(angle3) &&
+        Math.abs(sum - 180) < 0.5) {
+      missingAngleIndex = 3
+    }
+  }
+  if (missingAngleIndex === 1) angle1 = null
+  if (missingAngleIndex === 2) angle2 = null
+  if (missingAngleIndex === 3) angle3 = null
 
   // Try to infer a missing side for right-triangle style visuals
   if (typeof a === 'number' && typeof b === 'number' && (c === undefined || c === null)) {
@@ -275,10 +296,90 @@ function drawTriangle(ctx, data) {
   ctx.closePath()
   ctx.stroke()
 
-  // Label sides
-  ctx.fillText(`${a} cm`, (x1 + x3) / 2 - 30, (y1 + y3) / 2)
-  ctx.fillText(`${b} cm`, (x2 + x3) / 2 + 20, (y2 + y3) / 2)
-  ctx.fillText(`${c} cm`, (x1 + x2) / 2, y1 + 25)
+  const hasAngles = Number.isFinite(angle1) || Number.isFinite(angle2) || Number.isFinite(angle3) || Number.isFinite(missingAngleIndex)
+
+  if (hasAngles) {
+    const labelStyle = '#111827'
+    ctx.font = 'bold 18px Arial'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+
+    const drawAngleLabel = (vx, vy, p1x, p1y, p2x, p2y, angleVal, isMissing) => {
+      const v1x = p1x - vx
+      const v1y = p1y - vy
+      const v2x = p2x - vx
+      const v2y = p2y - vy
+      const len1 = Math.hypot(v1x, v1y) || 1
+      const len2 = Math.hypot(v2x, v2y) || 1
+      const u1x = v1x / len1
+      const u1y = v1y / len1
+      const u2x = v2x / len2
+      const u2y = v2y / len2
+      let dirx = -(u1x + u2x)
+      let diry = -(u1y + u2y)
+      const dlen = Math.hypot(dirx, diry) || 1
+      dirx /= dlen
+      diry /= dlen
+
+      const lineLen = 22
+      const labelOffset = 46
+      const lx = vx + dirx * lineLen
+      const ly = vy + diry * lineLen
+      let tx = vx + dirx * labelOffset
+      let ty = vy + diry * labelOffset
+
+      ctx.strokeStyle = '#111827'
+      ctx.lineWidth = 2.5
+      ctx.beginPath()
+      ctx.moveTo(vx, vy)
+      ctx.lineTo(lx, ly)
+      ctx.stroke()
+
+      const label = isMissing ? '?' : `${angleVal}°`
+      const paddingX = 8
+      const paddingY = 6
+      const textW = ctx.measureText(label).width
+      const boxW = textW + paddingX * 2
+      const boxH = 24 + paddingY
+      const pad = 8
+      const canvasW = ctx.canvas?.width || 400
+      const canvasH = ctx.canvas?.height || 300
+      tx = Math.max(pad + boxW / 2, Math.min(canvasW - pad - boxW / 2, tx))
+      ty = Math.max(pad + boxH / 2, Math.min(canvasH - pad - boxH / 2, ty))
+      const rx = tx - boxW / 2
+      const ry = ty - boxH / 2
+      const radius = 6
+
+      ctx.fillStyle = 'white'
+      ctx.strokeStyle = '#111827'
+      ctx.lineWidth = 2
+      ctx.beginPath()
+      ctx.moveTo(rx + radius, ry)
+      ctx.lineTo(rx + boxW - radius, ry)
+      ctx.quadraticCurveTo(rx + boxW, ry, rx + boxW, ry + radius)
+      ctx.lineTo(rx + boxW, ry + boxH - radius)
+      ctx.quadraticCurveTo(rx + boxW, ry + boxH, rx + boxW - radius, ry + boxH)
+      ctx.lineTo(rx + radius, ry + boxH)
+      ctx.quadraticCurveTo(rx, ry + boxH, rx, ry + boxH - radius)
+      ctx.lineTo(rx, ry + radius)
+      ctx.quadraticCurveTo(rx, ry, rx + radius, ry)
+      ctx.closePath()
+      ctx.fill()
+      ctx.stroke()
+
+      ctx.fillStyle = labelStyle
+      ctx.fillText(label, tx, ty)
+    }
+
+    drawAngleLabel(x1, y1, x3, y3, x2, y2, angle1, missingAngleIndex === 1)
+    drawAngleLabel(x2, y2, x1, y1, x3, y3, angle2, missingAngleIndex === 2)
+    drawAngleLabel(x3, y3, x2, y2, x1, y1, angle3, missingAngleIndex === 3)
+  } else {
+    // Label sides
+    if (Number.isFinite(a)) ctx.fillText(`${a} cm`, (x1 + x3) / 2 - 30, (y1 + y3) / 2)
+    if (Number.isFinite(b)) ctx.fillText(`${b} cm`, (x2 + x3) / 2 + 20, (y2 + y3) / 2)
+    if (Number.isFinite(c)) ctx.fillText(`${c} cm`, (x1 + x2) / 2, y1 + 25)
+  }
 
   // Draw vertices
   ctx.fillStyle = '#FF5722'
@@ -705,100 +806,126 @@ function drawBarChart(ctx, data) {
 // Draw fraction visualization
 function drawFractionBar(ctx, data) {
   const { numerator, denominator } = data
+  const width = data.width || 400
+  const height = data.height || 250
+  ctx.clearRect(0, 0, width, height)
 
-  ctx.font = 'bold 16px Arial'
+  const barWidth = Math.min(320, width - 80)
+  const barHeight = 40
+  const gap = 18
+  const startX = (width - barWidth) / 2
+  let startY = 70
 
-  const barWidth = 300
-  const barHeight = 60
-  const startX = 50
-  const startY = 120
+  const whole = Math.floor(numerator / denominator)
+  const remainder = numerator % denominator
+  const totalBars = whole + (remainder > 0 ? 1 : 0)
+  const maxBars = 3
 
-  // Draw total bar outline
-  ctx.strokeStyle = '#333'
-  ctx.lineWidth = 2
-  ctx.strokeRect(startX, startY, barWidth, barHeight)
+  ctx.font = 'bold 18px Arial'
+  ctx.fillStyle = '#111827'
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.fillText(`${numerator}/${denominator}`, width / 2, 30)
 
-  // Fill colored portion
-  const filledWidth = (numerator / denominator) * barWidth
-  ctx.fillStyle = '#4CAF50'
-  ctx.fillRect(startX, startY, filledWidth, barHeight)
+  const drawOneBar = (x, y, fillRatio) => {
+    ctx.strokeStyle = '#1f2937'
+    ctx.lineWidth = 2
+    ctx.strokeRect(x, y, barWidth, barHeight)
 
-  // Draw divisions
-  ctx.strokeStyle = '#666'
-  ctx.lineWidth = 1
-  for (let i = 1; i < denominator; i++) {
-    const x = startX + (i / denominator) * barWidth
-    ctx.beginPath()
-    ctx.moveTo(x, startY)
-    ctx.lineTo(x, startY + barHeight)
-    ctx.stroke()
+    if (fillRatio > 0) {
+      ctx.fillStyle = '#34a853'
+      ctx.fillRect(x, y, barWidth * Math.min(1, fillRatio), barHeight)
+    }
+
+    if (denominator <= 12) {
+      ctx.strokeStyle = '#6b7280'
+      ctx.lineWidth = 1
+      for (let i = 1; i < denominator; i++) {
+        const dx = x + (i / denominator) * barWidth
+        ctx.beginPath()
+        ctx.moveTo(dx, y)
+        ctx.lineTo(dx, y + barHeight)
+        ctx.stroke()
+      }
+    }
   }
 
-  // Label
-  ctx.fillStyle = '#333'
-  ctx.fillText(`${numerator}/${denominator}`, startX + barWidth / 2 - 20, startY + barHeight + 30)
+  if (totalBars === 0) {
+    drawOneBar(startX, startY, 0)
+  } else if (totalBars <= maxBars) {
+    for (let i = 0; i < totalBars; i++) {
+      const y = startY + i * (barHeight + gap)
+      const fillRatio = i < whole ? 1 : remainder / denominator
+      drawOneBar(startX, y, fillRatio)
+    }
+  } else {
+    // Draw two bars and an overflow label
+    for (let i = 0; i < 2; i++) {
+      const y = startY + i * (barHeight + gap)
+      drawOneBar(startX, y, 1)
+    }
+    ctx.fillStyle = '#111827'
+    ctx.font = 'bold 16px Arial'
+    ctx.fillText(`+ ${totalBars - 2} more`, width / 2, startY + 2 * (barHeight + gap) - 6)
+  }
+
+  if (whole > 0 && remainder > 0) {
+    ctx.font = 'bold 16px Arial'
+    ctx.fillStyle = '#111827'
+    ctx.fillText(`${whole} ${remainder}/${denominator}`, width / 2, height - 20)
+  }
 }
 
 // Draw fraction addition visualization
 function drawFractionAddition(ctx, data) {
   const { num1, den1, num2, den2 } = data
+  const width = data.width || 400
+  const height = data.height || 280
+  ctx.clearRect(0, 0, width, height)
 
-  ctx.font = 'bold 16px Arial'
-
-  const barWidth = 150
-  const barHeight = 50
-  const startX = 40
-  const startY1 = 80
+  const barWidth = Math.min(300, width - 80)
+  const barHeight = 36
+  const startX = (width - barWidth) / 2
+  const startY1 = 70
   const startY2 = 160
 
-  // Draw first fraction
-  ctx.strokeStyle = '#333'
-  ctx.lineWidth = 2
-  ctx.strokeRect(startX, startY1, barWidth, barHeight)
+  const drawBar = (x, y, num, den, color) => {
+    ctx.strokeStyle = '#1f2937'
+    ctx.lineWidth = 2
+    ctx.strokeRect(x, y, barWidth, barHeight)
 
-  const filledWidth1 = (num1 / den1) * barWidth
-  ctx.fillStyle = '#4CAF50'
-  ctx.fillRect(startX, startY1, filledWidth1, barHeight)
+    const filledWidth = (num / den) * barWidth
+    ctx.fillStyle = color
+    ctx.fillRect(x, y, filledWidth, barHeight)
 
-  for (let i = 1; i < den1; i++) {
-    const x = startX + (i / den1) * barWidth
-    ctx.strokeStyle = '#666'
-    ctx.lineWidth = 1
-    ctx.beginPath()
-    ctx.moveTo(x, startY1)
-    ctx.lineTo(x, startY1 + barHeight)
-    ctx.stroke()
+    if (den <= 12) {
+      ctx.strokeStyle = '#6b7280'
+      ctx.lineWidth = 1
+      for (let i = 1; i < den; i++) {
+        const dx = x + (i / den) * barWidth
+        ctx.beginPath()
+        ctx.moveTo(dx, y)
+        ctx.lineTo(dx, y + barHeight)
+        ctx.stroke()
+      }
+    }
+
+    ctx.fillStyle = '#111827'
+    ctx.font = 'bold 16px Arial'
+    ctx.textAlign = 'center'
+    ctx.textBaseline = 'middle'
+    ctx.fillText(`${num}/${den}`, x + barWidth / 2, y - 20)
   }
 
-  ctx.fillStyle = '#333'
-  ctx.fillText(`${num1}/${den1}`, startX + barWidth / 2 - 15, startY1 + barHeight + 25)
+  drawBar(startX, startY1, num1, den1, '#34a853')
 
-  // Draw "+" symbol
+  ctx.fillStyle = '#111827'
   ctx.font = 'bold 24px Arial'
-  ctx.fillText('+', startX + barWidth + 30, startY1 + barHeight / 2 + 60)
+  ctx.textAlign = 'center'
+  ctx.textBaseline = 'middle'
+  ctx.fillText('+', width / 2, startY1 + 62)
 
-  // Draw second fraction
-  ctx.strokeStyle = '#333'
-  ctx.lineWidth = 2
-  ctx.strokeRect(startX, startY2, barWidth, barHeight)
-
-  const filledWidth2 = (num2 / den2) * barWidth
-  ctx.fillStyle = '#2196F3'
-  ctx.fillRect(startX, startY2, filledWidth2, barHeight)
-
-  for (let i = 1; i < den2; i++) {
-    const x = startX + (i / den2) * barWidth
-    ctx.strokeStyle = '#666'
-    ctx.lineWidth = 1
-    ctx.beginPath()
-    ctx.moveTo(x, startY2)
-    ctx.lineTo(x, startY2 + barHeight)
-    ctx.stroke()
-  }
-
-  ctx.font = 'bold 16px Arial'
-  ctx.fillStyle = '#333'
-  ctx.fillText(`${num2}/${den2}`, startX + barWidth / 2 - 15, startY2 + barHeight + 25)
+  drawBar(startX, startY2, num2, den2, '#1a73e8')
 }
 
 // Draw rectangle with dimensions

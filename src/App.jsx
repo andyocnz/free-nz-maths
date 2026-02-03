@@ -1351,7 +1351,10 @@ export default function App() {
       const savedSession = loadPracticeState()
       if (savedSession && savedSession.history && savedSession.history.length > 0) {
         // Restore saved session
-        setHistory(savedSession.history)
+        setHistory(savedSession.history.map(q => ({
+          attempts: typeof q.attempts === 'number' ? q.attempts : 0,
+          ...q
+        })))
         setCurrentIndex(savedSession.currentIndex || 0)
         setSelectedYear(savedSession.selectedYear)
         setSelectedStrand(savedSession.selectedStrand)
@@ -1380,7 +1383,8 @@ export default function App() {
                 userAnswer: '',
                 userFeedback: '',
                 isCorrect: false,
-                answered: false
+                answered: false,
+                attempts: 0
               }
               questions.push(newQ)
             }
@@ -1402,7 +1406,10 @@ export default function App() {
       const savedTestState = loadTestState()
       if (savedTestState && savedTestState.history && savedTestState.history.length > 0) {
         // Restore saved test session with all configuration
-        setHistory(savedTestState.history)
+        setHistory(savedTestState.history.map(q => ({
+          attempts: typeof q.attempts === 'number' ? q.attempts : 0,
+          ...q
+        })))
         setCurrentIndex(savedTestState.currentIndex || 0)
         setSelectedYear(savedTestState.selectedYear)
         setScore(savedTestState.score || 0)
@@ -1503,6 +1510,7 @@ export default function App() {
         elem.innerHTML = html
       }
       setAnswer(question.userAnswer || '')
+      setAttempts(typeof question.attempts === 'number' ? question.attempts : 0)
       if (Array.isArray(question.choices) && question.choices.length > 0) {
         const idx = question.choices.findIndex(choice => choice === (question.userAnswer || ''))
         setSelectedChoiceIndex(idx >= 0 ? idx : null)
@@ -1706,7 +1714,8 @@ export default function App() {
         userAnswer: '',
         userFeedback: '',
         isCorrect: false,
-        answered: false
+        answered: false,
+        attempts: 0
       }
       questions.push(newQ)
     }
@@ -2222,7 +2231,8 @@ export default function App() {
         if (selectedSkill && selectedYear) {
           saveProgress(selectedSkill, false, selectedYear)
         }
-        const newAttempts = attempts + 1
+        const currentAttempts = typeof question.attempts === 'number' ? question.attempts : attempts
+        const newAttempts = currentAttempts + 1
         setAttempts(newAttempts)
 
         const displayAnswer = normalizeMathDisplay(question.formattedAnswer || question.answer)
@@ -2247,7 +2257,8 @@ export default function App() {
 
       // Determine if question should be marked as answered
       // Only mark as answered if: correct OR used both attempts in practice mode OR in test mode
-      const shouldMarkAnswered = isCorrect || (attempts + 1) >= 2 || isTestMode
+      const currentAttempts = typeof question.attempts === 'number' ? question.attempts : attempts
+      const shouldMarkAnswered = isCorrect || (currentAttempts + 1) >= 2 || isTestMode
 
       setHistory(prev => {
         const updated = [...prev]
@@ -2256,7 +2267,8 @@ export default function App() {
           userAnswer: answer,
           userFeedback: newFeedback,
           isCorrect: isCorrect,
-          answered: shouldMarkAnswered
+          answered: shouldMarkAnswered,
+          attempts: isCorrect ? currentAttempts : currentAttempts + 1
         }
         return updated
       })
@@ -2278,7 +2290,8 @@ export default function App() {
           userAnswer: answer,
           userFeedback: errorFeedback,
           isCorrect: false,
-          answered: false
+          answered: false,
+          attempts: typeof question.attempts === 'number' ? question.attempts : attempts
         }
         return updated
       })
@@ -2829,7 +2842,8 @@ export default function App() {
               userAnswer: '',
               userFeedback: '',
               isCorrect: false,
-              answered: false
+              answered: false,
+              attempts: 0
             }))
 
             setHistory(examQuestions)
