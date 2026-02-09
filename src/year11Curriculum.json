@@ -15,6 +15,7 @@
               "stem": "Expand ({a}x + {b})({c}x + {d})",
               "params": { "a": ["int", 1, 5], "b": ["int", -10, 10], "c": ["int", 1, 5], "d": ["int", -10, 10] },
               "answer": "{a*c}x^2 + {a*d + b*c}x + {b*d}",
+              "hint": "Multiply each term (FOIL).\nCombine like terms to form ax^2 + bx + c.",
               "difficulty": 6
             },
             {
@@ -22,6 +23,7 @@
               "stem": "Simplify: ({a}x^2 + {b}x + {c}) + ({d}x^2 + {e}x + {f})",
               "params": { "a": ["int", 1, 5], "b": ["int", -10, 10], "c": ["int", -10, 10], "d": ["int", 1, 5], "e": ["int", -10, 10], "f": ["int", -10, 10] },
               "answer": "{a+d}x^2 + {b+e}x + {c+f}",
+              "hint": "Add coefficients of like powers.\nCombine x^2, x, and constant terms.",
               "difficulty": 5
             }
           ]
@@ -38,6 +40,7 @@
               "stem": "In a right triangle, opposite = {a}, adjacent = {b}. Find tan(θ).",
               "params": { "a": ["int", 3, 20], "b": ["int", 3, 20] },
               "answer": "{a/b}",
+              "hint": "tan(theta) = opposite / adjacent.\nSubstitute a and b.",
               "difficulty": 6
             },
             {
@@ -45,6 +48,7 @@
               "stem": "Hypotenuse = {c}, opposite = {a}. Find sin(θ).",
               "params": { "c": ["int", 10, 25], "a": ["int", 5, 20] },
               "answer": "{a/c}",
+              "hint": "sin(theta) = opposite / hypotenuse.\nSubstitute a and c.",
               "difficulty": 6
             }
           ]
@@ -61,6 +65,7 @@
               "stem": "Find the gradient of the line through ({x1},{y1}) and ({x2},{y2}).",
               "params": { "x1": ["int", -10, 10], "y1": ["int", -10, 10], "x2": ["int", -10, 10], "y2": ["int", -10, 10] },
               "answer": "{(y2-y1)/(x2-x1)}",
+              "hint": "Use slope formula (y2-y1)/(x2-x1).\nSubtract y-values and x-values.",
               "difficulty": 6,
               "validateParams": "x1 !== x2"
             },
@@ -69,6 +74,7 @@
               "stem": "Find the distance between ({x1},{y1}) and ({x2},{y2}).",
               "params": { "x1": ["int", -10, 10], "y1": ["int", -10, 10], "x2": ["int", -10, 10], "y2": ["int", -10, 10] },
               "answer": "sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1))",
+              "hint": "Use distance formula.\nsqrt((x2-x1)^2 + (y2-y1)^2).",
               "difficulty": 7
             },
             {
@@ -76,6 +82,7 @@
               "stem": "Find the midpoint of ({x1},{y1}) and ({x2},{y2}).",
               "params": { "x1": ["int", -10, 10], "y1": ["int", -10, 10], "x2": ["int", -10, 10], "y2": ["int", -10, 10] },
               "answer": "({(x1+x2)/2}, {(y1+y2)/2})",
+              "hint": "Midpoint = ((x1+x2)/2, (y1+y2)/2).\nAverage each coordinate.",
               "difficulty": 5
             },
             {
@@ -83,6 +90,7 @@
               "stem": "Write the equation of the line with gradient {m} through ({x1},{y1}).",
               "params": { "m": ["int", -5, 5], "x1": ["int", -10, 10], "y1": ["int", -10, 10] },
               "answer": "y = {m}x + {y1 - m*x1}",
+              "hint": "Use y - y1 = m(x - x1).\nRearrange to y = mx + c.",
               "difficulty": 7
             }
           ]
@@ -99,6 +107,7 @@
               "stem": "Find the mean of: {a}, {b}, {c}, {d}, {e}.",
               "params": { "a": ["int", 10, 100], "b": ["int", 10, 100], "c": ["int", 10, 100], "d": ["int", 10, 100], "e": ["int", 10, 100] },
               "answer": "(a + b + c + d + e) / 5",
+              "hint": "Add all values, then divide by 5.\nMean = sum / count.",
               "difficulty": 5
             },
             {
@@ -106,6 +115,7 @@
               "stem": "Calculate the range of: {a}, {b}, {c}, {d}, {e}.",
               "params": { "a": ["int", 10, 100], "b": ["int", 10, 100], "c": ["int", 10, 100], "d": ["int", 10, 100], "e": ["int", 10, 100] },
               "answer": "max([a, b, c, d, e]) - min([a, b, c, d, e])",
+              "hint": "Range = max - min.\nFind largest and smallest values.",
               "difficulty": 4
             }
           ]
@@ -122,6 +132,7 @@
               "stem": "Differentiate f(x) = {a}x^2 + {b}x + {c}.",
               "params": { "a": ["int", 1, 5], "b": ["int", -10, 10], "c": ["int", -5, 5] },
               "answer": "{2*a}x + {b}",
+              "hint": "Use power rule: d/dx (a x^2) = 2a x.\nDerivative of bx + c is b.",
               "difficulty": 10
             },
             {
@@ -129,6 +140,7 @@
               "stem": "Find dy/dx for y = {a}x^3 + {b}x^2.",
               "params": { "a": ["int", 1, 5], "b": ["int", -10, 10] },
               "answer": "{3*a}x^2 + {2*b}x",
+              "hint": "Use power rule term by term.\n3a x^2 + 2b x.",
               "difficulty": 10
             },
             {
@@ -136,6 +148,7 @@
               "stem": "Find the gradient of y = {a}x^2 at x = {x0}.",
               "params": { "a": ["int", 1, 5], "x0": ["int", -5, 5] },
               "answer": "{2*a*x0}",
+              "hint": "Differentiate: dy/dx = 2a x.\nSubstitute x0.",
               "difficulty": 9
             }
           ]

@@ -28,6 +28,7 @@
                 "d": "{c + diff}"
               },
               "answer": "{d + diff}",
+              "hint": "Each term increases by diff.\nAdd diff to the last shown term.",
               "difficulty": 1,
               "phase": 10.22
             },
@@ -42,6 +43,7 @@
                 ]
               },
               "answer": "{n}",
+              "hint": "The loop repeats n times.\nEach repeat prints once.",
               "difficulty": 1,
               "phase": 10.22
             },
@@ -56,6 +58,7 @@
                 ]
               },
               "answer": "{limit}",
+              "hint": "The loop runs from 1 up to the limit.\nThe blank is the limit.",
               "difficulty": 1,
               "phase": 10.22
             },
@@ -75,6 +78,7 @@
                 ]
               },
               "answer": "{score > threshold ? 'Pass' : 'Fail'}",
+              "hint": "Compare score to threshold.\nIf score > threshold then Pass, else Fail.",
               "difficulty": 1,
               "phase": 10.22
             },
@@ -92,6 +96,7 @@
                 "mult3": "{mult2 * factor}"
               },
               "answer": "{mult3 * factor}",
+              "hint": "Each hour multiply by factor.\nContinue the pattern one more step.",
               "difficulty": 1,
               "phase": 10.22
             }
@@ -124,6 +129,7 @@
                 ]
               },
               "answer": "{age < threshold ? 'child' : 'teen'}",
+              "hint": "Check the condition age < threshold.\nTrue gives 'child', false gives 'teen'.",
               "difficulty": 2,
               "phase": 10.22
             },
@@ -138,6 +144,7 @@
                 ]
               },
               "answer": "{n}",
+              "hint": "count starts at 0 and increases by 1 each repeat.\nAfter n repeats, count = n.",
               "difficulty": 2,
               "phase": 10.22
             },
@@ -157,6 +164,7 @@
                 ]
               },
               "answer": "{a == 'true' && b == 'true' ? 'true' : 'false'}",
+              "hint": "AND is true only if both inputs are true.\nOtherwise false.",
               "difficulty": 2,
               "phase": 10.22
             },
@@ -176,6 +184,7 @@
                 ]
               },
               "answer": "{a == 'true' || b == 'true' ? 'true' : 'false'}",
+              "hint": "OR is true if at least one input is true.\nOnly false if both are false.",
               "difficulty": 2,
               "phase": 10.22
             },
@@ -190,6 +199,7 @@
                 ]
               },
               "answer": "{a == 'true' ? 'false' : 'true'}",
+              "hint": "NOT flips the input.\nTrue becomes false and vice versa.",
               "difficulty": 2,
               "phase": 10.22
             }
@@ -222,6 +232,7 @@
                 ]
               },
               "answer": "{x + y}",
+              "hint": "The function returns a + b.\nSubstitute x and y.",
               "difficulty": 3,
               "phase": 10.22
             },
@@ -241,6 +252,7 @@
                 ]
               },
               "answer": "{initial + increment}",
+              "hint": "New value = old value + increment.\nAdd the two numbers.",
               "difficulty": 3,
               "phase": 10.22
             },
@@ -255,6 +267,7 @@
                 ]
               },
               "answer": "{n * 2}",
+              "hint": "double(n) means n times 2.\nMultiply by 2.",
               "difficulty": 3,
               "phase": 10.22
             },
@@ -269,6 +282,7 @@
                 ]
               },
               "answer": "{limit * (limit + 1) / 2}",
+              "hint": "Sum 1+2+...+limit.\nUse n(n+1)/2.",
               "difficulty": 3,
               "phase": 10.22
             },
@@ -286,6 +300,7 @@
                 "f7": "{f6 + f5}"
               },
               "answer": "{n === 5 ? f5 : n === 6 ? f6 : f7}",
+              "hint": "Use F(n)=F(n-1)+F(n-2).\nBuild terms up to n.",
               "difficulty": 3,
               "phase": 10.22
             }
@@ -313,6 +328,7 @@
                 ]
               },
               "answer": "{n}",
+              "hint": "Worst case checks every item.\nSo checks = n.",
               "difficulty": 4,
               "phase": 10.22
             },
@@ -328,6 +344,7 @@
                 ]
               },
               "answer": "{Math.ceil(Math.log2(n))}",
+              "hint": "Binary search halves each step.\nChecks about log2(n).",
               "difficulty": 4,
               "phase": 10.22
             },
@@ -342,6 +359,7 @@
                 ]
               },
               "answer": "{n * n}",
+              "hint": "Bubble sort comparisons are about n^2.\nUse n*n.",
               "difficulty": 4,
               "phase": 10.22
             },
@@ -356,6 +374,7 @@
                 ]
               },
               "answer": "{n}",
+              "hint": "Selection sort places one item per pass.\nSo passes = n.",
               "difficulty": 4,
               "phase": 10.22
             },
@@ -370,6 +389,7 @@
                 ]
               },
               "answer": "{n}",
+              "hint": "You insert each of the n elements once.\nSo count = n.",
               "difficulty": 4,
               "phase": 10.22
             }
@@ -397,6 +417,7 @@
                 ]
               },
               "answer": "{n}",
+              "hint": "Counting 1..n includes n numbers.\nSo count = n.",
               "difficulty": 5,
               "phase": 10.22
             },
@@ -411,6 +432,7 @@
                 ]
               },
               "answer": "{n}",
+              "hint": "One check per item.\nSo checks = n.",
               "difficulty": 5,
               "phase": 10.22
             },
@@ -430,6 +452,7 @@
                 ]
               },
               "answer": "{n * m}",
+              "hint": "Total checks = loops * checks per loop.\nMultiply n by m.",
               "difficulty": 5,
               "phase": 10.22
             },
@@ -444,6 +467,7 @@
                 ]
               },
               "answer": "{n - 1}",
+              "hint": "Compare each item to current max.\nNeed n-1 comparisons.",
               "difficulty": 5,
               "phase": 10.22
             },
@@ -463,6 +487,7 @@
                 ]
               },
               "answer": "{passes * n}",
+              "hint": "Each pass checks n items.\nMultiply passes by n.",
               "difficulty": 5,
               "phase": 10.22
             }
@@ -490,6 +515,7 @@
                 ]
               },
               "answer": "{n + 1}",
+              "hint": "Calls are fact(n), fact(n-1), ..., fact(0).\nThat is n+1 calls.",
               "difficulty": 6,
               "phase": 10.22
             },
@@ -509,6 +535,7 @@
                 ]
               },
               "answer": "{n}",
+              "hint": "Multiply by a once per level.\nSo n multiplications.",
               "difficulty": 6,
               "phase": 10.22
             },
@@ -528,6 +555,7 @@
                 ]
               },
               "answer": "{push - pop}",
+              "hint": "Push adds, pop removes.\nRemaining = push - pop.",
               "difficulty": 6,
               "phase": 10.22
             },
@@ -549,6 +577,7 @@
                 ]
               },
               "answer": "{size / Math.pow(2, steps)}",
+              "hint": "Each step halves the list.\nRemaining = size / 2^steps.",
               "difficulty": 6,
               "phase": 10.22
             },
@@ -569,6 +598,7 @@
                 ]
               },
               "answer": "{Math.ceil(n / dec) + 1}",
+              "hint": "n decreases by dec each call until <=0.\nCalls = ceil(n/dec) + 1.",
               "difficulty": 6,
               "phase": 10.22
             }
@@ -601,6 +631,7 @@
                 ]
               },
               "answer": "{v * d / 2}",
+              "hint": "Sum of degrees = 2E.\nSo edges E = v*d/2.",
               "difficulty": 6,
               "phase": 10.22
             },
@@ -615,6 +646,7 @@
                 ]
               },
               "answer": "{level}",
+              "hint": "BFS level equals shortest path length.\nSo length = level.",
               "difficulty": 6,
               "phase": 10.22
             },
@@ -634,6 +666,7 @@
                 ]
               },
               "answer": "{add - remove}",
+              "hint": "Enqueue adds, dequeue removes.\nRemaining = add - remove.",
               "difficulty": 6,
               "phase": 10.22
             },
@@ -648,6 +681,7 @@
                 ]
               },
               "answer": "{Math.pow(2, h + 1) - 1}",
+              "hint": "Complete binary tree nodes = 2^(h+1) - 1.\nUse height h.",
               "difficulty": 7,
               "phase": 10.22
             },
@@ -663,6 +697,7 @@
                 ]
               },
               "answer": "{branches * branches}",
+              "hint": "Level 0 has 1, level 1 has branches.\nLevel 2 has branches^2.",
               "difficulty": 6,
               "phase": 10.22
             }
@@ -690,6 +725,7 @@
                 ]
               },
               "answer": "{3*n*n + 5*n + 10}",
+              "hint": "Substitute n into 3n^2 + 5n + 10.\nCompute directly.",
               "difficulty": 8,
               "phase": 10.22
             },
@@ -707,6 +743,7 @@
                 ]
               },
               "answer": "{Math.log2(n) + 1}",
+              "hint": "Each level halves the size.\nLevels = log2(n) + 1.",
               "difficulty": 8,
               "phase": 10.22
             },
@@ -722,6 +759,7 @@
                 ]
               },
               "answer": "{Math.round(n * Math.log2(n))}",
+              "hint": "Use n log2 n.\nMultiply n by log2(n) and round.",
               "difficulty": 8,
               "phase": 10.22
             },
@@ -730,6 +768,7 @@
               "stem": "An algorithm runs in O(n³). If n doubles, by what factor does the running time increase?",
               "params": {},
               "answer": "8",
+              "hint": "Time scales with n^3.\n(2n)^3 = 8 n^3.",
               "difficulty": 8,
               "phase": 10.22
             },
@@ -744,6 +783,7 @@
                 ]
               },
               "answer": "{Math.ceil(Math.log2(start))}",
+              "hint": "Each halving is one step.\nSteps = ceil(log2(start)).",
               "difficulty": 8,
               "phase": 10.22
             }

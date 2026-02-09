@@ -21,6 +21,7 @@
                 ]
               },
               "answer": "{Math.floor(limit / 2) + Math.floor(Math.sqrt(limit)) - Math.floor(Math.sqrt(limit) / 2)}",
+              "hint": "n^n is a square if n is even or n is a perfect square.\nCount evens and squares, then subtract overlap.",
               "difficulty": 13,
               "phase": 13
             }
@@ -45,6 +46,7 @@
               },
               "validateParams": "f1 != f2 && hcf(f1, f2) == 1",
               "answer": "{num2}",
+              "hint": "Use ab = lcm * hcf.\nIf one number is known, divide the product by it.",
               "difficulty": 13,
               "phase": 13
             }
@@ -74,6 +76,7 @@
                 ]
               },
               "answer": "{(powMod(base - 1, exp, mod) + powMod(base + 1, exp, mod)) % mod}",
+              "hint": "Use binomial expansion or symmetry modulo p^2.\nOdd powers cancel; only even terms remain.",
               "difficulty": 13,
               "phase": 13
             }
@@ -114,6 +117,7 @@
               },
               "validateParams": "d2 < b && d1 < b && d0 < b",
               "answer": "{b}",
+              "hint": "Value = d2*b^2 + d1*b + d0.\nSolve for b using the given value.",
               "difficulty": 13,
               "phase": 13
             }
@@ -137,6 +141,7 @@
                 ]
               },
               "answer": "{sumOfDivisors(n)}",
+              "hint": "Prime-factorize n.\nUse product of (p^(k+1)-1)/(p-1) over primes.",
               "difficulty": 13,
               "phase": 13
             }
@@ -170,6 +175,7 @@
                 ]
               },
               "answer": "{countPositiveDiophantine(a, b, target)}",
+              "hint": "Solve ax + by = target for integers.\nCount positive solutions using modular steps.",
               "difficulty": 13,
               "phase": 13
             }
@@ -204,6 +210,7 @@
               },
               "validateParams": "num < den",
               "answer": "{tanRecurrenceValue(den, num, term)}",
+              "hint": "Recognize tan addition formula: tan(A+B).\nSequence equals tan((n+1)arctan(num/den)).",
               "difficulty": 13,
               "phase": 13
             }
@@ -233,6 +240,7 @@
                 ]
               },
               "answer": "{scalingFunctionValue(k, target)}",
+              "hint": "Use f(kx)=k f(x) to scale back into [1,3].\nEvaluate f there, then scale up.",
               "difficulty": 13,
               "phase": 13
             }
@@ -255,6 +263,7 @@
               },
               "validateParams": "p <= q",
               "answer": "{c}",
+              "hint": "Quadratic x^2 - (p+q)x + pq = 0.\nSo c = pq.",
               "difficulty": 13,
               "phase": 13
             }
@@ -287,6 +296,7 @@
                 ]
               },
               "answer": "{solveInverseFunctional(c, d, val)}",
+              "hint": "Set x -> 1/x to get a system.\nSolve for f(x) and f(1/x).",
               "difficulty": 13,
               "phase": 13
             }
@@ -310,6 +320,7 @@
                 ]
               },
               "answer": "{simplify(n, n + 1)}",
+              "hint": "Use 1/(k(k+1)) = 1/k - 1/(k+1).\nSeries telescopes.",
               "difficulty": 13,
               "phase": 13
             }
@@ -349,6 +360,7 @@
                 "rb": "{c_int * b + d_int}"
               },
               "answer": "{c_int + d_int}",
+              "hint": "Remainder is cx + d with c,d from two points.\nUse R(a)=ra and R(b)=rb.",
               "difficulty": 13,
               "phase": 13
             }
@@ -371,6 +383,7 @@
                 ]
               },
               "answer": "{Math.sqrt(5) * s}",
+              "hint": "Unfold the cube into a net.\nShortest path is a diagonal of a 2-by-1 rectangle.",
               "difficulty": 13,
               "phase": 13
             }
@@ -402,6 +415,7 @@
               },
               "validateParams": "n < m",
               "answer": "{(a + b - c) / 2}",
+              "hint": "Inradius r = (a + b - c)/2 for right triangle.\nUse a,b,c legs/hypotenuse.",
               "difficulty": 13,
               "phase": 13
             }
@@ -449,6 +463,7 @@
                 ]
               },
               "answer": "{Math.abs(x1*(y2-y3) + x2*(y3-y1) + x3*(y1-y2)) / 2}",
+              "hint": "Use shoelace formula.\nArea = |x1(y2-y3)+x2(y3-y1)+x3(y1-y2)|/2.",
               "difficulty": 13,
               "phase": 13
             }
@@ -472,6 +487,7 @@
                 ]
               },
               "answer": "{triangleRandomWalkProbability(steps)}",
+              "hint": "State depends only on parity of steps.\nUse recurrence or matrix for 3-state walk.",
               "difficulty": 13,
               "phase": 13
             }
@@ -504,6 +520,7 @@
                 ]
               },
               "answer": "{simplify(size * women, men + women)}",
+              "hint": "Linearity of expectation.\nExpected women = size * women/(men+women).",
               "difficulty": 13,
               "phase": 13
             }
@@ -526,6 +543,7 @@
                 ]
               },
               "answer": "{derangement(n)}",
+              "hint": "Use derangement formula or !n.\n!n = round(n!/e).",
               "difficulty": 13,
               "phase": 13
             }
@@ -554,6 +572,7 @@
                 ]
               },
               "answer": "{binomial_coeff(n + k - 1, k - 1)}",
+              "hint": "Stars and bars: C(n+k-1, k-1).\nNon-negative solutions.",
               "difficulty": 13,
               "phase": 13
             }
@@ -577,6 +596,7 @@
                 ]
               },
               "answer": "{Math.floor(m / 2) + 1}",
+              "hint": "Pair numbers that sum to m+1.\nNeed one from each pair plus one extra.",
               "difficulty": 13,
               "phase": 13
             }
@@ -614,6 +634,7 @@
                 ]
               },
               "answer": "{Math.sqrt(Math.pow(a - c, 2) + Math.pow(b - d, 2))}",
+              "hint": "Net displacement: (a-c, b-d).\nDistance = sqrt((a-c)^2 + (b-d)^2).",
               "difficulty": 8,
               "phase": 8
             }
@@ -639,6 +660,7 @@
                 ]
               },
               "answer": "{lcmRange(n)}",
+              "hint": "LCM of 1..n is product of prime powers <= n.\nCombine highest powers of primes.",
               "difficulty": 9,
               "phase": 9
             }
@@ -669,6 +691,7 @@
                 ]
               },
               "answer": "{Math.pow(n - k + 1, 2)}",
+              "hint": "There are (n-k+1) positions per side.\nTotal squares = (n-k+1)^2.",
               "difficulty": 7,
               "phase": 7
             }
@@ -701,6 +724,7 @@
                 ]
               },
               "answer": "{unitsDigit(base, exp)}",
+              "hint": "Use last-digit cycle of the base.\nReduce exponent modulo cycle length.",
               "difficulty": 8,
               "phase": 8
             }
@@ -728,6 +752,7 @@
                 ]
               },
               "answer": "{n * n}",
+              "hint": "Sum of first n odd numbers is n^2.\nUse pattern or formula.",
               "difficulty": 6,
               "phase": 6
             }
@@ -753,6 +778,7 @@
                 "let2": "{word[word.length - 1]}"
               },
               "answer": "{factorial(word.length) / 2}",
+              "hint": "Exactly half of all permutations have let1 before let2.\nTotal permutations / 2.",
               "difficulty": 9,
               "phase": 9
             }
@@ -779,6 +805,7 @@
                 ]
               },
               "answer": "{countPrimesLessThan(n)}",
+              "hint": "List primes below n.\nCount them.",
               "difficulty": 7,
               "phase": 7
             }
@@ -811,6 +838,7 @@
                 ]
               },
               "answer": "{Math.sqrt(b*b + c*c)}",
+              "hint": "Up and down cancel; horizontal legs remain.\nDistance = sqrt(b^2 + c^2).",
               "difficulty": 8,
               "phase": 8
             }
