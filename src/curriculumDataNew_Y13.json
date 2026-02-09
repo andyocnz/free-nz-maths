@@ -645,6 +645,7 @@
                 ]
               },
               "answer": "center ({h}, {k}), radius {r}",
+              "hint": "Compare to (x-h)^2 + (y-k)^2 = r^2.\nRead off h, k, and r.",
               "difficulty": 7
             },
             {
@@ -668,6 +669,7 @@
                 ]
               },
               "answer": "(x - {h})^2 + (y - {k})^2 = {r*r}",
+              "hint": "Use (x-h)^2 + (y-k)^2 = r^2.\nSubstitute h, k, r.",
               "difficulty": 7
             },
             {
@@ -691,6 +693,7 @@
                 ]
               },
               "answer": "({h}, {k})",
+              "hint": "Vertex form is y = a(x-h)^2 + k.\nVertex is (h, k).",
               "difficulty": 6
             },
             {
@@ -704,6 +707,7 @@
                 ]
               },
               "answer": "(0, {a/4})",
+              "hint": "Compare x^2 = 4 p y.\nThen p = a/4, focus (0, p).",
               "difficulty": 8
             },
             {
@@ -732,6 +736,7 @@
                 ]
               },
               "answer": "sqrt(({x2}-{x1})^2 + ({y2}-{y1})^2)",
+              "hint": "Use distance formula.\nCompute sqrt((x2-x1)^2 + (y2-y1)^2).",
               "difficulty": 6
             },
             {
@@ -760,6 +765,7 @@
                 ]
               },
               "answer": "{'(' + (x1+x2)/2 + ', ' + (y1+y2)/2 + ')'}",
+              "hint": "Midpoint = ((x1+x2)/2, (y1+y2)/2).\nAverage the coordinates.",
               "difficulty": 6,
               "phase": 10.7
             }

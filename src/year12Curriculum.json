@@ -25,6 +25,7 @@
                 "h": ["int", 1, 5]
               },
               "answer": "[[{a*e + b*g}, {a*f + b*h}], [{c*e + d*g}, {c*f + d*h}]]",
+              "hint": "Multiply rows by columns.\nTop-left = a*e + b*g, top-right = a*f + b*h.\nBottom-left = c*e + d*g, bottom-right = c*f + d*h.",
               "visualData": {
                 "type": "matrix_2x2",
                 "matrix1": [["a","b"],["c","d"]],
@@ -45,6 +46,7 @@
                 "d": ["int", 1, 9]
               },
               "answer": "{a*d - b*c}",
+              "hint": "For [[a,b],[c,d]], det = a*d - b*c.\nMultiply main diagonal, subtract other diagonal.",
               "visualData": {
                 "type": "matrix_2x2",
                 "matrix1": [["a","b"],["c","d"]],
@@ -68,6 +70,7 @@
                 "h": ["int", 1, 9]
               },
               "answer": "[[{a+e}, {b+f}], [{c+g}, {d+h}]]",
+              "hint": "Add corresponding entries.\nResult = [[a+e, b+f],[c+g, d+h]].",
               "visualData": {
                 "type": "matrix_2x2",
                 "matrix1": [["a","b"],["c","d"]],
@@ -88,6 +91,7 @@
                 "d": ["int", 1, 5]
               },
               "answer": "1/({a*d - b*c}) * [[{d}, {-b}], [{-c}, {a}]]",
+              "hint": "Compute det = a*d - b*c.\nSwap a and d, change signs of b and c.\nDivide each entry by det.",
               "visualData": {
                 "type": "matrix_2x2",
                 "matrix1": [["a","b"],["c","d"]],
@@ -116,6 +120,7 @@
                 "c": ["int", -5, 5]
               },
               "answer": "{a/3}x^3 + {b/2}x^2 + {c}x + C",
+              "hint": "Use power rule: integral of x^n is x^(n+1)/(n+1).\nIntegrate term by term and add C.",
               "difficulty": 10
             },
             {
@@ -127,6 +132,7 @@
                 "upper": ["int", 4, 8]
               },
               "answer": "{a/2 * (upper*upper - lower*lower)}",
+              "hint": "Antiderivative is (a/2) x^2.\nEvaluate at upper minus lower.",
               "difficulty": 9
             },
             {
@@ -137,6 +143,7 @@
                 "n": ["int", 2, 5]
               },
               "answer": "{a/(n+1)}x^{n+1} + C",
+              "hint": "Use power rule: (a/(n+1)) x^(n+1) + C.\nAdd 1 to the exponent and divide.",
               "difficulty": 9
             }
           ]
@@ -158,6 +165,7 @@
                 "c": ["int", -10, 10]
               },
               "answer": "{-b/(2*a)}",
+              "hint": "Find derivative f'(x) and set to 0.\nSolve for x, then use f(x) if asked for point.",
               "visualData": {
                 "type": "graph_parabola",
                 "a": "a",
@@ -177,6 +185,7 @@
                 "t0": ["int", 1, 5]
               },
               "answer": "{2*a*t0 + b}",
+              "hint": "Velocity is the derivative of position.\nDifferentiate s(t), then substitute t0.",
               "difficulty": 9
             }
           ]
@@ -199,6 +208,7 @@
                 "d": ["int", -5, 5]
               },
               "answer": "<{a+c}, {b+d}>",
+              "hint": "Add components: <a+c, b+d>.\nAdd x parts and y parts separately.",
               "visualData": {
                 "type": "coordinate_grid",
                 "points": [[0,0],["a","b"],["c","d"]],
@@ -215,6 +225,7 @@
                 "b": ["int", -10, 10]
               },
               "answer": "sqrt({a*a + b*b})",
+              "hint": "Magnitude = sqrt(a^2 + b^2).\nUse Pythagoras on the components.",
               "difficulty": 7
             },
             {
@@ -227,6 +238,7 @@
                 "d": ["int", -5, 5]
               },
               "answer": "{a*c + b*d}",
+              "hint": "Dot product = a*c + b*d.\nMultiply corresponding components and add.",
               "difficulty": 8
             },
             {
@@ -238,6 +250,7 @@
                 "b": ["int", -10, 10]
               },
               "answer": "<{k*a}, {k*b}>",
+              "hint": "Multiply each component by k.\nResult = <k*a, k*b>.",
               "visualData": {
                 "type": "coordinate_grid",
                 "points": [[0,0],["a","b"]],
@@ -265,6 +278,7 @@
                 "r": ["int", 2, 8]
               },
               "answer": "(x - {h})^2 + (y - {k})^2 = {r*r}",
+              "hint": "Use (x - h)^2 + (y - k)^2 = r^2.\nSquare the radius.",
               "visualData": {
                 "type": "circle",
                 "radius": "r"
@@ -290,6 +304,7 @@
                 "x0": ["int", 5, 20]
               },
               "answer": "{a*x0 + b}",
+              "hint": "Substitute x0 into y = a x + b.\nCompute y.",
               "visualData": {
                 "type": "scatter_plot",
                 "points": [[1,"a*1 + b"],[2,"a*2 + b"],[3,"a*3 + b"]],
@@ -318,6 +333,7 @@
                 "k": ["int", 1, 3]
               },
               "answer": "round(binomial_coeff(n, k) * (p ** k) * ((1 - p) ** (n - k)), 2)",
+              "hint": "Use C(n,k) * p^k * (1-p)^(n-k).\nCompute and round to 2 dp.",
               "difficulty": 9,
               "phase": 10.7
             }
@@ -341,6 +357,7 @@
                 "d": ["int", -20, 20]
               },
               "answer": "(a*a*a + b*a*a + c*a + d === 0 ? 'Yes' : 'No')",
+              "hint": "Use factor theorem: substitute x = a.\nIf f(a) = 0 then (x-a) is a factor.",
               "difficulty": 9,
               "phase": 10.7
             }

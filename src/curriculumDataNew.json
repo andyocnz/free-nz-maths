@@ -5969,6 +5969,7 @@
                 ]
               },
               "answer": "[[{a*e + b*g}, {a*f + b*h}], [{c*e + d*g}, {c*f + d*h}]]",
+              "hint": "Multiply rows by columns.\nTop-left = a*e + b*g, top-right = a*f + b*h.\nBottom-left = c*e + d*g, bottom-right = c*f + d*h.",
               "visualData": {
                 "type": "matrix_2x2",
                 "matrix1": [
@@ -6023,6 +6024,7 @@
                 ]
               },
               "answer": "{a*d - b*c}",
+              "hint": "For [[a,b],[c,d]], det = a*d - b*c.\nMultiply main diagonal, subtract other diagonal.",
               "visualData": {
                 "type": "matrix_2x2",
                 "matrix1": [
@@ -6087,6 +6089,7 @@
                 ]
               },
               "answer": "[[{a+e}, {b+f}], [{c+g}, {d+h}]]",
+              "hint": "Add corresponding entries.\nResult = [[a+e, b+f],[c+g, d+h]].",
               "visualData": {
                 "type": "matrix_2x2",
                 "matrix1": [
@@ -6141,6 +6144,7 @@
                 ]
               },
               "answer": "1/({a*d - b*c}) * [[{d}, {-b}], [{-c}, {a}]]",
+              "hint": "Compute det = a*d - b*c.\nSwap a and d, change signs of b and c.\nDivide each entry by det.",
               "visualData": {
                 "type": "matrix_2x2",
                 "matrix1": [
@@ -6190,6 +6194,7 @@
                 ]
               },
               "answer": "{a/3}x^3 + {b/2}x^2 + {c}x + C",
+              "hint": "Use power rule: integral of x^n is x^(n+1)/(n+1).\nIntegrate term by term and add C.",
               "difficulty": 10
             },
             {
@@ -6213,6 +6218,7 @@
                 ]
               },
               "answer": "{a/2 * (upper*upper - lower*lower)}",
+              "hint": "Antiderivative is (a/2) x^2.\nEvaluate at upper minus lower.",
               "difficulty": 9
             },
             {
@@ -6231,6 +6237,7 @@
                 ]
               },
               "answer": "{a/(n+1)}x^{n+1} + C",
+              "hint": "Use power rule: (a/(n+1)) x^(n+1) + C.\nAdd 1 to the exponent and divide.",
               "difficulty": 9
             }
           ]
@@ -6264,6 +6271,7 @@
                 ]
               },
               "answer": "{-b/(2*a)}",
+              "hint": "Find derivative f'(x) and set to 0.\nSolve for x, then use f(x) if asked for point.",
               "visualData": {
                 "type": "graph_parabola",
                 "a": "a",
@@ -6295,6 +6303,7 @@
                 ]
               },
               "answer": "{2*a*t0 + b}",
+              "hint": "Velocity is the derivative of position.\nDifferentiate s(t), then substitute t0.",
               "difficulty": 9
             }
           ]
@@ -6333,6 +6342,7 @@
                 ]
               },
               "answer": "<{a+c}, {b+d}>",
+              "hint": "Add components: <a+c, b+d>.\nAdd x parts and y parts separately.",
               "visualData": {
                 "type": "coordinate_grid",
                 "points": [
@@ -6370,6 +6380,7 @@
                 ]
               },
               "answer": "sqrt({a*a + b*b})",
+              "hint": "Magnitude = sqrt(a^2 + b^2).\nUse Pythagoras on the components.",
               "difficulty": 7
             },
             {
@@ -6398,6 +6409,7 @@
                 ]
               },
               "answer": "{a*c + b*d}",
+              "hint": "Dot product = a*c + b*d.\nMultiply corresponding components and add.",
               "difficulty": 8
             },
             {
@@ -6421,6 +6433,7 @@
                 ]
               },
               "answer": "<{k*a}, {k*b}>",
+              "hint": "Multiply each component by k.\nResult = <k*a, k*b>.",
               "visualData": {
                 "type": "coordinate_grid",
                 "points": [
@@ -6469,6 +6482,7 @@
                 ]
               },
               "answer": "(x - {h})^2 + (y - {k})^2 = {r*r}",
+              "hint": "Use (x - h)^2 + (y - k)^2 = r^2.\nSquare the radius.",
               "visualData": {
                 "type": "circle",
                 "radius": "r"
@@ -6507,6 +6521,7 @@
                 ]
               },
               "answer": "{a*x0 + b}",
+              "hint": "Substitute x0 into y = a x + b.\nCompute y.",
               "visualData": {
                 "type": "scatter_plot",
                 "points": [
@@ -6562,6 +6577,7 @@
                 ]
               },
               "answer": "round(binomial_coeff(n, k) * (p ** k) * ((1 - p) ** (n - k)), 2)",
+              "hint": "Use C(n,k) * p^k * (1-p)^(n-k).\nCompute and round to 2 dp.",
               "difficulty": 9,
               "phase": 10.7
             }
@@ -6601,6 +6617,7 @@
                 ]
               },
               "answer": "(a*a*a + b*a*a + c*a + d === 0 ? 'Yes' : 'No')",
+              "hint": "Use factor theorem: substitute x = a.\nIf f(a) = 0 then (x-a) is a factor.",
               "difficulty": 9,
               "phase": 10.7
             }
@@ -6659,6 +6676,7 @@
                 ]
               },
               "answer": "{a}*e^({a}x)",
+              "hint": "Use d/dx e^(k x) = k e^(k x).\nMultiply by a.",
               "difficulty": 8
             },
             {
@@ -6677,6 +6695,7 @@
                 ]
               },
               "answer": "{a}/({a}x + {b})",
+              "hint": "Use d/dx ln(u) = u'/u.\nHere u = a x + b.",
               "difficulty": 8
             },
             {
@@ -6690,6 +6709,7 @@
                 ]
               },
               "answer": "{a}*cos({a}x)",
+              "hint": "Use d/dx sin(k x) = k cos(k x).\nMultiply by a.",
               "difficulty": 8
             }
           ]
@@ -6713,6 +6733,7 @@
                 ]
               },
               "answer": "e^({a}x)/{a} + C",
+              "hint": "Integral of e^(k x) is (1/k) e^(k x) + C.\nDivide by a.",
               "difficulty": 8
             },
             {
@@ -6726,6 +6747,7 @@
                 ]
               },
               "answer": "-cos({a}x)/{a} + C",
+              "hint": "Integral of sin(k x) is -cos(k x)/k + C.\nDivide by a.",
               "difficulty": 8
             },
             {
@@ -6744,6 +6766,7 @@
                 ]
               },
               "answer": "{a*b*b/2}",
+              "hint": "Antiderivative of a x is (a/2) x^2.\nEvaluate from 0 to b.",
               "difficulty": 7
             },
             {
@@ -6762,6 +6785,7 @@
                 ]
               },
               "answer": "{a*b*b*b/3}",
+              "hint": "Integral of a x^2 is (a/3) x^3.\nEvaluate from 0 to b.",
               "difficulty": 8
             }
           ]
@@ -6795,6 +6819,7 @@
                 ]
               },
               "answer": "{c} + {b}*{b}/(4*{a})",
+              "hint": "For -a x^2 + b x + c, max value = c + b^2/(4a).\nUse vertex formula.",
               "difficulty": 8
             },
             {
@@ -6808,6 +6833,7 @@
                 ]
               },
               "answer": "x = {a}/3",
+              "hint": "Inflection when f''(x) = 0.\nDifferentiate twice and solve for x.",
               "difficulty": 9
             },
             {
@@ -6831,6 +6857,7 @@
                 ]
               },
               "answer": "{2*a*t + b}",
+              "hint": "Velocity is derivative of position.\nDifferentiate s(t), then substitute t.",
               "difficulty": 7
             }
           ]
@@ -6869,6 +6896,7 @@
                 ]
               },
               "answer": "({a + c}) + ({b + d})i",
+              "hint": "Add real parts and imaginary parts.\n(a+c) + (b+d)i.",
               "visualData": {
                 "type": "coordinate_grid",
                 "points": [
@@ -6913,6 +6941,7 @@
                 ]
               },
               "answer": "({a}*{c} - {b}*{d}) + ({a}*{d} + {b}*{c})i",
+              "hint": "Multiply and use i^2 = -1.\n(ac - bd) + (ad + bc)i.",
               "visualData": {
                 "type": "coordinate_grid",
                 "points": [
@@ -6943,6 +6972,7 @@
                 ]
               },
               "answer": "sqrt({a*a + b*b})",
+              "hint": "Modulus = sqrt(a^2 + b^2).\nUse Pythagoras on the components.",
               "visualData": {
                 "type": "coordinate_grid",
                 "points": [
@@ -6973,6 +7003,7 @@
                 ]
               },
               "answer": "arctan({b}/{a})",
+              "hint": "Argument = arctan(b/a).\nUse point (a,b) in the first quadrant.",
               "visualData": {
                 "type": "coordinate_grid",
                 "points": [
@@ -7018,6 +7049,7 @@
                 ]
               },
               "answer": "{a + (n-1)*d}",
+              "hint": "Use a_n = a + (n-1)d.\nSubstitute a, d, n.",
               "difficulty": 7
             },
             {
@@ -7041,6 +7073,7 @@
                 ]
               },
               "answer": "{n/2 * (2*a + (n-1)*d)}",
+              "hint": "Use S_n = n/2 * (2a + (n-1)d).\nSubstitute a, d, n.",
               "difficulty": 8
             },
             {
@@ -7064,6 +7097,7 @@
                 ]
               },
               "answer": "{a * r**(n-1)}",
+              "hint": "Use a_n = a * r^(n-1).\nSubstitute a, r, n.",
               "difficulty": 8
             },
             {
@@ -7083,6 +7117,7 @@
                 ]
               },
               "answer": "{a/(1 - r)}",
+              "hint": "Infinite geometric sum: S = a/(1-r).\nValid when |r| < 1.",
               "difficulty": 9
             },
             {
@@ -7106,6 +7141,7 @@
                 ]
               },
               "answer": "{a + (n - 1) * d}",
+              "hint": "Use a_n = a + (n-1)d.\nSubstitute a, d, n.",
               "difficulty": 8
             },
             {
@@ -7129,6 +7165,7 @@
                 ]
               },
               "answer": "{n/2 * (2*a + (n-1)*d)}",
+              "hint": "Use S_n = n/2 * (2a + (n-1)d).\nSubstitute a, d, n.",
               "difficulty": 8,
               "phase": 10.7
             }
@@ -7153,6 +7190,7 @@
                 ]
               },
               "answer": "x = {2**n}",
+              "hint": "Rewrite as exponential: x = 2^n.\nEvaluate.",
               "difficulty": 8
             },
             {
@@ -7171,6 +7209,7 @@
                 ]
               },
               "answer": "log({a*b})",
+              "hint": "Use log laws: log a + log b = log(ab).\nMultiply inside.",
               "difficulty": 8
             },
             {
@@ -7189,6 +7228,7 @@
                 ]
               },
               "answer": "x = {round(log(b)/log(a), 2)}",
+              "hint": "Take logs of both sides.\nx = log(b) / log(a).",
               "difficulty": 9
             },
             {
@@ -7196,6 +7236,7 @@
               "stem": "Simplify log(x^2)",
               "params": {},
               "answer": "{\"2*log(x)\"}",
+              "hint": "Use log laws: log(x^2) = 2 log x.\nPower comes down.",
               "difficulty": 7
             }
           ]
@@ -7229,6 +7270,7 @@
                 ]
               },
               "answer": "center ({h}, {k}), radius {r}",
+              "hint": "Compare to (x-h)^2 + (y-k)^2 = r^2.\nRead off h, k, and r.",
               "difficulty": 7
             },
             {
@@ -7252,6 +7294,7 @@
                 ]
               },
               "answer": "(x - {h})^2 + (y - {k})^2 = {r*r}",
+              "hint": "Use (x-h)^2 + (y-k)^2 = r^2.\nSubstitute h, k, r.",
               "difficulty": 7
             },
             {
@@ -7275,6 +7318,7 @@
                 ]
               },
               "answer": "({h}, {k})",
+              "hint": "Vertex form is y = a(x-h)^2 + k.\nVertex is (h, k).",
               "difficulty": 6
             },
             {
@@ -7288,6 +7332,7 @@
                 ]
               },
               "answer": "(0, {a/4})",
+              "hint": "Compare x^2 = 4 p y.\nThen p = a/4, focus (0, p).",
               "difficulty": 8
             },
             {
@@ -7316,6 +7361,7 @@
                 ]
               },
               "answer": "sqrt(({x2}-{x1})^2 + ({y2}-{y1})^2)",
+              "hint": "Use distance formula.\nCompute sqrt((x2-x1)^2 + (y2-y1)^2).",
               "difficulty": 6
             },
             {
@@ -7344,6 +7390,7 @@
                 ]
               },
               "answer": "{'(' + (x1+x2)/2 + ', ' + (y1+y2)/2 + ')'}",
+              "hint": "Midpoint = ((x1+x2)/2, (y1+y2)/2).\nAverage the coordinates.",
               "difficulty": 6,
               "phase": 10.7
             }
