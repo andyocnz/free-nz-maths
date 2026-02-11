@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Tug: Realistic Physics Edition</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap');
+        
+        body {
+            font-family: 'Fredoka One', cursive;
+            overflow: hidden;
+            background: linear-gradient(to bottom, #87CEEB 0%, #87CEEB 60%, #567d46 60%, #567d46 100%);
+            user-select: none;
+        }
+
+        /* Grass and Environment */
+        .environment {
+            position: absolute;
+            bottom: 40%;
+            width: 100%;
+            height: 100px;
+            background: #4a6d3a;
+            z-index: 1;
+        }
+
+        /* Stationary Ground Markings */
+        .ground-markings {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        /* FIXED RED RIBBON in center - flags must touch this to win */
+        .red-ribbon {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 80px;
+            background: linear-gradient(to bottom, #ff0000 0%, #cc0000 100%);
+            border-radius: 4px;
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.6);
+            z-index: 25;
+        }
+
+        .red-ribbon::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .mud-pit {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 280px;
+            height: 55px;
+            background: #63422b;
+            border-radius: 50% 50% 10% 10%;
+            box-shadow: inset 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .rope-canvas {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 200px;
+            transform: translateY(-50%);
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .character {
+            font-size: 100px;
+            position: absolute;
+            bottom: 40%;
+            z-index: 20;
+            transition: transform 0.1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            filter: drop-shadow(0 10px 5px rgba(0,0,0,0.3));
+        }
+
+        .leaning-left { transform: rotate(-25deg) scaleX(-1); }
+        .leaning-right { transform: rotate(25deg); }
+        .pulling { filter: drop-shadow(0 0 25px #fff); }
+        .wrong-shake { animation: shake 0.3s ease-in-out; }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .answer-btn {
+            background: white;
+            border-radius: 1rem;
+            box-shadow: 0 6px 0 #cbd5e1;
+            transition: all 0.1s;
+        }
+
+        .answer-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #cbd5e1;
+        }
+
+        .feedback-pop {
+            position: absolute;
+            pointer-events: none;
+            animation: puff 0.6s ease-out forwards;
+            font-size: 2.5rem;
+            z-index: 50;
+        }
+
+        @keyframes puff {
+            0% { transform: scale(0) rotate(0deg); opacity: 1; }
+            100% { transform: scale(2) translateY(-100px) rotate(45deg); opacity: 0; }
+        }
+
+        .win-screen, .start-screen {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+            color: white;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .start-screen {
+            display: flex;
+        }
+
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            opacity: 0.8;
+            animation: float 25s linear infinite;
+        }
+
+        @keyframes float {
+            from { left: -200px; }
+            to { left: 100%; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body class="flex flex-col h-screen">
+
+    <div class="cloud w-32 h-12 top-10" style="animation-delay: -2s;"></div>
+    <div class="cloud w-48 h-16 top-24" style="animation-delay: -10s;"></div>
+
+        <div class="environment">
+            <!-- FIXED RED RIBBON - Center line that flags must touch to win -->
+            <div class="ground-markings">
+                <div class="red-ribbon"></div>
+            </div>
+            <div class="mud-pit"></div>
+        </div>
+
+    <div class="relative z-30 p-4 flex justify-between items-start pointer-events-none">
+        <div class="bg-blue-600 text-white px-6 py-2 rounded-full shadow-lg text-xl pointer-events-auto">Team Lion 🦁</div>
+        <div class="bg-white px-8 py-2 rounded-full shadow-md text-3xl text-gray-800 pointer-events-auto flex flex-col items-center">
+            <span>MATH TUG</span>
+            <span class="text-xs text-gray-400 uppercase tracking-widest font-sans">Pull opponent's flag to the red ribbon!</span>
+            <div id="timer" class="mt-2 text-2xl font-bold" style="color: #0077B6;">30s</div>
+        </div>
+        <div class="bg-red-600 text-white px-6 py-2 rounded-full shadow-lg text-xl pointer-events-auto">Team Tiger 🐯</div>
+    </div>
+
+    <div class="flex-1 relative overflow-hidden">
+        <canvas id="ropeCanvas" class="rope-canvas"></canvas>
+        <!-- The characters move relative to the fixed ground -->
+        <div id="charL" class="character left-[15%] leaning-left" style="transform: scaleX(-1);">🦁</div>
+        <div id="charR" class="character right-[15%] leaning-right">🐯</div>
+    </div>
+
+    <div class="relative z-30 p-6 flex justify-between items-end bg-black/10 backdrop-blur-sm h-64">
+        <!-- Player 1 -->
+        <div id="panelL" class="w-5/12 bg-blue-50/90 p-4 rounded-2xl border-t-4 border-blue-400 flex flex-col items-center transition-all">
+            <div id="p1-math" class="text-5xl mb-6 text-blue-800 font-bold">5 + 3</div>
+            <div class="flex gap-4">
+                <div class="text-center"><button id="btn-a" class="answer-btn w-20 h-20 text-3xl font-bold text-blue-600">?</button><div class="mt-2 text-blue-400 font-bold">[A]</div></div>
+                <div class="text-center"><button id="btn-s" class="answer-btn w-20 h-20 text-3xl font-bold text-blue-600">?</button><div class="mt-2 text-blue-400 font-bold">[S]</div></div>
+                <div class="text-center"><button id="btn-d" class="answer-btn w-20 h-20 text-3xl font-bold text-blue-600">?</button><div class="mt-2 text-blue-400 font-bold">[D]</div></div>
+            </div>
+        </div>
+
+        <!-- Player 2 -->
+        <div id="panelR" class="w-5/12 bg-red-50/90 p-4 rounded-2xl border-t-4 border-red-400 flex flex-col items-center transition-all">
+            <div id="p2-math" class="text-5xl mb-6 text-red-800 font-bold">10 - 2</div>
+            <div class="flex gap-4">
+                <div class="text-center"><button id="btn-j" class="answer-btn w-20 h-20 text-3xl font-bold text-red-600">?</button><div class="mt-2 text-red-400 font-bold">[J]</div></div>
+                <div class="text-center"><button id="btn-k" class="answer-btn w-20 h-20 text-3xl font-bold text-red-600">?</button><div class="mt-2 text-red-400 font-bold">[K]</div></div>
+                <div class="text-center"><button id="btn-l" class="answer-btn w-20 h-20 text-3xl font-bold text-red-600">?</button><div class="mt-2 text-red-400 font-bold">[L]</div></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="startScreen" class="start-screen">
+        <h1 class="text-8xl text-yellow-400 mb-6 italic">MATH TUG OF WAR</h1>
+        <div class="text-6xl mb-8">🦁 🤼 🐯</div>
+        <div class="text-center mb-10 max-w-2xl">
+            <p class="text-2xl mb-4 text-gray-300">Two-player math battle!</p>
+            <p class="text-lg text-gray-400 mb-2">🦁 Lion: Press A, S, or D</p>
+            <p class="text-lg text-gray-400 mb-2">🐯 Tiger: Press J, K, or L</p>
+            <p class="text-lg text-gray-400 mb-6">Pull opponent's flag to the red ribbon to win!</p>
+            <p class="text-md text-yellow-500">You have 30 seconds - good luck!</p>
+        </div>
+        <button onclick="startGame()" class="px-16 py-6 bg-green-500 text-white rounded-full text-4xl hover:bg-green-400 transition transform hover:scale-110 font-bold shadow-2xl">START GAME!</button>
+    </div>
+
+    <div id="winScreen" class="win-screen">
+        <h1 id="winnerName" class="text-8xl text-yellow-400 mb-4 italic">LION WINS!</h1>
+        <div id="winnerEmoji" class="text-[150px] mb-8">🦁</div>
+        <p class="text-2xl mb-4 text-gray-300">Pulled opponent's flag to the ribbon!</p>
+        <p class="text-lg mb-10 text-gray-400">Won by answering math problems correctly</p>
+        <button onclick="resetGame()" class="px-12 py-5 bg-yellow-500 text-black rounded-full text-3xl hover:bg-yellow-400 transition transform hover:scale-110 font-bold shadow-2xl">REMATCH!</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('ropeCanvas');
+        const ctx = canvas.getContext('2d');
+        const charL = document.getElementById('charL');
+        const charR = document.getElementById('charR');
+        const winScreen = document.getElementById('winScreen');
+
+        let ropeOffset = 0;
+        let p1Game, p2Game;
+        let isGameOver = false;
+        let gameStarted = false;
+        let ropeTension = 0;
+        let timeLeft = 30;
+        let timerInterval = null;
+        let p1Locked = false;
+        let p2Locked = false;
+        let p1LastCorrectIndex = -1; // Track last correct answer position for player 1
+        let p2LastCorrectIndex = -1; // Track last correct answer position for player 2
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = 200;
+        }
+        window.onresize = resize;
+        resize();
+
+        function generateQuestion(avoidIndex = -1) {
+            const operationType = Math.floor(Math.random() * 4); // 0=add, 1=subtract, 2=multiply, 3=divide
+            let num1, num2, answer, question;
+
+            if (operationType === 0) {
+                // Addition
+                num1 = Math.floor(Math.random() * 10) + 1;
+                num2 = Math.floor(Math.random() * 10) + 1;
+                answer = num1 + num2;
+                question = `${num1} + ${num2}`;
+            } else if (operationType === 1) {
+                // Subtraction
+                num1 = Math.floor(Math.random() * 10) + 1;
+                num2 = Math.floor(Math.random() * 10) + 1;
+                answer = Math.abs(num1 - num2);
+                question = `${Math.max(num1, num2)} - ${Math.min(num1, num2)}`;
+            } else if (operationType === 2) {
+                // Multiplication (times tables 2-12)
+                num1 = Math.floor(Math.random() * 11) + 2; // 2-12
+                num2 = Math.floor(Math.random() * 11) + 2; // 2-12
+                answer = num1 * num2;
+                question = `${num1} × ${num2}`;
+            } else {
+                // Division (make sure it divides evenly)
+                num2 = Math.floor(Math.random() * 10) + 2; // divisor (2-11)
+                answer = Math.floor(Math.random() * 10) + 1; // quotient (1-10)
+                num1 = num2 * answer; // dividend
+                question = `${num1} ÷ ${num2}`;
+            }
+
+            // Generate 3 unique answer options
+            let options = new Set([answer]);
+            while(options.size < 3) {
+                let offset = Math.floor(Math.random() * 5) + 1;
+                let val = Math.random() > 0.5 ? answer + offset : Math.max(1, answer - offset);
+                options.add(val);
+            }
+
+            // Shuffle options, but ensure correct answer is NOT at the same position as last time
+            let optionsArray = Array.from(options);
+            let shuffled;
+            let correctIndex;
+
+            do {
+                shuffled = optionsArray.sort(() => Math.random() - 0.5);
+                correctIndex = shuffled.indexOf(answer);
+            } while (avoidIndex !== -1 && correctIndex === avoidIndex);
+
+            return { question, answer, options: shuffled, correctIndex };
+        }
+
+        function drawRope() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Characters stay in fixed positions
+            const charMovement = ropeOffset * 0.1;
+            const leftCharX = canvas.width * 0.15 + charMovement;
+            const rightCharX = canvas.width * 0.85 - charMovement;
+            const centerY = canvas.height / 2;
+
+            // Rope knot is in the middle of the rope, moves with pulling
+            const knotX = (canvas.width * 0.5) + ropeOffset;
+
+            // Main rope section (between characters)
+            const baseSag = 20;
+            const tensionSag = Math.abs(ropeTension) * 2;
+            const sag = baseSag - tensionSag;
+
+            // Draw main rope body
+            ctx.beginPath();
+            ctx.moveTo(leftCharX, centerY);
+            ctx.quadraticCurveTo(knotX, centerY + sag, rightCharX, centerY);
+            ctx.lineWidth = 14;
+            ctx.strokeStyle = '#7c3f12';
+            ctx.lineCap = 'round';
+            ctx.stroke();
+
+            // Braided Pattern
+            ctx.setLineDash([8, 12]);
+            ctx.strokeStyle = '#a0522d';
+            ctx.lineWidth = 10;
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Draw extra rope behind characters (rope that's been pulled)
+            // When pulling left, more rope appears behind left character
+            // When pulling right, more rope appears behind right character
+
+            // Left side extra rope (visible when lion pulls)
+            if (ropeOffset < 0) {
+                const extraRopeLength = Math.abs(ropeOffset) * 0.8;
+                ctx.beginPath();
+                ctx.moveTo(leftCharX, centerY);
+                ctx.lineTo(leftCharX - extraRopeLength, centerY);
+                ctx.lineWidth = 14;
+                ctx.strokeStyle = '#7c3f12';
+                ctx.stroke();
+
+                ctx.setLineDash([8, 12]);
+                ctx.strokeStyle = '#a0522d';
+                ctx.lineWidth = 10;
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            // Right side extra rope (visible when tiger pulls)
+            if (ropeOffset > 0) {
+                const extraRopeLength = Math.abs(ropeOffset) * 0.8;
+                ctx.beginPath();
+                ctx.moveTo(rightCharX, centerY);
+                ctx.lineTo(rightCharX + extraRopeLength, centerY);
+                ctx.lineWidth = 14;
+                ctx.strokeStyle = '#7c3f12';
+                ctx.stroke();
+
+                ctx.setLineDash([8, 12]);
+                ctx.strokeStyle = '#a0522d';
+                ctx.lineWidth = 10;
+                ctx.stroke();
+                ctx.setLineDash([]);
+            }
+
+            // Draw KNOT in the middle of the rope (shows who's winning!)
+            ctx.save();
+            const knotSize = 24;
+            const knotY = centerY + sag - knotSize / 2;
+
+            // Outer knot circle
+            ctx.fillStyle = '#4a3020';
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = 'rgba(0,0,0,0.5)';
+            ctx.beginPath();
+            ctx.arc(knotX, knotY + knotSize/2, knotSize/2, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Inner knot detail
+            ctx.fillStyle = '#6b4423';
+            ctx.shadowBlur = 0;
+            ctx.beginPath();
+            ctx.arc(knotX, knotY + knotSize/2, knotSize/3, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Highlight
+            ctx.fillStyle = 'rgba(255,255,255,0.2)';
+            ctx.beginPath();
+            ctx.arc(knotX - 4, knotY + knotSize/2 - 4, knotSize/6, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            // Draw FLAGS - these move with the rope to show progress!
+            // Flag positions move with FULL ropeOffset so players can see how close to winning
+            ctx.save();
+            const flagY = centerY - 35;
+            const leftFlagX = (canvas.width * 0.15) + ropeOffset;
+            const rightFlagX = (canvas.width * 0.85) + ropeOffset;
+
+            // LEFT FLAG (Lion 🦁) - Blue - moves with rope
+            ctx.fillStyle = '#2563eb';
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = 'rgba(37, 99, 235, 0.5)';
+            ctx.fillRect(leftFlagX - 6, flagY, 12, 50);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.fillRect(leftFlagX - 4, flagY + 5, 8, 3);
+            ctx.fillRect(leftFlagX - 4, flagY + 15, 8, 3);
+            ctx.fillRect(leftFlagX - 4, flagY + 25, 8, 3);
+            ctx.fillRect(leftFlagX - 4, flagY + 35, 8, 3);
+
+            // Lion emoji on flag
+            ctx.shadowBlur = 0;
+            ctx.font = '24px Arial';
+            ctx.fillText('🦁', leftFlagX - 12, flagY - 8);
+
+            // RIGHT FLAG (Tiger 🐯) - Red - moves with rope
+            ctx.fillStyle = '#dc2626';
+            ctx.shadowBlur = 8;
+            ctx.shadowColor = 'rgba(220, 38, 38, 0.5)';
+            ctx.fillRect(rightFlagX - 6, flagY, 12, 50);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+            ctx.fillRect(rightFlagX - 4, flagY + 5, 8, 3);
+            ctx.fillRect(rightFlagX - 4, flagY + 15, 8, 3);
+            ctx.fillRect(rightFlagX - 4, flagY + 25, 8, 3);
+            ctx.fillRect(rightFlagX - 4, flagY + 35, 8, 3);
+
+            // Tiger emoji on flag
+            ctx.shadowBlur = 0;
+            ctx.font = '24px Arial';
+            ctx.fillText('🐯', rightFlagX - 12, flagY - 8);
+
+            ctx.restore();
+
+            ropeTension *= 0.85;
+            requestAnimationFrame(drawRope);
+        }
+
+        function updateUI() {
+            // Characters move only slightly (10% of rope movement) to stay visible
+            const charMovement = ropeOffset * 0.1;
+            charL.style.left = `calc(15% + ${charMovement}px)`;
+            charR.style.right = `calc(15% - ${charMovement}px)`;
+
+            document.getElementById('p1-math').innerText = p1Game.question;
+            ['a','s','d'].forEach((id, i) => document.getElementById('btn-'+id).innerText = p1Game.options[i]);
+
+            document.getElementById('p2-math').innerText = p2Game.question;
+            ['j','k','l'].forEach((id, i) => document.getElementById('btn-'+id).innerText = p2Game.options[i]);
+        }
+
+        function tug(side) {
+            if (isGameOver) return;
+            const pullForce = 25;
+            ropeTension = 8;
+            if (side === 'left') {
+                ropeOffset -= pullForce;
+                showFeedback(charL, '💪');
+                // Generate new question, avoiding the last correct position
+                p1Game = generateQuestion(p1LastCorrectIndex);
+                p1LastCorrectIndex = p1Game.correctIndex;
+            } else {
+                ropeOffset += pullForce;
+                showFeedback(charR, '💪');
+                // Generate new question, avoiding the last correct position
+                p2Game = generateQuestion(p2LastCorrectIndex);
+                p2LastCorrectIndex = p2Game.correctIndex;
+            }
+            checkWin();
+            updateUI();
+        }
+
+        function showFeedback(el, emoji) {
+            const puff = document.createElement('div');
+            puff.className = 'feedback-pop';
+            puff.innerText = emoji;
+            const rect = el.getBoundingClientRect();
+            puff.style.left = rect.left + (rect.width/2) + 'px';
+            puff.style.top = rect.top + 'px';
+            document.body.appendChild(puff);
+            setTimeout(() => puff.remove(), 600);
+            
+            el.classList.add('pulling');
+            setTimeout(() => el.classList.remove('pulling'), 150);
+        }
+
+        function handleWrong(side) {
+            const panel = side === 'left' ? document.getElementById('panelL') : document.getElementById('panelR');
+            const char = side === 'left' ? charL : charR;
+
+            panel.classList.add('wrong-shake');
+            showFeedback(char, '❌');
+            setTimeout(() => panel.classList.remove('wrong-shake'), 300);
+
+            // PENALTY: Wrong answer pushes rope toward opponent (opponent gains ground)
+            const penalty = 15; // Penalty amount
+            ropeTension = 6;
+            if (side === 'left') {
+                // Lion got it wrong, Tiger gets the advantage
+                ropeOffset += penalty;
+                // Lock player 1 for 2 seconds
+                p1Locked = true;
+                panel.style.opacity = '0.5';
+                setTimeout(() => {
+                    p1Locked = false;
+                    panel.style.opacity = '1';
+                }, 2000);
+            } else {
+                // Tiger got it wrong, Lion gets the advantage
+                ropeOffset -= penalty;
+                // Lock player 2 for 2 seconds
+                p2Locked = true;
+                panel.style.opacity = '0.5';
+                setTimeout(() => {
+                    p2Locked = false;
+                    panel.style.opacity = '1';
+                }, 2000);
+            }
+
+            checkWin();
+
+            if (side === 'left') p1Game = generateQuestion();
+            else p2Game = generateQuestion();
+            updateUI();
+        }
+
+        function checkWin() {
+            // Fixed red ribbon is at the center (50%)
+            const ribbonX = canvas.width * 0.5;
+
+            // Flags are at the rope ends (move with ropeOffset)
+            const leftFlagX = (canvas.width * 0.15) + ropeOffset;
+            const rightFlagX = (canvas.width * 0.85) + ropeOffset;
+
+            // Lion wins if they pull Tiger's flag (right flag) to touch the red ribbon
+            if (rightFlagX <= ribbonX) endGame('LION WINS!', '🦁');
+
+            // Tiger wins if they pull Lion's flag (left flag) to touch the red ribbon
+            if (leftFlagX >= ribbonX) endGame('TIGER WINS!', '🐯');
+        }
+
+        function endGame(text, emoji) {
+            isGameOver = true;
+            if (timerInterval) clearInterval(timerInterval);
+            document.getElementById('winnerName').innerText = text;
+            document.getElementById('winnerEmoji').innerText = emoji;
+            winScreen.style.display = 'flex';
+        }
+
+        function startTimer() {
+            timeLeft = 30;
+            updateTimer();
+            if (timerInterval) clearInterval(timerInterval);
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimer();
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    // Determine winner based on knot position
+                    if (ropeOffset < 0) {
+                        endGame('LION WINS!', '🦁');
+                    } else if (ropeOffset > 0) {
+                        endGame('TIGER WINS!', '🐯');
+                    } else {
+                        endGame('TIE!', '🤝');
+                    }
+                }
+            }, 1000);
+        }
+
+        function updateTimer() {
+            const timerEl = document.getElementById('timer');
+            timerEl.innerText = timeLeft + 's';
+
+            // Change color based on time remaining
+            if (timeLeft <= 5) {
+                timerEl.style.color = '#dc2626'; // Red
+                timerEl.style.animation = 'pulse 0.5s ease-in-out infinite';
+            } else if (timeLeft <= 10) {
+                timerEl.style.color = '#f59e0b'; // Orange
+                timerEl.style.animation = 'none';
+            } else {
+                timerEl.style.color = '#0077B6'; // Blue
+                timerEl.style.animation = 'none';
+            }
+        }
+
+        function startGame() {
+            document.getElementById('startScreen').style.display = 'none';
+            gameStarted = true;
+            ropeOffset = 0;
+            isGameOver = false;
+            p1Locked = false;
+            p2Locked = false;
+            p1LastCorrectIndex = -1;
+            p2LastCorrectIndex = -1;
+            document.getElementById('panelL').style.opacity = '1';
+            document.getElementById('panelR').style.opacity = '1';
+            p1Game = generateQuestion();
+            p2Game = generateQuestion();
+            updateUI();
+            startTimer();
+        }
+
+        function resetGame() {
+            ropeOffset = 0;
+            isGameOver = false;
+            gameStarted = true;
+            p1Locked = false;
+            p2Locked = false;
+            p1LastCorrectIndex = -1;
+            p2LastCorrectIndex = -1;
+            document.getElementById('panelL').style.opacity = '1';
+            document.getElementById('panelR').style.opacity = '1';
+            winScreen.style.display = 'none';
+            p1Game = generateQuestion();
+            p2Game = generateQuestion();
+            updateUI();
+            startTimer();
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (!gameStarted || isGameOver) return;
+            const key = e.key.toLowerCase();
+            const p1Keys = ['a', 's', 'd'];
+            const p2Keys = ['j', 'k', 'l'];
+
+            if (p1Keys.includes(key)) {
+                if (p1Locked) return; // Can't answer while locked
+                if (p1Game.options[p1Keys.indexOf(key)] === p1Game.answer) tug('left');
+                else handleWrong('left');
+            }
+            if (p2Keys.includes(key)) {
+                if (p2Locked) return; // Can't answer while locked
+                if (p2Game.options[p2Keys.indexOf(key)] === p2Game.answer) tug('right');
+                else handleWrong('right');
+            }
+        });
+
+        // Initialize questions but don't start timer yet
+        p1Game = generateQuestion();
+        p2Game = generateQuestion();
+        updateUI();
+        drawRope();
+    </script>
+</body>
+</html>

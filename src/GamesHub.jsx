@@ -84,6 +84,13 @@ export default function GamesHub({ onClose }) {
         name: 'Galaxy Coder',
         emoji: '🚀',
         description: 'Interactive coding challenges in a space-themed adventure'
+      },
+      {
+        filename: 'tugofwar.html',
+        path: '/game/tugofwar.html',
+        name: 'Tug of War',
+        emoji: '🤼',
+        description: 'Strategic competition game: Balance strength and strategy to win the tug of war'
       }
     ]
 
