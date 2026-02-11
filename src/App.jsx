@@ -395,6 +395,16 @@ export default function App() {
     // Don't show login modal on load, only when starting practice
   }, [])
 
+  // Auto-open GamesHub if URL contains ?game= parameter
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const gameParam = urlParams.get('game')
+
+    if (gameParam) {
+      setShowGamesHub(true)
+    }
+  }, [])
+
   // Set default year to 6 if not set
   useEffect(() => {
     if (!selectedYear && !yearFromUrl) {

@@ -4,6 +4,33 @@ export default function GamesHub({ onClose }) {
   const [games, setGames] = useState([])
   const [loading, setLoading] = useState(true)
   const [playingGame, setPlayingGame] = useState(null)
+  const [showShareMenu, setShowShareMenu] = useState(false)
+  const [copySuccess, setCopySuccess] = useState(false)
+
+  // Check URL parameters for deep linking
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search)
+    const gameParam = urlParams.get('game')
+
+    if (gameParam && games.length > 0) {
+      const game = games.find(g => g.filename === gameParam || g.filename === `${gameParam}.html`)
+      if (game) {
+        setPlayingGame(game)
+      }
+    }
+  }, [games])
+
+  // Close share menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (showShareMenu && !e.target.closest('button')) {
+        setShowShareMenu(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [showShareMenu])
 
   useEffect(() => {
     // Use fallback list directly - it's more reliable than trying to fetch directory listing
@@ -149,6 +176,39 @@ export default function GamesHub({ onClose }) {
     setPlayingGame(null)
   }
 
+  const getShareableLink = (game) => {
+    const baseUrl = window.location.origin + window.location.pathname
+    const gameName = game.filename.replace('.html', '')
+    return `${baseUrl}?game=${gameName}`
+  }
+
+  const copyLink = async () => {
+    if (!playingGame) return
+
+    try {
+      const link = getShareableLink(playingGame)
+      await navigator.clipboard.writeText(link)
+      setCopySuccess(true)
+      setTimeout(() => {
+        setCopySuccess(false)
+        setShowShareMenu(false)
+      }, 2000)
+    } catch (err) {
+      console.error('Failed to copy:', err)
+    }
+  }
+
+  const emailLink = () => {
+    if (!playingGame) return
+
+    const link = getShareableLink(playingGame)
+    const subject = encodeURIComponent(`Check out ${playingGame.name} on mathx.nz!`)
+    const body = encodeURIComponent(`Hey! I found this fun math game:\n\n${playingGame.name} ${playingGame.emoji}\n${playingGame.description}\n\nPlay it here: ${link}\n\nEnjoy!`)
+
+    window.location.href = `mailto:?subject=${subject}&body=${body}`
+    setShowShareMenu(false)
+  }
+
   // If a game is being played, show it with header
   if (playingGame) {
     return (
@@ -202,36 +262,138 @@ export default function GamesHub({ onClose }) {
             </div>
           </div>
 
-          <button
-            onClick={closeGame}
-            style={{
-              background: '#0077B6',
-              border: 'none',
-              width: '40px',
-              height: '40px',
-              borderRadius: '50%',
-              cursor: 'pointer',
-              fontSize: '20px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'all 0.2s',
-              color: 'white',
-              fontWeight: 'bold',
-              boxShadow: '0 2px 8px rgba(0, 119, 182, 0.2)'
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.backgroundColor = '#005fa3'
-              e.target.style.transform = 'scale(1.1)'
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = '#0077B6'
-              e.target.style.transform = 'scale(1)'
-            }}
-            title="Close game and return"
-          >
-            ✕
-          </button>
+          <div style={{ display: 'flex', gap: '8px', alignItems: 'center', position: 'relative' }}>
+            {/* Share Button */}
+            <button
+              onClick={() => setShowShareMenu(!showShareMenu)}
+              style={{
+                background: '#10b981',
+                border: 'none',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                cursor: 'pointer',
+                fontSize: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s',
+                color: 'white',
+                fontWeight: 'bold',
+                boxShadow: '0 2px 8px rgba(16, 185, 129, 0.2)'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#059669'
+                e.target.style.transform = 'scale(1.1)'
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '#10b981'
+                e.target.style.transform = 'scale(1)'
+              }}
+              title="Share this game"
+            >
+              📤
+            </button>
+
+            {/* Share Menu Popup */}
+            {showShareMenu && (
+              <div style={{
+                position: 'absolute',
+                top: '50px',
+                right: '48px',
+                backgroundColor: 'white',
+                borderRadius: '12px',
+                boxShadow: '0 4px 20px rgba(0,0,0,0.2)',
+                padding: '12px',
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '8px',
+                minWidth: '180px',
+                zIndex: 10002
+              }}>
+                <button
+                  onClick={copyLink}
+                  style={{
+                    background: copySuccess ? '#10b981' : '#0077B6',
+                    border: 'none',
+                    padding: '10px 16px',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    color: 'white',
+                    fontWeight: '600',
+                    transition: 'all 0.2s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px'
+                  }}
+                  onMouseEnter={(e) => {
+                    if (!copySuccess) e.target.style.backgroundColor = '#005fa3'
+                  }}
+                  onMouseLeave={(e) => {
+                    if (!copySuccess) e.target.style.backgroundColor = '#0077B6'
+                  }}
+                >
+                  {copySuccess ? '✓ Copied!' : '📋 Copy Link'}
+                </button>
+                <button
+                  onClick={emailLink}
+                  style={{
+                    background: '#0077B6',
+                    border: 'none',
+                    padding: '10px 16px',
+                    borderRadius: '8px',
+                    cursor: 'pointer',
+                    fontSize: '14px',
+                    color: 'white',
+                    fontWeight: '600',
+                    transition: 'all 0.2s',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '8px'
+                  }}
+                  onMouseEnter={(e) => e.target.style.backgroundColor = '#005fa3'}
+                  onMouseLeave={(e) => e.target.style.backgroundColor = '#0077B6'}
+                >
+                  ✉️ Email Link
+                </button>
+              </div>
+            )}
+
+            {/* Close Button */}
+            <button
+              onClick={closeGame}
+              style={{
+                background: '#0077B6',
+                border: 'none',
+                width: '40px',
+                height: '40px',
+                borderRadius: '50%',
+                cursor: 'pointer',
+                fontSize: '20px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                transition: 'all 0.2s',
+                color: 'white',
+                fontWeight: 'bold',
+                boxShadow: '0 2px 8px rgba(0, 119, 182, 0.2)'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = '#005fa3'
+                e.target.style.transform = 'scale(1.1)'
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = '#0077B6'
+                e.target.style.transform = 'scale(1)'
+              }}
+              title="Close game and return"
+            >
+              ✕
+            </button>
+          </div>
         </div>
 
         {/* Game content in iframe */}
