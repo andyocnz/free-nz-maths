@@ -289,7 +289,7 @@ function renderTemplateString(str, params) {
       if (Object.prototype.hasOwnProperty.call(params, expr)) {
         return params[expr]
       }
-      const context = { ...params, ...mathHelpers, Math, round: mathHelpers.round }
+      const context = createEvaluationContext(params)
       const result = safeEvaluate(expr, context)
       if (typeof result === 'number') {
         if (Number.isInteger(result)) return result
@@ -303,33 +303,54 @@ function renderTemplateString(str, params) {
   })
 }
 
+function createEvaluationContext(params) {
+  const helpers = { ...mathHelpers }
+  // Keep mathjs built-in sort behavior; custom helper sort shadows it.
+  delete helpers.sort
+  return {
+    ...params,
+    ...helpers,
+    Math,
+    round: mathHelpers.round
+  }
+}
+
+function formatEvaluatedResult(result) {
+  if (typeof result === 'number') {
+    if (Number.isInteger(result)) {
+      return result.toString()
+    }
+    return parseFloat(result.toFixed(2)).toString()
+  }
+
+  if (Array.isArray(result)) {
+    return result.join(', ')
+  }
+
+  if (result && typeof result.toArray === 'function') {
+    const arr = result.toArray()
+    if (Array.isArray(arr)) {
+      if (Array.isArray(arr[0])) {
+        return arr.map(row => Array.isArray(row) ? row.join(', ') : String(row)).join('; ')
+      }
+      return arr.join(', ')
+    }
+  }
+
+  return result.toString()
+}
+
 // Evaluate answer expression with parameters
 function evaluateAnswer(answerExpr, params) {
   try {
     // Create a context with all params and helper functions
-    const context = {
-      ...params,
-      ...mathHelpers,
-      Math,
-      round: mathHelpers.round // Ensure round is available
-    }
+    const context = createEvaluationContext(params)
 
     // Safely evaluate the expression using mathjs
     const result = safeEvaluate(answerExpr, context)
 
-    // Convert to string, handle different types
-    if (typeof result === 'number') {
-      // Round to avoid floating point issues
-      if (Number.isInteger(result)) {
-        return result.toString()
-      } else {
-        // Default to 2 decimal places for display; more precise rounding
-        // can be done explicitly in templates via round(...).
-        return parseFloat(result.toFixed(2)).toString()
-      }
-    }
-
-    return result.toString()
+    // Convert to display string, handling arrays/matrices consistently.
+    return formatEvaluatedResult(result)
   } catch (error) {
     console.error('Error evaluating answer expression:', answerExpr, error)
     return '0'

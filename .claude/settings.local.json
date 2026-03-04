@@ -12,7 +12,10 @@
       "Bash(node:*)",
       "Bash(ls:*)",
       "Read(//Users/andy/Documents/GitHub/free-nz-maths/**)",
-      "Bash(sort:*)"
+      "Bash(sort:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ],
     "deny": [],
     "ask": []

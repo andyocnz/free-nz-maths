@@ -288,6 +288,37 @@ export default function App() {
     return normalized
   }
 
+  function parseNumericList(str) {
+    if (!str) return null
+    let normalized = String(str).trim().replace(/−/g, '-')
+    if (!normalized.includes(',')) return null
+    normalized = normalized.replace(/^[\[\(\{]\s*/, '').replace(/\s*[\]\)\}]$/, '')
+
+    const parts = normalized
+      .split(',')
+      .map(part => part.trim())
+      .filter(Boolean)
+
+    if (parts.length < 2) return null
+
+    const values = []
+    for (const part of parts) {
+      if (!/^[-+]?\d*\.?\d+(?:e[-+]?\d+)?$/i.test(part)) return null
+      const num = Number(part)
+      if (!Number.isFinite(num)) return null
+      values.push(num)
+    }
+    return values
+  }
+
+  function compareNumericLists(aStr, bStr) {
+    const a = parseNumericList(aStr)
+    const b = parseNumericList(bStr)
+    if (!a || !b) return null
+    if (a.length !== b.length) return false
+    return a.every((value, idx) => Math.abs(value - b[idx]) < 1e-9)
+  }
+
   const textDecoder = typeof TextDecoder !== 'undefined' ? new TextDecoder('utf-8') : null
 
   // Math symbol replacements - defined once outside function for performance
@@ -1878,6 +1909,10 @@ export default function App() {
           const correctNorm = normalizeNumberWords(question.answer)
           isCorrect = userNorm === correctNorm
         } else {
+          const listMatch = compareNumericLists(answer.trim(), question.answer)
+          if (listMatch !== null) {
+            isCorrect = listMatch
+          } else {
           // Try numeric/fraction comparison
           const userAnswerNum = normalizeFraction(answer.trim())
           const correctAnswerNum = normalizeFraction(question.answer)
@@ -1890,6 +1925,7 @@ export default function App() {
             const ca = normalizeRadicals(String(question.answer)).trim().toLowerCase().replace(/["'\s]+/g, ' ')
             const normalizeText = s => s.replace(/\b(a |an |the )\b/g, '').replace(/\bsquares?\b/g, 'square').trim()
             isCorrect = normalizeText(ua) === normalizeText(ca)
+          }
           }
         }
       } catch (e) {
@@ -2187,6 +2223,13 @@ export default function App() {
           isCorrect = true
         }
       } else {
+        const listMatch = compareNumericLists(answer.trim(), question.answer)
+        if (listMatch !== null) {
+          if (listMatch) {
+            newFeedback = 'Correct! ✅'
+            isCorrect = true
+          }
+        } else {
         // Try numeric/fraction comparison first
         const userAnswerNum = normalizeFraction(answer.trim())
         const correctAnswerNum = normalizeFraction(question.answer)
@@ -2227,6 +2270,7 @@ export default function App() {
             newFeedback = 'Correct! ✅'
             isCorrect = true
           }
+        }
         }
       }
 
