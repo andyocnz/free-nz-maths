@@ -410,12 +410,20 @@ export default function App() {
     }
   }
 
-  // Toggle landing-only body background (grid) for main page
+  // Keep page-shell background in sync with the active app mode.
   useEffect(() => {
+    const body = document.body
+
+    body.classList.remove('landing-grid', 'app-shell-practice')
+
     if (mode === 'landing') {
-      document.body.classList.add('landing-grid')
-    } else {
-      document.body.classList.remove('landing-grid')
+      body.classList.add('landing-grid')
+    } else if (mode === 'practice' || mode === 'test') {
+      body.classList.add('app-shell-practice')
+    }
+
+    return () => {
+      body.classList.remove('landing-grid', 'app-shell-practice')
     }
   }, [mode])
 

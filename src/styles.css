@@ -1,4 +1,8 @@
 /* Global Styles - Minimalist Design */
+html, body, #root {
+  min-height: 100%;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -11,9 +15,14 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-color: #f8fafc;
   min-height: 100vh;
   color: #1a1a1a;
+}
+
+body.app-shell-practice {
+  background:
+    linear-gradient(180deg, #eff6ff 0%, #f8fafc 45%, #e2e8f0 100%);
 }
 
 /* Landing page grid background (applied via body class) */
