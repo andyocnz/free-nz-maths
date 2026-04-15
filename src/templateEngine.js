@@ -43,7 +43,10 @@ function validateExpression(expr) {
 function safeEvaluate(expr, context) {
   try {
     // Shift array indexing to 1-based for mathjs (content uses 0-based like JS)
-    const transformedExpr = String(expr).replace(/([A-Za-z_]\w*)\[(\d+)\]/g, (match, name, idx) => {
+    const transformedExpr = String(expr)
+      // Accept legacy JS exponent syntax used in template data.
+      .replace(/\*\*/g, '^')
+      .replace(/([A-Za-z_]\w*)\[(\d+)\]/g, (match, name, idx) => {
       if (context && Array.isArray(context[name])) {
         return `${name}[${Number(idx) + 1}]`
       }
