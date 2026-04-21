@@ -14,7 +14,7 @@ function validateExpression(expr) {
   const dangerousPatterns = [
     /import\s/i,
     /require\s*\(/i,
-    /eval\s*\(/i,
+    /\beval\s*\(/i,
     /function\s*\(/i,
     /=>/,
     /\$\{/,
