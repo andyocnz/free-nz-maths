@@ -895,7 +895,8 @@
                   -5,
                   5
                 ]
-              },
+              },              "validateParams": "distinct_transformation_choices(a, h, k)",
+
               "answer": "{quadratic_transformation_text(a, h, k)}",
               "choices": [
                 "{quadratic_transformation_text(a, h, k)}",
@@ -976,7 +977,8 @@
                   -4,
                   4
                 ]
-              },
+              },              "validateParams": "t != 0",
+
               "answer": "{syntheticQuotient(p, q, r, s, t)}",
               "choices": [
                 "{syntheticQuotient(p, q, r, s, t)}",
@@ -1016,7 +1018,8 @@
                   2,
                   6
                 ]
-              },
+              },              "validateParams": "distinct_conic_center_choices(h, k, r)",
+
               "answer": "Centre: ({h}, {k}), Radius: {r}",
               "choices": [
                 "Centre: ({h}, {k}), Radius: {r}",
@@ -1049,7 +1052,8 @@
                   -5,
                   5
                 ]
-              },
+              },              "validateParams": "distinct_conic_vertex_choices(a, h, k)",
+
               "answer": "Vertex: ({h}, {k}), Opens {a>0?'upwards':'downwards'}",
               "choices": [
                 "Vertex: ({h}, {k}), Opens {a>0?'upwards':'downwards'}",
@@ -1085,7 +1089,8 @@
                   -5,
                   5
                 ]
-              },
+              },              "validateParams": "distinct_complex_polar_choices(a, b)",
+
               "answer": "{absComplex(a, b).toFixed(3)} angle {argComplex(a, b).toFixed(2)}",
               "choices": [
                 "{absComplex(a, b).toFixed(3)} angle {argComplex(a, b).toFixed(2)}",
@@ -1212,7 +1217,8 @@
                   -6,
                   6
                 ]
-              },
+              },              "validateParams": "distinct_composition_choices(a, b)",
+
               "answer": "{composition_sqrt_linear_text(a, b)}",
               "choices": [
                 "{composition_sqrt_linear_text(a, b)}",
@@ -1287,7 +1293,8 @@
                   1,
                   6
                 ]
-              },
+              },              "validateParams": "distinct_domain_choices(b, c)",
+
               "answer": "{domain_exclusion_text(c, b)}",
               "choices": [
                 "{domain_exclusion_text(c, b)}",
@@ -1319,7 +1326,8 @@
                   -5,
                   5
                 ]
-              },
+              },              "validateParams": "distinct_range_choices(a, b, c, -2, 3)",
+
               "answer": "{quadratic_range_on_interval_text(a, b, c, -2, 3)}",
               "choices": [
                 "{quadratic_range_on_interval_text(a, b, c, -2, 3)}",

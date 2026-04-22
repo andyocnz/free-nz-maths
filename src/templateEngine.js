@@ -674,7 +674,7 @@ export function generateQuestionFromTemplate(template, skill, year) {
   // Validate params if validateParams constraint is specified
   if (template.validateParams) {
     try {
-      const isValid = safeEvaluate(template.validateParams, params)
+      const isValid = safeEvaluate(template.validateParams, createEvaluationContext(params))
       if (!isValid) {
         // Parameters don't meet constraint, regenerate recursively
         return generateQuestionFromTemplate(template, skill, year)

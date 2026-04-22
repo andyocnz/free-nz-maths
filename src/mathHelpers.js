@@ -933,6 +933,112 @@ export function pythag_triple_yes_no(offset) {
   return offset === 0 ? 'Yes' : 'No'
 }
 
+export function distinct_sequence_choice_params(a1, d) {
+  return d !== 0 && a1 !== d
+}
+
+export function distinct_sequence_choice_texts(a1, d) {
+  const correct = `${a1} + (n - 1) * ${d}`
+  const wrong1 = `${a1} + n * ${d}`
+  const wrong2 = `${a1} - (n - 1) * ${d}`
+  const wrong3 = `${d} + (n - 1) * ${a1}`
+  return new Set([correct, wrong1, wrong2, wrong3]).size === 4
+}
+
+export function distinct_ordered_pair_choices(x, y) {
+  return x !== 0 && y !== 0 && x !== y && x !== -y
+}
+
+export function distinct_root_choices(r1, r2) {
+  return r1 !== 0 && r2 !== 0 && r1 !== r2 && r1 !== -r2
+}
+
+export function distinct_expand_choices(a, b, c, d) {
+  const correct = formatQuadraticExpression(a * c, a * d + b * c, b * d)
+  const innerOnly = formatQuadraticExpression(a * c, a * d, b * d)
+  const outerOnly = formatQuadraticExpression(a * c, b * c, b * d)
+  const noMiddle = formatQuadraticExpression(a * c, 0, b * d)
+  return new Set([correct, innerOnly, outerOnly, noMiddle]).size === 4
+}
+
+export function distinct_factor_choices(u, v, w, z) {
+  const correct = combine_factors(u, v, w, z)
+  const flipFirst = combine_factors(u, -v, w, z)
+  const flipSecond = combine_factors(u, v, w, -z)
+  const swap = combine_factors(w, v, u, z)
+  return new Set([correct, flipFirst, flipSecond, swap]).size === 4
+}
+
+export function distinct_poly_sum_choices(a, b, c, d, e, f) {
+  const aSum = a + d
+  const bSum = b + e
+  const cSum = c + f
+  const correct = formatQuadraticExpression(aSum, bSum, cSum)
+  const wrong1 = formatQuadraticExpression(aSum, b, c)
+  const wrong2 = formatQuadraticExpression(a, bSum, cSum)
+  const wrong3 = formatQuadraticExpression(aSum, bSum, 0)
+  return new Set([correct, wrong1, wrong2, wrong3]).size === 4
+}
+
+export function distinct_transformation_choices(a, h, k) {
+  const correct = quadratic_transformation_text(a, h, k)
+  const wrongH = quadratic_transformation_wrong_h_text(a, h, k)
+  const wrongK = quadratic_transformation_wrong_k_text(a, h, k)
+  const wrongScale = quadratic_transformation_wrong_scale_text(a, h, k)
+  return new Set([correct, wrongH, wrongK, wrongScale]).size === 4
+}
+
+export function distinct_domain_choices(b, c) {
+  const correct = domain_exclusion_text(c, b)
+  const wrong1 = domain_exclusion_text(-c, b)
+  const wrong2 = domain_exclusion_text(b, c)
+  return new Set([correct, wrong1, wrong2, 'x != 0']).size === 4
+}
+
+export function distinct_composition_choices(a, b) {
+  const correct = composition_sqrt_linear_text(a, b)
+  const wrong1 = `${a}*sqrt(x) + ${b} with domain x >= 0`
+  const wrong2 = composition_sqrt_linear_wrong_domain_text(a, b)
+  const wrong3 = `sqrt(x) * (${a}x + ${b})`
+  return new Set([correct, wrong1, wrong2, wrong3]).size === 4
+}
+
+export function distinct_conic_center_choices(h, k, r) {
+  const correct = `Centre: (${h}, ${k}), Radius: ${r}`
+  const wrong1 = `Centre: (${-h}, ${k}), Radius: ${r}`
+  const wrong2 = `Centre: (${h}, ${-k}), Radius: ${r}`
+  const wrong3 = `Centre: (${h}, ${k}), Radius: ${r * r}`
+  return new Set([correct, wrong1, wrong2, wrong3]).size === 4
+}
+
+export function distinct_conic_vertex_choices(a, h, k) {
+  const direction = a > 0 ? 'upwards' : 'downwards'
+  const opposite = a > 0 ? 'downwards' : 'upwards'
+  const correct = `Vertex: (${h}, ${k}), Opens ${direction}`
+  const wrong1 = `Vertex: (${-h}, ${k}), Opens ${direction}`
+  const wrong2 = `Vertex: (${h}, ${-k}), Opens ${direction}`
+  const wrong3 = `Vertex: (${h}, ${k}), Opens ${opposite}`
+  return new Set([correct, wrong1, wrong2, wrong3]).size === 4
+}
+
+export function distinct_complex_polar_choices(a, b) {
+  if (a === 0 || b === 0) return false
+  const magnitude = absComplex(a, b).toFixed(3)
+  const correct = `${magnitude} angle ${argComplex(a, b).toFixed(2)}`
+  const wrong1 = `${magnitude} angle ${round(Math.atan(b / a), 2)}`
+  const wrong2 = `${magnitude} angle ${round(Math.atan2(a, b), 2)}`
+  const wrong3 = `${magnitude} angle ${round(argComplex(a, b) * 180 / Math.PI, 2)}`
+  return new Set([correct, wrong1, wrong2, wrong3]).size === 4
+}
+
+export function distinct_range_choices(a, b, c, left, right) {
+  const correct = quadratic_range_on_interval_text(a, b, c, left, right)
+  const wrong1 = quadratic_range_endpoints_text(a, b, c, left, right)
+  const wrong2 = quadratic_range_left_vertex_text(a, b, c, left)
+  const wrong3 = reversed_quadratic_range_on_interval_text(a, b, c, left, right)
+  return new Set([correct, wrong1, wrong2, wrong3]).size === 4
+}
+
 function signed_shift_text(value, positiveDirection, negativeDirection) {
   if (value > 0) return `${value} ${positiveDirection}`
   if (value < 0) return `${Math.abs(value)} ${negativeDirection}`
@@ -963,11 +1069,13 @@ export function non_singular_matrix_d(a, b, c, dRaw) {
 }
 
 export function discriminant_wrong_nature_a(nature) {
-  return nature === 'two distinct real roots' ? 'one repeated real root' : 'two distinct real roots'
+  if (nature === 'two distinct real roots') return 'one repeated real root'
+  return 'two distinct real roots'
 }
 
 export function discriminant_wrong_nature_b(nature) {
-  return nature === 'no real roots' ? 'two distinct real roots' : 'no real roots'
+  if (nature === 'no real roots') return 'one repeated real root'
+  return 'no real roots'
 }
 
 // --- Phase 7: New helper functions ---

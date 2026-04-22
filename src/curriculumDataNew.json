@@ -4196,7 +4196,8 @@
                 "choiceSwap": "{formatOrderedPair(ySolution, xSolution)}",
                 "choiceNegX": "{formatOrderedPair(-xSolution, ySolution)}",
                 "choiceNegY": "{formatOrderedPair(xSolution, -ySolution)}"
-              },
+              },              "validateParams": "distinct_ordered_pair_choices(xSolution, ySolution)",
+
               "answer": "{correctAnswer}",
               "choices": [
                 "{correctAnswer}",
@@ -4243,7 +4244,8 @@
                 "choiceSwap": "{formatOrderedPair(ySolution, xSolution)}",
                 "choiceNegX": "{formatOrderedPair(-xSolution, ySolution)}",
                 "choiceNegY": "{formatOrderedPair(xSolution, -ySolution)}"
-              },
+              },              "validateParams": "distinct_ordered_pair_choices(xSolution, ySolution)",
+
               "answer": "{correctAnswer}",
               "choices": [
                 "{correctAnswer}",
@@ -4474,7 +4476,8 @@
                 "choiceFlipSigns": "{formatRoots(-root1, -root2)}",
                 "choiceFlipSecond": "{formatRoots(root1, -root2)}",
                 "choiceFlipFirst": "{formatRoots(-root1, root2)}"
-              },
+              },              "validateParams": "distinct_root_choices(root1, root2)",
+
               "answer": "{correctAnswer}",
               "choices": [
                 "{correctAnswer}",
@@ -4512,7 +4515,8 @@
                 "choiceFlipSigns": "{formatRoots(-root1, -root2)}",
                 "choiceFlipSecond": "{formatRoots(root1, -root2)}",
                 "choiceFlipFirst": "{formatRoots(-root1, root2)}"
-              },
+              },              "validateParams": "distinct_root_choices(root1, root2)",
+
               "answer": "{correctAnswer}",
               "choices": [
                 "{correctAnswer}",
@@ -4548,7 +4552,8 @@
                 "wrongNatureA": "{discriminant_wrong_nature_a(nature)}",
                 "wrongNatureB": "{discriminant_wrong_nature_b(nature)}",
                 "offsetDiscriminant": "{discriminant + a * 4}"
-              },
+              },              "validateParams": "wrongNatureA != wrongNatureB",
+
               "answer": "{formatDiscriminantNature(discriminant)}",
               "choices": [
                 "{formatDiscriminantNature(discriminant)}",
@@ -4617,7 +4622,8 @@
                 "foilInnerOnly": "{formatQuadraticExpression(a*c, a*d, b*d)}",
                 "foilOuterOnly": "{formatQuadraticExpression(a*c, b*c, b*d)}",
                 "foilNoMiddle": "{formatQuadraticExpression(a*c, 0, b*d)}"
-              },
+              },              "validateParams": "distinct_expand_choices(a, b, c, d)",
+
               "answer": "{correctExpr}",
               "choices": [
                 "correctExpr",
@@ -4688,7 +4694,8 @@
                 "choiceFlipFirst": "{combine_factors(u, -v, w, z)}",
                 "choiceFlipSecond": "{combine_factors(u, v, w, -z)}",
                 "choiceSwap": "{combine_factors(w, v, u, z)}"
-              },
+              },              "validateParams": "distinct_factor_choices(u, v, w, z)",
+
               "answer": "{correctFactor}",
               "choices": [
                 "{correctFactor}",
@@ -4702,7 +4709,7 @@
             },
             {
               "id": "Y11.A.POLYNOMIALS.T3",
-              "stem": "Simplify ({a}x³ + {b}x + {c}) + ({d}x³ + {e}x + {f})",
+              "stem": "Simplify ({a}x^2 + {b}x + {c}) + ({d}x^2 + {e}x + {f})",
               "params": {
                 "a": [
                   "int",
@@ -4737,7 +4744,8 @@
                 "aSum": "{a + d}",
                 "bSum": "{b + e}",
                 "cSum": "{c + f}"
-              },
+              },              "validateParams": "distinct_poly_sum_choices(a, b, c, d, e, f)",
+
               "answer": "{formatQuadraticExpression(aSum, bSum, cSum)}",
               "choices": [
                 "{formatQuadraticExpression(aSum, bSum, cSum)}",
@@ -5025,7 +5033,8 @@
                 "choiceFlipSigns": "{formatRoots(-root1, -root2)}",
                 "choiceFlipSecond": "{formatRoots(root1, -root2)}",
                 "choiceFlipFirst": "{formatRoots(-root1, root2)}"
-              },
+              },              "validateParams": "distinct_root_choices(root1, root2)",
+
               "answer": "{correctAnswer}",
               "choices": [
                 "{correctAnswer}",
@@ -5063,7 +5072,8 @@
                 "choiceFlipSigns": "{formatRoots(-root1, -root2)}",
                 "choiceFlipSecond": "{formatRoots(root1, -root2)}",
                 "choiceFlipFirst": "{formatRoots(-root1, root2)}"
-              },
+              },              "validateParams": "distinct_root_choices(root1, root2)",
+
               "answer": "{correctAnswer}",
               "choices": [
                 "{correctAnswer}",
@@ -5099,7 +5109,8 @@
                 "wrongNatureA": "{discriminant_wrong_nature_a(nature)}",
                 "wrongNatureB": "{discriminant_wrong_nature_b(nature)}",
                 "offsetDiscriminant": "{discriminant + a * 4}"
-              },
+              },              "validateParams": "wrongNatureA != wrongNatureB",
+
               "answer": "{formatDiscriminantNature(discriminant)}",
               "choices": [
                 "{formatDiscriminantNature(discriminant)}",
@@ -5170,7 +5181,8 @@
                 "choiceSwap": "{formatOrderedPair(ySolution, xSolution)}",
                 "choiceNegX": "{formatOrderedPair(-xSolution, ySolution)}",
                 "choiceNegY": "{formatOrderedPair(xSolution, -ySolution)}"
-              },
+              },              "validateParams": "distinct_ordered_pair_choices(xSolution, ySolution)",
+
               "answer": "{correctAnswer}",
               "choices": [
                 "{correctAnswer}",
@@ -5217,7 +5229,8 @@
                 "choiceSwap": "{formatOrderedPair(ySolution, xSolution)}",
                 "choiceNegX": "{formatOrderedPair(-xSolution, ySolution)}",
                 "choiceNegY": "{formatOrderedPair(xSolution, -ySolution)}"
-              },
+              },              "validateParams": "distinct_ordered_pair_choices(xSolution, ySolution)",
+
               "answer": "{correctAnswer}",
               "choices": [
                 "{correctAnswer}",
@@ -5265,7 +5278,8 @@
                 "foilInnerOnly": "{formatQuadraticExpression(a*c, a*d, b*d)}",
                 "foilOuterOnly": "{formatQuadraticExpression(a*c, b*c, b*d)}",
                 "foilNoMiddle": "{formatQuadraticExpression(a*c, 0, b*d)}"
-              },
+              },              "validateParams": "distinct_expand_choices(a, b, c, d)",
+
               "answer": "{correctExpr}",
               "choices": [
                 "correctExpr",
@@ -5336,7 +5350,8 @@
                 "choiceFlipFirst": "{combine_factors(u, -v, w, z)}",
                 "choiceFlipSecond": "{combine_factors(u, v, w, -z)}",
                 "choiceSwap": "{combine_factors(w, v, u, z)}"
-              },
+              },              "validateParams": "distinct_factor_choices(u, v, w, z)",
+
               "answer": "{correctFactor}",
               "choices": [
                 "{correctFactor}",
@@ -5350,7 +5365,7 @@
             },
             {
               "id": "Y11.A.POLYNOMIALS.T3",
-              "stem": "Simplify ({a}x\u00b2 + {b}x + {c}) + ({d}x\u00b2 + {e}x + {f})",
+              "stem": "Simplify ({a}x^2 + {b}x + {c}) + ({d}x^2 + {e}x + {f})",
               "params": {
                 "a": [
                   "int",
@@ -5385,7 +5400,8 @@
                 "aSum": "{a + d}",
                 "bSum": "{b + e}",
                 "cSum": "{c + f}"
-              },
+              },              "validateParams": "distinct_poly_sum_choices(a, b, c, d, e, f)",
+
               "answer": "{formatQuadraticExpression(aSum, bSum, cSum)}",
               "choices": [
                 "{formatQuadraticExpression(aSum, bSum, cSum)}",

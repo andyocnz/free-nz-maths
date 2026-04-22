@@ -1873,8 +1873,9 @@
                                                            },
                                                            {
                                                                "id":  "Y8.G.TRIG_RIGHT.T2",
-                                                               "stem":  "Find cos A.",
-                                                               "params":  {
+                                                               "stem":  "In a right triangle, opposite = {opp} cm, adjacent = {adj} cm, hypotenuse = {hyp} cm. Find cos A to 3 decimal places.",
+                                                               "roundDp": 3,
+                                                                 "params":  {
                                                                               "opp":  [
                                                                                           "decimal",
                                                                                           3,
@@ -2295,6 +2296,7 @@
                                                                                         10
                                                                                     ]
                                                                           },
+                                                               "validateParams":  "distinct_sequence_choice_texts(a1, d)",
                                                                "answer":  "{a1} + (n - 1) * {d}",
                                                                "hint":  "The nth term of an arithmetic sequence is: first term + (n-1) × common difference. Write the formula using the given values.",
                                                                "choices":  [

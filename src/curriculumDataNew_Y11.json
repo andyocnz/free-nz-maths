@@ -417,8 +417,8 @@
                 ],
                 "discriminant": "{b*b - 4*a*c}",
                 "nature": "{describeDiscriminant(discriminant)}",
-                "wrongNatureA": "{nature === 'two distinct real roots' ? 'one repeated real root' : 'two distinct real roots'}",
-                "wrongNatureB": "{nature === 'no real roots' ? 'two distinct real roots' : 'no real roots'}",
+                "wrongNatureA": "{discriminant_wrong_nature_a(nature)}",
+                "wrongNatureB": "{discriminant_wrong_nature_b(nature)}",
                 "offsetDiscriminant": "{discriminant + a * 4}"
               },
               "answer": "{formatDiscriminantNature(discriminant)}",
@@ -968,8 +968,8 @@
                 ],
                 "discriminant": "{b*b - 4*a*c}",
                 "nature": "{describeDiscriminant(discriminant)}",
-                "wrongNatureA": "{nature === 'two distinct real roots' ? 'one repeated real root' : 'two distinct real roots'}",
-                "wrongNatureB": "{nature === 'no real roots' ? 'two distinct real roots' : 'no real roots'}",
+                "wrongNatureA": "{discriminant_wrong_nature_a(nature)}",
+                "wrongNatureB": "{discriminant_wrong_nature_b(nature)}",
                 "offsetDiscriminant": "{discriminant + a * 4}"
               },
               "answer": "{formatDiscriminantNature(discriminant)}",

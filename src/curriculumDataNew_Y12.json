@@ -1194,7 +1194,7 @@
                   10
                 ]
               },
-              "answer": "{a}",
+              "answer": "For each increase of 1 in x, y increases by {a} (on average)",
               "multipleChoice": true,
               "choices": ["For each increase of 1 in x, y increases by {a} (on average)", "For each increase of 1 in y, x increases by {a}", "The y-intercept is {a}", "The x-intercept is {a}"],
               "difficulty": 6,
@@ -1661,7 +1661,8 @@
                 ],
                 "ensure": "polyEval(a,b,c,d,k)==0"
               },
-              "answer": "{syntheticQuotient(a,b,c,d,k)}",
+                            "validateParams": "k != 0",
+"answer": "{syntheticQuotient(a,b,c,d,k)}",
               "choices": [
                 "{syntheticQuotient(a,b,c,d,k)}",
                 "{a}x² + {a*k+b}x + {a*k*k+b*k+c}",
@@ -1707,7 +1708,7 @@
                   1.2
                 ]
               },
-              "answer": "{Math.ceil(Math.log(3)/Math.log(r))}",
+              "answer": "{round(Math.log(3)/Math.log(r), 0)}",
               "difficulty": 7,
               "phase": 10.21,
               "hint": "3 = r^t → t = ln3 / ln r."
@@ -1821,6 +1822,7 @@
                 "sd": ["choice", 10, 12, 15],
                 "x_val": "{mu + sd}"
               },
+              "validateParams": "k != 0",
               "answer": "{normal_upper_tail_text((x_val - mu) / sd)}",
               "difficulty": 6,
               "phase": 10.21,
