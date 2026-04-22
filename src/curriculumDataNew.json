@@ -380,7 +380,7 @@
                   "160-170"
                 ]
               },
-              "answer": "(targetBinLabel === '130-140' ? v1 : targetBinLabel === '140-150' ? v2 : targetBinLabel === '150-160' ? v3 : v4)",
+              "answer": "histogram_bin_value(targetBinLabel, v1, v2, v3, v4)",
               "difficulty": 2,
               "visualData": {
                 "type": "histogram",
@@ -1110,7 +1110,7 @@
                   3
                 ]
               },
-              "answer": "'1/' + (b**p)",
+              "answer": "reciprocal_power_fraction(b, p)",
               "difficulty": 5,
               "phase": 10.6,
               "hint": "b^-p = 1 / b^p"
@@ -1136,7 +1136,7 @@
                   4
                 ]
               },
-              "answer": "'1/' + (base**exp)",
+              "answer": "reciprocal_power_fraction(base, exp)",
               "difficulty": 5,
               "phase": 10.6,
               "hint": "b^-p = 1 / b^p"
@@ -2121,7 +2121,7 @@
                   10
                 ]
               },
-              "answer": "'(' + ((x1 + x2) / 2) + ', ' + ((y1 + y2) / 2) + ')'",
+              "answer": "{coordinatePair((x1 + x2) / 2, (y1 + y2) / 2)}",
               "difficulty": 7,
               "phase": 8,
               "hint": "Midpoint (x, y) = ((x1 + x2)/2, (y1 + y2)/2)"
@@ -2282,7 +2282,7 @@
           "templates": [
             {
               "id": "Y9.A.EXPRESSIONS_POLYNOMIALS.T2",
-              "stem": "Expand and simplify: (x ² {a})(x + {b}).",
+              "stem": "Expand and simplify: (x^2 - {a}x)(x + {b}).",
               "params": {
                 "a": [
                   "int",
@@ -2295,10 +2295,10 @@
                   10
                 ]
               },
-              "answer": "{'x³ + ' + (b-a) + 'x ² ' + (a*b)}",
+              "answer": "x^3 + {b - a}x^2 - {a * b}x",
               "difficulty": 7,
               "phase": 10.11,
-              "hint": "Monomial, binomial, trinomial"
+              "hint": "Expand term by term, then collect like powers of x."
             }
           ]
         },
@@ -2329,7 +2329,7 @@
                   30
                 ]
               },
-              "answer": "{'x ≤ ' + Math.round((c - b) / a, 2)}",
+              "answer": "x <= {round((c - b) / a, 2)}",
               "difficulty": 7,
               "phase": 10.12,
               "hint": "Substitution, elimination methods"
@@ -2370,7 +2370,7 @@
             },
             {
               "id": "Y9.A.POLYNOMIAL_OPS.T2",
-              "stem": "Divide {a}x³ + {a*b}x³ ² {a*c}x by {a}x.",
+              "stem": "Divide {a}x^3 + {a*b}x^2 + {a*c}x by {a}x.",
               "params": {
                 "a": [
                   "int",
@@ -2388,10 +2388,10 @@
                   5
                 ]
               },
-              "answer": "{'x³ + ' + b + 'x ² ' + c}",
+              "answer": "x^2 + {b}x + {c}",
               "difficulty": 8,
               "phase": 10.12,
-              "hint": "(a + b)(c + d) = ac + ad + bc + bd"
+              "hint": "Divide each term by {a}x."
             }
           ]
         },
@@ -2542,6 +2542,8 @@
         {
           "id": "Y9.S.DATA_STATS_PROB",
           "strand": "Statistics & Probability",
+          "name": "Data, graphs, statistics and probability",
+          "description": "Probability and summary statistics with single-step calculations.",
           "templates": [
             {
               "id": "Y9.S.DATA_STATS_PROB.T2",
@@ -2710,7 +2712,7 @@
                   25
                 ]
               },
-              "answer": "Math.floor(a/b) + ' r ' + (a % b)",
+              "answer": "quotient_remainder(a, b)",
               "difficulty": 5,
               "phase": 10.7,
               "hint": "Negative × negative = positive"
@@ -2936,7 +2938,7 @@
                   8
                 ]
               },
-              "answer": "{'(' + y + ',' + (-x) + ')'}",
+              "answer": "{coordinatePair(y, -x)}",
               "difficulty": 6,
               "phase": 10.7,
               "hint": "Translation: (x,y) ⇔ (x+a, y+b)"
@@ -3141,7 +3143,7 @@
                   1
                 ]
               },
-              "answer": "{'x + ' + a}",
+              "answer": "{formatLinearExpression(1, a)}",
               "difficulty": 8,
               "phase": 8,
               "hint": "Review the key concepts and try breaking the problem into smaller steps."
@@ -3287,7 +3289,7 @@
                   20
                 ]
               },
-              "answer": "{'x >= ' + a}",
+              "answer": "x >= {a}",
               "difficulty": 8,
               "phase": 8,
               "hint": "For square root functions, the expression under the root must be >= 0."
@@ -3697,7 +3699,7 @@
                   20
                 ]
               },
-              "answer": "{(a==d && b==e && c==f) ? 'Yes' : 'No'}",
+              "answer": "{congruent_sss(a, b, c, d, e, f)}",
               "difficulty": 7,
               "phase": 10.15,
               "hint": "SSS, SAS, ASA, AAS, RHS (right-angle hypotenuse-side)"
@@ -4543,15 +4545,15 @@
                 ],
                 "discriminant": "{b*b - 4*a*c}",
                 "nature": "{describeDiscriminant(discriminant)}",
-                "wrongNatureA": "{nature === 'two distinct real roots' ? 'one repeated real root' : 'two distinct real roots'}",
-                "wrongNatureB": "{nature === 'no real roots' ? 'two distinct real roots' : 'no real roots'}",
+                "wrongNatureA": "{discriminant_wrong_nature_a(nature)}",
+                "wrongNatureB": "{discriminant_wrong_nature_b(nature)}",
                 "offsetDiscriminant": "{discriminant + a * 4}"
               },
               "answer": "{formatDiscriminantNature(discriminant)}",
               "choices": [
                 "{formatDiscriminantNature(discriminant)}",
-                "{'D = ' + discriminant + ', ' + wrongNatureA}",
-                "{'D = ' + discriminant + ', ' + wrongNatureB}",
+                "D = {discriminant}, {wrongNatureA}",
+                "D = {discriminant}, {wrongNatureB}",
                 "{formatDiscriminantNature(offsetDiscriminant)}"
               ],
               "difficulty": 8,
@@ -4682,10 +4684,10 @@
                 "aCoeff": "{u * w}",
                 "bCoeff": "{u * z + v * w}",
                 "cCoeff": "{v * z}",
-                "correctFactor": "{formatLinearFactor(u, v) + formatLinearFactor(w, z)}",
-                "choiceFlipFirst": "{formatLinearFactor(u, -v) + formatLinearFactor(w, z)}",
-                "choiceFlipSecond": "{formatLinearFactor(u, v) + formatLinearFactor(w, -z)}",
-                "choiceSwap": "{formatLinearFactor(w, v) + formatLinearFactor(u, z)}"
+                "correctFactor": "{combine_factors(u, v, w, z)}",
+                "choiceFlipFirst": "{combine_factors(u, -v, w, z)}",
+                "choiceFlipSecond": "{combine_factors(u, v, w, -z)}",
+                "choiceSwap": "{combine_factors(w, v, u, z)}"
               },
               "answer": "{correctFactor}",
               "choices": [
@@ -5094,15 +5096,15 @@
                 ],
                 "discriminant": "{b*b - 4*a*c}",
                 "nature": "{describeDiscriminant(discriminant)}",
-                "wrongNatureA": "{nature === 'two distinct real roots' ? 'one repeated real root' : 'two distinct real roots'}",
-                "wrongNatureB": "{nature === 'no real roots' ? 'two distinct real roots' : 'no real roots'}",
+                "wrongNatureA": "{discriminant_wrong_nature_a(nature)}",
+                "wrongNatureB": "{discriminant_wrong_nature_b(nature)}",
                 "offsetDiscriminant": "{discriminant + a * 4}"
               },
               "answer": "{formatDiscriminantNature(discriminant)}",
               "choices": [
                 "{formatDiscriminantNature(discriminant)}",
-                "{'D = ' + discriminant + ', ' + wrongNatureA}",
-                "{'D = ' + discriminant + ', ' + wrongNatureB}",
+                "D = {discriminant}, {wrongNatureA}",
+                "D = {discriminant}, {wrongNatureB}",
                 "{formatDiscriminantNature(offsetDiscriminant)}"
               ],
               "difficulty": 8,
@@ -5330,10 +5332,10 @@
                 "aCoeff": "{u * w}",
                 "bCoeff": "{u * z + v * w}",
                 "cCoeff": "{v * z}",
-                "correctFactor": "{formatLinearFactor(u, v) + formatLinearFactor(w, z)}",
-                "choiceFlipFirst": "{formatLinearFactor(u, -v) + formatLinearFactor(w, z)}",
-                "choiceFlipSecond": "{formatLinearFactor(u, v) + formatLinearFactor(w, -z)}",
-                "choiceSwap": "{formatLinearFactor(w, v) + formatLinearFactor(u, z)}"
+                "correctFactor": "{combine_factors(u, v, w, z)}",
+                "choiceFlipFirst": "{combine_factors(u, -v, w, z)}",
+                "choiceFlipSecond": "{combine_factors(u, v, w, -z)}",
+                "choiceSwap": "{combine_factors(w, v, u, z)}"
               },
               "answer": "{correctFactor}",
               "choices": [
@@ -5536,7 +5538,7 @@
                   1,
                   5
                 ],
-                "d": "{a * dRaw - b * c === 0 ? dRaw + 1 : dRaw}"
+                "d": "{non_singular_matrix_d(a, b, c, dRaw)}"
               },
               "answer": "{formatInverse2x2(a, b, c, d)}",
               "difficulty": 9,
@@ -5852,6 +5854,7 @@
               "stem": "Simplify log({a}) + log({b}) where the logarithm has the same base",
               "params": {
                 "base_num": [
+                  "choice",
                   2,
                   3,
                   5,
@@ -5869,7 +5872,7 @@
                   30
                 ]
               },
-              "answer": "{base_num == 0 ? 'ln(' + (a*b) + ')' : 'log(' + (a*b) + ')'}",
+              "answer": "{log_product_text(base_num, a, b)}",
               "difficulty": 7,
               "phase": 10.14,
               "hint": "logₐ (xy) = logₐ x + logₐ y"
@@ -6616,7 +6619,7 @@
                   20
                 ]
               },
-              "answer": "(a*a*a + b*a*a + c*a + d === 0 ? 'Yes' : 'No')",
+              "answer": "{factor_theorem_yes_no(a, b, c, d, a)}",
               "hint": "Use factor theorem: substitute x = a.\nIf f(a) = 0 then (x-a) is a factor.",
               "difficulty": 9,
               "phase": 10.7
@@ -7389,7 +7392,7 @@
                   10
                 ]
               },
-              "answer": "{'(' + (x1+x2)/2 + ', ' + (y1+y2)/2 + ')'}",
+              "answer": "{coordinatePair((x1 + x2) / 2, (y1 + y2) / 2)}",
               "hint": "Midpoint = ((x1+x2)/2, (y1+y2)/2).\nAverage the coordinates.",
               "difficulty": 6,
               "phase": 10.7

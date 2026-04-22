@@ -774,10 +774,10 @@
                   "MATHS",
                   "OLYMP"
                 ],
-                "let1": "{word[0]}",
-                "let2": "{word[word.length - 1]}"
+                "let1": "{first_letter(word)}",
+                "let2": "{last_letter(word)}"
               },
-              "answer": "{factorial(word.length) / 2}",
+              "answer": "{olympiad_perm_order_count(word)}",
               "hint": "Exactly half of all permutations have let1 before let2.\nTotal permutations / 2.",
               "difficulty": 9,
               "phase": 9

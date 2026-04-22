@@ -1020,7 +1020,7 @@
                   10
                 ]
               },
-              "answer": "{(coeff1 + coeff2) + '√' + n}",
+              "answer": "{like_surd_text(coeff1 + coeff2, n)}",
               "difficulty": 6,
               "phase": 10.16,
               "hint": "Combine like surds by adding the coefficients and keeping the radicand the same."
@@ -1048,7 +1048,7 @@
                   7
                 ]
               },
-              "answer": "{(coeff1 - coeff2) + '√' + n}",
+              "answer": "{like_surd_text(coeff1 - coeff2, n)}",
               "difficulty": 6,
               "phase": 10.16,
               "hint": "Subtract the coefficients of like surds and keep the radicand the same."
@@ -1107,7 +1107,7 @@
                   8
                 ]
               },
-              "answer": "{num + '√' + den + '/' + den}",
+              "answer": "{rationalise_simple_fraction(num, den)}",
               "difficulty": 6,
               "phase": 10.16,
               "hint": "Multiply top and bottom by √{den} so the denominator becomes {den}."
@@ -1380,7 +1380,7 @@
                 ],
                 "c": "{cBase + offset}"
               },
-              "answer": "{offset === 0 ? 'Yes' : 'No'}",
+              "answer": "{pythag_triple_yes_no(offset)}",
               "difficulty": 5,
               "phase": 10.16,
               "hint": "Check if a^2 + b^2 equals c^2."

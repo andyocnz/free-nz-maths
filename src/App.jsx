@@ -387,6 +387,57 @@ export default function App() {
     return result
   }
 
+  function getDevSampleFlags(answerText, templateAnswer, errorMessage) {
+    const flags = []
+    const normalizedAnswer = String(answerText || '').trim()
+    const rawTemplateAnswer = String(templateAnswer || '').trim()
+
+    if (errorMessage) flags.push('generation error')
+    if (!normalizedAnswer) flags.push('empty answer')
+    if (/\bNaN\b/.test(normalizedAnswer)) flags.push('NaN answer')
+    if (/\bundefined\b/i.test(normalizedAnswer)) flags.push('undefined answer')
+    if (/\bnull\b/i.test(normalizedAnswer)) flags.push('null answer')
+    if (/\{[^}]+\}/.test(normalizedAnswer)) flags.push('raw placeholder')
+
+    const looksStringBuilt =
+      rawTemplateAnswer.includes("'") ||
+      rawTemplateAnswer.includes('"') ||
+      rawTemplateAnswer.includes('===') ||
+      rawTemplateAnswer.includes('==') ||
+      rawTemplateAnswer.includes('?') ||
+      rawTemplateAnswer.includes('Math.')
+
+    if (normalizedAnswer === '0' && looksStringBuilt) {
+      flags.push('suspicious fallback 0')
+    }
+
+    return flags
+  }
+
+  function buildDevSampleRow(template, skill, yearLabel, questionData, errorMessage = '') {
+    const questionText = questionData?.question
+      ? normalizeMathDisplay(questionData.question)
+      : 'Error generating question'
+    const answerText = questionData
+      ? normalizeMathDisplay(questionData.formattedAnswer || questionData.answer)
+      : '0'
+    const flags = getDevSampleFlags(answerText, template?.answer, errorMessage)
+
+    return {
+      templateId: template?.id || '',
+      skillId: skill?.id,
+      skillName: skill?.name,
+      year: yearLabel,
+      question: questionText,
+      answer: answerText,
+      isNew: !!(template?.isNew || skill?.isNew),
+      isMultipleChoice: !!(questionData && Array.isArray(questionData.choices) && questionData.choices.length > 0),
+      status: flags.length ? 'warning' : 'ok',
+      flags,
+      errorMessage: errorMessage || ''
+    }
+  }
+
   const openKnowledgeModal = () => {
     if (!question) return
     const skillId = question.skillId || selectedSkill
@@ -1312,29 +1363,9 @@ export default function App() {
           }
           try {
             const q = generateQuestionFromTemplate(template, skill.name, 'Olympiad')
-            const questionText = normalizeMathDisplay(q.question)
-            const answerText = normalizeMathDisplay(q.formattedAnswer || q.answer)
-            rows.push({
-              templateId: template.id || '',
-              skillId: skill.id,
-              skillName: skill.name,
-              year: 'Olympiad',
-              question: questionText,
-              answer: answerText,
-              isNew: !!(template.isNew || skill.isNew),
-              isMultipleChoice: Array.isArray(q.choices) && q.choices.length > 0
-            })
+            rows.push(buildDevSampleRow(template, skill, 'Olympiad', q))
           } catch (e) {
-            rows.push({
-              templateId: template.id || '',
-              skillId: skill.id,
-              skillName: skill.name,
-              year: 'Olympiad',
-              question: 'Error generating question',
-              answer: '0',
-              isNew: !!(template.isNew || skill.isNew),
-              isMultipleChoice: false
-            })
+            rows.push(buildDevSampleRow(template, skill, 'Olympiad', null, e?.message || 'Error generating question'))
           }
         })
       })
@@ -1351,30 +1382,10 @@ export default function App() {
               return
             }
             try {
-            const q = generateQuestionFromTemplate(template, skill.name, year.year)
-            const questionText = normalizeMathDisplay(q.question)
-            const answerText = normalizeMathDisplay(q.formattedAnswer || q.answer)
-            rows.push({
-              templateId: template.id || '',
-              skillId: skill.id,
-              skillName: skill.name,
-              year: year.year,
-              question: questionText,
-              answer: answerText,
-              isNew: !!(template.isNew || skill.isNew),
-              isMultipleChoice: Array.isArray(q.choices) && q.choices.length > 0
-            })
-          } catch (e) {
-            rows.push({
-              templateId: template.id || '',
-              skillId: skill.id,
-              skillName: skill.name,
-              year: year.year,
-              question: 'Error generating question',
-              answer: '0',
-              isNew: !!(template.isNew || skill.isNew),
-              isMultipleChoice: false
-            })
+              const q = generateQuestionFromTemplate(template, skill.name, year.year)
+              rows.push(buildDevSampleRow(template, skill, year.year, q))
+            } catch (e) {
+              rows.push(buildDevSampleRow(template, skill, year.year, null, e?.message || 'Error generating question'))
             }
           })
         })
@@ -4287,13 +4298,14 @@ export default function App() {
                     </p>
                     <div className="bg-blue-50 border border-blue-200 rounded p-3 mb-4">
                       <div className="flex justify-between items-start mb-2">
-                        <div>
-                          <div><strong>DEBUG INFO:</strong></div>
-                          <div className="text-xs font-mono">Year: {curriculumMapYear} | Filter: {devTemplateFilterSkill || 'null'}</div>
-                          <div className="text-xs font-mono">Total samples: {devTemplateSamples.length}</div>
-                          <div className="text-xs font-mono">Years in data: {curriculumData?.years?.map(y => y.year).join(', ')}</div>
-                          <div className="text-xs font-mono">Curriculum years sample: {devTemplateSamples.slice(0, 10).map(r => r.year).join(', ')}</div>
-                        </div>
+	                        <div>
+	                          <div><strong>DEBUG INFO:</strong></div>
+	                          <div className="text-xs font-mono">Year: {curriculumMapYear} | Filter: {devTemplateFilterSkill || 'null'}</div>
+	                          <div className="text-xs font-mono">Total samples: {devTemplateSamples.length}</div>
+	                          <div className="text-xs font-mono">Flagged samples: {devTemplateSamples.filter(r => r.status === 'warning').length}</div>
+	                          <div className="text-xs font-mono">Years in data: {curriculumData?.years?.map(y => y.year).join(', ')}</div>
+	                          <div className="text-xs font-mono">Curriculum years sample: {devTemplateSamples.slice(0, 10).map(r => r.year).join(', ')}</div>
+	                        </div>
                         <button
                           onClick={() => {
                             const debugJson = {
@@ -4326,51 +4338,78 @@ export default function App() {
                       </div>
                     </div>
                     <div className="overflow-x-auto bg-white rounded-lg border border-gray-200 shadow-sm mt-4 max-h-[600px]">
-                      <table className="min-w-full text-left text-sm">
-                        <thead className="bg-gray-50 sticky top-0 z-10">
-                        <tr>
-                          <th className="px-4 py-2 font-semibold text-gray-700">Template ID</th>
-                          <th className="px-4 py-2 font-semibold text-gray-700">Multiple choice</th>
-                          <th className="px-4 py-2 font-semibold text-gray-700">Sample Question</th>
-                          <th className="px-4 py-2 font-semibold text-gray-700">Expected Answer</th>
-                        </tr>
-                        </thead>
+	                      <table className="min-w-full text-left text-sm">
+	                        <thead className="bg-gray-50 sticky top-0 z-10">
+	                        <tr>
+	                          <th className="px-4 py-2 font-semibold text-gray-700">Template ID</th>
+	                          <th className="px-4 py-2 font-semibold text-gray-700">Status</th>
+	                          <th className="px-4 py-2 font-semibold text-gray-700">Multiple choice</th>
+	                          <th className="px-4 py-2 font-semibold text-gray-700">Sample Question</th>
+	                          <th className="px-4 py-2 font-semibold text-gray-700">Expected Answer</th>
+	                        </tr>
+	                        </thead>
                         <tbody key={`table-${curriculumMapYear}-${devTemplateFilterSkill}`}>
                           {(() => {
-                            const filtered = devTemplateSamples.filter(row =>
-                              devTemplateFilterSkill === null || row.skillId === devTemplateFilterSkill
-                            );
-                            if (filtered.length === 0) {
-                              return (
-                                <tr>
-                                  <td colSpan="4" className="px-4 py-4 text-center text-sm text-gray-500">
-                                    {devTemplateSamples.length === 0 ? 'No templates for this year' : 'No templates match the selected topic filter'}
-                                  </td>
-                                </tr>
-                              );
-                            }
-                            return filtered.map((row, idx) => (
-                              <tr key={`${curriculumMapYear}-${row.templateId}-${idx}`} className="border-t border-gray-100 hover:bg-gray-50">
-                                <td className="px-4 py-2 whitespace-nowrap text-xs md:text-sm font-mono text-gray-700">
-                                  <button
-                                    type="button"
+	                            const filtered = devTemplateSamples.filter(row =>
+	                              devTemplateFilterSkill === null || row.skillId === devTemplateFilterSkill
+	                            );
+	                            if (filtered.length === 0) {
+	                              return (
+	                                <tr>
+	                                  <td colSpan="5" className="px-4 py-4 text-center text-sm text-gray-500">
+	                                    {devTemplateSamples.length === 0 ? 'No templates for this year' : 'No templates match the selected topic filter'}
+	                                  </td>
+	                                </tr>
+	                              );
+	                            }
+	                            return filtered.map((row, idx) => (
+	                              <tr
+	                                key={`${curriculumMapYear}-${row.templateId}-${idx}`}
+	                                className={`border-t hover:bg-gray-50 ${row.status === 'warning' ? 'border-red-200 bg-red-50/60' : 'border-gray-100'}`}
+	                              >
+	                                <td className="px-4 py-2 whitespace-nowrap text-xs md:text-sm font-mono text-gray-700">
+	                                  <button
+	                                    type="button"
                                     className="text-blue-600 hover:underline focus:underline"
                                     onClick={() => startTemplatePractice(row)}
                                     title="Practice this template"
-                                  >
-                                    {row.templateId}
-                                  </button>
-                                </td>
-                                <td className="px-4 py-2 text-xs md:text-sm text-gray-700">
-                                  {row.isMultipleChoice ? 'True' : 'False'}
-                                </td>
-                                <td className="px-4 py-2 text-xs md:text-sm text-gray-800">
-                                  {row.question}
-                                </td>
-                                <td className="px-4 py-2 text-xs md:text-sm text-gray-800">
-                                  {row.answer}
-                                </td>
-                              </tr>
+	                                  >
+	                                    {row.templateId}
+	                                  </button>
+	                                </td>
+	                                <td className="px-4 py-2 text-xs md:text-sm text-gray-700">
+	                                  {row.status === 'warning' ? (
+	                                    <div className="space-y-1">
+	                                      <span className="inline-flex items-center rounded-full bg-red-100 px-2 py-0.5 text-xs font-semibold text-red-700">
+	                                        Flagged
+	                                      </span>
+	                                      {row.flags.map(flag => (
+	                                        <div key={`${row.templateId}-${flag}`} className="text-[11px] leading-4 text-red-700">
+	                                          {flag}
+	                                        </div>
+	                                      ))}
+	                                    </div>
+	                                  ) : (
+	                                    <span className="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-700">
+	                                      OK
+	                                    </span>
+	                                  )}
+	                                </td>
+	                                <td className="px-4 py-2 text-xs md:text-sm text-gray-700">
+	                                  {row.isMultipleChoice ? 'True' : 'False'}
+	                                </td>
+	                                <td className="px-4 py-2 text-xs md:text-sm text-gray-800">
+	                                  <div>{row.question}</div>
+	                                  {row.errorMessage && (
+	                                    <div className="mt-1 text-[11px] text-red-700">
+	                                      {row.errorMessage}
+	                                    </div>
+	                                  )}
+	                                </td>
+	                                <td className={`px-4 py-2 text-xs md:text-sm ${row.status === 'warning' ? 'text-red-800 font-semibold' : 'text-gray-800'}`}>
+	                                  {row.answer}
+	                                </td>
+	                              </tr>
                             ));
                           })()}
                         </tbody>

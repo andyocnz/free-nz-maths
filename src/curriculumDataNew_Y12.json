@@ -1563,10 +1563,10 @@
               "params": {
                 "numerator": ["choice", 1, "√2", "√3"],
                 "denominator": ["choice", 2, 2, 2],
-                "angle1": "{numerator === 1 ? 30 : numerator === '√2' ? 45 : 60}",
-                "angle2": "{numerator === 1 ? 150 : numerator === '√2' ? 135 : 120}",
-                "wrong1": "{angle1 + 90}",
-                "wrong2": "{angle2 + 90}"
+                "angle1": "{exact_sin_primary_angle(numerator)}",
+                "angle2": "{exact_sin_secondary_angle(numerator)}",
+                "wrong1": "{exact_sin_wrong1_angle(numerator)}",
+                "wrong2": "{exact_sin_wrong2_angle(numerator)}"
               },
               "answer": "{angle1}°, {angle2}°",
               "choices": [
@@ -1661,9 +1661,9 @@
                 ],
                 "ensure": "polyEval(a,b,c,d,k)==0"
               },
-              "answer": "{syntheticDivisionFull(a,b,c,d,k)}",
+              "answer": "{syntheticQuotient(a,b,c,d,k)}",
               "choices": [
-                "{syntheticDivisionFull(a,b,c,d,k)}",
+                "{syntheticQuotient(a,b,c,d,k)}",
                 "{a}x² + {a*k+b}x + {a*k*k+b*k+c}",
                 "{a}x² + {b}x + {c}",
                 "{a}x² - {a*k+b}x + {a*k*k+b*k+c}"
@@ -1814,17 +1814,17 @@
           "templates": [
             {
               "id": "Y12.STATISTICS.NORMAL.T1",
-              "stem": "X ~ N({mean}, {sd}²). Find P(X > {x_val}) to 3 decimal places. (Standardize: z = (X - mean) / sd)",
+              "stem": "X ~ N({mu}, {sd}²). Find P(X > {x_val}) to 3 decimal places. (Standardize: z = (X - mu) / sd)",
               "roundDp": 3,
               "params": {
-                "mean": ["choice", 80, 100, 120],
+                "mu": ["choice", 80, 100, 120],
                 "sd": ["choice", 10, 12, 15],
-                "x_val": "{mean + sd}"
+                "x_val": "{mu + sd}"
               },
-              "answer": "{(1 - normalCdfApprox((x_val - mean) / sd)).toFixed(3)}",
+              "answer": "{normal_upper_tail_text((x_val - mu) / sd)}",
               "difficulty": 6,
               "phase": 10.21,
-              "hint": "z-score = ({x_val} - {mean}) / {sd}, then use normal CDF table"
+              "hint": "z-score = ({x_val} - {mu}) / {sd}, then use normal CDF table"
             }
           ]
         },

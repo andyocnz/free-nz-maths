@@ -896,12 +896,12 @@
                   5
                 ]
               },
-              "answer": "Vertical scale {Math.abs(a)}{a<0?' with reflection in x-axis':''}; shift {h>0? h + ' right': h<0? -h + ' left':'0'}; shift {k>0? k + ' up': k<0? -k + ' down':'0'}",
+              "answer": "{quadratic_transformation_text(a, h, k)}",
               "choices": [
-                "Vertical scale {Math.abs(a)}{a<0?' with reflection in x-axis':''}; shift {h>0? h + ' right': h<0? -h + ' left':'0'}; shift {k>0? k + ' up': k<0? -k + ' down':'0'}",
-                "Vertical scale {Math.abs(a)}{a<0?' with reflection in x-axis':''}; shift {h>0? h + ' left': h<0? -h + ' right':'0'}; shift {k>0? k + ' up': k<0? -k + ' down':'0'}",
-                "Vertical scale {Math.abs(a)}{a<0?' with reflection in x-axis':''}; shift {h>0? h + ' right': h<0? -h + ' left':'0'}; shift {k>0? k + ' down': k<0? -k + ' up':'0'}",
-                "Vertical scale {a}; shift {h>0? h + ' right': h<0? -h + ' left':'0'}; shift {k>0? k + ' up': k<0? -k + ' down':'0'}"
+                "{quadratic_transformation_text(a, h, k)}",
+                "{quadratic_transformation_wrong_h_text(a, h, k)}",
+                "{quadratic_transformation_wrong_k_text(a, h, k)}",
+                "{quadratic_transformation_wrong_scale_text(a, h, k)}"
               ],
               "difficulty": 6,
               "phase": 10.19,
@@ -936,7 +936,7 @@
                   10
                 ]
               },
-              "answer": "{b*b - 4*a*c > 0 ? 'Two real roots' : b*b - 4*a*c === 0 ? 'One real root' : 'No real roots'}",
+              "answer": "{classify_quadratic_roots_text(a, b, c)}",
               "choices": [
                 "Two real roots",
                 "One real root",
@@ -1213,11 +1213,11 @@
                   6
                 ]
               },
-              "answer": "sqrt({a}x {b > 0 ? '+' : ''} {b === 0 ? '' : b}) with domain x >= {-b/a}",
+              "answer": "{composition_sqrt_linear_text(a, b)}",
               "choices": [
-                "sqrt({a}x {b > 0 ? '+' : ''} {b === 0 ? '' : b}) with domain x >= {-b/a}",
+                "{composition_sqrt_linear_text(a, b)}",
                 "{a}*sqrt(x) + {b} with domain x >= 0",
-                "sqrt({a}x {b > 0 ? '+' : ''} {b === 0 ? '' : b}) with domain x >= {b/a}",
+                "{composition_sqrt_linear_wrong_domain_text(a, b)}",
                 "sqrt(x) * ({a}x + {b})"
               ],
               "difficulty": 6,
@@ -1288,11 +1288,11 @@
                   6
                 ]
               },
-              "answer": "{'x != ' + (c / b)}",
+              "answer": "{domain_exclusion_text(c, b)}",
               "choices": [
-                "{'x != ' + (c / b)}",
-                "{'x != ' + (-c / b)}",
-                "{'x != ' + (b / c)}",
+                "{domain_exclusion_text(c, b)}",
+                "{domain_exclusion_text(-c, b)}",
+                "{domain_exclusion_text(b, c)}",
                 "x != 0"
               ],
               "difficulty": 6,
@@ -1320,12 +1320,12 @@
                   5
                 ]
               },
-              "answer": "{'[' + Math.min(evalQuadAt(a,b,c,-2), evalQuadAt(a,b,c,3), evalVertex(a,b,c)) + ', ' + Math.max(evalQuadAt(a,b,c,-2), evalQuadAt(a,b,c,3), evalVertex(a,b,c)) + ']'}",
+              "answer": "{quadratic_range_on_interval_text(a, b, c, -2, 3)}",
               "choices": [
-                "{'[' + Math.min(evalQuadAt(a,b,c,-2), evalQuadAt(a,b,c,3), evalVertex(a,b,c)) + ', ' + Math.max(evalQuadAt(a,b,c,-2), evalQuadAt(a,b,c,3), evalVertex(a,b,c)) + ']'}",
-                "{'[' + Math.min(evalQuadAt(a,b,c,-2), evalQuadAt(a,b,c,3)) + ', ' + Math.max(evalQuadAt(a,b,c,-2), evalQuadAt(a,b,c,3)) + ']'}",
-                "{'[' + Math.min(evalQuadAt(a,b,c,-2), evalVertex(a,b,c)) + ', ' + Math.max(evalQuadAt(a,b,c,-2), evalVertex(a,b,c)) + ']'}",
-                "{'[' + Math.max(evalQuadAt(a,b,c,-2), evalQuadAt(a,b,c,3), evalVertex(a,b,c)) + ', ' + Math.min(evalQuadAt(a,b,c,-2), evalQuadAt(a,b,c,3), evalVertex(a,b,c)) + ']'}"
+                "{quadratic_range_on_interval_text(a, b, c, -2, 3)}",
+                "{quadratic_range_endpoints_text(a, b, c, -2, 3)}",
+                "{quadratic_range_left_vertex_text(a, b, c, -2)}",
+                "{reversed_quadratic_range_on_interval_text(a, b, c, -2, 3)}"
               ],
               "difficulty": 7,
               "phase": 10.19,

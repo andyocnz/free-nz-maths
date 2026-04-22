@@ -702,7 +702,7 @@ export function generateQuestionFromTemplate(template, skill, year) {
     }
 
     params.start = formatTime(startMins)
-    params.end = formatTime(endMins)
+    params.finish = formatTime(endMins)
   }
 
   // Special handling: randomise stem-and-leaf plots while keeping answers in sync

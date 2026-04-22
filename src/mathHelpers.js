@@ -159,6 +159,10 @@ export function formatOrderedPair(xVal, yVal) {
   return `x = ${xVal}, y = ${yVal}`
 }
 
+export function coordinatePair(xVal, yVal) {
+  return `(${xVal}, ${yVal})`
+}
+
 export function formatLinearFactor(coeff, constant) {
   const c = Number(coeff)
   const k = Number(constant)
@@ -755,6 +759,217 @@ export function elapsed_minutes(start, end) {
   return mins2 - mins1
 }
 
+export function histogram_bin_value(targetBinLabel, v1, v2, v3, v4) {
+  if (targetBinLabel === '130-140') return v1
+  if (targetBinLabel === '140-150') return v2
+  if (targetBinLabel === '150-160') return v3
+  return v4
+}
+
+export function reciprocal_power_fraction(base, exp) {
+  return simplify(1, base ** exp)
+}
+
+export function quotient_remainder(a, b) {
+  return `${Math.floor(a / b)} r ${a % b}`
+}
+
+export function congruent_sss(a, b, c, d, e, f) {
+  return a === d && b === e && c === f ? 'Yes' : 'No'
+}
+
+export function logic_and_text(a, b) {
+  return a === 'true' && b === 'true' ? 'true' : 'false'
+}
+
+export function logic_or_text(a, b) {
+  return a === 'true' || b === 'true' ? 'true' : 'false'
+}
+
+export function logic_not_text(a) {
+  return a === 'true' ? 'false' : 'true'
+}
+
+export function fibonacci_term_value(n, f5, f6, f7) {
+  if (n === 5) return f5
+  if (n === 6) return f6
+  return f7
+}
+
+export function like_surd_text(coeff, n) {
+  const c = Number(coeff)
+  if (c === 0) return '0'
+  if (c === 1) return `√${n}`
+  if (c === -1) return `-√${n}`
+  return `${c}√${n}`
+}
+
+export function rationalise_simple_fraction(num, den) {
+  const a = Number(num)
+  const b = Number(den)
+  const g = hcf(a, b)
+  const numeratorCoeff = a / g
+  const denominator = b / g
+  if (denominator === 1) {
+    return numeratorCoeff === 1 ? `√${b}` : `${numeratorCoeff}√${b}`
+  }
+  if (numeratorCoeff === 1) {
+    return `√${b}/${denominator}`
+  }
+  return `${numeratorCoeff}√${b}/${denominator}`
+}
+
+export function normal_upper_tail_text(z) {
+  const value = 1 - normalCdfApprox(z)
+  return round(value, 3).toFixed(3)
+}
+
+export function exact_sin_angles_text(numerator) {
+  if (numerator === 1) return '30°, 150°'
+  if (numerator === '√2') return '45°, 135°'
+  return '60°, 120°'
+}
+
+export function exact_sin_primary_angle(numerator) {
+  if (numerator === 1) return 30
+  if (numerator === '√2') return 45
+  return 60
+}
+
+export function exact_sin_secondary_angle(numerator) {
+  if (numerator === 1) return 150
+  if (numerator === '√2') return 135
+  return 120
+}
+
+export function exact_sin_wrong1_angle(numerator) {
+  return exact_sin_primary_angle(numerator) + 90
+}
+
+export function exact_sin_wrong2_angle(numerator) {
+  return exact_sin_secondary_angle(numerator) + 90
+}
+
+export function classify_quadratic_roots_text(a, b, c) {
+  const discriminant = b * b - 4 * a * c
+  if (discriminant > 0) return 'Two real roots'
+  if (discriminant === 0) return 'One real root'
+  return 'No real roots'
+}
+
+export function domain_exclusion_text(c, b) {
+  return `x != ${round(c / b, 2)}`
+}
+
+export function quadratic_range_on_interval_text(a, b, c, left, right) {
+  const values = [evalQuadAt(a, b, c, left), evalQuadAt(a, b, c, right)]
+  const xv = -b / (2 * a)
+  if (xv >= left && xv <= right) {
+    values.push(evalQuadAt(a, b, c, xv))
+  }
+  const minVal = Math.min(...values)
+  const maxVal = Math.max(...values)
+  return `[${round(minVal, 2)}, ${round(maxVal, 2)}]`
+}
+
+export function composition_sqrt_linear_text(a, b) {
+  const sign = b > 0 ? ` + ${b}` : b < 0 ? ` - ${Math.abs(b)}` : ''
+  const bound = round(-b / a, 2)
+  return `sqrt(${a}x${sign}) with domain x >= ${bound}`
+}
+
+export function composition_sqrt_linear_wrong_domain_text(a, b) {
+  const sign = b > 0 ? ` + ${b}` : b < 0 ? ` - ${Math.abs(b)}` : ''
+  const bound = round(b / a, 2)
+  return `sqrt(${a}x${sign}) with domain x >= ${bound}`
+}
+
+export function quadratic_range_endpoints_text(a, b, c, left, right) {
+  const leftVal = evalQuadAt(a, b, c, left)
+  const rightVal = evalQuadAt(a, b, c, right)
+  return `[${round(Math.min(leftVal, rightVal), 2)}, ${round(Math.max(leftVal, rightVal), 2)}]`
+}
+
+export function quadratic_range_left_vertex_text(a, b, c, left) {
+  const leftVal = evalQuadAt(a, b, c, left)
+  const vertexVal = evalVertex(a, b, c)
+  return `[${round(Math.min(leftVal, vertexVal), 2)}, ${round(Math.max(leftVal, vertexVal), 2)}]`
+}
+
+export function reversed_quadratic_range_on_interval_text(a, b, c, left, right) {
+  const correct = quadratic_range_on_interval_text(a, b, c, left, right)
+  const match = correct.match(/^\[([^,]+),\s*([^\]]+)\]$/)
+  if (!match) return correct
+  return `[${match[2]}, ${match[1]}]`
+}
+
+export function olympiad_perm_order_count(word) {
+  return factorial(word.length) / 2
+}
+
+export function first_letter(word) {
+  return String(word || '').charAt(0)
+}
+
+export function last_letter(word) {
+  const text = String(word || '')
+  return text.charAt(text.length - 1)
+}
+
+export function combine_factors(u, v, w, z) {
+  return `${formatLinearFactor(u, v)}${formatLinearFactor(w, z)}`
+}
+
+export function log_product_text(baseNum, a, b) {
+  const product = a * b
+  return Number(baseNum) === 0 ? `ln(${product})` : `log(${product})`
+}
+
+export function factor_theorem_yes_no(a, b, c, d, root) {
+  return (root ** 3 + b * root * root + c * root + d === 0) ? 'Yes' : 'No'
+}
+
+export function pythag_triple_yes_no(offset) {
+  return offset === 0 ? 'Yes' : 'No'
+}
+
+function signed_shift_text(value, positiveDirection, negativeDirection) {
+  if (value > 0) return `${value} ${positiveDirection}`
+  if (value < 0) return `${Math.abs(value)} ${negativeDirection}`
+  return '0'
+}
+
+export function quadratic_transformation_text(a, h, k) {
+  const scale = `Vertical scale ${Math.abs(a)}${a < 0 ? ' with reflection in x-axis' : ''}`
+  return `${scale}; shift ${signed_shift_text(h, 'right', 'left')}; shift ${signed_shift_text(k, 'up', 'down')}`
+}
+
+export function quadratic_transformation_wrong_h_text(a, h, k) {
+  const scale = `Vertical scale ${Math.abs(a)}${a < 0 ? ' with reflection in x-axis' : ''}`
+  return `${scale}; shift ${signed_shift_text(h, 'left', 'right')}; shift ${signed_shift_text(k, 'up', 'down')}`
+}
+
+export function quadratic_transformation_wrong_k_text(a, h, k) {
+  const scale = `Vertical scale ${Math.abs(a)}${a < 0 ? ' with reflection in x-axis' : ''}`
+  return `${scale}; shift ${signed_shift_text(h, 'right', 'left')}; shift ${signed_shift_text(k, 'down', 'up')}`
+}
+
+export function quadratic_transformation_wrong_scale_text(a, h, k) {
+  return `Vertical scale ${a}; shift ${signed_shift_text(h, 'right', 'left')}; shift ${signed_shift_text(k, 'up', 'down')}`
+}
+
+export function non_singular_matrix_d(a, b, c, dRaw) {
+  return a * dRaw - b * c === 0 ? dRaw + 1 : dRaw
+}
+
+export function discriminant_wrong_nature_a(nature) {
+  return nature === 'two distinct real roots' ? 'one repeated real root' : 'two distinct real roots'
+}
+
+export function discriminant_wrong_nature_b(nature) {
+  return nature === 'no real roots' ? 'two distinct real roots' : 'no real roots'
+}
+
 // --- Phase 7: New helper functions ---
 
 const PI_APPROX = 3.14
@@ -798,13 +1013,13 @@ export function is_perfect_square(n) {
 
 // Helpers matching template expressions max([..]) / min([..])
 export function max(arr) {
-  if (!Array.isArray(arr)) return NaN
-  return Math.max(...arr)
+  const values = normalizeListInput(arr)
+  return Math.max(...values)
 }
 
 export function min(arr) {
-  if (!Array.isArray(arr)) return NaN
-  return Math.min(...arr)
+  const values = normalizeListInput(arr)
+  return Math.min(...values)
 }
 
 // Absolute value helper for templates that use abs(...)

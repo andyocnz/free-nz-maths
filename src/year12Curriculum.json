@@ -356,7 +356,7 @@
                 "c": ["int", -10, 10],
                 "d": ["int", -20, 20]
               },
-              "answer": "(a*a*a + b*a*a + c*a + d === 0 ? 'Yes' : 'No')",
+              "answer": "{factor_theorem_yes_no(a, b, c, d, a)}",
               "hint": "Use factor theorem: substitute x = a.\nIf f(a) = 0 then (x-a) is a factor.",
               "difficulty": 9,
               "phase": 10.7

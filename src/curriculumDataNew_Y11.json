@@ -556,10 +556,10 @@
                 "aCoeff": "{u * w}",
                 "bCoeff": "{u * z + v * w}",
                 "cCoeff": "{v * z}",
-                "correctFactor": "{formatLinearFactor(u, v) + formatLinearFactor(w, z)}",
-                "choiceFlipFirst": "{formatLinearFactor(u, -v) + formatLinearFactor(w, z)}",
-                "choiceFlipSecond": "{formatLinearFactor(u, v) + formatLinearFactor(w, -z)}",
-                "choiceSwap": "{formatLinearFactor(w, v) + formatLinearFactor(u, z)}"
+                "correctFactor": "{combine_factors(u, v, w, z)}",
+                "choiceFlipFirst": "{combine_factors(u, -v, w, z)}",
+                "choiceFlipSecond": "{combine_factors(u, v, w, -z)}",
+                "choiceSwap": "{combine_factors(w, v, u, z)}"
               },
               "answer": "{correctFactor}",
               "choices": [
@@ -1204,10 +1204,10 @@
                 "aCoeff": "{u * w}",
                 "bCoeff": "{u * z + v * w}",
                 "cCoeff": "{v * z}",
-                "correctFactor": "{formatLinearFactor(u, v) + formatLinearFactor(w, z)}",
-                "choiceFlipFirst": "{formatLinearFactor(u, -v) + formatLinearFactor(w, z)}",
-                "choiceFlipSecond": "{formatLinearFactor(u, v) + formatLinearFactor(w, -z)}",
-                "choiceSwap": "{formatLinearFactor(w, v) + formatLinearFactor(u, z)}"
+                "correctFactor": "{combine_factors(u, v, w, z)}",
+                "choiceFlipFirst": "{combine_factors(u, -v, w, z)}",
+                "choiceFlipSecond": "{combine_factors(u, v, w, -z)}",
+                "choiceSwap": "{combine_factors(w, v, u, z)}"
               },
               "answer": "{correctFactor}",
               "choices": [

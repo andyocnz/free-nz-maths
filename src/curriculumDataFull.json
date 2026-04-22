@@ -472,16 +472,16 @@
                                          "templates":  [
                                                            {
                                                                "id":  "Y6.M.TIME.T1",
-                                                               "stem":  "A movie starts at {start} and ends at {end}. How many minutes long is it?",
+                                                               "stem":  "A movie starts at {start} and ends at {finish}. How many minutes long is it?",
                                                                "params":  {
                                                                               "start":  [
                                                                                             "time"
                                                                                         ],
-                                                                              "end":  [
+                                                                              "finish":  [
                                                                                           "time"
                                                                                       ]
                                                                           },
-                                                               "answer":  "elapsed_minutes(start, end)",
+                                                               "answer":  "elapsed_minutes(start, finish)",
                                                                "hint":  "Count the hours and minutes from start to end. Convert hours to minutes (1 hour = 60 minutes) and add the remaining minutes."
                                                            }
                                                        ]
@@ -801,7 +801,7 @@
                                                                                         10
                                                                                     ]
                                                                           },
-                                                               "answer":  "a + '^3'",
+                                                               "answer":  "{a}^3",
                                                                "hint":  "Count how many times the number is multiplied by itself. Write it as base^exponent. For example, 5 × 5 × 5 = 5^3."
                                                            },
                                                            {
@@ -2023,7 +2023,7 @@
                                                                                         5
                                                                                     ]
                                                                           },
-                                                               "answer":  "a + '^' + (p+q)",
+                                                               "answer":  "{a}^{p + q}",
                                                                "hint":  "When multiplying powers with the same base, add the exponents: a^p × a^q = a^(p+q)."
                                                            }
                                                        ]
@@ -2128,16 +2128,16 @@
                                          "templates":  [
                                                            {
                                                                "id":  "Y9.N.PROBLEM_SOLVING.T1",
-                                                               "stem":  "A journey starts at {start} and ends at {end}. How many minutes long is the journey?",
+                                                               "stem":  "A journey starts at {start} and ends at {finish}. How many minutes long is the journey?",
                                                                "params":  {
                                                                               "start":  [
                                                                                             "time"
                                                                                         ],
-                                                                              "end":  [
+                                                                              "finish":  [
                                                                                           "time"
                                                                                       ]
                                                                           },
-                                                               "answer":  "elapsed_minutes(start, end)",
+                                                               "answer":  "elapsed_minutes(start, finish)",
                                                                "hint":  "Calculate the elapsed time from start to end. Convert hours to minutes (1 hour = 60 minutes) and add any extra minutes."
                                                            }
                                                        ]

@@ -163,7 +163,7 @@
                   "false"
                 ]
               },
-              "answer": "{a == 'true' && b == 'true' ? 'true' : 'false'}",
+              "answer": "{logic_and_text(a, b)}",
               "hint": "AND is true only if both inputs are true.\nOtherwise false.",
               "difficulty": 2,
               "phase": 10.22
@@ -183,7 +183,7 @@
                   "false"
                 ]
               },
-              "answer": "{a == 'true' || b == 'true' ? 'true' : 'false'}",
+              "answer": "{logic_or_text(a, b)}",
               "hint": "OR is true if at least one input is true.\nOnly false if both are false.",
               "difficulty": 2,
               "phase": 10.22
@@ -198,7 +198,7 @@
                   "false"
                 ]
               },
-              "answer": "{a == 'true' ? 'false' : 'true'}",
+              "answer": "{logic_not_text(a)}",
               "hint": "NOT flips the input.\nTrue becomes false and vice versa.",
               "difficulty": 2,
               "phase": 10.22
@@ -299,7 +299,7 @@
                 "f6": "{f5 + f4}",
                 "f7": "{f6 + f5}"
               },
-              "answer": "{n === 5 ? f5 : n === 6 ? f6 : f7}",
+              "answer": "{fibonacci_term_value(n, f5, f6, f7)}",
               "hint": "Use F(n)=F(n-1)+F(n-2).\nBuild terms up to n.",
               "difficulty": 3,
               "phase": 10.22
