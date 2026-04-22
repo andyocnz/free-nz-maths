@@ -605,12 +605,23 @@ export function arithmetic_sequence_nth_term_formula(a1, d) {
   return `a_n = ${first} - (n - 1) * ${absDiff}`
 }
 
+function normalizeListInput(arr) {
+  if (Array.isArray(arr)) return arr
+  if (arr && typeof arr.toArray === 'function') {
+    const converted = arr.toArray()
+    return Array.isArray(converted) ? converted : [converted]
+  }
+  return [arr]
+}
+
 export function mean(arr) {
-  return arr.reduce((sum, val) => sum + val, 0) / arr.length
+  const values = normalizeListInput(arr)
+  return values.reduce((sum, val) => sum + val, 0) / values.length
 }
 
 export function median(arr) {
-  const sorted = [...arr].sort((a, b) => a - b)
+  const values = normalizeListInput(arr)
+  const sorted = [...values].sort((a, b) => a - b)
   const mid = Math.floor(sorted.length / 2)
 
   if (sorted.length % 2 === 0) {
@@ -620,11 +631,12 @@ export function median(arr) {
 }
 
 export function mode(arr) {
+  const values = normalizeListInput(arr)
   const counts = {}
   let maxCount = 0
-  let modeValue = arr[0]
+  let modeValue = values[0]
 
-  arr.forEach(val => {
+  values.forEach(val => {
     counts[val] = (counts[val] || 0) + 1
     if (counts[val] > maxCount) {
       maxCount = counts[val]
@@ -636,13 +648,14 @@ export function mode(arr) {
 }
 
 export function range(arr) {
-  return Math.max(...arr) - Math.min(...arr)
+  const values = normalizeListInput(arr)
+  return Math.max(...values) - Math.min(...values)
 }
 
 // Sort a numeric array ascending
 export function sort(arr) {
-  if (!Array.isArray(arr)) return arr
-  return [...arr].sort((a, b) => a - b)
+  const values = normalizeListInput(arr)
+  return [...values].sort((a, b) => a - b)
 }
 
 // Mixed-number subtraction: (w1 a/b) - (w2 c/b)
