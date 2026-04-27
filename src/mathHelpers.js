@@ -100,6 +100,10 @@ export function number_to_words(n) {
 }
 
 export function round(num, decimals) {
+  if (decimals === undefined) {
+    return Math.round(num)
+  }
+
   if (decimals >= 0) {
     return Math.round(num * Math.pow(10, decimals)) / Math.pow(10, decimals)
   } else {
@@ -1215,9 +1219,9 @@ export function solve_quadratic_formula(a, b, c) {
   const sqrtDisc = Math.sqrt(disc)
   const x1 = (-B + sqrtDisc) / (2 * A)
   const x2 = (-B - sqrtDisc) / (2 * A)
-  // Round to 2 decimal places to match stems
-  const r1 = Math.round(x1 * 100) / 100
-  const r2 = Math.round(x2 * 100) / 100
+  // Format to 2 decimal places to match stems.
+  const r1 = (Math.round(x1 * 100) / 100).toFixed(2)
+  const r2 = (Math.round(x2 * 100) / 100).toFixed(2)
   return `${r1},${r2}`
 }
 

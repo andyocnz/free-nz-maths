@@ -180,6 +180,17 @@ function generateParamValue(spec, year, difficulty) {
   }
 }
 
+const mathContext = Object.getOwnPropertyNames(Math).reduce((context, key) => {
+  const value = Math[key]
+  context[key] = typeof value === 'function' ? value.bind(Math) : value
+  return context
+}, {})
+mathContext.round = (num, decimals) => {
+  return typeof decimals === 'number'
+    ? mathHelpers.round(num, decimals)
+    : Math.round(num)
+}
+
 // Generate all parameters for a template
 function generateParams(paramsSpec, year, difficulty) {
   const params = {}
@@ -194,7 +205,7 @@ function generateParams(paramsSpec, year, difficulty) {
   }
 
   const evalInContext = (expr) => {
-    const context = { ...params, ...mathHelpers, Math, round: mathHelpers.round }
+    const context = { ...params, ...mathHelpers, Math: mathContext, round: mathHelpers.round }
     return safeEvaluate(expr, context)
   }
 
@@ -284,7 +295,15 @@ function substituteStem(stem, params) {
   return result
 }
 
-function renderTemplateString(str, params) {
+function formatNumericResult(result, decimalPlaces = null) {
+  if (typeof decimalPlaces === 'number' && decimalPlaces >= 0) {
+    return result.toFixed(decimalPlaces)
+  }
+  if (Number.isInteger(result)) return result.toString()
+  return parseFloat(result.toFixed(2)).toString()
+}
+
+function renderTemplateString(str, params, decimalPlaces = null) {
   if (typeof str !== 'string') return str
   return str.replace(/\{([^}]+)\}/g, (m, inner) => {
     const expr = inner.trim()
@@ -295,8 +314,7 @@ function renderTemplateString(str, params) {
       const context = createEvaluationContext(params)
       const result = safeEvaluate(expr, context)
       if (typeof result === 'number') {
-        if (Number.isInteger(result)) return result
-        return mathHelpers.round(result, 2)
+        return formatNumericResult(result, decimalPlaces)
       }
       return result
     } catch (e) {
@@ -313,17 +331,14 @@ function createEvaluationContext(params) {
   return {
     ...params,
     ...helpers,
-    Math,
+    Math: mathContext,
     round: mathHelpers.round
   }
 }
 
-function formatEvaluatedResult(result) {
+function formatEvaluatedResult(result, decimalPlaces = null) {
   if (typeof result === 'number') {
-    if (Number.isInteger(result)) {
-      return result.toString()
-    }
-    return parseFloat(result.toFixed(2)).toString()
+    return formatNumericResult(result, decimalPlaces)
   }
 
   if (Array.isArray(result)) {
@@ -344,7 +359,7 @@ function formatEvaluatedResult(result) {
 }
 
 // Evaluate answer expression with parameters
-function evaluateAnswer(answerExpr, params) {
+function evaluateAnswer(answerExpr, params, decimalPlaces = null) {
   try {
     // Create a context with all params and helper functions
     const context = createEvaluationContext(params)
@@ -353,7 +368,7 @@ function evaluateAnswer(answerExpr, params) {
     const result = safeEvaluate(answerExpr, context)
 
     // Convert to display string, handling arrays/matrices consistently.
-    return formatEvaluatedResult(result)
+    return formatEvaluatedResult(result, decimalPlaces)
   } catch (error) {
     console.error('Error evaluating answer expression:', answerExpr, error)
     return '0'
@@ -865,6 +880,9 @@ export function generateQuestionFromTemplate(template, skill, year) {
   }
 
   let question = substituteStem(template.stem, params)
+  const explicitRoundDp = typeof template.roundDp === 'number' && !Number.isNaN(template.roundDp)
+    ? template.roundDp
+    : null
 
   const rawAnswer = String(template.answer || '')
   let answer
@@ -876,10 +894,10 @@ export function generateQuestionFromTemplate(template, skill, year) {
 
   if (!hasBraces && !looksAlgebraic) {
     // Pure expression (numeric/probability style) - use existing evaluator
-    answer = evaluateAnswer(rawAnswer, params)
+    answer = evaluateAnswer(rawAnswer, params, explicitRoundDp)
   } else {
     // Treat as a display template and evaluate each { ... } placeholder safely
-    const answerStr = renderTemplateString(rawAnswer, params)
+    const answerStr = renderTemplateString(rawAnswer, params, explicitRoundDp)
     answer = String(answerStr)
   }
 
@@ -965,10 +983,10 @@ export function generateQuestionFromTemplate(template, skill, year) {
         return params[choice]
       }
       if (typeof choice === 'string') {
-        return renderTemplateString(choice, params)
+        return renderTemplateString(choice, params, explicitRoundDp)
       }
       if (choice && typeof choice.text === 'string') {
-        return renderTemplateString(choice.text, params)
+        return renderTemplateString(choice.text, params, explicitRoundDp)
       }
       return choice
     })
@@ -984,8 +1002,8 @@ export function generateQuestionFromTemplate(template, skill, year) {
 
   // Detect decimal places in the answer for precision hints
   let decimalPlaces = null
-  if (typeof template.roundDp === 'number' && !Number.isNaN(template.roundDp)) {
-    decimalPlaces = template.roundDp
+  if (explicitRoundDp !== null) {
+    decimalPlaces = explicitRoundDp
     const hasDpText = /decimal place/i.test(question)
     if (!hasDpText) {
       const dpText = decimalPlaces === 1 ? '1 decimal place' : `${decimalPlaces} decimal places`
