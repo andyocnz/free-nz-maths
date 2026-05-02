@@ -974,6 +974,72 @@
               "difficulty": 9,
               "phase": 10.7,
               "hint": "Use binomial probability formula: P(X=k) = C(n,k) × p^k × (1-p)^(n-k) where C(n,k) is combinations."
+            },
+            {
+              "id": "Y12.S.PROBABILITY_DISTRIBUTIONS.T3",
+              "stem": "X ~ N({mu}, {sd}²). Find P(X < {x_val}) to 2 decimal places.",
+              "roundDp": 2,
+              "params": {
+                "mu": [
+                  "choice",
+                  50,
+                  80,
+                  100,
+                  120
+                ],
+                "sd": [
+                  "choice",
+                  5,
+                  10,
+                  12,
+                  15
+                ],
+                "z": [
+                  "choice",
+                  -1,
+                  0,
+                  1,
+                  2
+                ],
+                "x_val": "{mu + z * sd}"
+              },
+              "answer": "round(normalCdfApprox((x_val - mu) / sd), 2)",
+              "difficulty": 9,
+              "phase": 10.7,
+              "hint": "Standardise first: z = (x - mean) / standard deviation. Then use the normal CDF for P(X < x)."
+            },
+            {
+              "id": "Y12.S.PROBABILITY_DISTRIBUTIONS.T4",
+              "stem": "X ~ N({mu}, {sd}²). Find P(X > {x_val}) to 2 decimal places.",
+              "roundDp": 2,
+              "params": {
+                "mu": [
+                  "choice",
+                  50,
+                  80,
+                  100,
+                  120
+                ],
+                "sd": [
+                  "choice",
+                  5,
+                  10,
+                  12,
+                  15
+                ],
+                "z": [
+                  "choice",
+                  -1,
+                  0,
+                  1,
+                  2
+                ],
+                "x_val": "{mu + z * sd}"
+              },
+              "answer": "round(1 - normalCdfApprox((x_val - mu) / sd), 2)",
+              "difficulty": 9,
+              "phase": 10.7,
+              "hint": "Standardise first, then use the upper tail: P(X > x) = 1 - P(X < x)."
             }
           ]
         },

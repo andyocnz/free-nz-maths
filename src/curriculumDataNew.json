@@ -1790,7 +1790,7 @@
               "answer": "surface_area_rectangular_prism(l,w,h)",
               "difficulty": 7,
               "phase": 10.1,
-              "hint": "Surface Area of Rectangular Prism = 2(lw + lh + wh)"
+              "hint": "Surface area of a cylinder = 2πrh + 2πr². Use 3.14 for π."
             },
             {
               "id": "Y8.G.SURFACE_AREA.T2",
@@ -2888,7 +2888,7 @@
               "answer": "Math.round(Math.sqrt((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1)), 1)",
               "difficulty": 6,
               "phase": 10.7,
-              "hint": "Distance formula: d = sqrt((x2 - x1)³ + (y2 - y1)³)"
+              "hint": "Distance formula: d = sqrt((x2 - x1)^2 + (y2 - y1)^2)."
             }
           ]
         },
@@ -2912,7 +2912,7 @@
               "answer": "a",
               "difficulty": 4,
               "phase": 10.7,
-              "hint": "Sum of interior angles of a polygon with n sides = (n - 2) * 180 degrees."
+              "hint": "Corresponding angles are equal when two parallel lines are cut by a transversal."
             }
           ]
         },
@@ -2941,7 +2941,7 @@
               "answer": "{coordinatePair(y, -x)}",
               "difficulty": 6,
               "phase": 10.7,
-              "hint": "Translation: (x,y) ⇔ (x+a, y+b)"
+              "hint": "For a 90 degree clockwise rotation about the origin, (x, y) becomes (y, -x)."
             }
           ]
         },
@@ -2976,7 +2976,7 @@
               "answer": "Math.round(Math.sqrt(l*l + w*w + h*h), 1)",
               "difficulty": 7,
               "phase": 10.7,
-              "hint": "Face diagonal: √(l³ + w³)"
+              "hint": "Use the 3D distance formula: space diagonal = sqrt(l^2 + w^2 + h^2)."
             }
           ]
         },

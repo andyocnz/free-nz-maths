@@ -278,6 +278,19 @@ export function normalCdfApprox(z) {
   return cdf
 }
 
+export function hypothesis_test_decision(sampleMean, nullMean, sd, n, criticalZ = 1.96) {
+  const xbar = Number(sampleMean)
+  const mu0 = Number(nullMean)
+  const sigma = Number(sd)
+  const sampleSize = Number(n)
+  const critical = Math.abs(Number(criticalZ))
+  if (!Number.isFinite(xbar) || !Number.isFinite(mu0) || !Number.isFinite(sigma) || !Number.isFinite(sampleSize) || sigma === 0 || sampleSize <= 0) {
+    return 'Do not reject H0'
+  }
+  const z = Math.abs((xbar - mu0) / (sigma / Math.sqrt(sampleSize)))
+  return z > critical ? 'Reject H0' : 'Do not reject H0'
+}
+
 const exactTrigTable = {
   sin: {
     0: '0',
@@ -774,6 +787,34 @@ export function reciprocal_power_fraction(base, exp) {
   return simplify(1, base ** exp)
 }
 
+export function format_power(base, exp) {
+  const exponent = Number(exp)
+  if (exponent === 0) return '1'
+  if (exponent === 1) return `${base}`
+  return `${base}^${exponent}`
+}
+
+export function standard_form_text(coeff, exp) {
+  const coefficient = Number(coeff)
+  const displayCoeff = Number.isFinite(coefficient)
+    ? coefficient.toFixed(10).replace(/\.?0+$/, '')
+    : String(coeff)
+  return `${displayCoeff} x 10^${exp}`
+}
+
+export function standard_form_ordinary(coeff, exp) {
+  const coefficient = Number(coeff)
+  const exponent = Number(exp)
+  if (!Number.isFinite(coefficient) || !Number.isFinite(exponent)) return '0'
+
+  const decimalPlaces = Math.max(0, (String(coeff).split('.')[1] || '').length)
+  const scaled = Math.round(coefficient * (10 ** decimalPlaces)) * (10 ** exponent)
+  if (exponent >= decimalPlaces) {
+    return String(scaled / (10 ** decimalPlaces))
+  }
+  return (scaled / (10 ** decimalPlaces)).toString()
+}
+
 export function quotient_remainder(a, b) {
   return `${Math.floor(a / b)} r ${a % b}`
 }
@@ -1235,6 +1276,16 @@ export function cosine_rule_side(a, b, Cdeg) {
   const c2 = A * A + B * B - 2 * A * B * Math.cos(rad)
   if (c2 < 0) return 0
   return Math.sqrt(c2)
+}
+
+// Sine rule: a/sin(A) = b/sin(B), solve for side b.
+export function sine_rule_side(a, Adeg, Bdeg) {
+  const sideA = Number(a)
+  const angleA = Number(Adeg) * Math.PI / 180
+  const angleB = Number(Bdeg) * Math.PI / 180
+  const denominator = Math.sin(angleA)
+  if (!Number.isFinite(sideA) || Math.abs(denominator) < 1e-12) return 0
+  return sideA * Math.sin(angleB) / denominator
 }
 
 // Optional helper for advanced systems (line vs parabola): y = c and y = x^2 - a

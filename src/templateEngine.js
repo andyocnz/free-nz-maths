@@ -1010,7 +1010,8 @@ export function generateQuestionFromTemplate(template, skill, year) {
       question = question + ` (Round to ${dpText})`
     }
   } else {
-    const answerNum = parseFloat(answer)
+    const isPureNumericAnswer = /^\s*-?\d+(?:\.\d+)?\s*$/.test(String(answer))
+    const answerNum = isPureNumericAnswer ? Number(answer) : NaN
     if (!isNaN(answerNum) && !Number.isInteger(answerNum)) {
       // Global default: round non-integer numeric answers to 2 dp when not otherwise specified.
       decimalPlaces = 2
