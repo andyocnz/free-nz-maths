@@ -739,8 +739,16 @@ export function normalizeFraction(answer) {
     return num / den
   }
 
-  // Fallback: plain number (remove all commas globally)
-  const numVal = parseFloat(str.replace(/,/g, ''))
+  // Fallback: plain number. Require the whole string to be numeric so
+  // display answers like "2^3" or "3:4" do not parse as just "2" or "3".
+  const hasCommas = str.includes(',')
+  const numericPattern = hasCommas
+    ? /^[+-]?\d{1,3}(?:,\d{3})+(?:\.\d*)?(?:e[+-]?\d+)?$/i
+    : /^[+-]?(?:\d+(?:\.\d*)?|\.\d+)(?:e[+-]?\d+)?$/i
+
+  if (!numericPattern.test(str)) return NaN
+
+  const numVal = Number(str.replace(/,/g, ''))
   return Number.isFinite(numVal) ? numVal : NaN
 }
 
