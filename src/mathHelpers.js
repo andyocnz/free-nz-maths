@@ -1191,6 +1191,32 @@ export function abs(x) {
 // Factorise monic quadratics x^2 + ax + b with integer roots.
 // Returns a string like "(x + 2)(x - 3)" when possible,
 // otherwise falls back to the unfactored form "x^2 + ax + b".
+export function signed_number(n) {
+  const value = Number(n)
+  if (!Number.isFinite(value)) return `+ ${n}`
+  return value < 0 ? `- ${Math.abs(value)}` : `+ ${value}`
+}
+
+function signedPolynomialTerm(coefficient, variable = '') {
+  const value = Number(coefficient)
+  if (!Number.isFinite(value) || value === 0) return ''
+
+  const sign = value < 0 ? ' - ' : ' + '
+  const magnitude = Math.abs(value)
+  const displayMagnitude = variable && magnitude === 1 ? '' : String(magnitude)
+  return `${sign}${displayMagnitude}${variable}`
+}
+
+export function monic_quadratic_expansion(a, b) {
+  const A = Number(a)
+  const B = Number(b)
+  if (!Number.isFinite(A) || !Number.isFinite(B)) {
+    return `x^2 + ${a + b}x + ${a * b}`
+  }
+
+  return `x^2${signedPolynomialTerm(A + B, 'x')}${signedPolynomialTerm(A * B)}`.trim()
+}
+
 export function factor_quadratic_monic(a, b) {
   const A = Number(a)
   const B = Number(b)

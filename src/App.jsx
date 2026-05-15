@@ -288,6 +288,51 @@ export default function App() {
     return normalized
   }
 
+  function normalizeSymbolicAnswer(str) {
+    if (!str) return ''
+
+    const superscriptDigits = {
+      '\u2070': '0',
+      '\u00b9': '1',
+      '\u00b2': '2',
+      '\u00b3': '3',
+      '\u2074': '4',
+      '\u2075': '5',
+      '\u2076': '6',
+      '\u2077': '7',
+      '\u2078': '8',
+      '\u2079': '9',
+      '\u207b': '-'
+    }
+
+    let normalized = normalizeRadicals(String(str))
+      .toLowerCase()
+      .replace(/[\u2212\u2013\u2014]/g, '-')
+      .replace(/\u00d7/g, '*')
+      .replace(/\u00f7/g, '/')
+
+    normalized = normalized.replace(/[\u2070\u00b9\u00b2\u00b3\u2074-\u2079\u207b]+/g, match => {
+      const exponent = Array.from(match).map(ch => superscriptDigits[ch] || ch).join('')
+      return `^${exponent}`
+    })
+
+    normalized = normalized
+      .replace(/\s+/g, '')
+      .replace(/\*\*/g, '^')
+
+    let previous
+    do {
+      previous = normalized
+      normalized = normalized
+        .replace(/\+\+/g, '+')
+        .replace(/\+\-/g, '-')
+        .replace(/\-\+/g, '-')
+        .replace(/\-\-/g, '+')
+    } while (normalized !== previous)
+
+    return normalized.replace(/^\+/, '')
+  }
+
   function parseNumericList(str) {
     if (!str) return null
     let normalized = String(str).trim().replace(/−/g, '-')
@@ -1943,7 +1988,10 @@ export default function App() {
             const ua = normalizeRadicals(String(answer)).trim().toLowerCase().replace(/["'\s]+/g, ' ')
             const ca = normalizeRadicals(String(question.answer)).trim().toLowerCase().replace(/["'\s]+/g, ' ')
             const normalizeText = s => s.replace(/\b(a |an |the )\b/g, '').replace(/\bsquares?\b/g, 'square').trim()
-            isCorrect = normalizeText(ua) === normalizeText(ca)
+            const userSymbolic = normalizeSymbolicAnswer(answer)
+            const correctSymbolic = normalizeSymbolicAnswer(question.answer)
+            isCorrect = normalizeText(ua) === normalizeText(ca) ||
+              (!!userSymbolic && userSymbolic === correctSymbolic)
           }
           }
         }
@@ -2285,7 +2333,10 @@ export default function App() {
         const ca = normalizeRadicals(String(question.answer)).trim().toLowerCase().replace(/["'\s]+/g, ' ')
           // Accept some simple synonyms and normalize plurals
           const normalizeText = s => s.replace(/\b(a |an |the )\b/g, '').replace(/\bsquares?\b/g, 'square').trim()
-          if (normalizeText(ua) === normalizeText(ca)) {
+          const userSymbolic = normalizeSymbolicAnswer(answer)
+          const correctSymbolic = normalizeSymbolicAnswer(question.answer)
+          if (normalizeText(ua) === normalizeText(ca) ||
+              (!!userSymbolic && userSymbolic === correctSymbolic)) {
             newFeedback = 'Correct! ✅'
             isCorrect = true
           }

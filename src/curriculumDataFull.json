@@ -2520,7 +2520,7 @@
                                          "templates":  [
                                                            {
                                                                "id":  "Y9.N.PERCENTS_CONSUMER.T1",
-                                                               "stem":  "The price increases from ${old} to ${newPrice}. What is the percent change?",
+                                                               "stem":  "The price {changeWord} from ${old} to ${newPrice}. What is the percent change?",
                                                                "params":  {
                                                                               "old":  [
                                                                                           "decimal",
@@ -2533,8 +2533,10 @@
                                                                                           1,
                                                                                           500,
                                                                                           2
-                                                                                      ]
-                                                                          },
+                                                                                       ],
+                                                                               "changeWord":  "{newPrice > old ? 'increases' : 'decreases'}"
+                                                                           },
+                                                               "validateParams":  "newPrice != old",
                                                                "answer":  "((newPrice - old) / old) * 100",
                                                                "hint":  "Percent change = [(new - old) ÷ old] × 100. Find the difference, divide by the original amount, then multiply by 100."
                                                            }
@@ -3029,20 +3031,23 @@
                                          "templates":  [
                                                            {
                                                                "id":  "Y9.A.QUADRATICS.T1",
-                                                               "stem":  "Expand (x + {a})(x + {b}).",
+                                                               "stem":  "Expand (x {aSigned})(x {bSigned}).",
                                                                "params":  {
                                                                               "a":  [
                                                                                         "int",
                                                                                         -8,
                                                                                         8
                                                                                     ],
-                                                                              "b":  [
-                                                                                        "int",
-                                                                                        -8,
-                                                                                        8
-                                                                                    ]
-                                                                          },
-                                                               "answer":  "x² + {a+b}x + {a*b}",
+                                                                               "b":  [
+                                                                                         "int",
+                                                                                         -8,
+                                                                                         8
+                                                                                     ],
+                                                                               "aSigned":  "{signed_number(a)}",
+                                                                               "bSigned":  "{signed_number(b)}"
+                                                                           },
+                                                               "validateParams":  "a != 0 and b != 0",
+                                                               "answer":  "monic_quadratic_expansion(a, b)",
                                                                "hint":  "Use FOIL: First, Outer, Inner, Last. Multiply (x)(x), then (x)(b), then (a)(x), then (a)(b). Combine like terms to get x² + (a+b)x + ab."
                                                            },
                                                            {

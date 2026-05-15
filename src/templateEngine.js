@@ -295,6 +295,25 @@ function substituteStem(stem, params) {
   return result
 }
 
+function cleanSignedMathText(value) {
+  if (typeof value !== 'string') return value
+
+  let result = value
+  let previous
+  do {
+    previous = result
+    result = result
+      .replace(/\+\s*-/g, '- ')
+      .replace(/-\s*-/g, '+ ')
+      .replace(/\+\s*\+/g, '+ ')
+      .replace(/-\s*\+/g, '- ')
+  } while (result !== previous)
+
+  return result
+    .replace(/([(\[{])\s*\+\s*/g, '$1')
+    .replace(/\s+([,.])/g, '$1')
+}
+
 function formatNumericResult(result, decimalPlaces = null) {
   if (typeof decimalPlaces === 'number' && decimalPlaces >= 0) {
     return result.toFixed(decimalPlaces)
@@ -752,8 +771,8 @@ export function generateQuestionFromTemplate(template, skill, year) {
     }
 
     return {
-      question,
-      answer,
+      question: cleanSignedMathText(question),
+      answer: cleanSignedMathText(answer),
       formattedAnswer: null,
       templateId: template.id,
       skill,
@@ -791,8 +810,8 @@ export function generateQuestionFromTemplate(template, skill, year) {
     }
 
     return {
-      question,
-      answer,
+      question: cleanSignedMathText(question),
+      answer: cleanSignedMathText(answer),
       formattedAnswer: null,
       templateId: template.id,
       skill,
@@ -980,14 +999,14 @@ export function generateQuestionFromTemplate(template, skill, year) {
   if (Array.isArray(template.choices) && template.choices.length > 0) {
     choices = template.choices.map(choice => {
       if (typeof choice === 'string' && Object.prototype.hasOwnProperty.call(params, choice)) {
-        return params[choice]
+        return cleanSignedMathText(params[choice])
       }
       if (typeof choice === 'string') {
-        return renderTemplateString(choice, params, explicitRoundDp)
-      }
-      if (choice && typeof choice.text === 'string') {
-        return renderTemplateString(choice.text, params, explicitRoundDp)
-      }
+          return cleanSignedMathText(renderTemplateString(choice, params, explicitRoundDp))
+        }
+        if (choice && typeof choice.text === 'string') {
+          return cleanSignedMathText(renderTemplateString(choice.text, params, explicitRoundDp))
+        }
       return choice
     })
     if (template.shuffleChoices !== false) {
@@ -1023,9 +1042,9 @@ export function generateQuestionFromTemplate(template, skill, year) {
   }
 
   return {
-    question: question,
-    answer: answer,
-    formattedAnswer: formattedAnswer,
+    question: cleanSignedMathText(question),
+    answer: cleanSignedMathText(answer),
+    formattedAnswer: cleanSignedMathText(formattedAnswer),
     templateId: template.id,
     skill: skill,
     params: params,
